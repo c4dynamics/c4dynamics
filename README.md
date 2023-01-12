@@ -45,6 +45,10 @@ So why wait? Start using the C4dynamics today and take your algorithms engineeri
 
 See jupyter notebook demonstrations in examples (GitHub repository). 
 
+Install the required packages:
+```
+pip install -r requirements.txt
+```
 
 Define radar with C4dynamics: 
 
