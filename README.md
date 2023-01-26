@@ -48,6 +48,10 @@ This frameworked is aimed mainly for the purpose of developing algorithms for a 
 
 See jupyter notebook demonstrations in examples (GitHub repository). 
 
+Install the required packages:
+```
+pip install -r requirements.txt
+```
 
 Define radar with C4dynamics: 
 
