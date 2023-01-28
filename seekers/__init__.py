@@ -1,7 +1,11 @@
 # seekers:
-# 	radar
-# 	laser
-# 	optic
+#   matter:
+# 	    radar
+# 	    laser
+# 	    optic
+#   functionallity:
+#       altitude radar 
+#       lineofsight seeker
 	
 # sensors:
 # 	imu 
@@ -12,5 +16,6 @@
 # 	lidar
 
 
-from .radar import radar, dzradar 
+from .radar import radar, dzradar
+from .lineofsight import lineofsight 
 
