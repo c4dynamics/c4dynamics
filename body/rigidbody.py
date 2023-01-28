@@ -60,9 +60,17 @@ class rigidbody(c4d.datapoint):  #
     obj._xs = [obj.x, obj.y, obj.z, obj.vx, obj.vy, obj.vz, obj.phi, obj.theta, obj.psi, obj.p, obj.q, obj.r]
    
    
-  def inertial_from_body_dcm(obj): # bound method 
+  def IB(obj): 
+    # inertial from body dcm
+    # bound method 
     # Bound methods have been "bound" to an instance, and that instance will be passed as the first argument whenever the method is called.
     return np.transpose(c4d.dcm321(obj.phi, obj.theta, obj.psi))
+  
+  def BI(obj): 
+    # body from inertial dcm
+    # bound method 
+    # Bound methods have been "bound" to an instance, and that instance will be passed as the first argument whenever the method is called.
+    return c4d.dcm321(obj.phi, obj.theta, obj.psi)
 
 
   def update(obj, x):
@@ -77,7 +85,7 @@ class rigidbody(c4d.datapoint):  #
   def run(obj, t0, tf):
    
     t = t0
-    u, v, w = 100, 0, 0
+    u, v, w = 100, 1, 1
     while t <= tf:
       
       x = obj.x, obj.y, obj.z, u, v, w, obj.phi, obj.theta, obj.psi, obj.p, obj.q, obj.r
@@ -87,16 +95,6 @@ class rigidbody(c4d.datapoint):  #
       obj.x, obj.y, obj.z, u, v, w, obj.phi, obj.theta, obj.psi, obj.p, obj.q, obj.r = x
       
       t += obj._dt
-      ucl = [[np.cos(obj.theta) * np.cos(obj.psi)]
-                , [np.cos(obj.theta) * np.sin(obj.psi)]
-                , [np.sin(-obj.theta)]]
-      
-      
-      alpha = np.arctan2(w, u)
-      beta  = np.arctan2(-v, u)
-      uvm = vm / vm_total
-      alpha_total = np.arccos(uvm * ucl)
-      
       obj.store(t)
                 
 
@@ -106,6 +104,7 @@ class rigidbody(c4d.datapoint):  #
 
   @staticmethod
   def eqm(t, xs, rb):    
+    
     # 
     # see military handbook for missile flight simulation ch.12 simulation synthesis (205)
     # 
@@ -141,8 +140,16 @@ class rigidbody(c4d.datapoint):  #
     
     k = 0.0305
     
+    m = 57
+    xcm = 1.35
+    xref = 1.35
     
-    
+    g = 9.8
+
+
+    ixx = 1
+    iyy = izz = 61 
+
     #
     # calc
     ## 
@@ -200,12 +207,12 @@ class rigidbody(c4d.datapoint):  #
     A = D * np.cos(alpha_total) - L * np.sin(alpha_total)
     N = D * np.sin(alpha_total) + L * np.cos(alpha_total)
     
-    fAxb = -A
-    fAyb =  N * (-v / np.sqrt(v**2 + w**2))
-    fAzb =  N * (-w / np.sqrt(v**2 + w**2))
+    fAb = np.array([[-A]
+                    , [N * (-v / np.sqrt(v**2 + w**2))]
+                    , [N * (-w / np.sqrt(v**2 + w**2))]])
 
-    cNy = fAyb / Q / s
-    cNz = fAzb / Q / s
+    cNy = fAb[1] / Q / s
+    cNz = fAb[2] / Q / s
 
     # 
     # aerodynamic moments 
@@ -224,28 +231,29 @@ class rigidbody(c4d.datapoint):  #
     cM = cMref - cNz * (xcm - xref) / d + d / (2 * v) * cMqcMadot * q
     cN = cNref - cNy * (xcm - xref) / d + d / (2 * v) * cNrcNbdot * r
     
-    mA = Q * cM * s * d
-    nA = Q * cN * s * d
+    lA = 0              # aerodynamic moemnt in roll
+    mA = Q * cM * s * d # aerodynamic moment in pitch
+    nA = Q * cN * s * d # aerodynamic moment in yaw 
     
     
     # 
     # gravity
     ## 
     fGe = [[0], [0], [m * g]]
-    fGb = BI * fGe 
+    fGb = BI @ fGe 
 
     
     
     #
     # translational motion derivatives
     ##
-    dx = vm_total[0]
-    dy = vm_total[1]
-    dz = vm_total[2]
+    dx = vm[0]
+    dy = vm[1]
+    dz = vm[2]
     
-    du = (fAxb + fGxb) / m - (q * w - r * v)
-    dv = (fAyb + fGyb) / m - r * u
-    dw = (fAzb + fGzb) / m + q * u
+    du = (fAb[0] + fGb[0]) / m - (q * w - r * v)
+    dv = (fAb[1] + fGb[1]) / m - r * u
+    dw = (fAb[2] + fGb[2]) / m + q * u
     
     
     
@@ -260,11 +268,10 @@ class rigidbody(c4d.datapoint):  #
     # 
     # angular motion derivatives 
     ## 
-    dp     = (L - q * r * (izz - iyy)) / ixx
-    dq     = (M - p * r * (ixx - izz)) / iyy
-    dr     = (N - p * q * (iyy - ixx)) / izz
+    dp     = (lA - q * r * (izz - iyy)) / ixx
+    dq     = (mA - p * r * (ixx - izz)) / iyy
+    dr     = (nA - p * q * (iyy - ixx)) / izz
     
-     
     return dx, dy, dz, du, dv, dw, dphi, dtheta, dpsi, dp, dq, dr
    
    

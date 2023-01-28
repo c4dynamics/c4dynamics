@@ -15,6 +15,34 @@ class datapoint:
   # 
   # position
   ##
+  ''' maybe it's a better choise to work with vectors?? 
+      maybe there's an option to define an array which will just designate its enteries. 
+      namely a docker that just references its variables 
+      -> this is actually a function! 
+      
+      
+      In Python, all variable names are references to values.
+https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
+
+
+  https://docs.python.org/3/library/stdtypes.html
+  
+  
+  Lists may be constructed in several ways:
+    Using a pair of square brackets to denote the empty list: []
+    Using square brackets, separating items with commas: [a], [a, b, c]
+    Using a list comprehension: [x for x in iterable]
+    Using the type constructor: list() or list(iterable)
+    
+  Tuples may be constructed in a number of ways:
+      Using a pair of parentheses to denote the empty tuple: ()
+      Using a trailing comma for a singleton tuple: a, or (a,)
+      Separating items with commas: a, b, c or (a, b, c)
+      Using the tuple() built-in: tuple() or tuple(iterable)
+      
+  The arguments to the range constructor must be integers
+  
+  '''
   x = 0
   y = 0
   z = 0
@@ -121,6 +149,25 @@ class datapoint:
     return obj._data[1:, 9]
   data_az = property(get_az, set_t, set_t)
   
+  # 
+  # to vectors:
+  ##
+  def pos(obj):
+    return np.array([obj.x, obj.y, obj.z])
+  def vel(obj):
+    return np.array([obj.vx, obj.vy, obj.vz])
+  def acc(obj):
+    return np.array([obj.ax, obj.ay, obj.az])
+  
+  # 
+  # to norms:
+  ##
+  def P(obj):
+    return np.sqrt(obj.x**2 + obj.y**2 + obj.z**2)
+  def V(obj):
+    return np.sqrt(obj.vx**2 + obj.vy**2 + obj.vz**2)
+  def A(obj):
+    return np.sqrt(obj.ax**2 + obj.ay**2 + obj.az**2)
   
   
   # 
@@ -134,16 +181,33 @@ class datapoint:
     plt.rcParams["font.family"] = "Times New Roman"
     plt.rcParams["font.size"] = 18
 
-    t = obj._data[1:, 0]
-    v = obj._data[1:, obj._didx[var]]
+    if var.lower() == 'top':
+      x = obj._data[1:, 2] # y
+      y = obj._data[1:, 1] # x
+      xlabel = 'crossrange'
+      ylabel = 'downrange'
+      title = 'top view'
+    elif var.lower() == 'side':
+      x = obj._data[1:, 2] # x
+      y = obj._data[1:, 3] # z
+      xlabel = 'downrange'
+      ylabel = 'altitude'
+      title = 'side view'
+    else:      
+      x = obj._data[1:, 0] # t 
+      y = obj._data[1:, obj._didx[var]] # used selection 
+      xlabel = 't'
+      ylabel = var
+      title = var
     
     
     plt.figure()
-    plt.plot(t, v, 'k', linewidth = 2)
-    plt.title(var)
+    plt.plot(x, y, 'k', linewidth = 2)
+    plt.title(title)
     # plt.xlim(0, 1000)
     # plt.ylim(0, 1000)
-    plt.xlabel('t')
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
     # plt.axis('off')
     # plt.savefig(obj.fol + "/" + var) 
 
