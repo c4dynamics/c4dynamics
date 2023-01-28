@@ -1,3 +1,5 @@
-imageio
-natsort
-matplotlib
+scipy==1.10.0
+numpy==1.24.1
+matplotlib==3.6.3
+imageio==2.25.0
+natsort==8.2.0
