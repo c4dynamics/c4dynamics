@@ -82,7 +82,7 @@ rdr = c4d.seekers.radar(sf = 0.9, bias = 0, noisestd = 1)
 
 * Press the 'Fork' button (upper right corner of the C4dynamics page)
 * Clone C4dynamics to your local machine (GitHub Desktop is a nice tool to help you clone and push your changes back)
-* Create a new python notebook 
+* Open a new python notebook (Jupyter) 
 * Import C4dynamics to your notebook (see some examples in the repository 'examples')
 * In the notebook, write some code you would like to do using the C4dynamics library
 * Create and edit files in C4dynamics to support your code
