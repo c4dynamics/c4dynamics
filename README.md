@@ -41,8 +41,11 @@ Whether you're a seasoned algorithm engineer or just getting started, this frame
 
 So why wait? Start using the C4dynamics today and take your algorithms engineering to the next level!
 
+
+The framework suggests basic data entities as data-points and rigid-bodies, and integrated systems as seekers, filters, and sensors, for easy development of algorithms. 
+
 ## Note
-This frameworked is aimed mainly for the purpose of developing algorithms for physical and dynamical systems: predicting and controlling motion. 
+This frameworke is aimed mainly for the purpose of developing algorithms for physical and dynamical systems: predicting and controlling motion.
 
 ## Quickstart
 
