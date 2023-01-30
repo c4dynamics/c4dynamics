@@ -56,7 +56,7 @@ Install the required packages:
 pip install -r requirements.txt
 ```
 
-Define radar with C4dynamics: 
+Define altitude radar with C4dynamics: 
 
 ```
 import C4dynamics as c4d
