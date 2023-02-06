@@ -71,6 +71,10 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
   # https://stackoverflow.com/questions/4555932/public-or-private-attribute-in-python-what-is-the-best-way
   # https://stackoverflow.com/questions/17576009/python-class-property-use-setter-but-evade-getter
   
+  
+  # 
+  # variables for storage
+  ##
   _data = np.zeros((1, 10))
   _didx = {'t': 0, 'x': 1, 'y': 2, 'z': 3, 'vx': 4, 'vy': 5, 'vz': 6, 'ax': 7, 'ay': 8, 'az': 9}
   
@@ -193,9 +197,12 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
       xlabel = 'downrange'
       ylabel = 'altitude'
       title = 'side view'
-    else:      
+    else: 
+      uconv = 1
+      if obj._didx[var] > 9:
+        uconv = 180 * np.pi     
       x = obj._data[1:, 0] # t 
-      y = obj._data[1:, obj._didx[var]] # used selection 
+      y = obj._data[1:, obj._didx[var]] * uconv # used selection 
       xlabel = 't'
       ylabel = var
       title = var

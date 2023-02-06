@@ -34,20 +34,48 @@ import aerodynamics as maerodynamics
 importlib.reload(maerodynamics)
 
 
+from math import isnan 
+
+
+from matplotlib import pyplot as plt
+# This is a bit of magic to make matplotlib figures appear inline in the notebook
+# rather than in a new window.
+# %matplotlib inline
+plt.rcParams['figure.figsize'] = (5.0, 4.0) # set default size of plots
+plt.rcParams['image.interpolation'] = 'nearest'
+plt.rcParams['image.cmap'] = 'gray'
+# plt.rcParams['text.usetex'] = True
+
+# Some more magic so that the notebook will reload external python modules;
+# see http://stackoverflow.com/questions/1907993/autoreload-of-modules-in-ipython
+# %load_ext autoreload
+# %autoreload 2
+
+# 
+# plt.show() plots all the figures present in the state machine. Calling it only at the end of 
+#       the script, ensures that all previously created figures are plotted.
+# Now you need to make sure that each plot indeed is created in a different figure. That can be 
+#       achieved using plt.figure(fignumber) where fignumber is a number starting at index 1.
+#
+
+
+t = 0
+dt = 5e-3
+tf = 5
+
+
 #
 # define objects 
 ##
 missile = c4d.rigidbody()
 target = c4d.datapoint(x = 4000, y = 1000, z = -3000
                         , vx = -250, vy = 0, vz = 0)
-seeker = c4d.seekers.lineofsight(tau1 = 0.01, tau2 = 0.01)
-ctrl = mcontrol_system.control_system()
+seeker = c4d.seekers.lineofsight(dt, tau1 = 0.01, tau2 = 0.01)
+ctrl = mcontrol_system.control_system(dt)
 eng = mengine.engine()
 aero = maerodynamics.aerodynamics()
+aero_fm = np.zeros(6)
 
-t = 0
-dt = 5e-3
-tf = 60
 
 g = 9.8
 # x = np.zeros(12)
@@ -95,6 +123,7 @@ missile.psi = np.arctan(ucl[1] / ucl[0])
 missile.theta = np.arctan(-ucl[2] / np.sqrt(ucl[1]**2 + ucl[0]**2))
 missile.phi = 0
 u, v, w = missile.BI() @ missile.vel()
+v_data = np.array([u, v, w])
 
 
 
@@ -138,9 +167,9 @@ def eqm(t, xs, f, m, rb):
     dy = rb.vy
     dz = rb.vz
 
-    du = f[0] / rb.m - (q * w - r * v)
-    dv = f[1] / rb.m - r * u
-    dw = f[2] / rb.m + q * u
+    du = f[0] / rb.m - (q * w - r * v) # m/s^2
+    dv = f[1] / rb.m - (r * u - p * w)
+    dw = f[2] / rb.m - (p * v - q * u)
 
 
 
@@ -148,7 +177,7 @@ def eqm(t, xs, f, m, rb):
     # euler angles derivatives 
     ## 
 
-    dphi   = (q * np.sin(phi) + r * np.cos(phi)) * np.tan(theta)
+    dphi   = (q * np.sin(phi) + r * np.cos(phi)) * np.tan(theta) + p
     dtheta =  q * np.cos(phi) - r * np.sin(phi)
     dpsi   = (q * np.sin(phi) + r * np.cos(phi)) / np.cos(theta)
 
@@ -183,7 +212,7 @@ while t <= tf:
     # 
     # seeker 
     ## 
-    wf = seeker.measure(rTM, vTM)
+    wf = seeker.measure(rTM, vTM) # filtered los vector 
     
     # 
     # guidance and control 
@@ -216,7 +245,7 @@ while t <= tf:
    
     # moments 
     cM, cN = aero.m_coef(alpha, beta, d_pitch, d_yaw 
-                         , missile.xcm, Q, v, fAb[1], fAb[2]
+                         , missile.xcm, Q, missile.V(), fAb[1], fAb[2]
                          , missile.q, missile.r)
     
     
@@ -264,7 +293,7 @@ while t <= tf:
     #     dy = 1/6*(k1+2*k2+2*k3+k4);
     #     Y(:,i+1) = yi +dy;
     
-    # $ runge kuta 
+    # $ runge kutta 
     y = missile.x, missile.y, missile.z, u, v, w, missile.phi, missile.theta, missile.psi, missile.p, missile.q, missile.r
     
     # step 1
@@ -293,16 +322,25 @@ while t <= tf:
     t += dt
     missile.store(t)
     
+    v_data = np.vstack((v_data, np.array([u, v, w]))).copy()
+    aero_fm = np.vstack((aero_fm, np.concatenate((fAb, mA)))).copy()
+    
+    
     
     missile.m -= thref * dt / eng.Isp        
     missile.xcm = xcm0 - (xcm0 - xcmbo) * (m0 - missile.m) / (m0 - mbo)
     missile.izz = missile.iyy = i0 - (i0 - ibo) * (m0 - missile.m) / (m0 - mbo)
         
 
-    missile.vx, missile.vy, missile.vz = missile.BI() @ np.array([u, v, w])
+    missile.vx, missile.vy, missile.vz = missile.IB() @ np.array([u, v, w])
+
+    if isnan(missile.vx):
+        print(t)
 
     alpha = np.arctan2(w, u)
     beta  = np.arctan2(-v, u)
+    
+    
     uvm = missile.vel() / missile.V()
     ucl = np.array([np.cos(missile.theta) * np.cos(missile.psi)
                     , np.cos(missile.theta) * np.sin(missile.psi)
@@ -313,17 +351,41 @@ while t <= tf:
 
     
     
-missile.draw('x')
+missile.draw('phi')
+missile.draw('theta')
+missile.draw('psi')
+
+missile.draw('vx')
+missile.draw('vy')
+missile.draw('vz')
+
 missile.draw('top')
 missile.draw('z')
+
+
+plt.figure(0)
+plt.plot(np.arange(0, t, dt), v_data[: -1, 0], 'r', linewidth = 2)
+plt.plot(np.arange(0, t, dt), v_data[: -1, 1], 'g', linewidth = 2)
+plt.plot(np.arange(0, t, dt), v_data[: -1, 2], 'b', linewidth = 2)
+
+ 
+plt.figure(1)
+plt.plot(np.arange(0, t, dt), aero_fm[: -1, 0], 'r', linewidth = 2)
+plt.plot(np.arange(0, t, dt), aero_fm[: -1, 1], 'g', linewidth = 2)
+plt.plot(np.arange(0, t, dt), aero_fm[: -1, 2], 'b', linewidth = 2)
+
+ 
     
     
+vvec = np.vstack((missile._data[: -1, 4], missile._data[: -1, 5], missile._data[: -1, 6])).T
+uvm_vec = vvec / np.linalg.norm(vvec, axis = 1)
+ucl = np.array([np.cos(missile.theta) * np.cos(missile.psi)
+                , np.cos(missile.theta) * np.sin(missile.psi)
+                , np.sin(-missile.theta)])
+alpha_total = np.arccos(uvm @ ucl)
     
     
-    
-    
-    
-    
+
     
     
     
