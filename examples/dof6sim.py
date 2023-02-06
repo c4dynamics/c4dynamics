@@ -322,6 +322,18 @@ while t <= tf:
     t += dt
     missile.store(t)
     
+    # 
+    # see: http://scipy.github.io/old-wiki/pages/NumPy_for_Matlab_Users
+    #   numpy equivalent to matlab [a b]: 
+    #       concatenate((a,b),1) or
+    #       hstack((a,b)) or
+    #       column_stack((a,b)) or
+    #       c_[a,b]
+    #   numpy equivalent to matlab [a; b]: 
+    #       concatenate((a,b)) or
+    #       vstack((a,b)) or
+    #       r_[a,b]
+    ## 
     v_data = np.vstack((v_data, np.array([u, v, w]))).copy()
     aero_fm = np.vstack((aero_fm, np.concatenate((fAb, mA)))).copy()
     
