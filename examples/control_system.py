@@ -7,10 +7,11 @@ class control_system:
     afp = 0
     afy = 0
     tau = 0.04 
+    dt = 0
 
 
-
-    def __init__(obj, **kwargs):
+    def __init__(obj, dt, **kwargs):
+        obj.dt = dt
         obj.__dict__.update(kwargs)
 
 
@@ -28,7 +29,7 @@ class control_system:
         # # cHaf partial deriv of fin moment coef wrt fin aoa
         # mf = cHaf * af * Q * sf * df 
         
-        obj.afp = -1 / obj.tau * obj.afp + 1 / obj.tau * (-obj.Gn * ab_cmd[2] / Q)
-        obj.afy = -1 / obj.tau * obj.afy + 1 / obj.tau * ( obj.Gn * ab_cmd[1] / Q)
+        obj.afp = obj.afp * np.exp(-obj.dt / obj.tau) - obj.Gn * ab_cmd[2] / Q * (1 - np.exp(-obj.dt / obj.tau))
+        obj.afy = obj.afy * np.exp(-obj.dt / obj.tau) - obj.Gn * ab_cmd[1] / Q * (1 - np.exp(-obj.dt / obj.tau))
         
         return obj.afp, obj.afy 
