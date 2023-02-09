@@ -1,28 +1,20 @@
-    # 
-    # see military handbook for missile flight simulation ch.12 simulation synthesis (205)
-    # 
-    # state vector xs variables:
-    #   0   x
-    #   1   y
-    #   2   z
-    #   3   u
-    #   4   v
-    #   5   w
-    #   6   phi
-    #   7   theta
-    #   8   psi
-    #   9   p
-    #   10  q
-    #   11  r
-    ##
+# 
+# see military handbook for missile flight simulation ch.12 simulation synthesis (205)
+## 
 from scipy.integrate import solve_ivp 
 import numpy as np
 
 import sys, os, importlib
 sys.path.append(os.path.join(os.getcwd(), '..'))
 
+# 
+# load C4dynamics
+## 
 import C4dynamics as c4d
 importlib.reload(c4d)
+from C4dynamics.params import * 
+
+##
 
 import control_system as mcontrol_system 
 importlib.reload(mcontrol_system)
@@ -61,7 +53,7 @@ plt.rcParams['image.cmap'] = 'gray'
 
 t = 0
 dt = 5e-3
-tf = 5
+tf = 10 # 10 # 60
 
 
 #
@@ -74,18 +66,13 @@ seeker = c4d.seekers.lineofsight(dt, tau1 = 0.01, tau2 = 0.01)
 ctrl = mcontrol_system.control_system(dt)
 eng = mengine.engine()
 aero = maerodynamics.aerodynamics()
-aero_fm = np.zeros(6)
+# aero_fm = np.zeros(6)
 
 
-g = 9.8
-# x = np.zeros(12)
-
-
-
-
+#
 # input 
+## 
 vm = 30
-
 
 # 
 # atmospheric properties up to 2000m
@@ -107,7 +94,6 @@ missile.iyy = missile.izz = i0 = 61
 ibo = 47                    # iyy izz at burnout 
 
 
-
 #
 # init
 #
@@ -120,84 +106,24 @@ rTM = target.pos() - missile.pos()
 ucl = rTM / np.linalg.norm(rTM) # center line unit vector 
 missile.vx, missile.vy, missile.vz = vm * ucl 
 missile.psi = np.arctan(ucl[1] / ucl[0])
-missile.theta = np.arctan(-ucl[2] / np.sqrt(ucl[1]**2 + ucl[0]**2))
+missile.theta = np.arctan(-ucl[2] / np.sqrt(ucl[0]**2 + ucl[1]**2))
 missile.phi = 0
 u, v, w = missile.BI() @ missile.vel()
-v_data = np.array([u, v, w])
-
-
-
-##
-##
-
-# this is wrong:
-# ucl = missile.BI() @ np.array([1, 0, 0]) # unit centerline vector
-
-# #
-# # atmospheric calculations    
-# ##
-# h = -missile.z   # missile altitude above sea level, m
-# mach = missile.V() / vs # mach number 
-# Q = 1 / 2 * rho * missile.V()**2 # dynamic pressure 
-
-# 
-# # relative position
-# ##
-# vTM = target.vel() - missile.vel() # missile-target relative velocity 
-# rTM = target.pos() - missile.pos() # relative position 
-# uR = rTM / np.linalg.norm(rTM) # unit range vector 
-# vc = -uR * vTM # closing velocity 
-# ##
-# ## 
-
+# v_data = np.array([u, v, w])
 
 alpha = 0
 beta = 0
 alpha_total = 0
+# alpha_total_data = alpha_total
+# prp_data = np.array([0, 0])
 
+h = -missile.z   # missile altitude above sea level, m
 
-def eqm(t, xs, f, m, rb): 
-    
-    x, y, z, u, v, w, phi, theta, psi, p, q, r = xs
-
-    #
-    # translational motion derivatives
-    ##
-    dx = rb.vx
-    dy = rb.vy
-    dz = rb.vz
-
-    du = f[0] / rb.m - (q * w - r * v) # m/s^2
-    dv = f[1] / rb.m - (r * u - p * w)
-    dw = f[2] / rb.m - (p * v - q * u)
-
-
-
-    # 
-    # euler angles derivatives 
-    ## 
-
-    dphi   = (q * np.sin(phi) + r * np.cos(phi)) * np.tan(theta) + p
-    dtheta =  q * np.cos(phi) - r * np.sin(phi)
-    dpsi   = (q * np.sin(phi) + r * np.cos(phi)) / np.cos(theta)
-
-    # 
-    # angular motion derivatives 
-    ## 
-    # dp     = (lA - q * r * (izz - iyy)) / ixx
-    dp = 0 if rb.ixx == 0 else (m[0] - q * r * (rb.izz - rb.iyy)) / rb.ixx
-    dq     = (m[1] - p * r * (rb.ixx - rb.izz)) / rb.iyy
-    dr     = (m[2] - p * q * (rb.iyy - rb.ixx)) / rb.izz
-
-    return dx, dy, dz, du, dv, dw, dphi, dtheta, dpsi, dp, dq, dr
-
-
-while t <= tf:
+while t <= tf and h >= 0:
 
     #
     # atmospheric calculations    
     ##
-    h = -missile.z   # missile altitude above sea level, m
     mach = missile.V() / vs # mach number 
     Q = 1 / 2 * rho * missile.V()**2 # dynamic pressure 
     
@@ -225,13 +151,15 @@ while t <= tf:
     d_yaw = afy - beta  
 
 
+    # 
+    # missile dynamics 
+    ##
+    
+    
     #
-    # aerodynamics
+    # aerodynamics forces 
     ##    
-    
-    # forces
     cL, cD = aero.f_coef(alpha_total)
-    
     L = Q * aero.s * cL
     D = Q * aero.s * cD
     
@@ -241,9 +169,11 @@ while t <= tf:
     fAb = np.array([ -A
                     , N * (-v / np.sqrt(v**2 + w**2))
                     , N * (-w / np.sqrt(v**2 + w**2))])
+    fAe = missile.IB() @ fAb
    
-   
-    # moments 
+    # 
+    # aerodynamics moments 
+    ##
     cM, cN = aero.m_coef(alpha, beta, d_pitch, d_yaw 
                          , missile.xcm, Q, missile.V(), fAb[1], fAb[2]
                          , missile.q, missile.r)
@@ -252,163 +182,94 @@ while t <= tf:
     mA = np.array([0                     # aerodynamic moemnt in roll
                 , Q * cM * aero.s * aero.d         # aerodynamic moment in pitch
                 , Q * cN * aero.s * aero.d])       # aerodynamic moment in yaw 
-        
-
-
 
     # 
     # propulsion 
     ##
     thrust, thref = eng.update(t, pressure)
-    fPb = np.array([thrust, 0, 0])
-    
-    
+    fPb = np.array([thrust, 0, 0])# 
+    # fPb = np.array([0, 0, 0])# 
+    # prp_data = np.r_[prp_data, prp_data] doesnt work. bullshit. 
+    # prp_data = np.vstack((prp_data, (thrust, thref))) 
+    fPe = missile.IB() @ fPb
+
     # 
     # gravity
     ## 
     fGe = np.array([0, 0, missile.m * g])
-    fGb = missile.BI() @ fGe 
-
-
-
 
     # 
-    # integration 
-    ## 
-    forces = np.array([fAb[0] + fPb[0] + fGb[0]
-                        , fAb[1] + fPb[1] + fGb[1]
-                        , fAb[2] + fPb[2] + fGb[2]])
-    
-    # x = missile.x, missile.y, missile.z, u, v, w, missile.phi, missile.theta, missile.psi, missile.p, missile.q, missile.r
-    # x = solve_ivp(eqm, [t, t + dt], x, args = (forces, mA, missile)).y[:, -1]
-    
-    # https://www.mathworks.com/matlabcentral/answers/411616-how-to-use-a-for-loop-to-solve-ode
-    # Y = [y0 zeros(length(y0), length(tspan))];
-    # for i=1:length(tspan)
-    #     ti = tspan(i); yi = Y(:,i);
-    #     k1 = f(ti, yi);
-    #     k2 = f(ti+dt/2, yi+dt*k1/2);
-    #     k3 = f(ti+dt/2, yi+dt*k2/2);
-    #     k4 = f(ti+dt  , yi+dt*k3);
-    #     dy = 1/6*(k1+2*k2+2*k3+k4);
-    #     Y(:,i+1) = yi +dy;
-    
-    # $ runge kutta 
-    y = missile.x, missile.y, missile.z, u, v, w, missile.phi, missile.theta, missile.psi, missile.p, missile.q, missile.r
-    
-    # step 1
-    dydx = np.asarray(eqm(0, y, forces, mA, missile))
-    yt = y + dt / 2 * dydx 
-    
-    # step 2 
-    dyt = np.asarray(eqm(0, yt, forces, mA, missile))
-    yt = y + dt / 2 * dyt 
-    
-    # step 3 
-    dym = np.asarray(eqm(0, yt, forces, mA, missile))
-    yt = y + dt * dym 
-    dym += dyt 
-    
-    # step 4
-    dyt =  np.asarray(eqm(0, yt, forces, mA, missile))
-    yout = y + dt / 6 * (dydx + dyt + 2 * dym)    
+    # total forces
+    ##      
+    forces = np.array([fAe[0] + fPe[0] + fGe[0]
+                        , fAe[1] + fPe[1] + fGe[1]
+                        , fAe[2] + fPe[2] + fGe[2]])
     
     # 
-    missile.x, missile.y, missile.z, u, v, w, missile.phi, missile.theta, missile.psi, missile.p, missile.q, missile.r = yout 
+    # missile motion integration
+    ##
+    missile.run(dt, forces, mA)
+    u, v, w = missile.BI() @ np.array([missile.vx, missile.vy, missile.vz])
+    
+    # 
+    # target dynmaics 
+    ##
+    target.run(dt, np.array([0, 0, 0]))
 
     # 
     # update  
     ##
     t += dt
     missile.store(t)
-    
-    # 
-    # see: http://scipy.github.io/old-wiki/pages/NumPy_for_Matlab_Users
-    #   numpy equivalent to matlab [a b]: 
-    #       concatenate((a,b),1) or
-    #       hstack((a,b)) or
-    #       column_stack((a,b)) or
-    #       c_[a,b]
-    #   numpy equivalent to matlab [a; b]: 
-    #       concatenate((a,b)) or
-    #       vstack((a,b)) or
-    #       r_[a,b]
-    ## 
-    v_data = np.vstack((v_data, np.array([u, v, w]))).copy()
-    aero_fm = np.vstack((aero_fm, np.concatenate((fAb, mA)))).copy()
-    
-    
+    target.store(t)
+
+    # v_data = np.vstack((v_data, np.array([u, v, w]))).copy()
+    # aero_fm = np.vstack((aero_fm, np.concatenate((fAb, mA)))).copy()
     
     missile.m -= thref * dt / eng.Isp        
     missile.xcm = xcm0 - (xcm0 - xcmbo) * (m0 - missile.m) / (m0 - mbo)
     missile.izz = missile.iyy = i0 - (i0 - ibo) * (m0 - missile.m) / (m0 - mbo)
-        
-
-    missile.vx, missile.vy, missile.vz = missile.IB() @ np.array([u, v, w])
-
-    if isnan(missile.vx):
-        print(t)
 
     alpha = np.arctan2(w, u)
     beta  = np.arctan2(-v, u)
-    
     
     uvm = missile.vel() / missile.V()
     ucl = np.array([np.cos(missile.theta) * np.cos(missile.psi)
                     , np.cos(missile.theta) * np.sin(missile.psi)
                     , np.sin(-missile.theta)])
     alpha_total = np.arccos(uvm @ ucl)
+    # alpha_total_data = np.r_[alpha_total_data, alpha_total]# np.vstack((aero_fm, np.concatenate((fAb, mA)))).copy()
     
+    h = -missile.z   # missile altitude above sea level, m
     
 
-    
-    
-missile.draw('phi')
+fig = plt.figure()
+plt.plot(missile._data[1:, 2], missile._data[1:, 1], 'k', linewidth = 2, label = 'missile')
+plt.plot(target._data[1:, 2], target._data[1:, 1], 'r', linewidth = 2, label = 'target')
+plt.title('top view')
+plt.xlabel('crossrange')
+plt.ylabel('downrange')
+plt.grid()
+plt.legend()
+fig.tight_layout()
+
+
+fig = plt.figure()
+plt.plot(missile._data[1:, 1], missile._data[1:, 3], 'k', linewidth = 2, label = 'missile')
+plt.plot(target._data[1:, 1], target._data[1:, 3], 'r', linewidth = 2, label = 'target')
+plt.title('side view')
+plt.xlabel('downrange')
+plt.ylabel('altitude')
+plt.gca().invert_yaxis()
+plt.grid()
+plt.legend()
+fig.tight_layout()
+
+
 missile.draw('theta')
-missile.draw('psi')
 
-missile.draw('vx')
-missile.draw('vy')
-missile.draw('vz')
-
-missile.draw('top')
-missile.draw('z')
-
-
-plt.figure(0)
-plt.plot(np.arange(0, t, dt), v_data[: -1, 0], 'r', linewidth = 2)
-plt.plot(np.arange(0, t, dt), v_data[: -1, 1], 'g', linewidth = 2)
-plt.plot(np.arange(0, t, dt), v_data[: -1, 2], 'b', linewidth = 2)
-
- 
-plt.figure(1)
-plt.plot(np.arange(0, t, dt), aero_fm[: -1, 0], 'r', linewidth = 2)
-plt.plot(np.arange(0, t, dt), aero_fm[: -1, 1], 'g', linewidth = 2)
-plt.plot(np.arange(0, t, dt), aero_fm[: -1, 2], 'b', linewidth = 2)
-
- 
-    
-    
-vvec = np.vstack((missile._data[: -1, 4], missile._data[: -1, 5], missile._data[: -1, 6])).T
-uvm_vec = vvec / np.linalg.norm(vvec, axis = 1)
-ucl = np.array([np.cos(missile.theta) * np.cos(missile.psi)
-                , np.cos(missile.theta) * np.sin(missile.psi)
-                , np.sin(-missile.theta)])
-alpha_total = np.arccos(uvm @ ucl)
-    
-    
-
-    
-    
-    
-    
-    
-
-
-
-
-    
-    
+target.draw('vx')
+target.draw('vy')
     
     
     

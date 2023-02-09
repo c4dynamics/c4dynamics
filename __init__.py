@@ -53,6 +53,7 @@ from .rotmat import *
 from .general import * 
 # from .arrays import c_array
 # from .cnvrt import *
+
 from . import params 
 from . import tools
 
@@ -68,7 +69,7 @@ from . import tools
 
 from .body.datapoint import datapoint 
 from .body.rigidbody import rigidbody 
-from .body.sixdof import sixdof
+# from .body.sixdof import sixdof
 
 # from .filters import *
 from . import seekers
