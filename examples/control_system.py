@@ -30,6 +30,6 @@ class control_system:
         # mf = cHaf * af * Q * sf * df 
         
         obj.afp = obj.afp * np.exp(-obj.dt / obj.tau) - obj.Gn * ab_cmd[2] / Q * (1 - np.exp(-obj.dt / obj.tau))
-        obj.afy = obj.afy * np.exp(-obj.dt / obj.tau) - obj.Gn * ab_cmd[1] / Q * (1 - np.exp(-obj.dt / obj.tau))
+        obj.afy = obj.afy * np.exp(-obj.dt / obj.tau) + obj.Gn * ab_cmd[1] / Q * (1 - np.exp(-obj.dt / obj.tau))
         
         return obj.afp, obj.afy 

@@ -1,5 +1,7 @@
 import numpy as np
+
 # import C4dynamics as c4d
+from .eqm3 import eqm3
 
 class datapoint:
   """ 
@@ -67,6 +69,12 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
   x0 = 0
   y0 = 0
   z0 = 0
+
+  # 
+  # mass properties 
+  ## 
+  m = 1     # mass 
+
   # https://www.geeksforgeeks.org/getter-and-setter-in-python/
   # https://stackoverflow.com/questions/4555932/public-or-private-attribute-in-python-what-is-the-best-way
   # https://stackoverflow.com/questions/17576009/python-class-property-use-setter-but-evade-getter
@@ -174,6 +182,48 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
     return np.sqrt(obj.ax**2 + obj.ay**2 + obj.az**2)
   
   
+  def run(obj, dt, forces):
+    # 
+    # integration 
+    # $ runge kutta 
+    #     ti = tspan(i); yi = Y(:,i);
+    #     k1 = f(ti, yi);
+    #     k2 = f(ti+dt/2, yi+dt*k1/2);
+    #     k3 = f(ti+dt/2, yi+dt*k2/2);
+    #     k4 = f(ti+dt  , yi+dt*k3);
+    #     dy = 1/6*(k1+2*k2+2*k3+k4);
+    #     Y(:,i+1) = yi +dy;
+    ## 
+    
+    y = np.array([obj.x, obj.y, obj.z, obj.vx, obj.vy, obj.vz])
+    
+    # step 1
+    dydx = eqm3(y, forces, obj.m)
+    yt = y + dt / 2 * dydx 
+    
+    # step 2 
+    dyt = eqm3(yt, forces, obj.m)
+    yt = y + dt / 2 * dyt 
+    
+    # step 3 
+    dym = eqm3(yt, forces, obj.m)
+    yt = y + dt * dym 
+    dym += dyt 
+    
+    # step 4
+    dyt = eqm3(yt, forces, obj.m)
+    yout = y + dt / 6 * (dydx + dyt + 2 * dym)    
+    
+    # 
+    obj.x, obj.y, obj.z, obj.vx, obj.vy, obj.vz = yout 
+    ##
+  
+   
+   
+   
+   
+   
+  
   # 
   # plot functions
   ##
@@ -183,24 +233,37 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
     # plt.rcParams['image.interpolation'] = 'nearest'
     # plt.rcParams['image.cmap'] = 'gray'
     plt.rcParams["font.family"] = "Times New Roman"
-    plt.rcParams["font.size"] = 18
-
+    plt.rcParams["font.size"] = 14
+    
+    # grid
+    # increase margins for labels. 
+    # folder for storage
+    # dont close
+    # integrate two objects for integration and plotting.
+    
+    fig = plt.figure()
+    
     if var.lower() == 'top':
+      # x axis: y data
+      # y axis: x data 
       x = obj._data[1:, 2] # y
       y = obj._data[1:, 1] # x
       xlabel = 'crossrange'
       ylabel = 'downrange'
       title = 'top view'
     elif var.lower() == 'side':
-      x = obj._data[1:, 2] # x
+      # x axis: x data
+      # y axis: z data 
+      x = obj._data[1:, 1] # x
       y = obj._data[1:, 3] # z
       xlabel = 'downrange'
       ylabel = 'altitude'
       title = 'side view'
+      plt.gca().invert_yaxis()
     else: 
       uconv = 1
       if obj._didx[var] > 9:
-        uconv = 180 * np.pi     
+        uconv = 180 / np.pi     
       x = obj._data[1:, 0] # t 
       y = obj._data[1:, obj._didx[var]] * uconv # used selection 
       xlabel = 't'
@@ -208,35 +271,13 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
       title = var
     
     
-    plt.figure()
     plt.plot(x, y, 'k', linewidth = 2)
     plt.title(title)
     # plt.xlim(0, 1000)
     # plt.ylim(0, 1000)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
+    plt.grid()
     # plt.axis('off')
     # plt.savefig(obj.fol + "/" + var) 
-
-  
-  # @staticmethod
-  # def eqm(xin, fx, fy, fz, m):
-  #   x  = xin[0]
-  #   y  = xin[1]
-  #   z  = xin[2]
-  #   vx = xin[3]
-  #   vy = xin[4]
-  #   vz = xin[5]
-    
-  #   dx  = vx
-  #   dy  = vy
-  #   dz  = vz
-  #   dvx = fx / m 
-  #   dvy = fy / m
-  #   dvz = fz / m
-    
-  #   return dx, dy, dz, dvx, dvy, dvz
-   
-      
-
- 
+    fig.tight_layout()
