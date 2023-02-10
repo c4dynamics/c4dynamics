@@ -252,7 +252,7 @@ plt.ylabel('downrange')
 plt.grid()
 plt.legend()
 fig.tight_layout()
-
+plt.show()
 
 fig = plt.figure()
 plt.plot(missile._data[1:, 1], missile._data[1:, 3], 'k', linewidth = 2, label = 'missile')
@@ -264,6 +264,7 @@ plt.gca().invert_yaxis()
 plt.grid()
 plt.legend()
 fig.tight_layout()
+plt.show()
 
 
 missile.draw('theta')
