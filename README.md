@@ -509,9 +509,7 @@ fig.tight_layout()
 plt.show()
 ```
 
-<div align="center">
-  <img src="https://github.com/C4dynamics/C4dynamics/tree/main/examples/topview.png">
-</div>
+<img src="https://github.com/C4dynamics/C4dynamics/tree/main/examples/topview.png">
 
 ```
 fig = plt.figure()
