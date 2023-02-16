@@ -122,6 +122,7 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 
 
 
+[![My Skills](https://skillicons.dev/icons?i=python)](https://skillicons.dev)
 
 
 
@@ -248,7 +249,7 @@ As the dynamics in this example involves a combustion of fuel of the rocket engi
 
 In any way the initial position and attitude of anybody object (datapoint and rigid-body) is always saved with its instantiation 
 
-The objects and functions are independent of convention. 
+The dimensions in this example are SI (i.e. seconds, meters, kilograms), but the objects and functions in the framework in general are independent of system of units. 
 
 The example uses a line-of-sight seeker object from the c4dynamics' seekers module and controller, engine, and aerodynamics objects that developed for the purpose of this example:
 
@@ -334,24 +335,24 @@ Main loop
 
 The main loop includes the following steps: 
 
-    Estimation of missile-target line-of-sight angular rate 
+* Estimation of missile-target line-of-sight angular rate 
 	
-    Production of missile's wings-deflection commands 
+* Production of missile's wings-deflection commands 
 	
-    Calculation of missile's forces and moments 
+* Calculation of missile's forces and moments 
 	
-    Integration of missile's equations of motion 
+* Integration of missile's equations of motion 
 	
-    Integration of target's equations of motion 
+* Integration of target's equations of motion 
 	
-    Simulation update 
+* Simulation update 
 
 
 The simulation runs until one of the following conditions:
 
-    The missile hits the ground
+* The missile hits the ground
 	
-    The simulation time is over 
+* The simulation time is over 
 	
 
 
@@ -508,6 +509,10 @@ fig.tight_layout()
 plt.show()
 ```
 
+<div align="center">
+  <img src="https://github.com/C4dynamics/C4dynamics/tree/main/examples/topview.png">
+</div>
+
 ```
 fig = plt.figure()
 plt.plot(missile._data[1:, 1], missile._data[1:, 3], 'k', linewidth = 2, label = 'missile')
@@ -522,15 +527,29 @@ fig.tight_layout()
 plt.show()
 ```
 
+<div align="center">
+  <img src="https://github.com/C4dynamics/C4dynamics/tree/main/examples/sideview.png">
+</div>
+
 ```
 missile.draw('theta')
 ```
+
+<div align="center">
+  <img src="https://github.com/C4dynamics/C4dynamics/tree/main/examples/theta.png">
+</div>
 
 ```
 target.draw('vx')
 target.draw('vy')
 ```
 
+<div align="center">
+  <img src="https://github.com/C4dynamics/C4dynamics/tree/main/examples/vx.png">
+</div>
+<div align="center">
+  <img src="https://github.com/C4dynamics/C4dynamics/tree/main/examples/vy.png">
+</div>
 
 
 
