@@ -509,7 +509,8 @@ fig.tight_layout()
 plt.show()
 ```
 
-![](https://github.com/C4dynamics/C4dynamics/tree/main/examples/topview.png)
+![](https://github.com/C4dynamics/C4dynamics/blob/main/examples/sideview.png?raw=true)
+
 
 ```
 fig = plt.figure()
