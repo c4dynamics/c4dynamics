@@ -44,36 +44,43 @@ So why wait? Start using the C4dynamics today and take your algorithms engineeri
 
 The framework suggests basic data entities as data-points and rigid-bodies, and integrated systems as seekers, filters, and sensors, for easy development of algorithms. 
 
+See a comprehensive example of a six degrees of freedom simulation using the C4dynamics framework at the bottom of this README.
+
+
 ## Note
 This framework is aimed mainly for the purpose of developing algorithms for physical and dynamical systems: predicting and controlling motion.
 
 ## Quickstart
 
-See jupyter notebook demonstrations in examples (GitHub repository). 
+See jupyter notebook demonstrations in examples (dof6sim.ipynb illustrates some of the main framework capabilites in a comprehensive way). 
 
 Install the required packages:
 ```
 pip install -r requirements.txt
 ```
 
-Define altitude radar with C4dynamics: 
-
+Import the framework:
 ```
 import C4dynamics as c4d
+```
+
+Define a point in space with some initial conditions: 
+```
+pt = c4d.datapoint(x = 1000, vx = 100)
+```
+
+Define a body in space with some initial conditions: 
+```
+body = c4d.rigidbody(theta = 15 * 3.14 / 180)
+```
+
+Define altitude radar: 
+```
 rdr = c4d.seekers.dzradar([0, 0, 0], c4d.filters.filtertype.ex_kalman, 50e-3)
 ```
 
-Define moving target with C4dynamics: 
-
-```
-import C4dynamics as c4d
-tgt = c4d.datapoint(x = 1000, vx = 100)
-```
-
 Define errors to a general-purpose seeker with C4dynamics: 
-
 ```
-import C4dynamics as c4d
 rdr = c4d.seekers.radar(sf = 0.9, bias = 0, noisestd = 1)
 ```
 
@@ -89,6 +96,9 @@ rdr = c4d.seekers.radar(sf = 0.9, bias = 0, noisestd = 1)
 * Make tests and document your changes
 * Push the changes back to your GitHub
 * Press the 'Pull Request' button. Submit a message with details about your changes.
+
+* It's a good advise to start with the example dof6sim.ipynb and change the missile-target conditions to gain some experience with the framework. This example appears also down here in the README
+
 
 
 ## Contributors ✨
@@ -132,7 +142,7 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 
 ## 6 Degrees Of Freedom Example
 
-This notebook employs an example to illustrate the usage of C4dynamics to develop algorithms for missile guidance system.
+This example illustrates the usage of C4dynamics to develop algorithms for missile guidance system.
 
 C4dynamics is a powerful framework for algorithm engineering that enables the creation of complex simulations with six degrees of freedom (6 DOF). With its advanced toolset, it allows for the creation of realistic and dynamic models that can be used to test and analyze various scenarios in fields such as robotics, aerospace, and mechanical engineering.
 
@@ -508,8 +518,12 @@ plt.legend()
 fig.tight_layout()
 plt.show()
 ```
-
-![](https://github.com/C4dynamics/C4dynamics/blob/main/examples/topview.png)
+<!-- <p align="center">
+  <img src="" width="325" height="260"/>
+</p>
+ -->
+<p align="center">
+  <img src="https://github.com/C4dynamics/C4dynamics/blob/main/examples/topview.png" width="325" height="260"/>
 
 ```
 fig = plt.figure()
@@ -525,33 +539,27 @@ fig.tight_layout()
 plt.show()
 ```
 
-<div align="center">
-  <img src="(https://github.com/C4dynamics/C4dynamics/blob/main/examples/sideview.png?raw=true)">
-</div>
+<p align="center">
+  <img src="https://github.com/C4dynamics/C4dynamics/blob/main/examples/sideview.png?raw=true" width="325" height="260"/>
+</p>
 
 ```
 missile.draw('theta')
 ```
-
-<div align="center">
-  <img src="https://github.com/C4dynamics/C4dynamics/tree/main/examples/theta.png">
-</div>
+</p>
+<p align="center">
+  <img src="https://github.com/C4dynamics/C4dynamics/blob/main/examples/theta.png?raw=true" width="325" height="260"/>
+</p>
 
 ```
 target.draw('vx')
 target.draw('vy')
 ```
-
-<div align="center">
-  <img src="https://github.com/C4dynamics/C4dynamics/tree/main/examples/vx.png">
-</div>
-<div align="center">
-  <img src="https://github.com/C4dynamics/C4dynamics/tree/main/examples/vy.png">
-</div>
-
-
-
-
-
+<p align="center">
+  <img src="https://github.com/C4dynamics/C4dynamics/blob/main/examples/vx.png?raw=true" width="325" height="260"/>
+</p>
+<p align="center">
+  <img src="https://github.com/C4dynamics/C4dynamics/blob/main/examples/vy.png?raw=true" width="325" height="260"/>
+</p>
 
 
