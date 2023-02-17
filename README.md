@@ -27,7 +27,7 @@ It includes a variety of tools and features to streamline the development proces
 
 * Seekers and sensors
 
-* Save and plot state-vector in one klick
+* Save and plot state-vector in one click
 
 ✅ A robust testing suite to ensure the reliability and correctness of your implementation!
 
