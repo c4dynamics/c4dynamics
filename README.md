@@ -425,7 +425,7 @@ while t <= tf and h >= 0:
     ##
     
     #
-    # aerodynamics forces 
+    # aerodynamic forces 
     ##    
     cL, cD      = aero.f_coef(alpha_total)
     L           = Q * aero.s * cL
@@ -440,7 +440,7 @@ while t <= tf and h >= 0:
     fAe         = missile.IB() @ fAb
    
     # 
-    # aerodynamics moments 
+    # aerodynamic moments 
     ##
     cM, cN      = aero.m_coef(alpha, beta, d_pitch, d_yaw 
                             , missile.xcm, Q, missile.V(), fAb[1], fAb[2]
