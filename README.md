@@ -6,13 +6,13 @@
 #### Algorithms Engineering and Development
 ****
 
-C4Dynamics (read Tsipor (bird) Dynamics) is an open-source framework for algorithms engineering! 
+C4Dynamics (read Tsipor (bird) Dynamics) is the open-source framework for algorithms engineers! 
 
 
 [![My Skills](https://skillicons.dev/icons?i=python)](https://skillicons.dev)
 
 
-Welcome to C4dynamics - an open-source framework for algorithm engineers who work with physical and dynamical systems. 
+Welcome to C4dynamics - a framework for algorithm engineers who work with physical and dynamical systems. 
 
 
 This framework is designed to help algorithm engineers quickly and efficiently implement and test new algorithms. 
@@ -27,7 +27,7 @@ It includes a variety of tools and features to streamline the development proces
 
 * Seekers and sensors
 
-* Save and plot state-vector in one klick
+* Save and plot state-vector in one click
 
 ✅ A robust testing suite to ensure the reliability and correctness of your implementation!
 
@@ -87,17 +87,8 @@ rdr = c4d.seekers.radar(sf = 0.9, bias = 0, noisestd = 1)
 
 # Quickstart for Contributors
 
-* Press the 'Fork' button (upper right corner of the C4dynamics page)
-* Clone C4dynamics to your local machine (GitHub Desktop is a nice tool to help you clone and push your changes back)
-* Open a new python notebook (Jupyter) 
-* Import C4dynamics to your notebook (see some examples in the repository 'examples')
-* In the notebook, write some code you would like to do using the C4dynamics library
-* Create and edit files in C4dynamics to support your code
-* Make tests and document your changes
-* Push the changes back to your GitHub
-* Press the 'Pull Request' button. Submit a message with details about your changes.
-
-* It's a good advise to start with the example dof6sim.ipynb and change the missile-target conditions to gain some experience with the framework. This example appears also down here in the README
+* See the page contributing.md
+* In any case, it's a good advise to start with the example dof6sim.ipynb and change the missile-target conditions to gain some experience with the framework. This example appears also down here in the README
 
 
 
@@ -425,7 +416,7 @@ while t <= tf and h >= 0:
     ##
     
     #
-    # aerodynamics forces 
+    # aerodynamic forces 
     ##    
     cL, cD      = aero.f_coef(alpha_total)
     L           = Q * aero.s * cL
@@ -440,7 +431,7 @@ while t <= tf and h >= 0:
     fAe         = missile.IB() @ fAb
    
     # 
-    # aerodynamics moments 
+    # aerodynamic moments 
     ##
     cM, cN      = aero.m_coef(alpha, beta, d_pitch, d_yaw 
                             , missile.xcm, Q, missile.V(), fAb[1], fAb[2]
