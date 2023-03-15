@@ -6,7 +6,7 @@
 #### Algorithms Engineering and Development
 ****
 
-C4Dynamics (read Tsipor (bird) Dynamics) is an open-source framework for algorithms engineering! 
+C4Dynamics (read Tsipor (bird) Dynamics) is the open-source framework for algorithms engineers! 
 
 
 [![My Skills](https://skillicons.dev/icons?i=python)](https://skillicons.dev)
