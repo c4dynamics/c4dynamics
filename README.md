@@ -48,7 +48,7 @@ See a comprehensive example of a six degrees of freedom simulation using the C4d
 
 
 ## Note
-This framework is aimed mainly for the purpose of developing algorithms for physical and dynamical systems: predicting and controlling motion.
+This framework is mainly intended for the purpose of developing algorithms for physical and dynamical systems: predicting and controlling motion.
 
 ## Quickstart
 
