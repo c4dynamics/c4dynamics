@@ -216,6 +216,7 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
     
     # 
     obj.x, obj.y, obj.z, obj.vx, obj.vy, obj.vz = yout 
+    obj.ax, obj.ay, obj.az = dyt[-3:]
     ##
   
    

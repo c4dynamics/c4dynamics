@@ -2,6 +2,8 @@
 mounting a camera on the side of the object and pridicting the image that the camera would film in any moment of the simulation. 
 but what about integration for non-6dof systems? 
 
+the datapoint and rigidbody objects should not have only functions to update their state from the physical equations of motions but also from methods that are based on visual techniques such as slam.
+also update from gps wasn't implemented yet. 
 
 
 

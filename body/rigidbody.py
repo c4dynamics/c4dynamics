@@ -118,7 +118,7 @@ class rigidbody(c4d.datapoint):  #
     #     k3 = f(ti+dt/2, yi+dt*k2/2);
     #     k4 = f(ti+dt  , yi+dt*k3);
     #     dy = 1/6*(k1+2*k2+2*k3+k4);
-    #     Y(:,i+1) = yi +dy;
+    #     Y(:,i+1) = yi + dy;
     ## 
     
     y = np.array([obj.x, obj.y, obj.z, obj.vx, obj.vy, obj.vz, obj.phi, obj.theta, obj.psi, obj.p, obj.q, obj.r])
@@ -138,11 +138,12 @@ class rigidbody(c4d.datapoint):  #
     
     # step 4
     dyt = eqm6(yt, forces, moments, obj.m, obj.ixx, obj.iyy, obj.izz)
-    yout = y + dt / 6 * (dydx + dyt + 2 * dym)    
+    yout = y + dt / 6 * (dydx + dyt + 2 * dym) 
     
     # 
-    obj.x, obj.y, obj.z, obj.vx, obj.vy, obj.vz, obj.phi, obj.theta, obj.psi, obj.p, obj.q, obj.r = yout 
+    obj.x, obj.y, obj.z, obj.vx, obj.vy, obj.vz, obj.phi, obj.theta, obj.psi, obj.p, obj.q, obj.r = yout
+    yderivs = eqm6(yout, forces, moments, obj.m, obj.ixx, obj.iyy, obj.izz)
+    obj.ax, obj.ay, obj.az, obj.p_dot, obj.q_dot, obj.r_dot = yderivs[[3, 4, 5, 9, 10, 11]]
     ##
-
 
  

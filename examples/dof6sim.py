@@ -25,6 +25,7 @@ importlib.reload(mengine)
 import aerodynamics as maerodynamics
 importlib.reload(maerodynamics)
 
+# from C4dynamics.tools import gif_tools
 
 from math import isnan 
 
@@ -42,6 +43,8 @@ plt.rcParams['image.cmap'] = 'gray'
 # see http://stackoverflow.com/questions/1907993/autoreload-of-modules-in-ipython
 # %load_ext autoreload
 # %autoreload 2
+
+output = 1
 
 # 
 # plt.show() plots all the figures present in the state machine. Calling it only at the end of 
@@ -109,6 +112,7 @@ missile.psi = np.arctan(ucl[1] / ucl[0])
 missile.theta = np.arctan(-ucl[2] / np.sqrt(ucl[0]**2 + ucl[1]**2))
 missile.phi = 0
 u, v, w = missile.BI() @ missile.vel()
+vc = np.array([0, 0, 0])
 # v_data = np.array([u, v, w])
 
 alpha = 0
@@ -119,7 +123,7 @@ alpha_total = 0
 
 h = -missile.z   # missile altitude above sea level, m
 
-while t <= tf and h >= 0:
+while t <= tf and h >= 0 and vc[0] >= 0:
 
     #
     # atmospheric calculations    
@@ -243,34 +247,62 @@ while t <= tf and h >= 0:
     h = -missile.z   # missile altitude above sea level, m
     
 
-fig = plt.figure()
-plt.plot(missile._data[1:, 2], missile._data[1:, 1], 'k', linewidth = 2, label = 'missile')
-plt.plot(target._data[1:, 2], target._data[1:, 1], 'r', linewidth = 2, label = 'target')
-plt.title('top view')
-plt.xlabel('crossrange')
-plt.ylabel('downrange')
-plt.grid()
-plt.legend()
-fig.tight_layout()
-plt.show()
-
-fig = plt.figure()
-plt.plot(missile._data[1:, 1], missile._data[1:, 3], 'k', linewidth = 2, label = 'missile')
-plt.plot(target._data[1:, 1], target._data[1:, 3], 'r', linewidth = 2, label = 'target')
-plt.title('side view')
-plt.xlabel('downrange')
-plt.ylabel('altitude')
-plt.gca().invert_yaxis()
-plt.grid()
-plt.legend()
-fig.tight_layout()
-plt.show()
 
 
-missile.draw('theta')
+if output == 0: # do nothing
+    pass 
+elif output == 1: # print to file 
+    
+elif output == 2: # plot figures 
+    fig = plt.figure()
+    plt.plot(missile._data[1:, 2], missile._data[1:, 1], 'k', linewidth = 2, label = 'missile')
+    plt.plot(target._data[1:, 2], target._data[1:, 1], 'r', linewidth = 2, label = 'target')
+    plt.title('top view')
+    plt.xlabel('crossrange')
+    plt.ylabel('downrange')
+    plt.grid()
+    plt.legend()
+    fig.tight_layout()
+    plt.show()
 
-target.draw('vx')
-target.draw('vy')
+    fig = plt.figure()
+    plt.plot(missile._data[1:, 1], missile._data[1:, 3], 'k', linewidth = 2, label = 'missile')
+    plt.plot(target._data[1:, 1], target._data[1:, 3], 'r', linewidth = 2, label = 'target')
+    plt.title('side view')
+    plt.xlabel('downrange')
+    plt.ylabel('altitude')
+    plt.gca().invert_yaxis()
+    plt.grid()
+    plt.legend()
+    fig.tight_layout()
+    plt.show()
+
+
+    missile.draw('theta')
+
+    target.draw('vx')
+    target.draw('vy')
+
+
+
+    # gif_tools.make_plot(missile, target, 'D:\\gh_repo\\C4dynamics\\examples\\New folder')
+
+    fig = plt.figure()
+    ax = fig.gca(projection = '3d')
+    ax.invert_zaxis()
+
+    plt.plot(missile._data[1:, 1], missile._data[1:, 2], missile._data[1:, 3] 
+            , 'k', linewidth = 2, label = 'missile')
+    plt.plot(target._data[1:, 1], target._data[1:, 2], target._data[1:, 3]
+            , 'r', linewidth = 2, label = 'target')
+        
+        
+        
+    
+    
+    
+    
+    
     
     
     
