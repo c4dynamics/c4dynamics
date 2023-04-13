@@ -44,8 +44,6 @@ plt.rcParams['image.cmap'] = 'gray'
 # %load_ext autoreload
 # %autoreload 2
 
-output = 1
-
 # 
 # plt.show() plots all the figures present in the state machine. Calling it only at the end of 
 #       the script, ensures that all previously created figures are plotted.
@@ -249,58 +247,53 @@ while t <= tf and h >= 0 and vc[0] >= 0:
 
 
 
-if output == 0: # do nothing
-    pass 
-elif output == 1: # print to file 
-    
-elif output == 2: # plot figures 
-    fig = plt.figure()
-    plt.plot(missile._data[1:, 2], missile._data[1:, 1], 'k', linewidth = 2, label = 'missile')
-    plt.plot(target._data[1:, 2], target._data[1:, 1], 'r', linewidth = 2, label = 'target')
-    plt.title('top view')
-    plt.xlabel('crossrange')
-    plt.ylabel('downrange')
-    plt.grid()
-    plt.legend()
-    fig.tight_layout()
-    plt.show()
+fig = plt.figure()
+plt.plot(missile._data[1:, 2], missile._data[1:, 1], 'k', linewidth = 2, label = 'missile')
+plt.plot(target._data[1:, 2], target._data[1:, 1], 'r', linewidth = 2, label = 'target')
+plt.title('top view')
+plt.xlabel('crossrange')
+plt.ylabel('downrange')
+plt.grid()
+plt.legend()
+fig.tight_layout()
+plt.show()
 
-    fig = plt.figure()
-    plt.plot(missile._data[1:, 1], missile._data[1:, 3], 'k', linewidth = 2, label = 'missile')
-    plt.plot(target._data[1:, 1], target._data[1:, 3], 'r', linewidth = 2, label = 'target')
-    plt.title('side view')
-    plt.xlabel('downrange')
-    plt.ylabel('altitude')
-    plt.gca().invert_yaxis()
-    plt.grid()
-    plt.legend()
-    fig.tight_layout()
-    plt.show()
+fig = plt.figure()
+plt.plot(missile._data[1:, 1], missile._data[1:, 3], 'k', linewidth = 2, label = 'missile')
+plt.plot(target._data[1:, 1], target._data[1:, 3], 'r', linewidth = 2, label = 'target')
+plt.title('side view')
+plt.xlabel('downrange')
+plt.ylabel('altitude')
+plt.gca().invert_yaxis()
+plt.grid()
+plt.legend()
+fig.tight_layout()
+plt.show()
 
 
-    missile.draw('theta')
+missile.draw('theta')
 
-    target.draw('vx')
-    target.draw('vy')
+target.draw('vx')
+target.draw('vy')
 
 
 
-    # gif_tools.make_plot(missile, target, 'D:\\gh_repo\\C4dynamics\\examples\\New folder')
+# gif_tools.make_plot(missile, target, 'D:\\gh_repo\\C4dynamics\\examples\\New folder')
 
-    fig = plt.figure()
-    ax = fig.gca(projection = '3d')
-    ax.invert_zaxis()
+fig = plt.figure()
+ax = fig.gca(projection = '3d')
+ax.invert_zaxis()
 
-    plt.plot(missile._data[1:, 1], missile._data[1:, 2], missile._data[1:, 3] 
-            , 'k', linewidth = 2, label = 'missile')
-    plt.plot(target._data[1:, 1], target._data[1:, 2], target._data[1:, 3]
-            , 'r', linewidth = 2, label = 'target')
-        
-        
-        
+plt.plot(missile._data[1:, 1], missile._data[1:, 2], missile._data[1:, 3] 
+        , 'k', linewidth = 2, label = 'missile')
+plt.plot(target._data[1:, 1], target._data[1:, 2], target._data[1:, 3]
+        , 'r', linewidth = 2, label = 'target')
     
     
     
+
+
+
     
     
     
