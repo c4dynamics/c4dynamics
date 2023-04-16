@@ -1,8 +1,12 @@
 from matplotlib import pyplot as plt
+
+plt.rcParams["font.family"] = "Corbel Bold"# "Modern Love"# "Britannic Bold" # "Times New Roman"
+plt.rcParams["font.size"] = 16
+
 exec(open('importc4d.py').read())
 
 h0 = 1000
-dt = .05
+dt = .001
 t  = 0
 g = -9.8
 
@@ -13,11 +17,15 @@ while ball.z >= 0:
     ball.store(t)
     t += dt
 
+plt.style.use('dark_background')
 ball.draw('z')
-# plt.gca().invert_yaxis()
-plt.title('FREE FALLING BALL')
+
+plt.title('Free-Falling Ball vs. Time')
 plt.xlabel('TIME (S)')
 plt.ylabel('HEIGHT (M)')
+
+ln = plt.gca().lines
+ln[0].set_color('tab:purple')
 
 #
 # for developers:
@@ -31,3 +39,10 @@ plt.ylabel('HEIGHT (M)')
 #   4) import C4dynamics as c4d in your project and use the object c4d.datapoint to model your physics. 
 #   FAQ? contact zivmeri @ linkedin \ gmail, or C4dynamics at github. 
 ## 
+
+
+
+
+
+
+
