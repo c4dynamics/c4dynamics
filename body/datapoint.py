@@ -236,6 +236,9 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
     plt.rcParams["font.family"] = "Times New Roman"
     plt.rcParams["font.size"] = 14
     
+    plt.ion()
+    # plt.show()
+
     # grid
     # increase margins for labels. 
     # folder for storage
@@ -273,6 +276,7 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
     
     
     plt.plot(x, y, 'k', linewidth = 2)
+
     plt.title(title)
     # plt.xlim(0, 1000)
     # plt.ylim(0, 1000)
@@ -282,3 +286,6 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
     # plt.axis('off')
     # plt.savefig(obj.fol + "/" + var) 
     fig.tight_layout()
+    
+    # plt.pause(1e-3)
+    plt.show() # block = True # block = False
