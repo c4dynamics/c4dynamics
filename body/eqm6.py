@@ -28,8 +28,8 @@ def eqm6(xs, f, m, mass, ixx, iyy, izz):
     ## 
     # dp     = (lA - q * r * (izz - iyy)) / ixx
     dp = 0 if ixx == 0 else (m[0] - q * r * (izz - iyy)) / ixx
-    dq     = (m[1] - p * r * (ixx - izz)) / iyy
-    dr     = (m[2] - p * q * (iyy - ixx)) / izz
+    dq = 0 if iyy == 0 else (m[1] - p * r * (ixx - izz)) / iyy
+    dr = 0 if izz == 0 else (m[2] - p * q * (iyy - ixx)) / izz
 
     return np.array([dx, dy, dz, dvx, dvy, dvz, dphi, dtheta, dpsi, dp, dq, dr])
 

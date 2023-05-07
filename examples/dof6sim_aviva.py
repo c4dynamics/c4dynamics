@@ -38,13 +38,24 @@ plt.rcParams['figure.figsize'] = (5.0, 4.0) # set default size of plots
 plt.rcParams['image.interpolation'] = 'nearest'
 plt.rcParams['image.cmap'] = 'gray'
 # plt.rcParams['text.usetex'] = True
+plt.ion()
 
 # Some more magic so that the notebook will reload external python modules;
 # see http://stackoverflow.com/questions/1907993/autoreload-of-modules-in-ipython
 # %load_ext autoreload
 # %autoreload 2
 
-output = 1
+output = 2
+cfile = 'c4dout'
+if os.path.isfile(cfile + '.txt'):
+    os.remove(cfile + '.txt')
+    
+
+if output == 1: # print to file 
+    with open(cfile + '.txt', 'at') as f:            
+            f.write('%15s %15s %15s %15s %15s %15s \n' 
+            % ('target range', 'time', 'position', 'velocity', 'acceleration', 'miss distance'))
+
 
 # 
 # plt.show() plots all the figures present in the state machine. Calling it only at the end of 
@@ -53,7 +64,7 @@ output = 1
 #       achieved using plt.figure(fignumber) where fignumber is a number starting at index 1.
 #
 
-for xtgt in range(4000, 10000, 1000):
+for xtgt in range(1000, 10000, 1000):
 
     t = 0
     dt = 5e-3
@@ -246,6 +257,10 @@ for xtgt in range(4000, 10000, 1000):
         
         h = -missile.z   # missile altitude above sea level, m
         
+        
+        
+        
+        
 
     tfinal = t
     md = np.linalg.norm(target.pos() - missile.pos())
@@ -254,67 +269,98 @@ for xtgt in range(4000, 10000, 1000):
     if output == 0: # do nothing
         pass 
     elif output == 1: # print to file 
-        with open('c4dout.txt', 'at') as f:
-            f.write('target range: %.0f \n' % np.sqrt(target.x0**2 + target.y0**2 + target.z0**2))
-            f.write('miss distance: %.2f \n' % md)
-            f.write('--------------------\n')
-            f.write('%10s %10s %10s %10s %10s %10s %10s \n' % ('time', 'ax-missile', 'ay-missile', 'az-missile', 'ax-target', 'ay-target', 'az-target'))
-        #     f.write('%10.1f %10.1f %10.1f %10.1f %10.1f %10.1f \n' % (missile._data[1:, 7], missile._data[1:, 8] 
-        #                                                               , missile._data[1:, 9], target._data[1:, 7]
-        #                                                               , target._data[1:, 8], target._data[1:, 9]))
-            np.savetxt(f, (np.array([missile._data[1:, 0], missile._data[1:, 7], missile._data[1:, 8] 
-                            , missile._data[1:, 9], target._data[1:, 7]
-                            , target._data[1:, 8], target._data[1:, 9]]).T)
-                    , '%10.2f')
-            f.write('--------------------\n')
-            f.write('--------------------\n')
-            f.write('\n')
-            f.write('\n')
+        with open(cfile + '.txt', 'at') as f:            
+            #     f.write('%10.1f %10.1f %10.1f %10.1f %10.1f %10.1f \n' % (missile._data[1:, 7], missile._data[1:, 8] 
+            #                                                               , missile._data[1:, 9], target._data[1:, 7]
+            #                                                               , target._data[1:, 8], target._data[1:, 9]))
+            
+            # f.write('target range: %.0f \n' % np.sqrt(target.x0**2 + target.y0**2 + target.z0**2))
+            # f.write('miss distance: %.2f \n' % md)
+            # f.write('--------------------\n')
+            # f.write('%10s %10s %10s %10s %10s %10s %10s \n' 
+            #         % ('time', 'ax-missile', 'ay-missile', 'az-missile', 'ax-target', 'ay-target', 'az-target'))
+            # np.savetxt(f, (np.array([missile._data[1:, 0], missile._data[1:, 7], missile._data[1:, 8] 
+            #                 , missile._data[1:, 9], target._data[1:, 7]
+            #                 , target._data[1:, 8], target._data[1:, 9]]).T)
+            #         , '%10.4f')
+            # f.write('--------------------\n')
+            # f.write('--------------------\n')
+            # f.write('\n')
+            # f.write('\n')
 
+            # 
+            # instead a header and then all the rows it's better to add a column of target 
+            #   range the x,v,a magnitudes then md 
+            ## 
+            
+
+            acc_rel = np.linalg.norm(np.array([target._data[1:, 7] - missile._data[1:, 7]
+                            , target._data[1:, 8] - missile._data[1:, 8]
+                            , target._data[1:, 9] - missile._data[1:, 9]]).T
+                            , ord = 2, axis = 1)
+            vel_rel = np.linalg.norm(np.array([target._data[1:, 4] - missile._data[1:, 4]
+                            , target._data[1:, 5] - missile._data[1:, 5]
+                            , target._data[1:, 6] - missile._data[1:, 6]]).T
+                            , ord = 2, axis = 1)
+            pos_rel = np.linalg.norm(np.array([target._data[1:, 1] - missile._data[1:, 1]
+                            , target._data[1:, 2] - missile._data[1:, 2]
+                            , target._data[1:, 3] - missile._data[1:, 3]]).T
+                            , ord = 2, axis = 1)
+            tgtrng = np.sqrt(target.x0**2 + target.y0**2 + target.z0**2) * np.ones(pos_rel.shape).astype(int)
+            md_vec = md * np.ones(pos_rel.shape)
+
+            np.savetxt(f, (np.array([tgtrng, missile._data[1:, 0], pos_rel, vel_rel, acc_rel, md_vec]).T) 
+                        , '%15d%15.4f%15.0f%15.1f%15.2f%15.2f')
 
 
     elif output == 2: # plot figures 
-        fig = plt.figure()
-        plt.plot(missile._data[1:, 2], missile._data[1:, 1], 'k', linewidth = 2, label = 'missile')
-        plt.plot(target._data[1:, 2], target._data[1:, 1], 'r', linewidth = 2, label = 'target')
-        plt.title('top view')
-        plt.xlabel('crossrange')
-        plt.ylabel('downrange')
-        plt.grid()
-        plt.legend()
-        fig.tight_layout()
-        plt.show()
+        
+        acc = np.linalg.norm(np.array([missile._data[1:, 7]
+                , missile._data[1:, 8], missile._data[1:, 9]]).T, ord = 2, axis = 1)
+        tgtrng = np.sqrt(target.x0**2 + target.y0**2 + target.z0**2) * np.ones(acc.shape).astype(int)
+        
+        plt.plot(missile._data[1:, 0], acc, linewidth = 2, label = str(tgtrng))
+        # fig = plt.figure()
+        # plt.plot(missile._data[1:, 2], missile._data[1:, 1], 'k', linewidth = 2, label = 'missile')
+        # plt.plot(target._data[1:, 2], target._data[1:, 1], 'r', linewidth = 2, label = 'target')
+        # plt.title('top view')
+        # plt.xlabel('crossrange')
+        # plt.ylabel('downrange')
+        # plt.grid()
+        # plt.legend()
+        # fig.tight_layout()
+        # plt.show()
 
-        fig = plt.figure()
-        plt.plot(missile._data[1:, 1], missile._data[1:, 3], 'k', linewidth = 2, label = 'missile')
-        plt.plot(target._data[1:, 1], target._data[1:, 3], 'r', linewidth = 2, label = 'target')
-        plt.title('side view')
-        plt.xlabel('downrange')
-        plt.ylabel('altitude')
-        plt.gca().invert_yaxis()
-        plt.grid()
-        plt.legend()
-        fig.tight_layout()
-        plt.show()
+        # fig = plt.figure()
+        # plt.plot(missile._data[1:, 1], missile._data[1:, 3], 'k', linewidth = 2, label = 'missile')
+        # plt.plot(target._data[1:, 1], target._data[1:, 3], 'r', linewidth = 2, label = 'target')
+        # plt.title('side view')
+        # plt.xlabel('downrange')
+        # plt.ylabel('altitude')
+        # plt.gca().invert_yaxis()
+        # plt.grid()
+        # plt.legend()
+        # fig.tight_layout()
+        # plt.show()
 
 
-        missile.draw('theta')
+        # missile.draw('theta')
 
-        target.draw('vx')
-        target.draw('vy')
+        # target.draw('vx')
+        # target.draw('vy')
 
 
 
-        # gif_tools.make_plot(missile, target, 'D:\\gh_repo\\C4dynamics\\examples\\New folder')
+        # # gif_tools.make_plot(missile, target, 'D:\\gh_repo\\C4dynamics\\examples\\New folder')
 
-        fig = plt.figure()
-        ax = fig.gca(projection = '3d')
-        ax.invert_zaxis()
+        # fig = plt.figure()
+        # ax = fig.gca(projection = '3d')
+        # ax.invert_zaxis()
 
-        plt.plot(missile._data[1:, 1], missile._data[1:, 2], missile._data[1:, 3] 
-                , 'k', linewidth = 2, label = 'missile')
-        plt.plot(target._data[1:, 1], target._data[1:, 2], target._data[1:, 3]
-                , 'r', linewidth = 2, label = 'target')
+        # plt.plot(missile._data[1:, 1], missile._data[1:, 2], missile._data[1:, 3] 
+        #         , 'k', linewidth = 2, label = 'missile')
+        # plt.plot(target._data[1:, 1], target._data[1:, 2], target._data[1:, 3]
+        #         , 'r', linewidth = 2, label = 'target')
             
         
         
@@ -323,8 +369,10 @@ for xtgt in range(4000, 10000, 1000):
     
     
     
-    
-    
+
+plt.show(block = False)
+# plt.pause(1e-3)
+
     
     
     

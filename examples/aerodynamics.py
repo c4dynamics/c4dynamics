@@ -1,17 +1,17 @@
 import numpy as np
 
 class aerodynamics():
-    
+  
     cD0 = 0.8
     cLa = 39
     cMa = cNb = -170 
     cMd = cNd = 250
     cMqcMadot = cNrcNbdot = -13000
  
-    k = 0.0305
+    k    = 0.0305
     
-    s = 0.0127
-    d = 0.127
+    s    = 0.0127
+    d    = 0.127
     xref = 1.35
     
         

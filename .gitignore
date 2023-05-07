@@ -1,5 +1,7 @@
 __pycache__/
+__pycache__/
 dontsync/
-doc/dontsync/
+# doc/dontsync/
 c4dout.txt
+c4dout.xlsx
 examples/freefallball.png
