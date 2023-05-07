@@ -8,6 +8,8 @@ class datapoint:
     the datapoint object is the most basic element in the translational dynamics domain.
     --
     TBD:
+      - there should be one abstrcact class \ inerface of a 'bodyw type which defines eqm(), store() etc.
+          and datapoint and rigidbody impement it. the body also includes the drawing functions  
       - all these nice things storage, plot etc. have to be move out of here. 
       - add an option in the constructor to select the variables required for storage. 
       - make a dictionary containing the variable name and the variable index in the data storage to save and to extract for plotting. 
@@ -72,6 +74,7 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
 
   # 
   # mass properties 
+  # kg 
   ## 
   m = 1     # mass 
 
@@ -266,11 +269,16 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
       plt.gca().invert_yaxis()
     else: 
       uconv = 1
-      if obj._didx[var] > 9:
+      if obj._didx[var] > 9: # 10 and above are angular variables 
         uconv = 180 / np.pi     
-      x = obj._data[1:, 0] # t 
+      
+      if not len(np.flatnonzero(obj._data[1:, 0] != -1)): # values for t weren't stored
+        x = range(len(obj._data[1:, 0])) # t is just indices 
+        xlabel = 'index'
+      else:       
+        x = obj._data[1:, 0] # t 
+        xlabel = 't'
       y = obj._data[1:, obj._didx[var]] * uconv # used selection 
-      xlabel = 't'
       ylabel = var
       title = var
     

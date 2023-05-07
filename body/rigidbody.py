@@ -1,5 +1,5 @@
 import numpy as np
-from scipy.integrate import solve_ivp 
+# from scipy.integrate import solve_ivp 
 
 import C4dynamics as c4d
 from .eqm6 import eqm6 
@@ -12,6 +12,7 @@ class rigidbody(c4d.datapoint):  #
   
   # 
   # euler angles 
+  #   rad 
   ##
   phi   = 0
   theta = 0
@@ -19,6 +20,7 @@ class rigidbody(c4d.datapoint):  #
   
   # 
   # angular rates 
+  #   rad / sec 
   ##
   p     = 0
   q     = 0
@@ -26,12 +28,15 @@ class rigidbody(c4d.datapoint):  #
   
   # 
   # abgular accelerations
+  #   rad / sec^2
+  ## 
   p_dot = 0
   q_dot = 0
   r_dot = 0
   
   # 
   # initial attitude
+  #   rad 
   ##
   phi0   = 0
   theta0 = 0
@@ -44,7 +49,7 @@ class rigidbody(c4d.datapoint):  #
   ixx = 0   # moment of inertia aboux x
   iyy = 0   # moment of inertia aboux y
   izz = 0   # moment of inertia aboux z
-  xcm = 0   # distance from nose to center of mass 
+  xcm = 0   # distance from nose to center of mass (m) 
   
   
   
@@ -65,7 +70,7 @@ class rigidbody(c4d.datapoint):  #
   # properties for integration
   ##  
   # _xs = np.zeros((1, 10))   # current state for integration
-  _dt = 1e-2
+  _dt = 1e-2 # when running free fall dt of .01sec is inaccurate. besides it seems like have no use. 
 
 
 
@@ -99,14 +104,23 @@ class rigidbody(c4d.datapoint):  #
 
   def store(obj, t = -1):
     obj._data = np.vstack((obj._data
-                           , np.array([t, obj.x, obj.y,  obj.z
-                                       , obj.vx, obj.vy, obj.vz 
-                                       , obj.ax, obj.ay, obj.az
-                                       , obj.phi, obj.theta, obj.psi
-                                       , obj.p, obj.q, obj.r
-                                       , obj.p_dot, obj.q_dot, obj.r_dot                                       
+                           , np.array([t, obj.x, obj.y,  obj.z      # 0 : 3
+                                       , obj.vx, obj.vy, obj.vz      # 4 : 6
+                                       , obj.ax, obj.ay, obj.az       # 7 : 9
+                                       , obj.phi, obj.theta, obj.psi   # 10 : 12
+                                       , obj.p, obj.q, obj.r            # 13 : 15
+                                       , obj.p_dot, obj.q_dot, obj.r_dot # 16 : 18                                      
                                        ]))).copy()
 
+
+
+  def get_phi(obj):
+      return obj._data[1:, 10]
+  # data_phi = property(get_phi, super(c4d.rigidbody).set_t,  super(rigidbody, obj).set_t)
+  def get_theta(obj):
+      return obj._data[1:, 11]
+  def get_psi(obj):
+      return obj._data[1:, 12]
 
   def run(obj, dt, forces, moments):
     # 

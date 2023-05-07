@@ -52,7 +52,7 @@ plt.rcParams['image.cmap'] = 'gray'
 #
 
 
-t = 0
+t  = 0
 dt = 5e-3
 tf = 10 # 10 # 60
 
@@ -61,12 +61,12 @@ tf = 10 # 10 # 60
 # define objects 
 ##
 missile = c4d.rigidbody()
-target = c4d.datapoint(x = 4000, y = 1000, z = -3000
+target  = c4d.datapoint(x = 4000, y = 1000, z = -3000
                         , vx = -250, vy = 0, vz = 0)
 seeker = c4d.seekers.lineofsight(dt, tau1 = 0.01, tau2 = 0.01)
-ctrl = mcontrol_system.control_system(dt)
-eng = mengine.engine()
-aero = maerodynamics.aerodynamics()
+ctrl   = mcontrol_system.control_system(dt)
+eng    = mengine.engine()
+aero   = maerodynamics.aerodynamics()
 # aero_fm = np.zeros(6)
 
 
@@ -79,20 +79,20 @@ vm = 30
 # atmospheric properties up to 2000m
 ##
 pressure = 101325 # pressure pascals
-rho = 1.225       # density kg/m^3
-vs = 340.29       # speed of sound m/s
+rho      = 1.225       # density kg/m^3
+vs       = 340.29       # speed of sound m/s
 
 # 
 # parameters for first example
 ##
-mach = 0.8
+mach        = 0.8
 
-missile.m = m0 = 85         # initial mass, kg
-mbo = 57                    # burnout mass, kg 
+missile.m   = m0   = 85         # initial mass, kg
+mbo         = 57                    # burnout mass, kg 
 missile.xcm = xcm0 = 1.55   # nose to center of mass length, m
-xcmbo = 1.35                # nose to cm after burnout, m
+xcmbo       = 1.35                # nose to cm after burnout, m
 missile.iyy = missile.izz = i0 = 61      
-ibo = 47                    # iyy izz at burnout 
+ibo         = 47                    # iyy izz at burnout 
 
 
 #
@@ -103,18 +103,18 @@ ibo = 47                    # iyy izz at burnout
 # pointed directly at the target at the instant of launch, and missile angular rates at launch are assumed to be negligible.
 # The unit vector uR in the direction from the missile to the target is calculated by normalizing the range vector R.
 ## 
-rTM = target.pos() - missile.pos()
-ucl = rTM / np.linalg.norm(rTM) # center line unit vector 
+rTM           = target.pos() - missile.pos()
+ucl           = rTM / np.linalg.norm(rTM) # center line unit vector 
 missile.vx, missile.vy, missile.vz = vm * ucl 
-missile.psi = np.arctan(ucl[1] / ucl[0])
+missile.psi   = np.arctan(ucl[1] / ucl[0])
 missile.theta = np.arctan(-ucl[2] / np.sqrt(ucl[0]**2 + ucl[1]**2))
-missile.phi = 0
-u, v, w = missile.BI() @ missile.vel()
-vc = np.array([0, 0, 0])
+missile.phi   = 0
+u, v, w       = missile.BI() @ missile.vel()
+vc            = np.array([0, 0, 0])
 # v_data = np.array([u, v, w])
 
-alpha = 0
-beta = 0
+alpha       = 0
+beta        = 0
 alpha_total = 0
 # alpha_total_data = alpha_total
 # prp_data = np.array([0, 0])
@@ -145,12 +145,12 @@ while t <= tf and h >= 0 and vc[0] >= 0:
     # 
     # guidance and control 
     ##
-    Gs = 4 * missile.V()
-    acmd = Gs * np.cross(wf, ucl)
-    ab_cmd = missile.BI() @ acmd 
+    Gs       = 4 * missile.V()
+    acmd     = Gs * np.cross(wf, ucl)
+    ab_cmd   = missile.BI() @ acmd 
     afp, afy = ctrl.update(ab_cmd, Q)
-    d_pitch = afp - alpha 
-    d_yaw = afy - beta  
+    d_pitch  = afp - alpha 
+    d_yaw    = afy - beta  
 
 
     # 
@@ -245,6 +245,13 @@ while t <= tf and h >= 0 and vc[0] >= 0:
     h = -missile.z   # missile altitude above sea level, m
     
 
+import pickle
+with open('D:\projects\d3models\eulers.pkl', 'wb') as f:
+    pickle.dump([missile.get_phi(), missile.get_theta(), missile.get_psi()], f)
+
+# import pickle
+# with open('objs.pkl', 'rb') as f:
+#     X_train, y_train, X_val, y_val, X_test, y_test, X_dev, y_dev = pickle.load(f)
 
 
 fig = plt.figure()
