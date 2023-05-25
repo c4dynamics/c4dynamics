@@ -5,3 +5,12 @@ dontsync/
 c4dout.txt
 c4dout.xlsx
 examples/freefallball.png
+doc/posts - Shortcut.lnk
+prll_output.txt
+*.pyc
+doc/MilHandbook Missile flight simulation.pdf.lnk
+*.pyc
+body/__pycache__/datapoint.cpython-37.pyc
+body/__pycache__/rigidbody.cpython-37.pyc
+doc/posts.lnk
+doc/Science.lnk
