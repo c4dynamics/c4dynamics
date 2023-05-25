@@ -29,7 +29,21 @@ class control_system:
         # # cHaf partial deriv of fin moment coef wrt fin aoa
         # mf = cHaf * af * Q * sf * df 
         
-        obj.afp = obj.afp * np.exp(-obj.dt / obj.tau) - obj.Gn * ab_cmd[2] / Q * (1 - np.exp(-obj.dt / obj.tau))
-        obj.afy = obj.afy * np.exp(-obj.dt / obj.tau) + obj.Gn * ab_cmd[1] / Q * (1 - np.exp(-obj.dt / obj.tau))
+        
+        
+        
+        
+        
+        afp = -obj.Gn * ab_cmd[2] / Q
+        afy =  obj.Gn * ab_cmd[1] / Q
+        
+        obj.afp = obj.afp * np.exp(-obj.dt / obj.tau) + afp * (1 - np.exp(-obj.dt / obj.tau))
+        obj.afy = obj.afy * np.exp(-obj.dt / obj.tau) + afy * (1 - np.exp(-obj.dt / obj.tau))
+        
+        if abs(obj.afp) > np.deg2rad(20):
+            obj.afp = np.sign(obj.afp) * np.deg2rad(20)
+        if abs(obj.afy) > np.deg2rad(20):
+            obj.afy = np.sign(obj.afy) * np.deg2rad(20)
+        
         
         return obj.afp, obj.afy 

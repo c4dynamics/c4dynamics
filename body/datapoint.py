@@ -86,7 +86,7 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
   # 
   # variables for storage
   ##
-  _data = np.zeros((1, 10))
+  _data = [] # np.zeros((1, 10))
   _didx = {'t': 0, 'x': 1, 'y': 2, 'z': 3, 'vx': 4, 'vy': 5, 'vz': 6, 'ax': 7, 'ay': 8, 'az': 9}
   
 
@@ -116,52 +116,71 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
   
   # x = property(x, set_x)
   
+
+
+
+
+
   def store(obj, t = -1):
-    obj._data = np.vstack((obj._data
-                           , np.array([t, obj.x, obj.y,  obj.z
-                                       , obj.vx, obj.vy, obj.vz 
-                                       , obj.ax, obj.ay, obj.az]))).copy()
+    '''  
+      Keep in mind that creating a new array and copying elements can be computationally expensive, 
+      especially for large arrays. If you frequently need to grow arrays, it may be more efficient 
+      to use a different data structure, such as a Python list or an expandable array class from 
+      a third-party library like NumPy.
+      
+      it's good advise to change to a list and in the end to conver it back to numpy array.
+      the key distinction is that np.array(my_list) always creates a new array, whereas np.asarray(my_list) 
+      returns the original array if my_list is already a NumPy array.
+    '''
+    # obj._data = np.vstack((obj._data
+    #                        , np.array([t, obj.x, obj.y,  obj.z
+    #                                    , obj.vx, obj.vy, obj.vz 
+    #                                    , obj.ax, obj.ay, obj.az]))).copy()
+    obj._data.append([t, obj.x, obj.y,  obj.z
+                        , obj.vx, obj.vy, obj.vz 
+                        , obj.ax, obj.ay, obj.az])
 
   def set_t(): print('setting or deleting stored data is impossible')
   
   def get_t(obj):
-    return obj._data[1:, 0]
+    return np.array(obj._data)[:, 0] if obj._data else np.empty(1)
   data_t = property(get_t, set_t, set_t)
 
   def get_x(obj):
-    return obj._data[1:, 1]
+    return np.array(obj._data)[:, 1] if obj._data else np.empty(1)
+ 
   data_x = property(get_x, set_t, set_t)
   
   def get_y(obj):
-    return obj._data[1:, 2]
+    return np.array(obj._data)[:, 2] if obj._data else np.empty(1)
   data_y = property(get_y, set_t, set_t)
   
   def get_z(obj):
-    return obj._data[1:, 3]
+    return np.array(obj._data)[:, 3] if obj._data else np.empty(1)
   data_z = property(get_z, set_t, set_t)
   
   def get_vx(obj):
-    return obj._data[1:, 4]
+    return np.array(obj._data)[:, 4] if obj._data else np.empty(1)
   data_vx = property(get_vx, set_t, set_t)
   
   def get_vy(obj):
-    return obj._data[1:, 5]
+    return np.array(obj._data)[:, 5] if obj._data else np.empty(1)
   data_vy = property(get_vy, set_t, set_t)
   
   def get_vz(obj):
-    return obj._data[1:, 6]
+    return np.array(obj._data)[:, 6] if obj._data else np.empty(1)
   data_vz = property(get_vz, set_t, set_t)
   
   def get_ax(obj):
-    return obj._data[1:, 7]
+    return np.array(obj._data)[:, 7] if obj._data else np.empty(1)
   data_ax = property(get_ax, set_t, set_t)
   
   def get_ay(obj):
-    return obj._data[1:, 8]
+    return np.array(obj._data)[:, 8] if obj._data else np.empty(1)
   data_ay = property(get_ay, set_t, set_t)
   
   def get_az(obj):
-    return obj._data[1:, 9]
+    return np.array(obj._data)[:, 9] if obj._data else np.empty(1)
   data_az = property(get_az, set_t, set_t)
   
   # 
@@ -253,16 +272,16 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
     if var.lower() == 'top':
       # x axis: y data
       # y axis: x data 
-      x = obj._data[1:, 2] # y
-      y = obj._data[1:, 1] # x
+      x = obj.get_y()
+      y = obj.get_x()
       xlabel = 'crossrange'
       ylabel = 'downrange'
       title = 'top view'
     elif var.lower() == 'side':
       # x axis: x data
       # y axis: z data 
-      x = obj._data[1:, 1] # x
-      y = obj._data[1:, 3] # z
+      x = obj.get_x()
+      y = obj.get_z()
       xlabel = 'downrange'
       ylabel = 'altitude'
       title = 'side view'
@@ -272,13 +291,13 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
       if obj._didx[var] > 9: # 10 and above are angular variables 
         uconv = 180 / np.pi     
       
-      if not len(np.flatnonzero(obj._data[1:, 0] != -1)): # values for t weren't stored
-        x = range(len(obj._data[1:, 0])) # t is just indices 
+      if not len(np.flatnonzero(obj.get_t() != -1)): # values for t weren't stored
+        x = range(len(np.array(obj.get_t()))) # t is just indices 
         xlabel = 'index'
       else:       
-        x = obj._data[1:, 0] # t 
+        x = np.array(obj.get_t()) # t 
         xlabel = 't'
-      y = obj._data[1:, obj._didx[var]] * uconv # used selection 
+      y = np.array(obj._data)[:, obj._didx[var]] * uconv if obj._data else np.empty(1) # used selection 
       ylabel = var
       title = var
     

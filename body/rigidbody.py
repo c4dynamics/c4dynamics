@@ -62,7 +62,7 @@ class rigidbody(c4d.datapoint):  #
   # 
   # variables for storage
   ##
-  _data = np.zeros((1, 19))
+  _data = [] # np.zeros((1, 19))
   _didx = {'t': 0, 'x': 1, 'y': 2, 'z': 3, 'vx': 4, 'vy': 5, 'vz': 6, 'ax': 7, 'ay': 8, 'az': 9 
            , 'phi': 10, 'theta': 11, 'psi': 12, 'p': 13, 'q': 14, 'r': 15, 'p_dot': 16, 'q_dot': 17, 'r_dot': 18}
   
@@ -103,24 +103,29 @@ class rigidbody(c4d.datapoint):  #
 
 
   def store(obj, t = -1):
-    obj._data = np.vstack((obj._data
-                           , np.array([t, obj.x, obj.y,  obj.z      # 0 : 3
-                                       , obj.vx, obj.vy, obj.vz      # 4 : 6
-                                       , obj.ax, obj.ay, obj.az       # 7 : 9
-                                       , obj.phi, obj.theta, obj.psi   # 10 : 12
-                                       , obj.p, obj.q, obj.r            # 13 : 15
-                                       , obj.p_dot, obj.q_dot, obj.r_dot # 16 : 18                                      
-                                       ]))).copy()
-
+    # obj._data = np.vstack((obj._data
+    #                        , np.array([t, obj.x, obj.y,  obj.z      # 0 : 3
+    #                                    , obj.vx, obj.vy, obj.vz      # 4 : 6
+    #                                    , obj.ax, obj.ay, obj.az       # 7 : 9
+    #                                    , obj.phi, obj.theta, obj.psi   # 10 : 12
+    #                                    , obj.p, obj.q, obj.r            # 13 : 15
+    #                                    , obj.p_dot, obj.q_dot, obj.r_dot # 16 : 18                                      
+    #                                    ]))).copy()
+    obj._data.append([t, obj.x, obj.y,  obj.z      # 0 : 3
+                      , obj.vx, obj.vy, obj.vz      # 4 : 6
+                      , obj.ax, obj.ay, obj.az       # 7 : 9
+                      , obj.phi, obj.theta, obj.psi   # 10 : 12
+                      , obj.p, obj.q, obj.r            # 13 : 15
+                      , obj.p_dot, obj.q_dot, obj.r_dot])
 
 
   def get_phi(obj):
-      return obj._data[1:, 10]
+      return np.array(obj._data)[:, 10] if obj._data else np.empty(1)
   # data_phi = property(get_phi, super(c4d.rigidbody).set_t,  super(rigidbody, obj).set_t)
   def get_theta(obj):
-      return obj._data[1:, 11]
+      return np.array(obj._data)[:, 11] if obj._data else np.empty(1)
   def get_psi(obj):
-      return obj._data[1:, 12]
+      return np.array(obj._data) if obj._data else np.empty(1)
 
   def run(obj, dt, forces, moments):
     # 
