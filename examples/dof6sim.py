@@ -71,9 +71,13 @@ plt.close('all')
 #
 
 
-t  = 0
 dt = 5e-3
-tf = 100 # 10 # 60
+
+#
+# input 
+## 
+vm = 30
+
 
 
 #
@@ -88,10 +92,9 @@ aero   = maerodynamics.aerodynamics()
 # aero_fm = np.zeros(6)
 
 
-#
-# input 
-## 
-vm = 30
+
+
+
 
 # 
 # atmospheric properties up to 2000m
@@ -111,6 +114,7 @@ missile.xcm = xcm0 = 1.55       # nose to center of mass length, m
 xcmbo       = 1.35              # nose to cm after burnout, m
 missile.iyy = missile.izz = i0 = 61      
 ibo         = 47                # iyy izz at burnout 
+
 
 
 #
@@ -146,12 +150,17 @@ d_yaw    = 0
 
 ab_cmd = np.zeros(3)
 
+
+
 delta_data   = []
 omegaf_data  = []
 acc_data     = []
 aoa_data     = []
 moments_data = []
 
+
+t  = 0
+tf = 100 # 10 # 60
 
 h = -missile.z # missile altitude above sea level 
 
@@ -336,6 +345,7 @@ omegaf_data = np.asarray(omegaf_data)
 acc_data = np.asarray(acc_data)
 aoa_data = np.asarray(aoa_data)
 moments_data = np.asanyarray(moments_data)
+
 
 
 fig, (ax1, ax2) = plt.subplots(2, 1)

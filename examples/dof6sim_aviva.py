@@ -45,7 +45,7 @@ plt.ion()
 # %load_ext autoreload
 # %autoreload 2
 
-output = 2
+output = 1
 cfile = 'c4dout'
 if os.path.isfile(cfile + '.txt'):
     os.remove(cfile + '.txt')
@@ -53,8 +53,7 @@ if os.path.isfile(cfile + '.txt'):
 
 if output == 1: # print to file 
     with open(cfile + '.txt', 'at') as f:            
-            f.write('%15s %15s %15s %15s %15s %15s \n' 
-            % ('target range', 'time', 'position', 'velocity', 'acceleration', 'miss distance'))
+        f.write('%6s %6s %6s \n' % ('tau_s', 'tau_c', 'miss distance'))
 
 
 # 
@@ -63,9 +62,23 @@ if output == 1: # print to file
 # Now you need to make sure that each plot indeed is created in a different figure. That can be 
 #       achieved using plt.figure(fignumber) where fignumber is a number starting at index 1.
 #
+# tconst = [(0.01, 0.04) 
+#           , (0.02, 0.05)
+#           , (0.03, 0.06)
+#           , (0.04, 0.07)
+#           , (0.05, 0.08)
+#           , (0.06, 0.09)
+#           , (0.07, 0.1)
+#           , (0.08, 0.11)]
 
-for xtgt in range(1000, 10000, 1000):
+tauseeker0 = 2.0 # 0.01
+tauctrl0 = 2.0 # 0.04
 
+for tau in range(100):
+    tauseeker = np.max((tauseeker0 + np.random.randn(), 0.01))
+    tauctrl = np.max((tauctrl0 + np.random.randn(), 0.01))
+    
+    print('taus ', tauseeker, ', tauc', tauctrl)
     t = 0
     dt = 5e-3
     tf = 10 # 10 # 60
@@ -74,10 +87,10 @@ for xtgt in range(1000, 10000, 1000):
     # define objects 
     ##
     missile = c4d.rigidbody()
-    target = c4d.datapoint(x = xtgt, y = 1000, z = -3000
+    target = c4d.datapoint(x = 6500, y = 1000, z = -3000
                             , vx = -250, vy = 0, vz = 0)
-    seeker = c4d.seekers.lineofsight(dt, tau1 = 0.01, tau2 = 0.01)
-    ctrl = mcontrol_system.control_system(dt)
+    seeker = c4d.seekers.lineofsight(dt, tau1 = 0.01, tau2 = tauseeker)
+    ctrl = mcontrol_system.control_system(tauctrl)
     eng = mengine.engine()
     aero = maerodynamics.aerodynamics()
     # aero_fm = np.zeros(6)
@@ -174,7 +187,7 @@ for xtgt in range(1000, 10000, 1000):
         #
         # aerodynamics forces 
         ##    
-        cL, cD = aero.f_coef(alpha_total)
+        cL, cD = aero.f_coef(mach, alpha_total)
         L = Q * aero.s * cL
         D = Q * aero.s * cD
         
@@ -189,7 +202,7 @@ for xtgt in range(1000, 10000, 1000):
         # 
         # aerodynamics moments 
         ##
-        cM, cN = aero.m_coef(alpha, beta, d_pitch, d_yaw 
+        cM, cN = aero.m_coef(mach, alpha, beta, d_pitch, d_yaw 
                             , missile.xcm, Q, missile.V(), fAb[1], fAb[2]
                             , missile.q, missile.r)
         
@@ -262,9 +275,18 @@ for xtgt in range(1000, 10000, 1000):
         
         
 
-    tfinal = t
-    md = np.linalg.norm(target.pos() - missile.pos())
-    print('miss: %.2f, flight time: %.1f' % (md, tfinal))
+    # tfinal = t
+    # md = np.linalg.norm(target.pos() - missile.pos())
+    vTM = target.vel() - missile.vel() # missile-target relative velocity 
+    uvTM = vTM / np.linalg.norm(vTM)
+
+    rTM = target.pos() - missile.pos() # relative position 
+
+    md = np.linalg.norm(rTM - np.dot(rTM, uvTM) * uvTM)
+    tfinal = t - np.dot(rTM, uvTM) / np.linalg.norm(vTM)
+
+
+    print('miss: %.5f, flight time: %.1f' % (md, tfinal))
 
     if output == 0: # do nothing
         pass 
@@ -294,23 +316,23 @@ for xtgt in range(1000, 10000, 1000):
             ## 
             
 
-            acc_rel = np.linalg.norm(np.array([target._data[1:, 7] - missile._data[1:, 7]
-                            , target._data[1:, 8] - missile._data[1:, 8]
-                            , target._data[1:, 9] - missile._data[1:, 9]]).T
-                            , ord = 2, axis = 1)
-            vel_rel = np.linalg.norm(np.array([target._data[1:, 4] - missile._data[1:, 4]
-                            , target._data[1:, 5] - missile._data[1:, 5]
-                            , target._data[1:, 6] - missile._data[1:, 6]]).T
-                            , ord = 2, axis = 1)
-            pos_rel = np.linalg.norm(np.array([target._data[1:, 1] - missile._data[1:, 1]
-                            , target._data[1:, 2] - missile._data[1:, 2]
-                            , target._data[1:, 3] - missile._data[1:, 3]]).T
-                            , ord = 2, axis = 1)
-            tgtrng = np.sqrt(target.x0**2 + target.y0**2 + target.z0**2) * np.ones(pos_rel.shape).astype(int)
-            md_vec = md * np.ones(pos_rel.shape)
+            # acc_rel = np.linalg.norm(np.array([target.get_ax() - missile.get_ax()
+            #                 , target.get_ay() - missile.get_ay()
+            #                 , target.get_az() - missile.get_az()]).T
+            #                 , ord = 2, axis = 1)
+            # vel_rel = np.linalg.norm(np.array([target.get_vx() - missile.get_vx()
+            #                 , target.get_vy() - missile.get_vy()
+            #                 , target.get_vz() - missile.get_vz()]).T
+            #                 , ord = 2, axis = 1)
+            # pos_rel = np.linalg.norm(np.array([target.get_x() - missile.get_x()
+            #                 , target.get_y() - missile.get_y()
+            #                 , target.get_z() - missile.get_z()]).T
+            #                 , ord = 2, axis = 1)
+            # tgtrng = np.sqrt(target.x0**2 + target.y0**2 + target.z0**2) * np.ones(pos_rel.shape).astype(int)
+            # md_vec = md * np.ones(pos_rel.shape)
 
-            np.savetxt(f, (np.array([tgtrng, missile._data[1:, 0], pos_rel, vel_rel, acc_rel, md_vec]).T) 
-                        , '%15d%15.4f%15.0f%15.1f%15.2f%15.2f')
+            # np.savetxt(f, (tauseeker, tauctrl, md), '%6.3f %6.3f %6.3f')
+            f.write('%6.3f %6.3f %6.3f \n' % (tauseeker, tauctrl, md))
 
 
     elif output == 2: # plot figures 
