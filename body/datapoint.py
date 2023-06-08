@@ -86,12 +86,19 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
   # 
   # variables for storage
   ##
-  _data = [] # np.zeros((1, 10))
+  # _data = [] # np.zeros((1, 10))
   _didx = {'t': 0, 'x': 1, 'y': 2, 'z': 3, 'vx': 4, 'vy': 5, 'vz': 6, 'ax': 7, 'ay': 8, 'az': 9}
   
 
 
   def __init__(obj, **kwargs):
+    # reset mutable attributes:
+    # 
+    # variables for storage
+    ##
+    obj._data = [] # np.zeros((1, 19))
+    # obj.data_t = None
+
     obj.__dict__.update(kwargs)
     
     obj.x0 = obj.x
@@ -144,44 +151,49 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
   
   def get_t(obj):
     return np.array(obj._data)[:, 0] if obj._data else np.empty(1)
-  data_t = property(get_t, set_t, set_t)
+  # the reason i commented it is these are mutable. and mutable
+  #   are not reset upon calling the constructor. 
+  #   and when i tried to reset them manually by:
+  #     obj.data_t = None 
+  #   i got an error because the setting property is not defined. 
+  
+  # data_t = property(get_t, set_t, set_t)
 
   def get_x(obj):
     return np.array(obj._data)[:, 1] if obj._data else np.empty(1)
- 
-  data_x = property(get_x, set_t, set_t)
+  # data_x = property(get_x, set_t, set_t)
   
   def get_y(obj):
     return np.array(obj._data)[:, 2] if obj._data else np.empty(1)
-  data_y = property(get_y, set_t, set_t)
+  # data_y = property(get_y, set_t, set_t)
   
   def get_z(obj):
     return np.array(obj._data)[:, 3] if obj._data else np.empty(1)
-  data_z = property(get_z, set_t, set_t)
+  # data_z = property(get_z, set_t, set_t)
   
   def get_vx(obj):
     return np.array(obj._data)[:, 4] if obj._data else np.empty(1)
-  data_vx = property(get_vx, set_t, set_t)
+  # data_vx = property(get_vx, set_t, set_t)
   
   def get_vy(obj):
     return np.array(obj._data)[:, 5] if obj._data else np.empty(1)
-  data_vy = property(get_vy, set_t, set_t)
+  # data_vy = property(get_vy, set_t, set_t)
   
   def get_vz(obj):
     return np.array(obj._data)[:, 6] if obj._data else np.empty(1)
-  data_vz = property(get_vz, set_t, set_t)
+  # data_vz = property(get_vz, set_t, set_t)
   
   def get_ax(obj):
     return np.array(obj._data)[:, 7] if obj._data else np.empty(1)
-  data_ax = property(get_ax, set_t, set_t)
+  # data_ax = property(get_ax, set_t, set_t)
   
   def get_ay(obj):
     return np.array(obj._data)[:, 8] if obj._data else np.empty(1)
-  data_ay = property(get_ay, set_t, set_t)
+  # data_ay = property(get_ay, set_t, set_t)
   
   def get_az(obj):
     return np.array(obj._data)[:, 9] if obj._data else np.empty(1)
-  data_az = property(get_az, set_t, set_t)
+  # data_az = property(get_az, set_t, set_t)
   
   # 
   # to vectors:

@@ -28,7 +28,9 @@ importlib.reload(maerodynamics)
 # from C4dynamics.tools import gif_tools
 
 from math import isnan 
+import time 
 
+tic = time.time()
 
 from matplotlib import pyplot as plt
 # This is a bit of magic to make matplotlib figures appear inline in the notebook
@@ -74,7 +76,7 @@ if output == 1: # print to file
 tauseeker0 = 2.0 # 0.01
 tauctrl0 = 2.0 # 0.04
 
-for tau in range(100):
+for tau in range(1000):
     tauseeker = np.max((tauseeker0 + np.random.randn(), 0.01))
     tauctrl = np.max((tauctrl0 + np.random.randn(), 0.01))
     
@@ -286,7 +288,7 @@ for tau in range(100):
     tfinal = t - np.dot(rTM, uvTM) / np.linalg.norm(vTM)
 
 
-    print('miss: %.5f, flight time: %.1f' % (md, tfinal))
+    print('tauseeker: %.3f, tauctrl: %.3f, miss: %.5f, flight time: %.1f' % (tauseeker, tauctrl, md, tfinal))
 
     if output == 0: # do nothing
         pass 
@@ -390,7 +392,7 @@ for tau in range(100):
     
     
     
-    
+print('total running time: ', time.time() - tic)
 
 plt.show(block = False)
 # plt.pause(1e-3)
