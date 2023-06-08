@@ -62,7 +62,7 @@ class rigidbody(c4d.datapoint):  #
   # 
   # variables for storage
   ##
-  _data = [] # np.zeros((1, 19))
+  # _data = [] # np.zeros((1, 19))
   _didx = {'t': 0, 'x': 1, 'y': 2, 'z': 3, 'vx': 4, 'vy': 5, 'vz': 6, 'ax': 7, 'ay': 8, 'az': 9 
            , 'phi': 10, 'theta': 11, 'psi': 12, 'p': 13, 'q': 14, 'r': 15, 'p_dot': 16, 'q_dot': 17, 'r_dot': 18}
   
@@ -80,6 +80,14 @@ class rigidbody(c4d.datapoint):  #
   # bounded methods 
   ##
   def __init__(obj, **kwargs):
+    
+    # reset mutable attributes:
+    # 
+    # variables for storage
+    ##
+    obj._data = [] # np.zeros((1, 19))
+    
+    
     obj.__dict__.update(kwargs)
 
     obj.phi0   = obj.phi
