@@ -102,6 +102,7 @@ rdr = c4d.seekers.radar(sf = 0.9, bias = 0, noisestd = 1)
   <tbody>
     <tr>	
       <td align="center"><a href="https://github.com/C4dynamics"><img src="https://github.com/C4dynamics/C4dynamics/blob/main/tools/ziv_noa.jpg" width="100px;" alt="Ziv Meri"/> <br /><sub><b>Ziv Meri</b></sub></a><br /><a href="https://github.com/C4dynamics" title="Code">💻</a></td>
+      <td align="center"><a href="https://www.linkedin.com/in/aviva-shneor-simhon-17b733b/"><img src="https://media.licdn.com/dms/image/C4D03AQFqQrWM1Wvk-Q/profile-displayphoto-shrink_800_800/0/1621872166474?e=1694649600&v=beta&t=w6Sm-LSXqQFqR0wUTk8lt4Kx_eawUldkWYlwxQ5SXss" width="100px;" alt="Aviva Shneor Simhon"/> <br /><sub><b>Aviva Shneor Simhon</b></sub></a><br /><a href="https://www.linkedin.com/in/aviva-shneor-simhon-17b733b/" title="Code">💻</a></td>
       <td align="center"><a href="https://chat.openai.com/chat"><img src="https://github.com/C4dynamics/C4dynamics/blob/main/tools/openai-featured.png" width="100px;"/> <br /><sub><b>Chat GPT</b></sub></a><br /><a href="https://chat.openai.com/chat" title="Support">💻</a></td>
     </tr>
   </tbody>
