@@ -1,3 +1,7 @@
+#
+# c4dynamics __init__
+##
+
 """
 C4dynamics
 =====
@@ -50,34 +54,19 @@ Documentation is currently availble through examples, readme pages, and inline c
 # from .datapoint import c_datapoint 
 # from .rigidbody import c_rigidbody
 from .rotmat import *
-from .general import * 
-# from .arrays import c_array
-# from .cnvrt import *
 
 from . import params 
-from . import tools
+from . import utils
 
 #
 # modules 
 ## 
-# import sys, os
-# sys.path.append(os.getcwd() + '/../body')
-# sys.path.append(os.getcwd() + '/../filters')
-# sys.path.append(os.getcwd() + '/../seekers')
-# sys.path.append(os.getcwd() + '/../seekers')
+from .src.main.py.body.datapoint import datapoint 
+from .src.main.py.body.rigidbody import rigidbody 
 
-
-from .body.datapoint import datapoint 
-from .body.rigidbody import rigidbody 
-# from .body.sixdof import sixdof
-
-# from .filters import *
-from . import seekers
-from . import path_planning 
-
-# from . import linalg
-# __all__.extend(['linalg', 'fft', 'random', 'ctypeslib', 'ma'])
-from . import filters
-# __all__.extend(['filters'])
+from .src.main.py import seekers
+from .src.main.py import path_planning 
+from .src.main.py import filters
+from .src.main.py import detectors
 
 

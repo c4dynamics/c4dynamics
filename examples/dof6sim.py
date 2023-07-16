@@ -17,7 +17,7 @@
 import time
 tic = time.time()
 
-from scipy.integrate import solve_ivp 
+# from scipy.integrate import solve_ivp 
 import numpy as np
 
 import sys, os, importlib
