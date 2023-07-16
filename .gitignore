@@ -1,33 +1,45 @@
 __pycache__/
-__pycache__/
+*.pyc
+src/__pycache__/
+src/main/__pycache__/
+src/main/py/__pycache__/
+src/main/py/body/__pycache__/
+src/main/py/detectors/__pycache__/
+src/main/py/filters/__pycache__/
+src/main/py/path_planning/__pycache__/
+src/main/py/pendulums/__pycache__/
+src/main/py/sensors/__pycache__/
+
 dontsync/
-# doc/dontsync/
+
 c4dout.txt
 c4dout.xlsx
+
+examples/dof6sim_aviva_old.py
 examples/freefallball.png
-doc/posts - Shortcut.lnk
+examples/freefall_2prll.py
+examples/hammer.py
+
 prll_output.txt
-*.pyc
+
+
 doc/MilHandbook Missile flight simulation.pdf.lnk
-*.pyc
-body/__pycache__/datapoint.cpython-37.pyc
-body/__pycache__/rigidbody.cpython-37.pyc
+# doc/dontsync/
+doc/posts - Shortcut.lnk
 doc/posts.lnk
 doc/Science.lnk
+doc/physics vs data summary.pdf
+
 c4dout_1.xlsx
-.gitignore
 c4dout_a.txt
 c4dout_2.xlsx
 prof.txt
-examples/freefall_2prll.py
-examples/hammer.py
-*.pyc
-body/__pycache__/datapoint.cpython-37.pyc
-body/__pycache__/rigidbody.cpython-37.pyc
 c4dout_1.txt
-examples/dof6sim_aviva_old.py
+
 _img_movie.gif
+
 vslam_roadmap.sty
-doc/physics vs data summary.pdf
 vslam_roadmap.txt
+
 .venv/
+
