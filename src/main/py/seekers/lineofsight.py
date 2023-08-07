@@ -29,8 +29,8 @@ class lineofsight:
   def __init__(obj, dt, tau1 = 0.05, tau2 = 0.05, ideal = False): #**kwargs):
     # obj.__dict__.update(kwargs)
     obj.dt = dt
-    obj.tau1 = tau1 
-    obj.tau2 = tau2 
+    obj.tau1 = tau1 # tracking loop time constant 
+    obj.tau2 = tau2 # seeker signal processing time constant  
     obj.isideal = ideal 
     
   
@@ -47,6 +47,7 @@ class lineofsight:
     # achieved seeker-head angular rate vector
     ##
     obj.omega_ach = obj.omega_ach * np.exp(-obj.dt / obj.tau1) + obj.omega * (1 - np.exp(-obj.dt / obj.tau1)) # lag 
+    
     # 
     # final processed tracking rate signal vector 
     ## 

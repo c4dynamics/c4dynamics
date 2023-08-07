@@ -264,11 +264,12 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
   ##
   def draw(obj, var):
     from matplotlib import pyplot as plt
-    plt.rcParams['figure.figsize'] = (5.0, 4.0) # set default size of plots
-    # plt.rcParams['image.interpolation'] = 'nearest'
+    plt.rcParams['figure.figsize'] = (6.0, 4.0) # set default size of plots
     # plt.rcParams['image.cmap'] = 'gray'
-    plt.rcParams["font.family"] = "Times New Roman"
-    plt.rcParams["font.size"] = 14
+    plt.rcParams["font.size"] = 12
+    plt.rcParams['image.interpolation'] = 'nearest'
+    plt.rcParams["font.family"] = "Times New Roman"   # "Britannic Bold" # "Modern Love"#  "Corbel Bold"# 
+    plt.style.use('dark_background')  # 'default' # 'seaborn' # 'fivethirtyeight' # 'classic' # 'bmh'
     
     plt.ion()
     # plt.show()
@@ -314,14 +315,14 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
       title = var
     
     
-    plt.plot(x, y, 'k', linewidth = 2)
+    plt.plot(x, y, 'g', linewidth = 2)
 
     plt.title(title)
     # plt.xlim(0, 1000)
     # plt.ylim(0, 1000)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
-    plt.grid()
+    plt.grid(alpha = 0.5)
     # plt.axis('off')
     # plt.savefig(obj.fol + "/" + var) 
     fig.tight_layout()
