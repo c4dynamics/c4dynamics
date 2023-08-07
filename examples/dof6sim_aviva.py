@@ -92,6 +92,7 @@ for tau in range(1000):
     target = c4d.datapoint(x = 6500, y = 1000, z = -3000
                             , vx = -250, vy = 0, vz = 0)
     seeker = c4d.seekers.lineofsight(dt, tau1 = 0.01, tau2 = tauseeker)
+    # seeker = c4d.seekers.radar()
     ctrl = mcontrol_system.control_system(tauctrl)
     eng = mengine.engine()
     aero = maerodynamics.aerodynamics()

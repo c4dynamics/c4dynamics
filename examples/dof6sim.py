@@ -44,31 +44,8 @@ importlib.reload(maerodynamics)
 # from C4dynamics.tools import gif_tools
 
 # from math import isnan 
-
-
 from matplotlib import pyplot as plt
-# This is a bit of magic to make matplotlib figures appear inline in the notebook
-# rather than in a new window.
-# %matplotlib inline
-plt.rcParams['figure.figsize'] = (5.0, 4.0) # set default size of plots
-plt.rcParams['image.interpolation'] = 'nearest'
-plt.rcParams['image.cmap'] = 'gray'
-plt.ion()
-plt.close('all')
 
-# plt.rcParams['text.usetex'] = True
-
-# Some more magic so that the notebook will reload external python modules;
-# see http://stackoverflow.com/questions/1907993/autoreload-of-modules-in-ipython
-# %load_ext autoreload
-# %autoreload 2
-
-# 
-# plt.show() plots all the figures present in the state machine. Calling it only at the end of 
-#       the script, ensures that all previously created figures are plotted.
-# Now you need to make sure that each plot indeed is created in a different figure. That can be 
-#       achieved using plt.figure(fignumber) where fignumber is a number starting at index 1.
-#
 
 
 dt = 5e-3
@@ -348,27 +325,120 @@ moments_data = np.asanyarray(moments_data)
 
 
 
+
+
+
+
+#
+# figures
+##
+
+plt.rcParams["font.family"] = "Times New Roman" # "Britannic Bold" # "Modern Love"#  "Corbel Bold"# 
+plt.rcParams["font.size"] = 24
+plt.style.use('dark_background')  # 'default' # 'seaborn' # 'fivethirtyeight' # 'classic' # 'bmh'# plt.style.use('ggplot') # 
+plt.rcParams['figure.figsize'] = (6.0, 4.0) # set default size of plots
+plt.rcParams['image.interpolation'] = 'nearest'
+# plt.rcParams['image.cmap'] = 'gray'
+# plt.rcParams['text.usetex'] = True
+
+plt.ion()
+plt.close('all')
+
+# Some more magic so that the notebook will reload external python modules;
+# see http://stackoverflow.com/questions/1907993/autoreload-of-modules-in-ipython
+# %load_ext autoreload
+# %autoreload 2
+
+# 
+# plt.show() plots all the figures present in the state machine. Calling it only at the end of 
+#       the script, ensures that all previously created figures are plotted.
+# Now you need to make sure that each plot indeed is created in a different figure. That can be 
+#       achieved using plt.figure(fignumber) where fignumber is a number starting at index 1.
+#
+
+
+
 fig, (ax1, ax2) = plt.subplots(2, 1)
 fig.tight_layout()
 
-ax1.plot(missile.get_x(), missile.get_y(), 'k', linewidth = 2, label = 'missile')
-ax1.plot(target.get_x(), target.get_y(), 'r', linewidth = 2, label = 'target')
-ax1.set_title('top view')
-ax1.set(xlabel = 'downrange', ylabel = 'crossrange')
-ax1.set_xlim(-500, 4500)
-ax1.set_ylim(-1500, 1500)
-ax1.grid()
-ax1.legend()
-ax1.invert_yaxis()
 
-ax2.plot(missile.get_x(), -missile.get_z(), 'k', linewidth = 2, label = 'missile')
-ax2.plot(target.get_x(), -target.get_z(), 'r', linewidth = 2, label = 'target')
-ax2.set_title('side view')
-ax2.set(xlabel = 'downrange', ylabel = 'altitude')
-ax2.grid()
-ax2.legend()
-ax2.set_xlim(-500, 4500)
-ax2.set_ylim(0, 4000)
+ax1.plot(missile.get_x(), -missile.get_z() * 0.3048, 'b', linewidth = 4, label = 'missile')
+ax1.plot(target.get_x(), -target.get_z() * 0.3048, 'r', linewidth = 4, label = 'target')
+ax1.set_title('Side View')
+ax1.set(xlabel = 'Downrange (m)', ylabel = 'Altitude (ft)')
+ax1.set_xlim(0, 4000)
+ax1.set_ylim(0, 1100)
+ax1.grid(alpha = .5)
+ax1.legend(fontsize = 14) # title = '#trk', loc = 'center left', bbox_to_anchor = (1, 0.5))
+
+ax2.plot(missile.get_x(), missile.get_y(), 'b', linewidth = 4, label = 'missile')
+ax2.plot(target.get_x(), target.get_y(), 'r', linewidth = 4, label = 'target')
+ax2.set_title('Top View')
+ax2.set(xlabel = 'Downrange (m)', ylabel = 'Crossrange (m)')
+ax2.set_xlim(0, 4000)
+ax2.set_ylim(0, 1100)
+ax2.grid(alpha = .5, which = 'both')
+ax2.legend(fontsize = 14) # title = '#trk', loc = 'center left', bbox_to_anchor=(1, 0.5))
+# ax2.invert_yaxis()
+
+plt.savefig('examples\\trajetories.png', format = 'png', transparent = True)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+from mpl_toolkits.mplot3d import Axes3D
+fig = plt.figure()
+ax = fig.add_subplot(111, projection = '3d')
+
+# Plot the trajectory
+ax.plot(missile.get_x(), missile.get_y(), missile.get_z() * 0.3048, 'b', linewidth = 4, label = 'missile')
+ax.plot(target.get_x(), target.get_y(), target.get_z() * 0.3048, 'r', linewidth = 4, label = 'target')
+ax.set_title('Trajectories')
+ax.set(xlabel = 'X (m)', ylabel = 'Y (m)', zlabel = 'Z (ft)')
+ax.set_xlim(0, 4000)
+ax.set_ylim(0, 1100)
+ax.grid(alpha = .5)
+ax.invert_zaxis()
+
+ax.legend(fontsize = 14) # title = '#trk', loc = 'center left', bbox_to_anchor = (1, 0.5))
+
+# Show the plot
+plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # fig.tight_layout()
 # plt.show()
