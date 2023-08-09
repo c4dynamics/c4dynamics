@@ -43,5 +43,7 @@ vslam_roadmap.txt
 
 .venv/
 
-src/main/resources/detectors/yolo_darknet/variables/variables.data-00000-of-00001
 examples/trajetories.png
+# src/main/resources/detectors/yolo_darknet/variables/variables.data-00000-of-00001
+
+

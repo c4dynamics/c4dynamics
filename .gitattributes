@@ -1,3 +1,4 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 D:/gh_repo/C4dynamics/src/main/resources/detectors/yolo_darknet/variables/variables.data-00000-of-00001 filter=lfs diff=lfs merge=lfs -text
+src/main/resources/detectors/yolo_darknet/variables/variables.data-00000-of-00001 filter=lfs diff=lfs merge=lfs -text
