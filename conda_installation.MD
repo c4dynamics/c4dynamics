@@ -15,14 +15,27 @@ Conda is an open-source package management system and environment management sys
 follow the steps below to install the environment, install using option 1 or option 2!
 
 ### Option 1: install using terminal commands
+
 Open a terminal or command prompt and run the following command to create a new environment called "c4dynamics_env":
 
 ```bash
 cd c4dynamics
 conda env create -f c4dynamics_env.yaml
 ```
-### Option 2: Install using Anaconda Navigator
 
+To run the environment in your terminal, run:
+```
+conda activate c4dynamics
+```
+
+If you work with vscode, go to:
+View
+Command Pallete
+Select Interpreter
+
+From the list that opened, select the python executable from anaconda\c4dynamics
+
+### Option 2: Install using Anaconda Navigator
 
 1. Open Anaconda Navigator.
 
@@ -43,7 +56,6 @@ conda env create -f c4dynamics_env.yaml
 9. Once the environment has been imported, you can activate it by clicking on the environment name in the "Environments" tab and selecting "Open Terminal" or "Open with Jupyter Notebook" to start working with the environment.
 
 That's it! You have now imported a Conda environment using Anaconda Navigator.
-
 
 
 ## What are Conda Environments?
