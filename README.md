@@ -112,11 +112,11 @@ rdr = c4d.seekers.radar(sf = 0.9, bias = 0, noisestd = 1)
 <table>
   <tbody>
     <tr>	
-      <td align="center"><a href="https://github.com/C4dynamics">								<img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/ziv_noa.jpg" 		height="100px" width="100px;" alt="Ziv Meri"			/> <br /><sub><b>Ziv Meri</b></sub></a><br />			<a href="https://www.linkedin.com/in/ziv-meri/" 						title="Code">	💻</a></td>
-      <td align="center"><a href="https://www.linkedin.com/in/aviva-shneor-simhon-17b733b/">	<img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/aviva.png" 			height="100px" width="100px;" alt="Aviva Shneor Simhon"	/> <br /><sub><b>Aviva Shneor Simhon</b></sub></a><br /><a href="https://www.linkedin.com/in/aviva-shneor-simhon-17b733b/" 		title="Code">	💻</a></td>
-      <td align="center"><a href="https://www.linkedin.com/in/amit-elbaz-54301382/">			<img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/amit.png" 			height="100px" width="100px;" alt="Amit Elbaz"			/> <br /><sub><b>Amit Elbaz</b></sub></a><br />			<a href="https://www.linkedin.com/in/amit-elbaz-54301382/" 				title="Code">	💻</a></td>
-      <td align="center"><a href="https://www.linkedin.com/in/avraham-ohana-computer-vision/">	<img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/avraham.png" 		height="100px" width="100px;" alt="Avraham Ohana"		/> <br /><sub><b>Avraham Ohana</b></sub></a><br />		<a href="https://www.linkedin.com/in/avraham-ohana-computer-vision/" 	title="Code">	💻</a></td>
-      <td align="center"><a href="https://chat.openai.com/chat">								<img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/openai-featured.png" height="100px" width="100px;"							/> <br /><sub><b>Chat GPT</b></sub></a><br />			<a href="https://chat.openai.com/chat" 									title="Support">💻</a></td>
+      <td align="center"><a href="https://github.com/C4dynamics">								<img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/ziv_noa.png" 		height="100px" width="100px;" alt="Ziv Meri"			/> <br /><sub><b>Ziv  			 Meri</b></sub></a><br />			<a href="https://www.linkedin.com/in/ziv-meri/" 					title="Code">	💻</a></td>
+      <td align="center"><a href="https://www.linkedin.com/in/aviva-shneor-simhon-17b733b/">	<img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/aviva.png" 			height="100px" width="100px;" alt="Aviva Shneor Simhon"	/> <br /><sub><b>Aviva  Shneor Simhon</b></sub></a><br /><a href="https://www.linkedin.com/in/aviva-shneor-simhon-17b733b/" 			title="Code">	💻</a></td>
+      <td align="center"><a href="https://www.linkedin.com/in/amit-elbaz-54301382/">			<img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/amit.png" 			height="100px" width="100px;" alt="Amit Elbaz"			/> <br /><sub><b>Amit 			Elbaz</b></sub></a><br />			<a href="https://www.linkedin.com/in/amit-elbaz-54301382/" 			title="Code">	💻</a></td>
+      <td align="center"><a href="https://www.linkedin.com/in/avraham-ohana-computer-vision/">	<img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/avraham.png" 		height="100px" width="100px;" alt="Avraham Ohana"		/> <br /><sub><b>Avraham 		Ohana</b></sub></a><br />		<a href="https://www.linkedin.com/in/avraham-ohana-computer-vision/" 	title="Code">	💻</a></td>
+      <td align="center"><a href="https://chat.openai.com/chat">								<img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/openai-featured.png" height="100px" width="100px;"							/> <br /><sub><b>Chat 			  GPT</b></sub></a><br />			<a href="https://chat.openai.com/chat" 								title="Support">💻</a></td>
     </tr>
   </tbody>
 </table>
@@ -720,8 +720,10 @@ while t <= tf and h >= 0:
   <img src="" width="325" height="260"/>
 </p>
  -->
+</p>
 <p align="center">
-  <img src="https://github.com/C4dynamics/C4dynamics/blob/main/examples/trajetories.png" width="325" height="260"/>
+  <img src="https://github.com/C4dynamics/C4dynamics/blob/main/examples/trajectories.png" width="325" height="260"/>
+</p>
 
 
 ```
@@ -734,13 +736,9 @@ missile.draw('theta')
 
 ```
 target.draw('vx')
-target.draw('vy')
 ```
 <p align="center">
   <img src="https://github.com/C4dynamics/C4dynamics/blob/main/examples/vx.png?raw=true" width="325" height="260"/>
-</p>
-<p align="center">
-  <img src="https://github.com/C4dynamics/C4dynamics/blob/main/examples/vy.png?raw=true" width="325" height="260"/>
 </p>
 
 
