@@ -33,7 +33,7 @@ View
 Command Pallete
 Select Interpreter
 
-From the list that opened, select the python executable from anaconda\c4dynamics
+From the list that opened, select the python executable from anaconda\c4dynamics: Python3.10.12 ('c4dynamics': conda)
 
 ### Option 2: Install using Anaconda Navigator
 
