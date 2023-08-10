@@ -23,6 +23,8 @@ It includes a variety of tools and features to streamline the development proces
 
 * Data-point and rigid-body objects
 
+* Objects detection and objects tracking 
+
 * 6DOF (six degrees of freedom) simulation
 
 * Seekers and sensors
@@ -47,8 +49,6 @@ The framework suggests basic data entities as data-points and rigid-bodies, and 
 See a comprehensive example of a six degrees of freedom simulation using the C4dynamics framework at the bottom of this README.
 
 
-## Note
-This framework is mainly intended for the purpose of developing algorithms for physical and dynamical systems: predicting and controlling motion.
 
 ## Quickstart
 
@@ -58,6 +58,12 @@ Install the required packages:
 ```
 pip install -r requirements.txt
 ```
+
+Alternatively, run the preinstalled conda environment (see conda_installation.md):
+```
+conda env create -f c4dynamics_env.yaml
+```
+ 
 
 Import the framework:
 ```
@@ -72,6 +78,11 @@ pt = c4d.datapoint(x = 1000, vx = 100)
 Define a body in space with some initial conditions: 
 ```
 body = c4d.rigidbody(theta = 15 * 3.14 / 180)
+```
+
+Load an object detection module (YOLO):
+```
+yolodet = c4d.detectors.yolo(height = height, width = width)
 ```
 
 Define altitude radar: 
@@ -101,10 +112,11 @@ rdr = c4d.seekers.radar(sf = 0.9, bias = 0, noisestd = 1)
 <table>
   <tbody>
     <tr>	
-      <td align="center"><a href="https://github.com/C4dynamics"><img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/ziv_noa.jpg" height="130px" width="100px;" alt="Ziv Meri"/> <br /><sub><b>Ziv Meri</b></sub></a><br /><a href="https://www.linkedin.com/in/ziv-meri/" title="Code">💻</a></td>
-      <td align="center"><a href="https://www.linkedin.com/in/aviva-shneor-simhon-17b733b/"><img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/aviva.png" height="130px" width="100px;" alt="Aviva Shneor Simhon"/> <br /><sub><b>Aviva Shneor Simhon</b></sub></a><br /><a href="https://www.linkedin.com/in/aviva-shneor-simhon-17b733b/" title="Code">💻</a></td>
-      <td align="center"><a href="https://www.linkedin.com/in/amit-elbaz-54301382/"><img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/amit.png" height="130px" width="100px;" alt="Amit Elbaz"/> <br /><sub><b>Amit Elbaz</b></sub></a><br /><a href="https://www.linkedin.com/in/amit-elbaz-54301382/" title="Code">💻</a></td>
-      <td align="center"><a href="https://chat.openai.com/chat"><img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/openai-featured.png" height="130px" width="100px;"/> <br /><sub><b>Chat GPT</b></sub></a><br /><a href="https://chat.openai.com/chat" title="Support">💻</a></td>
+      <td align="center"><a href="https://github.com/C4dynamics">								<img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/ziv_noa.jpg" 		height="100px" width="100px;" alt="Ziv Meri"			/> <br /><sub><b>Ziv Meri</b></sub></a><br />			<a href="https://www.linkedin.com/in/ziv-meri/" 						title="Code">	💻</a></td>
+      <td align="center"><a href="https://www.linkedin.com/in/aviva-shneor-simhon-17b733b/">	<img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/aviva.png" 			height="100px" width="100px;" alt="Aviva Shneor Simhon"	/> <br /><sub><b>Aviva Shneor Simhon</b></sub></a><br /><a href="https://www.linkedin.com/in/aviva-shneor-simhon-17b733b/" 		title="Code">	💻</a></td>
+      <td align="center"><a href="https://www.linkedin.com/in/amit-elbaz-54301382/">			<img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/amit.png" 			height="100px" width="100px;" alt="Amit Elbaz"			/> <br /><sub><b>Amit Elbaz</b></sub></a><br />			<a href="https://www.linkedin.com/in/amit-elbaz-54301382/" 				title="Code">	💻</a></td>
+      <td align="center"><a href="https://www.linkedin.com/in/avraham-ohana-computer-vision/">	<img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/avraham.png" 		height="100px" width="100px;" alt="Avraham Ohana"		/> <br /><sub><b>Avraham Ohana</b></sub></a><br />		<a href="https://www.linkedin.com/in/avraham-ohana-computer-vision/" 	title="Code">	💻</a></td>
+      <td align="center"><a href="https://chat.openai.com/chat">								<img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/openai-featured.png" height="100px" width="100px;"							/> <br /><sub><b>Chat GPT</b></sub></a><br />			<a href="https://chat.openai.com/chat" 									title="Support">💻</a></td>
     </tr>
   </tbody>
 </table>
@@ -122,18 +134,223 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 
 
 
-
-
-
 [![My Skills](https://skillicons.dev/icons?i=python)](https://skillicons.dev)
 
 
 
 
 
+# Car Detection and Tracking with YOLO and Kalman Filter using C4dynamics
+
+see the notebook: examples\cars_tracker.ipynb
+
+This is an example of detecting vehicles in images using YOLO, and then tracking those detected cars using a Kalman filter.  
+
+For the demonstration, we will be using a dataset of traffic surveillance videos. The dataset contains video sequences recorded from a traffic camera, capturing various vehicles including cars.
+
+### Let's start!
+
+Load 3rd party modules:
+```
+import numpy as np
+import cv2
+from sklearn.neighbors import NearestNeighbors
+from matplotlib import pyplot as plt
+from matplotlib import image as mpimg
+```
+
+Load the vidoes:
+```
+videoin  = os.path.join(os.getcwd(), 'examples', 'cars1.mp4')
+videoout = os.path.join('out', 'cars1.mp4')
+```
+
+Video preprocessing:
+```
+video = cv2.VideoCapture(videoin)
+dt = 1 / video.get(cv2.CAP_PROP_FPS)
+_, frame1 = video.read()
+height, width, _ = frame1.shape
+result = cv2.VideoWriter(videoout, cv2.VideoWriter_fourcc(*'mp4v')
+                    , int(video.get(cv2.CAP_PROP_FPS)), [width, height])
+```
+
+```
+plt.imshow(mpimg.imread(os.path.join(os.getcwd(), 'out', 'before.png')))
+plt.axis('off')
+plt.show()
+```
+</p>
+<p align="center">
+  <img src="https://github.com/C4dynamics/C4dynamics/blob/main/examples/cars1.png?raw=true" width="325" height="260"/>
+</p>
+
+Load a detector:
+```
+yolodet = c4d.detectors.yolo(height = height, width = width)
+```
+
+Define Kalman parameters:
+```
+# x(t) = A(t) * x(t-1) + e(t) || e(t) ~ N(0,Q(t))
+# z(t) = H(t) * x(t) + r(t)   || r(t) ~ N(0,R(t))
+
+# x(t) = [x1 y1 x2 y2 vx vy]
+
+A = np.array([[1, 0, 0, 0, dt, 0 ]
+            , [0, 1, 0, 0, 0,  dt]
+            , [0, 0, 1, 0, dt, 0 ]
+            , [0, 0, 0, 1, 0,  dt]
+            , [0, 0, 0, 0, 1,  0 ]
+            , [0, 0, 0, 0, 0,  1 ]])
+
+H = np.array([[1, 0, 0, 0, 0, 0]
+            , [0, 1, 0, 0, 0, 0]
+            , [0, 0, 1, 0, 0, 0]
+            , [0, 0, 0, 1, 0, 0]])
+
+P = np.eye(A.shape[1])
+
+Q = np.array([[25, 0,  0,  0,  0,  0]
+            , [0,  25, 0,  0,  0,  0]
+            , [0,  0,  25, 0,  0,  0]
+            , [0,  0,  0,  25, 0,  0]
+            , [0,  0,  0,  0,  49, 0]
+            , [0,  0,  0,  0,  0,  49]])
+
+R = dt * np.eye(4)
+```
+
+Define data-point object
+Tracker = data-point + Kalman Filter
+
+```
+class tracker(c4d.datapoint):
+    # a datapoint 
+    # kalman filter 
+    # display color
+    ## 
+    
+    def __init__(obj, z):
+
+        super().__init__()  # Call the constructor of c4d.datapoint
+         
+        obj.filter = c4d.filters.kalman(np.hstack((z, np.zeros(2))), P, A, H, Q, R)
+        
+        obj.counterSame = 0
+        obj.counterEscaped = 0
+        obj.appear = 0
+
+        obj.color = [np.random.randint(0, 255)
+                     , np.random.randint(0, 255)
+                     , np.random.randint(0, 255)]
+```
+
+Define trackers manager:
+(a dictionary of trackers and methods to add and remove elements)
+
+```
+# trackers manager:
+#   list of active trackers
+#   add or remove tracks methods
+class mTracks:
+    def __init__(obj):
+        obj.trackers = {}
+        obj.removelist = []
+        obj.neigh = NearestNeighbors(n_neighbors = 1)
+        obj.thresh = 100 # threshold of 100 pixels to verify the measure is close enough to the object. 
+```
+
+Main loop:
+```
+def run(tf = 1):
+    
+    mtracks = mTracks()
+    
+    cov = 25 * np.eye(4)
+    t = 0
+    
+    while video.isOpened():
+        
+        ret, frame = video.read()
+        # frame = frame.astype(np.uint8)
+        # frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)  # Assuming input frames are in BGR format
+        
+        if not ret: 
+            break
+        #
+        # the update function runs the main trackers loop.  
+        ##
+        zList = yolodet.getMeasurements(frame) # retrieves object measurements from the current frame using the object detector (YoloDetector).
+        
+        
+        # updates the trackers dictionary by adding or removing tracks.  
+        # creates new trackers if there are more 
+        # measurements than trackers and removes duplicate trackers if 
+        # there are more trackers than measurements.
+        kfNumber = len(mtracks.trackers.keys())
+        zNumber = zList.shape[0]
+        
+        if kfNumber < zNumber:
+            # more measurements than trackers
+            mtracks.trackerMaker(zList, cov)
+            
+        elif kfNumber > zNumber and zNumber > 0:
+            # more trackers than measurements
+            mtracks.RemoveDoubles()
+        
+        
+        # fits the Nearest Neighbors algorithm to the object 
+        # measurements for association purposes.
+        if zList.shape[0] >= 2:
+            mtracks.neigh.fit(zList)
 
 
-## 6 Degrees Of Freedom Example
+        mtracks.refresh(zList, frame, t)
+        mtracks.remove()
+
+        cv2.imshow('image', frame)
+        result.write(frame)
+        
+        key = cv2.waitKey(1) & 0xFF
+        if key == ord('q') or t >= tf:
+            break
+        
+        t += dt
+        
+    cv2.destroyAllWindows()
+    result.release()
+    return mtracks
+```
+
+Run for two seconds:
+```
+ltrk = run(tf = 2)
+```
+</p>
+<p align="center">
+  <img src="https://github.com/C4dynamics/C4dynamics/blob/main/examples/cars_objected_tracked.gif?raw=true" width="325" height="260"/>
+</p>
+
+
+Results analysis:
+</p>
+<p align="center">
+  <img src="https://github.com/C4dynamics/C4dynamics/blob/main/examples/cars_id.png?raw=true" width="325" height="260"/>
+</p>
+</p>
+<p align="center">
+  <img src="https://github.com/C4dynamics/C4dynamics/blob/main/examples/cars_trajectories.png?raw=true" width="325" height="260"/>
+</p>
+</p>
+<p align="center">
+  <img src="https://github.com/C4dynamics/C4dynamics/blob/main/examples/cars_velocity.png?raw=true" width="325" height="260"/>
+</p>
+
+
+
+
+# 6 Degrees Of Freedom Example
 
 This example illustrates the usage of C4dynamics to develop algorithms for missile guidance system.
 
@@ -499,42 +716,13 @@ while t <= tf and h >= 0:
     h = -missile.z   
 ```
 
-```
-fig = plt.figure()
-plt.plot(missile._data[1:, 2], missile._data[1:, 1], 'k', linewidth = 2, label = 'missile')
-plt.plot(target._data[1:, 2], target._data[1:, 1], 'r', linewidth = 2, label = 'target')
-plt.title('top view')
-plt.xlabel('crossrange')
-plt.ylabel('downrange')
-plt.grid()
-plt.legend()
-fig.tight_layout()
-plt.show()
-```
 <!-- <p align="center">
   <img src="" width="325" height="260"/>
 </p>
  -->
 <p align="center">
-  <img src="https://github.com/C4dynamics/C4dynamics/blob/main/examples/topview.png" width="325" height="260"/>
+  <img src="https://github.com/C4dynamics/C4dynamics/blob/main/examples/trajetories.png" width="325" height="260"/>
 
-```
-fig = plt.figure()
-plt.plot(missile._data[1:, 1], missile._data[1:, 3], 'k', linewidth = 2, label = 'missile')
-plt.plot(target._data[1:, 1], target._data[1:, 3], 'r', linewidth = 2, label = 'target')
-plt.title('side view')
-plt.xlabel('downrange')
-plt.ylabel('altitude')
-plt.gca().invert_yaxis()
-plt.grid()
-plt.legend()
-fig.tight_layout()
-plt.show()
-```
-
-<p align="center">
-  <img src="https://github.com/C4dynamics/C4dynamics/blob/main/examples/sideview.png?raw=true" width="325" height="260"/>
-</p>
 
 ```
 missile.draw('theta')
