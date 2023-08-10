@@ -361,27 +361,34 @@ plt.close('all')
 fig, (ax1, ax2) = plt.subplots(2, 1)
 fig.tight_layout()
 
-
 ax1.plot(missile.get_x(), -missile.get_z() * 0.3048, 'b', linewidth = 4, label = 'missile')
 ax1.plot(target.get_x(), -target.get_z() * 0.3048, 'r', linewidth = 4, label = 'target')
-ax1.set_title('Side View')
+ax1.set_title('Side View', color = 'purple')
 ax1.set(xlabel = 'Downrange (m)', ylabel = 'Altitude (ft)')
+ax1.xaxis.label.set_color('purple')
+ax1.yaxis.label.set_color('purple')
 ax1.set_xlim(0, 4000)
 ax1.set_ylim(0, 1100)
-ax1.grid(alpha = .5)
+ax1.grid(alpha = .5,  which = 'both', color = 'purple')
+ax1.tick_params(axis = 'x', colors = 'purple')  # Change X-axis tick color to purple
+ax1.tick_params(axis = 'y', colors = 'purple')  # Change X-axis tick color to purple
 ax1.legend(fontsize = 14) # title = '#trk', loc = 'center left', bbox_to_anchor = (1, 0.5))
 
 ax2.plot(missile.get_x(), missile.get_y(), 'b', linewidth = 4, label = 'missile')
 ax2.plot(target.get_x(), target.get_y(), 'r', linewidth = 4, label = 'target')
-ax2.set_title('Top View')
+ax2.set_title('Top View', color = 'purple')
 ax2.set(xlabel = 'Downrange (m)', ylabel = 'Crossrange (m)')
+ax2.xaxis.label.set_color('purple')
+ax2.yaxis.label.set_color('purple')
 ax2.set_xlim(0, 4000)
 ax2.set_ylim(0, 1100)
-ax2.grid(alpha = .5, which = 'both')
+ax2.grid(alpha = .5, which = 'both', color = 'purple')
+ax2.tick_params(axis = 'x', colors = 'purple')  # Change X-axis tick color to purple
+ax2.tick_params(axis = 'y', colors = 'purple')  # Change X-axis tick color to purple
 ax2.legend(fontsize = 14) # title = '#trk', loc = 'center left', bbox_to_anchor=(1, 0.5))
 # ax2.invert_yaxis()
 
-plt.savefig('examples\\trajetories.png', format = 'png', transparent = True)
+plt.savefig('examples\\trajectories.png', format = 'png', transparent = True)
 
 
 
@@ -481,7 +488,7 @@ ax2.set_xlim(0, 10)
 ax2.set_ylim(-10, 10)
 ax2.set(xlabel = 'time', ylabel = '')
 
-plt.subplots_adjust(hspace=0.5)
+plt.subplots_adjust(hspace = 0.5)
 
 
 # 
