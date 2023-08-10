@@ -1,25 +1,5 @@
 # Install Using Conda Environment
 
-## What are Conda Environments?
-
-Conda is an open-source package management system and environment management system that runs on Windows, macOS, and Linux. Conda environments are isolated environments that contain a specific version of Python and a set of packages and dependencies. Each environment can have its own set of packages and dependencies, which makes it easy to manage different projects with different requirements.
-
-Here are some benefits of using Conda environments:
-
-- **Isolation:** Each environment is isolated from other environments and from the system Python installation. This means that you can have different versions of Python and different packages installed in different environments without conflicts.
-
-- **Reproducibility:** By specifying the packages and dependencies for each environment in a YAML file, you can easily recreate the environment on another machine or share it with others. This makes it easy to reproduce your results and collaborate with others.
-
-- **Flexibility:** Conda environments can be used for any type of project, from data analysis to machine learning to web development. You can easily switch between environments and install new packages and dependencies as needed.
-
-- **Ease of use:** Conda provides a simple and intuitive command-line interface for creating, activating, and managing environments. You can also use Conda with popular IDEs like Visual Studio Code and PyCharm.
-
-Overall, Conda environments are a powerful tool for managing packages and dependencies in Python projects. They provide isolation, reproducibility, flexibility, and ease of use, which makes them a great choice for any type of project.
-
-If you haven't used Conda environments before, we highly recommend giving them a try. They can save you a lot of time and headaches in the long run!
-
-
-
 ## Installing Conda
 
 Conda is an open-source package management system and environment management system that runs on Windows, macOS, and Linux. Here are the steps to install Conda using the Anaconda distribution:
@@ -63,3 +43,26 @@ conda env create -f c4dynamics_env.yaml
 9. Once the environment has been imported, you can activate it by clicking on the environment name in the "Environments" tab and selecting "Open Terminal" or "Open with Jupyter Notebook" to start working with the environment.
 
 That's it! You have now imported a Conda environment using Anaconda Navigator.
+
+
+
+## What are Conda Environments?
+
+Conda is an open-source package management system and environment management system that runs on Windows, macOS, and Linux. Conda environments are isolated environments that contain a specific version of Python and a set of packages and dependencies. Each environment can have its own set of packages and dependencies, which makes it easy to manage different projects with different requirements.
+
+Here are some benefits of using Conda environments:
+
+- **Isolation:** Each environment is isolated from other environments and from the system Python installation. This means that you can have different versions of Python and different packages installed in different environments without conflicts.
+
+- **Reproducibility:** By specifying the packages and dependencies for each environment in a YAML file, you can easily recreate the environment on another machine or share it with others. This makes it easy to reproduce your results and collaborate with others.
+
+- **Flexibility:** Conda environments can be used for any type of project, from data analysis to machine learning to web development. You can easily switch between environments and install new packages and dependencies as needed.
+
+- **Ease of use:** Conda provides a simple and intuitive command-line interface for creating, activating, and managing environments. You can also use Conda with popular IDEs like Visual Studio Code and PyCharm.
+
+Overall, Conda environments are a powerful tool for managing packages and dependencies in Python projects. They provide isolation, reproducibility, flexibility, and ease of use, which makes them a great choice for any type of project.
+
+If you haven't used Conda environments before, we highly recommend giving them a try. They can save you a lot of time and headaches in the long run!
+
+
+
