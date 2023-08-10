@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://github.com/C4dynamics/C4dynamics/blob/main/tools/C4dynamics.png">
+  <img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/C4dynamics.png">
 </div>
 
 #### Tsipor Dynamics
