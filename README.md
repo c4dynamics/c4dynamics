@@ -12,7 +12,7 @@ C4Dynamics (read Tsipor (bird) Dynamics) is the open-source framework for algori
 [![My Skills](https://skillicons.dev/icons?i=python)](https://skillicons.dev)
 
 
-<br /><br />
+</br>
 Welcome to C4dynamics - a framework for algorithm engineers who work with physical and dynamical systems. 
 <br /><br />
 
