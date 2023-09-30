@@ -26,7 +26,7 @@ C4Dynamics (read Tsipor (bird) Dynamics) is the open-source framework of algorit
 ## Motivation
 C4dynamics provides two basic entities for developing and analyzing algorithms for objects in space and time:
 * datapoint: a class defining a point in space: position, velocity, acceleration, and a mass. 
-* rigidbody: a class defining a rigid body in space, i.e. an object with length and angular attitude. 
+* rigidbody: a class defining a rigid body in space, i.e. an object with length and angular position. 
 
 You can develop and analyze algorithms by operating on these objects with one of the internal systems or algorithms of C4dynamics:  
 * ODE Solver (4th order Runge-Kutta)  
@@ -47,7 +47,7 @@ Or one of the 3rd party libraries integrated with C4dynamics:
   
 Whether you're a seasoned algorithm engineer or just getting started, this framework has something to offer. Its modular design allows you to easily pick and choose the components you need, and its active community of contributors is always working to improve and expand its capabilities.
   
-So why wait? Start using the C4dynamics today and take your algorithms engineering to the next level!
+So why wait? Start using C4dynamics today and take your algorithms engineering to the next level!
   
 
 
