@@ -19,10 +19,8 @@ C4Dynamics (read Tsipor (bird) Dynamics) is the open-source framework of algorit
 - [Architecture](https://github.com/C4dynamics/C4dynamics/tree/main/#architecture)
 - [Contributors ✨](https://github.com/C4dynamics/C4dynamics/tree/main/#contributors-✨)
 - [Quickstart for Contributors](https://github.com/C4dynamics/C4dynamics/tree/main/#quickstart-for-contributors)
-- [Getting Started 1: Objects Detection and Tracking Example](https://github.com/C4dynamics/C4dynamics/tree/main/#getting-started-1:-objects-detection-and-tracking)
+- [Getting Started 1: Objects Detection and Tracking Example](https://github.com/C4dynamics/C4dynamics/tree/main/#getting-started-1:-objects-detection-and-tracking-example)
 - [Getting Started 2: Missile Guidance Example](https://github.com/C4dynamics/C4dynamics/tree/main/#getting-started-2:-missile-guidance-example)
-
-
 
 
 
