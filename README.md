@@ -2,76 +2,77 @@
   <img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/C4dynamics.png">
 </div>
 
-#### Tsipor Dynamics
-#### Algorithms Engineering and Development
+# Tsipor Dynamics
+## Algorithms Engineering and Development
 ****
 
-C4Dynamics (read Tsipor (bird) Dynamics) is the open-source framework for algorithms engineers! 
 
+C4Dynamics (read Tsipor (bird) Dynamics) is the open-source framework of algorithms development for objects in space and time.
 
 [![My Skills](https://skillicons.dev/icons?i=python)](https://skillicons.dev)  
 
-Welcome to C4dynamics - a framework for algorithm engineers who work with physical and dynamical systems.  
-<br><br>
-For Architecture & Roadmap, see the Wiki page.  
-<br><br>
-This framework is designed to help algorithm engineers quickly and efficiently implement and test new algorithms.  
 
-It includes a variety of tools and features to streamline the development process, including:
-
-✅ A comprehensive library of common algorithms and data structures!
-
-* Data-point and rigid-body objects
-
-* Objects detection and objects tracking 
-
-* 6DOF (six degrees of freedom) simulation
-
-* Seekers and sensors
-
-* Save and plot state-vector in one click
-
-✅ A robust testing suite to ensure the reliability and correctness of your implementation!
-
-✅ An intuitive API for easily integrating your algorithms into larger systems!
-
-✅ Documentation and examples to help you get up and running quickly!
+## Table of contents
+- [Motivation](https://github.com/C4dynamics/C4dynamics/tree/main/#motivation)
+- [Installation](https://github.com/C4dynamics/C4dynamics/tree/main/#installation)
+- [Quickstart](https://github.com/C4dynamics/C4dynamics/tree/main/#quickstart)
+- [Architecture](https://github.com/C4dynamics/C4dynamics/tree/main/#architecture)
+- [Contributors ✨](https://github.com/C4dynamics/C4dynamics/tree/main/#contributors-✨)
+- [Quickstart for Contributors](https://github.com/C4dynamics/C4dynamics/tree/main/#quickstart-for-contributors)
+- [Getting Started 1: Objects Detection and Tracking Example](https://github.com/C4dynamics/C4dynamics/tree/main/#getting-started-1:-objects-detection-and-tracking)
+- [Getting Started 2: Missile Guidance Example](https://github.com/C4dynamics/C4dynamics/tree/main/#getting-started-2:-missile-guidance-example)
 
 
-<br><br>
 
 
+
+## Motivation
+C4dynamics provides two basic entities for developing and analyzing algorithms for objects in space and time:
+* datapoint: a class defining a point in space: position, velocity, acceleration, and a mass. 
+* rigidbody: a class defining a rigid body in space, i.e. an object with length and angular attitude. 
+
+You can develop and analyze algorithms by operating on these objects with one of the internal systems or algorithms of C4dynamics:  
+* ODE Solver (4th order Runge-Kutta)  
+* Kalman Filter  
+* Extended Kalman Filter  
+* Luenberger Observer  
+* Radar System  
+* Altitude Radar  
+* IMU Model  
+* GPS Model  
+* Line Of Sight Seeker  
+  
+Or one of the 3rd party libraries integrated with C4dynamics:   
+* NumPy  
+* Matplotlib  
+* OpenCV  
+* YOLO  
+  
 Whether you're a seasoned algorithm engineer or just getting started, this framework has something to offer. Its modular design allows you to easily pick and choose the components you need, and its active community of contributors is always working to improve and expand its capabilities.
-
+  
 So why wait? Start using the C4dynamics today and take your algorithms engineering to the next level!
+  
 
 
-<br><br>
 
+## Installation 
+* Download C4dynamics: https://github.com/C4dynamics/C4dynamics
 
-The framework suggests basic data entities as data-points and rigid-bodies, and integrated systems as seekers, filters, and sensors, for easy development of algorithms. 
-
-See a comprehensive example of a six degrees of freedom simulation using the C4dynamics framework at the bottom of this README.
-
-
-<br><br>
-
-
-## Quickstart
-
-See jupyter notebook demonstrations in examples (dof6sim.ipynb illustrates some of the main framework capabilites in a comprehensive way). 
-
-Install the required packages:
+* Install the required packages:
 ```
 pip install -r requirements.txt
 ```
 
-Alternatively, run the preinstalled conda environment (see conda_installation.md):
+* Alternatively, run the preinstalled conda environment (see conda_installation.md):
 ```
 conda env create -f c4dynamics_env.yaml
 ```
  
+ 
+ 
+ 
 
+## Quickstart
 Import the framework:
 ```
 import C4dynamics as c4d
@@ -103,15 +104,16 @@ rdr = c4d.seekers.radar(sf = 0.9, bias = 0, noisestd = 1)
 ```
 
 
-# Quickstart for Contributors
 
-* See the page contributing.md
-* In any case, it's a good advise to start with the example dof6sim.ipynb and change the missile-target conditions to gain some experience with the framework. This example appears also down here in the README
+
+
+## Architecture
+For Architecture & Roadmap, see the Wiki page.  
+
 
 
 
 ## Contributors ✨
-
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
@@ -141,13 +143,19 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 
 
 
-[![My Skills](https://skillicons.dev/icons?i=python)](https://skillicons.dev)
+## Quickstart for Contributors
+* See the page contributing.md
+* In any case, it's a good advise to start with the example dof6sim.ipynb and change the missile-target conditions to gain some experience with the framework. This example appears also down here in the README
 
 
 
 
 
-# Car Detection and Tracking with YOLO and Kalman Filter using C4dynamics
+
+
+
+## Getting Started 1: Objects Detection and Tracking Example
+### Car Detection and Tracking with YOLO and Kalman Filter using C4dynamics
 
 see the notebook: examples\cars_tracker.ipynb
 
@@ -155,9 +163,9 @@ This is an example of detecting vehicles in images using YOLO, and then tracking
 
 For the demonstration, we will be using a dataset of traffic surveillance videos. The dataset contains video sequences recorded from a traffic camera, capturing various vehicles including cars.
 
-### Let's start!
+#### Let's start!
 
-Load 3rd party modules:
+* Load 3rd party modules:
 ```
 import numpy as np
 import cv2
@@ -166,13 +174,13 @@ from matplotlib import pyplot as plt
 from matplotlib import image as mpimg
 ```
 
-Load the vidoes:
+* Load the vidoes:
 ```
 videoin  = os.path.join(os.getcwd(), 'examples', 'cars1.mp4')
 videoout = os.path.join('out', 'cars1.mp4')
 ```
 
-Video preprocessing:
+* Video preprocessing:
 ```
 video = cv2.VideoCapture(videoin)
 dt = 1 / video.get(cv2.CAP_PROP_FPS)
@@ -192,12 +200,12 @@ plt.show()
   <img src="https://github.com/C4dynamics/C4dynamics/blob/main/examples/cars1.png?raw=true" width="325" height="260"/>
 </p>
 
-Load a detector:
+* Load a detector:
 ```
 yolodet = c4d.detectors.yolo(height = height, width = width)
 ```
 
-Define Kalman parameters:
+* Define Kalman parameters:
 ```
 # x(t) = A(t) * x(t-1) + e(t) || e(t) ~ N(0,Q(t))
 # z(t) = H(t) * x(t) + r(t)   || r(t) ~ N(0,R(t))
@@ -228,7 +236,7 @@ Q = np.array([[25, 0,  0,  0,  0,  0]
 R = dt * np.eye(4)
 ```
 
-Define data-point object
+* Define data-point object
 Tracker = data-point + Kalman Filter
 
 ```
@@ -253,7 +261,7 @@ class tracker(c4d.datapoint):
                      , np.random.randint(0, 255)]
 ```
 
-Define trackers manager:
+* Define trackers manager:
 (a dictionary of trackers and methods to add and remove elements)
 
 ```
@@ -330,7 +338,7 @@ def run(tf = 1):
     return mtracks
 ```
 
-Run for two seconds:
+* Run for two seconds:
 ```
 ltrk = run(tf = 2)
 ```
@@ -340,7 +348,7 @@ ltrk = run(tf = 2)
 </p>
 
 
-Results analysis:
+* Results analysis:
 </p>
 <p align="center">
   <img src="https://github.com/C4dynamics/C4dynamics/blob/main/examples/cars_id.png?raw=true" width="325" height="260"/>
@@ -357,22 +365,24 @@ Results analysis:
 
 
 
-# 6 Degrees Of Freedom Example
-
-This example illustrates the usage of C4dynamics to develop algorithms for missile guidance system.
-
-C4dynamics is a powerful framework for algorithm engineering that enables the creation of complex simulations with six degrees of freedom (6 DOF). With its advanced toolset, it allows for the creation of realistic and dynamic models that can be used to test and analyze various scenarios in fields such as robotics, aerospace, and mechanical engineering.
-
-A 6 DOF simulation on top C4dynamics provides a comprehensive platform for exploring the movement and behavior of objects in 3D space. It includes features such as real-time rendering, physics simulation, and user interaction, allowing for a highly immersive and interactive experience. The simulation is built on top of the C4dynamics framework, which provides a robust and scalable infrastructure for developing and running algorithms.
-
-In this demonstration, we will showcase the power and flexibility of C4dynamics by creating a 6 DOF simulation that demonstrates its ability to accurately model complex systems and provide real-time feedback. This will include an overview of the features and tools available in C4dynamics, as well as a hands-on demonstration of how to create and run a 6 DOF simulation. Whether you are a seasoned engineer or just starting out, this demonstration will provide valuable insights into the capabilities of the C4dynamics framework.
 
 
 
-So, let's start: 
 
 
-Load third party modules 
+
+
+
+
+
+
+## Getting Started 2: Missile Guidance Example
+### 6 DOF simulation of a missile employing proportional navigation guidance to pursue a target.
+
+#### Let's start: 
+
+
+* Load third party modules 
 
 ```
 import sys, os
@@ -380,21 +390,14 @@ import numpy as np
 from matplotlib import pyplot as plt
 ```
 
-Load C4dynamics
-
-Add the module to python path
+* Add C4dynamics to the python path and load it
 
 ```
 sys.path.append(os.path.join(os.getcwd(), '..', '..'))
-```
-
-Load the module
-
-```
 import C4dynamics as c4d
 ```
 
-Load other modules that developed for the demonstration of current example 
+* Load other modules that developed for the demonstration of current example 
 
 ```
 import control_system as mcontrol_system 
@@ -402,7 +405,7 @@ import engine as mengine
 import aerodynamics as maerodynamics
 ```
 
-Configure figure properties 
+* Configure figure properties 
 
 
 ```
@@ -411,7 +414,7 @@ plt.rcParams['image.interpolation'] = 'nearest'
 plt.rcParams['image.cmap'] = 'gray'
 ```
 
-Simulation setup
+* Simulation setup
 
 ```
 t   = 0
@@ -419,7 +422,7 @@ dt  = 5e-3
 tf  = 10 
 ```
 
-Objects definition 
+* Objects definition 
 
 
 ```
@@ -488,7 +491,7 @@ aero    = maerodynamics.aerodynamics()
 ```
 
 
-User input data:
+* User input data:
 
 ```
 # 
@@ -513,7 +516,7 @@ ibo         = 47        # iyy izz at burnout
 ```
 
 
-Preliminary calculations 
+* Preliminary calculations 
 
 
 The initial missile pointing direction and angular rates are calculated in the fire-control block. 
@@ -557,7 +560,7 @@ Similarly, the functions datapoint.P(), datapoint.V(), datapoint.A() return the 
 u, v, w = missile.BI() @ missile.vel()
 ```
 
-Main loop
+* Main loop
 
 
 The main loop includes the following steps: 
@@ -722,6 +725,8 @@ while t <= tf and h >= 0:
     
     h = -missile.z   
 ```
+
+* Results Analysis 
 
 <!-- <p align="center">
   <img src="" width="325" height="260"/>
