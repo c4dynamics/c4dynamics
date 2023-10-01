@@ -25,7 +25,7 @@ C4Dynamics (read Tsipor (bird) Dynamics) is the open-source framework of algorit
 
 ## Motivation
 C4dynamics provides two basic entities for developing and analyzing algorithms of objects in space and time:
-* datapoint: a class defining a point in space: position, velocity, acceleration, and a mass. 
+* datapoint: a class defining a point in space: position, velocity, acceleration, and mass. 
 * rigidbody: a class defining a rigid body in space, i.e. an object with length and angular position. 
 
 You can develop and analyze algorithms by operating on these objects with one of the internal systems or algorithms of C4dynamics:  
