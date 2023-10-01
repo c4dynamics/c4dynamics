@@ -273,7 +273,7 @@ class mTracks:
         obj.thresh = 100 # threshold of 100 pixels to verify the measure is close enough to the object. 
 ```
 
-Main loop:
+* Main loop:
 ```
 def run(tf = 1):
     
