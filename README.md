@@ -115,6 +115,9 @@ For Architecture & Roadmap, see the Wiki page.
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
+
+
+<!--
 <table>
   <tbody>
     <tr>	
@@ -126,13 +129,36 @@ For Architecture & Roadmap, see the Wiki page.
     </tr>
   </tbody>
 </table>
+-->
+
 
 <!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
+
+<br><br>
+
+| <a href="https://www.linkedin.com/in/ziv-meri/"><img src="https://github.com/C4dynamics/C4dynamics/raw/main/utils/ziv_noa.png" width="100px"/></a> | <a href="https://www.linkedin.com/in/aviva-shneor-simhon-17b733b/"><img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/aviva.png" width="100px"/></a> | <a href="https://www.linkedin.com/in/amit-elbaz-54301382/"><img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/amit.png" width="100px"/></a> | <a href="https://www.linkedin.com/in/avraham-ohana-computer-vision/"><img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/avraham.png" width="100px"/></a> | 
+| --------------------------------------- | ------------------------------------- |------------------------------------- |------------------------------------- | 
+| <div style="width:250px" align="center"><a href="https://www.linkedin.com/in/ziv-meri/" title="Code"><b>Ziv Meri</b></a>💻</div> | <div style="width:250px" align="center"><a href="https://www.linkedin.com/in/aviva-shneor-simhon-17b733b/" title="Code"><b>Aviva Shneor Simhon</b></a>💻</div> | <div style="width:250px" align="center"><a href="https://www.linkedin.com/in/amit-elbaz-54301382/" title="Code"><b>Amit Elbaz</b></a>💻</div> | <div style="width:250px" align="center"><a href="https://www.linkedin.com/in/avraham-ohana-computer-vision/" title="Code"><b>Avraham Ohana</b></a>💻</div> |
+
+<br><br>
+
+
+
+
+
+
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+
+
+
+
+
+
+
 
 
 
