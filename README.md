@@ -140,14 +140,11 @@ For Architecture & Roadmap, see the Wiki page.
 
 <br><br>
 
-| <a href="https://www.linkedin.com/in/ziv-meri/"><img src="https://github.com/C4dynamics/C4dynamics/raw/main/utils/ziv_noa2.png" height="100px" width="100px"/></a> | <a href="https://www.linkedin.com/in/aviva-shneor-simhon-17b733b/"><img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/aviva2.png" height="100px" width="100px"/></a> | <a href="https://www.linkedin.com/in/amit-elbaz-54301382/"><img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/amit2.png" height="100px" width="100px"/></a> | <a href="https://www.linkedin.com/in/avraham-ohana-computer-vision/"><img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/avraham2.png" height="100px" width="100px"/></a> | 
-| --------------------------------------- | ------------------------------------- |------------------------------------- |------------------------------------- | 
-| <div style="width:250px" align="center"><a href="https://www.linkedin.com/in/ziv-meri/" title="Code"><b>Ziv Meri</b></a>💻</div> | <div style="width:250px" align="center"><a href="https://www.linkedin.com/in/aviva-shneor-simhon-17b733b/" title="Code"><b>Aviva Shneor Simhon</b></a>💻</div> | <div style="width:250px" align="center"><a href="https://www.linkedin.com/in/amit-elbaz-54301382/" title="Code"><b>Amit Elbaz</b></a>💻</div> | <div style="width:250px" align="center"><a href="https://www.linkedin.com/in/avraham-ohana-computer-vision/" title="Code"><b>Avraham Ohana</b></a>💻</div> |
+| <a href="https://www.linkedin.com/in/ziv-meri/"><img src="https://github.com/C4dynamics/C4dynamics/raw/main/utils/ziv_noa2.png" height="100px" width="100px"/></a> | <a href="https://www.linkedin.com/in/aviva-shneor-simhon-17b733b/"><img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/aviva2.png" height="100px" width="100px"/></a> | <a href="https://www.linkedin.com/in/amit-elbaz-54301382/"><img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/amit2.png" height="100px" width="100px"/></a> | <a href="https://www.linkedin.com/in/avraham-ohana-computer-vision/"><img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/avraham2.png" height="100px" width="100px"/></a> | <a href="https://chat.openai.com/chat"><img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/openai-featured.png" height="100px" width="100px"/></a> | 
+| --------------------------------------- | ------------------------------------- |------------------------------------- |------------------------------------- |------------------------------------- | 
+| <div style="width:250px" align="center"><a href="https://www.linkedin.com/in/ziv-meri/" title="Code"><b>Ziv Meri</b></a>💻</div> | <div style="width:250px" align="center"><a href="https://www.linkedin.com/in/aviva-shneor-simhon-17b733b/" title="Code"><b>Aviva Shneor Simhon</b></a>💻</div> | <div style="width:250px" align="center"><a href="https://www.linkedin.com/in/amit-elbaz-54301382/" title="Code"><b>Amit Elbaz</b></a>💻</div> | <div style="width:250px" align="center"><a href="https://www.linkedin.com/in/avraham-ohana-computer-vision/" title="Code"><b>Avraham Ohana</b></a>💻</div> | <div style="width:250px" align="center"><a href="https://chat.openai.com/chat" title="Code"><b>Chat GPT</b></a>💻</div> |
 
 <br><br>
-
-
-
 
 
 
