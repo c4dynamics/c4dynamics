@@ -135,7 +135,31 @@ For Architecture & Roadmap, see the Wiki page.
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
 
+<br><br>
+### Example 1:
 
+| <div style="width:290px">property</div> | <div style="width:290px">property</div>                           |
+| --------------------------------------- | ------------------------------------- |
+| `border-bottom-right-radius`            | Defines the shape of the bottom-right |
+
+
+<br><br>
+### Example 2:
+
+| <a href="https://github.com/C4dynamics"><img src="https://github.com/C4dynamics/C4dynamics/raw/main/utils/ziv_noa.png"  alt="Ziv Meri"/></a>            | <a href="https://github.com/C4dynamics"><img src="https://github.com/C4dynamics/C4dynamics/raw/main/utils/ziv_noa.png"  alt="Ziv Meri"/></a> |
+| --------------------------------------- | ------------------------------------- |
+| <div style="width:250px">Ziv Meri</div> | <div style="width:250px">Amir Shtaiman</div>  |
+
+
+<br><br>
+### Example 3:
+
+| <a href="https://github.com/C4dynamics"><img src="https://github.com/C4dynamics/C4dynamics/raw/main/utils/ziv_noa.png"  alt="Ziv Meri"/></a>            | <a href="https://github.com/C4dynamics"><img src="https://github.com/C4dynamics/C4dynamics/raw/main/utils/ziv_noa.png"  alt="Ziv Meri"/></a> | <a href="https://github.com/C4dynamics"><img src="https://github.com/C4dynamics/C4dynamics/raw/main/utils/ziv_noa.png"  alt="Ziv Meri"/></a> | <a href="https://github.com/C4dynamics"><img src="https://github.com/C4dynamics/C4dynamics/raw/main/utils/ziv_noa.png"  alt="Ziv Meri"/></a> |
+| --------------------------------------- | ------------------------------------- |------------------------------------- |------------------------------------- |
+| <div style="width:250px" align="center"><a href="https://www.linkedin.com/in/ziv-meri/" title="Code"><b>Amir Shtaiman </b></a>💻</div> | <div style="width:250px" align="center"><a href="https://www.linkedin.com/in/ziv-meri/" title="Code"><b>Ziv Meri </b></a>💻</div> | <div style="width:250px" align="center"><a href="https://www.linkedin.com/in/ziv-meri/" title="Code"><b>Ziv Meri </b></a>💻</div> | <div style="width:250px" align="center"><a href="https://www.linkedin.com/in/ziv-meri/" title="Code"><b>Ziv Meri </b></a>💻</div> |
+
+
+<br><br>
 
 
 
