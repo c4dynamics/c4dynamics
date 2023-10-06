@@ -16,6 +16,7 @@ for module_name in matching_modules:
 # importlib.reload(c4d)
 import C4dynamics as c4d
 
-from C4dynamics.params import * 
+from C4dynamics.utils.params import * 
+from C4dynamics.utils.tictoc import * 
 
 

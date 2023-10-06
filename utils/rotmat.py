@@ -1,5 +1,5 @@
 import numpy as np
-from C4dynamics.params import * 
+from .params import * 
 
 def rotx(a):
     ''' rotation about x axis dcm by a radians '''

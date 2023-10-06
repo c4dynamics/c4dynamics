@@ -35,6 +35,19 @@ Select Interpreter
 
 From the list that opened, select the python executable from anaconda\c4dynamics: Python3.10.12 ('c4dynamics': conda)
 
+### Failure
+if you encounter in powershwll with the error: usage: conda-script.py [-h] [--no-plugins] [-V] COMMAND ...
+conda-script.py: error: argument COMMAND: invalid choice: 'c4dynamics' (choose from 'clean', 'compare', 'config', 'create', 'info', 'init', 'install', 'list', 'notices', 'package', 'remove', 'uninstall', 'rename', 'run', 'search', 'update', 'upgrade', 'build', 'convert', 'debug', 'develop', 'doctor', 'index', 'inspect', 'metapackage', 'render', 'skeleton', 'server', 'repo', 'env', 'verify', 'pack', 'content-trust', 'token')
+try the following:
+powershell -ExecutionPolicy ByPass -NoExit -Command "& 'D:\pc\anaconda3\shell\condabin\conda-hook.ps1' ; conda activate 'D:\pc\anaconda3' "
+where you should replace D:\pc\anaconda3\shell\condabin\conda-hook.ps1 with the path to your conda-hook.ps1 file in the conda installation folder
+and replace D:\pc\anaconda3 with the base folder of your conda installation. 
+
+then run the command:
+conda init powershell
+
+and restart your powershell. 
+
 ### Option 2: Install using Anaconda Navigator
 
 1. Open Anaconda Navigator.

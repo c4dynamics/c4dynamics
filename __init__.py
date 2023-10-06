@@ -53,9 +53,9 @@ Documentation is currently availble through examples, readme pages, and inline c
 # make c_datapoint, c_rigidbody, rotmat belong to pri rather than their modules:
 # from .datapoint import c_datapoint 
 # from .rigidbody import c_rigidbody
-from .rotmat import *
+from utils.rotmat import *
 
-from . import params 
+from .utils import params 
 from . import utils
 
 #
