@@ -47,3 +47,28 @@ examples/trajetories.png
 # src/main/resources/detectors/yolo_darknet/variables/variables.data-00000-of-00001
 
 
+out/aviva/s6dout.txt
+out/0_68.png
+out/0_72.png
+out/0_76.png
+out/0_6673.png
+out/0_7007.png
+out/0_7341.png
+out/0_7674.png
+out/cars1_1sec.mp4
+out/cars1_5s.mp4
+out/cars1_b.mp4_snapshot_00.00_[2023.09.30_19.59.09].jpg
+out/cars1_full.mp4
+out/cars1_b.mp4_snapshot_00.00_[2023.09.30_19.59.09].jpg
+out/cars1.mp4_snapshot_00.00_[2023.09.26_19.18.43].jpg
+out/cars1.mp4_snapshot_00.00_[2023.09.26_19.31.49].jpg
+out/cars1.mp4_snapshot_00.00_[2023.09.29_12.44.03].jpg
+out/debug_cars 3.txt
+out/debug_cars.txt
+out/debug_cars1.txt
+out/t.docx
+out/cars1.mp4_snapshot_00.00_[2023.09.26_19.18.43].jpg
+out/cars1.mp4_snapshot_00.00_[2023.09.26_19.31.49].jpg
+out/cars1.mp4_snapshot_00.00_[2023.09.29_12.44.03].jpg
+src/main/resources/yolov3.cfg
+src/main/resources/yolov3.weights
