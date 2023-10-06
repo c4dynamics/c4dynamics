@@ -127,13 +127,13 @@ class rigidbody(c4d.datapoint):  #
                       , obj.p_dot, obj.q_dot, obj.r_dot])
 
 
-  def get_phi(obj):
-      return np.array(obj._data)[:, 10] if obj._data else np.empty(1)
-  # data_phi = property(get_phi, super(c4d.rigidbody).set_t,  super(rigidbody, obj).set_t)
-  def get_theta(obj):
-      return np.array(obj._data)[:, 11] if obj._data else np.empty(1)
-  def get_psi(obj):
-      return np.array(obj._data) if obj._data else np.empty(1)
+  # def get_phi(obj):
+  #     return np.array(obj._data)[:, 10] if obj._data else np.empty(1)
+  # # data_phi = property(get_phi, super(c4d.rigidbody).set_t,  super(rigidbody, obj).set_t)
+  # def get_theta(obj):
+  #     return np.array(obj._data)[:, 11] if obj._data else np.empty(1)
+  # def get_psi(obj):
+  #     return np.array(obj._data) if obj._data else np.empty(1)
 
   def run(obj, dt, forces, moments):
     # 

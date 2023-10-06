@@ -2,7 +2,6 @@
 
 C4dynamics.detectors
 
-================
 
 
 """
