@@ -116,7 +116,6 @@ For Architecture & Roadmap, see the Wiki page.
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
 
-
 <!--
 <table>
   <tbody>
@@ -131,12 +130,12 @@ For Architecture & Roadmap, see the Wiki page.
 </table>
 -->
 
-
 <!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
+<!--
 
 <br><br>
 
@@ -146,6 +145,26 @@ For Architecture & Roadmap, see the Wiki page.
 
 <br><br>
 
+-->
+
+
+
+
+<br><br>
+
+<table>
+  <tbody>
+    <tr>	
+      <td align="center"><a href="https://www.linkedin.com/in/ziv-meri/"><img src="https://github.com/C4dynamics/C4dynamics/raw/main/utils/ziv_noa2.png" style="object-fit: cover; width: 100px; height: 100px;" alt="Ziv Meri"/></a><br /><sub><b>Ziv Meri</b></sub><br /><a href="https://www.linkedin.com/in/ziv-meri/" title="Code">💻</a></td>
+      <td align="center"><a href="https://www.linkedin.com/in/aviva-shneor-simhon-17b733b/"><img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/aviva2.png" style="object-fit: cover; width: 100px; height: 100px;" alt="Aviva Shneor Simhon"/></a><br /><sub><b>Aviva Shneor Simhon</b></sub><br /><a href="https://www.linkedin.com/in/aviva-shneor-simhon-17b733b/" title="Code">💻</a></td>
+      <td align="center"><a href="https://www.linkedin.com/in/amit-elbaz-54301382/"><img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/amit2.png" style="object-fit: cover; width: 100px; height: 100px;" alt="Amit Elbaz"/></a><br /><sub><b>Amit Elbaz</b></sub><br /><a href="https://www.linkedin.com/in/amit-elbaz-54301382/" title="Code">💻</a></td>
+      <td align="center"><a href="https://www.linkedin.com/in/avraham-ohana-computer-vision/"><img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/avraham2.png" style="object-fit: cover; width: 100px; height: 100px;" alt="Avraham Ohana"/></a><br /><sub><b>Avraham Ohana</b></sub><br /><a href="https://www.linkedin.com/in/avraham-ohana-computer-vision/" title="Code">💻</a></td>
+      <td align="center"><a href="https://chat.openai.com/chat"><img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/openai-featured.png" style="object-fit: cover; width: 100px; height: 100px;" alt="Chat GPT" /></a><br /><sub><b>Chat GPT</b></sub><br /><a href="https://chat.openai.com/chat" title="Code">💻</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<br><br>
 
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
