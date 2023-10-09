@@ -157,7 +157,7 @@ For Architecture & Roadmap, see the Wiki page.
     <tr>	
       <td align="center">
 	      <a href="https://www.linkedin.com/in/ziv-meri/">
-		      <img src="https://github.com/C4dynamics/C4dynamics/raw/main/utils/ziv_noa2.png" style="object-fit: cover; width: 100px; height: 100px;" alt="Ziv Meri"/>
+		      <img src="https://github.com/C4dynamics/C4dynamics/raw/main/utils/ziv_noa2.png" style="object-fit: cover; width: 100px;" alt="Ziv Meri"/>
 	      </a>
 	      <br />
 	      <sub><b>Ziv Meri</b></sub>
@@ -166,7 +166,7 @@ For Architecture & Roadmap, see the Wiki page.
       </td>	    
       <td align="center">
 	      <a href="https://www.linkedin.com/in/aviva-shneor-simhon-17b733b/">
-		      <img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/aviva2.png" style="object-fit: cover; width: 100px; height: 100px;" alt="Aviva Shneor Simhon"/>
+		      <img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/aviva2.png" style="object-fit: cover; width: 100px;" alt="Aviva Shneor Simhon"/>
 	      </a>
 	      <br />
 	      <sub><b>Aviva Shneor Simhon</b></sub>
@@ -175,7 +175,7 @@ For Architecture & Roadmap, see the Wiki page.
       </td>      
       <td align="center">
 	      <a href="https://www.linkedin.com/in/amit-elbaz-54301382/">
-		      <img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/amit2.png" style="object-fit: cover; width: 100px; height: 100px;" alt="Amit Elbaz"/>
+		      <img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/amit2.png" style="object-fit: cover; width: 100px;" alt="Amit Elbaz"/>
 	      </a>
 	      <br />
 	      <sub><b>Amit Elbaz</b></sub>
@@ -185,7 +185,7 @@ For Architecture & Roadmap, see the Wiki page.
       </td>
       <td align="center">
 	      <a href="https://www.linkedin.com/in/avraham-ohana-computer-vision/">
-		      <img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/avraham2.png" style="object-fit: cover; width: 100px; height: 100px;" alt="Avraham Ohana"/>
+		      <img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/avraham2.png" style="object-fit: cover; width: 100px;" alt="Avraham Ohana"/>
 	      </a>
 	      <br />
 	      <sub><b>Avraham Ohana</b></sub>
@@ -195,7 +195,7 @@ For Architecture & Roadmap, see the Wiki page.
       </td>
       <td align="center">
 	      <a href="https://chat.openai.com/chat">
-		      <img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/openai-featured.png" style="object-fit: cover; width: 100px; height: 100px;" alt="Chat GPT" />
+		      <img src="https://github.com/C4dynamics/C4dynamics/blob/main/utils/openai-featured.png" style="object-fit: cover; width: 100px;" alt="Chat GPT" />
 	      </a>
 	      <br />
 	      <sub><b>Chat GPT
