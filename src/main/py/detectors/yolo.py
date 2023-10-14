@@ -30,7 +30,7 @@ class yolo():
         It also loads the class names for the detected objects. 
         The height and width parameters are used to set the dimensions of the video frame.
 
-    2. getMeasurements(self, frame): 
+    2. measure(self, frame): 
         This method takes a frame as input and performs object detection 
         on it using the YOLO model. 
         It returns the bounding box coordinates of the detected objects 
@@ -63,7 +63,7 @@ class yolo():
         self.width = width
         self.height = height
         
-    def getMeasurements(self, frame, t, outfile):
+    def measure(self, frame, t, outfile):
         
         resized_frame = expand_dims(frame, 0)
         resized_frame = image.resize(resized_frame, (MODEL_SIZE[0], MODEL_SIZE[1]))
@@ -128,13 +128,16 @@ class yolo():
 
 
         MeasurementsNumber = nums[0].numpy()
-        numpyBox = boxes[0][:MeasurementsNumber].numpy()
+        boxout = boxes[0][:MeasurementsNumber].numpy()
         
-        numpyBox[:, 0] = numpyBox[:, 0] * self.width
-        numpyBox[:, 2] = numpyBox[:, 2] * self.width
+        # 
+        # translate the normalized diagnonal of the bounding box to the size of the recorded frame:
+        ## 
+        boxout[:, 0] = boxout[:, 0] * self.width # x1
+        boxout[:, 2] = boxout[:, 2] * self.width # x2
         
-        numpyBox[:, 1] = numpyBox[:, 1] * self.height
-        numpyBox[:, 3] = numpyBox[:, 3] * self.height
+        boxout[:, 1] = boxout[:, 1] * self.height # y1 
+        boxout[:, 3] = boxout[:, 3] * self.height # y2 
         
-        return numpyBox
+        return boxout
         
