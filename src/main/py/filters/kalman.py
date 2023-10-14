@@ -37,3 +37,6 @@ class kalman:
         K = obj.P @ obj.H.T @ np.linalg.inv(obj.H @ obj.P @ obj.H.T + obj.R)
         obj.x += K @ (z - obj.H @ obj.x)
         obj.P = obj.P - K @ obj.H @ obj.P
+
+
+
