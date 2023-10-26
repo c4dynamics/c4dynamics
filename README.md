@@ -102,7 +102,7 @@ Store the current state of the datapoint (at time t):
 pt.store(t)
 ```
 
-Store other variables add to the datapoint object:
+Store other variables added to the datapoint object:
 ```
 pt.storevar('kalman_state', t)
 ```
