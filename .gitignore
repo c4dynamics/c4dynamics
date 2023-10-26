@@ -10,6 +10,11 @@ src/main/py/path_planning/__pycache__/
 src/main/py/pendulums/__pycache__/
 src/main/py/sensors/__pycache__/
 
+# src/main/resources/detectors/yolo_darknet/variables/variables.data-00000-of-00001
+# src/main/resources/detectors/yolo/v3/tensorflow/variables/variables.data-00000-of-00001
+# src/main/resources/detectors/yolo/v3/yolov3.cfg
+# src/main/resources/detectors/yolo/v3/yolov3.weights
+
 dontsync/
 
 c4dout.txt
@@ -44,7 +49,8 @@ vslam_roadmap.txt
 .venv/
 
 examples/trajetories.png
-# src/main/resources/detectors/yolo_darknet/variables/variables.data-00000-of-00001
+
+
 
 
 out/aviva/s6dout.txt
@@ -70,8 +76,7 @@ out/t.docx
 out/cars1.mp4_snapshot_00.00_[2023.09.26_19.18.43].jpg
 out/cars1.mp4_snapshot_00.00_[2023.09.26_19.31.49].jpg
 out/cars1.mp4_snapshot_00.00_[2023.09.29_12.44.03].jpg
-src/main/resources/yolov3.cfg
-src/main/resources/yolov3.weights
+
 examples/horse.jpg
 examples/out/0_6673.png
 examples/out/0_68.png
