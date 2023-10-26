@@ -8,4 +8,6 @@ C4dynamics.detectors
 
 
 
-from .yolo import yolo
+from .yolo_tf import yolo
+from .yolo_opencv import yolo_opencv
+

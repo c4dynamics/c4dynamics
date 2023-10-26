@@ -90,9 +90,21 @@ Load an object detection module (YOLO):
 yolodet = c4d.detectors.yolo(height = height, width = width)
 ```
 
-Define altitude radar: 
+Define a linear Kalman Filter, perform a prediction and an update: 
 ```
-rdr = c4d.seekers.dzradar([0, 0, 0], c4d.filters.filtertype.ex_kalman, 50e-3)
+pt.filter = c4d.filters.kalman(np.hstack((z, np.zeros(2))), P, A, H, Q, R)
+pt.filter.predict()
+pt.filter.correct(measure)
+```
+
+Store the current state of the datapoint (at time t):
+```
+pt.store(t)
+```
+
+Store other variables add to the datapoint object:
+```
+pt.storevar('kalman_state', t)
 ```
 
 Define errors to a general-purpose seeker with C4dynamics: 
@@ -280,7 +292,7 @@ from matplotlib import image as mpimg
 * Load the vidoes:
 ```
 videoin  = os.path.join(os.getcwd(), 'examples', 'cars1.mp4')
-videoout = os.path.join('out', 'cars1.mp4')
+videoout = os.path.join(os.getcwd(), 'examples', 'out', 'cars1.mp4')
 ```
 
 * Video preprocessing:
@@ -294,7 +306,7 @@ result = cv2.VideoWriter(videoout, cv2.VideoWriter_fourcc(*'mp4v')
 ```
 
 ```
-plt.imshow(mpimg.imread(os.path.join(os.getcwd(), 'out', 'before.png')))
+plt.imshow(mpimg.imread(os.path.join(os.getcwd(), 'examples', 'out', 'before.png')))
 plt.axis('off')
 plt.show()
 ```

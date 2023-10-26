@@ -23,7 +23,7 @@ import dof6sim as s6d
 outfol = 'aviva'
 # print2file = printres.dynamics
 
-cfile = os.path.join(os.getcwd(), 'out', outfol, 's6dout.txt')
+cfile = os.path.join(os.getcwd(), 'examples', 'out', outfol, 's6dout.txt')
 
 if not os.path.exists(os.path.dirname(cfile)):
     os.makedirs(os.path.dirname(cfile))

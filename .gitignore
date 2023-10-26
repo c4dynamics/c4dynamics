@@ -72,3 +72,28 @@ out/cars1.mp4_snapshot_00.00_[2023.09.26_19.31.49].jpg
 out/cars1.mp4_snapshot_00.00_[2023.09.29_12.44.03].jpg
 src/main/resources/yolov3.cfg
 src/main/resources/yolov3.weights
+examples/horse.jpg
+examples/out/0_6673.png
+examples/out/0_68.png
+examples/out/0_7007.png
+examples/out/0_72.png
+examples/out/0_7341.png
+examples/out/0_76.png
+examples/out/0_7674.png
+examples/out/after.png
+examples/out/before.png
+examples/out/cars1.mp4
+examples/out/cars1_1sec.mp4
+examples/out/cars1_5s.mp4
+examples/out/cars1_full.mp4
+examples/out/debug_cars 3.txt
+examples/out/debug_cars.txt
+examples/out/debug_cars1.txt
+examples/out/debug_cars1b.txt
+examples/out/debug_cars2.txt
+examples/out/debug_F-16_Takeoff.txt
+examples/out/F-16_Takeoff - 20sec.mp4
+examples/out/F-16_Takeoff.mp4
+examples/out/false negative.png
+examples/out/t.docx
+examples/out/~$t.docx
