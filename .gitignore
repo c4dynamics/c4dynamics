@@ -15,6 +15,8 @@ src/main/py/sensors/__pycache__/
 # src/main/resources/detectors/yolo/v3/yolov3.cfg
 # src/main/resources/detectors/yolo/v3/yolov3.weights
 
+examples/out/opencv/*.png
+
 dontsync/
 
 c4dout.txt
@@ -26,7 +28,7 @@ examples/freefall_2prll.py
 examples/hammer.py
 
 prll_output.txt
-
+git-readme.txt
 
 doc/MilHandbook Missile flight simulation.pdf.lnk
 # doc/dontsync/
