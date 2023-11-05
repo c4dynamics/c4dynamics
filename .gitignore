@@ -17,6 +17,8 @@ src/main/py/sensors/__pycache__/
 
 examples/out/opencv/*.png
 
+doc/~$*.*
+
 dontsync/
 
 c4dout.txt
@@ -104,3 +106,5 @@ examples/out/F-16_Takeoff.mp4
 examples/out/false negative.png
 examples/out/t.docx
 examples/out/~$t.docx
+doc/ul eadme github pages .pptx
+examples/out/opencv/detections.jpg
