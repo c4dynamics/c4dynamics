@@ -36,7 +36,7 @@ ln[0].set_color('tab:purple')
 #       run again and draw the x trajectory. 
 #       what do you see now?
 #       what does it do to the motion in z axis? why? 
-#   4) import C4dynamics as c4d in your project and use the object c4d.datapoint to model your physics. 
+#   4) import c4dynamics as c4d in your project and use the object c4d.datapoint to model your physics. 
 #   FAQ? contact zivmeri @ linkedin \ gmail, or C4dynamics at github. 
 ## 
 

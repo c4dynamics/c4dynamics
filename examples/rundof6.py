@@ -6,9 +6,9 @@ from matplotlib import pyplot as plt
 # plt.close('all')
 
 sys.path.append(os.path.join(os.getcwd(), '..'))
-import C4dynamics as c4d
+import c4dynamics as c4d
 importlib.reload(c4d)
-from C4dynamics.utils.params import * 
+from c4dynamics.utils.params import * 
 import dof6sim as s6d
 
 # it's probably useless because it can print to file when range > 1 and always print the last sim. 

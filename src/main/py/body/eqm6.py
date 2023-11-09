@@ -1,4 +1,4 @@
-# from C4dynamics.params import * 
+# from c4dynamics.params import * 
 import numpy as np
 
 def eqm6(xs, f, m, mass, ixx, iyy, izz): 

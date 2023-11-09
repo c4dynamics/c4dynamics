@@ -9,10 +9,10 @@ dirname = os.path.dirname(__file__)
 sys.path.append(os.path.join(os.getcwd(), '..'))
 
 
-import C4dynamics as c4d
+import c4dynamics as c4d
 reload(c4d)
-# from C4dynamics import c_datapoint, c_rigidbody, rotmat
-# from C4dynamics import array
+# from c4dynamics import c_datapoint, c_rigidbody, rotmat
+# from c4dynamics import array
 
 # user inputs
 

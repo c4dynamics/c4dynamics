@@ -1,7 +1,7 @@
 import numpy as np
 # from scipy.integrate import solve_ivp 
 
-import C4dynamics as c4d
+import c4dynamics as c4d
 from .eqm6 import eqm6 
 
 class rigidbody(c4d.datapoint):  # 

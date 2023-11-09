@@ -6,7 +6,7 @@ import os, sys
 os.getcwd()
 sys.path.append(os.path.join(os.getcwd(), '..'))
 
-import C4dynamics as c4d
+import c4dynamics as c4d
 
 
 class c_target(object):
