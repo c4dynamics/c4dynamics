@@ -109,3 +109,8 @@ examples/out/t.docx
 examples/out/~$t.docx
 doc/ul eadme github pages .pptx
 examples/out/opencv/detections.jpg
+examples/resources/tank_short_snapshot_t0.jpg
+examples/out/opencv/tank_short - Copy.mp4
+examples/out/opencv/tank_short.mp4
+# examples/out/opencv/tank_short.mp4
+examples/out/opencv/*.*  

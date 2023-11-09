@@ -18,8 +18,8 @@ import numpy as np
 import control_system as mcontrol_system 
 import engine as mengine 
 import aerodynamics as maerodynamics
-import C4dynamics as c4d
-from C4dynamics.utils.params import * 
+import c4dynamics as c4d
+from c4dynamics.utils.params import * 
 
 dt = 5e-3 
 vm = 30

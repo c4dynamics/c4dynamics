@@ -1,5 +1,5 @@
 import numpy as np
-# import C4dynamics as c4d
+# import c4dynamics as c4d
 
 class control_system:
     
