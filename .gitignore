@@ -14,6 +14,7 @@ src/main/py/sensors/__pycache__/
 # src/main/resources/detectors/yolo/v3/tensorflow/variables/variables.data-00000-of-00001
 # src/main/resources/detectors/yolo/v3/yolov3.cfg
 # src/main/resources/detectors/yolo/v3/yolov3.weights
+# src/main/resources/detectors/yolo/v3/tensorflow/
 
 examples/out/opencv/*.png
 

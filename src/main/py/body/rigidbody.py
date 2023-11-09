@@ -80,7 +80,7 @@ class rigidbody(c4d.datapoint):  #
   # bounded methods 
   ##
   def __init__(obj, **kwargs):
-    
+    #
     # reset mutable attributes:
     # 
     # variables for storage
