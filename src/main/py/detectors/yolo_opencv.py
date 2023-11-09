@@ -7,14 +7,14 @@ MODEL_SIZE           = (416, 416, 3)
 CONFIDENCE_THRESHOLD = 0.5
 NMS_THRESHOLD        = 0.5 # .3
 
-class yolo_opencv:
+class yolo:
     
 
     def __init__(self):
 
-        weights_path = os.path.join(os.getcwd(), 'src', 'main', 'resources', 'detectors', 'yolo', 'v3', 'yolov3.weights')
-        cfg_path     = os.path.join(os.getcwd(), 'src', 'main', 'resources', 'detectors', 'yolo', 'v3', 'yolov3.cfg')
-        coconames    = os.path.join(os.getcwd(), 'src', 'main', 'resources', 'detectors', 'yolo', 'v3', 'coco.names')
+        weights_path = os.path.join('src', 'main', 'resources', 'detectors', 'yolo', 'v3', 'yolov3.weights')
+        cfg_path     = os.path.join('src', 'main', 'resources', 'detectors', 'yolo', 'v3', 'yolov3.cfg')
+        coconames    = os.path.join('src', 'main', 'resources', 'detectors', 'yolo', 'v3', 'coco.names')
 
         self.net = cv2.dnn.readNetFromDarknet(cfg_path, weights_path)
         self.net.setPreferableBackend(cv2.dnn.DNN_BACKEND_OPENCV)
