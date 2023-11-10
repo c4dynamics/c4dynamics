@@ -125,12 +125,7 @@ For Architecture & Roadmap, see the Wiki page.
 ## Contributors ✨
 
 [//]: contributor-faces
-<a href="https://www.linkedin.com/in/ziv-meri/">                      <img src="https://github.com/C4dynamics/C4dynamics/raw/main/utils/ziv_noa2.png"        title="Ziv Meri" width="80" height="80"></a>
-<a href="https://www.linkedin.com/in/aviva-shneor-simhon-17b733b/">   <img src="https://github.com/C4dynamics/C4dynamics/raw/main/utils/aviva2.png"          title="Aviva Shneor Simhon" width="80" height="80"></a>
-<a href="https://www.linkedin.com/in/amit-elbaz-54301382/">           <img src="https://github.com/C4dynamics/C4dynamics/raw/main/utils/amit2.png"           title="Amit Elbaz" width="80" height="80"></a>
-<a href="https://www.linkedin.com/in/avraham-ohana-computer-vision/"> <img src="https://github.com/C4dynamics/C4dynamics/raw/main/utils/avraham2.png"        title="Avraham Ohana" width="80" height="80"></a>
-<a href="https://chat.openai.com/chat">                               <img src="https://github.com/C4dynamics/C4dynamics/raw/main/utils/openai-featured.png" title="Chat GPT" width="80" height="80"></a>
-
+<a href="https://www.linkedin.com/in/ziv-meri/">                      <img src="https://github.com/C4dynamics/C4dynamics/raw/main/utils/ziv_noa2.png"        title="Ziv Meri" width="80" height="80"></a> 	<a href="https://www.linkedin.com/in/aviva-shneor-simhon-17b733b/">   <img src="https://github.com/C4dynamics/C4dynamics/raw/main/utils/aviva2.png"          title="Aviva Shneor Simhon" width="80" height="80"></a> 	<a href="https://www.linkedin.com/in/amit-elbaz-54301382/">           <img src="https://github.com/C4dynamics/C4dynamics/raw/main/utils/amit2.png"           title="Amit Elbaz" width="80" height="80"></a> 	<a href="https://www.linkedin.com/in/avraham-ohana-computer-vision/"> <img src="https://github.com/C4dynamics/C4dynamics/raw/main/utils/avraham2.png"        title="Avraham Ohana" width="80" height="80"></a> 	<a href="https://chat.openai.com/chat">                               <img src="https://github.com/C4dynamics/C4dynamics/raw/main/utils/openai-featured.png" title="Chat GPT" width="80" height="80"></a>
 [//]: contributor-faces
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
