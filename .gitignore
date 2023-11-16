@@ -1,3 +1,6 @@
+#
+# pycache
+##
 __pycache__/
 *.pyc
 src/__pycache__/
@@ -9,79 +12,46 @@ src/main/py/filters/__pycache__/
 src/main/py/path_planning/__pycache__/
 src/main/py/pendulums/__pycache__/
 src/main/py/sensors/__pycache__/
+__pycache__/__init__.cpython-37.pyc
+__pycache__/__init__.cpython-37.pyc
+__pycache__
+__pycache__/
+__pycache__/*
+__pycache__/*.*
 
+
+#
+# yolo v3 
+##
 # src/main/resources/detectors/yolo_darknet/variables/variables.data-00000-of-00001
 # src/main/resources/detectors/yolo/v3/tensorflow/variables/variables.data-00000-of-00001
 # src/main/resources/detectors/yolo/v3/yolov3.cfg
 # src/main/resources/detectors/yolo/v3/yolov3.weights
 # src/main/resources/detectors/yolo/v3/tensorflow/
 
-examples/out/opencv/*.png
-
+#
+# doc
+## 
 doc/~$*.*
-
-dontsync/
-
-c4dout.txt
-c4dout.xlsx
-
-examples/dof6sim_aviva_old.py
-examples/freefallball.png
-examples/freefall_2prll.py
-examples/hammer.py
-
-prll_output.txt
-git-readme.txt
-
 doc/MilHandbook Missile flight simulation.pdf.lnk
-# doc/dontsync/
 doc/posts - Shortcut.lnk
 doc/posts.lnk
 doc/Science.lnk
 doc/physics vs data summary.pdf
+doc/ul eadme github pages .pptx
 
-c4dout_1.xlsx
-c4dout_a.txt
-c4dout_2.xlsx
-prof.txt
-c4dout_1.txt
-
-_img_movie.gif
-
-vslam_roadmap.sty
-vslam_roadmap.txt
-
+# 
+# .venv
+##
 .venv/
 
-examples/trajetories.png
 
-
-
-
-out/aviva/s6dout.txt
-out/0_68.png
-out/0_72.png
-out/0_76.png
-out/0_6673.png
-out/0_7007.png
-out/0_7341.png
-out/0_7674.png
-out/cars1_1sec.mp4
-out/cars1_5s.mp4
-out/cars1_b.mp4_snapshot_00.00_[2023.09.30_19.59.09].jpg
-out/cars1_full.mp4
-out/cars1_b.mp4_snapshot_00.00_[2023.09.30_19.59.09].jpg
-out/cars1.mp4_snapshot_00.00_[2023.09.26_19.18.43].jpg
-out/cars1.mp4_snapshot_00.00_[2023.09.26_19.31.49].jpg
-out/cars1.mp4_snapshot_00.00_[2023.09.29_12.44.03].jpg
-out/debug_cars 3.txt
-out/debug_cars.txt
-out/debug_cars1.txt
-out/t.docx
-out/cars1.mp4_snapshot_00.00_[2023.09.26_19.18.43].jpg
-out/cars1.mp4_snapshot_00.00_[2023.09.26_19.31.49].jpg
-out/cars1.mp4_snapshot_00.00_[2023.09.29_12.44.03].jpg
-
+#
+# examples/out
+##
+examples/out/*
+!examples/out/.gitkeep
+examples/out/*/*
 examples/horse.jpg
 examples/out/0_6673.png
 examples/out/0_68.png
@@ -107,10 +77,56 @@ examples/out/F-16_Takeoff.mp4
 examples/out/false negative.png
 examples/out/t.docx
 examples/out/~$t.docx
-doc/ul eadme github pages .pptx
 examples/out/opencv/detections.jpg
 examples/resources/tank_short_snapshot_t0.jpg
 examples/out/opencv/tank_short - Copy.mp4
 examples/out/opencv/tank_short.mp4
-# examples/out/opencv/tank_short.mp4
 examples/out/opencv/*.*  
+
+
+#
+# pip setup
+## 
+c4dynamics.egg-info/dependency_links.txt
+c4dynamics.egg-info/PKG-INFO
+c4dynamics.egg-info/requires.txt
+c4dynamics.egg-info/SOURCES.txt
+c4dynamics.egg-info/top_level.txt
+dist/c4dynamics-0.0.30-py3-none-any.whl
+dist/c4dynamics-0.0.30.tar.gz
+build/lib/src/__init__.py
+build/lib/src/main/__init__.py
+build/lib/src/main/py/__init__.py
+build/lib/src/main/py/body/__init__.py
+build/lib/src/main/py/body/datapoint.py
+build/lib/src/main/py/body/eqm3.py
+build/lib/src/main/py/body/eqm6.py
+build/lib/src/main/py/body/rigidbody.py
+build/lib/src/main/py/detectors/__init__.py
+build/lib/src/main/py/detectors/yolo_opencv.py
+build/lib/src/main/py/detectors/yolo_tf.py
+build/lib/src/main/py/filters/__init__.py
+build/lib/src/main/py/filters/e_kalman.py
+build/lib/src/main/py/filters/filtertype.py
+build/lib/src/main/py/filters/kalman.py
+build/lib/src/main/py/filters/lowpass.py
+build/lib/src/main/py/filters/luenberger.py
+build/lib/src/main/py/path_planning/__init__.py
+build/lib/src/main/py/path_planning/proportional_navigation.py
+build/lib/src/main/py/seekers/__init__.py
+build/lib/src/main/py/seekers/lineofsight.py
+build/lib/src/main/py/seekers/radar.py
+build/lib/utils/__init__.py
+build/lib/utils/c4d_funcs.py
+build/lib/utils/gen_gif.py
+build/lib/utils/gif_tools.py
+build/lib/utils/images_loader.py
+build/lib/utils/import_subdirs.py
+build/lib/utils/params.py
+build/lib/utils/rotmat.py
+build/lib/utils/tictoc.py
+
+
+#
+#
+#
