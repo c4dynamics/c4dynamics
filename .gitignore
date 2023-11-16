@@ -52,36 +52,10 @@ doc/ul eadme github pages .pptx
 examples/out/*
 !examples/out/.gitkeep
 examples/out/*/*
+
 examples/horse.jpg
-examples/out/0_6673.png
-examples/out/0_68.png
-examples/out/0_7007.png
-examples/out/0_72.png
-examples/out/0_7341.png
-examples/out/0_76.png
-examples/out/0_7674.png
-examples/out/after.png
-examples/out/before.png
-examples/out/cars1.mp4
-examples/out/cars1_1sec.mp4
-examples/out/cars1_5s.mp4
-examples/out/cars1_full.mp4
-examples/out/debug_cars 3.txt
-examples/out/debug_cars.txt
-examples/out/debug_cars1.txt
-examples/out/debug_cars1b.txt
-examples/out/debug_cars2.txt
-examples/out/debug_F-16_Takeoff.txt
-examples/out/F-16_Takeoff - 20sec.mp4
-examples/out/F-16_Takeoff.mp4
-examples/out/false negative.png
-examples/out/t.docx
-examples/out/~$t.docx
-examples/out/opencv/detections.jpg
 examples/resources/tank_short_snapshot_t0.jpg
-examples/out/opencv/tank_short - Copy.mp4
-examples/out/opencv/tank_short.mp4
-examples/out/opencv/*.*  
+
 
 
 #

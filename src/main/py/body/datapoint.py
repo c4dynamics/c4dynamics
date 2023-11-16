@@ -230,7 +230,18 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
   def A(obj):
     return np.sqrt(obj.ax**2 + obj.ay**2 + obj.az**2)
   
+
+  #
+  # two objects operation
+  ##
+  def dist(obj, dp):
+    return np.sqrt((obj.x - dp.x)**2 + (obj.y - dp.y)**2 + (obj.z - dp.z)**2)
   
+  
+  
+  #
+  # runge kutta integration
+  ##
   def run(obj, dt, forces):
     # 
     # integration 
