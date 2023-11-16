@@ -53,10 +53,12 @@ Documentation is currently availble through examples, readme pages, and inline c
 # make c_datapoint, c_rigidbody, rotmat belong to pri rather than their modules:
 # from .datapoint import c_datapoint 
 # from .rigidbody import c_rigidbody
-from .utils.rotmat import *
 
+# from . import utils
 from .utils import params 
-from . import utils
+from .utils.rotmat import *
+from .utils.gen_gif import gen_gif
+from .utils.cprint import print
 
 #
 # modules 
@@ -65,7 +67,7 @@ from .src.main.py.body.datapoint import datapoint
 from .src.main.py.body.rigidbody import rigidbody 
 
 from .src.main.py import seekers
-from .src.main.py import path_planning 
+# from .src.main.py import path_planning 
 from .src.main.py import filters
 from .src.main.py import detectors
 

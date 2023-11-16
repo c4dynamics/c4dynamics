@@ -53,14 +53,21 @@ So why wait? Start using C4dynamics today and take your algorithms engineering t
 
 
 ## Installation 
-* Download C4dynamics: https://github.com/C4dynamics/C4dynamics
+* with PIP
+```
+pip install c4dynamics
+```
 
-* Install the required packages:
+* GitHub repo
+To run a GitHub copy, download c4dynamics: 
+https://github.com/C4dynamics/C4dynamics  
+Install the required packages:
 ```
 pip install -r requirements.txt
 ```
 
-* Alternatively, run the preinstalled conda environment (see conda_installation.md):
+* Conda 
+Alternatively, run the preinstalled conda environment (see conda_installation.md):
 ```
 conda env create -f c4dynamics_env.yaml
 ```
@@ -177,8 +184,8 @@ from matplotlib import image as mpimg
 
 * Load the vidoes:
 ```
-videoin  = os.path.join(os.getcwd(), 'examples', 'cars1.mp4')
-videoout = os.path.join(os.getcwd(), 'examples', 'out', 'cars1.mp4')
+videoin  = os.path.join('examples', 'cars1.mp4')
+videoout = os.path.join('examples', 'out', 'cars1.mp4')
 ```
 
 * Video preprocessing:
@@ -192,7 +199,7 @@ result = cv2.VideoWriter(videoout, cv2.VideoWriter_fourcc(*'mp4v')
 ```
 
 ```
-plt.imshow(mpimg.imread(os.path.join(os.getcwd(), 'examples', 'out', 'before.png')))
+plt.imshow(mpimg.imread(os.path.join('examples', 'out', 'before.png')))
 plt.axis('off')
 plt.show()
 ```
@@ -389,12 +396,6 @@ ltrk = run(tf = 2)
 import sys, os
 import numpy as np
 from matplotlib import pyplot as plt
-```
-
-* Add C4dynamics to the python path and load it
-
-```
-sys.path.append(os.path.join(os.getcwd(), '..', '..'))
 import c4dynamics as c4d
 ```
 
@@ -486,9 +487,9 @@ The example uses a line-of-sight seeker object from the c4dynamics' seekers modu
 
 ```
 seeker  = c4d.seekers.lineofsight(dt, tau1 = 0.01, tau2 = 0.01)
-ctrl    = mcontrol_system.control_system(dt)
-eng     = mengine.engine()
-aero    = maerodynamics.aerodynamics()
+ctrl    = mcontrol_system._control_system(dt)
+eng     = mengine._engine()
+aero    = maerodynamics._aerodynamics()
 ```
 
 
