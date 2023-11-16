@@ -3,7 +3,7 @@ import sys, os, importlib
 sys.path.append(os.path.join(os.getcwd(), '..'))
 
 # 
-# load C4dynamics
+# load c4dynamics
 ## 
 import c4dynamics as c4d
 

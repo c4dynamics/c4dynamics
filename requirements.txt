@@ -1,8 +1,10 @@
-scipy==1.7.3
-numpy==1.21.6   # oldest releases support Python 3.7 are 1.20, 1.21
-                # Releases made after that only support Python 3.8 and above.
-                # https://endoflife.date/numpy#:~:text=Python%20Support&text=NumPy%20stopped%20supporting%20Python%203.7,support%20Python%203.8%20and%20above.
-matplotlib==3.5.3
-# imageio==2.25.0
-# natsort==8.2.0
+# oldest releases support Python 3.7 are 1.20, 1.21
+# Releases made after that only support Python 3.8 and above.
+# https://endoflife.date/numpy#:~:text=Python%20Support&text=NumPy%20stopped%20supporting%20Python%203.7,support%20Python%203.8%20and%20above.
+scipy
+numpy		    
+matplotlib
+opencv-python
+imageio
+natsort
 # scikit-learn==1.1.1

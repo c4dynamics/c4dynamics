@@ -2,7 +2,7 @@ import os
 import imageio
 import natsort
 
-def gen_gif(dirname):
+def gen_gif(dirname, gif_name):
     images = []
     dirfiles = natsort.natsorted(os.listdir(dirname)) # 'frames/'
     # dirfiles.sort(key = lambda f: int(''.join(filter(str.isdigit, f))))
@@ -12,6 +12,6 @@ def gen_gif(dirname):
         if filename.lower().endswith(('.png', '.jpg', '.jpeg')):
             images.append(imageio.imread(dirname + '/' + filename))
 
-    imageio.mimsave('_img_movie.gif', images)
-    print('_img_movie.gif is saved in ' + os.getcwd())
+    imageio.mimsave(os.path.join(dirname, gif_name), images)
+
 
