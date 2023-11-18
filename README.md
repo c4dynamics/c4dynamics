@@ -20,8 +20,8 @@ C4Dynamics (read Tsipor (bird) Dynamics) is the open-source framework of algorit
 - [Contributors ✨](https://github.com/C4dynamics/C4dynamics/tree/main/#contributors-✨)
 - [Quickstart for Contributors](https://github.com/C4dynamics/C4dynamics/tree/main/#quickstart-for-contributors)
 - [Getting Started]()
-- [Example 1: Objects Detection and Tracking]()
-- [Example 2: Missile Guidance Example]()
+- [Example 1: Objects Detection and Tracking](https://github.com/C4dynamics/C4dynamics/tree/main#objects-detection-and-tracking)
+- [Example 2: Missile Guidance Example](https://github.com/C4dynamics/C4dynamics/tree/main#six-degrees-of-freedom-simulation)
 
 
 ## Motivation
@@ -149,12 +149,12 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 
 
 
-# Examples
+# Examples  
 See all the examples at: https://github.com/C4dynamics/C4dynamics/tree/main/examples 
 Complete explanation at the README in the examples folder. 
 
 
-# Objects Detection and Tracking 
+## Objects Detection and Tracking 
 1. link: examples\cars_tracker.ipynb
 2. description: detecing objects with yolov3 model, extracting the objects position, updating them and predicting them with kalman filter with linear dynamics, associating between tracks with scikit learn k-neighbors. 
 3. each track is a c4d datapoint, the update and prediction performed with the internal c4d kalman.
@@ -168,7 +168,7 @@ Complete explanation at the README in the examples folder.
 </div>
 
 
-# Six Degrees of Freedom Simulation 
+## Six Degrees of Freedom Simulation 
 1. https://github.com/C4dynamics/C4dynamics/blob/main/examples/dof6sim.ipynb
 2. 6 DOF simulation of a missile employing proportional navigation guidance to pursue a target Conducting a 6-degree-of-freedom (6 DOF) simulation of a missile utilizing proportional navigation guidance to pursue a target.
 3. The missile is modeled as a C4Dynamics-rigidbody object, with variables representing attitude motion. The target is represented by a C4Dynamics-datapoint, i.e. translational motion.
