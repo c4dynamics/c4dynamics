@@ -164,7 +164,7 @@ Complete explanation at the README in the examples folder.
 2. Detecting objects using the YOLOv3 model, updating and predicting their trajectories with the Kalman filter employing linear dynamics. Association between tracks is performed using scikit-learn's k-neighbors.
 3. Each track is represented as a C4dynamics-datapoint, and the update and prediction are executed with the internal C4dynamics-Kalman-filter.
 <div align="center">
-  <img src="https://github.com/C4dynamics/C4dynamics/blob/main/examples/out/detection-tracking-tank-truck.gif">
+  <img src="https://github.com/C4dynamics/C4dynamics/raw/main/examples/out/detection-tracking-tank-truck.gif">
 </div>
 
 
@@ -177,7 +177,7 @@ Control system
 Engine
 Aerodynamics
 <div align="center">
-  <img src="https://github.com/C4dynamics/C4dynamics/blob/main/examples/out/dof6sim_trajectories.png">
+  <img src="https://github.com/C4dynamics/C4dynamics/raw/main/examples/out/dof6sim_trajectories.png">
 </div>
 
 
