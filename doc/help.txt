@@ -1,4 +1,3 @@
-
 datapoint
     __init__()
     update()
