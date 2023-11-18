@@ -52,6 +52,10 @@ examples/out/*
 examples/out/*/*
 examples/horse.jpg
 examples/resources/tank_short_snapshot_t0.jpg
+!examples/out/.gitkeep
+!examples/out/opencv/tank_short.mp4
+!examples/out/opencv/examples\out\dof6sim_trajectories.png
+
 
 #
 # pip setup
