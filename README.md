@@ -59,15 +59,15 @@ So why wait? Start using C4dynamics today and take your algorithms engineering t
 pip install c4dynamics
 ```
 
-* GitHub repo
-To run a GitHub copy, download c4dynamics: 
+* GitHub repo  
+To run the latest GitHub version, download c4dynamics: 
 https://github.com/C4dynamics/C4dynamics  
 Install the required packages:
 ```
 pip install -r requirements.txt
 ```
 
-* Conda 
+* Conda   
 Alternatively, run the preinstalled conda environment (see conda_installation.md):
 ```
 conda env create -f c4dynamics_env.yaml
