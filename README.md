@@ -54,12 +54,12 @@ So why wait? Start using C4dynamics today and take your algorithms engineering t
 
 
 ## Installation 
-* with PIP
+* PIP  
 ```
 pip install c4dynamics
 ```
 
-* GitHub repo  
+* GitHub  
 To run the latest GitHub version, download c4dynamics: 
 https://github.com/C4dynamics/C4dynamics  
 Install the required packages:
