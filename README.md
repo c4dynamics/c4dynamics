@@ -173,9 +173,9 @@ Complete explanation at the README in the examples folder.
 2. 6 DOF simulation of a missile employing proportional navigation guidance to pursue a target Conducting a 6-degree-of-freedom (6 DOF) simulation of a missile utilizing proportional navigation guidance to pursue a target.
 3. The missile is modeled as a C4Dynamics-rigidbody object, with variables representing attitude motion. The target is represented by a C4Dynamics-datapoint, i.e. translational motion.
 For this example, additional systems and sensors (not part of C4dynamics but available for download from the examples folder) were developed:
-Control system
-Engine
-Aerodynamics
+Control system  
+Engine  
+Aerodynamics  
 <div align="center">
   <img src="https://github.com/C4dynamics/C4dynamics/raw/main/examples/out/dof6sim_trajectories.png">
 </div>
