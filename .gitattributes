@@ -2,3 +2,8 @@
 * text=auto
 *.data-00000-of-00001 filter=lfs diff=lfs merge=lfs -text
 *.weights filter=lfs diff=lfs merge=lfs -text
+
+src/main/py/filters/los_angle_linearization.nb linguist-vendored
+src/main/py/filters/luenberger/alt_radar_linearization.nb linguist-vendored
+
+
