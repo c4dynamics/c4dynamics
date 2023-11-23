@@ -54,20 +54,20 @@ So why wait? Start using C4dynamics today and take your algorithms engineering t
 
 
 ## Installation 
-* with PIP
+* PIP  
 ```
 pip install c4dynamics
 ```
 
-* GitHub repo
-To run a GitHub copy, download c4dynamics: 
+* GitHub  
+To run the latest GitHub version, download c4dynamics: 
 https://github.com/C4dynamics/C4dynamics  
 Install the required packages:
 ```
 pip install -r requirements.txt
 ```
 
-* Conda 
+* Conda   
 Alternatively, run the preinstalled conda environment (see conda_installation.md):
 ```
 conda env create -f c4dynamics_env.yaml
@@ -155,11 +155,6 @@ Complete explanation at the README in the examples folder.
 
 
 ## Example 1 - Objects Detection and Tracking 
-1. link: examples\cars_tracker.ipynb
-2. description: detecing objects with yolov3 model, extracting the objects position, updating them and predicting them with kalman filter with linear dynamics, associating between tracks with scikit learn k-neighbors. 
-3. each track is a c4d datapoint, the update and prediction performed with the internal c4d kalman.
-4. gif of tanks. 
-
 1. https://github.com/C4dynamics/C4dynamics/blob/main/examples/detect_track.ipynb
 2. Detecting objects using the YOLOv3 model, updating and predicting their trajectories with the Kalman filter employing linear dynamics. Association between tracks is performed using scikit-learn's k-neighbors.
 3. Each track is represented as a C4dynamics-datapoint, and the update and prediction are executed with the internal C4dynamics-Kalman-filter.
@@ -171,11 +166,11 @@ Complete explanation at the README in the examples folder.
 ## Example 2 - Six Degrees of Freedom Simulation 
 1. https://github.com/C4dynamics/C4dynamics/blob/main/examples/dof6sim.ipynb
 2. 6 DOF simulation of a missile employing proportional navigation guidance to pursue a target Conducting a 6-degree-of-freedom (6 DOF) simulation of a missile utilizing proportional navigation guidance to pursue a target.
-3. The missile is modeled as a C4Dynamics-rigidbody object, with variables representing attitude motion. The target is represented by a C4Dynamics-datapoint, i.e. translational motion.
-For this example, additional systems and sensors (not part of C4dynamics but available for download from the examples folder) were developed:
-Control system
-Engine
-Aerodynamics
+3. The target is represented by a C4Dynamics-datapoint, i.e. an object with translational motion. The missile is modeled as a C4Dynamics-rigidbody object, with variables representing both translational and rotational motion.  
+For this example, additional systems and sensors (not part of C4dynamics but available for download from the examples folder) were developed:  
+Control system  
+Engine  
+Aerodynamics  
 <div align="center">
   <img src="https://github.com/C4dynamics/C4dynamics/raw/main/examples/out/dof6sim_trajectories.png">
 </div>
