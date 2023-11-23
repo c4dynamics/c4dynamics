@@ -63,10 +63,9 @@ examples/resources/tank_short_snapshot_t0.jpg
 ## 
 c4dynamics.egg-info/*
 dist/
-# build
-# !build/html
-build/
-!build/html
+build/bdist.win-amd64
+build/doctrees
+build/lib 
 
 #
 #
@@ -77,4 +76,8 @@ git-readme.txt
 
 #
 #
+
+
+
+
 
