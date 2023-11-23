@@ -38,6 +38,7 @@ doc/posts.lnk
 doc/Science.lnk
 doc/physics vs data summary.pdf
 doc/ul eadme github pages .pptx
+source 
 
 # 
 # .venv
@@ -62,7 +63,10 @@ examples/resources/tank_short_snapshot_t0.jpg
 ## 
 c4dynamics.egg-info/*
 dist/
-build/ 
+# build
+# !build/html
+build/
+!build/html
 
 #
 #
