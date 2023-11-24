@@ -5,9 +5,9 @@
 
 .. _c4dynamics_docs_mainpage:
 
-########################
+========================
 C4dynamics Documentation
-########################
+========================
 
 .. toctree::
    :maxdepth: 1
