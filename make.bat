@@ -26,7 +26,15 @@ if errorlevel 9009 (
 if "%1" == "" goto help
 
 %SPHINXBUILD% -M %1 %SOURCEDIR% %BUILDDIR% %SPHINXOPTS% %O%
+
+REM Move contents of doc/html/ to doc/ (including subfolders)
+REM Delete the html folder
+@REM move /Y %BUILDDIR%\html\* %BUILDDIR%\
+xcopy /E /Y %BUILDDIR%\html\* %BUILDDIR%\
+rmdir /S /Q %BUILDDIR%\html
+
 goto end
+
 
 :help
 %SPHINXBUILD% -M help %SOURCEDIR% %BUILDDIR% %SPHINXOPTS% %O%
