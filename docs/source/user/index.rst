@@ -1,8 +1,8 @@
 .. _user:
 
-################
-NumPy user guide
-################
+#####################
+C4dynamics user guide
+#####################
 
 This guide is an overview and explains the important features;
 details are found in :ref:`reference`.
