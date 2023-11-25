@@ -72,5 +72,5 @@ from .src.main.py import filters
 from .src.main.py import detectors
 
 
-__version__ = '0.0.40'
+__version__ = '1.0.40'
 
