@@ -344,7 +344,12 @@ document.write(`
                   
   <section id="body-objects">
 <span id="bodyobjects"></span><h1>Body Objects<a class="headerlink" href="#body-objects" title="Link to this heading">#</a></h1>
-<p>C4dynamics provides physical objects to represent bodies in space and time.</p>
+<p>C4dynamics provides two basic entities for developing and analyzing algorithms of objects in space and time:</p>
+<p>datapoint: a class defining a point in space: position, velocity, acceleration, and mass.
+rigidbody: a class defining a rigid body in space, i.e. an object with length and angular position.</p>
+<p>The rigidbody class extends the functionality of the datapoint class.
+It introduces additional attributes related to rotational dynamics, such as angular position, angular velocity, and moment of inertia.
+The class leverages the capabilities of the datapoint class for handling translational dynamics and extends it to include rotational aspects.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="bodyobjects.datapoint.html">the Data-Point (<code class="xref py py-class docutils literal notranslate"><span class="pre">datapoint</span></code>)</a><ul>
