@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>&lt;no title&gt; &#8212; C4dynamics 1.0.40 documentation</title>
+    <title>GPS &#8212; C4dynamics 1.0.40 documentation</title>
   
   
   
@@ -45,6 +45,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/sensors.gps';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="IMU" href="sensors.imu.html" />
+    <link rel="prev" title="Radar" href="sensors.radar.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -136,7 +138,7 @@
   </p>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
+                    <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="index.html">
                         API reference
                       </a>
@@ -205,7 +207,7 @@ document.write(`
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+      <div class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -223,7 +225,7 @@ document.write(`
   </p>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
+                    <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="index.html">
                         API reference
                       </a>
@@ -252,6 +254,41 @@ document.write(`
       </div>
     
   </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="bodyobjects.html">Body Objects</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="bodyobjects.datapoint.html">the Data-Point (<code class="xref py py-class docutils literal notranslate"><span class="pre">datapoint</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bodyobjects.rigidbody.html">the Rigid-Body (<code class="xref py py-class docutils literal notranslate"><span class="pre">rigidbody</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="sensors.html">Sensors</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="sensors.camera.html">Camera</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensors.laser.html">Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensors.lidar.html">Lidar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensors.radar.html">Radar</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">GPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensors.imu.html">IMU</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="detectors.html">Detectors</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="detectors.yolo.html">YOLO</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="filters.html">Filters</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="filters.kalman.html">Kalman Filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="filters.e_kalman.html">Extended Kalman Filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="filters.luenberger.html">Luenberger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="filters.lowpass.html">Low Pass Filter</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav></div>
+    </div>
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
@@ -285,7 +322,13 @@ document.write(`
         <i class="fa-solid fa-home"></i>
       </a>
     </li>
-    <li class="breadcrumb-item active" aria-current="page">&lt;no title&gt;</li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">C4dynamics reference</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="sensors.html" class="nav-link">Sensors</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">GPS</li>
   </ul>
 </nav>
 </div>
@@ -302,7 +345,11 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  
+  <section id="gps">
+<span id="sensors-gps"></span><h1>GPS<a class="headerlink" href="#gps" title="Link to this heading">#</a></h1>
+<p>TBD</p>
+</section>
+
 
                 </article>
               
@@ -313,6 +360,24 @@ document.write(`
                 <footer class="prev-next-footer">
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="sensors.radar.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Radar</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="sensors.imu.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">IMU</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
@@ -321,16 +386,6 @@ document.write(`
             
               
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> On this page
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="simple visible nav section-nav flex-column">
-</ul>
-
-  </nav></div>
 
   <div class="sidebar-secondary-item">
   <div class="tocsection sourcelink">

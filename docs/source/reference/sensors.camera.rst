@@ -1,7 +1,7 @@
-.. _sensors.radar:
+.. _sensors.camera:
 
-Radar 
-=====
+Camera
+======
 
 .. currentmodule:: c4dynamics
 
