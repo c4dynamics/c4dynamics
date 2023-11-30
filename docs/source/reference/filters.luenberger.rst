@@ -1,10 +1,10 @@
 .. currentmodule:: c4dynamics 
 
-.. _filters.kalman:
+.. _filters.luenberger:
 
-*************
-Kalman Filter 
-*************
+**********
+Luenberger
+**********
 
 .. currentmodule:: c4dynamics 
 

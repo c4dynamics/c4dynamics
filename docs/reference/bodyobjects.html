@@ -45,7 +45,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/bodyobjects';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="&lt;no title&gt;" href="detectors.html" />
+    <link rel="next" title="the Data-Point (datapoint)" href="bodyobjects.datapoint.html" />
     <link rel="prev" title="C4dynamics reference" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -260,7 +260,29 @@ document.write(`
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Body Objects</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="simple">
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Body Objects</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="bodyobjects.datapoint.html">the Data-Point (<code class="xref py py-class docutils literal notranslate"><span class="pre">datapoint</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bodyobjects.rigidbody.html">the Rigid-Body (<code class="xref py py-class docutils literal notranslate"><span class="pre">rigidbody</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="sensors.html">Sensors</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="sensors.camera.html">Camera</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensors.laser.html">Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensors.lidar.html">Lidar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensors.radar.html">Radar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensors.gps.html">GPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensors.imu.html">IMU</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="detectors.html">Detectors</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="detectors.yolo.html">YOLO</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="filters.html">Filters</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="filters.kalman.html">Kalman Filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="filters.e_kalman.html">Extended Kalman Filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="filters.luenberger.html">Luenberger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="filters.lowpass.html">Low Pass Filter</a></li>
 </ul>
 </li>
 </ul>
@@ -324,6 +346,20 @@ document.write(`
 <span id="bodyobjects"></span><h1>Body Objects<a class="headerlink" href="#body-objects" title="Link to this heading">#</a></h1>
 <p>C4dynamics provides physical objects to represent bodies in space and time.</p>
 <div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="bodyobjects.datapoint.html">the Data-Point (<code class="xref py py-class docutils literal notranslate"><span class="pre">datapoint</span></code>)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bodyobjects.datapoint.html#constructing-a-datapoint">Constructing a datapoint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bodyobjects.datapoint.html#datapoint-attributes">Datapoint attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bodyobjects.datapoint.html#datapoint-methods">Datapoint methods</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bodyobjects.rigidbody.html">the Rigid-Body (<code class="xref py py-class docutils literal notranslate"><span class="pre">rigidbody</span></code>)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bodyobjects.rigidbody.html#constructing-a-rgidibody">Constructing a rgidibody</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bodyobjects.rigidbody.html#rigidbody-attributes">Rigidbody attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bodyobjects.rigidbody.html#rigidbody-methods">Rigidbody methods</a></li>
+</ul>
+</li>
+</ul>
 </div>
 </section>
 
@@ -347,11 +383,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="detectors.html"
+       href="bodyobjects.datapoint.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">&lt;no title&gt;</p>
+        <p class="prev-next-title">the Data-Point (<code class="xref py py-class docutils literal notranslate"><span class="pre">datapoint</span></code>)</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

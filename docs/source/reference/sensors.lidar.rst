@@ -1,6 +1,6 @@
-.. _sensors.radar:
+.. _sensors.lidar:
 
-Radar 
+Lidar
 =====
 
 .. currentmodule:: c4dynamics
