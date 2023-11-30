@@ -1,7 +1,7 @@
-.. _sensors.radar:
+.. _sensors.imu:
 
-Radar 
-=====
+IMU
+===
 
 .. currentmodule:: c4dynamics
 

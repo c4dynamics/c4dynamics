@@ -1,10 +1,10 @@
 .. currentmodule:: c4dynamics 
 
-.. _filters.kalman:
+.. _filters.lowpass:
 
-*************
-Kalman Filter 
-*************
+***************
+Low Pass Filter 
+***************
 
 .. currentmodule:: c4dynamics 
 

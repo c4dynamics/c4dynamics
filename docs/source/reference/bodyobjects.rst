@@ -1,8 +1,8 @@
 .. _bodyobjects:
 
-*************
+************
 Body Objects
-*************
+************
 
 .. currentmodule:: c4dynamics 
 

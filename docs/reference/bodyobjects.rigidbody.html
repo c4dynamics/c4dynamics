@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>C4dynamics reference &#8212; C4dynamics 1.0.40 documentation</title>
+    <title>the Rigid-Body (rigidbody) &#8212; C4dynamics 1.0.40 documentation</title>
   
   
   
@@ -42,11 +42,11 @@
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=36754332"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/index';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/bodyobjects.rigidbody';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Body Objects" href="bodyobjects.html" />
-    <link rel="prev" title="C4dynamics Documentation" href="../index.html" />
+    <link rel="next" title="Sensors" href="sensors.html" />
+    <link rel="prev" title="the Data-Point (datapoint)" href="bodyobjects.datapoint.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -139,7 +139,7 @@
   <ul class="bd-navbar-elements navbar-nav">
     
                     <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="#">
+                      <a class="nav-link nav-internal" href="index.html">
                         API reference
                       </a>
                     </li>
@@ -226,7 +226,7 @@ document.write(`
   <ul class="bd-navbar-elements navbar-nav">
     
                     <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="#">
+                      <a class="nav-link nav-internal" href="index.html">
                         API reference
                       </a>
                     </li>
@@ -259,10 +259,10 @@ document.write(`
         <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
-  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="bodyobjects.html">Body Objects</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="bodyobjects.html">Body Objects</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="bodyobjects.datapoint.html">the Data-Point (<code class="xref py py-class docutils literal notranslate"><span class="pre">datapoint</span></code>)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bodyobjects.rigidbody.html">the Rigid-Body (<code class="xref py py-class docutils literal notranslate"><span class="pre">rigidbody</span></code>)</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">the Rigid-Body (<code class="xref py py-class docutils literal notranslate"><span class="pre">rigidbody</span></code>)</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="sensors.html">Sensors</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -322,7 +322,13 @@ document.write(`
         <i class="fa-solid fa-home"></i>
       </a>
     </li>
-    <li class="breadcrumb-item active" aria-current="page">C4dynamics reference</li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">C4dynamics reference</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="bodyobjects.html" class="nav-link">Body Objects</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">the...</li>
   </ul>
 </nav>
 </div>
@@ -339,48 +345,32 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="c4dynamics-reference">
-<span id="reference"></span><span id="module-c4dynamics"></span><h1>C4dynamics reference<a class="headerlink" href="#c4dynamics-reference" title="Link to this heading">#</a></h1>
-<dl class="field-list simple">
-<dt class="field-odd">Release<span class="colon">:</span></dt>
-<dd class="field-odd"><p>1.0</p>
-</dd>
-<dt class="field-even">Date<span class="colon">:</span></dt>
-<dd class="field-even"><p>Nov 30, 2023</p>
-</dd>
-</dl>
-<p>This reference manual details functions, modules, and objects
-included in C4dynamics, describing what they are and what they do.
-For learning how to use C4dynamics, see the <a class="reference internal" href="../index.html#c4dynamics-docs-mainpage"><span class="std std-ref">complete documentation</span></a>.</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="bodyobjects.html">Body Objects</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="bodyobjects.datapoint.html">the Data-Point (<code class="xref py py-class docutils literal notranslate"><span class="pre">datapoint</span></code>)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bodyobjects.rigidbody.html">the Rigid-Body (<code class="xref py py-class docutils literal notranslate"><span class="pre">rigidbody</span></code>)</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="sensors.html">Sensors</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="sensors.camera.html">Camera</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sensors.laser.html">Laser</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sensors.lidar.html">Lidar</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sensors.radar.html">Radar</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sensors.gps.html">GPS</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sensors.imu.html">IMU</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="detectors.html">Detectors</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="detectors.yolo.html">YOLO</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="filters.html">Filters</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="filters.kalman.html">Kalman Filter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="filters.e_kalman.html">Extended Kalman Filter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="filters.luenberger.html">Luenberger</a></li>
-<li class="toctree-l2"><a class="reference internal" href="filters.lowpass.html">Low Pass Filter</a></li>
-</ul>
-</li>
-</ul>
+  <section id="the-rigid-body-rigidbody">
+<span id="bodyobjects-rigidbody"></span><h1>the Rigid-Body (<code class="xref py py-class docutils literal notranslate"><span class="pre">rigidbody</span></code>)<a class="headerlink" href="#the-rigid-body-rigidbody" title="Link to this heading">#</a></h1>
+<p>The rigidbody is a class defining a rigid body in space, i.e. an object with length and angular position.
+The rigidbody class extends the functionality of the datapoint class.
+It introduces additional attributes related to rotational dynamics, such as angular position, angular velocity, and moment of inertia.
+The class leverages the capabilities of the datapoint class for handling translational dynamics and extends it to include rotational aspects.</p>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<p>TBD</p>
 </div>
+<section id="constructing-a-rgidibody">
+<h2>Constructing a rgidibody<a class="headerlink" href="#constructing-a-rgidibody" title="Link to this heading">#</a></h2>
+<p>A rigidbody can be constructed using the low-level <code class="xref py py-class docutils literal notranslate"><span class="pre">rigidbody</span></code> constructor:</p>
+</section>
+<section id="rigidbody-attributes">
+<h2>Rigidbody attributes<a class="headerlink" href="#rigidbody-attributes" title="Link to this heading">#</a></h2>
+<blockquote>
+<div><p>TBD</p>
+</div></blockquote>
+</section>
+<section id="rigidbody-methods">
+<h2>Rigidbody methods<a class="headerlink" href="#rigidbody-methods" title="Link to this heading">#</a></h2>
+<blockquote>
+<div><p>TBD</p>
+</div></blockquote>
+</section>
 </section>
 
 
@@ -394,20 +384,20 @@ For learning how to use C4dynamics, see the <a class="reference internal" href="
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../index.html"
+       href="bodyobjects.datapoint.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">C4dynamics Documentation</p>
+        <p class="prev-next-title">the Data-Point (<code class="xref py py-class docutils literal notranslate"><span class="pre">datapoint</span></code>)</p>
       </div>
     </a>
     <a class="right-next"
-       href="bodyobjects.html"
+       href="sensors.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Body Objects</p>
+        <p class="prev-next-title">Sensors</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -421,8 +411,20 @@ For learning how to use C4dynamics, see the <a class="reference internal" href="
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
   <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#constructing-a-rgidibody">Constructing a rgidibody</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rigidbody-attributes">Rigidbody attributes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rigidbody-methods">Rigidbody methods</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
   <div class="tocsection sourcelink">
-    <a href="../_sources/reference/index.rst.txt">
+    <a href="../_sources/reference/bodyobjects.rigidbody.rst.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>

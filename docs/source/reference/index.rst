@@ -1,4 +1,4 @@
-.. module:: C4dynamics
+.. module:: c4dynamics 
 
 .. _reference:
 
@@ -18,7 +18,7 @@ For learning how to use C4dynamics, see the :ref:`complete documentation <c4dyna
    :maxdepth: 2
 
    bodyobjects
-   detectors
    sensors
+   detectors
    filters
 

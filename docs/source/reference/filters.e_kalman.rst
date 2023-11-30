@@ -2,9 +2,9 @@
 
 .. _filters.kalman:
 
-*************
-Kalman Filter 
-*************
+**********************
+Extended Kalman Filter 
+**********************
 
 .. currentmodule:: c4dynamics 
 
