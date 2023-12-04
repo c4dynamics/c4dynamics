@@ -3,7 +3,7 @@
 .. _reference:
 
 ####################
-C4dynamics reference
+C4dynamics Reference
 ####################
 
 :Release: |version|

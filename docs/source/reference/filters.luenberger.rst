@@ -6,7 +6,6 @@
 Luenberger
 **********
 
-.. currentmodule:: c4dynamics 
 
 
 TBD 

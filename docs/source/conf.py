@@ -45,10 +45,62 @@ version = re.sub(r'(\.dev\d+).*?$', r'\1', version)
 release = c4dynamics.__version__
 print("%s %s" % (version, release))
 
-
-# -- Options for HTML output -------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
+# -----------------------------------------------------------------------------
+# HTML output
+# -----------------------------------------------------------------------------
 
 html_theme = 'pydata_sphinx_theme'
-html_static_path = ['_static']
+
+html_favicon = '_static/favicon/favicon.ico'
+
+# Set up the version switcher.  The versions.json is stored in the doc repo.
+if os.environ.get('CIRCLE_JOB', False) and \
+        os.environ.get('CIRCLE_BRANCH', '') != 'main':
+    # For PR, name is set to its ref
+    switcher_version = os.environ['CIRCLE_BRANCH']
+elif ".dev" in version:
+    switcher_version = "devdocs"
+else:
+    switcher_version = f"{version}"
+
+# html_theme_options = {
+#   "logo": {
+#       "image_light": "c4dlogo.svg",
+#       "image_dark": "c4dlogo.svg",
+#   },
+#   "github_url": "https://github.com/C4dynamics/C4dynamics",
+#   "collapse_navigation": True,
+#   "external_links": [
+#       {"name": "Learn", "url": "https://c4dynamics.github.io/C4dynamics/user/"},
+#       {"name": "NEPs", "url": "https://github.com/C4dynamics/C4dynamics/wiki/Architecture-&-Roadmap"}
+#       ],
+#   "header_links_before_dropdown": 6,
+#   # Add light/dark mode and documentation version switcher:
+#   "navbar_end": ["theme-switcher", "version-switcher", "navbar-icon-links"],
+#   "switcher": {
+#       "version_match": switcher_version,
+#       "json_url": "",
+#   },
+# }
+
+html_title = "%s v%s Manual" % (project, version)
+# html_static_path = ['_static']
+html_last_updated_fmt = '%b %d, %Y'
+html_css_files = ["c4dynamics.css"]
+html_context = {"default_mode": "dark"}
+html_use_modindex = True
+html_copy_source = False
+html_domain_indices = False
+html_file_suffix = '.html'
+
+htmlhelp_basename = 'c4dynamics'
+
+if 'sphinx.ext.pngmath' in extensions:
+    pngmath_use_preview = True
+    pngmath_dvipng_args = ['-gamma', '1.5', '-D', '96', '-bg', 'Transparent']
+
+# mathjax_path = "scipy-mathjax/MathJax.js?config=scipy-mathjax"
+
+plot_html_show_formats = False
+plot_html_show_source_link = False
 
