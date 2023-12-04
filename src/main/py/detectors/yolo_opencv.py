@@ -28,7 +28,7 @@ class yolo:
 
 
     
-    def measure(self, frame, t, outfile):
+    def detect(self, frame, t, outfile):
 
         #
         # Step 1: Preprocess the Frame

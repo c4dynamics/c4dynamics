@@ -6,7 +6,6 @@
 Low Pass Filter 
 ***************
 
-.. currentmodule:: c4dynamics 
 
 
 TBD 

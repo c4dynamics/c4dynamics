@@ -6,7 +6,6 @@
 Extended Kalman Filter 
 **********************
 
-.. currentmodule:: c4dynamics 
 
 
 TBD 

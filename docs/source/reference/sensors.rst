@@ -14,7 +14,5 @@ C4dynamics provides models of electro-optic sensors, lasers, and electro-magneti
 
    sensors.camera
    sensors.laser
-   sensors.lidar
    sensors.radar
-   sensors.gps
    sensors.imu 

@@ -65,7 +65,7 @@ class yolo():
 
 
         
-    def measure(self, frame, t, outfile):
+    def detect(self, frame, t, outfile):
         # frame (1080, 1920, 3), resized_frame tf([1, 416, 416, 3])
         resized_frame = expand_dims(frame, 0)
         resized_frame = image.resize(resized_frame, (MODEL_SIZE[0], MODEL_SIZE[1]))
