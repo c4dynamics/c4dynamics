@@ -13,6 +13,7 @@ C4dynamics Documentation
    :maxdepth: 1
    :hidden:
 
+   Use Cases <user/index>
    API reference <reference/index>
 
 
@@ -38,27 +39,47 @@ NumPy |
 Matplotlib 
 
 
-.. .. grid:: 2
+.. grid:: 2
 
-..         :img-top: docs/_images/getting_started.svg
+   .. grid-item-card::
 
-..         Reference
-..         ^^^^^^^^^^^^^^^
+      Getting Started
+      ^^^^^^^^^^^^^^^
 
-..         New to C4dynamics? Check out the Absolute Beginner's Guide. It contains an
-..         introduction to C4dynamics's main concepts and links to additional tutorials.
+      New to C4dynamics? Check out these use cases. 
+      Hands-on scenarios that showcase the capabilities of C4Dynamics, 
+      illustrating how this innovative tool can seamlessly improve your algorithm development,  
+      enhance your dynamic system, and empower you to achieve unprecedented efficiency.
 
-..         +++
+      +++
 
-..         .. button-ref:: reference
-..             :expand:
-..             :color: secondary
-..             :click-parent:
+      .. button-ref:: user
+         :expand:
+         :color: secondary
+         :click-parent:
 
-..             To the absolute beginner's guide
+         To the beginner's guide
+
+
+   .. grid-item-card::
+
+
+      API reference
+      ^^^^^^^^^^^^^
+
+      The reference guide contains a detailed description of the functions,
+      modules, and objects included in NumPy. The reference describes how the
+      methods work and which parameters can be used. It assumes that you have an
+      understanding of the key concepts.
+
+      +++
+
+      .. button-ref:: reference
+         :expand:
+         :color: secondary
+         :click-parent:
+
+         To the reference guide
 
 
 
-.. This is not really the index page, that is found in
-   _templates/indexcontent.html The toctree content here will be added to the
-   top of the template header
