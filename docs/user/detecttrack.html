@@ -51,7 +51,7 @@
     <link rel="prev" title="C4dynamics Use Cases" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Dec 04, 2023"/>
+    <meta name="docbuild:last-update" content="Dec 05, 2023"/>
   </head>
   
   
@@ -343,7 +343,8 @@ document.write(`
 <p>Detecting objects using the YOLOv3 model, updating and predicting their trajectories
 with the Kalman filter employing linear dynamics. Association between tracks is performed
 using scikit-learn’s k-neighbors.
-Each track is represented as a C4dynamics-datapoint, and the update and prediction are executed with the internal C4dynamics-Kalman-filter.</p>
+Each track is represented as a C4dynamics-datapoint, and the update and prediction are
+executed with the internal C4dynamics-Kalman-filter.</p>
 <section id="jupyter-notebook">
 <h2>Jupyter Notebook<a class="headerlink" href="#jupyter-notebook" title="Link to this heading">#</a></h2>
 <p><a class="reference external" href="https://github.com/C4dynamics/C4dynamics/tree/main/examples">The example’s notebook can be downloaded from the examples folder in C4dynamics’ GitHub</a></p>
@@ -364,6 +365,11 @@ that uses for the next operations.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="n">cvideo</span><span class="o">.</span><span class="n">isOpened</span><span class="p">():</span>
    <span class="n">ret</span><span class="p">,</span> <span class="n">frame</span> <span class="o">=</span> <span class="n">cvideo</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
    <span class="o">...</span>
+</pre></div>
+</div>
+<p>Add bounding boxes and track number:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cv2</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="p">(</span><span class="n">pose</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pose</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="p">(</span><span class="n">pose</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">pose</span><span class="p">[</span><span class="mi">3</span><span class="p">]),</span> <span class="n">color</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="s1">&#39;id: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">),</span> <span class="p">(</span><span class="n">center</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">]),</span> <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_PLAIN</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -447,11 +453,37 @@ the covariance, the state transition, the observation, the process noise, and th
 </div>
 <p>Where measurement is the object coordinates as given by the detector.</p>
 </div>
+</section>
+<section id="results-analysis">
+<h2>Results Analysis<a class="headerlink" href="#results-analysis" title="Link to this heading">#</a></h2>
+<p>The process iterates until the last frame. As we saw earlier the data is
+saved in every iteration:</p>
+<div class="admonition-data-storage admonition">
+<p class="admonition-title">Data storage</p>
+<p>The state of each tracker (datapoint):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">trackers</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">trackers</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">storevar</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The annotated frame:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cvideo_out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Now the results can be analyzed. First and foremost is the output video:</p>
 <figure class="align-default" id="id1">
 <img alt="../_images/detection-tracking-tank-truck.gif" src="../_images/detection-tracking-tank-truck.gif" />
 <figcaption>
-<p><span class="caption-text"><strong>Figure</strong>
-Ouput video including bounding boxes encompassing the tracked vehicles.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+<p><span class="caption-text">Ouput video including bounding boxes encompassing the tracked vehicles.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Next interesting thing to see is the life time of tracks during the process:</p>
+<figure class="align-default" id="id2">
+<img alt="../_images/track_id.png" src="../_images/track_id.png" />
+<figcaption>
+<p><span class="caption-text">A time series analysis of the sotred data. The track ID is marked on the Y axis.
+A dotted line represents updates of the Kalman filter from the YOLO detector. A solid line (with no dots) indicates a sole
+prediction when the detector failed to detect the object.</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 </section>
@@ -505,6 +537,7 @@ Ouput video including bounding boxes encompassing the tracked vehicles.</span><a
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#detection">Detection</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tracks-management">Tracks Management</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#state-estimation">State Estimation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results-analysis">Results Analysis</a></li>
 </ul>
   </nav></div>
 
