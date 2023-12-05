@@ -5,9 +5,8 @@ Objects Detection and Tracking
 Detecting objects using the YOLOv3 model, updating and predicting their trajectories 
 with the Kalman filter employing linear dynamics. Association between tracks is performed 
 using scikit-learn's k-neighbors.
-Each track is represented as a C4dynamics-datapoint, and the update and prediction are executed with the internal C4dynamics-Kalman-filter.
-
-
+Each track is represented as a C4dynamics-datapoint, and the update and prediction are 
+executed with the internal C4dynamics-Kalman-filter.
 
 
 .. table of content 
@@ -15,27 +14,6 @@ Each track is represented as a C4dynamics-datapoint, and the update and predicti
 .. car detection with YOLO
 .. car tracking with kalman filter 
 .. main loop exerts. 
-
-
-.. 3 levels of header
-
-.. ******************************************
-.. The N-dimensional array (:class:`ndarray`)
-.. ******************************************
-
-.. Constructing arrays
-.. ===================
-
-.. Memory layout
-.. -------------
-
-.. example box and code box:
-.. .. admonition:: Example
-
-..    A 2-dimensional array of size 2 x 3, composed of 4-byte integer
-..    elements:
-
-..    >>> x = np.array([[1, 2, 3], [4, 5, 6]], np.int32)
 
 
 
@@ -63,13 +41,20 @@ that uses for the next operations.
 
 
    Main loop: 
-
    
    .. code:: 
 
       while cvideo.isOpened():
          ret, frame = cvideo.read()
          ...
+
+
+   Add bounding boxes and track number:
+
+   .. code::
+      
+      cv2.rectangle(frame, (pose[0], pose[1]), (pose[2], pose[3]), color, 2)
+      cv2.putText(frame, 'id: ' + str(key), (center + [0, -10]), cv2.FONT_HERSHEY_PLAIN, 1, color, 2)
 
 
 Detection 
@@ -126,13 +111,13 @@ and voclity, and storing the state in the current time stamp:
 
    .. code:: 
 
-            self.trackers[key].x = center[0]
-            self.trackers[key].y = center[1]
-            self.trackers[key].vx = vel[0]
-            self.trackers[key].vy = vel[1]
-            
-            self.trackers[key].store(t)
-            self.trackers[key].storevar('state', t)
+      self.trackers[key].x = center[0]
+      self.trackers[key].y = center[1]
+      self.trackers[key].vx = vel[0]
+      self.trackers[key].vy = vel[1]
+      
+      self.trackers[key].store(t)
+      self.trackers[key].storevar('state', t)
 
 
 
@@ -204,15 +189,39 @@ with the object (linear motion, in this example).
 
 .. Let's start!
 
+Results Analysis
+================
 
+The process iterates until the last frame. As we saw earlier the data is 
+saved in every iteration:
 
+.. admonition:: Data storage
 
+   The state of each tracker (datapoint):
 
+   .. code::
 
+      self.trackers[key].store(t)
+      self.trackers[key].storevar('state', t)
 
+   The annotated frame:
 
+   .. code::
+
+      cvideo_out.write(frame)
+
+Now the results can be analyzed. First and foremost is the output video:
 
 .. figure:: /../../examples/out/detection-tracking-tank-truck.gif
 
-   **Figure**
    Ouput video including bounding boxes encompassing the tracked vehicles.
+
+
+Next interesting thing to see is the life time of tracks during the process:
+
+.. figure:: /../../examples/out/track_id.png
+
+   A time series analysis of the sotred data. The track ID is marked on the Y axis. 
+   A dotted line represents updates of the Kalman filter from the YOLO detector. A solid line (with no dots) indicates a sole 
+   prediction when the detector failed to detect the object.
+
