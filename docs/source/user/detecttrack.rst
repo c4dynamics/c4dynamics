@@ -52,7 +52,7 @@ that uses for the next operations.
    Add bounding boxes and track number:
 
    .. code::
-      
+
       cv2.rectangle(frame, (pose[0], pose[1]), (pose[2], pose[3]), color, 2)
       cv2.putText(frame, 'id: ' + str(key), (center + [0, -10]), cv2.FONT_HERSHEY_PLAIN, 1, color, 2)
 
@@ -225,3 +225,13 @@ Next interesting thing to see is the life time of tracks during the process:
    A dotted line represents updates of the Kalman filter from the YOLO detector. A solid line (with no dots) indicates a sole 
    prediction when the detector failed to detect the object.
 
+
+Finally a range plot helps the engineer get a first overview of the system performances. 
+Overlapping of two tracks may inidcate wrong duplication, and 
+a toggling pattern may indicate bad behavior of the association algorithm.
+
+.. figure:: /../../examples/out/track_range.png
+
+   Range vs. time vs. track ID during the video.  
+   A dotted line represents updates of the Kalman filter from the YOLO detector. A solid line (with no dots) indicates a sole 
+   prediction when the detector failed to detect the object.
