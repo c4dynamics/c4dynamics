@@ -1,7 +1,6 @@
 import numpy as np
 
-# import c4dynamics as c4d
-from .eqm3 import eqm3
+from c4dynamics import eqm3
 
 class datapoint:
   """ 

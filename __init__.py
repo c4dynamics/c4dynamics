@@ -54,6 +54,15 @@ Documentation is currently availble through examples, readme pages, and inline c
 # from .datapoint import c_datapoint 
 # from .rigidbody import c_rigidbody
 
+#
+# routines 
+## 
+from .src.main.py import ode 
+from .src.main.py.ode import * 
+from .src.main.py import io 
+from .src.main.py.io import *  
+
+
 # from . import utils
 from .utils import params 
 from .utils.rotmat import *
@@ -72,5 +81,8 @@ from .src.main.py import filters
 from .src.main.py import detectors
 
 
+#
+# version
+##
 __version__ = '1.0.40'
 

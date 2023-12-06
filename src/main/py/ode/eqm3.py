@@ -1,9 +1,10 @@
 import numpy as np 
 
 def eqm3(xs, f, mass): 
-    #
-    # translational motion derivatives in inertial frame 
-    ##
+    '''
+    translational motion derivatives in inertial frame 
+    '''
+    
     _, _, _, vx, vy, vz = xs
 
     dx = vx
