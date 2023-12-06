@@ -30,8 +30,9 @@ if "%1" == "" goto help
 REM Move contents of doc/html/ to doc/ (including subfolders)
 REM Delete the html folder
 @REM move /Y %BUILDDIR%\html\* %BUILDDIR%\
-xcopy /E /Y %BUILDDIR%\html\* %BUILDDIR%\
+xcopy /E /Y %BUILDDIR%\html\* %BUILDDIR%\ > null.tmp
 rmdir /S /Q %BUILDDIR%\html
+del null.tmp
 
 goto end
 
