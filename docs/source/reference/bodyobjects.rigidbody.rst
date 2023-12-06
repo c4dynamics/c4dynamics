@@ -6,8 +6,6 @@
 the Rigid-Body (:class:`rigidbody`)
 ***********************************
 
-.. currentmodule:: c4dynamics 
-
 
 The rigidbody is a class defining a rigid body in space, i.e. an object with length and angular position.
 The rigidbody class extends the functionality of the datapoint class. 

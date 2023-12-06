@@ -1,5 +1,10 @@
+# from IPython.display import display_html
+# display_html("<script>Jupyter.notebook.kernel.restart()</script>", raw = True)
+
 import re
 import os, sys
+# import importlib
+
 
 # Configuration file for the Sphinx documentation builder.
 #
@@ -34,9 +39,22 @@ extensions = [
 templates_path = ['_templates']
 exclude_patterns = []
 
+
+
+
+
+
+# # Check if the module is loaded
+# if 'c4dynamics' in sys.modules:
+#     print('\033[91m' + 'reimport c4dynamics' + '\033[0m')
+#     del sys.modules['c4dynamics']
 sys.path.append(os.path.join('..', '..', '..'))
-# print(os.getcwd())
+
+# print('\033[91m' + os.getcwd() + '\033[0m')
+
 import c4dynamics
+# Reload the module
+# importlib.reload(importlib.import_module(project.lower()))
 
 # The short X.Y version (including .devXXXX, rcX, b1 suffixes if present)
 version = re.sub(r'(\d+\.\d+)\.\d+(.*)', r'\1\2', c4dynamics.__version__)
@@ -84,7 +102,7 @@ else:
 # }
 
 html_title = "%s v%s Manual" % (project, version)
-# html_static_path = ['_static']
+html_static_path = ['_static']
 html_last_updated_fmt = '%b %d, %Y'
 html_css_files = ["c4dynamics.css"]
 html_context = {"default_mode": "dark"}
