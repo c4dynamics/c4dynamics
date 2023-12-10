@@ -43,6 +43,7 @@
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=36754332"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/generated/c4dynamics.eqm.eqm6';</script>
     <link rel="icon" href="../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -385,46 +386,46 @@ document.write(`
 <h1>c4dynamics.eqm.eqm6<a class="headerlink" href="#c4dynamics-eqm-eqm6" title="Link to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="c4dynamics.eqm.eqm6">
-<span class="sig-prename descclassname"><span class="pre">c4dynamics.eqm.</span></span><span class="sig-name descname"><span class="pre">eqm6</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ixx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iyy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">izz</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#c4dynamics.eqm.eqm6" title="Link to this definition">#</a></dt>
-<dd><p>Translational motion derivatives,
-euler angles derivatives, 
-angular motion derivatives.</p>
-<p>Translational motion derivatives.</p>
+<span class="sig-prename descclassname"><span class="pre">c4dynamics.eqm.</span></span><span class="sig-name descname"><span class="pre">eqm6</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">F</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">M</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">I</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#c4dynamics.eqm.eqm6" title="Link to this definition">#</a></dt>
+<dd><p>Translational and angular motion derivatives</p>
+<p>A set of first-order ordinary 
+differential equations (ODEs) that describe the motion 
+of a rigid body in three-dimensional space under the influence 
+of external forces and moments.</p>
 <section id="parameters">
 <h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h2>
-<dl class="simple">
-<dt>x<span class="classifier">array_like</span></dt><dd><p>6 state variables: position x, position y, position z, velocity x, velocity y, velocity z.
-(m), (m/s)</p>
+<dl>
+<dt>x<span class="classifier">array_like</span></dt><dd><p><span class="math notranslate nohighlight">\([x, y, z, v_x, v_y, v_z, \varphi, \theta, \psi, p, q, r]\)</span></p>
+<p>12 state variables: 
+position <span class="math notranslate nohighlight">\(x\)</span>, position <span class="math notranslate nohighlight">\(y\)</span>, position <span class="math notranslate nohighlight">\(z\)</span>, 
+velocity <span class="math notranslate nohighlight">\(x\)</span>, velocity <span class="math notranslate nohighlight">\(y\)</span>, velocity <span class="math notranslate nohighlight">\(z\)</span>,
+Euler roll <span class="math notranslate nohighlight">\(\varphi\)</span>, Euler pitch :math`theta`, Euler yaw <span class="math notranslate nohighlight">\(\psi\)</span>,
+body rate about x <span class="math notranslate nohighlight">\(p\)</span>, body rate about y <span class="math notranslate nohighlight">\(q\)</span>, body rate about z <span class="math notranslate nohighlight">\(r\)</span>.</p>
 </dd>
-<dt>f<span class="classifier">array_like.</span></dt><dd><p>3 force variables: fx, fy, fz.
-(N)</p>
+<dt>F<span class="classifier">array_like</span></dt><dd><p><span class="math notranslate nohighlight">\(f_x, f_y, f_z\)</span></p>
+<p>Force variables in three dimensions.</p>
 </dd>
-<dt>mass<span class="classifier">float.</span></dt><dd><p>a scalar number represents the body mass. 
-(kg)</p>
+<dt>M<span class="classifier">array_like</span></dt><dd><p><span class="math notranslate nohighlight">\(m_x, m_y, m_z\)</span></p>
+<p>Moments of force about 3 axes.</p>
+</dd>
+<dt>mass<span class="classifier">float</span></dt><dd><p>a scalar number represents the body mass.</p>
+</dd>
+<dt>I<span class="classifier">array_like</span></dt><dd><p><span class="math notranslate nohighlight">\(I_{xx}, I_{yy}, I_{zz}\)</span></p>
+<p>Moments of inertia about <span class="math notranslate nohighlight">\(x, y, z\)</span> respectively</p>
 </dd>
 </dl>
 </section>
 <section id="returns">
 <h2>Returns<a class="headerlink" href="#returns" title="Link to this heading">#</a></h2>
-<dl class="simple">
-<dt>out<span class="classifier">numpy array </span></dt><dd><p>6 derivatives of the equations of motion, 3 position derivatives: dx, dy, dz, and 3 velocity derivatives: dvx, dvy, dvz.</p>
+<dl>
+<dt>out<span class="classifier">numpy array </span></dt><dd><p><span class="math notranslate nohighlight">\([dx, dy, dz, dv_x, dv_y, dv_z, d\varphi, d\theta, d\psi, dp, dq, dr]\)</span></p>
+<p>6 translational motion derivatives and 6 rotational motion derivatives.</p>
 </dd>
 </dl>
 </section>
 <section id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h2>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c4d</span><span class="o">.</span><span class="n">eqm3</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">c4d</span><span class="o">.</span><span class="n">g</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
-<span class="go">array([0., 0., 0., 0., 0., 0.980665])</span>
-</pre></div>
-</div>
-<p>Perform an Euler integration:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span> <span class="o">=</span> <span class="mf">1e-3</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dx</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">eqm</span><span class="o">.</span><span class="n">eqm3</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">c4d</span><span class="o">.</span><span class="n">g</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">+=</span> <span class="n">dx</span> <span class="o">*</span> <span class="n">dt</span>    
-<span class="go">array([0., 0., 0., 0., 0., 0.000980665])</span>
-</pre></div>
-</div>
+<p>TBD</p>
 </section>
 </dd></dl>
 
