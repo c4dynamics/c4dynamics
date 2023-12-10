@@ -418,7 +418,7 @@ The six projections
 of the linear and angular velocity vectors on the moving
 body frame axes are the six degrees of freedom. 
 The nomenclature and conventions for positive directions
-are is shown in Fig-1 and in the following Table:</p>
+are as shown in Fig-1 and in the following Table:</p>
 <figure class="align-default" id="id2">
 <img alt="../_images/rigidbody.svg" src="../_images/rigidbody.svg" /><figcaption>
 <p><span class="caption-text">Fig-1: Forces, velocities, moments, and angular rates in body reference frame</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
@@ -445,24 +445,24 @@ are is shown in Fig-1 and in the following Table:</p>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(x\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(f_x\)</span></p></td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(x_b\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\({F_x}_b\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(L\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(u\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(\phi\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\varphi\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(p\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(I_{xx}\)</span></p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(y\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(f_y\)</span></p></td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(y_b\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\({F_y}_b\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(M\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(v\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\theta\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(q\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(I_{yy}\)</span></p></td>
 </tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(z\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(f_z\)</span></p></td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(z_b\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\({F_z}_b\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(N\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(w\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\psi\)</span></p></td>
@@ -473,21 +473,21 @@ are is shown in Fig-1 and in the following Table:</p>
 </table>
 <p>The position of the mass center of the body is given by
 its Cartesian coordinates expressed in an inertial frame of
-reference, such as the fixed-earth frame <span class="math notranslate nohighlight">\((x_e, y_e, z_e)\)</span>.</p>
-<p>The body’s angular orientation is defined by three rotations <span class="math notranslate nohighlight">\((\psi, \theta, \phi)\)</span> 
+reference, such as the fixed-earth frame <span class="math notranslate nohighlight">\((x, y, z)\)</span>.</p>
+<p>The body’s angular orientation is defined by three rotations <span class="math notranslate nohighlight">\((\psi, \theta, \varphi)\)</span> 
 relative to the inertial frame of reference. 
 These are
 called Euler rotations, and the order of the successive rotations
 is important. 
 Starting with the body coordinate frame
-aligned with the earth coordinate frame, the adopted order here 3-2-1, i.e.:</p>
+aligned with the earth coordinate frame, the adopted order here is <span class="math notranslate nohighlight">\(3-2-1\)</span>, i.e.:</p>
 <ol class="arabic simple">
-<li><p>Rotate the body frame about the <span class="math notranslate nohighlight">\(z_b-axis\)</span> through the heading angle <span class="math notranslate nohighlight">\(\psi\)</span>,</p></li>
-<li><p>Rotate about the <span class="math notranslate nohighlight">\(y_b-axis\)</span> through the pitch angle <span class="math notranslate nohighlight">\(\theta\)</span>, and</p></li>
-<li><p>Rotate about the <span class="math notranslate nohighlight">\(x_b-axis\)</span> through the roll angle <span class="math notranslate nohighlight">\(\phi\)</span></p></li>
+<li><p>Rotate the body frame about the <span class="math notranslate nohighlight">\(z_b\)</span> axis through the heading angle <span class="math notranslate nohighlight">\(\psi\)</span>,</p></li>
+<li><p>Rotate about the <span class="math notranslate nohighlight">\(y_b\)</span> axis through the pitch angle <span class="math notranslate nohighlight">\(\theta\)</span>, and</p></li>
+<li><p>Rotate about the <span class="math notranslate nohighlight">\(x_b\)</span> axis through the roll angle <span class="math notranslate nohighlight">\(\varphi\)</span></p></li>
 </ol>
-<p>The total inertial velocity V has components u, v, and w on the body frame axes, 
-and <span class="math notranslate nohighlight">\(({v_x}_e, {v_y}_e, {v_z}_e)\)</span> on the earth-frame axes.</p>
+<p>The total inertial velocity <span class="math notranslate nohighlight">\(V\)</span> has components <span class="math notranslate nohighlight">\(u, v\)</span>, and :math`w` on the body frame axes, 
+and <span class="math notranslate nohighlight">\((v_x, v_y, v_z)\)</span> on the earth-frame axes.</p>
 </section>
 <section id="newton-s-second-law">
 <h3>Newton’s Second Law<a class="headerlink" href="#newton-s-second-law" title="Link to this heading">#</a></h3>
@@ -507,17 +507,17 @@ with respect to time <span class="math notranslate nohighlight">\((t)\)</span>:<
 <li><p><span class="math notranslate nohighlight">\(t\)</span> is time</p></li>
 </ul>
 <p>This equation yields the final form of the equations of linear motion.
-In the final form, acceleration is represented by the rate of change of velocity:</p>
+In the final form, acceleration is represented by the rate of change of the velocity:</p>
 <div class="math notranslate nohighlight">
 \[F = m \cdot \dot{v}\]</div>
 <p>where:</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(F\)</span> is the total force acting on the object</p></li>
 <li><p><span class="math notranslate nohighlight">\(m\)</span> is the mass of the object</p></li>
-<li><p><span class="math notranslate nohighlight">\(\dot{v}\)</span> is the velocity of the object</p></li>
+<li><p><span class="math notranslate nohighlight">\(\dot{v}\)</span> is the acceleration of the object</p></li>
 </ul>
 <p>A direct extension of Newton’s second law to rotational motion 
-yields that the moment of force (torque) on a body 
+reveals that the moment of force (torque) on a body 
 about a given axis equals the time rate of change of the 
 angular momentum of the paricle about that axis.</p>
 <div class="math notranslate nohighlight">
@@ -543,8 +543,8 @@ angular momentum of the paricle about that axis.</p>
 above. 
 The usual procedure used to solve this
 equation is to sum the external forces
-F acting on the body, express them in an 
-inertial frame, and substitute F into 
+<span class="math notranslate nohighlight">\(F\)</span> acting on the body, express them in an 
+inertial frame, and substitute <span class="math notranslate nohighlight">\(F\)</span> into 
 the equation.
 Once the acceleration, namely the forces 
 divided by the mass, is expressed in inertial coordinates, 
@@ -554,18 +554,10 @@ translational displacement.</p>
 \[ \begin{align}\begin{aligned}dx = v_x\\dy = v_y\\dz = v_z\\dv_x = {F[0] \over m}\\dv_y = {F[1] \over m}\\dv_z = {F[2] \over m}\end{aligned}\end{align} \]</div>
 <p>where:</p>
 <ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(dx\)</span> is the change in position in the x inertial direction</p></li>
-<li><p><span class="math notranslate nohighlight">\(dy\)</span> is the change in position in the y inertial direction</p></li>
-<li><p><span class="math notranslate nohighlight">\(dz\)</span> is the change in position in the z inertial direction</p></li>
-<li><p><span class="math notranslate nohighlight">\(dv_x\)</span> is the change in velocity in the x inertial direction</p></li>
-<li><p><span class="math notranslate nohighlight">\(dv_y\)</span> is the change in velocity in the y inertial direction</p></li>
-<li><p><span class="math notranslate nohighlight">\(dv_z\)</span> is the change in velocity in the z inertial direction</p></li>
-<li><p><span class="math notranslate nohighlight">\(v_x\)</span> is the velocity in the x inertial direction</p></li>
-<li><p><span class="math notranslate nohighlight">\(v_y\)</span> is the velocity in the y inertial direction</p></li>
-<li><p><span class="math notranslate nohighlight">\(v_z\)</span> is the velocity in the z inertial direction</p></li>
-<li><p><span class="math notranslate nohighlight">\(f[0]\)</span> is the input force component in the x inertial direction.</p></li>
-<li><p><span class="math notranslate nohighlight">\(f[1]\)</span> is the input force component in the y inertial direction.</p></li>
-<li><p><span class="math notranslate nohighlight">\(f[2]\)</span> is the input force component in the z inertial direction.</p></li>
+<li><p><span class="math notranslate nohighlight">\(dx, dy, dz\)</span> are the changes in position in the <span class="math notranslate nohighlight">\(x, y, z\)</span> inertial directions, respectively</p></li>
+<li><p><span class="math notranslate nohighlight">\(dv_x, dv_y, dv_z\)</span> are the changes in velocity in the <span class="math notranslate nohighlight">\(x, y, z\)</span> inertial directions, respectively</p></li>
+<li><p><span class="math notranslate nohighlight">\(v_x, v_y, v_z\)</span> are the velocities in the <span class="math notranslate nohighlight">\(x, y, z\)</span> inertial directions, respectively</p></li>
+<li><p><span class="math notranslate nohighlight">\(f[0], f[1], f[2]\)</span> are the input force components in the <span class="math notranslate nohighlight">\(x, y, z\)</span> inertial directions, respectively</p></li>
 <li><p><span class="math notranslate nohighlight">\(m\)</span> is the mass of the body.</p></li>
 </ul>
 <p>These equations describe the dynamics of a datapoint in three-dimensional space (3DOF). 
@@ -589,9 +581,9 @@ must be adjusted in order to produce the attitude of the
 body. 
 For that purpose we introduced the euler angles (see Nomenclature and Conventions)
 which describe the 
-body attitude with respect ot an inertial frame of reference.</p>
+body attitude with respect to an inertial frame of reference.</p>
 <p>The orientation of the body reference frame is specified by the three
-Euler angles, <span class="math notranslate nohighlight">\(\Psi, \Theta, \Phi\)</span>.</p>
+Euler angles, <span class="math notranslate nohighlight">\(\psi, \theta, \varphi\)</span>.</p>
 <p>As a rigid body changes its orientation
 in space, the Euler angles change. 
 The rates of change
@@ -602,30 +594,15 @@ of Newton’s law provide the set of differential equations
 that 
 describe the equations governing the motion of a rigid body:</p>
 <div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}d\phi = p + (q \cdot sin(\phi) + r \cdot cos(\phi)) \cdot tan(\theta)\\d\theta = q \cdot cos(\phi) - r \cdot sin(\phi)\\d\psi = {q \cdot sin(\phi) + r \cdot cos(\phi) \over cos(\theta)}\\dp = {M[0] - q \cdot r \cdot (I_{zz} - I_{yy}) \over I_{xx}}\\dq = {M[1] - p \cdot r \cdot (I_{xx} - I_{zz}) \over I_{yy}}\\dr = {N[2] - p \cdot q \cdot (I_{yy} - I_{xx}) \over I_{zz}}\end{aligned}\end{align} \]</div>
+\[ \begin{align}\begin{aligned}d\varphi = p + (q \cdot sin(\varphi) + r \cdot cos(\varphi)) \cdot tan(\theta)\\d\theta = q \cdot cos(\varphi) - r \cdot sin(\varphi)\\d\psi = {q \cdot sin(\varphi) + r \cdot cos(\phi) \over cos(\theta)}\\dp = {M[0] - q \cdot r \cdot (I_{zz} - I_{yy}) \over I_{xx}}\\dq = {M[1] - p \cdot r \cdot (I_{xx} - I_{zz}) \over I_{yy}}\\dr = {N[2] - p \cdot q \cdot (I_{yy} - I_{xx}) \over I_{zz}}\end{aligned}\end{align} \]</div>
 <p>where:</p>
 <ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(d\phi\)</span> is the change in Euler roll angle</p></li>
-<li><p><span class="math notranslate nohighlight">\(d\theta\)</span> is the change in Euler pitch angle</p></li>
-<li><p><span class="math notranslate nohighlight">\(d\psi\)</span> is the change in Euler yaw angle</p></li>
-<li><p><span class="math notranslate nohighlight">\(dp\)</span> is the change in body roll rate</p></li>
-<li><p><span class="math notranslate nohighlight">\(dq\)</span> is the change in body pitch rate</p></li>
-<li><p><span class="math notranslate nohighlight">\(dr\)</span> is the change in body yaw rate</p></li>
-<li><p><span class="math notranslate nohighlight">\(\phi\)</span> is the Euler roll angle</p></li>
-<li><p><span class="math notranslate nohighlight">\(\theta\)</span> is the Euler pitch angle</p></li>
-<li><p><span class="math notranslate nohighlight">\(\psi\)</span> is the yaw Euler angle</p></li>
-<li><p><span class="math notranslate nohighlight">\(p\)</span> is the body roll rate</p></li>
-<li><p><span class="math notranslate nohighlight">\(q\)</span> is the body pitch rate</p></li>
-<li><p><span class="math notranslate nohighlight">\(r\)</span> is the body yaw rate</p></li>
-<li><p><span class="math notranslate nohighlight">\(p\)</span> is the body roll rate</p></li>
-<li><p><span class="math notranslate nohighlight">\(q\)</span> is the body pitch rate</p></li>
-<li><p><span class="math notranslate nohighlight">\(r\)</span> is the body yaw rate</p></li>
-<li><p><span class="math notranslate nohighlight">\(M[0]\)</span> is the input moment of force about the x body direction</p></li>
-<li><p><span class="math notranslate nohighlight">\(M[1]\)</span> is the input moment of force about the y body direction</p></li>
-<li><p><span class="math notranslate nohighlight">\(M[2]\)</span> is the input moment of force about the z body direction</p></li>
-<li><p><span class="math notranslate nohighlight">\(I_{xx}\)</span> is the moment of inertia about the x body direction</p></li>
-<li><p><span class="math notranslate nohighlight">\(I_{yy}\)</span> is the moment of inertia about the y body direction</p></li>
-<li><p><span class="math notranslate nohighlight">\(I_{zz}\)</span> is the moment of inertia about the z body direction</p></li>
+<li><p><span class="math notranslate nohighlight">\(d\varphi, d\theta, d\psi\)</span> are the changes in Euler roll, Euler pitch, and Euler yaw angles, respectively</p></li>
+<li><p><span class="math notranslate nohighlight">\(dp, dq, dr\)</span> are the changes in body roll rate, pitch rate, and yaw rate, respectively</p></li>
+<li><p><span class="math notranslate nohighlight">\(\varphi, \theta, \psi\)</span> are the Euler roll, Euler pitch, and uler yaw angles, respectively</p></li>
+<li><p><span class="math notranslate nohighlight">\(p, q, r\)</span> are the body roll rate, pitch rate, and yaw rate, respcetively</p></li>
+<li><p><span class="math notranslate nohighlight">\(M[0], M[1], M[2]\)</span> are the input moment of force components about the <span class="math notranslate nohighlight">\(x, y, z\)</span> in the body direction, respectively</p></li>
+<li><p><span class="math notranslate nohighlight">\(I_{xx}, I_{yy}, I_{zz}\)</span> are the moments of inertia about the <span class="math notranslate nohighlight">\(x, y,\)</span> and <span class="math notranslate nohighlight">\(z\)</span> in body direction, respectively</p></li>
 </ul>
 <p>These equations describe the angular dynamics of a rigid body. 
 Together with the equations that describe the translational 
