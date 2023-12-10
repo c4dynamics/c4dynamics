@@ -47,11 +47,11 @@
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Ordinary Differential Equations (c4dynamics.ode)" href="routines.ode.html" />
+    <link rel="next" title="Equations of Motion (c4dynamics.eqm)" href="routines.eqm.html" />
     <link rel="prev" title="Low Pass Filter" href="filters.lowpass.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Dec 06, 2023"/>
+    <meta name="docbuild:last-update" content="Dec 10, 2023"/>
   </head>
   
   
@@ -297,14 +297,17 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Routines</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="routines.ode.html">Ordinary Differential Equations (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.ode</span></code>)</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="generated/c4dynamics.ode.eqm3.html">c4dynamics.ode.eqm3</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/c4dynamics.ode.eqm6.html">c4dynamics.ode.eqm6</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="routines.eqm.html">Equations of Motion (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.eqm</span></code>)</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/c4dynamics.eqm.eqm3.html">c4dynamics.eqm.eqm3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/c4dynamics.eqm.eqm6.html">c4dynamics.eqm.eqm6</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="routines.io.html">Import Export Utils (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.io</span></code>)</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="generated/c4dynamics.io.savetxt.html">c4dynamics.io.savetxt</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/c4dynamics.io.loadtxt.html">c4dynamics.io.loadtxt</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="routines.rotmat.html">Rotational Matrix Operations (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.rotmat</span></code>)</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/c4dynamics.rotmat.rotx.html">c4dynamics.rotmat.rotx</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/c4dynamics.rotmat.roty.html">c4dynamics.rotmat.roty</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/c4dynamics.rotmat.rotz.html">c4dynamics.rotmat.rotz</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/c4dynamics.rotmat.dcm321.html">c4dynamics.rotmat.dcm321</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/c4dynamics.rotmat.dcm321euler.html">c4dynamics.rotmat.dcm321euler</a></li>
 </ul>
 </li>
 </ul>
@@ -374,21 +377,18 @@ of the routine. The examples assume that C4dynamics is imported with:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">c4dynamics</span> <span class="k">as</span> <span class="nn">c4d</span>
 </pre></div>
 </div>
-<p>A convenient way to execute examples is the <code class="docutils literal notranslate"><span class="pre">%doctest_mode</span></code> mode of
-IPython, which allows for pasting of multi-line examples and preserves
-indentation.</p>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="routines.ode.html">Ordinary Differential Equations (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.ode</span></code>)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="generated/c4dynamics.ode.eqm3.html">c4dynamics.ode.eqm3</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/c4dynamics.ode.eqm6.html">c4dynamics.ode.eqm6</a></li>
-<li class="toctree-l2"><a class="reference internal" href="routines.ode.html#examples">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="routines.eqm.html">Equations of Motion (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.eqm</span></code>)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="routines.eqm.html#eqm">EQM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.eqm.html#background-material-mi">Background Material <span>[MI]</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.eqm.html#references">References</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.eqm.html#examples">Examples</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="routines.io.html">Import Export Utils (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.io</span></code>)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="generated/c4dynamics.io.savetxt.html">c4dynamics.io.savetxt</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/c4dynamics.io.loadtxt.html">c4dynamics.io.loadtxt</a></li>
-<li class="toctree-l2"><a class="reference internal" href="routines.io.html#examples">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="routines.rotmat.html">Rotational Matrix Operations (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.rotmat</span></code>)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="routines.rotmat.html#rotmat">ROTMAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routines.rotmat.html#examples">Examples</a></li>
 </ul>
 </li>
 </ul>
@@ -415,11 +415,11 @@ indentation.</p>
       </div>
     </a>
     <a class="right-next"
-       href="routines.ode.html"
+       href="routines.eqm.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Ordinary Differential Equations (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.ode</span></code>)</p>
+        <p class="prev-next-title">Equations of Motion (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.eqm</span></code>)</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
