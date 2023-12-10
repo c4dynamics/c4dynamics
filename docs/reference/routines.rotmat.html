@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Ordinary Differential Equations (c4dynamics.ode) &#8212; C4dynamics v1.0 Manual</title>
+    <title>Rotational Matrix Operations (c4dynamics.rotmat) &#8212; C4dynamics v1.0 Manual</title>
   
   
   
@@ -43,15 +43,15 @@
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=36754332"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/routines.ode';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/routines.rotmat';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="c4dynamics.ode.eqm3" href="generated/c4dynamics.ode.eqm3.html" />
-    <link rel="prev" title="Routines" href="routines.html" />
+    <link rel="next" title="c4dynamics.rotmat.rotx" href="generated/c4dynamics.rotmat.rotx.html" />
+    <link rel="prev" title="c4dynamics.eqm.eqm6" href="generated/c4dynamics.eqm.eqm6.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Dec 06, 2023"/>
+    <meta name="docbuild:last-update" content="Dec 10, 2023"/>
   </head>
   
   
@@ -301,14 +301,17 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="routines.html">Routines</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2 current active has-children"><a class="current reference internal" href="#">Ordinary Differential Equations (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.ode</span></code>)</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="generated/c4dynamics.ode.eqm3.html">c4dynamics.ode.eqm3</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/c4dynamics.ode.eqm6.html">c4dynamics.ode.eqm6</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="routines.eqm.html">Equations of Motion (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.eqm</span></code>)</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/c4dynamics.eqm.eqm3.html">c4dynamics.eqm.eqm3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/c4dynamics.eqm.eqm6.html">c4dynamics.eqm.eqm6</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="routines.io.html">Import Export Utils (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.io</span></code>)</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="generated/c4dynamics.io.savetxt.html">c4dynamics.io.savetxt</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/c4dynamics.io.loadtxt.html">c4dynamics.io.loadtxt</a></li>
+<li class="toctree-l2 current active has-children"><a class="current reference internal" href="#">Rotational Matrix Operations (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.rotmat</span></code>)</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/c4dynamics.rotmat.rotx.html">c4dynamics.rotmat.rotx</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/c4dynamics.rotmat.roty.html">c4dynamics.rotmat.roty</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/c4dynamics.rotmat.rotz.html">c4dynamics.rotmat.rotz</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/c4dynamics.rotmat.dcm321.html">c4dynamics.rotmat.dcm321</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/c4dynamics.rotmat.dcm321euler.html">c4dynamics.rotmat.dcm321euler</a></li>
 </ul>
 </li>
 </ul>
@@ -356,7 +359,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="routines.html" class="nav-link">Routines</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Ordinary...</li>
+    <li class="breadcrumb-item active" aria-current="page">Rotational...</li>
   </ul>
 </nav>
 </div>
@@ -373,18 +376,40 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="ordinary-differential-equations-c4dynamics-ode">
-<span id="module-c4dynamics.ode"></span><span id="routines-ode"></span><h1>Ordinary Differential Equations (<a class="reference internal" href="#module-c4dynamics.ode" title="c4dynamics.ode"><code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.ode</span></code></a>)<a class="headerlink" href="#ordinary-differential-equations-c4dynamics-ode" title="Link to this heading">#</a></h1>
+  <section id="rotational-matrix-operations-c4dynamics-rotmat">
+<span id="module-c4dynamics.rotmat"></span><span id="routines-rotmat"></span><h1>Rotational Matrix Operations (<a class="reference internal" href="#module-c4dynamics.rotmat" title="c4dynamics.rotmat"><code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.rotmat</span></code></a>)<a class="headerlink" href="#rotational-matrix-operations-c4dynamics-rotmat" title="Link to this heading">#</a></h1>
+<section id="rotmat">
+<h2>ROTMAT<a class="headerlink" href="#rotmat" title="Link to this heading">#</a></h2>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/c4dynamics.ode.eqm3.html#module-c4dynamics.ode.eqm3" title="c4dynamics.ode.eqm3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eqm3</span></code></a></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/c4dynamics.rotmat.rotx.html#c4dynamics.rotmat.rotx" title="c4dynamics.rotmat.rotx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotx</span></code></a>(a)</p></td>
+<td><p>rotation about x axis dcm by a radians</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/c4dynamics.ode.eqm6.html#module-c4dynamics.ode.eqm6" title="c4dynamics.ode.eqm6"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eqm6</span></code></a></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/c4dynamics.rotmat.roty.html#c4dynamics.rotmat.roty" title="c4dynamics.rotmat.roty"><code class="xref py py-obj docutils literal notranslate"><span class="pre">roty</span></code></a>(a)</p></td>
+<td><p>rotation about y axis dcm by a radians</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/c4dynamics.rotmat.rotz.html#c4dynamics.rotmat.rotz" title="c4dynamics.rotmat.rotz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotz</span></code></a>(a)</p></td>
+<td><p>rotation about z axis dcm by a radians</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/c4dynamics.rotmat.dcm321.html#c4dynamics.rotmat.dcm321" title="c4dynamics.rotmat.dcm321"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dcm321</span></code></a>(ax, ay, az)</p></td>
+<td><p>321 dcm</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/c4dynamics.rotmat.dcm321euler.html#c4dynamics.rotmat.dcm321euler" title="c4dynamics.rotmat.dcm321euler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dcm321euler</span></code></a>(dcm)</p></td>
+<td><p>dcm321 see peterschaub 2.3.5 varius euler angle transformations</p></td>
 </tr>
 </tbody>
 </table>
+<section id="rotating-reference-frame">
+<h3>Rotating Reference Frame<a class="headerlink" href="#rotating-reference-frame" title="Link to this heading">#</a></h3>
+<p>A vector resolved in a given reference frame is said to be 
+“expressed” in that frame (sometimes said “referred to”). 
+The rate of change of a vector, as viewed by an observer fixed to and moving 
+with a given reference frame, is said to be “relative to” or “with 
+respect to” that reference frame. 
+It’s important to note here that the rate of change of a vector must be 
+relative to an inertial reference frame, but it can be expressed in any reference frame.</p>
+</section>
+</section>
 <section id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h2>
 <p>For examples, see the various functions.</p>
@@ -402,20 +427,20 @@ document.write(`
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="routines.html"
+       href="generated/c4dynamics.eqm.eqm6.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Routines</p>
+        <p class="prev-next-title">c4dynamics.eqm.eqm6</p>
       </div>
     </a>
     <a class="right-next"
-       href="generated/c4dynamics.ode.eqm3.html"
+       href="generated/c4dynamics.rotmat.rotx.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">c4dynamics.ode.eqm3</p>
+        <p class="prev-next-title">c4dynamics.rotmat.rotx</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -434,6 +459,10 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rotmat">ROTMAT</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rotating-reference-frame">Rotating Reference Frame</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a></li>
 </ul>
   </nav></div>

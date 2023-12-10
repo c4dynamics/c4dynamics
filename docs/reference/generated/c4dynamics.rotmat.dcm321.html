@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>c4dynamics.savetxt &#8212; C4dynamics v1.0 Manual</title>
+    <title>c4dynamics.rotmat.dcm321 &#8212; C4dynamics v1.0 Manual</title>
   
   
   
@@ -43,13 +43,15 @@
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=36754332"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/generated/c4dynamics.savetxt';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/generated/c4dynamics.rotmat.dcm321';</script>
     <link rel="icon" href="../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="c4dynamics.rotmat.dcm321euler" href="c4dynamics.rotmat.dcm321euler.html" />
+    <link rel="prev" title="c4dynamics.rotmat.rotz" href="c4dynamics.rotmat.rotz.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Dec 06, 2023"/>
+    <meta name="docbuild:last-update" content="Dec 10, 2023"/>
   </head>
   
   
@@ -146,7 +148,7 @@
                     </li>
                 
 
-                    <li class="nav-item">
+                    <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="../index.html">
                         API reference
                       </a>
@@ -215,7 +217,7 @@ document.write(`
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+      <div class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -240,7 +242,7 @@ document.write(`
                     </li>
                 
 
-                    <li class="nav-item">
+                    <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="../index.html">
                         API reference
                       </a>
@@ -270,6 +272,55 @@ document.write(`
     
   </div>
   
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../bodyobjects.html">Body Objects</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../bodyobjects.datapoint.html">The Datapoint (<code class="xref py py-class docutils literal notranslate"><span class="pre">datapoint</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bodyobjects.rigidbody.html">the Rigid-Body (<code class="xref py py-class docutils literal notranslate"><span class="pre">rigidbody</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../sensors.html">Sensors</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../sensors.camera.html">Camera</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sensors.laser.html">Laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sensors.radar.html">Radar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sensors.imu.html">IMU</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../detectors.html">Detectors</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../detectors.yolo.html">YOLO</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../filters.html">Filters</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../filters.kalman.html">Kalman Filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters.e_kalman.html">Extended Kalman Filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters.luenberger.html">Luenberger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters.lowpass.html">Low Pass Filter</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../routines.html">Routines</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../routines.eqm.html">Equations of Motion (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.eqm</span></code>)</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.eqm.eqm3.html">c4dynamics.eqm.eqm3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.eqm.eqm6.html">c4dynamics.eqm.eqm6</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../routines.rotmat.html">Rotational Matrix Operations (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.rotmat</span></code>)</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.rotmat.rotx.html">c4dynamics.rotmat.rotx</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.rotmat.roty.html">c4dynamics.rotmat.roty</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.rotmat.rotz.html">c4dynamics.rotmat.rotz</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">c4dynamics.rotmat.dcm321</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.rotmat.dcm321euler.html">c4dynamics.rotmat.dcm321euler</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
   </div>
@@ -294,6 +345,8 @@ document.write(`
 
 
 
+
+
 <nav aria-label="Breadcrumb">
   <ul class="bd-breadcrumbs">
     
@@ -302,7 +355,16 @@ document.write(`
         <i class="fa-solid fa-home"></i>
       </a>
     </li>
-    <li class="breadcrumb-item active" aria-current="page">c4dynamics.savetxt</li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">C4dynamics Reference</a></li>
+    
+    
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../routines.rotmat.html" class="nav-link">Rotational Matrix Operations (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.rotmat</span></code>)</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">c4dynamics.r...</li>
   </ul>
 </nav>
 </div>
@@ -319,12 +381,17 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="c4dynamics-savetxt">
-<h1>c4dynamics.savetxt<a class="headerlink" href="#c4dynamics-savetxt" title="Link to this heading">#</a></h1>
+  <section id="c4dynamics-rotmat-dcm321">
+<h1>c4dynamics.rotmat.dcm321<a class="headerlink" href="#c4dynamics-rotmat-dcm321" title="Link to this heading">#</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="c4dynamics.savetxt">
-<span class="sig-prename descclassname"><span class="pre">c4dynamics.</span></span><span class="sig-name descname"><span class="pre">savetxt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dp</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#c4dynamics.savetxt" title="Link to this definition">#</a></dt>
-<dd><p>save datapoint attributes to a text file</p>
+<dt class="sig sig-object py" id="c4dynamics.rotmat.dcm321">
+<span class="sig-prename descclassname"><span class="pre">c4dynamics.rotmat.</span></span><span class="sig-name descname"><span class="pre">dcm321</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ay</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">az</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#c4dynamics.rotmat.dcm321" title="Link to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>321 dcm </dt><dd><p>first rotate about z axis by az radians
+then rotate about y axis by ay radians
+finally rotate about x axis by ax radians</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -339,6 +406,24 @@ document.write(`
                 <footer class="prev-next-footer">
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="c4dynamics.rotmat.rotz.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">c4dynamics.rotmat.rotz</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="c4dynamics.rotmat.dcm321euler.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">c4dynamics.rotmat.dcm321euler</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
@@ -354,7 +439,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c4dynamics.savetxt"><code class="docutils literal notranslate"><span class="pre">savetxt()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c4dynamics.rotmat.dcm321"><code class="docutils literal notranslate"><span class="pre">dcm321()</span></code></a></li>
 </ul>
   </nav></div>
 

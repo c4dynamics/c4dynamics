@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>c4dynamics.io.savetxt &#8212; C4dynamics v1.0 Manual</title>
+    <title>c4dynamics.rotmat.rotx &#8212; C4dynamics v1.0 Manual</title>
   
   
   
@@ -43,15 +43,15 @@
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=36754332"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/generated/c4dynamics.io.savetxt';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/generated/c4dynamics.rotmat.rotx';</script>
     <link rel="icon" href="../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="c4dynamics.io.loadtxt" href="c4dynamics.io.loadtxt.html" />
-    <link rel="prev" title="Import Export Utils (c4dynamics.io)" href="../routines.io.html" />
+    <link rel="next" title="c4dynamics.rotmat.roty" href="c4dynamics.rotmat.roty.html" />
+    <link rel="prev" title="Rotational Matrix Operations (c4dynamics.rotmat)" href="../routines.rotmat.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Dec 06, 2023"/>
+    <meta name="docbuild:last-update" content="Dec 10, 2023"/>
   </head>
   
   
@@ -206,6 +206,10 @@ document.write(`
   
 
   
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
 </div>
 
     </nav>
@@ -297,14 +301,17 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../routines.html">Routines</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2 has-children"><a class="reference internal" href="../routines.ode.html">Ordinary Differential Equations (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.ode</span></code>)</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="c4dynamics.ode.eqm3.html">c4dynamics.ode.eqm3</a></li>
-<li class="toctree-l3"><a class="reference internal" href="c4dynamics.ode.eqm6.html">c4dynamics.ode.eqm6</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../routines.eqm.html">Equations of Motion (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.eqm</span></code>)</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.eqm.eqm3.html">c4dynamics.eqm.eqm3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.eqm.eqm6.html">c4dynamics.eqm.eqm6</a></li>
 </ul>
 </li>
-<li class="toctree-l2 current active has-children"><a class="reference internal" href="../routines.io.html">Import Export Utils (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.io</span></code>)</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l3 current active"><a class="current reference internal" href="#">c4dynamics.io.savetxt</a></li>
-<li class="toctree-l3"><a class="reference internal" href="c4dynamics.io.loadtxt.html">c4dynamics.io.loadtxt</a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../routines.rotmat.html">Rotational Matrix Operations (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.rotmat</span></code>)</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">c4dynamics.rotmat.rotx</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.rotmat.roty.html">c4dynamics.rotmat.roty</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.rotmat.rotz.html">c4dynamics.rotmat.rotz</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.rotmat.dcm321.html">c4dynamics.rotmat.dcm321</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.rotmat.dcm321euler.html">c4dynamics.rotmat.dcm321euler</a></li>
 </ul>
 </li>
 </ul>
@@ -355,9 +362,9 @@ document.write(`
     <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
     
     
-    <li class="breadcrumb-item"><a href="../routines.io.html" class="nav-link">Import Export Utils (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.io</span></code>)</a></li>
+    <li class="breadcrumb-item"><a href="../routines.rotmat.html" class="nav-link">Rotational Matrix Operations (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.rotmat</span></code>)</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">c4dynamics.i...</li>
+    <li class="breadcrumb-item active" aria-current="page">c4dynamics.r...</li>
   </ul>
 </nav>
 </div>
@@ -374,8 +381,14 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="c4dynamics-io-savetxt">
-<h1>c4dynamics.io.savetxt<a class="headerlink" href="#c4dynamics-io-savetxt" title="Link to this heading">#</a></h1>
+  <section id="c4dynamics-rotmat-rotx">
+<h1>c4dynamics.rotmat.rotx<a class="headerlink" href="#c4dynamics-rotmat-rotx" title="Link to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="c4dynamics.rotmat.rotx">
+<span class="sig-prename descclassname"><span class="pre">c4dynamics.rotmat.</span></span><span class="sig-name descname"><span class="pre">rotx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#c4dynamics.rotmat.rotx" title="Link to this definition">#</a></dt>
+<dd><p>rotation about x axis dcm by a radians</p>
+</dd></dl>
+
 </section>
 
 
@@ -389,20 +402,20 @@ document.write(`
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../routines.io.html"
+       href="../routines.rotmat.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Import Export Utils (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.io</span></code>)</p>
+        <p class="prev-next-title">Rotational Matrix Operations (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.rotmat</span></code>)</p>
       </div>
     </a>
     <a class="right-next"
-       href="c4dynamics.io.loadtxt.html"
+       href="c4dynamics.rotmat.roty.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">c4dynamics.io.loadtxt</p>
+        <p class="prev-next-title">c4dynamics.rotmat.roty</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -412,6 +425,20 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c4dynamics.rotmat.rotx"><code class="docutils literal notranslate"><span class="pre">rotx()</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

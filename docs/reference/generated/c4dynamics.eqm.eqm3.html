@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>c4dynamics.ode.eqm6 &#8212; C4dynamics v1.0 Manual</title>
+    <title>c4dynamics.eqm.eqm3 &#8212; C4dynamics v1.0 Manual</title>
   
   
   
@@ -43,15 +43,15 @@
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=36754332"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/generated/c4dynamics.ode.eqm6';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/generated/c4dynamics.eqm.eqm3';</script>
     <link rel="icon" href="../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Import Export Utils (c4dynamics.io)" href="../routines.io.html" />
-    <link rel="prev" title="c4dynamics.ode.eqm3" href="c4dynamics.ode.eqm3.html" />
+    <link rel="next" title="c4dynamics.eqm.eqm6" href="c4dynamics.eqm.eqm6.html" />
+    <link rel="prev" title="Equations of Motion (c4dynamics.eqm)" href="../routines.eqm.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Dec 06, 2023"/>
+    <meta name="docbuild:last-update" content="Dec 10, 2023"/>
   </head>
   
   
@@ -206,6 +206,10 @@ document.write(`
   
 
   
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
 </div>
 
     </nav>
@@ -297,14 +301,17 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../routines.html">Routines</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2 current active has-children"><a class="reference internal" href="../routines.ode.html">Ordinary Differential Equations (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.ode</span></code>)</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="c4dynamics.ode.eqm3.html">c4dynamics.ode.eqm3</a></li>
-<li class="toctree-l3 current active"><a class="current reference internal" href="#">c4dynamics.ode.eqm6</a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../routines.eqm.html">Equations of Motion (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.eqm</span></code>)</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">c4dynamics.eqm.eqm3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.eqm.eqm6.html">c4dynamics.eqm.eqm6</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../routines.io.html">Import Export Utils (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.io</span></code>)</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="c4dynamics.io.savetxt.html">c4dynamics.io.savetxt</a></li>
-<li class="toctree-l3"><a class="reference internal" href="c4dynamics.io.loadtxt.html">c4dynamics.io.loadtxt</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../routines.rotmat.html">Rotational Matrix Operations (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.rotmat</span></code>)</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.rotmat.rotx.html">c4dynamics.rotmat.rotx</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.rotmat.roty.html">c4dynamics.rotmat.roty</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.rotmat.rotz.html">c4dynamics.rotmat.rotz</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.rotmat.dcm321.html">c4dynamics.rotmat.dcm321</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.rotmat.dcm321euler.html">c4dynamics.rotmat.dcm321euler</a></li>
 </ul>
 </li>
 </ul>
@@ -355,9 +362,9 @@ document.write(`
     <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
     
     
-    <li class="breadcrumb-item"><a href="../routines.ode.html" class="nav-link">Ordinary Differential Equations (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.ode</span></code>)</a></li>
+    <li class="breadcrumb-item"><a href="../routines.eqm.html" class="nav-link">Equations of Motion (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.eqm</span></code>)</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">c4dynamics.ode.eqm6</li>
+    <li class="breadcrumb-item active" aria-current="page">c4dynamics.eqm.eqm3</li>
   </ul>
 </nav>
 </div>
@@ -374,16 +381,57 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="module-c4dynamics.ode.eqm6">
-<span id="c4dynamics-ode-eqm6"></span><h1>c4dynamics.ode.eqm6<a class="headerlink" href="#module-c4dynamics.ode.eqm6" title="Link to this heading">#</a></h1>
-<p class="rubric">Functions</p>
-<table class="autosummary longtable table autosummary">
-<tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">eqm6</span></code>(xs, f, m, mass, ixx, iyy, izz)</p></td>
-<td><p>translational motion derivatives euler angles derivatives angular motion derivatives</p></td>
-</tr>
-</tbody>
-</table>
+  <section id="c4dynamics-eqm-eqm3">
+<h1>c4dynamics.eqm.eqm3<a class="headerlink" href="#c4dynamics-eqm-eqm3" title="Link to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="c4dynamics.eqm.eqm3">
+<span class="sig-prename descclassname"><span class="pre">c4dynamics.eqm.</span></span><span class="sig-name descname"><span class="pre">eqm3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#c4dynamics.eqm.eqm3" title="Link to this definition">#</a></dt>
+<dd><p>Translational motion derivatives.</p>
+<p>These equations represent a set of first-order ordinary 
+differential equations (ODEs) that describe the motion 
+of an object in three-dimensional space under the influence 
+of external forces. 
+The variables in the equations represent 
+the position (x, y, z) and velocity (vx, vy, vz) of the object, 
+while f is a force vector, and mass is the mass of the object.</p>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h2>
+<dl class="simple">
+<dt>x<span class="classifier">array_like</span></dt><dd><p>6 state variables: position x, position y, position z, velocity x, velocity y, velocity z.
+(m), (m/s)</p>
+</dd>
+<dt>f<span class="classifier">array_like.</span></dt><dd><p>3 force variables: fx, fy, fz.
+(N)</p>
+</dd>
+<dt>mass<span class="classifier">float.</span></dt><dd><p>a scalar number represents the body mass. 
+(kg)</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h2>Returns<a class="headerlink" href="#returns" title="Link to this heading">#</a></h2>
+<dl class="simple">
+<dt>out<span class="classifier">numpy array </span></dt><dd><p>6 derivatives of the equations of motion, 3 position derivatives: dx, dy, dz, and 3 velocity derivatives: dvx, dvy, dvz.</p>
+</dd>
+</dl>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c4d</span><span class="o">.</span><span class="n">eqm3</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">c4d</span><span class="o">.</span><span class="n">g</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
+<span class="go">array([0., 0., 0., 0., 0., 0.980665])</span>
+</pre></div>
+</div>
+<p>Perform an Euler integration:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span> <span class="o">=</span> <span class="mf">1e-3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dx</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">eqm</span><span class="o">.</span><span class="n">eqm3</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">c4d</span><span class="o">.</span><span class="n">g</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">+=</span> <span class="n">dx</span> <span class="o">*</span> <span class="n">dt</span>    
+<span class="go">array([0., 0., 0., 0., 0., 0.000980665])</span>
+</pre></div>
+</div>
+</section>
+</dd></dl>
+
 </section>
 
 
@@ -397,20 +445,20 @@ document.write(`
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="c4dynamics.ode.eqm3.html"
+       href="../routines.eqm.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">c4dynamics.ode.eqm3</p>
+        <p class="prev-next-title">Equations of Motion (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.eqm</span></code>)</p>
       </div>
     </a>
     <a class="right-next"
-       href="../routines.io.html"
+       href="c4dynamics.eqm.eqm6.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Import Export Utils (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.io</span></code>)</p>
+        <p class="prev-next-title">c4dynamics.eqm.eqm6</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -420,6 +468,20 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c4dynamics.eqm.eqm3"><code class="docutils literal notranslate"><span class="pre">eqm3()</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

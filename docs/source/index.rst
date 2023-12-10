@@ -29,7 +29,7 @@ Radar Model |
 IMU Model |
 GPS Model |
 Line Of Sight Seeker |
-ODE Solver (4th order Runge-Kutta) |
+Equations of Motion Solvers |
 Kalman Filters |
 Asymptotic Observer |
 Or with one of the 3rd party libraries integrated with C4dynamics:
