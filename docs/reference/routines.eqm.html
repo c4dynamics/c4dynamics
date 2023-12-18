@@ -52,7 +52,7 @@
     <link rel="prev" title="Routines" href="routines.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Dec 10, 2023"/>
+    <meta name="docbuild:last-update" content="Dec 18, 2023"/>
   </head>
   
   
@@ -383,11 +383,11 @@ document.write(`
 <h2>EQM<a class="headerlink" href="#eqm" title="Link to this heading">#</a></h2>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/c4dynamics.eqm.eqm3.html#c4dynamics.eqm.eqm3" title="c4dynamics.eqm.eqm3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eqm3</span></code></a>(x, f, mass)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/c4dynamics.eqm.eqm3.html#c4dynamics.eqm.eqm3" title="c4dynamics.eqm.eqm3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eqm3</span></code></a>(dp, F)</p></td>
 <td><p>Translational motion derivatives.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/c4dynamics.eqm.eqm6.html#c4dynamics.eqm.eqm6" title="c4dynamics.eqm.eqm6"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eqm6</span></code></a>(x, f, m, mass, ixx, iyy, izz)</p></td>
-<td><p>Translational motion derivatives, euler angles derivatives,  angular motion derivatives.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/c4dynamics.eqm.eqm6.html#c4dynamics.eqm.eqm6" title="c4dynamics.eqm.eqm6"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eqm6</span></code></a>(rb, F, M)</p></td>
+<td><p>Translational and angular motion derivatives.</p></td>
 </tr>
 </tbody>
 </table>
@@ -594,7 +594,7 @@ of Newton’s law provide the set of differential equations
 that 
 describe the equations governing the motion of a rigid body:</p>
 <div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}d\varphi = p + (q \cdot sin(\varphi) + r \cdot cos(\varphi)) \cdot tan(\theta)\\d\theta = q \cdot cos(\varphi) - r \cdot sin(\varphi)\\d\psi = {q \cdot sin(\varphi) + r \cdot cos(\phi) \over cos(\theta)}\\dp = {M[0] - q \cdot r \cdot (I_{zz} - I_{yy}) \over I_{xx}}\\dq = {M[1] - p \cdot r \cdot (I_{xx} - I_{zz}) \over I_{yy}}\\dr = {N[2] - p \cdot q \cdot (I_{yy} - I_{xx}) \over I_{zz}}\end{aligned}\end{align} \]</div>
+\[ \begin{align}\begin{aligned}d\varphi = p + (q \cdot sin(\varphi) + r \cdot cos(\varphi)) \cdot tan(\theta)\\d\theta = q \cdot cos(\varphi) - r \cdot sin(\varphi)\\d\psi = {q \cdot sin(\varphi) + r \cdot cos(\phi) \over cos(\theta)}\\dp = {M[0] - q \cdot r \cdot (I_{zz} - I_{yy}) \over I_{xx}}\\dq = {M[1] - p \cdot r \cdot (I_{xx} - I_{zz}) \over I_{yy}}\\dr = {M[2] - p \cdot q \cdot (I_{yy} - I_{xx}) \over I_{zz}}\end{aligned}\end{align} \]</div>
 <p>where:</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(d\varphi, d\theta, d\psi\)</span> are the changes in Euler roll, Euler pitch, and Euler yaw angles, respectively</p></li>
