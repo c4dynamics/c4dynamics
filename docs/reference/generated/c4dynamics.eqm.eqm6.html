@@ -52,7 +52,7 @@
     <link rel="prev" title="c4dynamics.eqm.eqm3" href="c4dynamics.eqm.eqm3.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Dec 10, 2023"/>
+    <meta name="docbuild:last-update" content="Dec 18, 2023"/>
   </head>
   
   
@@ -386,32 +386,21 @@ document.write(`
 <h1>c4dynamics.eqm.eqm6<a class="headerlink" href="#c4dynamics-eqm-eqm6" title="Link to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="c4dynamics.eqm.eqm6">
-<span class="sig-prename descclassname"><span class="pre">c4dynamics.eqm.</span></span><span class="sig-name descname"><span class="pre">eqm6</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">F</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">M</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">I</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#c4dynamics.eqm.eqm6" title="Link to this definition">#</a></dt>
-<dd><p>Translational and angular motion derivatives</p>
+<span class="sig-prename descclassname"><span class="pre">c4dynamics.eqm.</span></span><span class="sig-name descname"><span class="pre">eqm6</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">F</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">M</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#c4dynamics.eqm.eqm6" title="Link to this definition">#</a></dt>
+<dd><p>Translational and angular motion derivatives.</p>
 <p>A set of first-order ordinary 
 differential equations (ODEs) that describe the motion 
 of a rigid body in three-dimensional space under the influence 
 of external forces and moments.</p>
 <section id="parameters">
 <h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h2>
-<dl>
-<dt>x<span class="classifier">array_like</span></dt><dd><p><span class="math notranslate nohighlight">\([x, y, z, v_x, v_y, v_z, \varphi, \theta, \psi, p, q, r]\)</span></p>
-<p>12 state variables: 
-position <span class="math notranslate nohighlight">\(x\)</span>, position <span class="math notranslate nohighlight">\(y\)</span>, position <span class="math notranslate nohighlight">\(z\)</span>, 
-velocity <span class="math notranslate nohighlight">\(x\)</span>, velocity <span class="math notranslate nohighlight">\(y\)</span>, velocity <span class="math notranslate nohighlight">\(z\)</span>,
-Euler roll <span class="math notranslate nohighlight">\(\varphi\)</span>, Euler pitch :math`theta`, Euler yaw <span class="math notranslate nohighlight">\(\psi\)</span>,
-body rate about x <span class="math notranslate nohighlight">\(p\)</span>, body rate about y <span class="math notranslate nohighlight">\(q\)</span>, body rate about z <span class="math notranslate nohighlight">\(r\)</span>.</p>
+<dl class="simple">
+<dt>rb<span class="classifier">rigidbody </span></dt><dd><p>C4dynamics’ rigidbody object for which the 
+equations of motion are calculated on.</p>
 </dd>
-<dt>F<span class="classifier">array_like</span></dt><dd><p><span class="math notranslate nohighlight">\(f_x, f_y, f_z\)</span></p>
-<p>Force variables in three dimensions.</p>
+<dt>F<span class="classifier">array_like</span></dt><dd><p>Force vector <span class="math notranslate nohighlight">\([F_x, F_y, F_z]\)</span></p>
 </dd>
-<dt>M<span class="classifier">array_like</span></dt><dd><p><span class="math notranslate nohighlight">\(m_x, m_y, m_z\)</span></p>
-<p>Moments of force about 3 axes.</p>
-</dd>
-<dt>mass<span class="classifier">float</span></dt><dd><p>a scalar number represents the body mass.</p>
-</dd>
-<dt>I<span class="classifier">array_like</span></dt><dd><p><span class="math notranslate nohighlight">\(I_{xx}, I_{yy}, I_{zz}\)</span></p>
-<p>Moments of inertia about <span class="math notranslate nohighlight">\(x, y, z\)</span> respectively</p>
+<dt>M<span class="classifier">array_like</span></dt><dd><p>Moments vector <span class="math notranslate nohighlight">\([M_x, M_y, M_z]\)</span></p>
 </dd>
 </dl>
 </section>
@@ -419,13 +408,31 @@ body rate about x <span class="math notranslate nohighlight">\(p\)</span>, body 
 <h2>Returns<a class="headerlink" href="#returns" title="Link to this heading">#</a></h2>
 <dl>
 <dt>out<span class="classifier">numpy array </span></dt><dd><p><span class="math notranslate nohighlight">\([dx, dy, dz, dv_x, dv_y, dv_z, d\varphi, d\theta, d\psi, dp, dq, dr]\)</span></p>
-<p>6 translational motion derivatives and 6 rotational motion derivatives.</p>
+<p>12 total derivatives; 6 of translational motion, 6 of rotational motion.</p>
 </dd>
 </dl>
 </section>
 <section id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h2>
-<p>TBD</p>
+<p>Euler integration on the equations of motion of 
+a stick fixed at one edge:</p>
+<p>(mass: 0.5 kg, moment of inertia about y: 0.4 kg*m^2
+, Length: 1m, initial Euler pitch angle: 80 deg (converted to radians)
+)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span> <span class="o">=</span> <span class="mf">0.5e-3</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>    
+<span class="gp">&gt;&gt;&gt; </span><span class="n">length</span> <span class="o">=</span>  <span class="mi">1</span>                  <span class="c1"># metter </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rb</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">rigidbody</span><span class="p">(</span><span class="n">theta</span> <span class="o">=</span> <span class="mi">80</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">d2r</span><span class="p">,</span> <span class="n">iyy</span> <span class="o">=</span> <span class="mf">0.4</span><span class="p">,</span> <span class="n">mass</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">ti</span> <span class="ow">in</span> <span class="n">t</span><span class="p">:</span> 
+<span class="gp">... </span>   <span class="n">tau_g</span> <span class="o">=</span> <span class="o">-</span><span class="n">rb</span><span class="o">.</span><span class="n">mass</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">g_ms2</span> <span class="o">*</span> <span class="n">length</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">rb</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span>
+<span class="gp">... </span>   <span class="n">rb</span><span class="o">.</span><span class="n">inteqm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">tau_g</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dt</span><span class="p">)</span>
+<span class="gp">... </span>   <span class="n">rb</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">ti</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rb</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s1">&#39;theta&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<figure class="align-default">
+<img alt="../../_images/eqm6_theta.png" src="../../_images/eqm6_theta.png" />
+</figure>
 </section>
 </dd></dl>
 

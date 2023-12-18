@@ -52,7 +52,7 @@
     <link rel="prev" title="Equations of Motion (c4dynamics.eqm)" href="../routines.eqm.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Dec 10, 2023"/>
+    <meta name="docbuild:last-update" content="Dec 18, 2023"/>
   </head>
   
   
@@ -386,64 +386,55 @@ document.write(`
 <h1>c4dynamics.eqm.eqm3<a class="headerlink" href="#c4dynamics-eqm-eqm3" title="Link to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="c4dynamics.eqm.eqm3">
-<span class="sig-prename descclassname"><span class="pre">c4dynamics.eqm.</span></span><span class="sig-name descname"><span class="pre">eqm3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">F</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#c4dynamics.eqm.eqm3" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">c4dynamics.eqm.</span></span><span class="sig-name descname"><span class="pre">eqm3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">F</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#c4dynamics.eqm.eqm3" title="Link to this definition">#</a></dt>
 <dd><p>Translational motion derivatives.</p>
 <p>These equations represent a set of first-order ordinary 
 differential equations (ODEs) that describe the motion 
-of an datapoint in three-dimensional space under the influence 
+of a datapoint in three-dimensional space under the influence 
 of external forces.</p>
 <section id="parameters">
 <h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h2>
-<dl>
-<dt>x<span class="classifier">array_like</span></dt><dd><p><span class="math notranslate nohighlight">\([x, y, z, v_x, v_y, v_z]\)</span></p>
-<p>6 state variables: 
-position <span class="math notranslate nohighlight">\(x\)</span>, position <span class="math notranslate nohighlight">\(y\)</span>, position <span class="math notranslate nohighlight">\(z\)</span>, 
-velocity <span class="math notranslate nohighlight">\(x\)</span>, velocity <span class="math notranslate nohighlight">\(y\)</span>, velocity <span class="math notranslate nohighlight">\(z\)</span>.</p>
+<dl class="simple">
+<dt>dp<span class="classifier">datapoint</span></dt><dd><p>C4dynamics’ datapoint object for which the 
+equations of motion are calculated on.</p>
 </dd>
-<dt>F<span class="classifier">array_like</span></dt><dd><p><span class="math notranslate nohighlight">\(f_x, f_y, f_z\)</span></p>
-<p>3 force variables.</p>
-</dd>
-<dt>mass<span class="classifier">float</span></dt><dd><p>a scalar number represents the body mass.</p>
+<dt>F<span class="classifier">array_like</span></dt><dd><p>Force vector <span class="math notranslate nohighlight">\([F_x, F_y, F_z]\)</span></p>
 </dd>
 </dl>
 </section>
 <section id="returns">
 <h2>Returns<a class="headerlink" href="#returns" title="Link to this heading">#</a></h2>
-<dl>
-<dt>out<span class="classifier">numpy array </span></dt><dd><p><span class="math notranslate nohighlight">\([dx, dy, dz, dv_x, dv_y, dv_z]\)</span></p>
-<p>6 derivatives of the equations of motion, 3 position derivatives, 
+<dl class="simple">
+<dt>out<span class="classifier">numpy array </span></dt><dd><p><span class="math notranslate nohighlight">\([dx, dy, dz, dv_x, dv_y, dv_z]\)</span>
+6 derivatives of the equations of motion, 3 position derivatives, 
 and 3 velocity derivatives.</p>
 </dd>
 </dl>
 </section>
 <section id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h2>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">F</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">c4d</span><span class="o">.</span><span class="n">g</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mass</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">c4d</span><span class="o">.</span><span class="n">eqm</span><span class="o">.</span><span class="n">eqm3</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">mass</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dp</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">datapoint</span><span class="p">(</span><span class="n">mass</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span>   <span class="c1"># mass 10kg</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">F</span>  <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">c4d</span><span class="o">.</span><span class="n">g_ms2</span><span class="p">]</span>          <span class="c1"># g_ms2 = 9.8m/s^2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c4d</span><span class="o">.</span><span class="n">eqm</span><span class="o">.</span><span class="n">eqm3</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="n">F</span><span class="p">)</span>
 <span class="go">array([0., 0., 0., 0., 0., -0.980665])</span>
 </pre></div>
 </div>
-<p>Perform an Euler integration with 
-time constant = 10msec, 
-on a datapoint in a free fall motion 
-with a mass = 10kg:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span>
+<p>Euler integration on the equations of motion of 
+mass in a free fall:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">h0</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dp</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">datapoint</span><span class="p">(</span><span class="n">z</span> <span class="o">=</span> <span class="n">h0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span> <span class="o">=</span> <span class="mf">1e-2</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-<span class="gp">... </span>   <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span> <span class="k">break</span>
-<span class="gp">... </span>   <span class="n">dx</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">eqm</span><span class="o">.</span><span class="n">eqm3</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">c4d</span><span class="o">.</span><span class="n">g</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
-<span class="gp">... </span>   <span class="n">x</span> <span class="o">+=</span> <span class="n">dx</span> <span class="o">*</span> <span class="n">dt</span>  
-<span class="gp">... </span>   <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-<span class="go">100.0</span>
-<span class="go">99.9999</span>
-<span class="go">...</span>
-<span class="go">0.0822</span>
-<span class="go">-0.0578</span>
+<span class="gp">... </span>   <span class="k">if</span> <span class="n">dp</span><span class="o">.</span><span class="n">z</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span> <span class="k">break</span>
+<span class="gp">... </span>   <span class="n">dx</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">eqm</span><span class="o">.</span><span class="n">eqm3</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">c4d</span><span class="o">.</span><span class="n">g_ms2</span><span class="p">])</span>
+<span class="gp">... </span>   <span class="n">dp</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">dp</span><span class="o">.</span><span class="n">X</span> <span class="o">+</span> <span class="n">dx</span> <span class="o">*</span> <span class="n">dt</span> 
+<span class="gp">... </span>   <span class="n">dp</span><span class="o">.</span><span class="n">store</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dp</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s1">&#39;z&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
+<figure class="align-default">
+<img alt="../../_images/eqm3_z.png" src="../../_images/eqm3_z.png" />
+</figure>
 </section>
 </dd></dl>
 
