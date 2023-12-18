@@ -316,7 +316,7 @@ Velocity: target.vx, target.vy, target.vz
 
 Acceleration: target.ax, target.ay, target.az
 
-It also has mass: target.m (necessary for solving the equations of motion in the case of accelerating motion)
+It also has mass: target.mass (necessary for solving the equations of motion in the case of accelerating motion)
 
 
 The target object in the example is initialized with initial position conditions in 3 axes and velocity conditions in the x-axis only. Acceleration is not initialized which is equivalent to zero initialization (default).
@@ -417,7 +417,7 @@ alpha_total     = 0
 h               = -missile.z
 ```
 
-The function missile.BI() is bounded method of the rigid-body class.
+The function missile.BI is bounded method of the rigid-body class.
 
 The function generates a Body from Inertial DCM (Direction Cosine Matrix) matrix in 3-2-1 order.
 
@@ -429,12 +429,12 @@ The inertial frame is determined by the frame that the initial Euler angles refe
 
 In this example the Euler angles are with respect the x parallel to flat earth in the direction of the missile centerline, z positive downward, and y such that z completes a right-hand system.
 
-The velocity vector is also produced by a bounded method of the class. The methods datapoint.pos(), datapoint.vel(), datapoint.acc() read the current state of the object and return a three entries array composed of the coordinates of position, velocity, and acceleration, respectively. 
+The velocity vector is also produced by a bounded method of the class. The methods datapoint.pos, datapoint.vel, datapoint.acc read the current state of the object and return a three entries array composed of the coordinates of position, velocity, and acceleration, respectively. 
 
 Similarly, the functions datapoint.P(), datapoint.V(), datapoint.A() return the object squared norm of the position, velocity, and acceleration, respectively.
 
 ```
-u, v, w = missile.BI() @ missile.vel()
+u, v, w = missile.BI @ missile.vel
 ```
 
 * Main loop
@@ -475,7 +475,7 @@ For a datapoint, the equations are composed of translational equations, while fo
 Therefore, for a datapoint object, like the target in this example, a force vector is necessary for the evaluation of the derivatives. The force must be given in the inertial frame of reference. As the target in this example is not maneuvering, the force vector is [0, 0, 0].
 
 
-For a rigid-body object, like the missile in this example, a force vector and moment vector are necessary for the evaluation of the derivatives. The force vector must be given in the inertial frame of reference. Therefore, the propulsion, and the aerodynamic forces are rotated to the inertial frame using the DCM321 missile.IB() function. The gravity forces are already given in the inertial frame and therefore remain intact. 
+For a rigid-body object, like the missile in this example, a force vector and moment vector are necessary for the evaluation of the derivatives. The force vector must be given in the inertial frame of reference. Therefore, the propulsion, and the aerodynamic forces are rotated to the inertial frame using the DCM321 missile.IB function. The gravity forces are already given in the inertial frame and therefore remain intact. 
 
 
 Forces and moments in the inertial frame are introduced to provide an estimation of the derivatives that represent the equations of motion. The integration method, 4th order Runge-Kutta is performed manually and independent on any third-party framework (such as scipy), therefore, currently, they may be non-optimal in terms of step-size variation. 
@@ -496,8 +496,8 @@ while t <= tf and h >= 0:
     # 
     # relative position
     ##
-    vTM     = target.vel() - missile.vel()      # missile-target relative velocity 
-    rTM     = target.pos() - missile.pos()      # relative position 
+    vTM     = target.vel - missile.vel      # missile-target relative velocity 
+    rTM     = target.pos - missile.pos      # relative position 
     uR      = rTM / np.linalg.norm(rTM)         # unit range vector 
     vc      = -uR * vTM                         # closing velocity 
 
@@ -511,7 +511,7 @@ while t <= tf and h >= 0:
     ##
     Gs          = 4 * missile.V()               # guidance gain
     acmd        = Gs * np.cross(wf, ucl)        # acceleration command
-    ab_cmd      = missile.BI() @ acmd           # acc. command in body frame 
+    ab_cmd      = missile.BI @ acmd           # acc. command in body frame 
     afp, afy    = ctrl.update(ab_cmd, Q)        # acchived pithc, yaw fins deflections 
     d_pitch     = afp - alpha                   # effecive pitch deflection
     d_yaw       = afy - beta                    # effective yaw deflection 
@@ -534,7 +534,7 @@ while t <= tf and h >= 0:
     fAb         = np.array([ -A
                             , N * (-v / np.sqrt(v**2 + w**2))
                             , N * (-w / np.sqrt(v**2 + w**2))])
-    fAe         = missile.IB() @ fAb
+    fAe         = missile.IB @ fAb
    
     # 
     # aerodynamic moments 
@@ -552,12 +552,12 @@ while t <= tf and h >= 0:
     ##
     thrust, thref = eng.update(t, pressure)
     fPb         = np.array([thrust, 0, 0]) 
-    fPe         = missile.IB() @ fPb
+    fPe         = missile.IB @ fPb
 
     # 
     # gravity
     ## 
-    fGe         = np.array([0, 0, missile.m * c4d.params.g])
+    fGe         = np.array([0, 0, missile.mass * c4d.g])
 
     # 
     # total forces
@@ -570,7 +570,7 @@ while t <= tf and h >= 0:
     # missile motion integration
     ##
     missile.run(dt, forces, mA)
-    u, v, w     = missile.BI() @ np.array([missile.vx, missile.vy, missile.vz])
+    u, v, w     = missile.BI @ np.array([missile.vx, missile.vy, missile.vz])
     
     
     # 
@@ -587,14 +587,14 @@ while t <= tf and h >= 0:
     target.store(t)
 
     
-    missile.m      -= thref * dt / eng.Isp        
+    missile.mass      -= thref * dt / eng.Isp        
     missile.xcm     = xcm0 - (xcm0 - xcmbo) * (m0 - missile.m) / (m0 - mbo)
     missile.izz     = missile.iyy = i0 - (i0 - ibo) * (m0 - missile.m) / (m0 - mbo)
 
     alpha           = np.arctan2(w, u)
     beta            = np.arctan2(-v, u)
     
-    uvm             = missile.vel() / missile.V()
+    uvm             = missile.vel / missile.V()
     ucl             = np.array([np.cos(missile.theta) * np.cos(missile.psi)
                                 , np.cos(missile.theta) * np.sin(missile.psi)
                                 , np.sin(-missile.theta)])

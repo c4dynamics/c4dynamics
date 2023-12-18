@@ -1,84 +1,72 @@
-#
-# c4dynamics __init__
-##
+'''
 
-"""
 C4dynamics
-=====
-Provides
-  1. data-points and rigid-body objects 
-  2. Fast algorithmic operations over objects and systems 
-  3. State of the art algorithms for developing systems
+==========
+
+C4dynamics Provides
+  1. Datapoint objects and sensors for algorithms development.  
+  2. Internal systems and 3rd party integrated libraries.
+  3. Fast algorithmic operations over objects and systems. 
+
+  
+
+  
 How to use the documentation
 ----------------------------
-Documentation is currently availble through examples, readme pages, and inline comments.
- iewing documentation using IPython
+Documentation is currently availble through examples, 
+readme pages, and inline comments.
 
------------------------------
-"""
 
-# import sys
-# import warnings
 
-# # make all python files in this folder available when loading pri
-# from os.path import dirname, basename, isfile, join
-# import glob
-# modules = glob.glob(join(dirname(__file__), '*.py'))
-# __all__ = [basename(f)[:-3] for f in modules if isfile(f) and not f.endswith('__init__.py')]
-
+Available subpackages
+---------------------
+sensors
+  models of EO and EM sensors: radar, camera, imu, gps. 
+detectors
+  objects detection models to computer vision manipulations.
+filters
+  kalman filter, asytmptotic observer (luenberger), and lowpass filter.
+eqm 
+  runge kutta solvers for integrating the equations of motion on the datapoint and rigidbody objects. 
+rotmat
+  rotation matrices and rotational operations. 
 '''
-# modules - classes 
-# body objects
-#   data point
-#   rigid body
-# seekers 
-#   radar 
-#   laser
-#   camera 
-# sensors  
-#   imu
-#   gps
-#   leedar
-# filters 
-#   low pass 
-#   luenberger 
-#   kalman
-# path planning
-#   pn 
-# classifiers
-#   knn
-# 
-#   '''
 
-# make c_datapoint, c_rigidbody, rotmat belong to pri rather than their modules:
+  
+# make c_datapoint, c_rigidbody, rotmat belong to pri 
+# rather than their modules:
 # from .datapoint import c_datapoint 
 # from .rigidbody import c_rigidbody
+
 
 #
 # routines 
 ## 
-from .src.main.py import ode 
-from .src.main.py.ode import * 
-from .src.main.py import io 
-from .src.main.py.io import *  
+# from .src.main import py
+from . import eqm 
+# from .src.main.py.eqm import eqm  
+from . import rotmat
+# from .src.main.py.rotmat import *
 
-
-# from . import utils
-from .utils import params 
-from .utils.rotmat import *
+#
+# utils
+##
+from .utils.params import *  
 from .utils.gen_gif import gen_gif
 from .utils.cprint import print
 
 #
-# modules 
+# body objects 
 ## 
-from .src.main.py.body.datapoint import datapoint 
-from .src.main.py.body.rigidbody import rigidbody 
+from .body.datapoint import datapoint 
+from .body.rigidbody import rigidbody 
 
-from .src.main.py import seekers
-# from .src.main.py import path_planning 
-from .src.main.py import filters
-from .src.main.py import detectors
+#
+# sensors
+## 
+from . import seekers
+from . import filters
+from . import detectors
 
 
 #
