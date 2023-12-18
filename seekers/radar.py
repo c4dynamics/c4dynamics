@@ -33,7 +33,7 @@ class dzradar:
   ##
   bias = 0 # deg
   sf = 1 # scale factor error -10%
-  noise = np.sqrt(500 * c4d.params.ft2m) # 1 sigma 
+  noise = np.sqrt(500 * c4d.ft2m) # 1 sigma 
   # misalignment = 0.01 # deg
 
   def __init__(obj, x0, filtype, ts):
@@ -47,14 +47,14 @@ class dzradar:
       if filtype == c4d.filters.filtertype.ex_kalman:
         obj.ifilter = c4d.filters.e_kalman(x0
                                            , [obj.noise
-                                              , 141.42 * c4d.params.ft2m
-                                              , 300 * c4d.params.lbft2kgm]
+                                              , 141.42 * c4d.ft2m
+                                              , 300 * c4d.lbft2kgm]
                                            , obj.ts)
       elif filtype == c4d.filters.filtertype.luenberger:
         # linear model
         beta0 = x0[2]
-        A = np.array([[0, 1, 0], [0, -np.sqrt(2 * 0.0034 * c4d.params.g / beta0)
-                                  , -c4d.params.g / beta0], [0, 0, 0]])
+        A = np.array([[0, 1, 0], [0, -np.sqrt(2 * 0.0034 * c4d.g / beta0)
+                                  , -c4d.g / beta0], [0, 0, 0]])
         b = np.array([[0], [0], [0]])
         c = np.array([1, 0, 0])
         obj.ifilter = c4d.filters.luenberger(A, b, c)
@@ -83,10 +83,10 @@ class dzradar:
     
     
     # print(t)
-    rho = .0034 * np.exp(-obj.ifilter.x[0, 0] / 22000 / c4d.params.ft2m)
-    f21 = -rho * c4d.params.g * obj.ifilter.x[1, 0]**2 / 44000 / obj.ifilter.x[2, 0] 
-    f22 =  rho * c4d.params.g * obj.ifilter.x[1, 0] / obj.ifilter.x[2, 0]
-    f23 = -rho * c4d.params.g * obj.ifilter.x[1, 0]**2 / 2 / obj.ifilter.x[2, 0]**2 
+    rho = .0034 * np.exp(-obj.ifilter.x[0, 0] / 22000 / c4d.ft2m)
+    f21 = -rho * c4d.g * obj.ifilter.x[1, 0]**2 / 44000 / obj.ifilter.x[2, 0] 
+    f22 =  rho * c4d.g * obj.ifilter.x[1, 0] / obj.ifilter.x[2, 0]
+    f23 = -rho * c4d.g * obj.ifilter.x[1, 0]**2 / 2 / obj.ifilter.x[2, 0]**2 
     
     Phi = np.array([[1, obj.ifilter.tau, 0], 
                     [f21 * obj.ifilter.tau, 1 + f22 * obj.ifilter.tau, f23 * obj.ifilter.tau], 
@@ -123,7 +123,7 @@ class dzradar:
   def system_model(x):
     dx = np.zeros((len(x), 1))
     dx[0, 0] = x[1, 0]
-    dx[1, 0] = .0034 * np.exp(-x[0, 0].astype('float') / 22000 / c4d.params.ft2m) * c4d.params.g * x[1, 0]**2 / 2 / x[2, 0] - c4d.params.g
+    dx[1, 0] = .0034 * np.exp(-x[0, 0].astype('float') / 22000 / c4d.ft2m) * c4d.g * x[1, 0]**2 / 2 / x[2, 0] - c4d.g
     dx[2, 0] = 0
     return dx
 

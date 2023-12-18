@@ -1,6 +1,9 @@
 import numpy as np
 
-from c4dynamics import eqm3
+# directly import a submodule (eqm3) from the c4dynamics.eqm package:
+from c4dynamics.eqm import eqm3 
+# from c4dynamics.src.main.py.eqm import eqm3
+
 
 class datapoint:
   """ 
@@ -64,29 +67,17 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
   ay = 0
   az = 0
   
-  # 
-  # initial position 
-  ##
-  x0 = 0
-  y0 = 0
-  z0 = 0
 
   # 
   # mass properties 
-  # kg 
+  #  
   ## 
-  m = 1     # mass 
+  mass = 1.0     # mass 
 
   # https://www.geeksforgeeks.org/getter-and-setter-in-python/
   # https://stackoverflow.com/questions/4555932/public-or-private-attribute-in-python-what-is-the-best-way
   # https://stackoverflow.com/questions/17576009/python-class-property-use-setter-but-evade-getter
   
-  
-  # 
-  # variables for storage
-  ##
-  # _data = [] # np.zeros((1, 10))
-  _didx = {'t': 0, 'x': 1, 'y': 2, 'z': 3, 'vx': 4, 'vy': 5, 'vz': 6, 'ax': 7, 'ay': 8, 'az': 9}
   
 
 
@@ -100,6 +91,7 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
 
     obj.__dict__.update(kwargs)
     
+
     obj.x0 = obj.x
     obj.y0 = obj.y
     obj.z0 = obj.z
@@ -108,13 +100,16 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
     # if not os.path.exists(fol):
     #   os.mkdir(fol)
 
-  def update(obj, x):
-    obj.x   = x[0]
-    obj.y   = x[1]
-    obj.z   = x[2]
-    obj.vx  = x[3]
-    obj.vy  = x[4]
-    obj.vz  = x[5]
+  
+    # 
+    # variables for storage
+    ##
+    # _data = [] # np.zeros((1, 10))
+    # state vector variables 
+    obj._didx = {'t': 0, 'x': 1, 'y': 2, 'z': 3
+                  , 'vx': 4, 'vy': 5, 'vz': 6}
+                    # , 'ax': 7, 'ay': 8, 'az': 9}
+    
     
   
   # def set_x(obj, x):
@@ -128,9 +123,10 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
 
 
   def store(obj, t = -1):
-    obj._data.append([t, obj.x, obj.y,  obj.z
-                        , obj.vx, obj.vy, obj.vz 
-                          , obj.ax, obj.ay, obj.az])
+    # obj._data.append([t, obj.x, obj.y,  obj.z
+    #                     , obj.vx, obj.vy, obj.vz 
+    #                       , obj.ax, obj.ay, obj.az])
+    obj._data.append([t] + obj.X)
     
 
   def storevar(obj, var, t = -1):
@@ -143,7 +139,7 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
       if v not in obj._vardata:
         obj._vardata[v] = []
 
-      obj._vardata[v].append([t, getattr(obj, v)])
+      obj._vardata[v].append([t] + getattr(obj, v))
 
 
 
@@ -158,47 +154,12 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
   #     obj.data_t = None 
   #   i got an error because the setting property is not defined. 
   
-  # data_t = property(get_t, set_t, set_t)
-
-  # def get_x(obj):
-  #   return np.array(obj._data)[:, 1] if obj._data else np.empty(1)
-  # # data_x = property(get_x, set_t, set_t)
-  
-  # def get_y(obj):
-  #   return np.array(obj._data)[:, 2] if obj._data else np.empty(1)
-  # # data_y = property(get_y, set_t, set_t)
-  
-  # def get_z(obj):
-  #   return np.array(obj._data)[:, 3] if obj._data else np.empty(1)
-  # # data_z = property(get_z, set_t, set_t)
-  
-  # def get_vx(obj):
-  #   return np.array(obj._data)[:, 4] if obj._data else np.empty(1)
-  # # data_vx = property(get_vx, set_t, set_t)
-  
-  # def get_vy(obj):
-  #   return np.array(obj._data)[:, 5] if obj._data else np.empty(1)
-  # # data_vy = property(get_vy, set_t, set_t)
-  
-  # def get_vz(obj):
-  #   return np.array(obj._data)[:, 6] if obj._data else np.empty(1)
-  # # data_vz = property(get_vz, set_t, set_t)
-  
-  # def get_ax(obj):
-  #   return np.array(obj._data)[:, 7] if obj._data else np.empty(1)
-  # # data_ax = property(get_ax, set_t, set_t)
-  
-  # def get_ay(obj):
-  #   return np.array(obj._data)[:, 8] if obj._data else np.empty(1)
-  # # data_ay = property(get_ay, set_t, set_t)
-  
-  # def get_az(obj):
-  #   return np.array(obj._data)[:, 9] if obj._data else np.empty(1)
-  # # data_az = property(get_az, set_t, set_t)
   
 
   def get_data(obj, var):
-    
+    '''
+    return time histories of the state vector 
+    '''
     # one of the pregiven variables t, x, y .. 
     idx = obj._didx.get(var, -1)
     if idx >= 0:
@@ -208,16 +169,75 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
     return np.array(obj._vardata.get(var, np.empty((1, 2))))
     
 
-  # 
-  # to vectors:
-  ##
+
+  @property
+  def X(obj):
+    '''
+    return the state vector
+    for datapoint: [x, y, z, vx, vy, vz]^T 
+    for rigidbody: [x, y, z, vx, vy, vz, phi, theta, psi, p, q, r]^T 
+    '''
+    xout = [] 
+
+    for k in obj._didx.keys():
+      if k == 't': continue
+      xout.append(eval('obj.' + k))
+
+    return xout 
+
+
+  @X.setter
+  def X(obj, x):
+    '''
+    update the state vector
+    for datapoint: [x, y, z, vx, vy, vz]^T
+    for rigidbody: [x, y, z, vx, vy, vz, phi, theta, psi, p, q, r]^T
+    '''
+
+    for i, k in enumerate(obj._didx.keys()):
+      if k == 't': continue
+      if i > len(x): break 
+      # eval('obj.' + k + ' = ' + str(x[i - 1]))
+      setattr(obj, k, x[i - 1])
+
+
+    # obj.x   = x[0]
+    # obj.y   = x[1]
+    # obj.z   = x[2]
+
+    # if len(x) > 3:
+    #   obj.vx  = x[3]
+    #   obj.vy  = x[4]
+    #   obj.vz  = x[5]
+
+    # if len(x) > 6:
+    #   obj.ax  = x[6]
+    #   obj.ay  = x[7]
+    #   obj.az  = x[8]
+
+
+  @property
   def pos(obj):
     return np.array([obj.x, obj.y, obj.z])
+  
+
+  @property
   def vel(obj):
     return np.array([obj.vx, obj.vy, obj.vz])
+  
+
+  @property
   def acc(obj):
     return np.array([obj.ax, obj.ay, obj.az])
+
   
+  # def __add__(obj, x):
+  #   # if isinstance(other, datapoint):
+  #   obj.x = obj
+  #   new_x = self.x + other.x
+  #   new_y = self.y + other.y
+  #   return DataPoint(new_x, new_y)
+    
 
   # 
   # to norms:
@@ -241,41 +261,46 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
   #
   # runge kutta integration
   ##
-  def run(obj, dt, forces):
+  def inteqm(obj, forces, dt):
     # 
     # integration 
     # $ runge kutta 
-    #     ti = tspan(i); yi = Y(:,i);
+    #     ti = tspan(i); 
+    #     yi = Y(:,i);
     #     k1 = f(ti, yi);
-    #     k2 = f(ti+dt/2, yi+dt*k1/2);
-    #     k3 = f(ti+dt/2, yi+dt*k2/2);
-    #     k4 = f(ti+dt  , yi+dt*k3);
-    #     dy = 1/6*(k1+2*k2+2*k3+k4);
-    #     Y(:,i+1) = yi +dy;
+    #     k2 = f(ti + dt / 2, yi + dt * k1 / 2);
+    #     k3 = f(ti + dt / 2, yi + dt * k2 / 2);
+    #     k4 = f(ti + dt  ,yi + dt * k3);
+    #     dy = 1 / 6 * (k1 + 2 * k2 + 2 * k3 + k4);
+    #     Y(:, i + 1) = yi + dy;
     ## 
-    
-    y = np.array([obj.x, obj.y, obj.z, obj.vx, obj.vy, obj.vz])
+
+    x0 = obj.X
     
     # step 1
-    dydx = eqm3(y, forces, obj.m)
-    yt = y + dt / 2 * dydx 
+    dxdt1 = eqm3(obj, forces)
+    # obj.update(x0 + dt / 2 * dxdt1)
+    obj.X = x0 + dt / 2 * dxdt1
     
     # step 2 
-    dyt = eqm3(yt, forces, obj.m)
-    yt = y + dt / 2 * dyt 
+    dxdt2 = eqm3(obj, forces)
+    # obj.update(x0 + dt / 2 * dxdt2)
+    obj.X = x0 + dt / 2 * dxdt2
     
     # step 3 
-    dym = eqm3(yt, forces, obj.m)
-    yt = y + dt * dym 
-    dym += dyt 
+    dxdt3 = eqm3(obj, forces)
+    # obj.update(x0 + dt * dxdt3)
+    obj.X = x0 + dt * dxdt3
+    dxdt3 += dxdt2 
     
     # step 4
-    dyt = eqm3(yt, forces, obj.m)
-    yout = y + dt / 6 * (dydx + dyt + 2 * dym)    
-    
+    dxdt4 = eqm3(obj, forces)
+
     # 
-    obj.x, obj.y, obj.z, obj.vx, obj.vy, obj.vz = yout 
-    obj.ax, obj.ay, obj.az = dyt[-3:]
+    # obj.update(np.concatenate((x0 + dt / 6 * (dxdt1 + dxdt4 + 2 * dxdt3), dxdt4[-3:]), axis = 0))
+    obj.X = x0 + dt / 6 * (dxdt1 + dxdt4 + 2 * dxdt3)
+    # obj.ax, obj.ay, obj.az = dxdt4[-3:]
+    return dxdt4[-3:]
     ##
   
    
@@ -287,16 +312,17 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
   # 
   # plot functions
   ##
-  def draw(obj, var):
+  def draw(obj, var, ax = None):
+
     from matplotlib import pyplot as plt
     plt.rcParams['figure.figsize'] = (6.0, 4.0) # set default size of plots
     # plt.rcParams['image.cmap'] = 'gray'
-    plt.rcParams["font.size"] = 12
+    plt.rcParams["font.size"] = 14
     plt.rcParams['image.interpolation'] = 'nearest'
     plt.rcParams["font.family"] = "Times New Roman"   # "Britannic Bold" # "Modern Love"#  "Corbel Bold"# 
     plt.style.use('dark_background')  # 'default' # 'seaborn' # 'fivethirtyeight' # 'classic' # 'bmh'
     
-    plt.ion()
+    # plt.ion()
     # plt.show()
 
     # grid
@@ -305,7 +331,8 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
     # dont close
     # integrate two objects for integration and plotting.
     
-    fig = plt.figure()
+    if ax is None: 
+      _, ax = plt.subplots()
     
     if var.lower() == 'top':
       # x axis: y data
@@ -323,15 +350,15 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
       xlabel = 'downrange'
       ylabel = 'altitude'
       title = 'side view'
-      plt.gca().invert_yaxis()
+      ax.invert_yaxis()
     else: 
       uconv = 1
-      if obj._didx[var] > 9: # 10 and above are angular variables 
+      if obj._didx[var] >= 7: # 7 and above are angular variables 
         uconv = 180 / np.pi     
       
       if not len(np.flatnonzero(obj.get_data('t') != -1)): # values for t weren't stored
         x = range(len(np.array(obj.get_data('t')))) # t is just indices 
-        xlabel = 'index'
+        xlabel = 'sample'
       else:       
         x = np.array(obj.get_data('t')) 
         xlabel = 't'
@@ -340,17 +367,17 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
       title = var
     
     
-    plt.plot(x, y, 'g', linewidth = 2)
+    ax.plot(x, y, 'm', linewidth = 2)
 
-    plt.title(title)
+    ax.set_title(title)
     # plt.xlim(0, 1000)
     # plt.ylim(0, 1000)
-    plt.xlabel(xlabel)
-    plt.ylabel(ylabel)
-    plt.grid(alpha = 0.5)
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
+    ax.grid(alpha = 0.5)
     # plt.axis('off')
     # plt.savefig(obj.fol + "/" + var) 
-    fig.tight_layout()
+    # fig.tight_layout()
     
     # plt.pause(1e-3)
-    plt.show() # block = True # block = False
+    # plt.show() # block = True # block = False

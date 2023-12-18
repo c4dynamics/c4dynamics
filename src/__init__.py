@@ -1,6 +1,3 @@
 #
-# src __init__.py
+# src 
 ##
-
-# import os, sys
-# sys.path.append(os.path.join(os.getcwd(), '..', '..'))

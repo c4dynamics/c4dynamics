@@ -1,17 +1,22 @@
 import numpy as np
-from .params import * 
+# import c4dynamics as c4d 
+from c4dynamics.utils.params import *  
+
 
 def rotx(a):
     ''' rotation about x axis dcm by a radians '''
     return np.array([[1, 0, 0], [0, cos(a), sin(a)], [0, -sin(a), cos(a)]])
 
+
 def roty(a):
     ''' rotation about y axis dcm by a radians '''
     return np.array([[cos(a), 0, -sin(a)], [0, 1, 0], [sin(a), 0, cos(a)]])
 
+
 def rotz(a):
     ''' rotation about z axis dcm by a radians '''
     return np.array([[cos(a), sin(a), 0], [-sin(a), cos(a), 0], [0, 0, 1]])
+
 
 def dcm321(ax, ay, az):
     ''' 
@@ -21,6 +26,7 @@ def dcm321(ax, ay, az):
         finally rotate about x axis by ax radians
     '''
     return rotx(ax) @ roty(ay) @ rotz(az)
+
 
 def dcm321euler(dcm):
     '''
