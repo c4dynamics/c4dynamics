@@ -17,6 +17,7 @@ class engine():
         # return thrust force at time t and pressure pa 
         # pa pressure at altitude h 
         thrust_ref = np.interp(t, obj.times, obj.thrust) # thrust at time t 
+        print('warming - extraploation? ')
         thrust_atm = thrust_ref + (obj.pref - pa) * obj.Ae # correction for atmosphere conditions 
         return thrust_atm, thrust_ref
         
