@@ -40,6 +40,7 @@ doc/physics vs data summary.pdf
 doc/ul eadme github pages .pptx
 source 
 build/doctrees
+docs/
 
 # 
 # .venv
