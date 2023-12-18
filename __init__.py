@@ -72,5 +72,5 @@ from . import detectors
 #
 # version
 ##
-__version__ = '1.0.40'
+__version__ = '1.0.50'
 
