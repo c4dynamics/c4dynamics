@@ -31,16 +31,16 @@ __pycache__/*.*
 #
 # doc
 ## 
-doc/~$*.*
-doc/MilHandbook Missile flight simulation.pdf.lnk
-doc/posts - Shortcut.lnk
-doc/posts.lnk
-doc/Science.lnk
-doc/physics vs data summary.pdf
-doc/ul eadme github pages .pptx
-source 
-build/doctrees
-docs/
+# doc/~$*.*
+# doc/MilHandbook Missile flight simulation.pdf.lnk
+# doc/posts - Shortcut.lnk
+# doc/posts.lnk
+# doc/Science.lnk
+# doc/physics vs data summary.pdf
+# doc/ul eadme github pages .pptx
+# source 
+# build/doctrees
+# docs/
 
 # 
 # .venv
@@ -63,10 +63,10 @@ examples/resources/tank_short_snapshot_t0.jpg
 #
 # pip setup
 ## 
-c4dynamics.egg-info/*
-dist/
-build/bdist.win-amd64
-build/lib 
+# c4dynamics.egg-info/*
+# dist/
+# build/bdist.win-amd64
+# build/lib 
 
 #
 #
