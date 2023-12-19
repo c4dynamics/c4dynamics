@@ -52,7 +52,7 @@
     <link rel="prev" title="c4dynamics.eqm.eqm3" href="c4dynamics.eqm.eqm3.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Dec 18, 2023"/>
+    <meta name="docbuild:last-update" content="Dec 19, 2023"/>
   </head>
   
   
@@ -425,7 +425,8 @@ a stick fixed at one edge:</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rb</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">rigidbody</span><span class="p">(</span><span class="n">theta</span> <span class="o">=</span> <span class="mi">80</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">d2r</span><span class="p">,</span> <span class="n">iyy</span> <span class="o">=</span> <span class="mf">0.4</span><span class="p">,</span> <span class="n">mass</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">ti</span> <span class="ow">in</span> <span class="n">t</span><span class="p">:</span> 
 <span class="gp">... </span>   <span class="n">tau_g</span> <span class="o">=</span> <span class="o">-</span><span class="n">rb</span><span class="o">.</span><span class="n">mass</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">g_ms2</span> <span class="o">*</span> <span class="n">length</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">rb</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span>
-<span class="gp">... </span>   <span class="n">rb</span><span class="o">.</span><span class="n">inteqm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">tau_g</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dt</span><span class="p">)</span>
+<span class="gp">... </span>   <span class="n">dx</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">eqm</span><span class="o">.</span><span class="n">eqm6</span><span class="p">(</span><span class="n">rb</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">tau_g</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="gp">... </span>   <span class="n">rb</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">rb</span><span class="o">.</span><span class="n">X</span> <span class="o">+</span> <span class="n">dx</span> <span class="o">*</span> <span class="n">dt</span> 
 <span class="gp">... </span>   <span class="n">rb</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">ti</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rb</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s1">&#39;theta&#39;</span><span class="p">)</span>
 </pre></div>
