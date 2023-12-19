@@ -139,7 +139,7 @@ https://stackoverflow.com/questions/986006/how-do-i-pass-a-variable-by-reference
       if v not in obj._vardata:
         obj._vardata[v] = []
 
-      obj._vardata[v].append([t] + getattr(obj, v))
+      obj._vardata[v].append([t, getattr(obj, v)])
 
 
 

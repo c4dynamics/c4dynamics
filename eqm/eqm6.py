@@ -42,7 +42,8 @@ def eqm6(rb, F, M):
     >>> rb = c4d.rigidbody(theta = 80 * c4d.d2r, iyy = 0.4, mass = 0.5)
     >>> for ti in t: 
     ...    tau_g = -rb.mass * c4d.g_ms2 * length / 2 * c4d.cos(rb.theta)
-    ...    rb.inteqm(np.zeros(3), [0, tau_g, 0], dt)
+    ...    dx = c4d.eqm.eqm6(rb, np.zeros(3), [0, tau_g, 0])
+    ...    rb.X = rb.X + dx * dt 
     ...    rb.store(ti)
     >>> rb.draw('theta')
 
