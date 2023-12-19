@@ -63,10 +63,10 @@ examples/resources/tank_short_snapshot_t0.jpg
 #
 # pip setup
 ## 
-# c4dynamics.egg-info/*
-# dist/
-# build/bdist.win-amd64
-# build/lib 
+c4dynamics.egg-info
+dist
+build
+setup.py 
 
 #
 #
