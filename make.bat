@@ -27,12 +27,16 @@ if "%1" == "" goto help
 
 %SPHINXBUILD% -M %1 %SOURCEDIR% %BUILDDIR% %SPHINXOPTS% %O%
 
+REM if exist %BUILDDIR%\html (
 REM Move contents of doc/html/ to doc/ (including subfolders)
 REM Delete the html folder
 @REM move /Y %BUILDDIR%\html\* %BUILDDIR%\
 xcopy /E /Y %BUILDDIR%\html\* %BUILDDIR%\ > null.tmp
-rmdir /S /Q %BUILDDIR%\html
+rmdir /S /Q %BUILDDIR%\html 
 del null.tmp
+@REM ) else (
+@REM 	echo html file not exists 
+@REM )
 
 goto end
 
