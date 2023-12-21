@@ -1,6 +1,6 @@
 import numpy as np
 # import c4dynamics as c4d 
-from c4dynamics.utils.params import *  
+from c4dynamics.utils.const import *  
 from c4dynamics.utils.math import *  
 
 
