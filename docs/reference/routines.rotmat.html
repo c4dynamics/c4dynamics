@@ -391,7 +391,7 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/c4dynamics.rotmat.rotz.html#c4dynamics.rotmat.rotz" title="c4dynamics.rotmat.rotz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotz</span></code></a>(a)</p></td>
 <td><p>Generate a 3x3 rotation matrix for a rotation about the z-axis by an angle 'a' in radians.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/c4dynamics.rotmat.dcm321.html#c4dynamics.rotmat.dcm321" title="c4dynamics.rotmat.dcm321"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dcm321</span></code></a>(ax, ay, az)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/c4dynamics.rotmat.dcm321.html#c4dynamics.rotmat.dcm321" title="c4dynamics.rotmat.dcm321"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dcm321</span></code></a>(rb)</p></td>
 <td><p>Generate a Direction Cosine Matrix (DCM) for a sequence of  rotations around axes in the following order: z, y, x.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/c4dynamics.rotmat.dcm321euler.html#c4dynamics.rotmat.dcm321euler" title="c4dynamics.rotmat.dcm321euler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dcm321euler</span></code></a>(dcm)</p></td>
@@ -419,8 +419,8 @@ equations depend on the order selected. <a class="reference internal" href="#mi"
 <p>In aerospace applications for example, 
 the common order is that the first Euler rotation is about the z-axis,
 the second is about the y-axis, and the third is about the Xaxis.
-Such a transformation order is called z-y-x, or 3-2-1.</p>
-<p>With reference to a body orientation, the resulting
+Such a transformation order is called z-y-x, or 3-2-1. 
+With reference to a body orientation, the resulting
 order is yaw, pitch, and roll. 
 With reference to geographical
 orientation, the resulting order is azimuth (heading),

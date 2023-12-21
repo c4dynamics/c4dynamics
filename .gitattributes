@@ -5,5 +5,5 @@
 
 *.nb linguist-vendored
 *.ipynb linguist-vendored
-
+*.bat linguist-vendored 
 
