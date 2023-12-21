@@ -51,7 +51,7 @@
     <link rel="prev" title="c4dynamics.rotmat.rotz" href="c4dynamics.rotmat.rotz.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Dec 19, 2023"/>
+    <meta name="docbuild:last-update" content="Dec 21, 2023"/>
   </head>
   
   
@@ -386,12 +386,47 @@ document.write(`
 <dl class="py function">
 <dt class="sig sig-object py" id="c4dynamics.rotmat.dcm321">
 <span class="sig-prename descclassname"><span class="pre">c4dynamics.rotmat.</span></span><span class="sig-name descname"><span class="pre">dcm321</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ay</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">az</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#c4dynamics.rotmat.dcm321" title="Link to this definition">#</a></dt>
-<dd><dl class="simple">
-<dt>321 dcm </dt><dd><p>first rotate about z axis by az radians
-then rotate about y axis by ay radians
-finally rotate about x axis by ax radians</p>
+<dd><p>Generate a Direction Cosine Matrix (DCM) for a sequence of 
+rotations around axes in the following order: z, y, x.</p>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h2>
+<dl class="simple">
+<dt>ax<span class="classifier">float</span></dt><dd><p>Rotation angle in radians around the x-axis.</p>
+</dd>
+<dt>ay<span class="classifier">float</span></dt><dd><p>Rotation angle in radians around the y-axis.</p>
+</dd>
+<dt>az<span class="classifier">float</span></dt><dd><p>Rotation angle in radians around the z-axis.</p>
 </dd>
 </dl>
+</section>
+<section id="returns">
+<h2>Returns<a class="headerlink" href="#returns" title="Link to this heading">#</a></h2>
+<dl class="simple">
+<dt>out<span class="classifier">numpy array</span></dt><dd><p>3x3 Direction Cosine Matrix representing the combined rotation.</p>
+</dd>
+</dl>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h2>
+<p>The inertial velocity vector of an aircraft expressed in an inertial earth frame is given by:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="p">[</span><span class="mi">150</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The attitude of the aircraft with respect to the inertial earth frame is
+given by the 3 Euler angles:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">theta</span> <span class="o">=</span> <span class="mi">30</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">d2r</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">psi</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>The velcoty expressed in body frame:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">BI</span> <span class="o">=</span> <span class="n">dcm321</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">psi</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vb</span> <span class="o">=</span> <span class="n">BI</span> <span class="o">@</span> <span class="n">v</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">vb</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">decimals</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span>
+<span class="go">[129.9  0.  75. ]</span>
+</pre></div>
+</div>
+</section>
 </dd></dl>
 
 </section>
