@@ -51,7 +51,7 @@ from . import rotmat
 #
 # utils
 ##
-from .utils.params import *  
+from .utils.const import *  
 from .utils.math import *  
 from .utils.gen_gif import gen_gif
 from .utils.cprint import print
