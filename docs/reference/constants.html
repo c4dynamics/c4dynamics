@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>YOLO &#8212; C4dynamics v1.0 Manual</title>
+    <title>Constants &#8212; C4dynamics v1.0 Manual</title>
   
   
   
@@ -43,12 +43,12 @@
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=36754332"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/detectors.yolo';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/constants';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Filters" href="filters.html" />
-    <link rel="prev" title="Detectors" href="detectors.html" />
+    <link rel="next" title="Routines" href="routines.html" />
+    <link rel="prev" title="Low Pass Filter" href="filters.lowpass.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
     <meta name="docbuild:last-update" content="Dec 21, 2023"/>
@@ -206,6 +206,10 @@ document.write(`
   
 
   
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
 </div>
 
     </nav>
@@ -285,8 +289,8 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="sensors.imu.html">IMU</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="detectors.html">Detectors</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">YOLO</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="detectors.html">Detectors</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="detectors.yolo.html">YOLO</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="filters.html">Filters</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -296,7 +300,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="filters.lowpass.html">Low Pass Filter</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="constants.html">Constants</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Constants</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="routines.html">Routines</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="routines.eqm.html">Equations of Motion (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.eqm</span></code>)</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="generated/c4dynamics.eqm.eqm3.html">c4dynamics.eqm.eqm3</a></li>
@@ -353,10 +357,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="index.html" class="nav-link">C4dynamics Reference</a></li>
     
-    
-    <li class="breadcrumb-item"><a href="detectors.html" class="nav-link">Detectors</a></li>
-    
-    <li class="breadcrumb-item active" aria-current="page">YOLO</li>
+    <li class="breadcrumb-item active" aria-current="page">Constants</li>
   </ul>
 </nav>
 </div>
@@ -373,10 +374,71 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="yolo">
-<span id="detectors-yolo"></span><h1>YOLO<a class="headerlink" href="#yolo" title="Link to this heading">#</a></h1>
-<p>TBD
-.. .. figure:: figures/threefundamental.png</p>
+  <section id="constants">
+<span id="id1"></span><h1>Constants<a class="headerlink" href="#constants" title="Link to this heading">#</a></h1>
+<p>C4dynamics includes several constants as global and conversion quantities:</p>
+<section id="global-constants">
+<h2>Global Constants<a class="headerlink" href="#global-constants" title="Link to this heading">#</a></h2>
+<dl class="py data">
+<dt class="sig sig-object py" id="c4dynamics.pi">
+<span class="sig-prename descclassname"><span class="pre">c4dynamics.</span></span><span class="sig-name descname"><span class="pre">pi</span></span><a class="headerlink" href="#c4dynamics.pi" title="Link to this definition">#</a></dt>
+<dd><p>The ratio of a circle’s circumference to its diameter.
+C4dynamics’ pi is a simple assignment of numpy.pi:</p>
+<p><code class="docutils literal notranslate"><span class="pre">pi</span> <span class="pre">=</span> <span class="pre">3.1415926535897932384626433...</span></code></p>
+<p class="rubric">References</p>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Pi">https://en.wikipedia.org/wiki/Pi</a></p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="c4dynamics.g_ms2">
+<span class="sig-prename descclassname"><span class="pre">c4dynamics.</span></span><span class="sig-name descname"><span class="pre">g_ms2</span></span><a class="headerlink" href="#c4dynamics.g_ms2" title="Link to this definition">#</a></dt>
+<dd><p>Gravity of earth in meter per square second.</p>
+<p><code class="docutils literal notranslate"><span class="pre">g</span> <span class="pre">=</span> <span class="pre">9.80665</span></code></p>
+<p class="rubric">References</p>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Gravity_of_Earth">https://en.wikipedia.org/wiki/Gravity_of_Earth</a></p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="c4dynamics.g_fts2">
+<span class="sig-prename descclassname"><span class="pre">c4dynamics.</span></span><span class="sig-name descname"><span class="pre">g_fts2</span></span><a class="headerlink" href="#c4dynamics.g_fts2" title="Link to this definition">#</a></dt>
+<dd><p>Gravity of earth in foot per square second.</p>
+<p><code class="docutils literal notranslate"><span class="pre">g</span> <span class="pre">=</span> <span class="pre">32.1740</span></code></p>
+<p class="rubric">References</p>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Gravity_of_Earth">https://en.wikipedia.org/wiki/Gravity_of_Earth</a></p>
+</dd></dl>
+
+</section>
+<section id="conversion-constants">
+<h2>Conversion Constants<a class="headerlink" href="#conversion-constants" title="Link to this heading">#</a></h2>
+<dl class="py data">
+<dt class="sig sig-object py" id="c4dynamics.ft2m">
+<span class="sig-prename descclassname"><span class="pre">c4dynamics.</span></span><span class="sig-name descname"><span class="pre">ft2m</span></span><a class="headerlink" href="#c4dynamics.ft2m" title="Link to this definition">#</a></dt>
+<dd><p>foot to meter.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ft2m</span> <span class="pre">=</span> <span class="pre">0.3048</span></code></p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="c4dynamics.lbft2tokgm2">
+<span class="sig-prename descclassname"><span class="pre">c4dynamics.</span></span><span class="sig-name descname"><span class="pre">lbft2tokgm2</span></span><a class="headerlink" href="#c4dynamics.lbft2tokgm2" title="Link to this definition">#</a></dt>
+<dd><p>pound square foot to kilogram square meter.</p>
+<p><code class="docutils literal notranslate"><span class="pre">lbft2tokgm2</span> <span class="pre">=</span> <span class="pre">4.88243</span></code></p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="c4dynamics.r2d">
+<span class="sig-prename descclassname"><span class="pre">c4dynamics.</span></span><span class="sig-name descname"><span class="pre">r2d</span></span><a class="headerlink" href="#c4dynamics.r2d" title="Link to this definition">#</a></dt>
+<dd><p>radians to degrees.</p>
+<p><code class="docutils literal notranslate"><span class="pre">r2d</span> <span class="pre">=</span> <span class="pre">57.2958</span></code></p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="c4dynamics.d2r">
+<span class="sig-prename descclassname"><span class="pre">c4dynamics.</span></span><span class="sig-name descname"><span class="pre">d2r</span></span><a class="headerlink" href="#c4dynamics.d2r" title="Link to this definition">#</a></dt>
+<dd><p>radians to degrees.</p>
+<p><code class="docutils literal notranslate"><span class="pre">d2r</span> <span class="pre">=</span> <span class="pre">0.0174533</span></code></p>
+</dd></dl>
+
+</section>
 </section>
 
 
@@ -390,20 +452,20 @@ document.write(`
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="detectors.html"
+       href="filters.lowpass.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Detectors</p>
+        <p class="prev-next-title">Low Pass Filter</p>
       </div>
     </a>
     <a class="right-next"
-       href="filters.html"
+       href="routines.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Filters</p>
+        <p class="prev-next-title">Routines</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -413,6 +475,32 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#global-constants">Global Constants</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c4dynamics.pi"><code class="docutils literal notranslate"><span class="pre">pi</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c4dynamics.g_ms2"><code class="docutils literal notranslate"><span class="pre">g_ms2</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c4dynamics.g_fts2"><code class="docutils literal notranslate"><span class="pre">g_fts2</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conversion-constants">Conversion Constants</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c4dynamics.ft2m"><code class="docutils literal notranslate"><span class="pre">ft2m</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c4dynamics.lbft2tokgm2"><code class="docutils literal notranslate"><span class="pre">lbft2tokgm2</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c4dynamics.r2d"><code class="docutils literal notranslate"><span class="pre">r2d</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c4dynamics.d2r"><code class="docutils literal notranslate"><span class="pre">d2r</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

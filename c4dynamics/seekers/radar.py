@@ -48,7 +48,7 @@ class dzradar:
         obj.ifilter = c4d.filters.e_kalman(x0
                                            , [obj.noise
                                               , 141.42 * c4d.ft2m
-                                              , 300 * c4d.lbft2kgm]
+                                              , 300 * c4d.lbft2tokgm2]
                                            , obj.ts)
       elif filtype == c4d.filters.filtertype.luenberger:
         # linear model
