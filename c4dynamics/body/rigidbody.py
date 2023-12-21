@@ -110,7 +110,7 @@ class rigidbody(c4d.datapoint):  #
     # inertial from body dcm
     # bound method 
     # Bound methods have been "bound" to an instance, and that instance will be passed as the first argument whenever the method is called.
-    return np.transpose(dcm321(obj.phi, obj.theta, obj.psi))
+    return np.transpose(dcm321(obj))
   
 
   @property
@@ -118,7 +118,7 @@ class rigidbody(c4d.datapoint):  #
     # body from inertial dcm
     # bound method 
     # Bound methods have been "bound" to an instance, and that instance will be passed as the first argument whenever the method is called.
-    return dcm321(obj.phi, obj.theta, obj.psi)
+    return dcm321(obj)
 
 
 

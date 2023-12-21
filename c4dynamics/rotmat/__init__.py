@@ -45,7 +45,6 @@ In aerospace applications for example,
 the common order is that the first Euler rotation is about the z-axis,
 the second is about the y-axis, and the third is about the Xaxis.
 Such a transformation order is called z-y-x, or 3-2-1. 
-
 With reference to a body orientation, the resulting
 order is yaw, pitch, and roll. 
 With reference to geographical

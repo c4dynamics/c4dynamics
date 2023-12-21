@@ -141,19 +141,17 @@ def rotz(a):
     return np.array([[cos(a), sin(a), 0], [-sin(a), cos(a), 0], [0, 0, 1]])
 
 
-def dcm321(ax, ay, az):
+def dcm321(rb):
     '''
     Generate a Direction Cosine Matrix (DCM) for a sequence of 
     rotations around axes in the following order: z, y, x.
 
     Parameters
     ----------
-    ax : float
-        Rotation angle in radians around the x-axis.
-    ay : float
-        Rotation angle in radians around the y-axis.
-    az : float
-        Rotation angle in radians around the z-axis.
+    rb : rigidbody
+        C4dynamics's rigidbody object for which 
+        the Euler angles `(rb.phi, rb.theta, rb.psi)`
+        produce the rotation matrix. 
 
     Returns
     -------
@@ -169,21 +167,18 @@ def dcm321(ax, ay, az):
     
     The attitude of the aircraft with respect to the inertial earth frame is
     given by the 3 Euler angles: 
-    
-    >>> phi = 0
-    >>> theta = 30 * c4d.d2r
-    >>> psi = 0
+        
+    >>> rb = c4d.rigidbody(phi = 0, theta = 30 * c4d.d2r, psi = 0) 
     
     The velcoty expressed in body frame:
     
-    >>> BI = dcm321(phi, theta, psi)
-    >>> vb = BI @ v
+    >>> vb = rb.BI @ v
     >>> print(vb.round(decimals = 1))
     [129.9  0.  75. ]
 
     '''
 
-    return rotx(ax) @ roty(ay) @ rotz(az)
+    return rotx(rb.phi) @ roty(rb.theta) @ rotz(rb.psi)
 
 
 def dcm321euler(dcm):
@@ -192,7 +187,7 @@ def dcm321euler(dcm):
 
     The form of a 3-2-1 rotation matrix:   
 
-    .. math:: 
+    .. code:: 
 
         | cos(theta)*cos(psi)                                cos(theta)*sin(psi)                                 -sin(theta)          |
         | sin(phi)*sin(theta)*cos(psi)-cos(phi)*sin(psi)    -sin(phi)*cos(theta)*sin(psi)-cos(phi)*cos(psi)       sin(phi)*cos(theta) |
