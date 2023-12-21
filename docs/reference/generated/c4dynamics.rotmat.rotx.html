@@ -51,7 +51,7 @@
     <link rel="prev" title="Rotational Matrix Operations (c4dynamics.rotmat)" href="../routines.rotmat.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Dec 19, 2023"/>
+    <meta name="docbuild:last-update" content="Dec 21, 2023"/>
   </head>
   
   
@@ -386,7 +386,50 @@ document.write(`
 <dl class="py function">
 <dt class="sig sig-object py" id="c4dynamics.rotmat.rotx">
 <span class="sig-prename descclassname"><span class="pre">c4dynamics.rotmat.</span></span><span class="sig-name descname"><span class="pre">rotx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#c4dynamics.rotmat.rotx" title="Link to this definition">#</a></dt>
-<dd><p>rotation about x axis dcm by a radians</p>
+<dd><p>Generate a 3x3 rotation matrix for a rotation about the x-axis by an angle ‘a’ in radians.</p>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h2>
+<dl class="simple">
+<dt>a<span class="classifier">float</span></dt><dd><p>The angle of rotation in radians.</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h2>Returns<a class="headerlink" href="#returns" title="Link to this heading">#</a></h2>
+<dl class="simple">
+<dt>out<span class="classifier">numpy array</span></dt><dd><p>A 3x3 rotation matrix representing the rotation about the x-axis.</p>
+</dd>
+</dl>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rotx</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">array([[1., 0., 0.],</span>
+<span class="go">       [0., 1., 0.],</span>
+<span class="go">       [0., 0., 1.]])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">R</span> <span class="o">=</span> <span class="n">rotx</span><span class="p">(</span><span class="n">c4d</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">decimals</span> <span class="o">=</span> <span class="mi">3</span><span class="p">))</span>
+<span class="go">[[ 1.  0.  0.]</span>
+<span class="go">[ 0.  0.  1.]</span>
+<span class="go">[ 0. -1.  0.]]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">v1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span> <span class="o">=</span> <span class="mi">90</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">d2r</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">v2</span> <span class="o">=</span> <span class="n">rotx</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span> <span class="o">@</span> <span class="n">v1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">v2</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">decimals</span> <span class="o">=</span> <span class="mi">3</span><span class="p">))</span>
+<span class="go">[0.  1.  0.]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span> <span class="o">=</span> <span class="mi">45</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">d2r</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">v2</span> <span class="o">=</span> <span class="n">rotx</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span> <span class="o">@</span> <span class="n">v1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">v2</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">decimals</span> <span class="o">=</span> <span class="mi">3</span><span class="p">))</span>
+<span class="go">[0.  0.707  0.707]</span>
+</pre></div>
+</div>
+</section>
 </dd></dl>
 
 </section>

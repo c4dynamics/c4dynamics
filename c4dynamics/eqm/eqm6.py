@@ -1,5 +1,5 @@
-# from c4dynamics.params import * 
 import numpy as np
+from c4dynamics.utils.math import * 
 
 def eqm6(rb, F, M): 
     '''
@@ -65,9 +65,9 @@ def eqm6(rb, F, M):
     # 
     # euler angles derivatives
     ## 
-    dphi   = (rb.q * np.sin(rb.phi) + rb.r * np.cos(rb.phi)) * np.tan(rb.theta) + rb.p
-    dtheta =  rb.q * np.cos(rb.phi) - rb.r * np.sin(rb.phi)
-    dpsi   = (rb.q * np.sin(rb.phi) + rb.r * np.cos(rb.phi)) / np.cos(rb.theta)
+    dphi   = (rb.q * sin(rb.phi) + rb.r * cos(rb.phi)) * tan(rb.theta) + rb.p
+    dtheta =  rb.q * cos(rb.phi) - rb.r * sin(rb.phi)
+    dpsi   = (rb.q * sin(rb.phi) + rb.r * cos(rb.phi)) / cos(rb.theta)
 
     # 
     # angular motion derivatives 

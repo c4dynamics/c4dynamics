@@ -51,7 +51,7 @@
     <link rel="prev" title="c4dynamics.eqm.eqm6" href="generated/c4dynamics.eqm.eqm6.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Dec 19, 2023"/>
+    <meta name="docbuild:last-update" content="Dec 21, 2023"/>
   </head>
   
   
@@ -383,32 +383,88 @@ document.write(`
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/c4dynamics.rotmat.rotx.html#c4dynamics.rotmat.rotx" title="c4dynamics.rotmat.rotx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotx</span></code></a>(a)</p></td>
-<td><p>rotation about x axis dcm by a radians</p></td>
+<td><p>Generate a 3x3 rotation matrix for a rotation about the x-axis by an angle 'a' in radians.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="generated/c4dynamics.rotmat.roty.html#c4dynamics.rotmat.roty" title="c4dynamics.rotmat.roty"><code class="xref py py-obj docutils literal notranslate"><span class="pre">roty</span></code></a>(a)</p></td>
-<td><p>rotation about y axis dcm by a radians</p></td>
+<td><p>Generate a 3x3 rotation matrix for a rotation about the y-axis by an angle 'a' in radians.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/c4dynamics.rotmat.rotz.html#c4dynamics.rotmat.rotz" title="c4dynamics.rotmat.rotz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotz</span></code></a>(a)</p></td>
-<td><p>rotation about z axis dcm by a radians</p></td>
+<td><p>Generate a 3x3 rotation matrix for a rotation about the z-axis by an angle 'a' in radians.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="generated/c4dynamics.rotmat.dcm321.html#c4dynamics.rotmat.dcm321" title="c4dynamics.rotmat.dcm321"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dcm321</span></code></a>(ax, ay, az)</p></td>
-<td><p>321 dcm</p></td>
+<td><p>Generate a Direction Cosine Matrix (DCM) for a sequence of  rotations around axes in the following order: z, y, x.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/c4dynamics.rotmat.dcm321euler.html#c4dynamics.rotmat.dcm321euler" title="c4dynamics.rotmat.dcm321euler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dcm321euler</span></code></a>(dcm)</p></td>
-<td><p>dcm321 see peterschaub 2.3.5 varius euler angle transformations</p></td>
+<td><p>Extract Euler angles (roll, pitch, yaw) from a Direction Cosine Matrix (DCM) of 3-2-1 order.</p></td>
 </tr>
 </tbody>
 </table>
-<section id="rotating-reference-frame">
-<h3>Rotating Reference Frame<a class="headerlink" href="#rotating-reference-frame" title="Link to this heading">#</a></h3>
-<p>A vector resolved in a given reference frame is said to be 
-“expressed” in that frame (sometimes said “referred to”). 
-The rate of change of a vector, as viewed by an observer fixed to and moving 
-with a given reference frame, is said to be “relative to” or “with 
-respect to” that reference frame. 
-It’s important to note here that the rate of change of a vector must be 
-relative to an inertial reference frame, but it can be expressed in any reference frame.</p>
 </section>
+<section id="background-material">
+<h2>Background Material<a class="headerlink" href="#background-material" title="Link to this heading">#</a></h2>
+<p>A rotation matrix is a mathematical representation of a 
+rotation in three-dimensional space.</p>
+<p>It’s a 3x3 matrix that, when multiplied with a vector, 
+transforms the vector to represent a new orientation.</p>
+<p>Each element of the matrix corresponds to a directional cosine, 
+capturing the rotation’s effect on the x, y, and z axes.</p>
+<section id="euler-angles-order">
+<h3>Euler Angles Order<a class="headerlink" href="#euler-angles-order" title="Link to this heading">#</a></h3>
+<p>Frame based vectors are related through a Direction Cosine Matrix (DCM). <a class="reference internal" href="#hs" id="id1"><span>[HS]</span></a></p>
+<p>When Euler angles are employed in the transformation of
+a vector expressed in one reference frame to the expression
+of the vector in a different reference frame, any order of the
+three Euler rotations is possible, but the resulting transformation
+equations depend on the order selected. <a class="reference internal" href="#mi" id="id2"><span>[MI]</span></a></p>
+<p>In aerospace applications for example, 
+the common order is that the first Euler rotation is about the z-axis,
+the second is about the y-axis, and the third is about the Xaxis.
+Such a transformation order is called z-y-x, or 3-2-1.</p>
+<p>With reference to a body orientation, the resulting
+order is yaw, pitch, and roll. 
+With reference to geographical
+orientation, the resulting order is azimuth (heading),
+elevation (pitch), and roll (bank angle).</p>
+</section>
+<section id="right-hand-frame">
+<h3>Right Hand Frame<a class="headerlink" href="#right-hand-frame" title="Link to this heading">#</a></h3>
+<p>The positive directions of coordinate system 
+axes and the directions of positive rotations 
+about the axes are arbitrary.
+In right-handed systems:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">i</span> <span class="n">x</span> <span class="n">j</span> <span class="o">=</span> <span class="n">k</span>
+<span class="n">j</span> <span class="n">x</span> <span class="n">k</span> <span class="o">=</span> <span class="n">i</span>
+<span class="n">k</span> <span class="n">x</span> <span class="n">i</span> <span class="o">=</span> <span class="n">j</span>
+</pre></div>
+</div>
+<p>where i is the unit vector in the direction of the x-axis,
+j is the unit vector in the direction of the y-axis, 
+k is the unit vector in the direction of the z-axis.</p>
+<p>Positive rotations are clockwise
+when viewed from the origin, looking out along the
+positive direction of the axis.</p>
+<p>These conventions are illustrated
+in Fig-1.</p>
+<figure class="align-default" id="id3">
+<img alt="../_images/frames_conventions.svg" src="../_images/frames_conventions.svg" /><figcaption>
+<p><span class="caption-text">Fig-1: Coordinate System Conventions</span><a class="headerlink" href="#id3" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<div role="list" class="citation-list">
+<div class="citation" id="hs" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">HS</a><span class="fn-bracket">]</span></span>
+<p>Hanspeter Schaub, “Spacecraft Dynamics and Control” lecture notes, module 2: rigidbody kinematics.</p>
+</div>
+<div class="citation" id="mi" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">MI</a><span class="fn-bracket">]</span></span>
+<p>17 July 1995, “Missile Flight Simulation Part One Surface-to-Air Missiles”, 
+Ch 4 In: Military Handbook. 1995, MIL-HDBK-1211(MI)</p>
+</div>
+</div>
 </section>
 <section id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h2>
@@ -459,10 +515,13 @@ relative to an inertial reference frame, but it can be expressed in any referenc
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rotmat">ROTMAT</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rotating-reference-frame">Rotating Reference Frame</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rotmat">ROTMAT</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#background-material">Background Material</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#euler-angles-order">Euler Angles Order</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#right-hand-frame">Right Hand Frame</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a></li>
 </ul>
   </nav></div>
