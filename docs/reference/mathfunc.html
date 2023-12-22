@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>C4dynamics Reference &#8212; C4dynamics v1.0 Manual</title>
+    <title>Math Functions &#8212; C4dynamics v1.0 Manual</title>
   
   
   
@@ -43,12 +43,12 @@
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=36754332"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/index';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/mathfunc';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Body Objects" href="bodyobjects.html" />
-    <link rel="prev" title="Ballistic Coefficient Estimation" href="../user/ballisticestimation.html" />
+    <link rel="next" title="Routines" href="routines.html" />
+    <link rel="prev" title="Constants" href="constants.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
     <meta name="docbuild:last-update" content="Dec 22, 2023"/>
@@ -149,7 +149,7 @@
                 
 
                     <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="#">
+                      <a class="nav-link nav-internal" href="index.html">
                         API reference
                       </a>
                     </li>
@@ -206,6 +206,10 @@ document.write(`
   
 
   
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
 </div>
 
     </nav>
@@ -239,7 +243,7 @@ document.write(`
                 
 
                     <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="#">
+                      <a class="nav-link nav-internal" href="index.html">
                         API reference
                       </a>
                     </li>
@@ -272,7 +276,7 @@ document.write(`
         <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
-  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="bodyobjects.html">Body Objects</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="bodyobjects.datapoint.html">The Datapoint (<code class="xref py py-class docutils literal notranslate"><span class="pre">datapoint</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bodyobjects.rigidbody.html">the Rigid-Body (<code class="xref py py-class docutils literal notranslate"><span class="pre">rigidbody</span></code>)</a></li>
@@ -297,7 +301,7 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="constants.html">Constants</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mathfunc.html">Math Functions</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Math Functions</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="routines.html">Routines</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="routines.eqm.html">Equations of Motion (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.eqm</span></code>)</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="generated/c4dynamics.eqm.eqm3.html">c4dynamics.eqm.eqm3</a></li>
@@ -351,7 +355,10 @@ document.write(`
         <i class="fa-solid fa-home"></i>
       </a>
     </li>
-    <li class="breadcrumb-item active" aria-current="page">C4dynamics Reference</li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">C4dynamics Reference</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Math Functions</li>
   </ul>
 </nav>
 </div>
@@ -368,66 +375,52 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="c4dynamics-reference">
-<span id="reference"></span><span id="module-c4dynamics"></span><h1>C4dynamics Reference<a class="headerlink" href="#c4dynamics-reference" title="Link to this heading">#</a></h1>
-<dl class="field-list simple">
-<dt class="field-odd">Release<span class="colon">:</span></dt>
-<dd class="field-odd"><p>1.0</p>
-</dd>
-<dt class="field-even">Date<span class="colon">:</span></dt>
-<dd class="field-even"><p>Dec 22, 2023</p>
-</dd>
-</dl>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="bodyobjects.html">Body Objects</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="bodyobjects.datapoint.html">The Datapoint (<code class="xref py py-class docutils literal notranslate"><span class="pre">datapoint</span></code>)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bodyobjects.rigidbody.html">the Rigid-Body (<code class="xref py py-class docutils literal notranslate"><span class="pre">rigidbody</span></code>)</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="sensors.html">Sensors</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="sensors.camera.html">Camera</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sensors.laser.html">Laser</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sensors.radar.html">Radar</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sensors.imu.html">IMU</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="detectors.html">Detectors</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="detectors.yolo.html">YOLO</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="filters.html">Filters</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="filters.kalman.html">Kalman Filter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="filters.e_kalman.html">Extended Kalman Filter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="filters.luenberger.html">Luenberger</a></li>
-<li class="toctree-l2"><a class="reference internal" href="filters.lowpass.html">Low Pass Filter</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="constants.html">Constants</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="constants.html#global-constants">Global Constants</a></li>
-<li class="toctree-l2"><a class="reference internal" href="constants.html#conversion-constants">Conversion Constants</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="mathfunc.html">Math Functions</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="mathfunc.html#c4dynamics.sin"><code class="docutils literal notranslate"><span class="pre">sin</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="mathfunc.html#c4dynamics.cos"><code class="docutils literal notranslate"><span class="pre">cos</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="mathfunc.html#c4dynamics.tan"><code class="docutils literal notranslate"><span class="pre">tan</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="mathfunc.html#c4dynamics.asin"><code class="docutils literal notranslate"><span class="pre">asin</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="mathfunc.html#c4dynamics.acos"><code class="docutils literal notranslate"><span class="pre">acos</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="mathfunc.html#c4dynamics.atan"><code class="docutils literal notranslate"><span class="pre">atan</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="mathfunc.html#c4dynamics.atan2"><code class="docutils literal notranslate"><span class="pre">atan2</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="routines.html">Routines</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="routines.eqm.html">Equations of Motion (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.eqm</span></code>)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="routines.rotmat.html">Rotational Matrix Operations (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.rotmat</span></code>)</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<p>This reference manual details functions, modules, and objects
-included in C4dynamics, describing what they are and what they do.
-For learning how to use C4dynamics, see the <a class="reference internal" href="../index.html#c4dynamics-docs-mainpage"><span class="std std-ref">complete documentation</span></a>.</p>
+  <section id="math-functions">
+<span id="mathfunc"></span><h1>Math Functions<a class="headerlink" href="#math-functions" title="Link to this heading">#</a></h1>
+<p>For convenience, C4dynamics offers some of NumPy’s trigonometric functions,
+with slight variations in some of them:</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="c4dynamics.sin">
+<span class="sig-prename descclassname"><span class="pre">c4dynamics.</span></span><span class="sig-name descname"><span class="pre">sin</span></span><a class="headerlink" href="#c4dynamics.sin" title="Link to this definition">#</a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">c4dynamics.sin</span> <span class="pre">=</span> <span class="pre">numpy.sin</span></code></p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="c4dynamics.cos">
+<span class="sig-prename descclassname"><span class="pre">c4dynamics.</span></span><span class="sig-name descname"><span class="pre">cos</span></span><a class="headerlink" href="#c4dynamics.cos" title="Link to this definition">#</a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">c4dynamics.cos</span> <span class="pre">=</span> <span class="pre">numpy.cos</span></code></p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="c4dynamics.tan">
+<span class="sig-prename descclassname"><span class="pre">c4dynamics.</span></span><span class="sig-name descname"><span class="pre">tan</span></span><a class="headerlink" href="#c4dynamics.tan" title="Link to this definition">#</a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">c4dynamics.tan</span> <span class="pre">=</span> <span class="pre">numpy.tan</span></code></p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="c4dynamics.asin">
+<span class="sig-prename descclassname"><span class="pre">c4dynamics.</span></span><span class="sig-name descname"><span class="pre">asin</span></span><a class="headerlink" href="#c4dynamics.asin" title="Link to this definition">#</a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">c4dynamics.atan</span> <span class="pre">=</span> <span class="pre">numpy.arcsin</span></code></p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="c4dynamics.acos">
+<span class="sig-prename descclassname"><span class="pre">c4dynamics.</span></span><span class="sig-name descname"><span class="pre">acos</span></span><a class="headerlink" href="#c4dynamics.acos" title="Link to this definition">#</a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">c4dynamics.atan</span> <span class="pre">=</span> <span class="pre">numpy.arccos</span></code></p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="c4dynamics.atan">
+<span class="sig-prename descclassname"><span class="pre">c4dynamics.</span></span><span class="sig-name descname"><span class="pre">atan</span></span><a class="headerlink" href="#c4dynamics.atan" title="Link to this definition">#</a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">c4dynamics.atan</span> <span class="pre">=</span> <span class="pre">numpy.arctan</span></code></p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="c4dynamics.atan2">
+<span class="sig-prename descclassname"><span class="pre">c4dynamics.</span></span><span class="sig-name descname"><span class="pre">atan2</span></span><a class="headerlink" href="#c4dynamics.atan2" title="Link to this definition">#</a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">c4dynamics.atan</span> <span class="pre">=</span> <span class="pre">numpy.arctan2</span></code></p>
+</dd></dl>
+
 </section>
 
 
@@ -441,20 +434,20 @@ For learning how to use C4dynamics, see the <a class="reference internal" href="
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../user/ballisticestimation.html"
+       href="constants.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Ballistic Coefficient Estimation</p>
+        <p class="prev-next-title">Constants</p>
       </div>
     </a>
     <a class="right-next"
-       href="bodyobjects.html"
+       href="routines.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Body Objects</p>
+        <p class="prev-next-title">Routines</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -464,6 +457,26 @@ For learning how to use C4dynamics, see the <a class="reference internal" href="
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c4dynamics.sin"><code class="docutils literal notranslate"><span class="pre">sin</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c4dynamics.cos"><code class="docutils literal notranslate"><span class="pre">cos</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c4dynamics.tan"><code class="docutils literal notranslate"><span class="pre">tan</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c4dynamics.asin"><code class="docutils literal notranslate"><span class="pre">asin</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c4dynamics.acos"><code class="docutils literal notranslate"><span class="pre">acos</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c4dynamics.atan"><code class="docutils literal notranslate"><span class="pre">atan</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c4dynamics.atan2"><code class="docutils literal notranslate"><span class="pre">atan2</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
