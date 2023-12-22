@@ -18,6 +18,7 @@ C4dynamics Reference
    detectors
    filters
    constants 
+   mathfunc
    routines 
 
 
