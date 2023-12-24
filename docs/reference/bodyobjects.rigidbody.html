@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>the Rigid-Body (rigidbody) &#8212; C4dynamics v1.0 Manual</title>
+    <title>the Rigidbody (rigidbody) &#8212; C4dynamics v1.0 Manual</title>
   
   
   
@@ -47,11 +47,9 @@
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Sensors" href="sensors.html" />
-    <link rel="prev" title="The Datapoint (datapoint)" href="bodyobjects.datapoint.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Dec 22, 2023"/>
+    <meta name="docbuild:last-update" content="Dec 24, 2023"/>
   </head>
   
   
@@ -148,7 +146,7 @@
                     </li>
                 
 
-                    <li class="nav-item current active">
+                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="index.html">
                         API reference
                       </a>
@@ -206,10 +204,6 @@ document.write(`
   
 
   
-    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
-      <span class="fa-solid fa-outdent"></span>
-    </label>
-  
 </div>
 
     </nav>
@@ -217,7 +211,7 @@ document.write(`
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
 
   
@@ -242,7 +236,7 @@ document.write(`
                     </li>
                 
 
-                    <li class="nav-item current active">
+                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="index.html">
                         API reference
                       </a>
@@ -271,57 +265,6 @@ document.write(`
       </div>
     
   </div>
-  
-    <div class="sidebar-primary-items__start sidebar-primary__section">
-        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
-     aria-label="Section Navigation">
-  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
-  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="bodyobjects.html">Body Objects</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="bodyobjects.datapoint.html">The Datapoint (<code class="xref py py-class docutils literal notranslate"><span class="pre">datapoint</span></code>)</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">the Rigid-Body (<code class="xref py py-class docutils literal notranslate"><span class="pre">rigidbody</span></code>)</a></li>
-</ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="sensors.html">Sensors</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="sensors.camera.html">Camera</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sensors.laser.html">Laser</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sensors.radar.html">Radar</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sensors.imu.html">IMU</a></li>
-</ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="detectors.html">Detectors</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="detectors.yolo.html">YOLO</a></li>
-</ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="filters.html">Filters</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="filters.kalman.html">Kalman Filter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="filters.e_kalman.html">Extended Kalman Filter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="filters.luenberger.html">Luenberger</a></li>
-<li class="toctree-l2"><a class="reference internal" href="filters.lowpass.html">Low Pass Filter</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="constants.html">Constants</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mathfunc.html">Math Functions</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="routines.html">Routines</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="routines.eqm.html">Equations of Motion (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.eqm</span></code>)</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="generated/c4dynamics.eqm.eqm3.html">c4dynamics.eqm.eqm3</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/c4dynamics.eqm.eqm6.html">c4dynamics.eqm.eqm6</a></li>
-</ul>
-</li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="routines.rotmat.html">Rotational Matrix Operations (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.rotmat</span></code>)</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="generated/c4dynamics.rotmat.rotx.html">c4dynamics.rotmat.rotx</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/c4dynamics.rotmat.roty.html">c4dynamics.rotmat.roty</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/c4dynamics.rotmat.rotz.html">c4dynamics.rotmat.rotz</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/c4dynamics.rotmat.dcm321.html">c4dynamics.rotmat.dcm321</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/c4dynamics.rotmat.dcm321euler.html">c4dynamics.rotmat.dcm321euler</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</div>
-</nav></div>
-    </div>
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
@@ -355,12 +298,6 @@ document.write(`
         <i class="fa-solid fa-home"></i>
       </a>
     </li>
-    
-    <li class="breadcrumb-item"><a href="index.html" class="nav-link">C4dynamics Reference</a></li>
-    
-    
-    <li class="breadcrumb-item"><a href="bodyobjects.html" class="nav-link">Body Objects</a></li>
-    
     <li class="breadcrumb-item active" aria-current="page">the...</li>
   </ul>
 </nav>
@@ -378,32 +315,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="the-rigid-body-rigidbody">
-<span id="bodyobjects-rigidbody"></span><h1>the Rigid-Body (<code class="xref py py-class docutils literal notranslate"><span class="pre">rigidbody</span></code>)<a class="headerlink" href="#the-rigid-body-rigidbody" title="Link to this heading">#</a></h1>
-<p>The rigidbody is a class defining a rigid body in space, i.e. an object with length and angular position.
-The rigidbody class extends the functionality of the datapoint class.
-It introduces additional attributes related to rotational dynamics, such as angular position, angular velocity, and moment of inertia.
-The class leverages the capabilities of the datapoint class for handling translational dynamics and extends it to include rotational aspects.</p>
-<div class="admonition-example admonition">
-<p class="admonition-title">Example</p>
-<p>TBD</p>
-</div>
-<section id="constructing-a-rgidibody">
-<h2>Constructing a rgidibody<a class="headerlink" href="#constructing-a-rgidibody" title="Link to this heading">#</a></h2>
-<p>A rigidbody can be constructed using the low-level <code class="xref py py-class docutils literal notranslate"><span class="pre">rigidbody</span></code> constructor:</p>
-</section>
-<section id="rigidbody-attributes">
-<h2>Rigidbody attributes<a class="headerlink" href="#rigidbody-attributes" title="Link to this heading">#</a></h2>
-<blockquote>
-<div><p>TBD</p>
-</div></blockquote>
-</section>
-<section id="rigidbody-methods">
-<h2>Rigidbody methods<a class="headerlink" href="#rigidbody-methods" title="Link to this heading">#</a></h2>
-<blockquote>
-<div><p>TBD</p>
-</div></blockquote>
-</section>
+  <section id="the-rigidbody-rigidbody">
+<span id="bodyobjects-rigidbody"></span><h1>the Rigidbody (<a class="reference internal" href="generated/c4dynamics.rigidbody.html#c4dynamics.rigidbody" title="c4dynamics.rigidbody"><code class="xref py py-class docutils literal notranslate"><span class="pre">rigidbody</span></code></a>)<a class="headerlink" href="#the-rigidbody-rigidbody" title="Link to this heading">#</a></h1>
 </section>
 
 
@@ -416,46 +329,12 @@ The class leverages the capabilities of the datapoint class for handling transla
                 <footer class="prev-next-footer">
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="bodyobjects.datapoint.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">The Datapoint (<code class="xref py py-class docutils literal notranslate"><span class="pre">datapoint</span></code>)</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="sensors.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Sensors</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
 </div>
                 </footer>
               
             </div>
             
             
-              
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> On this page
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#constructing-a-rgidibody">Constructing a rgidibody</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rigidbody-attributes">Rigidbody attributes</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rigidbody-methods">Rigidbody methods</a></li>
-</ul>
-  </nav></div>
-
-</div></div>
               
             
           </div>

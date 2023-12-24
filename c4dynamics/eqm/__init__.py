@@ -317,5 +317,6 @@ For examples, see the various functions.
 
 """
 
-from .eqm3 import eqm3
-from .eqm6 import eqm6
+# from .eqm3 import eqm3
+# from .eqm6 import eqm6
+from .eqm import * 

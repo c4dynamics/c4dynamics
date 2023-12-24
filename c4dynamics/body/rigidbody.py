@@ -7,74 +7,76 @@ from c4dynamics.eqm import eqm6
 from c4dynamics.rotmat import dcm321
 
 class rigidbody(c4d.datapoint):  # 
-  """ 
-    the rigidbody object is the most basic element in the rotational dynamics domain.
-    a rigidbody object is also a datapoint. 
-  """
+  ''' 
+  The :class:`rigidbody` extends the :class:`datapoint`
+  to form an elementary rigidbody object in space.  
+
+  The rigidbody is a class defining a rigid body in space, i.e. 
+  an object with length and attitude.
+
+  The rigidbody class extends the functionality of the datapoint class. 
+  It introduces additional attributes related to rotational dynamics, 
+  such as angular position, angular velocity, and moment of inertia. 
+
+  The class leverages the capabilities of the datapoint class for handling
+  translational dynamics and extends it to include rotational aspects.
+
+  '''
   
   # 
   # euler angles 
   #   rad 
   ##
   phi   = 0
+  ''' float; Euler angle representing rotation around the x-axis (rad). '''
   theta = 0
+  ''' float; Euler angle representing rotation around the y-axis (rad). '''
   psi   = 0
+  ''' float; Euler angle representing rotation around the z-axis (rad). '''
   
   # 
   # angular rates 
   #   rad / sec 
   ##
   p     = 0
+  ''' float; Angular rate around the x-axis (rad/sec). '''
   q     = 0
+  ''' float; Angular rate around the y-axis (rad/sec). '''
   r     = 0
+  ''' float; Angular rate around the z-axis (rad/sec). '''
   
   # 
   # abgular accelerations
   #   rad / sec^2
   ## 
   p_dot = 0
+  ''' float; Angular acceleration around the x-axis (rad/sec^2). '''
   q_dot = 0
+  ''' float; Angular acceleration around the y-axis (rad/sec^2). '''
   r_dot = 0
-  
-  # 
-  # initial attitude
-  #   rad 
-  ##
-  phi0   = 0
-  theta0 = 0
-  psi0   = 0
-  
+  ''' float; Angular acceleration around the z-axis (rad/sec^2). '''
+
+
   
   # 
   # inertia properties 
   ## 
-  ixx = 0   # moment of inertia aboux x
-  iyy = 0   # moment of inertia aboux y
-  izz = 0   # moment of inertia aboux z
-  xcm = 0   # distance from nose to center of mass (m) 
-  
-  
+  ixx = 0   
+  ''' float; Moment of inertia about the x-axis. '''
+  iyy = 0  
+  ''' float; Moment of inertia about the y-axis. '''
+  izz = 0   
+  ''' float; Moment of inertia about the z-axis.  '''
+  xcm = 0   
+  ''' float; Distance from nose to center of mass (m). '''
   
   # 
   # body from inertial direction cosine matrix   
   ## 
   dcm = np.array([[1, 0, 0], [0, 1, 0], [0, 0, 1]])
-
-
-  # 
-  # variables for storage
-  ##
-  # _data = [] # np.zeros((1, 19))
-  # _didx = {'t': 0, 'x': 1, 'y': 2, 'z': 3, 'vx': 4, 'vy': 5, 'vz': 6, 'ax': 7, 'ay': 8, 'az': 9 
-  #          , 'phi': 10, 'theta': 11, 'psi': 12, 'p': 13, 'q': 14, 'r': 15, 'p_dot': 16, 'q_dot': 17, 'r_dot': 18}
-  
-  # 
-  # properties for integration
-  ##  
-  # _xs = np.zeros((1, 10))   # current state for integration
-  # _dt = 1e-2 # when running free fall dt of .01sec is inaccurate. besides it seems like have no use. 
-
-
+  ''' 
+  numpy array; Direction Cosine Matrix (DCM) representing the orientation of the body.
+  '''
 
 
 
@@ -107,6 +109,7 @@ class rigidbody(c4d.datapoint):  #
 
   @property 
   def IB(obj): 
+    ''' Inertial from body direction cosine matrix. '''
     # inertial from body dcm
     # bound method 
     # Bound methods have been "bound" to an instance, and that instance will be passed as the first argument whenever the method is called.
@@ -115,82 +118,16 @@ class rigidbody(c4d.datapoint):  #
 
   @property
   def BI(obj): 
+    ''' Body from inertial direction cosine matrix. '''
     # body from inertial dcm
     # bound method 
     # Bound methods have been "bound" to an instance, and that instance will be passed as the first argument whenever the method is called.
     return dcm321(obj)
 
 
-
-  # @property
-  # def X(obj):
-  #   return super().X 
-  
-
-  # @X.setter
-  # def X(obj, x):
-    
-  #   obj.x   = x[0]
-  #   obj.y   = x[1]
-  #   obj.z   = x[2]
-
-  #   if len(x) > 3:
-  #     obj.vx  = x[3]
-  #     obj.vy  = x[4]
-  #     obj.vz  = x[5]
-
-  #   if len(x) > 6:
-  #     obj.ax  = x[6]
-  #     obj.ay  = x[7]
-  #     obj.az  = x[8]
-
-  #   if len(x) > 9: 
-
-  #     obj.phi   = x[9]
-  #     obj.theta = x[10]
-  #     obj.psi   = x[11]
-
-  #     obj.p     = x[12]
-  #     obj.q     = x[13]
-  #     obj.r     = x[14]
-
-      # obj.p_dot = x[15]
-      # obj.q_dot = x[16]
-      # obj.r_dot = x[17]
-
-
-
-
-
-
-  # def store(obj, t = -1):
-  #   # obj._data = np.vstack((obj._data
-  #   #                        , np.array([t, obj.x, obj.y,  obj.z      # 0 : 3
-  #   #                                    , obj.vx, obj.vy, obj.vz      # 4 : 6
-  #   #                                    , obj.ax, obj.ay, obj.az       # 7 : 9
-  #   #                                    , obj.phi, obj.theta, obj.psi   # 10 : 12
-  #   #                                    , obj.p, obj.q, obj.r            # 13 : 15
-  #   #                                    , obj.p_dot, obj.q_dot, obj.r_dot # 16 : 18                                      
-  #   #                                    ]))).copy()
-  #   obj._data.append([t, obj.x, obj.y,  obj.z      # 0 : 3
-  #                     , obj.vx, obj.vy, obj.vz      # 4 : 6
-  #                       , obj.ax, obj.ay, obj.az       # 7 : 9
-  #                         , obj.phi, obj.theta, obj.psi   # 10 : 12
-  #                           , obj.p, obj.q, obj.r            # 13 : 15
-  #                             , obj.p_dot, obj.q_dot, obj.r_dot])
-
-
-  # def get_phi(obj):
-  #     return np.array(obj._data)[:, 10] if obj._data else np.empty(1)
-  # # data_phi = property(get_phi, super(c4d.rigidbody).set_t,  super(rigidbody, obj).set_t)
-  # def get_theta(obj):
-  #     return np.array(obj._data)[:, 11] if obj._data else np.empty(1)
-  # def get_psi(obj):
-  #     return np.array(obj._data) if obj._data else np.empty(1)
-
   def inteqm(obj, forces, moments, dt):
     '''
-    4th Order Runge-Kutta method for solving ODEs
+    Integrates equations of motion using the 4th Order Runge-Kutta method.
 
     Parameters:
         f: function representing the ODE, f(x, y)

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>c4dynamics.rotmat.dcm321 &#8212; C4dynamics v1.0 Manual</title>
+    <title>c4dynamics.datapoint &#8212; C4dynamics v1.0 Manual</title>
   
   
   
@@ -43,12 +43,12 @@
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=36754332"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/generated/c4dynamics.rotmat.dcm321';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/generated/c4dynamics.datapoint';</script>
     <link rel="icon" href="../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="c4dynamics.rotmat.dcm321euler" href="c4dynamics.rotmat.dcm321euler.html" />
-    <link rel="prev" title="c4dynamics.rotmat.rotz" href="c4dynamics.rotmat.rotz.html" />
+    <link rel="next" title="c4dynamics.rigidbody" href="c4dynamics.rigidbody.html" />
+    <link rel="prev" title="Body Objects" href="../bodyobjects.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
     <meta name="docbuild:last-update" content="Dec 24, 2023"/>
@@ -277,8 +277,8 @@ document.write(`
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../bodyobjects.html">Body Objects</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="c4dynamics.datapoint.html">c4dynamics.datapoint</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../bodyobjects.html">Body Objects</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">c4dynamics.datapoint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="c4dynamics.rigidbody.html">c4dynamics.rigidbody</a></li>
 </ul>
 </li>
@@ -302,17 +302,17 @@ document.write(`
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../constants.html">Constants</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../mathfunc.html">Math Functions</a></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../routines.html">Routines</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../routines.html">Routines</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../routines.eqm.html">Equations of Motion (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.eqm</span></code>)</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="c4dynamics.eqm.eqm3.html">c4dynamics.eqm.eqm3</a></li>
 <li class="toctree-l3"><a class="reference internal" href="c4dynamics.eqm.eqm6.html">c4dynamics.eqm.eqm6</a></li>
 </ul>
 </li>
-<li class="toctree-l2 current active has-children"><a class="reference internal" href="../routines.rotmat.html">Rotational Matrix Operations (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.rotmat</span></code>)</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../routines.rotmat.html">Rotational Matrix Operations (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.rotmat</span></code>)</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="c4dynamics.rotmat.rotx.html">c4dynamics.rotmat.rotx</a></li>
 <li class="toctree-l3"><a class="reference internal" href="c4dynamics.rotmat.roty.html">c4dynamics.rotmat.roty</a></li>
 <li class="toctree-l3"><a class="reference internal" href="c4dynamics.rotmat.rotz.html">c4dynamics.rotmat.rotz</a></li>
-<li class="toctree-l3 current active"><a class="current reference internal" href="#">c4dynamics.rotmat.dcm321</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.rotmat.dcm321.html">c4dynamics.rotmat.dcm321</a></li>
 <li class="toctree-l3"><a class="reference internal" href="c4dynamics.rotmat.dcm321euler.html">c4dynamics.rotmat.dcm321euler</a></li>
 </ul>
 </li>
@@ -347,8 +347,6 @@ document.write(`
 
 
 
-
-
 <nav aria-label="Breadcrumb">
   <ul class="bd-breadcrumbs">
     
@@ -361,12 +359,9 @@ document.write(`
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">C4dynamics Reference</a></li>
     
     
-    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    <li class="breadcrumb-item"><a href="../bodyobjects.html" class="nav-link">Body Objects</a></li>
     
-    
-    <li class="breadcrumb-item"><a href="../routines.rotmat.html" class="nav-link">Rotational Matrix Operations (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.rotmat</span></code>)</a></li>
-    
-    <li class="breadcrumb-item active" aria-current="page">c4dynamics.r...</li>
+    <li class="breadcrumb-item active" aria-current="page">c4dynamics.datapoint</li>
   </ul>
 </nav>
 </div>
@@ -383,46 +378,183 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="c4dynamics-rotmat-dcm321">
-<h1>c4dynamics.rotmat.dcm321<a class="headerlink" href="#c4dynamics-rotmat-dcm321" title="Link to this heading">#</a></h1>
-<dl class="py function">
-<dt class="sig sig-object py" id="c4dynamics.rotmat.dcm321">
-<span class="sig-prename descclassname"><span class="pre">c4dynamics.rotmat.</span></span><span class="sig-name descname"><span class="pre">dcm321</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rb</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#c4dynamics.rotmat.dcm321" title="Link to this definition">#</a></dt>
-<dd><p>Generate a Direction Cosine Matrix (DCM) for a sequence of 
-rotations around axes in the following order: z, y, x.</p>
+  <section id="c4dynamics-datapoint">
+<h1>c4dynamics.datapoint<a class="headerlink" href="#c4dynamics-datapoint" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="c4dynamics.datapoint">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">c4dynamics.</span></span><span class="sig-name descname"><span class="pre">datapoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#c4dynamics.datapoint" title="Link to this definition">#</a></dt>
+<dd><p>The <a class="reference internal" href="#c4dynamics.datapoint" title="c4dynamics.datapoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">datapoint</span></code></a> is the most basic element 
+in translational dynamics; it’s a point in space.</p>
+<p><a class="reference internal" href="#c4dynamics.datapoint" title="c4dynamics.datapoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">datapoint</span></code></a> serves as the building block for modeling and simulating 
+the motion of objects in a three-dimensional space. 
+In the context of translational dynamics, a datapoint represents 
+a point mass in space with defined Cartesian coordinates (x, y, z) 
+and associated velocities (vx, vy, vz) and accelerations (ax, ay, az).</p>
+<section id="functionality">
+<h2>Functionality<a class="headerlink" href="#functionality" title="Link to this heading">#</a></h2>
+<p>The class incorporates functionality for storing time 
+histories of these state variables, 
+facilitating analysis and visualization of dynamic simulations.</p>
+<p>The class supports the integration of equations of motion 
+using the Runge-Kutta method, allowing users to model the behavior 
+of datapoints under the influence of external forces.</p>
+<p>Additionally, it provides methods for storing and retrieving data, 
+enabling users to track and analyze the evolution of system variables over time.</p>
+<p>Furthermore, the class includes plotting functions to visualize 
+the trajectories and behaviors of datapoints. 
+Users can generate top-view and side-view plots, 
+as well as visualize the time evolution of specific variables.</p>
+</section>
+<section id="flexibility">
+<h2>Flexibility<a class="headerlink" href="#flexibility" title="Link to this heading">#</a></h2>
+<p>To enhance flexibility, the class allows users to store 
+additional variables of interest, facilitating the expansion of the basic datapoint model.
+The code encourages modularity by emphasizing the separation of concerns, 
+suggesting the move of certain functionalities to abstract classes or interfaces.</p>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>Overall, the <a class="reference internal" href="#c4dynamics.datapoint" title="c4dynamics.datapoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">datapoint</span></code></a> class serves as a versatile 
+foundation for implementing and simulating translational dynamics, 
+offering a structured approach to modeling and analyzing the motion 
+of objects in three-dimensional space.</p>
 <section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h2>
-<dl class="simple">
-<dt>rb<span class="classifier">rigidbody</span></dt><dd><p>C4dynamics’s rigidbody object for which 
-the Euler angles <cite>(rb.phi, rb.theta, rb.psi)</cite>
-produce the rotation matrix.</p>
-</dd>
-</dl>
+<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h3>
+<p>The construction of a datapoint object is done with a direct call 
+to the datapoint class:
+<cite>pt = c4d.datapoint()</cite>
+There are no explicit parameters to initialize the instance, but
+the determination of each one of the attributes is allowed through 
+the <a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs which set the vairables in the constructor with:
+<cite>self.__dict__.update(kwargs)</cite>.</p>
+<p>Regardless of the values with which the attributes of the datapoint
+were constructed, the three variables of the position are assigned 
+to the initial position:</p>
 </section>
-<section id="returns">
-<h2>Returns<a class="headerlink" href="#returns" title="Link to this heading">#</a></h2>
-<dl class="simple">
-<dt>out<span class="classifier">numpy array</span></dt><dd><p>3x3 Direction Cosine Matrix representing the combined rotation.</p>
-</dd>
-</dl>
+<section id="additional-notes">
+<h3>Additional Notes<a class="headerlink" href="#additional-notes" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>The class provides a foundation for modeling and simulating 
+translational dynamics in 3D space.</p></li>
+<li><p>Users can customize initial conditions, store additional variables, 
+and visualize simulation results.</p></li>
+<li><p>The integration method allows the datapoint to evolve based on external forces.</p></li>
+<li><p>The plotting method supports top-view, side-view, and variable-specific plots.</p></li>
+</ul>
 </section>
-<section id="examples">
-<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h2>
-<p>The inertial velocity vector of an aircraft expressed in an inertial earth frame is given by:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="p">[</span><span class="mi">150</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Link to this heading">#</a></h3>
+<p>Simulate the flight of an aircraft starting with some given
+initial conditions and draw trajectories:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">target</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">datapoint</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="mi">4000</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="o">-</span><span class="mi">3000</span><span class="p">,</span> <span class="n">vx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">200</span><span class="p">,</span> <span class="n">vy</span> <span class="o">=</span> <span class="o">-</span><span class="mi">150</span><span class="p">)</span>    
+
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">0.01</span> 
+<span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">time</span><span class="p">:</span> 
+    <span class="n">target</span><span class="o">.</span><span class="n">inteqm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">dt</span> <span class="o">=</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="n">target</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+
+<span class="n">target</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">1100</span><span class="p">,</span> <span class="mi">1100</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4500</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The attitude of the aircraft with respect to the inertial earth frame is
-given by the 3 Euler angles:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rb</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">rigidbody</span><span class="p">(</span><span class="n">phi</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="mi">30</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">d2r</span><span class="p">,</span> <span class="n">psi</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> 
-</pre></div>
-</div>
-<p>The velcoty expressed in body frame:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">vb</span> <span class="o">=</span> <span class="n">rb</span><span class="o">.</span><span class="n">BI</span> <span class="o">@</span> <span class="n">v</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">vb</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">decimals</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span>
-<span class="go">[129.9  0.  75. ]</span>
-</pre></div>
-</div>
+<figure class="align-default">
+<img alt="../../_images/datapoint_top.png" src="../../_images/datapoint_top.png" />
+</figure>
+<dl class="py method">
+<dt class="sig sig-object py" id="c4dynamics.datapoint.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#c4dynamics.datapoint.__init__" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">A</span></code>()</p></td>
+<td><p>Returns a norm of the acceleration coordinates</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">P</span></code>()</p></td>
+<td><p>Returns a norm of the position coordinates</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">V</span></code>()</p></td>
+<td><p>Returns a norm of the velocity coordinates</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#c4dynamics.datapoint.__init__" title="c4dynamics.datapoint.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(**kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dist</span></code>(dp)</p></td>
+<td><p>Calculates the distance between the self datapoint and  a second datapoint 'dp'.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">draw</span></code>(var[, ax])</p></td>
+<td><p>Draws plots of trajectories or variable evolution over time.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_data</span></code>(var)</p></td>
+<td><p>Retrieves time histories of state variables or user-defined variables.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inteqm</span></code>(forces, dt)</p></td>
+<td><p>Integrates equations of motion using the Runge-Kutta method.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">store</span></code>([t])</p></td>
+<td><p>Stores the current state of the datapoint, including time (t).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">storevar</span></code>(var[, t])</p></td>
+<td><p>Stores additional user-defined variables and their time histories.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">X</span></code></p></td>
+<td><p>The state vector  of the datapoint: [x, y, z, vx, vy, vz],  or the rigidbody: [x, y, z, vx, vy, vz, phi, theta, psi, p, q, r].</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">acc</span></code></p></td>
+<td><p>Acceleration vector</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ax</span></code></p></td>
+<td><p>float; Component of acceleration along the x-axis.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ay</span></code></p></td>
+<td><p>float; Component of acceleration along the y-axis.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">az</span></code></p></td>
+<td><p>float; Component of acceleration along the z-axis.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mass</span></code></p></td>
+<td><p>float; Mass of the datapoint.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pos</span></code></p></td>
+<td><p>Position vector</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">vel</span></code></p></td>
+<td><p>Velocity vector</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">vx</span></code></p></td>
+<td><p>float; Component of velocity along the x-axis.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">vy</span></code></p></td>
+<td><p>float; Component of velocity along the y-axis.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">vz</span></code></p></td>
+<td><p>float; Component of velocity along the z-axis.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">x</span></code></p></td>
+<td><p>float; Cartesian coordinate representing the x-position of the datapoint.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">y</span></code></p></td>
+<td><p>float; Cartesian coordinate representing the y-position of the datapoint.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">z</span></code></p></td>
+<td><p>float; Cartesian coordinate representing the z-position of the datapoint.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
 </section>
 </dd></dl>
 
@@ -439,20 +571,20 @@ given by the 3 Euler angles:</p>
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="c4dynamics.rotmat.rotz.html"
+       href="../bodyobjects.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">c4dynamics.rotmat.rotz</p>
+        <p class="prev-next-title">Body Objects</p>
       </div>
     </a>
     <a class="right-next"
-       href="c4dynamics.rotmat.dcm321euler.html"
+       href="c4dynamics.rigidbody.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">c4dynamics.rotmat.dcm321euler</p>
+        <p class="prev-next-title">c4dynamics.rigidbody</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -471,7 +603,10 @@ given by the 3 Euler angles:</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c4dynamics.rotmat.dcm321"><code class="docutils literal notranslate"><span class="pre">dcm321()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c4dynamics.datapoint"><code class="docutils literal notranslate"><span class="pre">datapoint</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c4dynamics.datapoint.__init__"><code class="docutils literal notranslate"><span class="pre">datapoint.__init__()</span></code></a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

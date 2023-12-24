@@ -53,8 +53,8 @@ class dzradar:
       elif filtype == c4d.filters.filtertype.luenberger:
         # linear model
         beta0 = x0[2]
-        A = np.array([[0, 1, 0], [0, -np.sqrt(2 * 0.0034 * c4d.g / beta0)
-                                  , -c4d.g / beta0], [0, 0, 0]])
+        A = np.array([[0, 1, 0], [0, -np.sqrt(2 * 0.0034 * c4d.g_ms2 / beta0)
+                                  , -c4d.g_ms2 / beta0], [0, 0, 0]])
         b = np.array([[0], [0], [0]])
         c = np.array([1, 0, 0])
         obj.ifilter = c4d.filters.luenberger(A, b, c)
@@ -84,9 +84,9 @@ class dzradar:
     
     # print(t)
     rho = .0034 * np.exp(-obj.ifilter.x[0, 0] / 22000 / c4d.ft2m)
-    f21 = -rho * c4d.g * obj.ifilter.x[1, 0]**2 / 44000 / obj.ifilter.x[2, 0] 
-    f22 =  rho * c4d.g * obj.ifilter.x[1, 0] / obj.ifilter.x[2, 0]
-    f23 = -rho * c4d.g * obj.ifilter.x[1, 0]**2 / 2 / obj.ifilter.x[2, 0]**2 
+    f21 = -rho * c4d.g_ms2 * obj.ifilter.x[1, 0]**2 / 44000 / obj.ifilter.x[2, 0] 
+    f22 =  rho * c4d.g_ms2 * obj.ifilter.x[1, 0] / obj.ifilter.x[2, 0]
+    f23 = -rho * c4d.g_ms2 * obj.ifilter.x[1, 0]**2 / 2 / obj.ifilter.x[2, 0]**2 
     
     Phi = np.array([[1, obj.ifilter.tau, 0], 
                     [f21 * obj.ifilter.tau, 1 + f22 * obj.ifilter.tau, f23 * obj.ifilter.tau], 
@@ -123,7 +123,7 @@ class dzradar:
   def system_model(x):
     dx = np.zeros((len(x), 1))
     dx[0, 0] = x[1, 0]
-    dx[1, 0] = .0034 * np.exp(-x[0, 0].astype('float') / 22000 / c4d.ft2m) * c4d.g * x[1, 0]**2 / 2 / x[2, 0] - c4d.g
+    dx[1, 0] = .0034 * np.exp(-x[0, 0].astype('float') / 22000 / c4d.ft2m) * c4d.g_ms2 * x[1, 0]**2 / 2 / x[2, 0] - c4d.g_ms2
     dx[2, 0] = 0
     return dx
 
