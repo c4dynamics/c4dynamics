@@ -52,10 +52,9 @@ class yolo():
     
     
     def __init__(self, model, height = 0, width = 0):
-        # modelpath = os.path.join(os.getcwd(), 'src', 'main', 'resources', 'detectors', 'yolo_darknet')
         self.model = model # load_model(modelpath, compile = False)
 
-        with open(os.path.join(os.getcwd(), 'src', 'main', 'resources', 'detectors', 'yolo', 'v3', 'coco.names'), 'r') as f:
+        with open(os.path.join(os.getcwd(), 'c4dynamics', 'src', 'main', 'resources', 'detectors', 'yolo', 'v3', 'coco.names'), 'r') as f:
             self.class_names = f.read().splitlines()
 
         self.width = width

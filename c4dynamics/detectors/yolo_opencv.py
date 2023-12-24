@@ -11,10 +11,10 @@ class yolo:
     
 
     def __init__(self):
-
-        weights_path = os.path.join('src', 'main', 'resources', 'detectors', 'yolo', 'v3', 'yolov3.weights')
-        cfg_path     = os.path.join('src', 'main', 'resources', 'detectors', 'yolo', 'v3', 'yolov3.cfg')
-        coconames    = os.path.join('src', 'main', 'resources', 'detectors', 'yolo', 'v3', 'coco.names')
+        yolov3 = os.path.join('c4dynamics', 'src', 'main', 'resources', 'detectors', 'yolo', 'v3')
+        weights_path = os.path.join(yolov3, 'yolov3.weights')
+        cfg_path     = os.path.join(yolov3, 'yolov3.cfg')
+        coconames    = os.path.join(yolov3, 'coco.names')
 
         self.net = cv2.dnn.readNetFromDarknet(cfg_path, weights_path)
         self.net.setPreferableBackend(cv2.dnn.DNN_BACKEND_OPENCV)

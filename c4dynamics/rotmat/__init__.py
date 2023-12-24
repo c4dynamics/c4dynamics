@@ -116,7 +116,8 @@ For examples, see the various functions.
 
 
 
-from .rotfunc import rotx, roty, rotz, dcm321, dcm321euler 
+# from .rotfunc import rotx, roty, rotz, dcm321, dcm321euler 
+from .rotmat import rotx, roty, rotz, dcm321, dcm321euler 
 
 
 
