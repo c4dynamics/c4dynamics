@@ -64,7 +64,15 @@ pip install c4dynamics
 
 * GitHub  
 To run the latest GitHub version, download c4dynamics: 
-https://github.com/C4dynamics/C4dynamics  
+https://github.com/C4dynamics/C4dynamics
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  *Note:*
+
+*If you face issues while cloning C4dynamics or using the YOLO detector, 
+it is likely that the yolov3.weights file has not been downloaded correctly.
+To resolve this, download and install [Git LFS](https://docs.github.com/en/repositories/working-with-files/managing-large-files/installing-git-large-file-storage) and then reinstall C4dynamics.*
+
+
 Install the required packages:
 ```
 pip install -r requirements.txt
