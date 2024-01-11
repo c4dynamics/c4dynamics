@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
   <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
 
-    <script src="../_static/documentation_options.js?v=5ed33941"></script>
+    <script src="../_static/documentation_options.js?v=ccace7aa"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=36754332"></script>
@@ -565,10 +565,10 @@ the reading and the updating of a datapoint instance are given in the following 
 <td><p>Returns a translational velocity vector.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/c4dynamics.datapoint.P.html#c4dynamics.datapoint.P" title="c4dynamics.datapoint.P"><code class="xref py py-obj docutils literal notranslate"><span class="pre">datapoint.P</span></code></a>()</p></td>
-<td><p>Returns the norm of the position coordinates</p></td>
+<td><p>Returns the Euclidean norm of the position coordinates in three dimensions.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="generated/c4dynamics.datapoint.V.html#c4dynamics.datapoint.V" title="c4dynamics.datapoint.V"><code class="xref py py-obj docutils literal notranslate"><span class="pre">datapoint.V</span></code></a>()</p></td>
-<td><p>Returns the body total velocity (the norm of the velcity coordinates)</p></td>
+<td><p>Returns the Euclidean norm of the velocity coordinates in three dimensions.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/c4dynamics.datapoint.store.html#c4dynamics.datapoint.store" title="c4dynamics.datapoint.store"><code class="xref py py-obj docutils literal notranslate"><span class="pre">datapoint.store</span></code></a>([t])</p></td>
 <td><p>Stores the current state of the datapoint.</p></td>
@@ -583,10 +583,10 @@ the reading and the updating of a datapoint instance are given in the following 
 <td><p>Returns the state as stored at time t.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/c4dynamics.datapoint.dist.html#c4dynamics.datapoint.dist" title="c4dynamics.datapoint.dist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">datapoint.dist</span></code></a>(dp2)</p></td>
-<td><p>Calculates the distance between the self body, 'dp1', and</p></td>
+<td><p>Calculates the Euclidean distance between the self body and  a second datapoint 'dp2'.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="generated/c4dynamics.datapoint.inteqm.html#c4dynamics.datapoint.inteqm" title="c4dynamics.datapoint.inteqm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">datapoint.inteqm</span></code></a>(forces, dt)</p></td>
-<td><p>Integrates equations of motion using the Runge-Kutta method.</p></td>
+<td><p>Advances the state vector, <cite>datapoint.X</cite>, with respect to the input forces on a single step of time, <cite>dt</cite>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/c4dynamics.datapoint.draw.html#c4dynamics.datapoint.draw" title="c4dynamics.datapoint.draw"><code class="xref py py-obj docutils literal notranslate"><span class="pre">datapoint.draw</span></code></a>(var[, ax])</p></td>
 <td><p>Draws plots of trajectories or variable evolution over time.</p></td>
