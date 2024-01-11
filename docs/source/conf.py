@@ -114,6 +114,8 @@ html_file_suffix = '.html'
 
 htmlhelp_basename = 'c4dynamics'
 
+html_style = 'c4dynamics.css'
+
 if 'sphinx.ext.pngmath' in extensions:
     pngmath_use_preview = True
     pngmath_dvipng_args = ['-gamma', '1.5', '-D', '96', '-bg', 'Transparent']
@@ -122,4 +124,23 @@ if 'sphinx.ext.pngmath' in extensions:
 
 plot_html_show_formats = False
 plot_html_show_source_link = False
+
+
+
+#  # maps functions with a class name that is indistinguishable when case is 
+#  # ignore to another filename 
+#  autosummary_filename_map = { 
+#      "sklearn.cluster.dbscan": "dbscan-function", 
+#      "sklearn.covariance.oas": "oas-function", 
+#      "sklearn.decomposition.fastica": "fastica-function", 
+#  } 
+
+ # maps functions with a class name that is indistinguishable when case is 
+ # ignore to another filename 
+autosummary_filename_map = { 
+     'c4dynamics.datapoint.x': 'c4dynamics.datapoint.x_var', 
+    #  'c4dynamics.datapoint.X': 'datapoint.x_property', 
+ } 
+
+
 

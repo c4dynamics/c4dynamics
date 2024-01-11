@@ -1,4 +1,4 @@
-"""
+'''
 Equations of Motion (:mod:`c4dynamics.eqm`)
 =======================================================
 
@@ -13,6 +13,8 @@ EQM
 
    eqm3
    eqm6
+   int3 
+   int6
 
 
 Background Material [MI]_
@@ -315,8 +317,8 @@ Examples
 
 For examples, see the various functions.
 
-"""
+'''
 
-# from .eqm3 import eqm3
-# from .eqm6 import eqm6
-from .eqm import * 
+
+from .derivs import * 
+from .integrate import * 

@@ -10,12 +10,12 @@ def rotx(a):
 
     Parameters
     ----------
-    a : float
+    a : float or int
         The angle of rotation in radians.
 
     Returns
     -------
-    out : numpy array
+    out : numpy.array
         A 3x3 rotation matrix representing the rotation about the x-axis.
 
     Examples
@@ -56,12 +56,12 @@ def roty(a):
 
     Parameters
     ----------
-    a : float
+    a : float or int
         The angle of rotation in radians.
 
     Returns
     -------
-    out : numpy array
+    out : numpy.array
         A 3x3 rotation matrix representing the rotation about the y-axis.
 
     Examples
@@ -102,12 +102,12 @@ def rotz(a):
 
     Parameters
     ----------
-    a : float
+    a : float or int
         The angle of rotation in radians.
 
     Returns
     -------
-    out : numpy array
+    out : numpy.array
         A 3x3 rotation matrix representing the rotation about the z-axis.
 
     Examples
@@ -155,7 +155,7 @@ def dcm321(rb):
 
     Returns
     -------
-    out : numpy array
+    out : numpy.array
         3x3 Direction Cosine Matrix representing the combined rotation.
 
     Examples
@@ -195,7 +195,7 @@ def dcm321euler(dcm):
 
     Parameters
     ----------
-    dcm : numpy array
+    dcm : numpy.array
         3x3 Direction Cosine Matrix representing a rotation.
 
     Returns
@@ -209,12 +209,8 @@ def dcm321euler(dcm):
     two angles are not uniquely defined.
     It is always the second angle which defines this singular orientation: 
 
-    - Symmetric Set: 2nd angle is 0 or 180 degrees. For example the 3-1-3
-    orbit angles with zero inclination.
-
-    - Asymmetric Set: 2nd angle is +-90 degrees. For example, the 3-2-1
-    angle of an aircraft with 90 degrees pitch. 
-
+    - Symmetric Set: 2nd angle is 0 or 180 degrees. For example the 3-1-3 orbit angles with zero inclination.
+    - Asymmetric Set: 2nd angle is +-90 degrees. For example, the 3-2-1 angle of an aircraft with 90 degrees pitch. 
 
     Examples
     --------

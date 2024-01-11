@@ -29,6 +29,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="../_static/c4dynamics.css?v=2d5b4a87" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=eafc0fe6" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
@@ -51,7 +52,7 @@
     <link rel="prev" title="Objects Detection and Tracking" href="detecttrack.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Dec 24, 2023"/>
+    <meta name="docbuild:last-update" content="Jan 11, 2024"/>
   </head>
   
   
@@ -382,7 +383,7 @@ good advice to save these initial conditions:</p>
 <p>For the purpose of the presenentation in this example, three
 modules were created - control system, engine, and aerodynamics.
 A seeker object is part of the C4dynamics library:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">seeker</span>  <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">seekers</span><span class="o">.</span><span class="n">lineofsight</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">tau1</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">tau2</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">seeker</span>  <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">sensors</span><span class="o">.</span><span class="n">lineofsight</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">tau1</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">tau2</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">)</span>
 <span class="n">ctrl</span>    <span class="o">=</span> <span class="n">mcontrol_system</span><span class="o">.</span><span class="n">control_system</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
 <span class="n">eng</span>     <span class="o">=</span> <span class="n">mengine</span><span class="o">.</span><span class="n">engine</span><span class="p">()</span>
 <span class="n">aero</span>    <span class="o">=</span> <span class="n">maerodynamics</span><span class="o">.</span><span class="n">aerodynamics</span><span class="p">()</span>

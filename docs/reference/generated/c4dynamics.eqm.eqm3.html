@@ -29,6 +29,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="../../_static/c4dynamics.css?v=2d5b4a87" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=eafc0fe6" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
@@ -52,7 +53,7 @@
     <link rel="prev" title="Equations of Motion (c4dynamics.eqm)" href="../routines.eqm.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Dec 24, 2023"/>
+    <meta name="docbuild:last-update" content="Jan 11, 2024"/>
   </head>
   
   
@@ -279,22 +280,71 @@ document.write(`
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../bodyobjects.html">Body Objects</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="c4dynamics.datapoint.html">c4dynamics.datapoint</a></li>
-<li class="toctree-l2"><a class="reference internal" href="c4dynamics.rigidbody.html">c4dynamics.rigidbody</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../bodyobjects.datapoint.html">Datapoint (<code class="xref py py-class docutils literal notranslate"><span class="pre">datapoint</span></code>)</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.datapoint.x_var.html">c4dynamics.datapoint.x</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.datapoint.y.html">c4dynamics.datapoint.y</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.datapoint.z.html">c4dynamics.datapoint.z</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.datapoint.vx.html">c4dynamics.datapoint.vx</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.datapoint.vy.html">c4dynamics.datapoint.vy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.datapoint.vz.html">c4dynamics.datapoint.vz</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.datapoint.ax.html">c4dynamics.datapoint.ax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.datapoint.ay.html">c4dynamics.datapoint.ay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.datapoint.az.html">c4dynamics.datapoint.az</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.datapoint.mass.html">c4dynamics.datapoint.mass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.datapoint.X.html">c4dynamics.datapoint.X</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.datapoint.X0.html">c4dynamics.datapoint.X0</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.datapoint.pos.html">c4dynamics.datapoint.pos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.datapoint.vel.html">c4dynamics.datapoint.vel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.datapoint.P.html">c4dynamics.datapoint.P</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.datapoint.V.html">c4dynamics.datapoint.V</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.datapoint.store.html">c4dynamics.datapoint.store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.datapoint.storevar.html">c4dynamics.datapoint.storevar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.datapoint.get_data.html">c4dynamics.datapoint.get_data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.datapoint.timestate.html">c4dynamics.datapoint.timestate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.datapoint.dist.html">c4dynamics.datapoint.dist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.datapoint.inteqm.html">c4dynamics.datapoint.inteqm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.datapoint.draw.html">c4dynamics.datapoint.draw</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../sensors.html">Sensors</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../sensors.camera.html">Camera</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../sensors.laser.html">Laser</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../sensors.radar.html">Radar</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../sensors.imu.html">IMU</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../bodyobjects.rigidbody.html">the Rigidbody (<code class="xref py py-class docutils literal notranslate"><span class="pre">rigidbody</span></code>)</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.rigidbody.phi.html">c4dynamics.rigidbody.phi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.rigidbody.theta.html">c4dynamics.rigidbody.theta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.rigidbody.psi.html">c4dynamics.rigidbody.psi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.rigidbody.p.html">c4dynamics.rigidbody.p</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.rigidbody.q.html">c4dynamics.rigidbody.q</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.rigidbody.r.html">c4dynamics.rigidbody.r</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.rigidbody.p_dot.html">c4dynamics.rigidbody.p_dot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.rigidbody.q_dot.html">c4dynamics.rigidbody.q_dot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.rigidbody.r_dot.html">c4dynamics.rigidbody.r_dot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.rigidbody.ixx.html">c4dynamics.rigidbody.ixx</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.rigidbody.iyy.html">c4dynamics.rigidbody.iyy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.rigidbody.izz.html">c4dynamics.rigidbody.izz</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.rigidbody.xcm.html">c4dynamics.rigidbody.xcm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.rigidbody.angles.html">c4dynamics.rigidbody.angles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.rigidbody.ang_rates.html">c4dynamics.rigidbody.ang_rates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.rigidbody.IB.html">c4dynamics.rigidbody.IB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.rigidbody.BI.html">c4dynamics.rigidbody.BI</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../detectors.html">Detectors</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../sensors.html">Sensors</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../sensors.seeker.html">Seeker (<code class="xref py py-class docutils literal notranslate"><span class="pre">seeker</span></code>)</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.sensors.seeker.seeker.bias_std.html">c4dynamics.sensors.seeker.seeker.bias_std</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.sensors.seeker.seeker.scale_factor_std.html">c4dynamics.sensors.seeker.seeker.scale_factor_std</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.sensors.seeker.seeker.noise_std.html">c4dynamics.sensors.seeker.seeker.noise_std</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.sensors.seeker.seeker.bias.html">c4dynamics.sensors.seeker.seeker.bias</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.sensors.seeker.seeker.scale_factor.html">c4dynamics.sensors.seeker.seeker.scale_factor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.sensors.seeker.seeker.measure.html">c4dynamics.sensors.seeker.seeker.measure</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../detectors.html">Detectors</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../detectors.yolo.html">YOLO</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../filters.html">Filters</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../filters.html">Filters</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../filters.kalman.html">Kalman Filter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../filters.e_kalman.html">Extended Kalman Filter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../filters.luenberger.html">Luenberger</a></li>
@@ -303,13 +353,15 @@ document.write(`
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../constants.html">Constants</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../mathfunc.html">Math Functions</a></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../routines.html">Routines</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2 current active has-children"><a class="reference internal" href="../routines.eqm.html">Equations of Motion (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.eqm</span></code>)</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../routines.html">Routines</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../routines.eqm.html">Equations of Motion (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.eqm</span></code>)</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">c4dynamics.eqm.eqm3</a></li>
 <li class="toctree-l3"><a class="reference internal" href="c4dynamics.eqm.eqm6.html">c4dynamics.eqm.eqm6</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.eqm.int3.html">c4dynamics.eqm.int3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c4dynamics.eqm.int6.html">c4dynamics.eqm.int6</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../routines.rotmat.html">Rotational Matrix Operations (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.rotmat</span></code>)</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../routines.rotmat.html">Rotational Matrix Operations (<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.rotmat</span></code>)</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="c4dynamics.rotmat.rotx.html">c4dynamics.rotmat.rotx</a></li>
 <li class="toctree-l3"><a class="reference internal" href="c4dynamics.rotmat.roty.html">c4dynamics.rotmat.roty</a></li>
 <li class="toctree-l3"><a class="reference internal" href="c4dynamics.rotmat.rotz.html">c4dynamics.rotmat.rotz</a></li>
@@ -388,7 +440,7 @@ document.write(`
 <h1>c4dynamics.eqm.eqm3<a class="headerlink" href="#c4dynamics-eqm-eqm3" title="Link to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="c4dynamics.eqm.eqm3">
-<span class="sig-prename descclassname"><span class="pre">c4dynamics.eqm.</span></span><span class="sig-name descname"><span class="pre">eqm3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">F</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#c4dynamics.eqm.eqm3" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">c4dynamics.eqm.</span></span><span class="sig-name descname"><span class="pre">eqm3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">F</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#c4dynamics.eqm.eqm3" title="Link to this definition">#</a></dt>
 <dd><p>Translational motion derivatives.</p>
 <p>These equations represent a set of first-order ordinary 
 differential equations (ODEs) that describe the motion 
@@ -397,7 +449,7 @@ of external forces.</p>
 <section id="parameters">
 <h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h2>
 <dl class="simple">
-<dt>dp<span class="classifier">datapoint</span></dt><dd><p>C4dynamics’ datapoint object for which the 
+<dt>pt<span class="classifier">datapoint</span></dt><dd><p>C4dynamics’ datapoint object for which the 
 equations of motion are calculated on.</p>
 </dd>
 <dt>F<span class="classifier">array_like</span></dt><dd><p>Force vector <span class="math notranslate nohighlight">\([F_x, F_y, F_z]\)</span></p>
@@ -407,7 +459,7 @@ equations of motion are calculated on.</p>
 <section id="returns">
 <h2>Returns<a class="headerlink" href="#returns" title="Link to this heading">#</a></h2>
 <dl class="simple">
-<dt>out<span class="classifier">numpy array </span></dt><dd><p><span class="math notranslate nohighlight">\([dx, dy, dz, dv_x, dv_y, dv_z]\)</span>
+<dt>out<span class="classifier">numpy.array </span></dt><dd><p><span class="math notranslate nohighlight">\([dx, dy, dz, dv_x, dv_y, dv_z]\)</span>
 6 derivatives of the equations of motion, 3 position derivatives, 
 and 3 velocity derivatives.</p>
 </dd>
@@ -415,23 +467,23 @@ and 3 velocity derivatives.</p>
 </section>
 <section id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h2>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dp</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">datapoint</span><span class="p">(</span><span class="n">mass</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span>   <span class="c1"># mass 10kg</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pt</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">datapoint</span><span class="p">(</span><span class="n">mass</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span>   <span class="c1"># mass 10kg</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">F</span>  <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">c4d</span><span class="o">.</span><span class="n">g_ms2</span><span class="p">]</span>          <span class="c1"># g_ms2 = 9.8m/s^2</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">c4d</span><span class="o">.</span><span class="n">eqm</span><span class="o">.</span><span class="n">eqm3</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="n">F</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c4d</span><span class="o">.</span><span class="n">eqm</span><span class="o">.</span><span class="n">eqm3</span><span class="p">(</span><span class="n">pt</span><span class="p">,</span> <span class="n">F</span><span class="p">)</span>
 <span class="go">array([0., 0., 0., 0., 0., -0.980665])</span>
 </pre></div>
 </div>
 <p>Euler integration on the equations of motion of 
 mass in a free fall:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">h0</span> <span class="o">=</span> <span class="mi">100</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dp</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">datapoint</span><span class="p">(</span><span class="n">z</span> <span class="o">=</span> <span class="n">h0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pt</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">datapoint</span><span class="p">(</span><span class="n">z</span> <span class="o">=</span> <span class="n">h0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span> <span class="o">=</span> <span class="mf">1e-2</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-<span class="gp">... </span>   <span class="k">if</span> <span class="n">dp</span><span class="o">.</span><span class="n">z</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span> <span class="k">break</span>
-<span class="gp">... </span>   <span class="n">dx</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">eqm</span><span class="o">.</span><span class="n">eqm3</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">c4d</span><span class="o">.</span><span class="n">g_ms2</span><span class="p">])</span>
-<span class="gp">... </span>   <span class="n">dp</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">dp</span><span class="o">.</span><span class="n">X</span> <span class="o">+</span> <span class="n">dx</span> <span class="o">*</span> <span class="n">dt</span> 
-<span class="gp">... </span>   <span class="n">dp</span><span class="o">.</span><span class="n">store</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dp</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s1">&#39;z&#39;</span><span class="p">)</span>
+<span class="gp">... </span>   <span class="k">if</span> <span class="n">pt</span><span class="o">.</span><span class="n">z</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span> <span class="k">break</span>
+<span class="gp">... </span>   <span class="n">dx</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">eqm</span><span class="o">.</span><span class="n">eqm3</span><span class="p">(</span><span class="n">pt</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">c4d</span><span class="o">.</span><span class="n">g_ms2</span><span class="p">])</span>
+<span class="gp">... </span>   <span class="n">pt</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">X</span> <span class="o">+</span> <span class="n">dx</span> <span class="o">*</span> <span class="n">dt</span> 
+<span class="gp">... </span>   <span class="n">pt</span><span class="o">.</span><span class="n">store</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pt</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s1">&#39;z&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <figure class="align-default">

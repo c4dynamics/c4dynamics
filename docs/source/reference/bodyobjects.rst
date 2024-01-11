@@ -27,18 +27,13 @@ It introduces additional attributes related to rotational dynamics, such as angu
 The class leverages the capabilities of the datapoint class for handling translational dynamics and extends it to include rotational aspects.
 
 
-.. autosummary::
-   :toctree: generated/
+.. toctree::
+   :maxdepth: 2 
 
-   datapoint
-   rigidbody
+   bodyobjects.datapoint
+   bodyobjects.rigidbody
 
 
-.. .. toctree::
-..    :maxdepth: 2
-
-..    bodyobjects.datapoint
-..    bodyobjects.rigidbody
 
 
 

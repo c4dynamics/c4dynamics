@@ -80,7 +80,7 @@ A seeker object is part of the C4dynamics library:
 
 .. code:: 
 
-    seeker  = c4d.seekers.lineofsight(dt, tau1 = 0.01, tau2 = 0.01)
+    seeker  = c4d.sensors.lineofsight(dt, tau1 = 0.01, tau2 = 0.01)
     ctrl    = mcontrol_system.control_system(dt)
     eng     = mengine.engine()
     aero    = maerodynamics.aerodynamics()

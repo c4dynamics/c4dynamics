@@ -8,14 +8,11 @@ C4dynamics Provides
   2. Internal systems and 3rd party integrated libraries.
   3. Fast algorithmic operations over objects and systems. 
 
-  
 
-  
 How to use the documentation
 ----------------------------
 Documentation is currently availble through examples, 
 readme pages, and inline comments.
-
 
 
 Available subpackages
@@ -32,12 +29,10 @@ rotmat
   rotation matrices and rotational operations. 
 '''
 
-  
-# make c_datapoint, c_rigidbody, rotmat belong to pri 
-# rather than their modules:
-# from .datapoint import c_datapoint 
-# from .rigidbody import c_rigidbody
-
+#
+# NOTE
+# routines and utils must come first otherwise the modules cannot be initalized.  
+##
 
 #
 # routines 
@@ -59,15 +54,17 @@ from .utils.cprint import print
 #
 # body objects 
 ## 
-from .body.datapoint import datapoint 
+from .body.datapoint import datapoint, create  
 from .body.rigidbody import rigidbody 
+
 
 #
 # sensors
 ## 
-from . import seekers
+from . import sensors
 from . import filters
 from . import detectors
+
 
 
 #

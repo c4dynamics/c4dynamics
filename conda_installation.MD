@@ -39,9 +39,8 @@ From the list that opened, select the python executable from anaconda\c4dynamics
 if you encounter in powershwll with the error: usage: conda-script.py [-h] [--no-plugins] [-V] COMMAND ...
 conda-script.py: error: argument COMMAND: invalid choice: 'c4dynamics' (choose from 'clean', 'compare', 'config', 'create', 'info', 'init', 'install', 'list', 'notices', 'package', 'remove', 'uninstall', 'rename', 'run', 'search', 'update', 'upgrade', 'build', 'convert', 'debug', 'develop', 'doctor', 'index', 'inspect', 'metapackage', 'render', 'skeleton', 'server', 'repo', 'env', 'verify', 'pack', 'content-trust', 'token')
 try the following:
-powershell -ExecutionPolicy ByPass -NoExit -Command "& 'D:\pc\anaconda3\shell\condabin\conda-hook.ps1' ; conda activate 'D:\pc\anaconda3' "
-where you should replace D:\pc\anaconda3\shell\condabin\conda-hook.ps1 with the path to your conda-hook.ps1 file in the conda installation folder
-and replace D:\pc\anaconda3 with the base folder of your conda installation. 
+powershell -ExecutionPolicy ByPass -NoExit -Command "& 'CONDAPATH\shell\condabin\conda-hook.ps1' ; conda activate 'CONDAPATH' "
+where you should replace CONDAPATH with the path to your conda installation folder. 
 
 then run the command:
 conda init powershell

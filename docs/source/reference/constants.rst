@@ -6,7 +6,8 @@ Constants
 
 .. currentmodule:: c4dynamics
 
-C4dynamics includes several constants as global and conversion quantities:
+C4dynamics includes several constants as global 
+and conversion quantities:
 
 
 Global Constants
@@ -74,8 +75,12 @@ Conversion Constants
 
 .. data:: d2r
 
-    radians to degrees.
+    degrees to radians.
 
     ``d2r = 0.0174533``
 
+.. data:: k2ms
 
+    knots to meters per second
+
+    ``k2ms = 0.514444``

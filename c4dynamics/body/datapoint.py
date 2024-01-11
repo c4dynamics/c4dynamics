@@ -1,121 +1,26 @@
 import numpy as np
 
 # directly import a submodule (eqm3) from the c4dynamics.eqm package:
-from c4dynamics.eqm import eqm3 
+import c4dynamics as c4d 
+from c4dynamics.eqm import int3  
 # from c4dynamics.src.main.py.eqm import eqm3
 
+def create(X):
+  if len(X) > 6:
+    rb = c4d.rigidbody()
+    rb.X = X
+    return rb
+
+  pt = c4d.datapoint()
+  pt.X = X 
+  return pt
+  
 
 class datapoint:
-  '''
-
-  The :class:`datapoint` is the most basic element 
-  in translational dynamics; it's a point in space. 
-
-  :class:`datapoint` serves as the building block for modeling and simulating 
-  the motion of objects in a three-dimensional space. 
-  In the context of translational dynamics, a datapoint represents 
-  a point mass in space with defined Cartesian coordinates (x, y, z) 
-  and associated velocities (vx, vy, vz) and accelerations (ax, ay, az). 
-
-  
-  Functionality 
-  ^^^^^^^^^^^^^
-
-  The class incorporates functionality for storing time 
-  histories of these state variables, 
-  facilitating analysis and visualization of dynamic simulations.
-
-  The class supports the integration of equations of motion 
-  using the Runge-Kutta method, allowing users to model the behavior 
-  of datapoints under the influence of external forces. 
-
-  Additionally, it provides methods for storing and retrieving data, 
-  enabling users to track and analyze the evolution of system variables over time.
-
-  Furthermore, the class includes plotting functions to visualize 
-  the trajectories and behaviors of datapoints. 
-  Users can generate top-view and side-view plots, 
-  as well as visualize the time evolution of specific variables.
 
 
-  Flexibility 
-  ^^^^^^^^^^^
-
-  To enhance flexibility, the class allows users to store 
-  additional variables of interest, facilitating the expansion of the basic datapoint model.
-  The code encourages modularity by emphasizing the separation of concerns, 
-  suggesting the move of certain functionalities to abstract classes or interfaces.
-
-  Summary
-  ^^^^^^^
-
-  Overall, the :class:`datapoint` class serves as a versatile 
-  foundation for implementing and simulating translational dynamics, 
-  offering a structured approach to modeling and analyzing the motion 
-  of objects in three-dimensional space.
 
 
-  Parameters 
-  ----------
-
-  The construction of a datapoint object is done with a direct call 
-  to the datapoint class:
-  `pt = c4d.datapoint()`
-  There are no explicit parameters to initialize the instance, but
-  the determination of each one of the attributes is allowed through 
-  the **kwargs which set the vairables in the constructor with:
-  `self.__dict__.update(kwargs)`.
-
-  Regardless of the values with which the attributes of the datapoint
-  were constructed, the three variables of the position are assigned 
-  to the initial position: 
-
-  .. code:: 
-    self.x0 = self.x
-    self.y0 = self.y
-    self.z0 = self.z
-
-
-  Additional Notes
-  ----------------
-
-  - The class provides a foundation for modeling and simulating 
-    translational dynamics in 3D space.
-  - Users can customize initial conditions, store additional variables, 
-    and visualize simulation results.
-  - The integration method allows the datapoint to evolve based on external forces.
-  - The plotting method supports top-view, side-view, and variable-specific plots.
-
-    
-  Example
-  -------
-  Simulate the flight of an aircraft starting with some given
-  initial conditions and draw trajectories: 
-
-  .. code::
-
-    target = c4d.datapoint(x = 4000, y = 1000, z = -3000, vx = -200, vy = -150)    
-
-    dt = 0.01 
-    time = np.arange(0, 10, dt)
-
-    for t in time: 
-        target.inteqm(np.zeros(3), dt = dt)
-        target.store(t)
-
-    target.draw('top')
-    fig = plt.gcf()
-    fig.set_size_inches(3.0, 3.0)
-
-    ax = plt.gca()
-    ax.set_xlim(-1100, 1100)
-    ax.set_ylim(0, 4500)
-
-  .. figure:: /_static/figures/datapoint_top.png
-
-
-    
-  '''
 
 # .. automethod:: c4dynamics.datapoint
 #     the datapoint object is the most basic element in the translational dynamics domain.
@@ -163,6 +68,9 @@ class datapoint:
 
   #
   # position
+  #  NOTE: why actually there should be a docstring to every one of the variables. 
+  #         unless otherwise mentioned it should transparent to users. and only attributes 
+  #         - methods and variables for user ex should be docced.   
   ##
   x = 0 
   ''' float; Cartesian coordinate representing the x-position of the datapoint. '''  
@@ -220,6 +128,9 @@ class datapoint:
     self.x0 = self.x
     self.y0 = self.y
     self.z0 = self.z
+    self.vx0 = self.vx
+    self.vy0 = self.vy
+    self.vz0 = self.vz
     
     # fol = os.getcwd() + '/fig'
     # if not os.path.exists(fol):
@@ -230,18 +141,12 @@ class datapoint:
     # variables for storage
     ##
     # _data = [] # np.zeros((1, 10))
-    # state vector variables 
+    # state variables 
     self._didx = {'t': 0, 'x': 1, 'y': 2, 'z': 3
                   , 'vx': 4, 'vy': 5, 'vz': 6}
                     # , 'ax': 7, 'ay': 8, 'az': 9}
     
     
-  
-  # def set_x(self, x):
-  #   self.r = x
-  
-  # x = property(x, set_x)
-  
 
 
 
@@ -250,45 +155,225 @@ class datapoint:
   @property
   def X(self):
     '''
-    The state vector 
-    of the datapoint: [x, y, z, vx, vy, vz], 
-    or the rigidbody: [x, y, z, vx, vy, vz, phi, theta, psi, p, q, r]. 
+    Array of the state variables.
+    
+    X gets or sets the position and velocity variables of a datapoint 
+    and rigidbody objects.   
+    
+    The variables of a datapoint object (position and
+    velocity):
+
+    .. math:: 
+
+      X = [x, y, z, vx, vy, vz]  
+
+    The variables of a rigidbody object (extended by 
+    the angular position and angular 
+    velocity):
+
+    .. math:: 
+
+      X = [x, y, z, v_x, v_y, v_z, {\\varphi}, {\\theta}, {\\psi}, p, q, r]
+    
+
+    Parameters (X.setter)
+    ---------------------
+     x : numpy.array or list
+        Values vector to set the first N consecutive indices of the state. 
+    
+        
+    Returns (X.getter)
+    ------------------
+    out : numpy.array 
+        :math:`[x, y, z, v_x, v_y, v_z]` for a datapoint object.
+
+        :math:`[x, y, z, v_x, v_y, v_z, {\\varphi}, {\\theta}, {\\psi}, p, q, r]` for a rigidbody object. 
+    
+
+      
+    Examples
+    --------
+
+    Datapoint state
+
+    .. code:: 
+    
+      >>> pt = c4d.datapoint()
+      >>> print(pt.X)
+      [0 0 0 0 0 0]
+      Update the state:
+      >>> #       x     y    z  vx vy vz 
+      >>> pt.X = [1000, 100, 0, 0, 0, -100] 
+      >>> print(pt.X)
+      [1000  100    0    0    0 -100]
+    
+    Rigidbody state
+
+    .. code:: 
+
+      Get the current state of a rigidbody: 
+      >>> rb = c4d.rigidbody(theta = 5 * c4d.d2r)
+      >>> print(rb.X)
+      [0.  0.  0.  0.  0.  0.   0.   0.08726646   0.   0.   0.   0.]
+      Update only the translational variables of the rigidbody:
+      >>> rb.X = [1000, 100, 0, 0, 0, -100] 
+      >>> print('  '.join([f'{x}' for x in rb.X]))
+      1000.0  100.0  0.0  0.0  0.0  -100.0  0.0  0.08726646259971647  0.0  0.0  0.0  0.0
+      
+    Partial state 
+
+    Using the setter is possible only to N first consecutive indices. 
+    To update other indices, concatenate them by using the X getter.
+    The following example sets only the angular variables of a rigidbody: 
+    
+    .. code:: 
+    
+      >>> Xangular = np.array([5, -10, 0, 1, -1, 0]) * c4d.d2r 
+      >>> rb.X = np.concatenate((rb.X[:6], Xangular))
+      >>> print(rb.X[:6])
+      [1000.  100.    0.    0.    0. -100.]
+      >>> print('  '.join([f'{x * c4d.r2d}' for x in rb.X[6:]]))
+      5.0  -10.0  0.0  1.0  -1.0  0.0
+
     '''
+
     xout = [] 
 
     for k in self._didx.keys():
       if k == 't': continue
       xout.append(eval('self.' + k))
 
-    return xout 
+    return np.array(xout) 
 
+
+  @property
+  def X0(self):
+    '''
+    Returns a vector of the initial conditions. 
+    
+    Initial variables of a datapoint object:
+
+    .. math:: 
+
+      X_0 = [x_0, y_0, z_0, {v_x}_0, {v_y}_0, {v_z}_0]  
+
+    Initial variables of a rigidbody object:
+
+    .. math:: 
+
+      X_0 = [x_0, y_0, z_0, {v_x}_0, {v_y}_0, {v_z}_0, {\\varphi}_0, {\\theta}_0, {\\psi}_0, p_0, q_0, r_0]
+      
+        
+    Returns
+    -------
+    out : numpy.array 
+        :math:`[x_0, y_0, z_0, {v_x}_0, {v_y}_0, {v_z}_0]` for a datapoint object. 
+        :math:`[x_0, y_0, z_0, {v_x}_0, {v_y}_0, {v_z}_0, {\\varphi}_0, {\\theta}_0, {\\psi}_0, p_0, q_0, r_0]` for a rigidbody object. 
+    
+
+        
+    Examples
+    --------
+
+    Datapoint initial conditions 
+
+    .. code:: 
+    
+      >>> pt = c4d.datapoint(x = 1000, vx = -200)
+      >>> print(pt.X0)
+      [1000    0    0 -200    0    0]
+
+    Change pt.X and check again: 
+
+    .. code::
+
+      >>> pt.X = [500, 500, 0, 0, 0, 0]
+      >>> print(pt.X)
+      [500 500   0   0   0   0]
+      >>> print(pt.X0)
+      [1000    0    0 -200    0    0]
+
+
+    Rigidbody initial conditions: 
+
+    .. code::
+
+      rb = c4d.rigidbody(theta = 5 * c4d.d2r)
+      print(rb.X0 * c4d.r2d)
+      #x    y    z    vx   vy   vz   phi theta psi  p    q    r
+      [0.   0.   0.   0.   0.   0.   0.   5.   0.   0.   0.   0.]
+      
+    '''
+    xout = [] 
+
+    for k in self._didx.keys():
+      if k == 't': continue
+      xout.append(eval('self.' + k + '0'))
+
+    return np.array(xout) 
+  
 
   @property
   def pos(self):
-    ''' Position vector '''
-    return np.array([self.x, self.y, self.z])
+    ''' 
+    Returns a translational position vector. 
+     
+    .. math:: 
+
+      pos = [x, y, z]      
+        
+
+    Returns
+    -------
+    out : numpy.array 
+        :math:`[x, y, z]` 
   
+        
+    Examples
+    --------
+
+    .. code:: 
+    
+      >>> pt = c4d.datapoint(x = 1000, y = -20, vx = -200)
+      >>> print(pt.pos)
+      [1000    -20    0]
+
+    '''
+    return np.array([self.x, self.y, self.z])
+
 
   @property
   def vel(self):
-    ''' Velocity vector '''
+    ''' 
+    Returns a translational velocity vector. 
+     
+    .. math:: 
+
+      vel = [v_x, v_y, v_z]      
+        
+
+    Returns
+    -------
+    out : numpy.array 
+        :math:`[v_x, v_y, v_z]` 
+  
+        
+    Examples
+    --------
+
+    .. code:: 
+    
+      >>> pt = c4d.datapoint(x = 1000, y = -20, vx = -200)
+      >>> print(pt.vel)
+      [-200    0    0]
+
+    '''
     return np.array([self.vx, self.vy, self.vz])
   
 
-  @property
-  def acc(self):
-    ''' Acceleration vector '''
-    return np.array([self.ax, self.ay, self.az])
-
-
   @X.setter
   def X(self, x):
-    '''
-    update the state vector
-    for datapoint: [x, y, z, vx, vy, vz]^T
-    for rigidbody: [x, y, z, vx, vy, vz, phi, theta, psi, p, q, r]^T
-    '''
-
+    ''' Docstring under X.getter '''
     for i, k in enumerate(self._didx.keys()):
       if k == 't': continue
       if i > len(x): break 
@@ -297,39 +382,350 @@ class datapoint:
 
  
 
-
-
-
   #
   # methods
   ##
 
 
   #
-  # storage 
+  # storage operations 
   ##
   def store(self, t = -1):
-    ''' Stores the current state of the datapoint, including time (t). '''    
-    # self._data.append([t, self.x, self.y,  self.z
-    #                     , self.vx, self.vy, self.vz 
-    #                       , self.ax, self.ay, self.az])
-    self._data.append([t] + self.X)
+    ''' 
+    Stores the current state of the datapoint.
+
+    The current state is defined by the vector of variables 
+    as given by the :attr:`X <datapoint.X>`:
+
+    Datapoint: :math:`[t, x, y, z, vx, vy, vz]`. 
+
+    Rigidbody: :math:`[t, x, y, z, vx, vy, vz, \\phi, \\theta, \\psi, p, q, r]`. 
+
+
+    Parameters 
+    ----------
+    t : float or int, optional 
+        Values vector to set the first N consecutive indices of the state. 
+    
+    Note
+    ----
+    1. Time t is an optional parameter with a default value of t = -1.
+    The time is always appended at the head of the array to store. However, 
+    if t is not given, default t = -1 is stored instead.
+    2. The method :attr:`store <datapoint.store>` goes together with 
+    the methods :attr:`get_data <datapoint.get_data>` 
+    and :attr:`timestate <datapoint.timestate>` as input and outputs. 
+
+
+    Examples
+    --------
+
+    Store the given state without time stamps:
+
+    .. code:: 
+      
+      >>> pt = c4d.datapoint()
+      >>> for i in range(3):
+      ...    pt.X = np.random.randint(1, 100, 6)
+      ...    pt.store()
+      >>> for x in pt.get_data():
+      ...    print(x)
+      [-1 30 67 69 67 31 37]
+      [-1 87 62 36  2 44 97]
+      [-1 30 30  6 75  7 11]
+
+    A default of t = -1 was appended to the stored vector.
+    In this case, it is a good practice to exclude the vector header (time column):
+
+    .. code::
+
+      >>> for x in pt.get_data():
+
+      ...    print(x[1:])
+      [30 67 69 67 31 37]
+      [87 62 36  2 44 97]
+      [30 30  6 75  7 11]
+
+    Store with time stamps: 
+    
+    .. code::           
+     
+      >>> t = 0
+      >>> dt = 1e-3
+      >>> h0 = 100 
+      >>> pt = c4d.datapoint(z = h0)
+      >>> while pt.z >= 0: 
+      ...     pt.inteqm([0, 0, -c4d.g_ms2], dt)
+      ...    t += dt
+      ...    pt.store(t)
+      >>> for z in pt.get_data('z'):
+      ...    print(z)
+      99.999995096675
+      99.99998038669999
+      99.99995587007498
+      ...
+      0.00033469879436880123
+      -0.043957035930635484
+
+
+    ''' 
+    
+    self._data.append([t] + self.X.tolist())
     
 
   def storevar(self, var, t = -1):
-    ''' Stores additional user-defined variables and their time histories. '''
+    ''' 
+    Stores additional user-defined variables. 
 
-    for v in [var]:
+    User-defined variables are those that do not appear 
+    with new constructed instance of a :class:`datapoint` or 
+    a :class:`datapoint` object. 
 
+
+    Parameters 
+    ----------
+    var : string
+        Name of the user-defined variable to store. 
+    t : float or int, optional 
+        Values vector to set the first N consecutive indices of the state. 
+    
+    Note
+    ----
+    1. Time t is an optional parameter with a default value of t = -1.
+    The time is always appended at the head of the array to store. However, 
+    if t is not given, default t = -1 is stored instead.
+    2. The method :attr:`storevar <datapoint.storevar>` goes together with 
+    the method :attr:`get_data <datapoint.get_data>` 
+    as input and output. 
+    
+
+    Examples
+    --------
+
+    The morphospectra extends the datapoint class to include also a dimension
+    state. 
+    The X.setter overrides the datapoint.X.setter to update the dimension with 
+    respect to the input coordinates. 
+
+    .. code:: 
+      
+      >>> class morphospectra(c4d.datapoint):
+      ...   def __init__(self): 
+      ...     super().__init__()  
+      ...     self.dim = 0
+      ...   @c4d.datapoint.X.setter
+      ...   def X(self, x):
+      ...     # override X.setter mechanism
+      ...     for i, k in enumerate(self._didx.keys()):
+      ...       if k == 't': continue
+      ...       if i > len(x): break 
+      ...       setattr(self, k, x[i - 1]) 
+      ...       # update current dimension 
+      ...       if x[2] != 0:
+      ...         # z 
+      ...         self.dim = 3
+      ...         return None 
+      ...       if x[1] != 0:
+      ...         # y 
+      ...         self.dim = 2
+      ...         return None
+      ...       if x[0] != 0:
+      ...         self.dim = 1
+      ... 
+      >>> spec = morphospectra()
+      >>> for r in range(10):
+      ...   spec.X = np.random.choice([0, 1], 3)
+      ...   spec.store()
+      ...   spec.storevar('dim')
+      ... 
+      >>> x_hist = spec.get_data()
+      >>> print('x y z  | dim')
+      >>> print('------------')
+      >>> for x, dim in zip(spec.get_data()[:, 1 : 4].tolist(), spec.get_data('dim')[:, 1:].tolist()):
+      ...   print(*(x + [' | '] + dim))
+      x y z  | dim
+      ------------
+      0 1 0  |  2
+      1 1 0  |  2
+      1 0 0  |  1
+      0 1 1  |  3
+      1 0 0  |  1
+      1 1 1  |  3
+      1 1 0  |  2
+      1 1 0  |  2
+      1 0 1  |  3
+      1 0 1  |  3
+
+
+
+
+    '''
+    # TODO: add the docstring the example of the kalman variables store from the detect track exmaple. 
+    lvar = var if isinstance(var, list) else [var]
+    for v in lvar:
       if v not in self._vardata:
         self._vardata[v] = []
-
       self._vardata[v].append([t, getattr(self, v)])
 
   
-  def get_data(self, var):
-    ''' Retrieves time histories of state variables or user-defined variables. '''
-    # one of the pregiven variables t, x, y .. 
+  def get_data(self, var = None):
+    ''' 
+    Returns an array of state histories.
+
+    Returns the time histories of the variable `var`
+    at the samples that sotred with :attr:`store <datapoint.store>` or 
+    :attr:`storevar <datapoint.storevar>`. 
+    Possible values of `var` for built-in state variables:
+
+    't', 'x', 'y', 'z', 'vx', 'vy', 'vz', 'phi', 'theta', 'psi', 'p', 'q', 'r'. 
+
+    For user defined variables, any value of `var` is optional, if `var` matches the 
+    variable name and it has histories of stored samples. 
+
+    If `var` is not introduced, returns the histories of the entire state. 
+    If histories were'nt stored, returns an empty array. 
+
+
+    Parameters
+    ----------
+    var : string 
+        The name of the variable of the required histories. 
+    
+        
+    Returns
+    -------
+    out : numpy.array 
+        An array of the sample histories. 
+        if `var` is introduced, out is one-dimensioanl numpy array.
+        If `var` is not introduced, then nxm two dimensional numpy array is returned, 
+        where n is the number of stored samples, and m is 1 + 6 (time + state variables) 
+        for a datapoint object, and 1 + 12 (time + state variables) for a rigidbody object. 
+
+            
+    Note
+    ----
+    The time stamps are also stored on calling to the store functions 
+    (:attr:`store <datapoint.store>`, :attr:`storevar <datapoint.storevar>`).
+    To get an array of the time histories, :attr:`get_data <datapoint.get_data>`
+    should be called with as: `get_data('t')`. If :attr:`get_data <datapoint.get_data>`
+    is called without explicit `var`, the location of the time histories is the first column.
+
+    Examples
+    --------
+
+    `get_data` of a specific variable: 
+    
+    .. code::           
+     
+      >>> t = 0
+      >>> dt = 1e-3
+      >>> h0 = 100 
+      >>> pt = c4d.datapoint(z = h0)
+      >>> while pt.z >= 0: 
+      ...     pt.inteqm([0, 0, -c4d.g_ms2], dt)
+      ...    t += dt
+      ...    pt.store(t)
+      >>> for z in pt.get_data('z'):
+      ...    print(z)
+      99.999995096675
+      99.99998038669999
+      99.99995587007498
+      ...
+      0.00033469879436880123
+      -0.043957035930635484
+
+
+    `get_data` of an entire state:  
+
+    .. code:: 
+      
+      >>> pt = c4d.datapoint()
+      >>> for i in range(3):
+      ...    pt.X = np.random.randint(1, 100, 6)
+      ...    pt.store()
+      >>> for x in pt.get_data():
+      ...    print(x)
+      [-1 30 67 69 67 31 37]
+      [-1 87 62 36  2 44 97]
+      [-1 30 30  6 75  7 11]
+
+    A default of t = -1 was appended to the stored vector.
+    In this case, it is a good practice to exclude the vector header (time column):
+
+    .. code::
+
+      >>> for x in pt.get_data():
+
+      ...    print(x[1:])
+      [30 67 69 67 31 37]
+      [87 62 36  2 44 97]
+      [30 30  6 75  7 11]
+
+
+    `get_data` of a user defined variable. 
+    
+    The morphospectra extends the datapoint class to include also a dimension
+    state. 
+    The X.setter overrides the datapoint.X.setter to update the dimension with 
+    respect to the input coordinates. 
+
+    .. code:: 
+      
+      >>> class morphospectra(c4d.datapoint):
+      ...   def __init__(self): 
+      ...     super().__init__()  
+      ...     self.dim = 0
+      ...   @c4d.datapoint.X.setter
+      ...   def X(self, x):
+      ...     # override X.setter mechanism
+      ...     for i, k in enumerate(self._didx.keys()):
+      ...       if k == 't': continue
+      ...       if i > len(x): break 
+      ...       setattr(self, k, x[i - 1]) 
+      ...       # update current dimension 
+      ...       if x[2] != 0:
+      ...         # z 
+      ...         self.dim = 3
+      ...         return None 
+      ...       if x[1] != 0:
+      ...         # y 
+      ...         self.dim = 2
+      ...         return None
+      ...       if x[0] != 0:
+      ...         self.dim = 1
+      ... 
+      >>> spec = morphospectra()
+      >>> for r in range(10):
+      ...   spec.X = np.random.choice([0, 1], 3)
+      ...   spec.store()
+      ...   spec.storevar('dim')
+      ... 
+      ... # get the data of the user-defined 'dim' variable: 
+      ... dim_history = spec.get_data('dim')[:, 1:]
+      ...
+      >>> print('x y z  | dim')
+      >>> print('------------')
+      >>> for x, dim in zip(spec.get_data()[:, 1 : 4].tolist(), spec.get_data('dim')[:, 1:].tolist()):
+      ...   print(*(x + [' | '] + dim))
+      x y z  | dim
+      ------------
+      0 1 0  |  2
+      1 1 0  |  2
+      1 0 0  |  1
+      0 1 1  |  3
+      1 0 0  |  1
+      1 1 1  |  3
+      1 1 0  |  2
+      1 1 0  |  2
+      1 0 1  |  3
+      1 0 1  |  3
+
+    '''
+    # one of the pregiven variables t, x, y ..
+    
+    if var is None: 
+      return np.array(self._data)
+     
     idx = self._didx.get(var, -1)
     if idx >= 0:
       return np.array(self._data)[:, idx] if self._data else np.empty(1)
@@ -338,80 +734,247 @@ class datapoint:
     return np.array(self._vardata.get(var, np.empty((1, 2))))
     
 
+  def timestate(self, t):
+    '''
+    Returns the state as stored at time t. 
+
+    The function searches the closest time  
+    to the time t in the sampled histories and 
+    returns the state that stored at the time.  
+
+    Parameters
+    ----------
+    t : float or int  
+        The time of the required sample. 
+            
+    Returns
+    -------
+    out : numpy.array 
+        An array of the sample at time t. 
+        One-dimensioanl numpy array of 6 state variables 
+        for a datapoint object or 
+        12 variables for a rigidbody object. 
+
+
+    Examples
+    --------
+
+    .. code:: 
+
+      >>> pt = c4d.datapoint()
+      >>> time = np.linspace(-2, 3, 1000)
+      >>> for t in time: 
+      ...   pt.X = np.random.randint(1, 100, 6)
+      ...   pt.store(t)
+      >>> print(pt.timestate(0))
+      [6, 9, 53, 13, 49, 99]
+
+    '''
+    # TODO how about throwing a warning when dt is too long? 
+    times = self.get_data('t')
+    if times.size == 0: 
+      out = None
+    else:
+      idx = min(range(len(times)), key = lambda i: abs(times[i] - t))
+      out = self._data[idx][1:]
+
+    return out 
+    
+
   # 
   # to norms:
   ##
   def P(self):
-    ''' Returns a norm of the position coordinates '''
+    ''' 
+    Returns the Euclidean norm of the position coordinates in three dimensions. 
+    
+    This method computes the Euclidean norm (magnitude) of a 3D vector represented
+    by the instance variables self.x, self.y, and self.z:
+
+    .. math::
+      P = \\sqrt{x^2 + y^2 + z^2}
+            
+
+    Returns
+    -------
+    out : numpy.float64
+        Euclidean norm of the 3D position vector.
+
+
+    Examples
+    --------
+    .. code::
+
+      >>> pt = c4d.datapoint(x = 7, y = 24)
+      >>> print(pt.P())
+      25.0
+      >>> pt.X = np.zeros(6)
+      >>> print(pt.P())
+      0.0
+
+    '''
     return np.sqrt(self.x**2 + self.y**2 + self.z**2)
   
   
   def V(self):
-    ''' Returns a norm of the velocity coordinates '''    
+    ''' 
+    Returns the Euclidean norm of the velocity coordinates in three dimensions. 
+
+    .. math::
+      V = \\sqrt{v_x^2 + v_y^2 + v_z^2}
+
+    
+    This method computes the Euclidean norm (magnitude) of a 3D vector represented
+    by the instance variables self.vx, self.vy, and self.vz.
+
+    .. math::
+      P = \\sqrt{x^2 + y^2 + z^2}
+            
+
+    Returns
+    -------
+    out : numpy.float64
+        Euclidean norm of the 3D velocity vector.
+
+
+    Examples
+    --------
+    .. code::
+
+      >>> pt = c4d.datapoint(vx = 7, vy = 24)
+      >>> print(pt.V())
+      25.0
+      >>> pt.X = np.zeros(6)
+      >>> print(pt.V())
+      0.0
+
+    '''
     return np.sqrt(self.vx**2 + self.vy**2 + self.vz**2)
   
   
-  def A(self):
-    ''' Returns a norm of the acceleration coordinates '''
-    return np.sqrt(self.ax**2 + self.ay**2 + self.az**2)
-  
-
   #
   # two objects operation
   ##
-  def dist(self, dp):
+  def dist(self, dp2):
     ''' 
-    Calculates the distance between the self datapoint and 
-    a second datapoint 'dp'. 
+    Calculates the Euclidean distance between the self body and 
+    a second datapoint 'dp2'.
+
+    .. math:: 
+
+      dist = \\sqrt{(self.x - dp2.x)^2 + (self.y - dp2.y)^2 + (self.z - dp2.z)^2}
+    
+
+    This method computes the Euclidean distance between the current 3D point
+    represented by the instance variables self.x, self.y, and self.z, and another
+    3D point represented by the provided DataPoint object, dp2.
+
+    
+    Parameters
+    ----------
+    dp2 : datapoint
+        A second datapoint object for which the distance should be calculated.  
+
+    Returns
+    -------
+    out : numpy.float64
+        Euclidean norm of the 3D range vector.
+
+
+    Examples
+    --------
+    .. code::
+    
+      >>> camera = c4d.datapoint()
+      >>> car = c4d.datapoint(x = -100, vx = 40, vy = -7)
+      >>> dist = []
+      >>> time = np.linspace(0, 10, 1000)
+      >>> for t in time:
+      ...   car.inteqm(np.zeros(3), time[1] - time[0])
+      ...   dist.append(camera.dist(car))
+      >>> plt.plot(time, dist, 'm', linewidth = 2)
+
+    .. figure:: /_static/figures/distance.png
+
+
+
     '''
-    return np.sqrt((self.x - dp.x)**2 + (self.y - dp.y)**2 + (self.z - dp.z)**2)
+    return np.sqrt((self.x - dp2.x)**2 + (self.y - dp2.y)**2 + (self.z - dp2.z)**2)
   
   
   #
   # runge kutta integration
   ##
   def inteqm(self, forces, dt):
-    ''' Integrates equations of motion using the Runge-Kutta method. '''
-    # 
-    # integration 
-    # $ runge kutta 
-    #     ti = tspan(i); 
-    #     yi = Y(:,i);
-    #     k1 = f(ti, yi);
-    #     k2 = f(ti + dt / 2, yi + dt * k1 / 2);
-    #     k3 = f(ti + dt / 2, yi + dt * k2 / 2);
-    #     k4 = f(ti + dt  ,yi + dt * k3);
-    #     dy = 1 / 6 * (k1 + 2 * k2 + 2 * k3 + k4);
-    #     Y(:, i + 1) = yi + dy;
-    ## 
+    ''' 
+    Advances the state vector, `datapoint.X`, with respect to the input
+    forces on a single step of time, `dt`.
 
-    x0 = self.X
-    
-    # step 1
-    dxdt1 = eqm3(self, forces)
-    # self.update(x0 + dt / 2 * dxdt1)
-    self.X = x0 + dt / 2 * dxdt1
-    
-    # step 2 
-    dxdt2 = eqm3(self, forces)
-    # self.update(x0 + dt / 2 * dxdt2)
-    self.X = x0 + dt / 2 * dxdt2
-    
-    # step 3 
-    dxdt3 = eqm3(self, forces)
-    # self.update(x0 + dt * dxdt3)
-    self.X = x0 + dt * dxdt3
-    dxdt3 += dxdt2 
-    
-    # step 4
-    dxdt4 = eqm3(self, forces)
+    Integrates equations of three degrees translational motion using the Runge-Kutta method. 
 
-    # 
-    # self.update(np.concatenate((x0 + dt / 6 * (dxdt1 + dxdt4 + 2 * dxdt3), dxdt4[-3:]), axis = 0))
-    self.X = x0 + dt / 6 * (dxdt1 + dxdt4 + 2 * dxdt3)
-    # self.ax, self.ay, self.az = dxdt4[-3:]
-    return dxdt4[-3:]
-    ##
+    This method numerically integrates the equations of motion for a dynamic system
+    using the fourth-order Runge-Kutta method as given by 
+    :func:`int3 <int3>`. 
+
+    The derivatives of the equations are of three dimensional translational motion as 
+    given by 
+    :py:func:`eqm3 <c4dynamics.eqm.eqm3>` 
+    
+    
+    Parameters
+    ----------
+    forces : numpy.array or list
+        An external forces vector acting on the body, `forces = [Fx, Fy, Fz]`  
+    dt : float
+        Interval time step for integration.
+
+
+    Returns
+    -------
+    out : numpy.float64
+        An acceleration array at the final time step.
+
+
+    Note
+    ----
+    The integration steps follow the Runge-Kutta method:
+
+    1. Compute k1 = f(ti, yi)
+
+    2. Compute k2 = f(ti + dt / 2, yi + dt * k1 / 2)
+
+    3. Compute k3 = f(ti + dt / 2, yi + dt * k2 / 2)
+
+    4. Compute k4 = f(ti + dt, yi + dt * k3)
+
+    5. Update yi = yi + dt / 6 * (k1 + 2 * k2 + 2 * k3 + k4)
+    
+
+    
+    Examples
+    --------
+
+    A Helium balloon of 100g weight floats with lift force of L = 0.05N
+    and expreiences a side wind of 10k speed.
+
+    .. code::
+
+      >>> t1, t2, dt = 0, 10, 0.01
+      >>> F = [0, 0, .05]
+      >>> hballoon = c4d.datapoint(mass = 0.1, vx = 10 * c4d.k2ms)
+      >>> for t in np.arange(t1, t2, dt):
+      ...    hballoon.inteqm(F, dt)
+      ...    hballoon.store(t)
+      >>> hballoon.draw('side')
+      >>> plt.gca().invert_yaxis()
+
+    .. figure:: /_static/figures/inteqm3.png
+
+
+    '''
+    self.X, acc = int3(self, forces, dt, derivs_out = True)
+    return acc
+     
   
   
   # 
@@ -420,8 +983,66 @@ class datapoint:
   def draw(self, var, ax = None):
     ''' 
     Draws plots of trajectories or variable evolution over time. 
-    'var' can be 'top' or 'side' for trajectories, or each one of the state variables. 
+
+    `var` can be `top` or `side` for trajectories, or each one of the state variables. 
+
+
+    Parameters
+    ----------
+
+    var : string
+        The variable to be plotted. 
+        Possible variables for trajectories: 'top', 'side'.
+        For time evolution, any one of the state variables is possible: 
+        'x', 'y', 'z', 'vx', 'vy', 'vz' - for datapoint object, and
+        also 'phi', 'theta', 'psi', 'p', 'q', 'r' - for rigidbody object. 
+
+        
+
+    Notes
+    -----
+    
+    - The function uses matplotlib for plotting.
+
+    - Trajectory views ('top' and 'side') show the crossrange vs. downrange or downrange vs. altitude.
+    
+    
+
+
+
+    Examples
+    --------
+
+    .. code:: 
+
+      >>> pt = c4d.datapoint()
+      >>> for t in np.arange(0, 10, .01):
+      ...   pt.x = 10 + np.random.randn()
+      ...   pt.store(t)
+      >>> pt.draw('x')
+      >>> plt.gca().set_ylim(0, 13)
+
+    .. figure:: /_static/figures/draw_x.png
+
+
+    .. code::
+
+      >>> t1, t2, dt = 0, 10, 0.01
+      >>> F = [0, 0, .05]
+      >>> hballoon = c4d.datapoint(mass = 0.1, vx = 10 * c4d.k2ms)
+      >>> for t in np.arange(t1, t2, dt):
+      ...    hballoon.inteqm(F, dt)
+      ...    hballoon.store(t)
+      >>> hballoon.draw('side')
+      >>> plt.gca().invert_yaxis()
+
+    .. figure:: /_static/figures/inteqm3.png
+
+
+    
+    
     '''
+
     from matplotlib import pyplot as plt
     plt.rcParams['figure.figsize'] = (6.0, 4.0) # set default size of plots
     # plt.rcParams['image.cmap'] = 'gray'
@@ -447,17 +1068,17 @@ class datapoint:
       # y axis: x data 
       x = self.get_data('y')
       y = self.get_data('x')
-      xlabel = 'crossrange'
-      ylabel = 'downrange'
-      title = 'top view'
+      xlabel = 'Crossrange'
+      ylabel = 'Downrange'
+      title = 'Top View'
     elif var.lower() == 'side':
       # x axis: x data
       # y axis: z data 
       x = self.get_data('x')
       y = self.get_data('z')
-      xlabel = 'downrange'
-      ylabel = 'altitude'
-      title = 'side view'
+      xlabel = 'Downrange'
+      ylabel = 'Altitude'
+      title = 'Side View'
       ax.invert_yaxis()
     else: 
       uconv = 1
@@ -466,15 +1087,25 @@ class datapoint:
       
       if not len(np.flatnonzero(self.get_data('t') != -1)): # values for t weren't stored
         x = range(len(np.array(self.get_data('t')))) # t is just indices 
-        xlabel = 'sample'
-      else:       
+        xlabel = 'Sample'
+      else:
         x = np.array(self.get_data('t')) 
-        xlabel = 't'
+        xlabel = 'Time'
       y = np.array(self._data)[:, self._didx[var]] * uconv if self._data else np.empty(1) # used selection 
-      ylabel = var
-      title = var
-    
-    
+      
+
+      if 1 <= self._didx[var] <= 6:
+        # x, y, z, vx, vy, vz
+        title = ylabel = var.title()
+      elif 7 <= self._didx[var] <= 9: 
+        # phi, theta, psi
+        title = '$\\' + var + '$'
+        ylabel = title + ' (deg)'
+      elif 10 <= self._didx[var] <= 12: 
+        # p, q, r 
+        title = var.title()
+        ylabel = var + ' (deg/sec)'
+
     ax.plot(x, y, 'm', linewidth = 2)
 
     ax.set_title(title)
@@ -489,3 +1120,5 @@ class datapoint:
     
     # plt.pause(1e-3)
     # plt.show() # block = True # block = False
+
+

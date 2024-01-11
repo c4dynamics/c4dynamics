@@ -6,13 +6,17 @@ Sensors
 
 .. currentmodule:: c4dynamics 
 
-C4dynamics provides models of electro-optic sensors, lasers, and electro-magnetic sensors to simulate their functionalities during real world applications. 
+
+C4dynamics provides sensor models to simulate real world applications.   
+The models include the functionality and the errors model 
+of electro-optic, lasers, and electro-magnetic devices. 
 
 
-.. toctree::
+.. toctree:: 
    :maxdepth: 2
 
-   sensors.camera
-   sensors.laser
-   sensors.radar
-   sensors.imu 
+   sensors.seeker
+
+
+
+

@@ -25,13 +25,10 @@ C4dynamics Documentation
 
 C4Dynamics (read Tsipor (bird) Dynamics) is the open-source framework of algorithms development for objects in space and time.  
 It is a Python library that provides entities for developing and analyzing algorithms of physical systems, that is, system with dynamics, with one or more of the internal systems and algorithms of C4dynamics:  
-Radar Model |
-IMU Model |
-GPS Model |
-Line Of Sight Seeker |
-Equations of Motion Solvers |
-Kalman Filters |
-Asymptotic Observer |
+Sensors | 
+Detectors | 
+Filters | 
+Math Operations |
 Or with one of the 3rd party libraries integrated with C4dynamics:
 OpenCV |
 YOLO |

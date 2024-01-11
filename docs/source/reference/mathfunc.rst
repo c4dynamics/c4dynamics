@@ -6,9 +6,15 @@ Math Functions
 
 .. currentmodule:: c4dynamics
 
-For convenience, C4dynamics offers some of NumPy's trigonometric functions, 
+For convenience, C4dynamics offers some of 
+NumPy's trigonometric functions, 
 with slight variations in some of them:
 
+
+.. autosummary::
+   :toctree: generated/
+
+..    c4dynamics.utils 
 
 .. data:: sin 
 
@@ -38,3 +44,10 @@ with slight variations in some of them:
 
     ``c4dynamics.atan = numpy.arctan2``
 
+.. data:: sqrt
+
+    ``c4dynamics.sqrt = numpy.sqrt``
+
+.. data:: norm
+
+    ``c4dynamics.norm = numpy.linalg.norm``
