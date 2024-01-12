@@ -83,7 +83,7 @@ class seeker(c4d.rigidbody):
       bias = bias.std \\cdot randn
 
     The `bias.std` has a default value of `0.1deg` and it can 
-    be set by the **kwargs at the stage of constructing the seeker instance:
+    be set by the \**kwargs at the stage of constructing the seeker instance:
     
     .. code::
 
@@ -153,7 +153,7 @@ class seeker(c4d.rigidbody):
       scalefactor = scalefactor.std \\cdot randn
 
     The `scalefactor.std` has a default value of 0.05 and it can 
-    be set by the **kwargs at the stage of constructing the seeker instance:
+    be set by the \**kwargs at the stage of constructing the seeker instance:
 
     .. code::
 
