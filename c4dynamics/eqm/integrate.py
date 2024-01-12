@@ -244,7 +244,7 @@ def int6(rb, forces, moments, dt, derivs_out = False):
   Note - Differences Between Scipy and C4dynamics Integration 
   -----------------------------------------------------------
   
-  The difference in results derive from the method of delivering the 
+  The difference in the results derive from the method of delivering the 
   forces and moments.
   scipy.odeint gets as input the function that caluclates the derivatives, 
   where the forces and moments are included in it: 

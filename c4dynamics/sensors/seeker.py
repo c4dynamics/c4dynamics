@@ -60,7 +60,9 @@ class seeker(c4d.rigidbody):
       self.X = origin.X 
 
 
-    if not isideal:
+    if isideal:
+      self.noise_std = 0
+    else: 
       self._errors_model()
     
 
@@ -68,7 +70,7 @@ class seeker(c4d.rigidbody):
   @property
   def bias(self):
     ''' 
-    Seeker's bias.
+    Gets or sets seeker's bias.
 
 
     `bias` gets or sets the bias parameter of the seeker. 
@@ -78,16 +80,16 @@ class seeker(c4d.rigidbody):
     
     .. math::
 
-      bias = bias std \\cdot randn
+      bias = bias.std \\cdot randn
 
-    Calling `bias` returns the generated variable.    
-    It has a default value of `0.1deg` and it can 
+    The `bias.std` has a default value of `0.1deg` and it can 
     be set by the **kwargs at the stage of constructing the seeker instance:
-
+    
     .. code::
 
       skr = c4d.sensors.seeker(bias_std = 0.5 * c4d.d2r) # d2r = degrees to radians
 
+    Calling `bias` returns the generated variable.    
     Calling `bias` with a parameter overrides 
     the random generated variable with the user input. 
 
@@ -96,14 +98,14 @@ class seeker(c4d.rigidbody):
     -------------------
 
     bias : float 
-        The generated bias for the current seeker instance. 
+        The required bias for the seeker. 
 
         
     Returns (Getter)
     ----------------
     
     bias : float 
-        The generated bias for the current seeker instance. 
+        The current bias of the seeker. 
 
     Example
     -------
@@ -138,7 +140,7 @@ class seeker(c4d.rigidbody):
   @property
   def scale_factor(self):
     ''' 
-    Seeker's scale_factor.
+    Gets or sets seeker's scale_factor.
 
     `scale_factor` gets or sets the scale facotr 
     parameter of the seeker. 
@@ -147,17 +149,18 @@ class seeker(c4d.rigidbody):
     constructing the seeker instance:
     
     .. math::
-      scale factor = scale factor std \\cdot randn
+    
+      scalefactor = scalefactor.std \\cdot randn
 
-    Calling `scale_factor` 
-    returns the generated variable.    
-    It has a default value of 0.05 and it can 
+    The `scalefactor.std` has a default value of 0.05 and it can 
     be set by the **kwargs at the stage of constructing the seeker instance:
 
     .. code::
 
       skr = c4d.sensors.seeker(scale_factor_std = 0)
 
+    Calling `scale_factor` 
+    returns the generated variable.    
     Calling `scale_factor` with a parameter overrides 
     the random generated variable with the user input. 
 
@@ -166,15 +169,14 @@ class seeker(c4d.rigidbody):
     -------------------
 
     scale_factor : float 
-        The generated scale_factor for the current seeker instance. 
-
+        The required scalefactor for the seeker. 
 
 
     Returns (Getter)
     ----------------
 
     scale_factor : float 
-        User scale factor to override the random generated variable of the current seeker instance. 
+      The current scalefactor of the seeker. 
 
 
     Example

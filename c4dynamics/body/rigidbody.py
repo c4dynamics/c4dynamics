@@ -165,8 +165,8 @@ class rigidbody(c4d.datapoint):  #
     -------
 
     out : numpy.ndarray
-        A 3x3 DCM matrix uses to rotate a vector from an inertial frame 
-        to a body frame of coordinates.
+        A 3x3 DCM matrix uses to rotate a vector from a body frame 
+        to an inertial frame of coordinates.
 
 
     Example
@@ -192,7 +192,7 @@ class rigidbody(c4d.datapoint):  #
   def BI(self): 
     ''' 
 
-    Returns an inertial from body Direction Cosine Matrix (DCM). 
+    Returns a Body from Inertial Direction Cosine Matrix (DCM). 
 
     Based on the current Euler angles, generates a DCM in a 3-2-1 order.
     i.e. first rotation about the z axis (yaw), then a rotation about the 
@@ -205,8 +205,8 @@ class rigidbody(c4d.datapoint):  #
     -------
 
     out : numpy.ndarray
-        A 3x3 DCM matrix uses to rotate a vector from body frame 
-        to inertial frame of coordinates.
+        A 3x3 DCM matrix uses to rotate a vector from an inertial frame 
+        to a body frame of coordinates.
 
 
     Example

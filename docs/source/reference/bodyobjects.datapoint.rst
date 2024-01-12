@@ -99,7 +99,7 @@ the \**kwargs, for example:
 
 
 Regardless of the values with which the parameters of the datapoint
-were constructed, the three variables of the position are assigned 
+were constructed, the initial state is assigned 
 to the initial variables: 
 
 .. code:: 
@@ -107,12 +107,15 @@ to the initial variables:
   self.x0 = self.x
   self.y0 = self.y
   self.z0 = self.z
+  self.vx0 = self.vx
+  self.vy0 = self.vy
+  self.vz0 = self.vz
 
 
 Parameters 
 ----------
 
-The list of the datapoint's parameters is: 
+Optional keyword arguments: 
 
 .. autosummary:: 
   :toctree: generated/
