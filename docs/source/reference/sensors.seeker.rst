@@ -11,7 +11,7 @@ Seeker (:class:`seeker`)
 
 The seeker models an electro-optical or electro-magnetical sensor
 that returns precise range measure and azimuth-elevation 
-angles with the following errors model: scale factor, bias, noise.
+angles with the following errors model: scale factor, bias, and noise.
 
 
 Functionality 
@@ -65,20 +65,46 @@ The azimuth and elevation angles are subject to errors: scale factor, bias, and 
 - Bias: represents a constant offset or deviation from the true value in the seeker's measurements. 
   It is a systematic error that consistently affects the measured values. 
   The bias of :class:`seeker` is a normally distributed variable with `mean = 0` 
-  and `std = :attr:`bias_std <seeker.bias_std>`
-
+  and `std =` :attr:`bias_std <seeker.bias_std>`
 - Scale Factor: a multiplier applied to the true value of a measurement. 
   It represents a scaling error in the measurements made by the seeker. 
   The scale factor of :class:`seeker` is a normally distributed variable 
-  with `mean = 0` and `std = :attr:`scale_factor_std <seeker.scale_factor_std>`
+  with `mean = 0` and `std =` :attr:`scale_factor_std <seeker.scale_factor_std>`
 - Noise: represents random variations or fluctuations in the measurements 
   that are not systematic. It introduces randomness into the measurements. 
   The noise of :class:`seeker` is represented by :attr:`noise_std <seeker.noise_std>` 
   and is added at each measure by multiplication with a `randn()` function. 
 
+The errors model can be disabled by applying `isideal = True` at the seeker construction stage. 
+
+Rigidbody
+============
+
+The seeker class inherits from the :class:`rigidbody`, that is 
+it suggests attributes of position and attitude and the manipulation of them.
+
+As a fundamental propety, the seeker gets an origin, which is a :attr:`X <rigidbody.X>` 
+vector, that sets the initial conditions of the seeker:
+
+.. math::
+
+  [x, y, z, v_x, v_y, v_z, {\\varphi}, {\\theta}, {\\psi}, p, q, r]
+
+In addition, all the attributes and properties of a :class:`rigidbody` exist
+for a :class:`seeker` and can be operated in the same manner. 
+
+
+
 
 Parameters 
 ==========
+
+origin : X, optional   
+  A :attr:`X <rigidbody.X>` vector with position and attitude initial conditions. Defaults `X = numpy.zeros(12)`. 
+isideal : boolean, optional 
+  A flag indicating whether the errors model is off. 
+**kwargs
+  Other optional keyword arguments:
 
 .. autosummary:: 
   :toctree: generated/

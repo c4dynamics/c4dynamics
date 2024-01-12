@@ -201,7 +201,7 @@ class datapoint:
       >>> pt = c4d.datapoint()
       >>> print(pt.X)
       [0 0 0 0 0 0]
-      Update the state:
+      >>> # Update the state:
       >>> #       x     y    z  vx vy vz 
       >>> pt.X = [1000, 100, 0, 0, 0, -100] 
       >>> print(pt.X)
@@ -211,11 +211,11 @@ class datapoint:
 
     .. code:: 
 
-      Get the current state of a rigidbody: 
+      >>> # Get the current state of a rigidbody: 
       >>> rb = c4d.rigidbody(theta = 5 * c4d.d2r)
       >>> print(rb.X)
       [0.  0.  0.  0.  0.  0.   0.   0.08726646   0.   0.   0.   0.]
-      Update only the translational variables of the rigidbody:
+      >>> # Update only the translational variables of the rigidbody:
       >>> rb.X = [1000, 100, 0, 0, 0, -100] 
       >>> print('  '.join([f'{x}' for x in rb.X]))
       1000.0  100.0  0.0  0.0  0.0  -100.0  0.0  0.08726646259971647  0.0  0.0  0.0  0.0
@@ -412,6 +412,7 @@ class datapoint:
     1. Time t is an optional parameter with a default value of t = -1.
     The time is always appended at the head of the array to store. However, 
     if t is not given, default t = -1 is stored instead.
+
     2. The method :attr:`store <datapoint.store>` goes together with 
     the methods :attr:`get_data <datapoint.get_data>` 
     and :attr:`timestate <datapoint.timestate>` as input and outputs. 
@@ -479,7 +480,7 @@ class datapoint:
 
     User-defined variables are those that do not appear 
     with new constructed instance of a :class:`datapoint` or 
-    a :class:`datapoint` object. 
+    a :class:`rigidbody` object. 
 
 
     Parameters 
@@ -494,6 +495,7 @@ class datapoint:
     1. Time t is an optional parameter with a default value of t = -1.
     The time is always appended at the head of the array to store. However, 
     if t is not given, default t = -1 is stored instead.
+
     2. The method :attr:`storevar <datapoint.storevar>` goes together with 
     the method :attr:`get_data <datapoint.get_data>` 
     as input and output. 
@@ -622,7 +624,7 @@ class datapoint:
       >>> h0 = 100 
       >>> pt = c4d.datapoint(z = h0)
       >>> while pt.z >= 0: 
-      ...     pt.inteqm([0, 0, -c4d.g_ms2], dt)
+      ...    pt.inteqm([0, 0, -c4d.g_ms2], dt)
       ...    t += dt
       ...    pt.store(t)
       >>> for z in pt.get_data('z'):
@@ -662,7 +664,7 @@ class datapoint:
       [30 30  6 75  7 11]
 
 
-    `get_data` of a user defined variable. 
+    `get_data` of a user defined variable: 
     
     The morphospectra extends the datapoint class to include also a dimension
     state. 
@@ -820,15 +822,12 @@ class datapoint:
     ''' 
     Returns the Euclidean norm of the velocity coordinates in three dimensions. 
 
+    This method computes the Euclidean norm (magnitude) of a 3D vector represented
+    by the instance variables self.vx, self.vy, and self.vz:
+
     .. math::
       V = \\sqrt{v_x^2 + v_y^2 + v_z^2}
 
-    
-    This method computes the Euclidean norm (magnitude) of a 3D vector represented
-    by the instance variables self.vx, self.vy, and self.vz.
-
-    .. math::
-      P = \\sqrt{x^2 + y^2 + z^2}
             
 
     Returns
@@ -914,7 +913,7 @@ class datapoint:
 
     This method numerically integrates the equations of motion for a dynamic system
     using the fourth-order Runge-Kutta method as given by 
-    :func:`int3 <int3>`. 
+    :func:`int3 <c4dynamics.eqm.int3>`. 
 
     The derivatives of the equations are of three dimensional translational motion as 
     given by 
@@ -934,21 +933,6 @@ class datapoint:
     out : numpy.float64
         An acceleration array at the final time step.
 
-
-    Note
-    ----
-    The integration steps follow the Runge-Kutta method:
-
-    1. Compute k1 = f(ti, yi)
-
-    2. Compute k2 = f(ti + dt / 2, yi + dt * k1 / 2)
-
-    3. Compute k3 = f(ti + dt / 2, yi + dt * k2 / 2)
-
-    4. Compute k4 = f(ti + dt, yi + dt * k3)
-
-    5. Update yi = yi + dt / 6 * (k1 + 2 * k2 + 2 * k3 + k4)
-    
 
     
     Examples
