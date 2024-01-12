@@ -29,6 +29,8 @@ the super class, the datapoint.
 Parameters 
 ==========
 
+Optional keyword arguments: 
+
 .. autosummary:: 
   :toctree: generated/
 
