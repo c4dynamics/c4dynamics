@@ -86,12 +86,14 @@ the state variables at the current time, with time-stamp, if given.
 Constructing a datapoint
 ========================
 
-The construction of a datapoint object is done with a direct call 
-to the datapoint class:
+A datapoint instance is created by making a direct call 
+to the datapoint constructor:
+
 `pt = c4d.datapoint()`
-There are no required parameters to initialize the instance, but
-the determination of each one of datapoint parameters is allowed through 
-the \**kwargs, for example:
+
+Initialization of the instance does not require any 
+mandatory parameters, but each datapoint parameter can be 
+determined using the \**kwargs keyword, for example:
 
 .. code:: 
 

@@ -3,4 +3,4 @@
 
 .. currentmodule:: c4dynamics
 
-.. automethod:: datapoint.V
+.. autoproperty:: datapoint.V

@@ -129,7 +129,7 @@ i.e. a gain times the line of sight rate.
 .. code::
 
     if t >= 0.5:
-        Gs       = 4 * missile.V()
+        Gs       = 4 * missile.V
         acmd     = Gs * np.cross(wf, ucl)
         ab_cmd   = missile.BI @ acmd 
         afp, afy = ctrl.update(ab_cmd, Q)
@@ -151,7 +151,7 @@ The forces and moments are rooted from three sources: aerodyanmics, propulsion s
     A = D * np.cos(alpha_total) - L * np.sin(alpha_total) # aero axial force 
     N = D * np.sin(alpha_total) + L * np.cos(alpha_total) # aero normal force 
     cM, cN = aero.m_coef(mach, alpha, beta, d_pitch, d_yaw 
-                        , missile.xcm, Q, missile.V(), fAb[1], fAb[2]
+                        , missile.xcm, Q, missile.V, fAb[1], fAb[2]
                             , missile.q, missile.r)
     mA = np.array([0                                # aerodynamic moemnt in roll
                     , Q * cM * aero.s * aero.d          # aerodynamic moment in pitch

@@ -2,9 +2,9 @@
 
 .. _bodyobjects.rigidbody:
 
-**********************************
-the Rigidbody (:class:`rigidbody`)
-**********************************
+******************************
+Rigidbody (:class:`rigidbody`)
+******************************
 
 The :class:`rigidbody` extends the :class:`datapoint`
 to form an elementary rigidbody object in space.  
@@ -19,16 +19,13 @@ The class leverages the capabilities of the datapoint class for handling
 translational dynamics and extends it to include rotational aspects.
 
 
-Notes
-=====
-The following parameters and attributes extend
-the super class, the datapoint. 
-
 
 
 Parameters 
 ==========
 
+The following parameters and attributes extend
+the super class, the datapoint. 
 Optional keyword arguments: 
 
 .. autosummary:: 

@@ -67,18 +67,19 @@ class rigidbody(c4d.datapoint):  #
     # 
     # variables for storage
     ##
-    super().__init__()  # Dummy values
+    super().__init__(**kwargs)  # Dummy values
     self.__dict__.update(kwargs)
-    self._data = [] # np.zeros((1, 19))
+    # self._data = [] # np.zeros((1, 19))
     self._didx.update({'phi': 7, 'theta': 8, 'psi': 9
                         , 'p': 10, 'q': 11, 'r': 12})  
 
-    self.x0 = self.x
-    self.y0 = self.y
-    self.z0 = self.z
-    self.vx0 = self.vx
-    self.vy0 = self.vy
-    self.vz0 = self.vz
+    # i think this one should be 
+    # self.x0 = self.x
+    # self.y0 = self.y
+    # self.z0 = self.z
+    # self.vx0 = self.vx
+    # self.vy0 = self.vy
+    # self.vz0 = self.vz
 
     self.phi0   = self.phi
     self.theta0 = self.theta

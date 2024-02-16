@@ -78,7 +78,7 @@ The azimuth and elevation angles are subject to errors: scale factor, bias, and 
 The errors model can be disabled by applying `isideal = True` at the seeker construction stage. 
 
 Rigidbody
-============
+=========
 
 The seeker class inherits from the :class:`rigidbody`, that is 
 it suggests attributes of position and attitude and the manipulation of them.
@@ -88,22 +88,35 @@ vector, that sets the initial conditions of the seeker:
 
 .. math::
 
-  [x, y, z, v_x, v_y, v_z, {\\varphi}, {\\theta}, {\\psi}, p, q, r]
+  [x, y, z, v_x, v_y, v_z, {\varphi}, {\theta}, {\psi}, p, q, r]
 
 In addition, all the attributes and properties of a :class:`rigidbody` exist
 for a :class:`seeker` and can be operated in the same manner. 
 
 
+Construction 
+============
+
+A seeker instance is created by making a direct call 
+to the seeker constructor: 
+
+`skr = c4d.sensors.seeker()`
+
+Initialization of the instance does not require any 
+mandatory parameters, but each seeker parameter can be 
+determined using the \**kwargs keyword.
+
+The seeker parameters are listed as follows:  
 
 
 Parameters 
-==========
+----------
 
 origin : X, optional   
-  A :attr:`X <rigidbody.X>` vector with position and attitude initial conditions. Defaults `X = numpy.zeros(12)`. 
+  A vector :attr:`X <rigidbody.X>` with position and attitude initial conditions. Defaults `X = numpy.zeros(12)`. 
 isideal : boolean, optional 
   A flag indicating whether the errors model is off. 
-**kwargs
+\**kwargs
   Other optional keyword arguments:
 
 .. autosummary:: 
