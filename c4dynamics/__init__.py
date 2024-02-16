@@ -49,12 +49,12 @@ from . import rotmat
 from .utils.const import *  
 from .utils.math import *  
 from .utils.gen_gif import gen_gif
-from .utils.cprint import print
+from .utils.cprint import cprint
 
 #
 # body objects 
 ## 
-from .body.datapoint import datapoint, create  
+from .body.datapoint import datapoint, fdatapoint, create
 from .body.rigidbody import rigidbody 
 
 
@@ -70,5 +70,5 @@ from . import detectors
 #
 # version
 ##
-__version__ = '1.0.80'
+__version__ = '1.0.90'
 

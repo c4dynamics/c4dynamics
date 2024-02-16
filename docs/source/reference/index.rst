@@ -18,8 +18,12 @@ C4dynamics Reference
    detectors
    filters
    constants 
-   mathfunc
    routines 
+
+.. toctree::
+   :maxdepth: 1
+
+   mathfunc
 
 
 

@@ -52,7 +52,7 @@
     <link rel="prev" title="C4dynamics Use Cases" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Jan 12, 2024"/>
+    <meta name="docbuild:last-update" content="Feb 16, 2024"/>
   </head>
   
   
@@ -379,14 +379,14 @@ that uses for the next operations.</p>
 <h2>Detection<a class="headerlink" href="#detection" title="Link to this heading">#</a></h2>
 <p>Every frame is transmitted into an object detection model which provides a list of boxes
 encompassing the detected objects.</p>
-<div class="admonition-yolo admonition">
-<p class="admonition-title">YOLO</p>
+<div class="admonition-yolov3 admonition">
+<p class="admonition-title">YOLOv3</p>
 <p>Initialization:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">yolodet</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">detectors</span><span class="o">.</span><span class="n">yolo</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">yolo3</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">detectors</span><span class="o">.</span><span class="n">yolov3</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>Main Loop:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">zList</span> <span class="o">=</span> <span class="n">yolodet</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">zList</span> <span class="o">=</span> <span class="n">yolo3</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -483,7 +483,7 @@ saved in every iteration:</p>
 <img alt="../_images/track_id.png" src="../_images/track_id.png" />
 <figcaption>
 <p><span class="caption-text">A time series analysis of the sotred data. The track ID is marked on the Y axis.
-A dotted line represents updates of the Kalman filter from the YOLO detector. A solid line (with no dots) indicates a sole
+A dotted line represents updates of the Kalman filter from the YOLOv3 detector. A solid line (with no dots) indicates a sole
 prediction when the detector failed to detect the object.</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
@@ -494,7 +494,7 @@ a toggling pattern may indicate bad behavior of the association algorithm.</p>
 <img alt="../_images/track_range.png" src="../_images/track_range.png" />
 <figcaption>
 <p><span class="caption-text">Range vs. time vs. track ID during the video.
-A dotted line represents updates of the Kalman filter from the YOLO detector. A solid line (with no dots) indicates a sole
+A dotted line represents updates of the Kalman filter from the YOLOv3 detector. A solid line (with no dots) indicates a sole
 prediction when the detector failed to detect the object.</span><a class="headerlink" href="#id3" title="Link to this image">#</a></p>
 </figcaption>
 </figure>

@@ -5,6 +5,7 @@ import c4dynamics as c4d
 from c4dynamics.eqm import int3  
 # from c4dynamics.src.main.py.eqm import eqm3
 
+
 def create(X):
   if len(X) > 6:
     rb = c4d.rigidbody()
@@ -17,8 +18,6 @@ def create(X):
   
 
 class datapoint:
-
-
 
 
 
@@ -64,47 +63,12 @@ class datapoint:
       
 #   The arguments to the range constructor must be integers
   
+  __slots__ = ['x', 'y', 'z', 'vx', 'vy', 'vz', 'ax', 'ay', 'az', 'mass'
+                  , 'x0', 'y0', 'z0', 'vx0', 'vy0', 'vz0'
+                    , '_data', '_vardata', '_didx', '__dict__'] 
 
 
-  #
-  # position
-  #  NOTE: why actually there should be a docstring to every one of the variables. 
-  #         unless otherwise mentioned it should transparent to users. and only attributes 
-  #         - methods and variables for user ex should be docced.   
-  ##
-  x = 0 
-  ''' float; Cartesian coordinate representing the x-position of the datapoint. '''  
-  y = 0 
-  ''' float; Cartesian coordinate representing the y-position of the datapoint. '''
-  z = 0 
-  ''' float; Cartesian coordinate representing the z-position of the datapoint. '''
-
-  # 
-  # velocity
-  ##
-  vx = 0 
-  ''' float; Component of velocity along the x-axis. '''
-  vy = 0 
-  ''' float; Component of velocity along the y-axis. '''
-  vz = 0 
-  ''' float; Component of velocity along the z-axis. '''
-
-  #
-  # acceleration
-  ##
-  ax = 0  
-  ''' float; Component of acceleration along the x-axis. '''
-  ay = 0  
-  ''' float; Component of acceleration along the y-axis. '''
-  az = 0  
-  ''' float; Component of acceleration along the z-axis. '''
-
-  # 
-  # mass  
-  ## 
-  mass = 1.0 
-  ''' float; Mass of the datapoint. '''
-
+  # https://stackoverflow.com/questions/472000/usage-of-slots#:~:text=The%20proper%20use%20of%20__,one%20dict%20for%20every%20object.%5D
   # https://www.geeksforgeeks.org/getter-and-setter-in-python/
   # https://stackoverflow.com/questions/4555932/public-or-private-attribute-in-python-what-is-the-best-way
   # https://stackoverflow.com/questions/17576009/python-class-property-use-setter-but-evade-getter
@@ -114,6 +78,44 @@ class datapoint:
 
   def __init__(self, **kwargs):
     # reset mutable attributes:
+    #
+    # position
+    #  NOTE: why actually there should be a docstring to every one of the variables. 
+    #         unless otherwise mentioned it should transparent to users. and only attributes 
+    #         - methods and variables for user ex should be docced.   
+    ##
+    self.x = 0 
+    ''' float; Cartesian coordinate representing the x-position of the datapoint. '''  
+    self.y = 0 
+    ''' float; Cartesian coordinate representing the y-position of the datapoint. '''
+    self.z = 0 
+    ''' float; Cartesian coordinate representing the z-position of the datapoint. '''
+
+    # 
+    # velocity
+    ##
+    self.vx = 0 
+    ''' float; Component of velocity along the x-axis. '''
+    self.vy = 0 
+    ''' float; Component of velocity along the y-axis. '''
+    self.vz = 0 
+    ''' float; Component of velocity along the z-axis. '''
+
+    #
+    # acceleration
+    ##
+    self.ax = 0  
+    ''' float; Component of acceleration along the x-axis. '''
+    self.ay = 0  
+    ''' float; Component of acceleration along the y-axis. '''
+    self.az = 0  
+    ''' float; Component of acceleration along the z-axis. '''
+
+    # 
+    # mass  
+    ## 
+    self.mass = 1.0 
+    ''' float; Mass of the datapoint. '''
     # 
     # variables for storage
     ##
@@ -122,8 +124,10 @@ class datapoint:
     self._data = []    # for permanent class variables (t, x, y .. )
     self._vardata = {} # for user additional variables 
 
-    self.__dict__.update(kwargs)
-    
+    # self.__dict__.update(kwargs)
+    for k, v in kwargs.items():
+      setattr(self, k, v)
+
 
     self.x0 = self.x
     self.y0 = self.y
@@ -562,7 +566,9 @@ class datapoint:
 
 
     '''
-    # TODO: add the docstring the example of the kalman variables store from the detect track exmaple. 
+    # TODO show example of multiple vars  
+    # maybe the example of the kalman variables store 
+    #   from the detect track exmaple. 
     lvar = var if isinstance(var, list) else [var]
     for v in lvar:
       if v not in self._vardata:
@@ -730,10 +736,10 @@ class datapoint:
      
     idx = self._didx.get(var, -1)
     if idx >= 0:
-      return np.array(self._data)[:, idx] if self._data else np.empty(1)
+      return np.array(self._data)[:, idx] if self._data else np.array([])
 
     # else \ user defined variables 
-    return np.array(self._vardata.get(var, np.empty((1, 2))))
+    return np.array(self._vardata.get(var, np.array([])))
     
 
   def timestate(self, t):
@@ -772,7 +778,7 @@ class datapoint:
       [6, 9, 53, 13, 49, 99]
 
     '''
-    # TODO how about throwing a warning when dt is too long? 
+    # TODO what about throwing a warning when dt is too long? 
     times = self.get_data('t')
     if times.size == 0: 
       out = None
@@ -786,6 +792,7 @@ class datapoint:
   # 
   # to norms:
   ##
+  @property 
   def P(self):
     ''' 
     Returns the Euclidean norm of the position coordinates in three dimensions. 
@@ -808,21 +815,23 @@ class datapoint:
     .. code::
 
       >>> pt = c4d.datapoint(x = 7, y = 24)
-      >>> print(pt.P())
+      >>> print(pt.P)
       25.0
       >>> pt.X = np.zeros(6)
-      >>> print(pt.P())
+      >>> print(pt.P)
       0.0
 
     '''
     return np.sqrt(self.x**2 + self.y**2 + self.z**2)
   
-  
+  @property 
   def V(self):
     ''' 
-    Returns the Euclidean norm of the velocity coordinates in three dimensions. 
+    Returns the Euclidean norm of the velocity 
+    coordinates in three dimensions. 
 
-    This method computes the Euclidean norm (magnitude) of a 3D vector represented
+    This method computes the Euclidean norm (magnitude) 
+    of a 3D vector represented
     by the instance variables self.vx, self.vy, and self.vz:
 
     .. math::
@@ -841,10 +850,10 @@ class datapoint:
     .. code::
 
       >>> pt = c4d.datapoint(vx = 7, vy = 24)
-      >>> print(pt.V())
+      >>> print(pt.V)
       25.0
       >>> pt.X = np.zeros(6)
-      >>> print(pt.V())
+      >>> print(pt.V)
       0.0
 
     '''
@@ -1104,5 +1113,299 @@ class datapoint:
     
     # plt.pause(1e-3)
     # plt.show() # block = True # block = False
+
+
+class fdatapoint(datapoint):
+
+  # 
+  # XXX override the .X property: will distance the devs from a datapoint class. 
+  #     con: much easier 
+
+  __slots__ = ['_boxwidth', '_boxheight', '_framewidth', '_frameheight'] 
+
+
+  def __init__(self, bbox, iclass, framesize, **kwargs):
+      ''' 
+      A class representing a data point in a video frame with a 
+      bounding box. 
+
+      bbox : tuple
+        Bounding box coordinates in normalized format (xc, yc, w, h).
+
+        xc : float; The x-coordinate of the center of the bounding box.
+
+        yc : float; The y-coordinate of the center of the bounding box.
+
+        w  : float; The width of the bounding box.
+
+        h  : float; The height of the bounding box.
+
+      iclass : string 
+        Class label or identifier associated with the data point.
+
+      framesize : tuple
+        Size of the frame in pixels (width, height).
+
+        width : int; The width of the image. 
+        
+        height : int; The height of the image. 
+
+      Note
+      ----
+
+      The normalized coordinates are expressed with respect to the 
+      dimensions of the image, ranging from 0 to 1, where 0 represents 
+      the left or the upper edge, and 1 represents the right or the bottom edge. 
+
+
+
+      '''
+ 
+      super().__init__(x = bbox[0], y = bbox[1], **kwargs)
+      # - x (float): X-coordinate of the center of the bounding box in relative coordinates.
+      # - y (float): Y-coordinate of the center of the bounding box in relative coordinates.
+
+
+      self._boxwidth = bbox[2]
+      ''' float; Width of the bounding box in a normalized format 
+      (0 = left image edge, 1 = right image edge. '''
+  
+      self._boxheight = bbox[3]
+      ''' float; Height of the bounding box in a normalized format
+      (0 = upper image edge, 1 = bottom image edge. '''
+
+
+      self._framewidth = framesize[0]
+      ''' int; Width of the frame in pixels. '''
+
+      self._frameheight = framesize[1]
+      ''' int; Height of the frame in pixels. '''
+
+  
+      self.iclass = iclass 
+      ''' string; Class label or identifier associated with the data point. '''
+    
+  
+  
+  def set_box_size(self, width, height):
+    # TODO document! 
+    '''
+    Sets the box size (box width, box height) 
+    without changing the center. 
+
+
+    Parameters
+    ----------
+    b : tuple(width, height)
+      A tuple containing two integers representing width and height (in pixels).
+
+      
+    Note
+    ----
+    This function sets the box width and height without
+    chaning the box center. 
+    The center of the box is modified only by 
+    direct substitution to the state variables 
+    or by setting the state vector (:attr:`X <datapoint.X>`). 
+
+      
+        
+    Examples
+    -------_
+
+    .. code:: 
+
+        >>> width  = 800
+        >>> height = 600
+        >>> radius = 50
+        >>> img = np.zeros((height, width, 3), dtype = np.uint8)
+        >>> cv2.circle(img, (width // 2, height // 2), radius, (255, 0, 0), -1)
+        >>> fdp = c4d.fdatapoint(bbox = (0, 0, 0, 0), iclass = 'ball', framesize = (width, height))
+        >>> fdp.x = 0.5 
+        >>> fdp.y = 0.5 
+        >>> fdp.set_box_size(2 * radius + 2, 2 * radius + 2)
+        >>> cv2.rectangle(img, fdp.box[0], fdp.box[1], [255, 255, 255], 2)
+        >>> _, ax3 = plt.subplots()
+        >>> ax3.axis('off')
+        >>> ax3.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+
+    .. figure:: /_static/images/fdp_setboxsize.png
+    
+
+
+    '''
+
+    self._boxwidth  = width  / self._framewidth
+    self._boxheight = height / self._frameheight
+    
+
+  @property
+  def box(self):
+    '''
+    Gets the box coordinates [(x top left, y top left) 
+    , (x bottom right, y bottom right)]        
+
+    Returns
+    -------
+    out : list[tuple] 
+      List containing two tuples representing 
+      top-left and bottom-right coordinates (in pixels).
+  
+        
+    Examples
+    --------
+
+    Draw a bounding box around the detected object 
+
+    .. code:: 
+
+        >>> imagename = 'planes.jpg'
+        >>> img = cv2.imread(os.path.join(os.getcwd(), 'examples', 'resources', imagename))
+        >>> yolo3 = c4d.detectors.yolov3()
+        >>> pts = yolo3.detect(img)
+        >>> for p in pts:
+        ...   cv2.rectangle(img, p.box[0], p.box[1], np.random.randint(0, 255, 3).tolist(), 3)
+        >>> fig, ax = plt.subplots()
+        >>> ax.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+
+    .. figure:: /_static/images/fdp_box.png
+
+    '''
+
+    xc = int(self.x * self._framewidth)
+    yc = int(self.y * self._frameheight)
+
+    # top left
+    xtl = xc - int(self._boxwidth  * self._framewidth  / 2)
+    ytl = yc - int(self._boxheight * self._frameheight / 2)
+
+    # bottom right 
+    xbr = xc + int(self._boxwidth  * self._framewidth  / 2)
+    ybr = yc + int(self._boxheight * self._frameheight / 2)
+
+    return [(xtl, ytl), (xbr, ybr)]
+
+
+  @property
+  def fsize(self):
+    '''
+    Gets the frame size.        
+
+    Returns
+    -------
+    out : tuple 
+      A tuple of the frame size in pixels (width, height). 
+        
+    Examples
+    --------
+
+    .. code:: 
+      
+      >>> imagename = 'planes.jpg'
+      >>> imgpath = os.path.join(os.getcwd(), 'examples', 'resources', imagename)
+      >>> img = cv2.imread(imgpath)
+      >>> yolo3 = c4d.detectors.yolov3()
+      >>> pts = yolo3.detect(img)
+      >>> print('{:^10} | {:^10} | {:^10} | {:^16} | {:^16} | {:^10} | {:^14}'.format(
+      ...         '# object', 'center x', 'center y', 'box top-left'
+      ...             , 'box bottom-right', 'class', 'frame size'))
+      >>> for i, p in enumerate(pts):
+      ...   tlb = '(' + str(p.box[0][0]) + ', ' + str(p.box[0][1]) + ')'
+      ...   brb = '(' + str(p.box[1][0]) + ', ' + str(p.box[1][1]) + ')'
+      ...   fsize = '(' + str(p.fsize[0]) + ', ' + str(p.fsize[1]) + ')'
+      ...   print('{:^10d} | {:^10.3f} | {:^10.3f} | {:^16} | {:^16} | {:^10} | {:^14}'.format(
+      ...         i, p.x, p.y, tlb, brb, p.iclass, fsize))
+      ...   c = np.random.randint(0, 255, 3).tolist()
+      ...   cv2.rectangle(img, p.box[0], p.box[1], c, 2)
+      ...   point = (int((p.box[0][0] + p.box[1][0]) / 2 - 75), p.box[1][1] + 22)
+      ...   cv2.putText(img, p.iclass, point, cv2.FONT_HERSHEY_SIMPLEX, 1, c, 2)
+      >>> fig, ax = plt.subplots()
+      >>> ax.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+      >>> ax.set_axis_off()
+      # object |  center x  |  center y  |   box top-left   | box bottom-right |   class    |  frame size  
+         0      |   0.584    |   0.376    |    (691, 234)    |    (802, 306)    | aeroplane  |  (1280, 720)  
+         1      |   0.457    |   0.473    |    (528, 305)    |    (642, 376)    | aeroplane  |  (1280, 720)  
+         2      |   0.471    |   0.322    |    (542, 196)    |    (661, 267)    | aeroplane  |  (1280, 720)  
+         3      |   0.546    |   0.873    |    (645, 588)    |    (752, 668)    | aeroplane  |  (1280, 720) 
+
+    .. figure:: /_static/images/fdp_fsize.png
+
+
+    '''
+    return (self._framewidth, self._frameheight)
+
+
+  @property
+  def Xpixels(self):
+    '''
+    Returns the state vector in pixel coordinates.  
+
+    Returns
+    -------
+    out : numpy.int32
+      A numpy array of the normalized coordinates :math:`[x, y, v_x, v_y]` transformed
+      to pixel coordinates considering the specific dimensions of the image. 
+         
+        
+    Examples
+    --------
+
+    .. code:: 
+
+        >>> imagename = 'planes.jpg'
+        >>> imgpath = os.path.join(os.getcwd(), 'examples', 'resources', imagename)
+        >>> img = cv2.imread(imgpath)
+        >>> yolo3 = c4d.detectors.yolov3()
+        >>> pts = yolo3.detect(img)
+        >>> print('{:^10} | {:^12} | {:^12} | {:^12} | {:^12}'.format(
+        ...     '# object', 'X normalized', 'Y normalized', 'X pixels', 'Y pixels'))
+        >>> for i, p in enumerate(pts):
+        ...     X = p.Xpixels
+        ...     print('{:^10d} | {:^12.3f} | {:^12.3f} | {:^12d} | {:^12d}'.format(
+        ...            i, p.x, p.y, X[0], X[1]))
+
+    '''
+    # TODO complete with full state vector. 
+
+    superx = super().X
+    return np.array([superx[0] * self._framewidth        # x
+                      , superx[1] * self._frameheight      # y
+                        , superx[3] * self._framewidth       # vx
+                          , superx[4] * self._frameheight]      # vy   
+                            , dtype = np.int32)
+  
+
+  
+  @staticmethod
+  def boxcenter(box):
+    # XXX seems like useless function and indeed is not in use anywhere. 
+    '''
+    
+    Calculates the center coordinates of bounding boxes.
+
+    Given a list of bounding boxes, this static method computes the center
+    coordinates for each box.
+
+
+
+    Parameters
+    ----------
+    out : list[box] 
+      List containing one fdatapoint.box or more. where  
+      every fdatapoint.box has two tuples 
+      representing top-left and bottom-right coordinates.
+
+    Returns
+    -------
+    out : numpy.ndarray
+        An array containing center coordinates for each bounding box in the
+        format [[center_x1, center_y1], [center_x2, center_y2], ...].
+
+    '''
+
+    return np.array([[(b[0] + b[2]) / 2, (b[1] + b[3]) / 2] for b in box]) 
+
+
+
 
 

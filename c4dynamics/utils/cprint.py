@@ -8,7 +8,7 @@ TXTCOLORS =     { 'k': '30', 'black':   '30'
                 , 'w': '37', 'white':   '37'
                     }
 
-def print(txt, color = 'white', bold = False, italic = False):
+def cprint(txt, color = 'white', bold = False, italic = False):
 
     settxt = '\033['
 
@@ -19,5 +19,5 @@ def print(txt, color = 'white', bold = False, italic = False):
 
     settxt += TXTCOLORS[color] 
         
-    print(settxt + 'm' + txt + '\033[0m')
+    print(settxt + 'm' + str(txt) + '\033[0m')
 

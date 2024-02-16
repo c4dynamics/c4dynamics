@@ -11,7 +11,7 @@ executed with the internal C4dynamics-Kalman-filter.
 
 .. table of content 
 .. intro
-.. car detection with YOLO
+.. car detection with YOLOv3
 .. car tracking with kalman filter 
 .. main loop exerts. 
 
@@ -63,19 +63,19 @@ Detection
 Every frame is transmitted into an object detection model which provides a list of boxes 
 encompassing the detected objects. 
 
-.. admonition:: YOLO 
+.. admonition:: YOLOv3 
    
    Initialization:
 
    .. code:: 
 
-      yolodet = c4d.detectors.yolo()
+      yolo3 = c4d.detectors.yolov3()
 
    Main Loop:
 
    .. code:: 
 
-      zList = yolodet.detect(frame, t) 
+      zList = yolo3.detect(frame, t) 
 
 
 
@@ -182,7 +182,7 @@ with the object (linear motion, in this example).
 
 .. ### Summary
 
-.. By combining car detection using YOLO and car tracking with the Kalman filter,
+.. By combining car detection using YOLOv3 and car tracking with the Kalman filter,
  we can achieve robust and accurate tracking of cars in surveillance videos.  
 .. The C4dynamics algorithms engineering framework provides an efficient environment 
 .. for implementing and evaluating such computer vision algorithms. In this example, leveraging *Amit Elbaz* masters' project to detect and track vehicles with Yolo and Kalman Filter. 
@@ -222,7 +222,7 @@ Next interesting thing to see is the life time of tracks during the process:
 .. figure:: /../../examples/out/track_id.png
 
    A time series analysis of the sotred data. The track ID is marked on the Y axis. 
-   A dotted line represents updates of the Kalman filter from the YOLO detector. A solid line (with no dots) indicates a sole 
+   A dotted line represents updates of the Kalman filter from the YOLOv3 detector. A solid line (with no dots) indicates a sole 
    prediction when the detector failed to detect the object.
 
 
@@ -233,5 +233,5 @@ a toggling pattern may indicate bad behavior of the association algorithm.
 .. figure:: /../../examples/out/track_range.png
 
    Range vs. time vs. track ID during the video.  
-   A dotted line represents updates of the Kalman filter from the YOLO detector. A solid line (with no dots) indicates a sole 
+   A dotted line represents updates of the Kalman filter from the YOLOv3 detector. A solid line (with no dots) indicates a sole 
    prediction when the detector failed to detect the object.

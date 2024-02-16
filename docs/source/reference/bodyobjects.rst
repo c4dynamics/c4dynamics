@@ -32,6 +32,7 @@ The class leverages the capabilities of the datapoint class for handling transla
 
    bodyobjects.datapoint
    bodyobjects.rigidbody
+   bodyobjects.fdatapoint 
 
 
 
