@@ -2,7 +2,7 @@ import os
 import cv2
 import numpy as np
 from c4dynamics import fdatapoint 
-
+import pkg_resources 
 
 MODEL_SIZE = (416, 416, 3)
 
@@ -14,11 +14,14 @@ class yolov3:
  
     def __init__(self): # , **kwargs): 
 
-        v3path = os.path.join('c4dynamics', 'resources', 'detectors', 'yolo', 'v3')
+        v3path = os.path.join('resources', 'detectors', 'yolo', 'v3')
 
-        weights_path = os.path.join(v3path, 'yolov3.weights')
-        cfg_path     = os.path.join(v3path, 'yolov3.cfg')
-        coconames    = os.path.join(v3path, 'coco.names')
+        weights_path = pkg_resources.resource_filename('c4dynamics'
+                            , os.path.join(v3path, 'yolov3.weights'))
+        cfg_path     = pkg_resources.resource_filename('c4dynamics'
+                            , os.path.join(v3path, 'yolov3.cfg'))
+        coconames    = pkg_resources.resource_filename('c4dynamics'
+                            , os.path.join(v3path, 'coco.names'))
 
         self.net = cv2.dnn.readNetFromDarknet(cfg_path, weights_path)
         self.net.setPreferableBackend(cv2.dnn.DNN_BACKEND_OPENCV)
