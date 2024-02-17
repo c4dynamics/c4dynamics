@@ -1322,7 +1322,7 @@ class fdatapoint(datapoint):
       >>> fig, ax = plt.subplots()
       >>> ax.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
       >>> ax.set_axis_off()
-      # object |  center x  |  center y  |   box top-left   | box bottom-right |   class    |  frame size  
+      # object  |  center x  |  center y  |   box top-left   | box bottom-right |   class    |  frame size  
          0      |   0.584    |   0.376    |    (691, 234)    |    (802, 306)    | aeroplane  |  (1280, 720)  
          1      |   0.457    |   0.473    |    (528, 305)    |    (642, 376)    | aeroplane  |  (1280, 720)  
          2      |   0.471    |   0.322    |    (542, 196)    |    (661, 267)    | aeroplane  |  (1280, 720)  
