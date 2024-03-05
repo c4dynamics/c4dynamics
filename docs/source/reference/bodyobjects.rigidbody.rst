@@ -56,7 +56,9 @@ Attributes
   rigidbody.angles
   rigidbody.ang_rates
   rigidbody.IB 
-  rigidbody.BI 
+  rigidbody.BI
+  rigidbody.animate 
+   
 
 
 

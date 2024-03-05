@@ -1211,7 +1211,7 @@ class fdatapoint(datapoint):
       
         
     Examples
-    -------_
+    --------
 
     .. code:: 
 
@@ -1363,6 +1363,11 @@ class fdatapoint(datapoint):
         ...     X = p.Xpixels
         ...     print('{:^10d} | {:^12.3f} | {:^12.3f} | {:^12d} | {:^12d}'.format(
         ...            i, p.x, p.y, X[0], X[1]))
+        # object | X normalized | Y normalized |   X pixels   |   Y pixels  
+          0      |    0.427     |    0.339     |     503      |     232     
+          1      |    0.411     |    0.491     |     484      |     336     
+          2      |    0.550     |    0.397     |     648      |     272     
+          3      |    0.507     |    0.916     |     598      |     627     
 
     '''
     # TODO complete with full state vector. 
