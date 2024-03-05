@@ -425,7 +425,7 @@ class rigidbody(c4d.datapoint):  #
 
     3. An F16 has the following Euler angles: 
 
-    .. code:
+    .. code:: 
 
       >>> f16 = c4d.rigidbody()
       >>> dt = 0.01
@@ -472,7 +472,7 @@ class rigidbody(c4d.datapoint):  #
     We should examine a frame of the model before any rotation.
     It can be achieved by using `Open3D`: 
     
-    .. code:
+    .. code::
 
       >>> import open3d as o3d
       >>> modelpath = 'examples\\resources\\f16'

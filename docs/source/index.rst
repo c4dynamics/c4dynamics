@@ -16,8 +16,6 @@ C4dynamics Documentation
    Use Cases <user/index>
    API reference <reference/index>
 
-
-
    
 **Version**: |version|
 
