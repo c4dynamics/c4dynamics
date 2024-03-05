@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>c4dynamics.rigidbody.animate &#8212; C4dynamics v1.1 Manual</title>
+    <title>c4dynamics.rigidbody.animate &#8212; C4dynamics v1.2 Manual</title>
   
   
   
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
   <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
 
-    <script src="../../_static/documentation_options.js?v=bf872922"></script>
+    <script src="../../_static/documentation_options.js?v=12b324f0"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/design-tabs.js?v=36754332"></script>
@@ -124,7 +124,7 @@
   
   
   
-    <p class="title logo__title">C4dynamics v1.1 Manual</p>
+    <p class="title logo__title">C4dynamics v1.2 Manual</p>
   
 </a></div>
     
@@ -563,6 +563,18 @@ Here is an example of a mesh version of Stanford bunny with a custom color:</p>
 <ol class="arabic simple" start="3">
 <li><p>An F16 has the following Euler angles:</p></li>
 </ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f16</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">rigidbody</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span> 
+<span class="gp">... </span>    <span class="k">if</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span> 
+<span class="gp">... </span>      <span class="n">f16</span><span class="o">.</span><span class="n">psi</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">d2r</span> <span class="o">/</span> <span class="mi">3</span>
+<span class="gp">... </span>    <span class="k">elif</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="mi">6</span><span class="p">:</span> 
+<span class="gp">... </span>      <span class="n">f16</span><span class="o">.</span><span class="n">theta</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">d2r</span> <span class="o">/</span> <span class="mi">3</span>
+<span class="gp">... </span>    <span class="k">else</span><span class="p">:</span>
+<span class="gp">... </span>      <span class="n">f16</span><span class="o">.</span><span class="n">phi</span> <span class="o">-=</span> <span class="n">dt</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">d2r</span> <span class="o">/</span> <span class="mi">3</span> 
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">f16</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</pre></div>
+</div>
 <figure class="align-default">
 <img alt="../../_images/f16_eulers.png" src="../../_images/f16_eulers.png" />
 </figure>
@@ -591,6 +603,15 @@ To align the aircraft body frame which defined as:</p>
 </div>
 <p>We should examine a frame of the model before any rotation.
 It can be achieved by using <cite>Open3D</cite>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">open3d</span> <span class="k">as</span> <span class="nn">o3d</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">modelpath</span> <span class="o">=</span> <span class="s1">&#39;examples</span><span class="se">\r</span><span class="s1">esources</span><span class="se">\f</span><span class="s1">16&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">modelpath</span><span class="p">)):</span>
+<span class="gp">... </span>  <span class="n">mfilepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">modelpath</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="n">model</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">o3d</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_triangle_mesh</span><span class="p">(</span><span class="n">mfilepath</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o3d</span><span class="o">.</span><span class="n">visualization</span><span class="o">.</span><span class="n">draw_geometries</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
 <figure class="align-default">
 <img alt="../../_images/f16_static.png" src="../../_images/f16_static.png" />
 </figure>
