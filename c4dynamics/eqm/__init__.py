@@ -1,6 +1,6 @@
 '''
 Equations of Motion (:mod:`c4dynamics.eqm`)
-=======================================================
+===========================================
 
 .. currentmodule:: c4dynamics.eqm
 
