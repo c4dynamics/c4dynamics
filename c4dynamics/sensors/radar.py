@@ -88,13 +88,13 @@ class dzradar:
     f22 =  rho * c4d.g_ms2 * obj.ifilter.x[1, 0] / obj.ifilter.x[2, 0]
     f23 = -rho * c4d.g_ms2 * obj.ifilter.x[1, 0]**2 / 2 / obj.ifilter.x[2, 0]**2 
     
-    Phi = np.array([[1, obj.ifilter.tau, 0], 
-                    [f21 * obj.ifilter.tau, 1 + f22 * obj.ifilter.tau, f23 * obj.ifilter.tau], 
+    Phi = np.array([[1, obj.ifilter.dt, 0], 
+                    [f21 * obj.ifilter.dt, 1 + f22 * obj.ifilter.dt, f23 * obj.ifilter.dt], 
                     [0, 0, 1]])
     
     Q   = np.array([[0, 0, 0], 
-                    [0, obj.q33 * f23**2 * obj.ifilter.tau**3 / 3, obj.q33 * f23 * obj.ifilter.tau**2 / 2], 
-                    [0, obj.q33 * f23 * obj.ifilter.tau**2 / 2, obj.q33 * obj.ifilter.tau]])
+                    [0, obj.q33 * f23**2 * obj.ifilter.dt**3 / 3, obj.q33 * f23 * obj.ifilter.dt**2 / 2], 
+                    [0, obj.q33 * f23 * obj.ifilter.dt**2 / 2, obj.q33 * obj.ifilter.dt]])
 
     f = lambda w: c4d.sensors.dzradar.system_model(w)
 

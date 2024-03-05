@@ -1,0 +1,33 @@
+
+========
+v 1.2.00
+========
+  body  
+    - animate function to view rigidbody euler angles with a model 
+  examples 
+    - edit resource folder to include only necessary files for examples. 
+  utils 
+    - edit api and docstring of cprint, gen_gif, plottools, and tictoc. 
+  documentation: 
+    - animate
+    - utils 
+
+
+========
+v 1.1.00
+========
+   body 
+      new class: fdataframe for frame's datapoints 
+         - inherints from datapoint 
+      document the respective modifications. 
+      make the norms property rather than function
+      change the architecture of the classes to include __slots__ to limit new variables decleration  
+   detectors 
+   rearrange and standerdize the readings of yolov3 
+         relocate the detector resourses 
+   kalman 
+      while working on the detector example i began editing the kalman file, especially the linear kalman wrt the continuous steady state mode. 
+      but i think not to commit it. 
+   fix bug in cprint(). 
+
+

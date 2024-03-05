@@ -18,15 +18,15 @@ readme pages, and inline comments.
 Available subpackages
 ---------------------
 sensors
-  models of EO and EM sensors: radar, camera, imu, gps. 
+  Models of EO and EM sensors. 
 detectors
-  objects detection models to computer vision manipulations.
+  Objects detection models to computer vision manipulations.
 filters
-  kalman filter, asytmptotic observer (luenberger), and lowpass filter.
+  Kalman filter, asytmptotic observer (Luenberger), and lowpass filter.
 eqm 
-  runge kutta solvers for integrating the equations of motion on the datapoint and rigidbody objects. 
+  Runge Kutta solvers for integrating the equations of motion on the datapoint and rigidbody objects. 
 rotmat
-  rotation matrices and rotational operations. 
+  Rotation matrices and rotational operations. 
 '''
 
 #
@@ -46,10 +46,13 @@ from . import rotmat
 #
 # utils
 ##
-from .utils.const import *  
-from .utils.math import *  
-from .utils.gen_gif import gen_gif
+from .utils.const import * 
+from .utils.math import * 
+from .utils.gen_gif import gif
 from .utils.cprint import cprint
+from .utils.plottools import plotdefaults
+from .utils import tictoc
+from .utils.tictoc import tic, toc 
 
 #
 # body objects 
@@ -70,5 +73,5 @@ from . import detectors
 #
 # version
 ##
-__version__ = '1.1.00'
+__version__ = '1.2.00'
 

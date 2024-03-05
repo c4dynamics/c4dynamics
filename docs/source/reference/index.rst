@@ -17,13 +17,15 @@ C4dynamics Reference
    sensors
    detectors
    filters
-   constants 
    routines 
+   utils
+   constants 
 
 .. toctree::
    :maxdepth: 1
 
    mathfunc
+
 
 
 
