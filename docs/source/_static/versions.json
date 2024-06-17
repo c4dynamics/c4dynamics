@@ -1,0 +1,14 @@
+[
+  {
+    "name": "1.3 (stable)",
+    "version": "1.3",
+    "url": "https://c4dynamics.github.io/C4dynamics/docs/stable/",
+    "preferred": true
+  },
+  {
+    "name": "1.2",
+    "version": "1.2",
+    "url": "https://c4dynamics.github.io/C4dynamics/docs/1.2/"
+  }
+]
+
