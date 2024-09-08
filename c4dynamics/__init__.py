@@ -1,10 +1,10 @@
 '''
 
-C4dynamics
+C4DYNAMICS
 ==========
 
-C4dynamics Provides
-  1. Datapoint objects and sensors for algorithms development.  
+c4dynamics provides
+  1. State objects as fundamental data structure for dynamic systems.  
   2. Internal systems and 3rd party integrated libraries.
   3. Fast algorithmic operations over objects and systems. 
 
@@ -31,7 +31,8 @@ rotmat
 
 #
 # NOTE
-# routines and utils must come first otherwise the modules cannot be initalized.  
+# routines and utils must come first otherwise 
+# the modules cannot be initalized.  
 ##
 
 #
@@ -50,16 +51,21 @@ from .utils.const import *
 from .utils.math import * 
 from .utils.gen_gif import gif
 from .utils.cprint import cprint
-from .utils.plottools import plotdefaults
+from .utils.plottools import plotdefaults, figdefaults
 from .utils import tictoc
 from .utils.tictoc import tic, toc 
+from .utils._struct import struct 
+from .utils.idx2keys import idx2keys 
+from . import datasets 
 
-#
+
+# 
 # body objects 
 ## 
-from .body.datapoint import datapoint, fdatapoint, create
-from .body.rigidbody import rigidbody 
-
+from .states.state import state
+from .states.lib.pixelpoint import pixelpoint
+from .states.lib.datapoint import datapoint, create
+from .states.lib.rigidbody import rigidbody 
 
 #
 # sensors
@@ -70,8 +76,16 @@ from . import detectors
 
 
 
+
 #
 # version
 ##
 __version__ = '1.2.00'
+
+
+#
+# some convinient mirroring 
+## 
+import os 
+j = os.path.join
 

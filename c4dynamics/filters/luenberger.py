@@ -1,11 +1,27 @@
 import numpy as np
 
 class luenberger:
-  """ 
+  ''' 
+  Luenberger (Asymptotic) Observer.
+
+  
+  Parameters
+  ==========
+  TODO complete 
+
+  
   luenberger estimator 
   agranovich, 
   modern control 72
-  """
+
+  ### Luenberger Filter
+  The Luenberger observer is given by:
+
+  \[ \dot{\hat{x}}(t) = A \hat{x}(t) + B u(t) + L (y(t) - C \hat{x}(t)) \]
+
+  where \( L \) is the observer gain matrix.
+
+  '''
 
   A = 0
   c = 0

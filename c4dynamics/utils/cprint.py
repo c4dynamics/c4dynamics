@@ -8,12 +8,8 @@ TXTCOLORS =     { 'k': '30', 'black':   '30'
                 , 'w': '37', 'white':   '37'
                     }
 
-def cprint(txt, color = 'white', bold = False, italic = False):
+def cprint(txt = '', color = 'white', bold = False, italic = False, end = '\n'):
     '''
-    ******
-    cprint
-    ******
-
     Printing colored text in the console.
 
     Parameters
@@ -36,9 +32,9 @@ def cprint(txt, color = 'white', bold = False, italic = False):
 
     .. code:: 
     
-        >>> carr = ['k', 'r', 'g', 'y', 'b', 'm', 'c', 'w']
-        >>> for c in carr:
-        ...     c4d.cprint('C4DYNAMICS', c)
+      >>> carr = ['k', 'r', 'g', 'y', 'b', 'm', 'c', 'w']
+      >>> for c in carr:
+      ...     c4d.cprint('C4DYNAMICS', c)
         
         
     .. figure:: /_static/images/cprint.png
@@ -55,5 +51,5 @@ def cprint(txt, color = 'white', bold = False, italic = False):
 
     settxt += TXTCOLORS[color] 
         
-    print(settxt + 'm' + str(txt) + '\033[0m')
+    print(settxt + 'm' + str(txt) + '\033[0m', end = end)
 

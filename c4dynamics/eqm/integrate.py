@@ -2,7 +2,7 @@ from .derivs import eqm3, eqm6
 import numpy as np
 
 
-def int3(pt, forces, dt, derivs_out = False):
+def int3(dp, forces, dt, derivs_out = False):
   ''' 
   A step integration of the equations of translational motion.  
   
@@ -11,7 +11,7 @@ def int3(pt, forces, dt, derivs_out = False):
 
   The integrated derivatives are of three dimensional translational motion as 
   given by 
-  :func:`eqm6 <eqm6>`. 
+  :func:`eqm3 <eqm3>`. 
 
 
   The result is an integrated state in a single interval of time where the 
@@ -20,13 +20,13 @@ def int3(pt, forces, dt, derivs_out = False):
   
   Parameters
   ----------
-  pt : c4dynamics.datapoint
+  dp : :class:`datapoint <c4dynamics.states.lib.datapoint.datapoint>`
       The datapoint which state vector is to be integrated. 
   forces : numpy.array or list
       An external forces array acting on the body.  
   dt : float
       Time step for integration.
-  derivs_out : boolen, optional
+  derivs_out : bool, optional
       If true, returns the last three derivatives as an estimation for 
       the acceleration of the datapoint. 
       
@@ -42,8 +42,8 @@ def int3(pt, forces, dt, derivs_out = False):
 
 
 
-  Algorithm 
-  ---------
+  **Algorithm**
+  
   
   The integration steps follow the Runge-Kutta method:
 
@@ -68,27 +68,27 @@ def int3(pt, forces, dt, derivs_out = False):
   .. code:: 
 
     >>> h0 = 100
-    >>> pt = c4d.datapoint(z = h0)
+    >>> dp = c4d.datapoint(z = h0)
     >>> dt = 1e-2
     >>> t = np.arange(0, 10, dt) 
     >>> for ti in t:
-    ...    if pt.z < 0: break
-    ...    pt.X = int3(pt, [0, 0, -c4d.g_ms2], dt) 
-    ...    pt.store(ti)
-    >>> pt.draw('z')
+    ...   if dp.z < 0: break
+    ...   dp.X = int3(dp, [0, 0, -c4d.g_ms2], dt) 
+    ...   dp.store(ti)
+    >>> dp.plot('z')
   
   .. figure:: /_static/figures/int3_z.png
 
-  Compare `c4dynamics.eqm.int3` with an analytic soultion
-  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  **Compare `c4dynamics.eqm.int3` with an analytic soultion**
+  
 
   .. code::
 
     >>> z = h0 - .5 * c4d.g_ms2 * t**2 
     >>> fig = plt.subplots()
     >>> plt.plot(t[z > 0], z[z > 0], 'm', linewidth = 3, label = 'analytic')
-    >>> ptz = pt.get_data('z')
-    >>> plt.plot(pt.get_data('t')[ptz > 0], ptz[ptz > 0], 'c', linewidth = 1, label = 'c4dynamics.eqm.int3')
+    >>> ptz = dp.data('z')
+    >>> plt.plot(dp.data('t')[ptz > 0], ptz[ptz > 0], 'c', linewidth = 1, label = 'c4dynamics.eqm.int3')
       
   .. figure:: /_static/figures/int3_vs_analytic.png
 
@@ -96,32 +96,33 @@ def int3(pt, forces, dt, derivs_out = False):
   '''
   
 
-  x0 = X = pt.X
+  x0 = dp.X
+  X  = dp.X
 
   
   # step 1
-  dxdt1 = eqm3(pt, forces)
-  # pt.update(x0 + dt / 2 * dxdt1)
+  dxdt1 = eqm3(dp, forces)
+  # dp.update(x0 + dt / 2 * dxdt1)
   X = x0 + dt / 2 * dxdt1
   
   # step 2 
-  dxdt2 = eqm3(pt, forces)
-  # pt.update(x0 + dt / 2 * dxdt2)
+  dxdt2 = eqm3(dp, forces)
+  # dp.update(x0 + dt / 2 * dxdt2)
   X = x0 + dt / 2 * dxdt2
   
   # step 3 
-  dxdt3 = eqm3(pt, forces)
-  # pt.update(x0 + dt * dxdt3)
+  dxdt3 = eqm3(dp, forces)
+  # dp.update(x0 + dt * dxdt3)
   X = x0 + dt * dxdt3
   dxdt3 += dxdt2 
   
   # step 4
-  dxdt4 = eqm3(pt, forces)
+  dxdt4 = eqm3(dp, forces)
 
   # 
-  # pt.update(np.concatenate((x0 + dt / 6 * (dxdt1 + dxdt4 + 2 * dxdt3), dxdt4[-3:]), axis = 0))
+  # dp.update(np.concatenate((x0 + dt / 6 * (dxdt1 + dxdt4 + 2 * dxdt3), dxdt4[-3:]), axis = 0))
   X = x0 + dt / 6 * (dxdt1 + dxdt4 + 2 * dxdt3)
-  # pt.ax, pt.ay, pt.az = dxdt4[-3:]
+  # dp.ax, dp.ay, dp.az = dxdt4[-3:]
 
 
   if not derivs_out: 
@@ -153,13 +154,13 @@ def int6(rb, forces, moments, dt, derivs_out = False):
   
   Parameters
   ----------
-  pt : c4dynamics.datapoint
+  dp : :class:`datapoint <c4dynamics.states.lib.datapoint.datapoint>`
       The datapoint which state vector is to be integrated. 
   forces : numpy.array or list
       An external forces array acting on the body.  
   dt : float
       Time step for integration.
-  derivs_out : boolen, optional
+  derivs_out : bool, optional
       If true, returns the last three derivatives as an estimation for 
       the acceleration of the datapoint. 
       
@@ -174,9 +175,9 @@ def int6(rb, forces, moments, dt, derivs_out = False):
       translational and angular acceleration of the datapoint. 
       Returned if `derivs_out` is set to `True`.
 
-
-  Algorithm 
-  ---------
+      
+  **Algorithm**
+  
   
   The integration steps follow the Runge-Kutta method:
 
@@ -210,17 +211,19 @@ def int6(rb, forces, moments, dt, derivs_out = False):
     >>> t = np.arange(0, 10, dt)
     >>> theta0 =  80 * c4d.d2r       # deg 
     >>> q0     =  0 * c4d.d2r        # deg to sec
-    >>> Iyy    =  .4                  # kg * m^2 
+    >>> Iyy    =  .4                 # kg * m^2 
     >>> length =  1                  # meter 
     >>> mass   =  0.5                # kg 
     >>> # define the cylinderical-rigidbody object 
-    >>> rb = c4d.rigidbody(theta = theta0, q = q0, iyy = Iyy, mass = mass)
+    >>> rb = c4d.rigidbody(theta = theta0, q = q0)
+    >>> rb.I = [0, Iyy, 0] 
+    >>> rb.mass = mass
     >>> # integrate the equations of motion 
     >>> for ti in t: 
     ...   tau_g = -rb.mass * c4d.g_ms2 * length / 2 * c4d.cos(rb.theta)
     ...   rb.X = c4d.eqm.int6(rb, np.zeros(3), [0, tau_g, 0], dt)
     ...   rb.store(ti)
-    >>> rb.draw('theta')
+    >>> rb.plot('theta')
   
   .. figure:: /_static/figures/eqm6_theta.png
 
@@ -235,14 +238,14 @@ def int6(rb, forces, moments, dt, derivs_out = False):
     ...  return dydt
     >>> sol = odeint(pend, [theta0, q0], t)
     >>> fig = plt.subplots()
-    >>> plt.plot(rb.get_data('t'), rb.get_data('theta') * c4d.r2d, 'c', linewidth = 2, label = 'c4dynamics.eqm.int6')
+    >>> plt.plot(rb.data('t'), rb.data('theta') * c4d.r2d, 'c', linewidth = 2, label = 'c4dynamics.eqm.int6')
     >>> plt.plot(t, sol[:, 0] * c4d.r2d, 'm', linewidth = 2, label = 'scipy.odeint')
 
 
   .. figure:: /_static/figures/int6_scipy_vs_c4d.png
 
-  Note - Differences Between Scipy and C4dynamics Integration 
-  -----------------------------------------------------------
+  **Note - Differences Between Scipy and C4dynamics Integration**
+  
   
   The difference in the results derive from the method of delivering the 
   forces and moments.
@@ -263,8 +266,8 @@ def int6(rb, forces, moments, dt, derivs_out = False):
   If computational resources are available, a decrement of the step-size 
   may be a workaround to achieve high accuracy results.
 
-  Results for `dt = 1msec`
-  ^^^^^^^^^^^^^^^^^^^^^^^^
+  **Results for `dt = 1msec`**
+  
 
   .. figure:: /_static/figures/int6_scipy_vs_c4d_dt001.png
 
@@ -272,7 +275,8 @@ def int6(rb, forces, moments, dt, derivs_out = False):
   '''
 
   # x, y, z, vx, vy, vz, phi, theta, psi, p, q, r 
-  x0 = X = rb.X
+  x0 = rb.X
+  X  = rb.X
       
   # print('t: ' + str(t) + ', f: ' + str(forces) + ', m: ' + str(moments))
 

@@ -1,5 +1,8 @@
 ''' 
-C4dynamics.detectors
+
+`c4dynamics` provides an API to third party detection models.
+
+
 '''
 
 

@@ -1,56 +1,239 @@
 import os
 import cv2
 import numpy as np
-from c4dynamics import fdatapoint 
-import pkg_resources 
+from c4dynamics import c4d 
+from c4dynamics import pixelpoint 
 
 MODEL_SIZE = (416, 416, 3)
 
 
 class yolov3:
+    '''
+    YOLO: Real-Time Object Detection
+
+
+    :class:`yolov3` is a YOLOv3 (You Only Look Once) object detection model. 
+    Though it is no longer the most accurate object detection algorithm, 
+    YOLOv3 is still a very good choice when you need real-time detection 
+    while maintaining excellent accuracy.
+
+
     
+    YOLOv3 processes an entire image in a single forward pass, 
+    making it efficient for dynamic scenes.
+    Its key strength lies the ability to simultaneously 
+    predict bounding box coordinates and class probabilities 
+    for multiple objects within an image. 
+
+
+    Parameters 
+    ==========
+    weights_path : str, optional 
+        Path to the YOLOv3 weights file. Defaults None. 
+        
+
+    See Also
+    ========
+    .filters 
+    .pixelpoint
+
+
+
+    **Classes**
+
+
+    Using YOLOv3 means 
+    object detection capability with the 80 pre-trained 
+    classes that come with the COCO dataset. 
+
+
+    The following 80 classes are available using COCO's pre-trained weights: 
+
+    .. admonition:: COCO dataset
+
+        person, bicycle, car, motorcycle, airplane, bus, train, truck, boat, 
+        traffic light, fire hydrant, stop sign, parking meter, bench, bird, cat, 
+        dog, horse, sheep, cow, elephant, bear, zebra, giraffe, backpack, 
+        umbrella, handbag, tie, suitcase, frisbee, skis,snowboard, sports ball, 
+        kite, baseball bat, baseball glove, skateboard, surfboard, tennis racket, 
+        bottle, wine glass, cup, fork, knife, spoon, bowl, banana, apple, 
+        sandwich, orange, broccoli, carrot, hot dog, pizza, donut, cake, chair, 
+        couch, potted plant, bed, dining table, toilet, tv, laptop, mouse, remote, 
+        keyboard, cell phone, microwave, oven, toaster, sink, refrigerator, book, 
+        clock, vase, scissors, teddy bear, hair drier, toothbrush
+
+
+
+    .. figure:: /_static/images/yolo-object-detection.jpg
+
+    *Figure*
+    Object Detection with YOLO using COCO pre-trained classes 'dog', 'bicycle', 'truck'.
+    Read more at: `darknet-yolo <https://pjreddie.com/darknet/yolo/>`_ .
+
+
+    **Implementation (c4dynamics)**
+
+    The :class:yolov3 class abstracts the complexities of model initialization, 
+    input preprocessing, and output parsing. 
+    The :meth:detect method returns a 
+    :class:pixelpoint <c4dynamics.states.lib.pixelpoint.pixelpoint> 
+    for each detected object. 
+    The `pixelpoint` is a :mod:predefined state class <c4dynamics.states.lib>
+    representing a data point in a video frame with an associated bounding box. 
+    Its methods and properties enhance the YOLOv3 output structure, 
+    providing a convenient data structure for handling tracking missions.
+
+
+
+
+    **Installation**
+
+    C4dynamics downloads 
+    the YOLOv3' weights file 
+    once at first call to :class:yolov3 and saves the cache. 
+    For further details see :mod:`datasets <c4dynamics.datasets>`.
+    Alternatively, the user can provide a path to his 
+    own weights file using the parameter `weights_path`. 
+
+
+    **Construction**
+
+    A YOLOv3 detector instance is created by making a direct call 
+    to the `yolov3` constructor: 
+
+    .. code:: 
+
+        >>> yolo3 = c4d.detectors.yolov3()
+
+    
+    Initialization of the instance does not require any mandatory parameters.
+
+
+    
+    Example
+    =======
+
+    This example uses the `datasets` module from `c4dynamics` to fetch an image. 
+    For further details, see :mod:`c4dynamics.datasets`.
+        
+    The following snippet initializes the YOLOv3 model and 
+    runs the `detect()` method on an image containing four airplanes:
+
+    .. code:: 
+
+        >>> # load and read image file 
+        >>> imagepath = c4d.datasets.image('planes')
+        >>> img = cv2.imread(imagepath)
+        >>> # init YOLOv3 and run detection  
+        >>> yolo3 = c4d.detectors.yolov3()
+        >>> pts = yolo3.detect(img)
+
+        
+    Now `pts` consists of 
+    :class:`pixelpoint <c4dynamics.states.lib.pixelpoint.pixelpoint>` 
+    instances for each object detected in the frame. 
+    
+    Let's use the properties and methods of the `pixelpoint` class to 
+    view the attributes of the detected objects:
+
+
+    .. code::
+
+        >>> def ptup(n): return '(' + str(n[0]) + ', ' + str(n[1]) + ')'
+        >>> print('{:^10} | {:^10} | {:^16} | {:^16} | {:^10} | {:^14}'.format('center x', 'center y', 'box top-left', 'box bottom-right', 'class', 'frame size'))
+        >>> for p in pts:
+        ...   box = p.box
+        ...   fsize = p.fsize 
+        ...   classid = p.class_id 
+        ...   print('{:^10d} | {:^10d} | {:^16} | {:^16} | {:^10} | {:^14}'.format(p.x, p.y, ptup(box[0]), ptup(box[1]), classid, ptup(fsize)))
+        ...   cv2.rectangle(img, box[0], box[1], [0, 0, 0], 2)
+        ...   point = (int((box[0][0] + box[1][0]) / 2 - 75), box[1][1] + 22)
+        ...   cv2.putText(img, classid, point, cv2.FONT_HERSHEY_SIMPLEX, 1, [0, 0, 0], 2)
+        center x  |  center y  |   box top-left   | box bottom-right |   class    |   frame size
+          615     |    295     |    (562, 259)    |    (668, 331)    | aeroplane  |  (1280, 720)
+          779     |    233     |    (720, 199)    |    (838, 267)    | aeroplane  |  (1280, 720)
+          635     |    189     |    (578, 153)    |    (692, 225)    | aeroplane  |  (1280, 720)
+          793     |    575     |    (742, 540)    |    (844, 610)    | aeroplane  |  (1280, 720)
+
+    .. code:: 
+
+        >>> cv2.imshow('yolov3', img)
+        >>> cv2.waitKey(0)
+
+    .. figure:: /_static/images/yolov3/yolov3.png                  
+
+
+    '''
+    
+    class_names = (
+                'person',       'bicycle',  'car',      'motorbike', 'aeroplane', 
+                'bus',          'train',    'truck',    'boat',     'traffic',
+                'light',        'fire',     'hydrant',  'stop',     'sign',
+                'parking',      'meter',    'bench',    'bird',     'cat',
+                'dog',          'horse',    'sheep',    'cow',      'elephant',
+                'bear',         'zebra',    'giraffe',  'backpack', 'umbrella',
+                'handbag',      'tie',      'suitcase', 'frisbee',  'skis',
+                'snowboard',    'sports',   'ball',     'kite',     'baseball',
+                'bat',          'baseball', 'glove',    'skateboard', 'surfboard',
+                'tennis',       'racket',   'bottle',   'wine',     'glass',
+                'cup',          'fork',     'knife',    'spoon',    'bowl', 
+                'banana',       'apple',    'sandwich', 'orange',   'broccoli',
+                'carrot',       'hot',      'dog',      'pizza',    'donut',
+                'cake',         'chair',    'sofa',     'pottedplant', 'bed',
+                'diningtable',  'toilet',   'tvmonitor', 'laptop',  'mouse',
+                'remote',       'keyboard', 'cell',     'phone',    'microwave')
+
     _nms_th = 0.5 
     _confidence_th = 0.5 
  
-    def __init__(self): # , **kwargs): 
+    def __init__(self, weights_path = None): # , **kwargs): 
+      # TODO make nms_th and conf_th kwargs. it's too annoying this way.
+      # i think the original reason i didnt put it here was 
+      # to not need another variable which is not '_' prefixed. 
 
-        v3path = os.path.join('resources', 'detectors', 'yolo', 'v3')
+      errormsg = ''
+      if weights_path is None: 
+        weights_path = c4d.datasets.nn_model('YOLOv3')
+        errormsg = "Try to clear the cache by 'c4dynamics.datasets.clearcache()'"
 
-        weights_path = pkg_resources.resource_filename('c4dynamics'
-                            , os.path.join(v3path, 'yolov3.weights'))
-        cfg_path     = pkg_resources.resource_filename('c4dynamics'
-                            , os.path.join(v3path, 'yolov3.cfg'))
-        coconames    = pkg_resources.resource_filename('c4dynamics'
-                            , os.path.join(v3path, 'coco.names'))
 
-        self.net = cv2.dnn.readNetFromDarknet(cfg_path, weights_path)
-        self.net.setPreferableBackend(cv2.dnn.DNN_BACKEND_OPENCV)
-        ln = self.net.getLayerNames()
-        self.ln = [ln[i - 1] for i in self.net.getUnconnectedOutLayers()]
-
-        with open(coconames, 'r') as f:
-            self.class_names = f.read().strip().split('\n')
         
-        # self.__dict__.update(kwargs)
+      if not os.path.exists(weights_path):
+        raise FileNotFoundError(f"The file 'yolov3.weights' does not "
+                                    f"exist in: '{weights_path}'. {errormsg}")
+
+
+      cfg_path  = os.path.join(os.path.dirname(__file__), 'yolov3.cfg')
+    #   cfg_path = 'yolov3.cfg'
+    #   coconames = os.path.join(yolodir, 'coco.names')
+
+      self.net = cv2.dnn.readNetFromDarknet(cfg_path, weights_path)
+      self.net.setPreferableBackend(cv2.dnn.DNN_BACKEND_OPENCV)
+      ln = self.net.getLayerNames()
+      self.ln = [ln[i - 1] for i in self.net.getUnconnectedOutLayers()]
+
+    #   with open(coconames, 'r') as f:
+    #     self.class_names = f.read().strip().split('\n')
+        
+      # self.__dict__.update(kwargs)
         
 
 
     @property 
     def nms_th(self):
         '''
-        Non-Maximum Suppression (NMS) threshold.
+        Gets and sets the Non-Maximum Suppression (NMS) threshold.
 
-        Gets or sets for the Non-Maximum Suppression (NMS) threshold. Default: `nms_th = 0.5`. 
+        Default: `nms_th = 0.5`. 
 
         
-        Parameters (Setter)
-        -------------------
+        Parameters
+        ----------
         val : float
             The new threshold value for NMS during object detection.
 
-        Returns (Getter)
-        ----------------
-
+        Returns 
+        -------
         out : float
             The threshold value used for NMS during object detection.
             Objects with confidence scores below this threshold are suppressed. 
@@ -71,7 +254,7 @@ class yolov3:
             ...   pts = yolo3.detect(img)
             ...   for p in pts:
             ...     cv2.rectangle(img, p.box[0], p.box[1], [0, 0, 0], 2)
-            ...   plt.subplot(1, 3, i)
+            ...   plt.subplots(1, 3)
             ...   plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
             ...   plt.title(f"NMS Threshold: {nms_threshold}")
             ...   plt.axis('off')
@@ -106,18 +289,18 @@ class yolov3:
     @property 
     def confidence_th(self):
         '''
-        Confidence threshold used in the object detection.
+        Gets and sets the confidence threshold used in the object detection.
 
-        Gets or sets for the confidence threshold. Default: `confidence_th = 0.5`. 
+        Default: `confidence_th = 0.5`. 
 
 
-        Parameters (Setter)
-        -------------------
+        Parameters
+        ----------
         val : float
             The new confidence threshold for object detection.
 
-        Returns (Getter)
-        ----------------
+        Returns
+        -------
         out : float
             The confidence threshold for object detection.
             Detected objects with confidence scores below this threshold are filtered out.
@@ -184,20 +367,20 @@ class yolov3:
 
         Returns
         -------
-        out : list[fdatapoint]
-            A list of :class:`fdatapoint` objects representing detected objects, 
+        out : list[pixelpoint]
+            A list of :class:`pixelpoint` objects representing detected objects, 
             each containing bounding box coordinates and class labels.
 
         Examples
         --------
-
+        FIXME broken link?
         The datasets used in the examples are available in the 
-        `Source Repository <https://github.com/C4dynamics/C4dynamics>`
+        `Source Repository <https://github.com/C4dynamics/C4dynamics>`_
         under example/resources. 
 
 
-        Import required packages
-        ^^^^^^^^^^^^^^^^^^^^^^^^
+        **Import required packages**
+        
         
         .. code:: 
         
@@ -211,8 +394,8 @@ class yolov3:
 
 
 
-        Object detecion in a single frame 
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        **Object detecion in a single frame**
+        
 
         .. code:: 
 
@@ -228,8 +411,8 @@ class yolov3:
         .. figure:: /_static/images/yolo3_image.png
 
 
-        Object detecion in a video 
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+        **Object detecion in a video**
+        
 
         .. code::
         
@@ -251,14 +434,14 @@ class yolov3:
             ...     cvideo_out.write(frame)
             >>> cvideo_out.release()
 
-        .. figure:: /_static/images/aerobatics.gif
+        .. figure:: /_static/gifs/yolo_aerobatics.gif
 
 
-        The output structure
-        ^^^^^^^^^^^^^^^^^^^^
+        **The output structure**
+        
 
-        The output of the detect() function is a list of :class:`fdatapoint` object.
-        The :class:`fdatapoint` has unique attributes to manipulate the detected object class and  
+        The output of the detect() function is a list of :class:`pixelpoint` object.
+        The :class:`pixelpoint` has unique attributes to manipulate the detected object class and  
         bounding box. 
 
         .. code::
@@ -271,11 +454,11 @@ class yolov3:
             ...     brb = '(' + str(p.box[1][0]) + ', ' + str(p.box[1][1]) + ')'
             ...     fsize = '(' + str(p.fsize[0]) + ', ' + str(p.fsize[1]) + ')'
             ...     print('{:^10d} | {:^10.3f} | {:^10.3f} | {:^16} | {:^16} | {:^10} | {:^14}'.format(
-            ...                 i, p.x, p.y, tlb, brb, p.iclass, fsize))
+            ...                 i, p.x, p.y, tlb, brb, p.class_id, fsize))
             ...     c = np.random.randint(0, 255, 3).tolist()
             ...     cv2.rectangle(img, p.box[0], p.box[1], c, 2)
             ...     point = (int((p.box[0][0] + p.box[1][0]) / 2 - 75), p.box[1][1] + 22)
-            ...     cv2.putText(img, p.iclass, point, cv2.FONT_HERSHEY_SIMPLEX, 1, c, 2)
+            ...     cv2.putText(img, p.class_id, point, cv2.FONT_HERSHEY_SIMPLEX, 1, c, 2)
             >>> fig, ax = plt.subplots()
             >>> ax.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
             >>> ax.set_axis_off()
@@ -305,6 +488,14 @@ class yolov3:
         #   - Set the blob as the input to the YOLOv3 model
         #   - Get the names of the output layers of the model
         #   - Perform a forward pass through the model to obtain detections
+        # 
+        # The returning detection structure: 
+        #   1) x_center
+        #   2) y_center
+        #   3) width
+        #   4) height
+        #   5) confidence score 
+        #   6:end) probabilities for each class
         ##
         self.net.setInput(blob)
         detections = self.net.forward(self.ln)
@@ -316,11 +507,11 @@ class yolov3:
         #   - Calculate bounding box coordinates and convert to integers
         #   - Append bounding box coordinates and class labels to respective lists
         ##
-        raw = []
-        boxes = []
-        classIDs = []
+        raw = []            # xc, yc, w, h     
+        boxes = []          # top left x, top left y, width, height
+        classIDs = []           
         confidences = []
-        h, w = frame.shape[:2]
+        fheight, fwidth = frame.shape[:2]
 
         for detection in detections:
             for d in detection:
@@ -331,7 +522,7 @@ class yolov3:
                 
                 if scores[classID] > self._confidence_th:  # Adjust the confidence threshold as needed
 
-                    box = d[:4] * [w, h, w, h] # relative (xc, yc, w, h) to pixels 
+                    box = d[:4] * [fwidth, fheight, fwidth, fheight] # relative (xc, yc, w, h) to pixels 
                     # (center_x, center_y, width, height) = box.astype('int')
 
                     x = box[0] - box[2] / 2 # top left x 
@@ -345,8 +536,8 @@ class yolov3:
 
         indices = cv2.dnn.NMSBoxes(boxes, confidences, self._confidence_th, self._nms_th)
         
-        box_out = []
-        class_out = []
+        # box_out = []
+        # class_out = []
         points_out = []
 
 
@@ -355,13 +546,18 @@ class yolov3:
                 # (x, y) = (boxes[i][0], boxes[i][1])
                 # (w, h) = (boxes[i][2], boxes[i][3])
                 #               x top left, y top left,   x bottom right,           y bottom right 
-                box_out.append([boxes[i][0], boxes[i][1], boxes[i][0] + boxes[i][2], boxes[i][1] + boxes[i][3]])
+                # box_out.append([boxes[i][0], boxes[i][1], boxes[i][0] + boxes[i][2], boxes[i][1] + boxes[i][3]])
+
+                # points_out.append(pixelpoint(raw[i], self.class_names[classIDs[i]], (w, h)))
+                pp = pixelpoint(x = int(raw[i][0] * fwidth), y = int(raw[i][1] * fheight), w = int(raw[i][2] * fwidth), h = int(raw[i][3] * fheight))
+                # pp.units = 'normalized'
+                pp.fsize = (fwidth, fheight)
+                pp.class_id = self.class_names[classIDs[i]]
+                points_out.append(pp)
                 
-                class_out.append(self.class_names[classIDs[i]])
+                # class_out.append(self.class_names[classIDs[i]])
 
-                points_out.append(fdatapoint(raw[i], self.class_names[classIDs[i]], (w, h)))
-
-        box_out = np.array(box_out)
+        # box_out = np.array(box_out)
         
         return points_out # box_out, class_out,  
 
