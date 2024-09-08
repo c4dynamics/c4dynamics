@@ -1,20 +1,8 @@
 '''
-Rotational Matrix Operations (:mod:`c4dynamics.rotmat`)
-=======================================================
 
-.. currentmodule:: c4dynamics.rotmat
+Rotational Matrix Operations
+============================
 
-ROTMAT
-------
-
-.. autosummary::
-   :toctree: generated/
-
-    rotx  
-    roty 
-    rotz    
-    dcm321   
-    dcm321euler 
    
 
 Background Material 
@@ -39,7 +27,7 @@ When Euler angles are employed in the transformation of
 a vector expressed in one reference frame to the expression
 of the vector in a different reference frame, any order of the
 three Euler rotations is possible, but the resulting transformation
-equations depend on the order selected. [MI]_ 
+equations depend on the order selected. [MIs]_ 
 
 In aerospace applications for example, 
 the common order is that the first Euler rotation is about the z-axis,
@@ -62,9 +50,9 @@ In right-handed systems:
 
 .. code:: 
 
-    i x j = k
-    j x k = i
-    k x i = j
+  >>> i x j = k
+  >>> j x k = i
+  >>> k x i = j
 
 where i is the unit vector in the direction of the x-axis,
 j is the unit vector in the direction of the y-axis, 
@@ -87,8 +75,7 @@ References
 ----------
 
 .. [HS] Hanspeter Schaub, "Spacecraft Dynamics and Control" lecture notes, module 2: rigidbody kinematics. 
-.. [MI] 17 July 1995, "Missile Flight Simulation Part One Surface-to-Air Missiles", 
-         Ch 4 In: Military Handbook. 1995, MIL-HDBK-1211(MI)    
+.. [MIs] Ch 4 in "Missile Flight Simulation Part One Surface-to-Air Missiles", Military Handbook, 1995, MIL-HDBK-1211(MI).    
 
 
 
@@ -116,8 +103,8 @@ For examples, see the various functions.
 
 
 
-# from .rotfunc import rotx, roty, rotz, dcm321, dcm321euler 
-from .rotmat import rotx, roty, rotz, dcm321, dcm321euler 
+from .rotmat import rotx, roty, rotz, dcm321, dcm321euler
+from .animate import animate  
 
 
 

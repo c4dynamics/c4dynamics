@@ -1,21 +1,4 @@
 '''
-Equations of Motion (:mod:`c4dynamics.eqm`)
-===========================================
-
-.. currentmodule:: c4dynamics.eqm
-
-
-EQM
----
-
-.. autosummary::
-   :toctree: generated/
-
-   eqm3
-   eqm6
-   int3 
-   int6
-
 
 Background Material [MI]_
 -------------------------
@@ -130,11 +113,8 @@ with respect to time :math:`(t)`:
 where:
 
 - :math:`F` is the total force acting on the object
-
 - :math:`m` is the mass of the object
-
 - :math:`v` is the velocity 
-
 - :math:`t` is time 
 
 This equation yields the final form of the equations of linear motion.
@@ -146,9 +126,7 @@ In the final form, acceleration is represented by the rate of change of the velo
 where:
 
 - :math:`F` is the total force acting on the object
-
 - :math:`m` is the mass of the object
-
 - :math:`\\dot{v}` is the acceleration of the object
 
 
@@ -164,7 +142,6 @@ angular momentum of the paricle about that axis.
 where:
 
 - :math:`M` is the total moment (torque) acting on the object
-
 - :math:`h` is the angular momentum vector of the object
 
 
@@ -217,13 +194,9 @@ translational displacement.
 where:
 
 - :math:`dx, dy, dz` are the changes in position in the :math:`x, y, z` inertial directions, respectively  
-
 - :math:`dv_x, dv_y, dv_z` are the changes in velocity in the :math:`x, y, z` inertial directions, respectively 
-
 - :math:`v_x, v_y, v_z` are the velocities in the :math:`x, y, z` inertial directions, respectively
-
 - :math:`f[0], f[1], f[2]` are the input force components in the :math:`x, y, z` inertial directions, respectively
-
 - :math:`m` is the mass of the body.
 
 
@@ -287,15 +260,10 @@ describe the equations governing the motion of a rigid body:
 where: 
 
 - :math:`d\\varphi, d\\theta, d\\psi` are the changes in Euler roll, Euler pitch, and Euler yaw angles, respectively 
-
 - :math:`dp, dq, dr` are the changes in body roll rate, pitch rate, and yaw rate, respectively
-
 - :math:`\\varphi, \\theta, \\psi` are the Euler roll, Euler pitch, and uler yaw angles, respectively 
-
 - :math:`p, q, r` are the body roll rate, pitch rate, and yaw rate, respcetively
-   
 - :math:`M[0], M[1], M[2]` are the input moment of force components about the :math:`x, y, z` in the body direction, respectively
-
 - :math:`I_{xx}, I_{yy}, I_{zz}` are the moments of inertia about the :math:`x, y,` and :math:`z` in body direction, respectively
 
 
@@ -322,3 +290,8 @@ For examples, see the various functions.
 
 from .derivs import * 
 from .integrate import * 
+
+
+
+
+

@@ -1,9 +1,443 @@
 import numpy as np
+# from scipy.special import erfinv
 import c4dynamics as c4d 
 
 class seeker(c4d.rigidbody):
+  '''
+  Direction seeker.
+
+  The :class:`seeker` class models sensors that 
+  measure the direction to a target in terms of azimuth and elevation. 
+  Such sensors typically use electro-optical or laser technologies, 
+  though other technologies may also be used.  
+
+  A `seeker` object can operate in an ideal mode, 
+  providing precise direction measurements. 
+  Alternatively, in a non-ideal mode, 
+  the measurements may be affected by errors such as
+  `scale factor`, `bias`, and `noise`,  
+  as defined by the errors model. 
+  A random variable generation mechanism allows 
+  for Monte Carlo simulations.   
+
+
+
+
+
 
   
+  
+
+  Parameters
+  ==========
+  origin : :class:`rigidbody <c4dynamics.states.lib.rigidbody.rigidbody>`, optional 
+      A `rigidbody` object whose state vector :attr:`X <c4dynamics.states.state.state.X>` determines the seeker's initial position and attitude. 
+      Defaults: a `rigidbody` object with zeros vector, `X = numpy.zeros(12)`.
+  isideal : bool, optional 
+      A flag indicating whether the errors model is off. 
+      Defaults False. 
+
+
+  Keyword Arguments 
+  =================
+  bias_std : float 
+      The standard deviation of the bias error, [radians]. Defaults :math:`0.1°`.
+  scale_factor_std : float 
+      The standard deviation of the scale factor error, [dimensionless]. Defaults :math:`0.05 (= 5\\%)`. 
+  noise_std : float
+      The standard deviation of the seeker angular noise, [radians]. 
+      Default value for non-ideal seeker: :math:`0.4°`. 
+  dt : float
+      The time-constant of the operational rate of the seeker 
+      (below which the seeker measures return None), [seconds]. Default value: :math:`dt = -1sec` 
+      (no limit between calls to :meth:`measure`). 
+  
+
+  See Also
+  ========
+  .filters 
+  .eqm 
+  .radar
+
+
+  
+  **Functionality**
+
+  At each sample the seeker returns measures based on the true geometry 
+  with the target.
+
+  Let the relative coordinates in an arbitrary frame of reference: 
+
+  .. math::
+
+    dx = target.x - seeker.x
+
+    dy = target.y - seeker.y
+
+    dz = target.z - seeker.z
+  
+
+  The relative coordinates in the seeker body frame are given by: 
+
+  .. math::
+
+    x_b = [BR] \\cdot [dx, dy, dz]^T 
+
+  where :math:`[BR]` is a 
+  Body from Reference DCM (Direction Cosine Matrix)
+  formed by the seeker three Euler angles. See the `rigidbody` section below. 
+
+  The azimuth and elevation measures are then the spatial angles: 
+  
+  .. math:: 
+
+    az = tan^{-1}{x_b[1] \\over x_b[0]}
+
+    el = tan^{-1}{x_b[2] \\over \\sqrt{x_b[0]^2 + x_b[1]^2}}
+
+  
+
+  Where:
+
+  - :math:`az` is the azimuth angle
+  - :math:`el` is the elevation angle
+  - :math:`x_b` is the target-radar position vector in radar body frame
+
+  .. figure:: /_static/figures/seeker/definitions.svg
+    
+    Fig-1: Azimuth and elevation angles definition   
+
+
+  
+  **Errors Model**
+  
+  The azimuth and elevation angles are subject to errors: scale factor, bias, and noise.
+
+  - ``Bias``: 
+    represents a constant offset or deviation from the 
+    true value in the seeker's measurements. 
+    It is a systematic error that consistently affects the measured values. 
+    The bias of a `seeker` instance is a normally distributed variable with `mean = 0` 
+    and `std = bias_std`, where `bias_std` is a parameter with default value of `0.1°`.
+  - ``Scale Factor``: 
+    a multiplier applied to the true value of a measurement. 
+    It represents a scaling error in the measurements made by the seeker. 
+    The scale factor of a `seeker` instance is 
+    a normally distributed variable 
+    with `mean = 0` and `std = scale_factor_std`, 
+    , where `scale_factor_std` is a parameter with default value of `0.05`. 
+  - ``Noise``: 
+    represents random variations or fluctuations in the measurements 
+    that are not systematic. 
+    The noise at each seeker sample (:meth:`measure`) 
+    is a normally distributed variable 
+    with `mean = 0` and `std = noise_std`, where `noise_std` 
+    is a parameter with default value of `0.4°`.  
+
+    
+  The errors model generates random variables for each seeker instance, 
+  allowing for the simulation of different scenarios or variations in the seeker behavior
+  in a technique known as Monte Carlo. 
+  Monte Carlo simulations leverage this randomness to statistically analyze 
+  the impact of these biases and scale factors over a large number of iterations, 
+  providing insights into potential outcomes and system reliability.
+
+
+
+
+
+
+  The errors model can be disabled by applying `isideal = True` at the seeker construction stage. 
+
+  The erros model operates as follows: the particular parameters 
+  that form each error, for example the standard deviation of the bias error, 
+  may be determined at the stage of creating the sensor object: 
+  :code:`seeker = c4d.sensors.seeker(bias_std = 0.1 * c4d.d2r)`, 
+  where `c4d.d2r` is a conversion from degrees to radians. 
+  Then, the errors model generates a normal random variable 
+  and establishes the seeker bias error.
+  However, the user can override the generated bias by 
+  using the :attr:`bias` property and determine the seeker bias error: 
+  :code:`seeker.bias = 1 * c4d.d2r`, to have a 1° bias error.  
+   
+  
+  
+
+  **rigidbody**
+  
+  The seeker class is a subclass of :class:`rigidbody <c4dynamics.states.lib.rigidbody.rigidbody>`, i.e. 
+  it suggests attributes of position and attitude and the manipulation of them.
+
+  As a fundamental propety, the 
+  rigidbody's state vector 
+  :attr:`X <c4dynamics.states.state.state.X>` 
+  sets the spatial coordinates of the seeker:
+
+  .. math::
+
+    X = [x, y, z, v_x, v_y, v_z, {\\varphi}, {\\theta}, {\\psi}, p, q, r]^T 
+
+  The first six coordinates determine the translational position and velocity of the seeker 
+  while the last six determine its angular attitude in terms of Euler angles and 
+  the body rates. 
+
+  Passing a rigidbody parameter as an `origin` sets 
+  the initial conditions of the seeker. 
+
+  
+  
+  **Construction**
+
+  A seeker instance is created by making a direct call 
+  to the seeker constructor: 
+
+  .. code:: 
+
+    skr = c4d.sensors.seeker()
+
+  Initialization of the instance does not require any 
+  mandatory arguments, but the seeker parameters can be 
+  determined using the \\**kwargs argument as detailed above.
+
+
+
+
+  Examples 
+  ========
+
+
+  **Target**
+  
+
+  For the examples below let's generate the trajectory of a target with constant velocity:   
+
+  .. code::
+
+    >>> tgt = c4d.datapoint(x = 1000, y = 0, vx = -80 * c4d.kmh2ms, vy = 10 * c4d.kmh2ms)
+    >>> for t in np.arange(0, 60, 0.01):
+    ...   tgt.inteqm(np.zeros(3), .01)
+    ...   tgt.store(t)
+
+  The method :meth:`inteqm <c4dynamics.states.lib.datapoint.datapoint.inteqm>` 
+  of the 
+  :class:`datapoint <c4dynamics.states.lib.datapoint.datapoint>` class 
+  integrates the 3 degrees of freedom equations of motion with respect to 
+  the input force vector (`np.zeros(3)` here). 
+  
+  .. figure:: /_static/figures/seeker/target.png
+
+  Since the call to :meth:`measure` requires a target as a `datapoint` object 
+  we utilize a custom `create` function that returns a new `datapoint` object for 
+  a given `X` state vector in time. 
+
+  - :code:`c4d.kmh2ms` converts kilometers per hour to meters per second.
+  - :code:`c4d.r2d` converts radians to degrees.
+  - :code:`c4d.d2r` converts degrees to radians.
+
+  
+  **Origin**
+  
+  Let's also introduce a pedestal as an origin for the seeker. 
+  The pedestal is a `rigidbody` object with position and attitude: 
+
+  .. code:: 
+
+    >>> pedestal = c4d.rigidbody(z = 30, theta = -1 * c4d.d2r)
+
+    
+
+  **Ideal Seeker**
+  
+  Measure the target position with an ideal seeker:
+
+  .. code::
+
+    >>> skr_ideal = c4d.sensors.seeker(origin = pedestal, isideal = True)
+    >>> for x in tgt.data():
+    ...   skr_ideal.measure(c4d.create(x[1:]), t = x[0], store = True)
+    
+  Comparing the seeker measurements with the true target angles requires 
+  converting the relative position to the seeker body frame: 
+
+  .. code:: 
+
+    >>> dx =  tgt.data('x')[1] - skr_ideal.x
+    >>> dy =  tgt.data('y')[1] - skr_ideal.y
+    >>> dz =  tgt.data('z')[1] - skr_ideal.z
+    >>> Xb = np.array([skr_ideal.BR @ [X[1] - skr_ideal.x, X[2] - skr_ideal.y, X[3] - skr_ideal.z] for X in tgt.data()])
+
+  where :attr:`skr_ideal.BR <c4dynamics.states.lib.rigidbody.rigidbody.BR>` is a 
+  Body from Reference DCM (Direction Cosine Matrix)
+  formed by the seeker three Euler angles
+
+  Now `az_true` is the true target azimuth angle with respect to the seeker, and 
+  `el_true` is the true elevation angle (`atan2d` is an aliasing of `numpy's arctan2` 
+  with a modification returning the angles in degrees): 
+
+  .. code:: 
+
+    >>> az_true = c4d.atan2d(Xb[:, 1], Xb[:, 0])
+    >>> el_true = c4d.atan2d(Xb[:, 2], c4d.sqrt(Xb[:, 0]**2 + Xb[:, 1]**2))
+    >>> # plot results
+    >>> fig, axs = plt.subplots(2, 1)
+    >>> axs[0].plot(tgt.data('t'), az_true, label = 'target')
+    >>> axs[0].plot(*skr_ideal.data('az', scale = c4d.r2d), label = 'seeker')
+    >>> axs[1].plot(tgt.data('t'), el_true)
+    >>> axs[1].plot(*skr_ideal.data('el', scale = c4d.r2d))
+
+  .. figure:: /_static/figures/seeker/ideal.png
+
+
+  **Non-ideal Seeker**
+  
+
+  Measure the target position with a *non-ideal* seeker. 
+  The seeker's errors model introduces bias, scale factor, and 
+  noise that corrupt the measurements: 
+
+  .. code:: 
+
+    >>> skr = c4d.sensors.seeker(origin = pedestal)
+    >>> for x in tgt.data():
+    ...   skr.measure(c4d.create(x[1:]), t = x[0], store = True)
+
+  With respect to the ideal seeker: 
+
+  .. code:: 
+
+    >>> fig, axs = plt.subplots(2, 1)
+    >>> axs[0].plot(*skr_ideal.data('az', scale = c4d.r2d), label = 'ideal')
+    >>> axs[0].plot(*skr.data('az', scale = c4d.r2d), label = 'non-ideal')
+    >>> axs[1].plot(*skr_ideal.data('el', scale = c4d.r2d))
+    >>> axs[1].plot(*skr.data('el', scale = c4d.r2d))
+
+  .. figure:: /_static/figures/seeker/nonideal.png
+
+
+  The bias, scale factor, and noise that used to generate these measures 
+  can be examined by: 
+
+  .. code::
+
+    >>> skr.bias * c4d.r2d
+    0.2
+    >>> skr.scale_factor
+    1.05
+    >>> skr.noise_std
+    0.01
+
+  Points to consider here: 
+
+  - The scale factor error increases with the angle, such that for a :math:`5%` 
+    scale factor, 
+    the error of :math:`Azimuth = 100°` is :math:`5°`, whereas the error for 
+    :math:`Elevation = -15°` is only :math:`-0.75°`.  
+  - The standard deviation of the noise in the two channels is the same. 
+    However, as the `Elevation` values are confined to a smaller range, the effect 
+    appears more pronounced there.  
+
+    
+  **Rotating Seeker**
+  
+
+  Measure the target position with a rotating seeker. 
+  The seeker origin is yawing (performed by the increment of :math:`\\psi`) in the direction of the target motion: 
+
+
+  .. code::
+    
+    >>> skr = c4d.sensors.seeker(origin = pedestal)
+    >>> for x in tgt.data():
+    ...   skr.psi += .02 * c4d.d2r 
+    ...   skr.measure(c4d.create(x[1:]), t = x[0], store = True)
+    ...   skr.store(x[0])
+
+  The seeker yaw angle: 
+
+  .. figure:: /_static/figures/seeker/psi.png
+
+  And the target angles with respect to the yawing seeker are: 
+
+  .. code:: 
+
+    >>> fig, axs = plt.subplots(2, 1)
+    >>> axs[0].plot(*skr_ideal.data('az', c4d.r2d), label = 'ideal static seeker')
+    >>> axs[0].plot(*skr.data('az', c4d.r2d), label = 'non-ideal yawing seeker')
+    >>> axs[1].plot(*skr_ideal.data('el', scale = c4d.r2d))
+    >>> axs[1].plot(*skr.data('el', scale = c4d.r2d))
+
+  .. figure:: /_static/figures/seeker/yawing.png
+
+  
+  - The rotation of the seeker with the target direction 
+    keeps the azimuth angle limited, such that non-rotating seekers with limited FOV (field of view) 
+    would have lost the target. 
+  
+
+
+  **Operation Time**
+  
+  By default, the seeker returns measurments for each 
+  call to :meth:`measure`. However, setting the parameter `dt` 
+  to a positive number makes `measure` return `None` 
+  for any `t < last_t + dt`, where `t` is the current measure time, 
+  `last_t` is the last measurement time, and `dt` is the seeker time-constant: 
+
+  .. code:: 
+  
+    >>> tgt = c4d.datapoint(x = 100, y = 100)
+    >>> skr = c4d.sensors.seeker(dt = 0.01)
+    >>> for t in np.arange(0, .025, .005):
+    ...   print(f'{t}: {skr.measure(tgt, t = t)}')
+    0.0:   (0.78648039 0.00732226)
+    0.005: (None, None)
+    0.01:  [0.78032395 0.00116011)
+    0.015: (None, None)
+    0.02:  (0.77982265 -0.00503559)
+
+
+  **Random Distribution** 
+
+  The distribution of normally generated random variables across mutliple seeker instances  
+  is shown for biases of two groups of seekers: 
+
+  - One group generated with a default `bias_std` of `0.1°`.
+  - The second group with `bias_std` of 0.5°. 
+  
+  .. code:: 
+
+    >>> from c4dynamics.sensors import seeker
+    >>> seekers_type_A = []
+    >>> seekers_type_B = []
+    >>> B_std = 0.5 * c4d.d2r
+    >>> for i in range(1000):
+    ...   seekers_type_A.append(seeker().bias * c4d.r2d)
+    ...   seekers_type_B.append(seeker(bias_std = B_std).bias * c4d.r2d)
+  
+  The histogram highlights the broadening of the distribution 
+  as the standard deviation increases:
+
+  .. code:: 
+
+    >>> ax = plt.subplot()
+    >>> ax.hist(seekers_type_A, 30, label = 'Type A')
+    >>> ax.hist(seekers_type_B, 30, label = 'Type B') 
+
+  .. figure:: /_static/figures/seeker/bias2.png
+
+  
+  
+  
+  '''
+  
+
+
+
+
+
+
+
+
   _scale_factor = 1.0
   ''' float; The scale factor error of the seeker angels. 
   It is a normally distributed random variable with
@@ -11,8 +445,8 @@ class seeker(c4d.rigidbody):
   When isideal seeker is configured scale_factor = 1. 
   '''
 
-  scale_factor_std = 0.05  
-  ''' float; A standard deviation of the scale factor error ''' 
+  # scale_factor_std = 0.05  
+  # ''' float; A standard deviation of the scale factor error ''' 
 
 
   _bias = 0.0
@@ -22,41 +456,62 @@ class seeker(c4d.rigidbody):
   When isideal seeker is configured bias = 0. 
   '''
 
-  bias_std = 0.1 * c4d.d2r 
-  ''' float; A standard deviation of the bias error. Defaults 0.1deg '''  
+  # bias_std = 0.1 * c4d.d2r 
+  # ''' float; A standard deviation of the bias error. Defaults 0.1° '''  
   
-  noise_std = 0.4 * c4d.d2r 
-  ''' float; A standard deviation of the seeker angular noise. Default value for nonideal 
-  seeker: noise_std = 0.4 deg '''
+  # noise_std = 0.4 * c4d.d2r 
+  # ''' float; A standard deviation of the seeker angular noise. Default value for non-ideal 
+  # seeker: noise_std = 0.4° '''
 
-  # dt = 50e-3
-  # ''' float; The time-constant of the operational rate of the seeker '''
+  # dt = -1 # np.finfo(np.float64).eps
+  # ''' float; The time-constant of the operational rate of the seeker ''' # . default machine epsilon for float64 
   
+  _lastsample = -np.inf 
   # 
+
+  # rng_noise_std = 0 
 
   def __init__(self, origin = None, isideal = False, **kwargs):
     # A flag indicating whether to run the errors model 
-
     # Initializes the Seeker object.
-
     # Args:
     #     isideal (bool): A flag indicating whether to run the errors model.
-
     # TODO
     # 1 limit field of view. 
-    # 2 add range errors.
-    # 3 add time-const operation  
 
-    self.__dict__.update(kwargs)
+    isradar = kwargs.pop('radar', False)
+
+    bias_std_def = 0.3 if isradar else .1
+    noise_std_def = 0.8 if isradar else .4
+    scale_factor_std_def = 0.07 if isradar else .05 
+
+    # self.__dict__.update(kwargs)
+    self.dt = kwargs.pop('dt', -1)
+    # self.rng_noise_std = kwargs.pop('rng_noise_std', 0)
+    self.bias_std = kwargs.pop('bias_std', bias_std_def * c4d.d2r)
+    self.noise_std = kwargs.pop('noise_std', noise_std_def * c4d.d2r)
+    self.scale_factor_std = kwargs.pop('scale_factor_std', scale_factor_std_def)
+
+    for k in kwargs.keys(): 
+      if k == 'rng_noise_std': 
+        if not isradar: 
+          c4d.cprint(f'Warning: {k} is not an attribute of seeker', 'r')
+        continue
+
+      c4d.cprint(f'Warning: {k} is not an attribute of seeker or radar', 'r')
+
+
     super().__init__()
 
     self.measure_data = []
 
     self.az = 0
     self.el = 0
-    self.range = 0
 
     if origin is not None: 
+      if not isinstance(origin, c4d.rigidbody):
+        raise TypeError('origin must be a c4d.rigidbody object whose state vector origin.X represents the seeker initial position and attitude initial conditions')
+
       self.X = origin.X 
 
 
@@ -70,218 +525,412 @@ class seeker(c4d.rigidbody):
   @property
   def bias(self):
     ''' 
-    Gets or sets seeker's bias.
+    Gets and sets the object's bias.
 
-
-    `bias` gets or sets the bias parameter of the seeker. 
     
-    Normally, the bias is a random variable generated at the stage of constructing the 
-    seeker instance:
+    The bias is a random variable generated once at the stage of constructing the 
+    instance by the errors model:
     
     .. math::
 
-      bias = bias.std \\cdot randn
+      bias = std \\cdot randn
 
-    The `bias.std` has a default value of `0.1deg` and it can 
-    be set by the \**kwargs at the stage of constructing the seeker instance:
-    
-    .. code::
-
-      skr = c4d.sensors.seeker(bias_std = 0.5 * c4d.d2r) # d2r = degrees to radians
-
-    Calling `bias` returns the generated variable.    
-    Calling `bias` with a parameter overrides 
-    the random generated variable with the user input. 
+    Where `bias_std` is a parameter with default 
+    value of `0.1°` for :class:seeker object, and `0.3°` for 
+    :class:`radar <c4dynamics.sensors.radar.radar>` object. 
 
     
-    Parameters (Setter)
-    -------------------
-
-    bias : float 
-        The required bias for the seeker. 
+    To get the bias generated by the errors model, or to override it, the user may call 
+    :attr:`bias` to get or set the final bias error. 
 
         
-    Returns (Getter)
-    ----------------
-    
+    Parameters
+    ----------
     bias : float 
-        The current bias of the seeker. 
+        Required bias, [radians]. 
+
+    Returns
+    -------
+    bias : float 
+        Current bias, [radians]. 
+
+        
+    Example
+    -------
+
+    The following example for a `seeker` object is directly applicable 
+    to a `radar` object too.
+    Simply replace :code:`c4d.sensors.seeker(origin = pedestal,...)` 
+    with :code:`c4d.sensors.radar(origin = pedestal,...)`.
+
+
+    **Auxiliary objects** 
+    
+    (see :class:`seeker` examples for more details): 
+
+    
+    Target: 
+
+    .. code::
+
+      >>> tgt = c4d.datapoint(x = 1000, y = 0, vx = -80 * c4d.kmh2ms, vy = 10 * c4d.kmh2ms)
+      >>> for t in np.arange(0, 60, 0.01):
+      ...   tgt.inteqm(np.zeros(3), .01)
+      ...   tgt.store(t)
+
+
+    Origin: 
+    
+
+    .. code:: 
+
+      >>> pedestal = c4d.rigidbody(z = 30, theta = -1 * c4d.d2r)
+
+    
+    Ground truth reference: 
+
+    .. code::
+
+      >>> skr_ideal = c4d.sensors.seeker(origin = pedestal, isideal = True)
+    
+    
+    **Tracking with bias** 
+
+    Define a seeker with a bias error only (mute the scale factor and the noise) 
+    and set it to `0.5°` to track a constant velocity target: 
+
+    .. code::
+
+      >>> skr = c4d.sensors.seeker(origin = pedestal, scale_factor_std = 0, noise_std = 0)
+      >>> skr = skr.bias = .5 * c4d.d2r 
+      >>> for x in tgt.data():
+      ...   skr_ideal.measure(c4d.create(x[1:]), t = x[0], store = True)
+      ...   skr.measure(c4d.create(x[1:]), t = x[0], store = True)
+
+
+    Compare the biased seeker with the true target angles (ideal seeker):
+
+    .. code::  
+      
+      >>> ax = plt.subplot()
+      >>> ax.plot(*skr_ideal.data('el', scale = c4d.r2d), label = 'target')
+      >>> ax.plot(*skr.data('el', scale = c4d.r2d), label = 'seeker')
+
+    .. figure:: /_static/figures/seeker/bias1.png
+
 
     Example
     -------
 
-    .. code::
+  
+    The distribution of normally generated random variables 
+    is characterized by its bell-shaped curve, which is symmetric about the mean.
+    The area under the curve represents probability, with about `68%` of the data 
+    falling within one standard deviation (1σ) of the mean, `95%` within two, 
+    and `99.7%` within three,   
+    making it a useful tool for understanding and predicting data behavior.
 
-      >>> from c4dynamics.sensors import seeker
-      >>> radars_type_A = []
-      >>> radars_type_B = []
-      >>> B_std = 0.5 * c4d.d2r
+
+    In `radar` objects, and `seeker` objects in general, 
+    the `bias` and `scale factor` vary 
+    among different instances to allow a realistic simulation 
+    of performance behavior in a technique known as Monte Carlo.
+    
+    Let's examine the `bias` distribution across   
+    
+    mutliple `radar` instances with a default `bias_std = 0.3°`
+    in comparison to `seeker` instances with a default `bias_std = 0.1°`:
+        
+
+    
+
+
+
+
+
+    .. code:: 
+    
+      >>> from c4dynamics.sensors import seeker, radar 
+      >>> seekers = []
+      >>> radars = []
       >>> for i in range(1000):
-      ...   radars_type_A.append(seeker().bias * c4d.r2d)
-      ...   radars_type_B.append(seeker(bias_std = B_std).bias * c4d.r2d)
-      >>> plt.hist(radars_type_B, color = 'cyan', bins = 30, edgecolor = 'black', label = 'Type B') #, alpha=0.1, label='Histogram 2')
-      >>> plt.hist(radars_type_A, color = 'magenta', bins = 30, edgecolor = 'black', label = 'Type A')  
+      >>> seekers.append(seeker().bias * c4d.r2d)
+      >>> radars.append(radar().bias * c4d.r2d)
 
-    .. figure:: /_static/figures/seeker_bias.png
+  
+    The histogram highlights the broadening of the distribution 
+    as the standard deviation increases:    
+
+
+      >>> ax = plt.subplot()
+      >>> ax.hist(seekers, 30, label = 'Seekers')
+      >>> ax.hist(radars, 30, label = 'Radars') 
+
+    .. figure:: /_static/figures/radar/bias2.png
+
+    
 
        
     '''
     return self._bias
 
-
   @bias.setter
   def bias(self, bias):
-    '''
-    bias setter.
-    '''
-    self.bias = bias 
+    self._bias = bias 
 
 
   @property
   def scale_factor(self):
     ''' 
-    Gets or sets seeker's scale_factor.
+    Gets and sets the object's scale_factor.
 
-    `scale_factor` gets or sets the scale facotr 
-    parameter of the seeker. 
     
-    Normally, the scale_factor is a random variable generated at the stage of 
-    constructing the seeker instance:
+    The scale factor is a random variable generated once at the stage of constructing the 
+    instance by the errors model:
     
     .. math::
     
-      scalefactor = scalefactor.std \\cdot randn
+      scalefactor = std \\cdot randn
 
-    The `scalefactor.std` has a default value of 0.05 and it can 
-    be set by the \**kwargs at the stage of constructing the seeker instance:
+    Where `scale_factor_std` is a parameter with default 
+    value of `0.05 (5%)` for :class:seeker object, and `0.07 (7%)` for 
+    :class:`radar <c4dynamics.sensors.radar.radar>` object. 
 
-    .. code::
+      
 
-      skr = c4d.sensors.seeker(scale_factor_std = 0)
-
-    Calling `scale_factor` 
-    returns the generated variable.    
-    Calling `scale_factor` with a parameter overrides 
-    the random generated variable with the user input. 
+    To get the scale factor generated by the errors model, 
+    or to override it, the user may call 
+    :attr:`scale_factor` to get or set the final scale factor error. 
 
     
-    Parameters (Setter)
-    -------------------
-
+    Parameters
+    ----------
     scale_factor : float 
-        The required scalefactor for the seeker. 
+      Required scale factor, [dimensionless]. 
 
 
-    Returns (Getter)
-    ----------------
-
+    Returns
+    -------
     scale_factor : float 
-      The current scalefactor of the seeker. 
+      Current scale factor, [dimensionless]. 
 
 
     Example
     -------
 
+    The following example for a `seeker` object is directly applicable 
+    to a `radar` object too.
+    Simply replace :code:`c4d.sensors.seeker(...)` 
+    with :code:`c4d.sensors.radar(...)`.
+
+
+    **Auxiliary objects** 
+    
+    (see :class:`seeker` or :class:`radar <c4dynamics.sensors.radar.radar>` 
+    examples for more details): 
+
+    
+    Target: 
+
     .. code::
 
-      >>> from c4dynamics.sensors import seeker
-      >>> dt = .01
-      >>> time = np.arange(0, 30, dt)
       >>> tgt = c4d.datapoint(x = 1000, y = 0, vx = -80 * c4d.kmh2ms, vy = 10 * c4d.kmh2ms)
-      >>> seeker_sf = 1.2
-      >>> skr = seeker(bias_std = 0, noise_std = 0)
-      >>> skr.scale_factor = seeker_sf
-      >>> for t in time:
-      ...   tgt.inteqm(np.zeros(3), dt)
-      ...   skr.measure(tgt, store = True, t = t)  
+      >>> for t in np.arange(0, 60, 0.01):
+      ...   tgt.inteqm(np.zeros(3), .01)
       ...   tgt.store(t)
-      >>> plt.plot(tgt.get_data('t'), c4d.atan(tgt.get_data('y') / tgt.get_data('x')) * c4d.r2d, 'm', label = 'target')
-      >>> plt.plot(tgt.get_data('t'), skr.get_data('az')[:, 1] *  c4d.r2d, 'c', label = 'seeker')
 
-    .. figure:: /_static/figures/seeker_sf.png
+
+    Origin: 
+    
+
+    .. code:: 
+
+      >>> pedestal = c4d.rigidbody(z = 30, theta = -1 * c4d.d2r)
+
+    
+    Ground truth reference: 
+
+    .. code::
+
+      >>> skr_ideal = c4d.sensors.seeker(origin = pedestal, isideal = True)
+    
+    
+    **Tracking with scale factor** 
+
+    Define a seeker with a scale factor error only (mute the bias and the noise) 
+    and set it to `1.2 (= 20%)` to track a constant velocity target: 
+    
+    
+    .. code:: 
+
+      >>> skr = c4d.sensors.seeker(origin = pedestal, bias_std = 0, noise_std = 0)
+      >>> skr.scale_factor = 1.2
+      >>> for x in tgt.data():
+      ...   skr.measure(c4d.create(x[1:]), t = x[0], store = True)  
+  
+
+    Compare with the true target angles (ideal seeker):
+
+    .. code::
+
+      >>> ax = plt.subplot()
+      >>> ax.plot(*skr_ideal.data('az', scale = c4d.r2d), label = 'target')
+      >>> ax.plot(*skr.data('az', scale = c4d.r2d), label = 'seeker')
+
+    .. figure:: /_static/figures/seeker/sf.png
+
 
                 
     '''
     return self._scale_factor
 
-
   @scale_factor.setter
   def scale_factor(self, scale_factor):
-    ''' scale_factor setter '''
     self._scale_factor = scale_factor 
 
 
 
-  def measure(self, tgt, store = False, t = -1):
+  def measure(self, target, t = -1, store = False):
     '''
-    Measures range, azimuth, and elevation between the seeker and a target.
-    If `store = True`, stores the measured azimuth and elevation along with a timestamp.
-    If timestamp is provided, joins it to the stored measures, otherwise, joins `t = -1`.
+    Measures azimuth and elevation between the seeker and a `target`. 
+
+
+    If the seeker time-constant `dt` was provided when the `seeker` was created, 
+    then `measure` returns `None` for any `t < last_t + dt`, 
+    where `t` is the time input, `last_t` is the last measurement time, 
+    and `dt` is the seeker time-constant. 
+    Default behavior, returns measurements for each call.  
+    
+    If `store = True`, the method stores the measured 
+    azimuth and elevation along with a timestamp 
+    (`t = -1` by default, if not provided otherwise). 
 
 
     Parameters
     ----------
-    tgt : datapoint
-        A datapoint object detected by the radar.
-    store : boolen, optional
+    target : `cartesian_state`
+        A state object to measure by the seeker, including at least one position coordinate (x, y, z).  
+    store : bool, optional
         A flag indicating whether to store the measured values. Defaults `False`.
     t : float, optional
-        Timestamp. Defaults -1 if not provided.
+        Timestamp [seconds]. Defaults -1.
 
     Returns
     -------
     out : tuple
-        Range, azimuth, and elevation
+        azimuth and elevation, [radians]. 
     
-        
+
+    Raises 
+    ------
+    ValueError
+        If `target` doesn't include any position coordinate (x, y, z).  
+
+                
     Example
     -------
 
+    `measure` in a program simulating 
+    real-time tracking of a constant velcoity target.
+
+    
+    The target is represented by a :class:`datapoint <c4dynamics.states.lib.datapoint.datapoint>` 
+    and is simulated using the :mod:`eqm <c4dynamics.eqm>` module, 
+    which integrating the point-mass equations of motion. 
+
+    An ideal seeker uses as reference to the true position of the target. 
+
+    At each cycle, the the seekers take measurements and store the samples for 
+    later use in plotting the results.  
+
+    
     .. code:: 
 
-      >>> from c4dynamics.sensors import seeker
-      >>> dt = .01
-      >>> time = np.arange(0, 30, dt)
-      >>> tgt = c4d.datapoint(x = 1000, y = 0, vx = -80 * c4d.kmh2ms, vy = 10 * c4d.kmh2ms)
-      >>> skr = seeker()
-      >>> for t in time:
-      ...     tgt.inteqm(np.zeros(3), dt)
-      ...     skr.measure(tgt, store = True, t = t)  
-      ...     tgt.store(t)
-      >>> plt.plot(tgt.get_data('t'), skr.get_data('az')[:, 1] *  c4d.r2d, 'c', label = 'seeker')
-      >>> plt.plot(tgt.get_data('t'), c4d.atan(tgt.get_data('y') / tgt.get_data('x')) * c4d.r2d, 'm', label = 'target')
+      >>> dt = 0.01
+      >>> tgt = c4d.datapoint(x = 1000, vx = -80 * c4d.kmh2ms, vy = 10 * c4d.kmh2ms)
+      >>> pedestal = c4d.rigidbody(z = 30, theta = -1 * c4d.d2r)
+      >>> skr = c4d.sensors.seeker(origin = pedestal, dt = 0.05)
+      >>> skr_ideal = c4d.sensors.seeker(origin = pedestal, isideal = True)
+      >>> for t in np.arange(0, 60, dt):
+      ...   tgt.inteqm(np.zeros(3), dt)
+      ...   skr_ideal.measure(tgt, t = t, store = True)  
+      ...   skr.measure(tgt, t = t, store = True)  
+      ...   tgt.store(t)
 
-    .. figure:: /_static/figures/seeker_measure.png
+    Before viewing the results, let's examine the error parameters generated by 
+    the errors model (`c4d.r2d` converts radians to degrees): 
+
+    .. code::
+
+      >>> skr.bias * c4d.r2d
+      -0.02
+      >>> skr.scale_factor
+      0.95 
+      >>> skr.noise_std
+      TODO 
+
+    Then we excpect a constant bias of -0.02° and a 'compression' or 'squeeze' of `5%` with 
+    respect to the target (as represented by the ideal seeker):  
+    
+    .. code::
+
+      >>> ax = plt.subplot()
+      >>> ax.plot(*skr_ideal.data('az', scale = c4d.r2d), '.m', markersize = 1, label = 'target')
+      >>> ax.plot(*skr.data('az', scale = c4d.r2d), '.c', markersize = 1, label = 'seeker')
+
+    .. figure:: /_static/figures/seeker/measure.png
+
+    The sample rate of the seeker was set by the parameter `dt = 0.05`. 
+    In cycles that don't satisfy `t < last_t + dt`, `measure` returns None, 
+    as shown in a close-up view:  
+
+    .. figure:: /_static/figures/seeker/measure_zoom.png
+
+
+
+
+
+
     
 
     '''
 
+    if not(hasattr(target, 'cartesian') and target.cartesian()): 
+      raise ValueError('target must be a state objects with at least one position coordinate, x, y, or z.')
+
+    
+    if t < self._lastsample + self.dt - 1e-10: 
+      return None, None
+    
+    self._lastsample = t
+
+
     # self: The rigid body object on which the seeker is installed
-    # tgt: A datapoint object detected by the radar 
+    # target: A datapoint object detected by the seeker 
     
-    # target-radar position in inertial coordinates 
-    self.range = self.dist(tgt)
+    # target-seeker position in inertial coordinates 
+    # self.range = self.P(target) + self.rng_noise_std * np.random.randn() 
+    # rand1 = np.random.rand() # to preserve matlab normal 
+    # self.range = self.P(target) + self.rng_noise_std * np.sqrt(2) * erfinv(2 * rand1 - 1)  # c4d.mrandn() # 
     
-    # target-radar position in radar-body coordinates
-    x = tgt.X[:3] - self.X[:3] 
-    x_body = self.BI @ x 
+    # target-seeker position in seeker-body coordinates
+    x = target.position - self.position
+    x_body = self.BR @ x 
 
     # extract angles:
     az_true = c4d.atan2(x_body[1], x_body[0])
     el_true = c4d.atan2(x_body[2], c4d.sqrt(x_body[0]**2 + x_body[1]**2))
 
 
-    self.az = az_true * self._scale_factor + self._bias + self.noise_std * np.random.randn()  
-    self.el = el_true * self._scale_factor + self._bias + self.noise_std * np.random.randn() 
+    self.az = az_true * self._scale_factor + self._bias + self.noise_std * np.random.randn() # c4d.mrandn()
+    self.el = el_true * self._scale_factor + self._bias + self.noise_std * np.random.randn() # c4d.mrandn()
 
     if store: 
-        self.storevar(['az', 'el', 'range'], t = t)
+      self.storeparams(['az', 'el'], t = t)
 
-    return self.az, self.el, self.range
+    return self.az, self.el
 
     
-
-
   def _errors_model(self):
     ''' 
     measured_angle = true_angle * scale_factor + bias + noise
