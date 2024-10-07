@@ -1,13 +1,14 @@
-'''
+"""
+
 This page is an `introduction` to the filters module. 
 For the different filter objects themselves, go to :ref:`filters-header`.     
 
 
 
-The :mod:`c4dynamics:filters` module in the `c4dynamics` framework provides a collection of 
+The :mod:`filters <c4dynamics.filters>` module in `c4dynamics` provides a collection of 
 classes and functions for implementing various types of filters commonly used in control 
-systems and signal processing. 
-This includes Kalman Filters (both linear and extended), Luenberger Filters, and Lowpass Filters.
+systems and state estimation. 
+
 
 
 *******************
@@ -26,8 +27,10 @@ as a set of input, output, and state variables related by first-order differenti
 
 The state vector :math:`X` of a state-space model provides a snapshot of the system's current condition, 
 encapsulating all the variables necessary to describe its future behavior given the input.
-(In `c4dynamics` the state vector is the fundamental data structure, provided 
-by the property :attr:`state.X <c4dynamics.states.state.X>`). 
+(In `c4dynamics` the state vector is a fundamental data structure, 
+represented by the class :class:`state <c4dynamics.states.state.state>`) 
+and a snapshot of its values is provided by 
+the property :attr:`state.X <c4dynamics.states.state.state.X>`). 
 
 When the coefficients of the state variables in the equations are constant, the 
 state model represents a linear system. Otherwise, the system is nonlinear. 
@@ -49,20 +52,20 @@ A nonlinear system is described by:
 .. math::
   :label: nonlinearmodel
 
-  \\dot{x} = f(x, u, \\omega) 
+  \\dot{x}(t) = f(x, u) + \\omega 
 
-  y = h(x, \\nu) 
+  y(t) = h(x) + \\nu 
 
   x(0) = x_0 
 
 
 
-where: 
+Where: 
 
 - :math:`f(\\cdot)` is an arbitrary vector-valued function representing the system process
 - :math:`x` is the system state vector 
-- :math:`u` is the system input signal
 - :math:`t` is a time variable 
+- :math:`u` is the system input signal
 - :math:`\\omega` is the process noise with covariance matrix :math:`Q`
 - :math:`y` is the system output vector (the measure)
 - :math:`h(\\cdot)` is an arbitrary vector-valued function representing the measurement equations 
@@ -86,7 +89,7 @@ and have known covariance matrices :math:`Q` and :math:`R`, respectively:
     
 
 
-where:
+Where:
 
 - :math:`\\omega` is the process noise with covariance matrix :math:`Q`
 - :math:`\\nu` is the measure noise with covariance matrix :math:`R`
@@ -103,7 +106,7 @@ Linearization
 =============
 
 A linear Kalman filter has a significant advantage in terms of simplicity and 
-computing resources, but much more importantly the `System Covariance`_ 
+computing resources, but much more importantly, the `System Covariance`_ 
 in a linear Kalman provides exact predictions of the errors in the state estimates. 
 The extended Kalman filter offers no such guarantees.  
 Therefore it is always a good practice to start by 
@@ -115,17 +118,29 @@ The linearized model of system :eq:`nonlinearmodel` around a nominal trajectory 
 .. math::
   :label: linearizedmodel
 
-  \\dot{x} = \\Delta{x} \\cdot {\\partial{f} \\over \\partial{x}}\\bigg|_{x_n, u_n, \\omega_n}
-                + \\Delta{u} \\cdot {\\partial{f} \\over \\partial{u}}\\bigg|_{x_n, u_n, \\omega_n}
-                  + \\Delta{\\omega} \\cdot {\\partial{f} \\over \\partial{\\omega}}\\bigg|_{x_n, u_n, \\omega_n}
+  \\dot{x} = \\Delta{x} \\cdot {\\partial{f} \\over \\partial{x}}\\bigg|_{x_n, u_n}
+                + \\Delta{u} \\cdot {\\partial{f} \\over \\partial{u}}\\bigg|_{x_n, u_n} + \\omega
                   
-  y = \\Delta{x} \\cdot {\\partial{h} \\over \\partial{x}}\\bigg|_{x_n, \\nu_n}
-                + \\Delta{\\nu} \\cdot {\\partial{h} \\over \\partial{\\nu}}\\bigg|_{x_n, \\nu_n}
-
+  y = \\Delta{x} \\cdot {\\partial{h} \\over \\partial{x}}\\bigg|_{x_n} + \\nu
+                
   \\\\ 
 
   x(0) = x_0 
   
+
+Where: 
+
+- :math:`\\Delta{x}` is the linear approximation of a small deviation of the state :math:`x` from the nominal trajectory 
+- :math:`\\Delta{u}` is the linear approximation of a small deviation of the input control :math:`u` from the nominal trajectory 
+- :math:`\\omega` is the process noise  
+- :math:`\\Delta{\\nu}` is the linear approximation of a small deviation of the noise :math:`\\nu` from the nominal trajectory 
+- :math:`{\\partial{f} \\over \\partial{i}}\\bigg|_{x_n, u_n}` is the partial derivative of :math:`f` with respect to :math:`i (i = x` or :math:`u)` substituted by the nominal point :math:`{x_n, u_n}`
+- :math:`{\\partial{h} \\over \\partial{x}}\\bigg|_{x_n}` is the partial derivative of :math:`h` with respect to :math:`x`, substituted by the nominal point :math:`{x_n}`
+- :math:`y` is the system output vector (the measure)
+- :math:`x_0` is a vector of initial conditions  
+
+
+
 Let's denote:
 
 .. math::
@@ -134,33 +149,22 @@ Let's denote:
 
   B = {\\partial{f} \\over \\partial{u}}\\bigg|_{x_n, u_n, \\omega_n} 
   
-  L = {\\partial{f} \\over \\partial{\\omega}}\\bigg|_{x_n, u_n, \\omega_n} 
-
   C = {\\partial{h} \\over \\partial{x}}\\bigg|_{x_n, \\nu_n} 
   
-  M = {\\partial{h} \\over \\partial{\\nu}}\\bigg|_{x_n, \\nu_n} 
   
-
-Practically, the noise is assumed to be an additive disturbance rather 
-than a term that propagates through the dynamics in a complex manner. 
-Hence it's a common practice to omit the noise coefficients :math:`L, M` 
-and to express the discretization properties of the noise directly 
-through the covariance matrices :math:`Qk, Rk`. 
-
-
 
 Finally the linear model of system :eq:`nonlinearmodel` is: 
 
 .. math:: 
   :label: linearmodel
 
-  \\dot{x} = A \cdot x + B \cdot u + \\omega 
+  \\dot{x} = A \\cdot x + B \\cdot u + \\omega 
 
-  y = C \cdot x + \\nu
+  y = C \\cdot x + \\nu
 
   x(0) = x_0 
 
-where: 
+Where: 
 
 - :math:`A` is the process dynamics matrix 
 - :math:`x` is the system state vector  
@@ -186,19 +190,32 @@ Hence, In sampled-data systems the dynamics is described by a continuous-time di
 but the output only changes at discrete time instants.
 
 Nonetheless, for numerical considerations the Kalman filter equations are usually given in the discrete-time domain
-not only at the stage of measure updates but also at the stage of the dynamics propagation (`predict`). 
+not only at the stage of measure updates (`update` or `correct`) but also at the stage of the dynamics propagation (`predict`). 
 
 The discrete-time form of system :eq:`linearmodel` is given by:
 
 .. math:: 
   :label: discretemodel
 
-  x_k = F \cdot x_{k-1} + G \cdot u_{k-1} + \\omega_{k-1} 
+  x_k = F \\cdot x_{k-1} + G \\cdot u_{k-1} + \\omega_{k-1} 
 
-  y_k = H \cdot x_k + \\nu_k
+  y_k = H \\cdot x_k + \\nu_k
 
   x_{k=0} = x_0 
 
+Where: 
+
+- :math:`x_k` is the discretized system state vector  
+- :math:`F` is the discretized process dynamics matrix (actually a first order approximation of the state transition matrix :math:`\\Phi`)
+- :math:`G` is the discretized process input matrix
+- :math:`u` is the discretized process input signal
+- :math:`\\omega_k` is the process noise with covariance matrix :math:`Q_k`
+- :math:`y_k` is the discretized system output vector (the measurement)
+- :math:`H` is the discrete measurement matrix 
+- :math:`\\nu_k` is the measure noise with covariance matrix :math:`R_k`
+- :math:`x_0` is a vector of initial conditions  
+
+  
 The noise processes :math:`\\omega_{k}` and :math:`\\nu_k` are white, zero-mean, uncorrelated, 
 and have known covariance matrices :math:`Q_k` and :math:`R_k`, respectively:
 
@@ -214,6 +231,7 @@ and have known covariance matrices :math:`Q_k` and :math:`R_k`, respectively:
 
   E[\\nu_k \\cdot \\omega^T_j] = 0
 
+  
 The discretization of a system is based on the state-transition matrix :math:`\\Phi(t)`. 
 For a matrix :math:`A` the state transition matrix :math:`\\Phi(t)` is given by the matrix exponential :math:`\\Phi = e^{A \\cdot t}` 
 which can be expanded as a power series. 
@@ -228,15 +246,10 @@ An approximate representation of a continuous-time system by a series expansion 
 
   Q_k = Q \\cdot dt 
 
-  R_k = R / dt_{measure}
+  R_k = R / dt
 
-Note that the divider of R is :math:`dt_{measure}` rather than simply :math:`dt` 
-because often times the sampling-time of the measures is different than 
-the sampling-time that uses to integrate the dynamics system. 
-However when the measure times and the integration times are equal
-than :math:`dt_{measure} = dt`. 
 
-where: 
+Where: 
 
 - :math:`x_k` is the discretized system state vector  
 - :math:`F` is the discretized process dynamics matrix (actually a first order approximation of the state transition matrix :math:`\\Phi`)
@@ -249,7 +262,6 @@ where:
 - :math:`x_0` is a vector of initial conditions  
 - :math:`I` is the identity matrix
 - :math:`dt` is the sampling time 
-- :math:`dt_measure` is the sampling time of the measures 
 - :math:`\\sim` is the distribution operator. :math:`\\sim (\\mu, \\sigma)` means a normal distribution with mean :math:`\\mu` and standard deviation :math:`\\sigma`
 - :math:`E(\\cdot)` is the expectation operator 
 - :math:`\\delta(\\cdot)` is the Kronecker delta function (:math:`\\delta(k-j) = 1` if :math:`k = j`, and :math:`\\delta_{k-j} = 0` if :math:`k \\neq j`)
@@ -263,7 +275,8 @@ where:
 System Covariance
 =================
 
-Before getting into the Kalman filter itself, it is necessary to consider one more concept, that is the system covariance.
+Before getting into the Kalman filter itself, it is necessary to consider one more concept, 
+that is the system covariance.
 
 Usually denoted by :math:`P`, this variable represents the current uncertainty of the estimate. 
 
@@ -271,13 +284,17 @@ Usually denoted by :math:`P`, this variable represents the current uncertainty o
 with its diagonal elements indicating the variance of each state variable, 
 and the off-diagonal elements representing the covariances between different state variables. 
 
-:math:`P` is iteratively refined through the `predict` and the `update` steps and its 
-initial state, :math:`P_0`, is chosen based on prior knowledge to reflect the confidence in the initial state estimate (:math:`x_0`).  
+:math:`P` is iteratively refined through the `predict` and the `update` steps. Its 
+initial state, :math:`P_0`, 
+is chosen based on prior knowledge to reflect the confidence in the initial state estimate (:math:`x_0`).  
 
 
-*******************************
-Kalman Filter (:class:`kalman`)
-*******************************
+
+
+
+******************************************************************
+Kalman Filter (:class:`kalman <c4dynamics.filters.kalman.kalman>`)
+******************************************************************
 
 A simple way to design a Kalman filter is to separate between two steps: `predict` and `update` (sometimes called `correct`).
 The `predict` step is used to project the estimate forward in time. 
@@ -294,7 +311,7 @@ The uncertainty associated with the predicted state, :math:`P`, is calculated by
 current error covariance forward in time. 
 
 Since the `predict` equations are calculated before a measure is taken (a priori), the new state :math:`x` and the new covariance :math:`P` 
-are notated by :math:`-` superscript. 
+are notated by :math:`(-)` superscript. 
 
 .. math:: 
 
@@ -306,7 +323,7 @@ are notated by :math:`-` superscript.
 
   P_0^+ = E[x_0 \\cdot x_0^T] 
 
-where:
+Where:
 
 - :math:`x_k^-` is the estimate of the system state, :math:`x_k`, before a measurement update. 
 - :math:`F` is the discretized process dynamics matrix 
@@ -335,7 +352,7 @@ Then the error covariance is updated to reflect the reduced uncertainty after in
 
 
 The `update` equations are calculated after a measure is taken (a posteriori), and the new state :math:`x` and the new covariance :math:`P` 
-are notated by :math:`+` superscript. 
+are notated by :math:`(+)` superscript. 
 
 .. math:: 
 
@@ -345,7 +362,7 @@ are notated by :math:`+` superscript.
 
   P_k^+ = (I - K \\cdot H) \\cdot P_k^-
 
-where:
+Where:
 
 - :math:`K` is the Kalman gain
 - :math:`P_k^-` is the estimate of the system covariance matrix, :math:`P_k`, from the previous prediction
@@ -359,20 +376,55 @@ where:
 - superscript T is the transpose operator
 
 
+.. _kalman_implementation:
+
 Implementation (C4dynamics)
 ===========================
 
-Following the above concept of separation between the `predict` 
-and `update`, running a Kalman filter with `c4dynamics` is performed on a `state` object 
-by constructing a Kalman filter with parameters and calling the `predict()` and `update()` methods.
+Following the concept of separating `predict` 
+and `update`, running a Kalman filter with `c4dynamics` is done 
+by constructing a Kalman filter with parameters as a 
+:class:`state <c4dynamics.states.state.state>` object 
+and calling the 
+:meth:`predict <c4dynamics.filters.kalman.kalman.predict>` 
+and :meth:`update <c4dynamics.filters.kalman.kalman.update>` methods.
 
-The Kalman filter in `C4dynamics` is a class.  
-As such the user constructs an object that holds the 
-attributes used to build the estimates. 
-This is crucial because when the user calls the :meth:`kalman.predict` or 
-the :meth:`kalman.update`, the object uses parameters and values from previous calls. 
+The Kalman filter in `c4dynamics` is a class.  
+Thus, the user constructs an object that holds the 
+attributes required to build the estimates. 
+This is crucial to understand because when the user 
+calls the `predict` or `update`, 
+the object uses parameters and values from previous calls. 
 
 
+Every filter class in `c4dynamics` is a 
+subclass of the state class. 
+This means that the filter itself 
+forms the estimated state vector:
+
+.. code:: 
+
+  >>> from c4dynamics.filters import kalman 
+  >>> import numpy as np 
+  >>> z = np.zeros((2, 2))
+  >>> kf = kalman(X = {'x1': 0, 'x2': 0}, dt = 0.1, P0 = z, A = z, C = z, Q = z, R = z)
+  >>> print(kf)
+  [ x1  x2 ]
+
+`z` is an arbitrary matrix used 
+to initialize a filter of 
+two variables (:math:`x_1, x_2`).
+
+
+It also means that a filter object 
+inherits all the mathematical attributes 
+(norm, multiplication, etc.) 
+and data attributes (storage, plotting, etc.) 
+of a state object 
+(for further details, see :mod:`states <c4dynamics.states>`, 
+state :class:`state <c4dynamics.states.state.state>`, 
+and refer to the examples below)
+    
 
 Example
 -------
@@ -391,7 +443,7 @@ elevator that in its turn changes the aircaft altitude :math:`z`:
   y(t) = z(t) + \\nu(t)
 
   
-where:
+Where:
 
 - :math:`z` is the deviation of the aircraft from the required altitude
 - :math:`\\gamma` is the flight path angle
@@ -399,11 +451,11 @@ where:
 - :math:`\\omega_z` is the uncertainty in the altitude behavior  
 - :math:`\\omega_{\\gamma}` is the uncertainty in the flight path angle behavior 
 - :math:`u` is the deflection command 
-- :math:`y` is the output measure
+- :math:`y` is the output measure of `z`
 - :math:`\\nu` is the measure noise   
 
-The process uncertainties are given by: :math:`\\omega_z \\sim (0, 0.5)[ft]
-, \\omega_{\\gamma} \\sim (0, 0.1)[deg]`.
+The process uncertainties are given by: :math:`\\omega_z \\sim (0, 0.5)[ft], 
+\\omega_{\\gamma} \\sim (0, 0.1)[deg]`.
 
 Let :math:`H_f`, the required altitude by the pilot to be :math:`H_f = 1kft`. 
 The initial conditions are: :math:`z_0 = 1010ft` (error of :math:`10ft`), and :math:`\\gamma_0 = 0`. 
@@ -513,7 +565,7 @@ that consists of the Kalman attributes:
   >>> htgt = c4d.state(z = tgt.z + 5, gamma = tgt.gamma + 0.05 * c4d.d2r) 
   >>> htgt.kf = c4d.filters.kalman(P0 = [2 * 5, 2 * 0.05 * c4d.d2r] 
   ...                               , R = v**2, Q = Q, dt = dt   
-  ...                                 , A = A, B = B, c = c) 
+  ...                                 , A = A, B = B, C = c) 
 
 Note that the Kalman filter was initialized here with continuous system matrices. 
 However, it could be initialized with discrete system matrices. The only limit
@@ -577,11 +629,13 @@ predict and update methods for state estimation.
 
 
 
-*************************************
-Extended Kalman Filter (:class:`ekf`)
-*************************************
+******************************************************************
+Extended Kalman Filter (:class:`ekf <c4dynamics.filters.ekf.ekf>`)
+******************************************************************
 
-A linear Kalman filter (:class:`kalman`) should be the first choice 
+A linear Kalman filter 
+(:class:`kalman <c4dynamics.filters.kalman.kalman>`) 
+should be the first choice 
 when designing a state observer. 
 However, when a nominal trajectory cannot be found, 
 the solution is to linearize the system
@@ -616,7 +670,7 @@ Recall the mathematical model of a nonlinear system as given in :eq:`nonlinearmo
   x(0) = x_0 
 
 
-where: 
+Where: 
 
 - :math:`f(\\cdot)` is an arbitrary vector-valued function representing the system dynamics
 - :math:`x` is the system state vector 
@@ -643,7 +697,7 @@ and have known covariance matrices :math:`Q` and :math:`R`, respectively:
   E[\\nu(t) \\cdot \\omega^T(t)] = 0 
     
 
-where:
+Where:
 
 - :math:`\\omega` is the process noise with covariance matrix :math:`Q`
 - :math:`\\nu` is the measure noise with covariance matrix :math:`R`
@@ -686,9 +740,9 @@ is to discretize these terms and the noise covariance matrices:
 
   Q_k = Q \\cdot dt 
 
-  R_k = R / dt_{measure}
+  R_k = R / dt
 
-where:
+Where:
 
 - :math:`F` is the discretized process dynamics matrix (actually a first order approximation of the state transition matrix :math:`\\Phi`)
 - :math:`G` is the discretized process input matrix
@@ -696,7 +750,6 @@ where:
 - :math:`\\nu_k` is the measure noise with covariance matrix :math:`R_k`
 - :math:`I` is the identity matrix
 - :math:`dt` is the sampling time 
-- :math:`dt_{measure}` is the sampling time of the measures 
 - :math:`Q_k` is the process covariance matrix 
 - :math:`R_k` is the measurement covariance matrix 
 - :math:`A, C, Q, R` are the continuous-time system variables of the system state matrix, system outrput vector, process covariance matrix, and measurement covariance matrix, respectively
@@ -736,7 +789,7 @@ subject to initial conditions:
   P_0^+ = E[x_0 \\cdot x_0^T] 
 
 
-where: 
+Where: 
 
 - :math:`F` is the discretized process dynamics matrix 
 - :math:`I` is the identity matrix
@@ -773,7 +826,7 @@ the nonlinear equations themselves (third equation):
 
   P_k^+ = (I - K \\cdot H) \\cdot P_k^-
 
-where:
+Where:
 
 - :math:`H` is the discrete measurement matrix 
 - :math:`h(\\cdot)` is a vector-valued function representing the measurement equations 
@@ -792,15 +845,48 @@ where:
 Implementation (C4dynamics)
 ===========================
 
-We saw that the state in the `predict` stage and in the `update` stage 
-doesn't have to use the approximated nonlinear equations and instead 
-can make use of the exact models for the process and for the measurement.
-However, sometimes it is more convenient to use 
-the already linear terms also for the state advancements. 
-C4dyanmics offers interface for each approach, i.e. the predict method 
-can take :math:`f(x)` and if it is not provided, it uses :math:`F` (necessary) 
-to project the state. So for the update method, it can take :math:`h(x)` but if it is not provided it uses :math:`H` (necessary)
+We saw that in both the 
+`predict` and `update` stages, 
+the state doesn't have 
+to rely on approximated nonlinear equations 
+but can instead 
+use exact models for the process and the measurement. 
+However, it is sometimes more convenient to use 
+the existing linear for state advancements. 
+C4dyanmics provides an interface for each approach:
+the `predict` method 
+can either take :math:`f(x)` 
+as an input argument or use the necessary matrix :math:`F` 
+to project the state in time. 
+Similarly, the update method can either 
+take :math:`h(x)` as an input argument 
+or use the necessary matrix :math:`H`
 to correct :math:`x`. 
+
+Recall a few additional properties of  
+filter implementation in 
+c4dynamics, as described in the 
+:ref:`linear kalman <kalman_implementation>` section: 
+
+A. An Extended Kalman filter is a class.
+The object holds the 
+attributes required to build the estimates, and 
+every method call relies on the results of previous calls. 
+
+B. The Extended Kalman filter is a 
+subclass of the state class. 
+The state variables are part of the filter object itself, 
+which inherits all the attributes of a state object.    
+
+C. The filter operations
+are divided into separate `predict` and `update` methods. 
+:meth:`ekf.predict <c4dynamics.filters.ekf.ekf.predict>` 
+projects the state into 
+the next time. 
+:meth:`ekf.update <c4dynamics.filters.ekf.ekf.update>` 
+calculates the optimized gain and 
+corrects the state based on the input measurement. 
+
 
 
 Example
@@ -959,8 +1045,10 @@ here as the measurement is already linear), and calling the `update` method.
   ...   tgt.store(t)
   ...   ekf.store(t)
 
-Though the `update` requires also the linear process matrix (:math:`F`), the `predict` method 
-stores the introduced `F` to prove that the `update` step always comes after calling the `predict`. 
+Though the `update` requires also the linear 
+process matrix (:math:`F`), the `predict` method 
+stores the introduced `F` to prove that 
+the `update` step always comes after calling the `predict`. 
 
 
 .. figure:: /_static/figures/filters_ekf_filtered.png
@@ -995,6 +1083,10 @@ Low-pass Filter
 
 A first-order lowpass filter. 
 
+The kalman filter is a state observer. Namely it provides 
+a full state estimation based on the partial measure of variables. 
+
+
 The differential equation: 
 
 .. math:: 
@@ -1006,7 +1098,7 @@ signals to pass while attenuating higher-frequency signals.
 
 In singal processing applications, it smooths signals by reducing high-frequency noise.
 
-In control systems applications, it can use to describe 
+In control system applications, it can use to describe 
 a first-order lag.
 
 In the frequency-domain, the above diffential equation is represented by: 
@@ -1119,38 +1211,99 @@ As such, `c4dynamics` allows each
  
   
 
-.. [SD] Simon, Dan, 'Optimal State Estimation: Kalman, H Infinity, and Nonlinear Approaches', Hoboken: Wiley, 2006.
+.. [SD] Simon, Dan, 
+   'Optimal State Estimation: Kalman, H Infinity, and Nonlinear Approaches', 
+   Hoboken: Wiley, 2006.
 
-.. [AG] Agranovich, Grigory, Lecture Notes on Modern and Digital Control Systems, University of Ariel, 2012-2013.
+.. [AG] Agranovich, Grigory, 
+   Lecture Notes on Modern and Digital Control Systems, 
+   University of Ariel, 2012-2013.
 
-.. [ZP] Zarchan, Paul, 'Tactical and Strategic Missile Guidance', American Institute of Aeronautics and Astronautics, 1990. 
+.. [ZP] Zarchan, Paul, 
+   'Tactical and Strategic Missile Guidance', 
+   American Institute of Aeronautics and Astronautics, 1990. 
 
-.. [MZ] Meri, Ziv, 'Extended Lyapunov Analysis and Simulative Investigations in Stability of Proportional Navigation Guidance Systems', MSc. Thesis supervised by prof. Grigory Agranovich, University of Ariel, 2020.
-  
+.. [MZ] Meri, Ziv, 
+   `Extended Lyapunov Analysis and Simulative 
+   Investigations in Stability of Proportional Navigation Guidance Systems
+   </_static/docs/PN_Stability_Extended_Lyapunov_and_Simulative_Investigations.pdf>`_,  
+   MSc. Thesis supervised by prof. Grigory Agranovich, University of Ariel, 2020.
+
+"""
 
 
-
-
-
+# NOTE the line: 
+# "Note that the divider of R is :math:`dt_{measure}` rather than simply :math:`dt` 
+#   because often times the sampling-time of the measures is different than 
+#   the sampling-time that uses to integrate the dynamics. 
+#   However, when the measure times and the integration times are equal,
+#   then :math:`dt_{measure} = dt`." 
+# required clarification. i think i took it from simon. not sure. 
+# anyway it's weird. as for a continuous system with Q = R 
+# it's gone have balanced weights. 
+# however the translation of it to discrete matrices with Qk = Q*dt, Rk = R/dt 
+# violates the balance.  
+# I think it's realy wrong. in pg 232 (247) he says explicitly: 
+# now let us think about measurement noise. suppose we have a discrete-time 
+# measurement of a constant x every T seconds. The measurement times are tk = k*T (k=1,2,..).
+# .. 
+# the error covariance at time tk is independent of the sample time T if: R = Rc/T. 
+# where Rc is some constant. 
+# this implis that 
+#     lim(R, T->0) = Rc * delta(t)
+# where delta(t) is the constinuous time impulse function.
+# this estabilshes the equivalence between white meausrement noise 
+# in discrete time and continuous time. the effects of white measuremnt noise in discrete time
+# and continuous time are the same if:
+# vk ~ (0, R)
+# v(t) ~ (0, Rc)
+# i  think i should simply say that c4d kamlans are discrete kalmans.
+# only that the user can provdie also cont. matrices. 
+# and now that i think about that its become more clear to me 
+# that what i should do is only suggest discrete filter and also 
+# provide util for covnerting cont to discr system and then the user 
+# provides the disc systems.  
+# i rather think that best thing is to separate the covariance matrices from 
+# discretization and just present it as given for the final system.
+# or to add a remark and say that if also the covarinace matrices are given for 
+# cont system then this the way to discretize it. 
 '''
+Franklin, G.F., Powell,D.J., and Workman, M.L., Digital Control of Dynamic Systems 
+ch 9 
+9.4.2 the discrete kf:
+w(t) and v(t) have no time correlation.
+E(w*w^T)=Rw=Qk
+E(v*v^T)=Rv=Rk
+
+9.4.4. noise matrices and discerete equivalents.
+the process noise acts on the continuous portion of the system.  
 
 
-# **********
-# References
-# **********
 
-# .. [SD] Simon, Dan, 'Optimal State Estimation: Kalman, H Infinity, and Nonlinear Approaches', Hoboken: Wiley, 2006.
 
-# .. [AG] Agranovich, Grigory, Lecture Notes on Modern and Digital Control Systems, University of Ariel, 2012-2013.
-
-# .. [ZP] Zarchan, Paul, 'Tactical and Strategic Missile Guidance', American Institute of Aeronautics and Astronautics, 1990. 
-
-# .. [MZ] Meri, Ziv, 'Extended Lyapunov Analysis and Simulative Investigations in Stability of Proportional Navigation Guidance Systems', MSc. Thesis supervised by prof. Grigory Agranovich, University of Ariel, 2020.
-  
-
+i have a cont system sampled with a 
+discrete samples camera. let's say the sensor errors with its algo are 
+sig_camera in both position and bounding box. 
+i want to show an example where i give the camera and the process the 
+same weight and i run them in a steady state mode.
+the model in const velocity model.  
+then i say i want to overcome an error in the linearity and extend the 
+uncertainty of the process with still continuous modeling of the process. 
+** remark: how at all can kalman designers 
+introduce the uncertainty in the noise? after all kalman 
+restrains that factor to be a white noise with mean 0 and
+im not sure the model uncertainty behaves in that way.
+** any way in the next example i want to show 
+that same results could be achieved by using discrete matrices.
+'''
 
 from .kalman import kalman 
 from .ekf import ekf 
 # from .luenberger import luenberger
 from .lowpass import lowpass 
 
+
+if __name__ == "__main__":
+  import doctest
+  doctest.testmod()
+ 

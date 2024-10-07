@@ -4,10 +4,10 @@ Usage of Datasets
 =================
 
 C4dynamics dataset functions can be simply called as follows: 
-:code:`c4dynamics.datasets.module(file)`, where the existing 
-modules and files are detailed in the corresponding pages. 
-This downloads the dataset file over the network once and saves the cache 
-before returning a path to the file.
+:code:`c4dynamics.datasets.module(file)`.
+The available modules and files are detailed on the corresponding pages. 
+This downloads the dataset file over the network once, saves it to the cache, 
+and returns the path to the file.
 
 
 
@@ -15,26 +15,26 @@ before returning a path to the file.
 Dataset retrieval and storage
 =============================
 
-The YOLOv3 weights file can be found at the YOLO official 
-site `Joseph Redmon <https://pjreddie.com/darknet/yolo/>`_, 
-other dataset files are stored within 
+The YOLOv3 weights file can be found at the official YOLO 
+site: `Joseph Redmon <https://pjreddie.com/darknet/yolo/>`_.
+Oher dataset files are available in the 
 C4dynamics GitHub repository under 
-`datasets <https://github.com/C4dynamics/C4dynamics/blob/main/datasets/d3_models/>`_
+`datasets <https://github.com/C4dynamics/C4dynamics/blob/main/datasets/>`_
 
-`C4dynamics.datasets` uses 
+
+C4dynamics.datasets uses 
 `Pooch <https://www.fatiando.org/pooch/latest/>`_, 
-a Python package built to simplify fetching data files. 
-Pooch uses these repos to
-retrieve the respective dataset 
-files when calling the dataset function.
+a Python package designed to simplify fetching data files. 
+`Pooch` retrieves the necessary dataset files 
+from these repositories when the dataset function is called.
 
-A registry of all the datasets, 
-essentially a mapping of filenames with their
-SHA256 hash and repo urls, are maintained, 
-which Pooch uses to handle and verify
-the downloads on function call. 
-After downloading the dataset once, the files
-are saved in the system cache directory under ``'scipy-data'``.
+
+A registry file of all datasets provides a mapping of filenames 
+to their SHA256 hashes and repository URLs
+Pooch uses this registry to manage and verify downloads when the function is called. 
+After downloading the dataset once, the files are saved 
+in the system cache directory under ``'c4data'``.
+
 
 Dataset cache locations may vary on different platforms.
 
@@ -61,7 +61,7 @@ the internet connectivity.
 '''
 
 
-from ._manager import sha256, image, video, nn_model, d3_model, download_all, clearcache  
+from ._manager import sha256, image, video, nn_model, d3_model, download_all, clear_cache  
 
 
 

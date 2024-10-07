@@ -1,7 +1,8 @@
 import numpy as np 
 from c4dynamics.utils.math import * 
 
-def eqm3(dp, F): 
+
+def eqm3(dp: 'datapoint', F: np.ndarray) -> np.ndarray:
     '''
     Translational motion derivatives.
 
@@ -65,7 +66,7 @@ def eqm3(dp, F):
 
 
 
-def eqm6(rb, F, M): 
+def eqm6(rb: 'rigidbody', F: np.ndarray, M: np.ndarray) -> np.ndarray:
     '''
     Translational and angular motion derivatives. 
         

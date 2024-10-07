@@ -5,6 +5,11 @@ The models include the functionality and the errors model
 of electro-optic, lasers, and electro-magnetic devices. 
 
 '''
+#
+# i think maybe to include also detectors in this module
+# and rename it to something like perception \ source \ input 
+# measures \ 
+# 
 
 from .radar import radar, dzradar
 from .lineofsight import lineofsight 

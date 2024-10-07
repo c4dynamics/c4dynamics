@@ -1,95 +1,247 @@
 import numpy as np
-# import c4dynamics as c4d 
 from c4dynamics.states.state import state 
+
 
 # from enum import Enum
 
 
 class pixelpoint(state):
   ''' 
-  A data point in a video frame with a bounding box. 
+    A data point in a video frame with a bounding box. 
 
-  :class:`pixelpoint` is a data structure for managing 
-  object detections in tracking missions. 
-  It provides properties and methods to 
-  conveniently interact with computer vision modules. 
+    :class:`pixelpoint` is a data structure for managing 
+    object detections in tracking missions. 
+    It provides properties and methods to 
+    conveniently interact with computer vision modules. 
 
-  The `pixelpoint` state variables are 
-  the object center and the bounding box: 
-  
-  .. math:: 
+    The `pixelpoint` state variables are 
+    the object center and the bounding box: 
+    
+    .. math:: 
 
-    X = [x, y, w, h]^T 
+      X = [x, y, w, h]^T 
 
-  - Center pixel, bounding box size. 
-
-
-
-  
-  **Arguments** 
-
-  x : float or int 
-      The x-coordinate of the center of the object.
-
-  y : float or int 
-      The y-coordinate of the center of the object.
-
-  w : float or int
-      The width of the bounding box.
-  
-  h : float or int
-      The height of the bounding box.
-  
-
-  These variables use for streamlined operations through 
-  the state vector :attr:`X <c4dynamics.states.state.state.X>`.
-
-  Parameters define the object and are not part of the state. 
-  For the `pixelpoint` class these are the frame size and the object classification. 
+    - Center pixel, bounding box size. 
 
 
-  Parameters
-  ==========
 
-  fsize : (int, int)
-      Frame size in pixels. 
+    
+    **Arguments** 
 
-  class_id : str
-      Class label associated with the object.
+    x : float or int 
+        The x-coordinate of the center of the object.
 
-  Example 
-  =======
+    y : float or int 
+        The y-coordinate of the center of the object.
 
-  A `pixelpoint` instance is typically created 
-  when a new object is detected.  
+    w : float or int
+        The width of the bounding box.
+    
+    h : float or int
+        The height of the bounding box.
+    
 
-  For a given detection `d` with the following indices: 
+    These variables use for streamlined operations through 
+    the state vector :attr:`X <c4dynamics.states.state.state.X>`.
 
-  - [0] : x-center
-  - [1] : y-center
-  - [2] : width
-  - [3] : height
-  - [4:end] : probabilities for each class of the list `class_names` 
-  
-  and for frames with dimensions `(f_width, f_height)`, the following snippet 
-  constructs a `pixelpoint` and updates its properties. 
-  
-  .. code:: 
+    Parameters define the object and are not part of the state. 
+    For the `pixelpoint` class these are the frame size and the object classification. 
 
-    >>> pp = pixelpoint(x = d[0], y = d[1], w = d[2], h = d[3])
-    >>> pp.fsize = (f_width, f_height)
-    >>> pp.class_id = class_names[numpy.argmax(d[4:])]
+
+    Parameters
+    ==========
+
+    fsize : (int, int)
+        Frame size in pixels. 
+
+    class_id : str
+        Class label associated with the object.
+
+        
+    **Construction** 
+    
+
+    A `pixelpoint` instance is typically created 
+    when a new object is detected.  
+
+    For a given detection `d` with the following indices: 
+
+    - [0] : x-center
+    - [1] : y-center
+    - [2] : width
+    - [3] : height
+    - [4:end] : probabilities for each class of the list `class_names` 
+    
+    and for frames with dimensions `(f_width, f_height)`, the following snippet 
+    constructs a `pixelpoint` and updates its properties. 
+    
+    .. code:: 
+
+      >>> pp = pixelpoint(x = d[0], y = d[1], w = d[2], h = d[3])
+      >>> pp.fsize = (f_width, f_height)
+      >>> pp.class_id = class_names[numpy.argmax(d[4:])]
+
+        
+    See Also
+    ========
+    .lib
+    .state 
+
+    Examples
+    ========
+
+    **Setup and Preliminaries** 
+
+
+    Import required packages:
+
+    .. code:: 
+
+      >>> import cv2  # opencv-python 
+      >>> import numpy as np 
+      >>> import c4dynamics as c4d 
+      >>> from matplotlib import pyplot as plt
+
+
+
+    Fetch 'planes.png' and 'aerobatics.mp4' using the c4dynamics' 
+    datasets module (see :mod:`c4dynamics.datasets`):         
+
+    .. code::
+
+      >>> tripath = c4d.datasets.video('triangle')
+      Fetched successfully
+      >>> planspath = c4d.datasets.image('planes')
+      Fetched successfully
+
+
+
+    Define two auxiliary functions. 
+    The first, `tridetect()`, returns bounding boxes of the detected triangles:
+
+    .. code::
+
+      >>> def tridetect(img):
+      ...   _, thresh = cv2.threshold(cv2.cvtColor(img, cv2.COLOR_BGR2GRAY), 50, 255, 0)
+      ...   contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+      ...   bbox = []
+      ...   for contour in contours:
+      ...     approx = cv2.approxPolyDP(contour, 0.01 * cv2.arcLength(contour, True), True)    
+      ...     if len(approx) == 3:
+      ...       bbox.append(cv2.boundingRect(contour))
+      ...   return bbox
+
+
+    The second function, `ptup`, converts a tuple of two numbers into a formatted string: 
+
+    .. code::
+
+      >>> def ptup(n): 
+      ...   return '(' + str(n[0]) + ', ' + str(n[1]) + ')'
+
+
+
 
       
-  See Also
-  ========
-  .lib
-  .state 
+    **Construction from image** 
 
-  
+    .. code:: 
 
+      >>> img = cv2.imread(tripath)
+      >>> pp = c4d.pixelpoint(x = int(img.shape[1] / 2), y = int(img.shape[0] / 2), w = 100, h = 100)
+      >>> pp.fsize = img.shape[:2]
+      >>> pp.class_id = 'triangle' 
+
+
+      
+    **Construction from detection** 
+
+    Given a frame with dimensions `(f_width, f_height)` and a detection `d` from an object detector: 
+
+    .. code:: 
+
+      >>> pp = c4d.pixelpoint(x = d[0], y = d[1], w = d[2], h = d[3])
+      >>> pp.fsize = (f_width, f_height)
+      >>> pp.class_id = class_names[np.argmax(d[4:])]
+
+
+
+
+    **Triangles detection**
+
+    Run a triangles detector and create a `pixelpoint` object 
+    per each detected triangle. 
+    Use :attr:`box <c4dynamics.states.lib.pixelpoint.pixelpoint.box>` 
+    to draw bounding boxes:
+
+    .. code:: 
+
+      >>> img = cv2.imread(tripath)
+      >>> triangles = tridetect(img)
+      >>> print('{:^10} | {:^10} | {:^16} | {:^16} | {:^10} | {:^14}'.format('center x', 'center y', 'box top-left', 'box bottom-right', 'class', 'frame size'))
+      >>> # iterate over the detected triangles: 
+      >>> for tri in triangles: 
+      ...   pp = c4d.pixelpoint(x = int(tri[0] + tri[2] / 2), y = int(tri[1] + tri[3] / 2), w = tri[2], h = tri[3])
+      ...   pp.fsize = img.shape[:2]
+      ...   pp.class_id = 'triangle'
+      ...   print('{:^10d} | {:^10d} | {:^16} | {:^16} | {:^10} | {:^14}'.format(pp.x, pp.y, ptup(pp.box[0]), ptup(pp.box[1]), pp.class_id, ptup(pp.fsize)))
+      ...   cv2.rectangle(img, pp.box[0], pp.box[1], [0, 255, 0], 2)
+      center x  |  center y  |   box top-left   | box bottom-right |   class    |   frame size  
+        399     |    274     |    (184, 117)    |    (614, 431)    |  triangle  |   (600, 800)
+      
+    .. code:: 
+
+      >>> plt.figure()
+      >>> plt.axis(False)
+      >>> plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+
+
+    .. figure:: /_examples/pixelpoint/triangle.png
+
+      
+
+
+
+
+
+    **C4dynamics' YOLOv3 detector** 
+
+    The method :meth:`detect <c4dynamics.detectors.yolo3_opencv.yolov3.detect>` 
+    of the class :class:`yolov3 <c4dynamics.detectors.yolo3_opencv.yolov3>` 
+    returns a list of `pixelpoint` for the detected objects in an image. 
+    Print the output per a detected object and view the final image: 
+
+    .. code:: 
+
+      >>> img = cv2.imread(planspath)
+      >>> # load detector and run on the image: 
+      >>> yolo3 = c4d.detectors.yolov3()
+      >>> pts = yolo3.detect(img)
+      >>> # prepare for printing properties:  
+      >>> print('{:^10} | {:^10} | {:^16} | {:^16} | {:^10} | {:^14}'.format('center x', 'center y', 'box top-left', 'box bottom-right', 'class', 'frame size'))
+      >>> for p in pts:
+      ...   print('{:^10d} | {:^10d} | {:^16} | {:^16} | {:^10} | {:^14}'.format(p.x, p.y, ptup(p.box[0]), ptup(p.box[1]), p.class_id, ptup(p.fsize)))
+      ...   cv2.rectangle(img, p.box[0], p.box[1], [0, 255, 0], 2)
+      ...   point = (int((p.box[0][0] + p.box[1][0]) / 2 - 75), p.box[1][1] + 22)
+      ...   cv2.putText(img, p.class_id, point, cv2.FONT_HERSHEY_SIMPLEX, 1, [0, 255, 0], 2)
+      center x  |  center y  |   box top-left   | box bottom-right |   class    |  frame size
+        615     |    295     |    (562, 259)    |    (668, 331)    | aeroplane  |  (1280, 720)
+        779     |    233     |    (720, 199)    |    (838, 267)    | aeroplane  |  (1280, 720)
+        635     |    189     |    (578, 153)    |    (692, 225)    | aeroplane  |  (1280, 720)
+        793     |    575     |    (742, 540)    |    (844, 610)    | aeroplane  |  (1280, 720)
+
+
+    .. code:: 
+
+      >>> plt.figure()
+      >>> plt.axis(False)
+      >>> plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+
+
+    .. figure:: /_examples/pixelpoint/yolov3.png
 
   '''  
+
   # framepoint/ imagepoint
   # pixeldata/ pixelbox/ imagebox
 
@@ -102,7 +254,7 @@ class pixelpoint(state):
   # ppunits = ('pixels', 'normalized')
 
   def __init__(self, x = 0, y = 0, w = 0, h = 0):
-  # def __init__(self, bbox, class_id, framesize):
+    # def __init__(self, bbox, class_id, framesize):
       
  
     ppargs = {}
@@ -166,31 +318,36 @@ class pixelpoint(state):
   @property
   def fsize(self):
     '''
-    Gets and sets the frame size. 
 
-    Parameters
-    ----------
-    fsize : tuple 
-        Size of the frame in pixels (width, height).
-        - (width)  int : Frame width in pixels. 
-        - (height) int : Frame height in pixels. 
+      Gets and sets the frame size. 
+
+      Parameters
+      ----------
+      fsize : tuple 
+          Size of the frame in pixels (width, height).
+          - (width)  int : Frame width in pixels. 
+          - (height) int : Frame height in pixels. 
 
 
-    Returns
-    -------
-    out : tuple 
-        A tuple of the frame size in pixels (width, height). 
-        
+      Returns
+      -------
+      out : tuple 
+          A tuple of the frame size in pixels (width, height). 
+          
 
-    Raises
-    ------
-    ValueError
-        If `fsize` doesn't have exactly two elements, a ValueError is raised.
+      Raises
+      ------
+      ValueError
+          If `fsize` doesn't have exactly two elements, a ValueError is raised.
 
-        
-    .. include:: ../../states.lib.pixelpoint.examples.rst
-        
+      Examples
+      --------
+      For detailed usage, 
+      see the examples in the introduction to the :class:`pixelpoint` class.
     '''
+
+    # TODO any way add even line example to show how to use given the objects defined.  
+    # for all the other methods too. 
     return (self._framewidth, self._frameheight)
 
   @fsize.setter
@@ -205,28 +362,31 @@ class pixelpoint(state):
   @property  
   def class_id(self):
     '''
-    Gets and sets the object classification. 
+      Gets and sets the object classification. 
 
+      
+      Parameters
+      ----------
+      class_id : str 
+          Class label associated with the data point.
+
+          
+      Returns 
+      -------
+      out : str 
+          The current class label associated with the data point.
+
+
+      Raises
+      ------
+      ValueError
+          If `class_id` is not str, a ValueError is raised.
     
-    Parameters
-    ----------
-    class_id : str 
-        Class label associated with the data point.
-
-        
-    Returns 
-    -------
-    out : str 
-        The current class label associated with the data point.
-
-
-    Raises
-    ------
-    ValueError
-        If `class_id` is not str, a ValueError is raised.
-   
-    
-    .. include:: ../../states.lib.pixelpoint.examples.rst
+      
+      Examples
+      --------
+      For detailed usage, 
+      see the examples in the introduction to the :class:`pixelpoint` class.
 
     ''' 
     return self._class 
@@ -245,21 +405,25 @@ class pixelpoint(state):
   @property
   def box(self):
     '''
-    Returns the box coordinates.
-     
-    The box coordinates are given by: 
-    `[(x top left, y top left), (x bottom right, y bottom right)]` 
+      Returns the box coordinates.
+      
+      The box coordinates are given by: 
+      `[(x top left, y top left), (x bottom right, y bottom right)]` 
 
-    Returns
-    -------
-    out : list[tuple] 
-        List containing two tuples representing 
-        top-left and bottom-right coordinates (in pixels).
-  
-    
-    .. include:: ../../states.lib.pixelpoint.examples.rst
-        
+      Returns
+      -------
+      out : list[tuple] 
+          List containing two tuples representing 
+          top-left and bottom-right coordinates (in pixels).
+
+      Examples
+      --------
+      For detailed usage, 
+      see the examples in the introduction to the :class:`pixelpoint` class.
+      
     ''' 
+    # .. include:: ../../states.lib.pixelpoint.examples.rst
+        
     # if self._units == 'normalized':
     #   if self._frameheight is None or self._framewidth is None: 
     #     raise ValueError('When ''pixelpoint'' units are ''normalized'', the property ''fsize'' '
@@ -292,48 +456,43 @@ class pixelpoint(state):
 
 
 
-
-
-
-
-
-
   @property
   def Xpixels(self):
     '''
-    Returns the state vector in pixel coordinates.  
+      Returns the state vector in pixel coordinates.  
 
-    When pixelpoint.units are set to `normalized`, the method `Xpixels` 
-    is used to return the state vector in pixels. 
+      When pixelpoint.units are set to `normalized`, the method `Xpixels` 
+      is used to return the state vector in pixels. 
 
-    Returns
-    -------
-    out : numpy.int32
-      A numpy array of the normalized coordinates :math:`[x, y, v_x, v_y]` transformed
-      to pixel coordinates considering the specific dimensions of the image. 
-         
-        
-    Examples
-    --------
+      Returns
+      -------
+      out : numpy.int32
+        A numpy array of the normalized coordinates :math:`[x, y, v_x, v_y]` transformed
+        to pixel coordinates considering the specific dimensions of the image. 
+          
+          
+      Examples
+      --------
 
-    .. code:: 
+      
+      .. code:: 
 
-      >>> imagename = 'planes.jpg'
-      >>> imgpath = os.path.join(os.getcwd(), 'examples', 'resources', imagename)
-      >>> img = cv2.imread(imgpath)
-      >>> yolo3 = c4d.detectors.yolov3()
-      >>> pts = yolo3.detect(img)
-      >>> print('{:^10} | {:^12} | {:^12} | {:^12} | {:^12}'.format(
-      ...     '# object', 'X normalized', 'Y normalized', 'X pixels', 'Y pixels'))
-      >>> for i, p in enumerate(pts):
-      ...     X = p.Xpixels
-      ...     print('{:^10d} | {:^12.3f} | {:^12.3f} | {:^12d} | {:^12d}'.format(
-      ...            i, p.x, p.y, X[0], X[1]))
-      # object | X normalized | Y normalized |   X pixels   |   Y pixels  
-        0      |    0.427     |    0.339     |     503      |     232     
-        1      |    0.411     |    0.491     |     484      |     336     
-        2      |    0.550     |    0.397     |     648      |     272     
-        3      |    0.507     |    0.916     |     598      |     627     
+        >>> imagename = 'planes.jpg'
+        >>> imgpath = os.path.join(os.getcwd(), 'examples', 'resources', imagename)
+        >>> img = cv2.imread(imgpath)
+        >>> yolo3 = c4d.detectors.yolov3()
+        >>> pts = yolo3.detect(img)
+        >>> print('{:^10} | {:^12} | {:^12} | {:^12} | {:^12}'.format(
+        ...     '# object', 'X normalized', 'Y normalized', 'X pixels', 'Y pixels'))
+        >>> for i, p in enumerate(pts):
+        ...     X = p.Xpixels
+        ...     print('{:^10d} | {:^12.3f} | {:^12.3f} | {:^12d} | {:^12d}'.format(
+        ...            i, p.x, p.y, X[0], X[1]))
+        # object | X normalized | Y normalized |   X pixels   |   Y pixels  
+          0      |    0.427     |    0.339     |     503      |     232     
+          1      |    0.411     |    0.491     |     484      |     336     
+          2      |    0.550     |    0.397     |     648      |     272     
+          3      |    0.507     |    0.916     |     598      |     627     
 
     '''
     # TODO complete with full state vector. 
@@ -352,30 +511,70 @@ class pixelpoint(state):
     # XXX seems like useless function and indeed is not in use anywhere. 
     '''
     
-    Calculates the center coordinates of bounding boxes.
+      Calculates the center coordinates of bounding boxes.
 
-    Given a list of bounding boxes, this static method computes the center
-    coordinates for each box.
+      Given a list of bounding boxes, this static method computes the center
+      coordinates for each box.
 
 
 
-    Parameters
-    ----------
-    out : list[box] 
-      List containing one pixelpoint.box or more. where  
-      every pixelpoint.box has two tuples 
-      representing top-left and bottom-right coordinates.
+      Parameters
+      ----------
+      out : list[box] 
+        List containing one pixelpoint.box or more. where  
+        every pixelpoint.box has two tuples 
+        representing top-left and bottom-right coordinates.
 
-    Returns
-    -------
-    out : numpy.ndarray
-        An array containing center coordinates for each bounding box in the
-        format [[center_x1, center_y1], [center_x2, center_y2], ...].
+      Returns
+      -------
+      out : numpy.ndarray
+          An array containing center coordinates for each bounding box in the
+          format [[center_x1, center_y1], [center_x2, center_y2], ...].
 
     '''
 
     return np.array([[(b[0] + b[2]) / 2, (b[1] + b[3]) / 2] for b in box]) 
 
+
+  @staticmethod
+  def video_detections(vidpath, tf = None, storepath = False):
+    import c4dynamics as c4d 
+    import pickle 
+    import zlib 
+    import cv2 
+    import os 
+
+    cap = cv2.VideoCapture(vidpath)
+    fps = cap.get(cv2.CAP_PROP_FPS)
+    dt = 1 / fps # 1 / frame per second = the length of a single frame
+    if tf is None: 
+      N = int(cap.get(cv2.CAP_PROP_FRAME_COUNT)) # total frames count 
+      tf = N * dt 
+    f_frames = int(tf / dt)
+
+    yolo3 = c4d.detectors.yolov3()
+    yolo3.nms_th = .45
+
+    detections = {}
+
+    for _ in range(f_frames + 1):
+      print(_)
+      ret, frame = cap.read()
+      if not ret: break
+      crc32 = zlib.crc32(frame.tobytes())
+      detections[crc32] = yolo3.detect(frame)
+      
+
+    if storepath:
+      pklname = os.path.join(storepath, os.path.basename(vidpath)[:-4] + '.pkl') 
+      with open(pklname, 'wb') as file:
+        pickle.dump(detections, file)
+      print(f'detections stored at {pklname}')
+
+        
+    cap.release()
+
+    return detections
 
 
 

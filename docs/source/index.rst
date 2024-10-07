@@ -51,7 +51,7 @@ With `c4dynamics` your object includes everything you need for your state:
 **Version**: |version|
 
  
-`Source Repository <https://github.com/C4dynamics/C4dynamics>`_ 
+`Source Repository <https://github.com/C4dynamics/C4dynamics>`_
 
 
 `c4dynamics` is the open-source framework of algorithms development 

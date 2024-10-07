@@ -27,7 +27,7 @@ delimages = False
 
 
 # Path to the folder containing images
-folder_path = os.path.join('D:/', 'Dropbox', 'c4dynamics', 'examples', 'out', imfol)
+folder_path = os.path.join('D:/', 'Dropbox', 'c4dynamics', 'examples', '_out', imfol)
 # print(folder_path)
 # Create a PowerPoint presentation object
 

@@ -264,7 +264,7 @@ if __name__ == '__main__':
 
   videoname = args.vidname
   args_dict.pop('vidname')
-  pickledir = os.path.join('examples', 'out', videoname)
+  pickledir = os.path.join('examples', '_out', videoname)
 
   plottracks(pickledir, **args_dict)
   # plot_process = multiprocessing.Process(target = plottracks, args = (args_dict, ))

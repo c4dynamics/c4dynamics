@@ -20,8 +20,10 @@ image_register  = pooch.create(
 video_register  = pooch.create(
       path      = CACHE_DIR
     , base_url  = ''
-    , registry  = {'aerobatics.mp4': '4ca78c67dc199793f975caf4fca0039958d290b9af8ae46b0f87863181336afe'}
-    , urls      = {'aerobatics.mp4': 'https://github.com/C4dynamics/C4dynamics/blob/main/datasets/videos/aerobatics.mp4?raw=true'}
+    , registry  = {'aerobatics.mp4': '4ca78c67dc199793f975caf4fca0039958d290b9af8ae46b0f87863181336afe' 
+                    , 'drifting_car.mp4': 'c490de3c27ade26915b20a8130c9dd58d6a45c7152ea92cd059d31c4a5c370ec'}
+    , urls      = {'aerobatics.mp4': 'https://github.com/C4dynamics/C4dynamics/blob/main/datasets/videos/aerobatics.mp4?raw=true' 
+                    , 'drifting_car.mp4': 'https://github.com/C4dynamics/C4dynamics/blob/main/datasets/videos/drifting_car.mp4?raw=true'}
   )
 
 nn_register     = pooch.create(

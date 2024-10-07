@@ -25,21 +25,22 @@ Thumbs.db
 __pycache__ 
 c4dynamics/filters/a.py 
 c4dynamics/filters/kalman_v0.py 
-docs/_* 
-docs/api
-docs/doctrees 
-docs/user 
+# docs/_* 
+# docs/api
+# docs/doctrees 
+# docs/user 
 # docs/.buildinfo 
 # docs/genindex.html
 # docs/py-modindex/html 
 # docs/search.html 
 # docs/objects.inv 
 # docs/searchindex.js 
-docs/* 
-!docs/.nojekyll
+# docs/* 
+# !docs/.nojekyll
 examples/_out 
 examples/docs_examples.ipynb 
 examples/run_examples.ipynb 
+examples/filters/07-Kalman*.ipynb 
 examples/temp 
 programs/temp 
 untracked/ 

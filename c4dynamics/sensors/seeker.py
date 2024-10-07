@@ -224,7 +224,7 @@ class seeker(c4d.rigidbody):
   integrates the 3 degrees of freedom equations of motion with respect to 
   the input force vector (`np.zeros(3)` here). 
   
-  .. figure:: /_static/figures/seeker/target.png
+  .. figure:: /_examples/seeker/target.png
 
   Since the call to :meth:`measure` requires a target as a `datapoint` object 
   we utilize a custom `create` function that returns a new `datapoint` object for 
@@ -285,7 +285,7 @@ class seeker(c4d.rigidbody):
     >>> axs[1].plot(tgt.data('t'), el_true)
     >>> axs[1].plot(*skr_ideal.data('el', scale = c4d.r2d))
 
-  .. figure:: /_static/figures/seeker/ideal.png
+  .. figure:: /_examples/seeker/ideal.png
 
 
   **Non-ideal Seeker**
@@ -311,7 +311,7 @@ class seeker(c4d.rigidbody):
     >>> axs[1].plot(*skr_ideal.data('el', scale = c4d.r2d))
     >>> axs[1].plot(*skr.data('el', scale = c4d.r2d))
 
-  .. figure:: /_static/figures/seeker/nonideal.png
+  .. figure:: /_examples/seeker/nonideal.png
 
 
   The bias, scale factor, and noise that used to generate these measures 
@@ -354,7 +354,7 @@ class seeker(c4d.rigidbody):
 
   The seeker yaw angle: 
 
-  .. figure:: /_static/figures/seeker/psi.png
+  .. figure:: /_examples/seeker/psi.png
 
   And the target angles with respect to the yawing seeker are: 
 
@@ -366,7 +366,7 @@ class seeker(c4d.rigidbody):
     >>> axs[1].plot(*skr_ideal.data('el', scale = c4d.r2d))
     >>> axs[1].plot(*skr.data('el', scale = c4d.r2d))
 
-  .. figure:: /_static/figures/seeker/yawing.png
+  .. figure:: /_examples/seeker/yawing.png
 
   
   - The rotation of the seeker with the target direction 
@@ -423,7 +423,7 @@ class seeker(c4d.rigidbody):
     >>> ax.hist(seekers_type_A, 30, label = 'Type A')
     >>> ax.hist(seekers_type_B, 30, label = 'Type B') 
 
-  .. figure:: /_static/figures/seeker/bias2.png
+  .. figure:: /_examples/seeker/bias2.png
 
   
   
@@ -471,7 +471,8 @@ class seeker(c4d.rigidbody):
 
   # rng_noise_std = 0 
 
-  def __init__(self, origin = None, isideal = False, **kwargs):
+  # def __init__(self, origin = None, isideal = False, **kwargs):
+  def __init__(self, origin: 'c4d.rigidbody' = None, isideal: bool = False, **kwargs):
     # A flag indicating whether to run the errors model 
     # Initializes the Seeker object.
     # Args:
@@ -523,7 +524,7 @@ class seeker(c4d.rigidbody):
 
 
   @property
-  def bias(self):
+  def bias(self) -> float:
     ''' 
     Gets and sets the object's bias.
 
@@ -536,7 +537,7 @@ class seeker(c4d.rigidbody):
       bias = std \\cdot randn
 
     Where `bias_std` is a parameter with default 
-    value of `0.1°` for :class:seeker object, and `0.3°` for 
+    value of `0.1°` for :class:`seeker` object, and `0.3°` for 
     :class:`radar <c4dynamics.sensors.radar.radar>` object. 
 
     
@@ -616,7 +617,7 @@ class seeker(c4d.rigidbody):
       >>> ax.plot(*skr_ideal.data('el', scale = c4d.r2d), label = 'target')
       >>> ax.plot(*skr.data('el', scale = c4d.r2d), label = 'seeker')
 
-    .. figure:: /_static/figures/seeker/bias1.png
+    .. figure:: /_examples/seeker/bias1.png
 
 
     Example
@@ -666,7 +667,7 @@ class seeker(c4d.rigidbody):
       >>> ax.hist(seekers, 30, label = 'Seekers')
       >>> ax.hist(radars, 30, label = 'Radars') 
 
-    .. figure:: /_static/figures/radar/bias2.png
+    .. figure:: /_examples/radar/bias2.png
 
     
 
@@ -675,12 +676,12 @@ class seeker(c4d.rigidbody):
     return self._bias
 
   @bias.setter
-  def bias(self, bias):
+  def bias(self, bias: float):
     self._bias = bias 
 
 
   @property
-  def scale_factor(self):
+  def scale_factor(self) -> float:
     ''' 
     Gets and sets the object's scale_factor.
 
@@ -693,7 +694,7 @@ class seeker(c4d.rigidbody):
       scalefactor = std \\cdot randn
 
     Where `scale_factor_std` is a parameter with default 
-    value of `0.05 (5%)` for :class:seeker object, and `0.07 (7%)` for 
+    value of `0.05 (5%)` for :class:`seeker` object, and `0.07 (7%)` for 
     :class:`radar <c4dynamics.sensors.radar.radar>` object. 
 
       
@@ -777,7 +778,7 @@ class seeker(c4d.rigidbody):
       >>> ax.plot(*skr_ideal.data('az', scale = c4d.r2d), label = 'target')
       >>> ax.plot(*skr.data('az', scale = c4d.r2d), label = 'seeker')
 
-    .. figure:: /_static/figures/seeker/sf.png
+    .. figure:: /_examples/seeker/sf.png
 
 
                 
@@ -785,12 +786,13 @@ class seeker(c4d.rigidbody):
     return self._scale_factor
 
   @scale_factor.setter
-  def scale_factor(self, scale_factor):
+  def scale_factor(self, scale_factor: float):
     self._scale_factor = scale_factor 
 
 
 
-  def measure(self, target, t = -1, store = False):
+  # def measure(self, target, t = -1, store = False):
+  def measure(self, target: 'cartesian_state', t: float = -1, store: bool = False) -> tuple[float, float]:
     '''
     Measures azimuth and elevation between the seeker and a `target`. 
 
@@ -878,13 +880,13 @@ class seeker(c4d.rigidbody):
       >>> ax.plot(*skr_ideal.data('az', scale = c4d.r2d), '.m', markersize = 1, label = 'target')
       >>> ax.plot(*skr.data('az', scale = c4d.r2d), '.c', markersize = 1, label = 'seeker')
 
-    .. figure:: /_static/figures/seeker/measure.png
+    .. figure:: /_examples/seeker/measure.png
 
     The sample rate of the seeker was set by the parameter `dt = 0.05`. 
     In cycles that don't satisfy `t < last_t + dt`, `measure` returns None, 
     as shown in a close-up view:  
 
-    .. figure:: /_static/figures/seeker/measure_zoom.png
+    .. figure:: /_examples/seeker/measure_zoom.png
 
 
 
@@ -931,7 +933,7 @@ class seeker(c4d.rigidbody):
     return self.az, self.el
 
     
-  def _errors_model(self):
+  def _errors_model(self) -> None:
     ''' 
     measured_angle = true_angle * scale_factor + bias + noise
 

@@ -1,5 +1,7 @@
 @ECHO OFF
 
+
+@REM change the current directory to the directory where the batch file itself is located
 pushd %~dp0
 
 REM Command file for Sphinx documentation
@@ -10,6 +12,8 @@ if "%SPHINXBUILD%" == "" (
 set SOURCEDIR=docs/source
 set BUILDDIR=docs
 
+
+@REM redirecting the output (both standard output and standard error) of the sphinx-build command to the null device, effectively suppressing any output or error messages.
 %SPHINXBUILD% >NUL 2>NUL
 if errorlevel 9009 (
 	echo.
@@ -23,9 +27,28 @@ if errorlevel 9009 (
 	exit /b 1
 )
 
+@REM checks if the first command-line argument (%1) is empty or not. 
+@REM    If %1 is empty, jumps to 'help'.
 if "%1" == "" goto help
 
+
+@REM sphinx-build: runs a specific build target (given by %1).
+@REM -M: specifies a "make-mode" command, which allows you to run 
+@REM 			commands like html, clean, etc. 
+@REM %1: The target to build (e.g., html).
+@REM %SOURCEDIR%: The source directory (docs/source).
+@REM %BUILDDIR%: 	The build directory (docs).
+@REM %SPHINXOPTS% and %O%: Any additional options.
+
+@REM echo %SPHINXBUILD% 
+@REM echo %1 
+@REM echo %SOURCEDIR%
+@REM echo %BUILDDIR% 
+@REM echo %SPHINXOPTS% 
+@REM echo %O%
+
 %SPHINXBUILD% -M %1 %SOURCEDIR% %BUILDDIR% %SPHINXOPTS% %O%
+
 
 REM if exist %BUILDDIR%\html (
 REM Move contents of doc/html/ to doc/ (including subfolders)

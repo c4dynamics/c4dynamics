@@ -1,6 +1,9 @@
 import os 
 import numpy as np
 import c4dynamics as c4d 
+from numpy.typing import NDArray
+from typing import Any
+import warnings 
 
 class state:
   ''' 
@@ -152,7 +155,7 @@ class state:
 
 
   @property
-  def X(self):
+  def X(self) -> NDArray[Any]:
     '''
     Gets and sets the state vector variables.
 
@@ -215,11 +218,16 @@ class state:
       # cope with non-homogenuous array 
       xout.append(np.atleast_1d(eval('self.' + k)))
 
-    return np.array(xout).flatten().astype(np.float64) # XXX why float64? maybe it's just some default unlsess anything else required. 
+    # return np.array(xout).flatten().astype(np.float64) # XXX why float64? maybe it's just some default unlsess anything else required. 
+    return np.array(xout).ravel().astype(np.float64) # XXX why float64? maybe it's just some default unlsess anything else required. 
 
   @X.setter
   def X(self, x):
-    x = np.atleast_1d(x).flatten()
+    # x = np.atleast_1d(x).flatten()
+    # i think to replace flatten() with ravel() is 
+    # safe also here because x is iterated over its elements which are
+    # mutable. but lets XXX it to keep tracking. 
+    x = np.atleast_1d(x).ravel()
 
     xlen = len(x)
     Xlen = len(self.X)
@@ -584,6 +592,7 @@ class state:
     # maybe the example of the kalman variables store 
     #   from the detect track exmaple. 
     # TODO add test if the params is not 0 or 1 dim throw error or warning. why?
+    # TODO document about the two if's down here: nonscalar param and empty param. 
     from functools import reduce
         
     lparams = params if isinstance(params, list) else [params]
@@ -592,8 +601,11 @@ class state:
         self._prmdata[p] = []
 
       vval = np.atleast_1d(reduce(getattr, p.split('.'), self)).flatten()
-      if len(vval) > 1:
-        c4d.cprint(f'{p} is not a scalar. only first item is stored', 'r')
+      if len(vval) == 0: # empty, convert to none to keep homogenuous array 
+        vval = np.atleast_1d(np.nan)
+      elif len(vval) > 1:
+        # c4d.cprint(f'{p} is not a scalar. only first item is stored', 'r')
+        warnings.warn(f'{p} is not a scalar. Only first item is stored', c4d.c4warn)
         vval = vval[:1]
       self._prmdata[p].append([t] + vval.tolist())
 
@@ -823,7 +835,7 @@ class state:
       >>> s.plot('x', filename = 'x.png') 
       >>> plt.show()
 
-    .. figure:: /_static/figures/state/plot_x.png
+    .. figure:: /_examples/state/plot_x.png
 
     
     Plot in interactive mode:
@@ -845,7 +857,7 @@ class state:
       >>> s.plot('x', darkmode = False) 
       >>> plt.show()
 
-    .. figure:: /_static/figures/state/plot_darkmode.png
+    .. figure:: /_examples/state/plot_darkmode.png
 
 
       
@@ -861,7 +873,7 @@ class state:
       >>> plt.gca().set_ylabel('deg')
       >>> plt.show()
 
-    .. figure:: /_static/figures/state/plot_scale.png
+    .. figure:: /_examples/state/plot_scale.png
 
 
     Given axis: 
@@ -875,7 +887,7 @@ class state:
       >>> plt.legend(['θ', 'φ'])
       >>> plt.show()
 
-    .. figure:: /_static/figures/state/plot_axis.png
+    .. figure:: /_examples/state/plot_axis.png
 
 
     Top view + side view - options of :class:`datapoint <c4dynamics.states.lib.datapoint.datapoint>` 
@@ -893,7 +905,7 @@ class state:
       >>> plt.gca().invert_yaxis()
       >>> plt.show()
 
-    .. figure:: /_static/figures/state/plot_dp_inteqm3.png
+    .. figure:: /_examples/state/plot_dp_inteqm3.png
 
 
 
@@ -956,12 +968,13 @@ class state:
     #   return False
     
     if ax is None: 
-      factorsize = 4
-      aspectratio = 1080 / 1920 
-      _, ax = plt.subplots(1, 1, dpi = 200
-                    , figsize = (factorsize, factorsize * aspectratio) 
-                            , gridspec_kw = {'left': 0.15, 'right': .9
-                                                , 'top': .9, 'bottom': .2})
+      # factorsize = 4
+      # aspectratio = 1080 / 1920 
+      # _, ax = plt.subplots(1, 1, dpi = 200
+      #               , figsize = (factorsize, factorsize * aspectratio) 
+      #                       , gridspec_kw = {'left': 0.15, 'right': .9
+      #                                           , 'top': .9, 'bottom': .2})
+      _, ax = c4d._figdef()
     else: 
       if linecolor == 'm':
         linecolor = 'c'
@@ -1232,6 +1245,9 @@ class state:
     Examples
     --------
 
+    .. code:: 
+
+      >>> import c4dynamics as c4d 
 
     .. code::
     
@@ -1254,6 +1270,11 @@ class state:
       Exception has occurred: ValueError  
       At least one position coordinate, x, y, or z, must be common to both instances.
 
+      
+    .. code:: 
+
+      >>> import numpy as np 
+      >>> from matplotlib import pyplot as plt  
 
     .. code:: 
 
@@ -1266,7 +1287,7 @@ class state:
       >>> plt.plot(time, dist, 'm', linewidth = 2)
       >>> plt.show()
 
-    .. figure:: /_static/figures/states/state_P.png
+    .. figure:: /_examples/states/state_P.png
 
 
 

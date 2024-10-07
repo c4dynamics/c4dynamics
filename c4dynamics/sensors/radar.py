@@ -12,7 +12,7 @@ class radar(seeker):
   `radar` is a subclass of :class:`seeker <c4dynamics.sensors.seeker.seeker>` 
   and utilizes its functionality and errors model for angular measurements. 
   This documentation supplaments the information concerning range measurements. 
-  Refer to :class:seeker for the full documentation.
+  Refer to :class:`seeker` for the full documentation.
 
 
   The `radar` class models sensors that 
@@ -191,7 +191,7 @@ class radar(seeker):
   
   The following table
   lists the main differences between 
-  :class:`seeker <c4dynamics.sensors.seeker.seeker>` and :class:radar 
+  :class:`seeker <c4dynamics.sensors.seeker.seeker>` and :class:`radar` 
   in terms of measurements and 
   default error parameters:
      
@@ -289,7 +289,7 @@ class radar(seeker):
   integrates the 3 degrees of freedom equations of motion with respect to 
   the input force vector (`np.zeros(3)` here). 
   
-  .. figure:: /_static/figures/radar/target.png
+  .. figure:: /_examples/radar/target.png
 
   Since the call to :meth:`measure` requires a target as a `datapoint` object 
   we utilize a custom `create` function that returns a new `datapoint` object for 
@@ -356,7 +356,7 @@ class radar(seeker):
     >>> axs[1].plot(tgt.data('t'), c4d.atan2d(Xb[:, 2], c4d.sqrt(Xb[:, 0]**2 + Xb[:, 1]**2)), label = 'target elevation')
     >>> axs[1].plot(*rdr_ideal.data('el', scale = c4d.r2d), label = 'radar elevation')
 
-  .. figure:: /_static/figures/radar/ideal.png
+  .. figure:: /_examples/radar/ideal.png
 
 
 
@@ -391,7 +391,7 @@ class radar(seeker):
 
   `target` labels mean the true position as measured by an ideal radar. 
 
-  .. figure:: /_static/figures/radar/nonideal.png
+  .. figure:: /_examples/radar/nonideal.png
 
   
   The bias, scale factor, and noise that used to generate these measures 
@@ -438,7 +438,7 @@ class radar(seeker):
 
   The radar yaw angle: 
 
-  .. figure:: /_static/figures/radar/psi.png
+  .. figure:: /_examples/radar/psi.png
 
   And the target angles with respect to the yawing radar are: 
 
@@ -454,7 +454,7 @@ class radar(seeker):
     >>> axs[1].plot(*rdr_ideal.data('el', scale = c4d.r2d), label = 'el: ideal static')
     >>> axs[1].plot(*rdr.data('el', scale = c4d.r2d), label = 'el: non-ideal yawing')
 
-  .. figure:: /_static/figures/radar/yawing.png
+  .. figure:: /_examples/radar/yawing.png
 
   
   - The rotation of the radar with the target direction 
@@ -530,7 +530,7 @@ class radar(seeker):
     >>> ax.hist(seekers, 30, label = 'Seekers')
     >>> ax.hist(radars, 30, label = 'Radars') 
 
-  .. figure:: /_static/figures/radar/bias2.png
+  .. figure:: /_examples/radar/bias2.png
 
   '''
   
@@ -644,13 +644,13 @@ class radar(seeker):
       >>> axs[1].plot(*rdr_ideal.data('az', scale = c4d.r2d), '.m', label = 'target')
       >>> axs[1].plot(*rdr.data('az', scale = c4d.r2d), '.c', label = 'radar')
       
-    .. figure:: /_static/figures/radar/measure.png
+    .. figure:: /_examples/radar/measure.png
 
     The sample rate of the radar was set by the parameter `dt = 0.05`. 
     In cycles that don't satisfy `t < last_t + dt`, `measure` returns None, 
     as shown in a close-up view:  
 
-    .. figure:: /_static/figures/radar/measure_zoom.png
+    .. figure:: /_examples/radar/measure_zoom.png
 
     '''
 
