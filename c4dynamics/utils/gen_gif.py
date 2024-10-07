@@ -47,7 +47,7 @@ def gif(dirname, gif_name, duration = None):
       >>> c4d.gif(outfol, gifname, duration = 1)
       >>> Image(filename = os.path.join(outfol, gifpath)) 
 
-    .. figure:: /_static/gifs/f16_monochrome_gif.gif
+    .. figure:: /_examples/animate/f16_monochrome_gif.gif
     
     '''
     dirfiles = natsort.natsorted(os.listdir(dirname)) 

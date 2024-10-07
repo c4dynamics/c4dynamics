@@ -3,11 +3,14 @@ import time
 import numpy as np 
 import tkinter as tk
 import c4dynamics as c4d 
+from typing import Optional, Union, List 
 
-def animate(rb, modelpath, angle0 = [0, 0, 0] 
-              , modelcolor = None, dt = 1e-3 
-                , savedir = None, cbackground = [1, 1, 1]):
-  
+# def animate(rb, modelpath, angle0 = [0, 0, 0] 
+#               , modelcolor = None, dt = 1e-3 
+#                 , savedir = None, cbackground = [1, 1, 1]):
+def animate(rb, modelpath: str, angle0: list = [0, 0, 0] 
+              , modelcolor: Union[np.ndarray, List[float], tuple, None] = None, dt: float = 1e-3 
+                , savedir: Optional[str] = None, cbackground: Union[np.ndarray, List[float], tuple] = [1, 1, 1]):  
   '''
   Animate a rigidbody. 
 
@@ -89,15 +92,39 @@ def animate(rb, modelpath, angle0 = [0, 0, 0]
 
   Examples
   --------
-  
+
+  The 3D models used in the following examples can be downloaded and 
+  fetched by c4dynamics' datasets: 
+
+  .. code::
+
+    >>> bunnypath = c4d.datasets.d3_model('bunny') # 'bunny.pcd': point cloud data file
+    Fetched successfully
+    >>> bunnymesh_path = c4d.datasets.d3_model('bunnymesh') # 'bunny_mesh.ply': polygon file
+    Fetched successfully
+    >>> f16path = c4d.datasets.d3_model('f16') # folder of 10 stl files. 
+    Fetched successfully
+
+  For more details, refer to :mod:`c4dynamics.datasets`.
+
+
+
+  .. code:: 
+
+    >>> import c4dynamics as c4d 
+
+
+
   **Animate Stanford bunny**
   
   
   1. The Stanford bunny is a computer graphics 3D test model 
   developed by Greg Turk and Marc Levoy in 1994 at Stanford University. 
   The model consists of 69,451 triangles, with the data determined by 
-  3D scanning a ceramic figurine of a rabbit. The model can be downloaded from 
+  3D scanning a ceramic figurine of a rabbit. For more details, refer to 
   `The Stanford 3D Scanning Repository <https://graphics.stanford.edu/data/3Dscanrep/#bunny>`_
+
+  
 
   .. code:: 
 
@@ -108,9 +135,9 @@ def animate(rb, modelpath, angle0 = [0, 0, 0]
     >>> for t in np.arange(0, T, dt): 
     ...   bunny.psi += dt * 360 * c4d.d2r / T
     ...   bunny.store(t)
-    >>> bunny.animate('bunny.pcd', cbackground = [0, 0, 0])
+    >>> bunny.animate(bunnypath, cbackground = [0, 0, 0])
   
-  .. figure:: /_static/gifs/bunny.gif
+  .. figure:: /_examples/animate/bunny.gif
 
     
   2. You can change the model's color by setting the `modelcolor` parameter.
@@ -118,9 +145,9 @@ def animate(rb, modelpath, angle0 = [0, 0, 0]
 
   .. code::
 
-    >>> bunny.animate('bunny_mesh.ply', cbackground = [0, 0, 0], modelcolor = [1, 0, .5])
+    >>> bunny.animate(bunnymesh_path, cbackground = [0, 0, 0], modelcolor = [1, 0, .5])
 
-  .. figure:: /_static/gifs/bunny_red.gif
+  .. figure:: /_examples/animate/bunny_red.gif
 
   
   **Motion of a dynamic system**
@@ -141,16 +168,16 @@ def animate(rb, modelpath, angle0 = [0, 0, 0]
     ...     f16.phi -= dt * 180 * c4d.d2r / 3 
     >>>   f16.store(t)
 
-  .. figure:: /_static/images/f16_eulers.png
+  .. figure:: /_examples/animate/f16_eulers.png
   
   The jet model is consisted of multiple files, therefore the `f16` rigidbody object
   that was simulated with the above motion is provided with a path to the consisting folder.  
 
   .. code::
 
-    >>> f16.animate('f16')
+    >>> f16.animate(f16path)
 
-  .. figure:: /_static/gifs/f16.gif
+  .. figure:: /_examples/animate/f16.gif
 
   
   4. It's obvious that the animated model doesn't follow the required rotation as simulated above. 
@@ -174,9 +201,14 @@ def animate(rb, modelpath, angle0 = [0, 0, 0]
   We should examine a frame of the model before any rotation.
   It can be achieved by using `Open3D`: 
   
+
   .. code::
 
     >>> import open3d as o3d
+
+
+  .. code::
+
     >>> model = []
     >>> for f in sorted(os.listdir('f16')):
     ...   mfilepath = os.path.join('f16', f)
@@ -198,9 +230,9 @@ def animate(rb, modelpath, angle0 = [0, 0, 0]
   .. code::
 
     >>> x0 = [90 * c4d.d2r, 0, 180 * c4d.d2r] 
-    >>> f16.animate('f16', angle0 = x0)
+    >>> f16.animate(f16path, angle0 = x0)
 
-  .. figure:: /_static/gifs/f16_IC.gif
+  .. figure:: /_examples/animate/f16_IC.gif
 
 
   5. The attitude is correct but the the model is colorless. 
@@ -222,21 +254,21 @@ def animate(rb, modelpath, angle0 = [0, 0, 0]
     ...                       , 'Stabilator_A_F16':  [0.3 * 0.8, 0.3 * 0.8, 0.3 * 1]
     ...                          , 'Stabilator_B_F16':  [0.3 * 0.8, 0.3 * 0.8, 0.3 * 1]
     ...                 }.values())
-    >>> f16.animate('f16', angle0 = x0, modelcolor = f16colors)
+    >>> f16.animate(f16path, angle0 = x0, modelcolor = f16colors)
 
-  .. figure:: /_static/gifs/f16_color.gif
+  .. figure:: /_examples/animate/f16_color.gif
 
   
   6. It can also be painted with a single color for all its parts and a single color for the background: 
 
   .. code::
 
-    >>> f16.animate('f16', savedir = outfol, angle0 = x0, modelcolor = [0, 0, 0], cbackground = np.array([230, 230, 255]) / 255)
+    >>> f16.animate(f16path, savedir = outfol, angle0 = x0, modelcolor = [0, 0, 0], cbackground = np.array([230, 230, 255]) / 255)
 
-  .. figure:: /_static/gifs/f16_monochrome.gif
+  .. figure:: /_examples/animate/f16_monochrome.gif
 
     
-  7. Finally, let's use the `savedir` option with c4dynamics' gif util to generate a gif file out of the model animation
+  7. Finally, let's use the `savedir` option using the c4dynamics' gif util to generate a gif file out of the model animation
 
   .. code::
 
@@ -245,7 +277,7 @@ def animate(rb, modelpath, angle0 = [0, 0, 0]
                                     , [218, 165, 32], [218, 165, 32], [54, 69, 79]
                                         , [205, 149, 12], [205, 149, 12])) / 255
     >>> outfol ='out\\f16'
-    >>> f16.animate('f16', angle0 = x0, savedir = outfol, modelcolor = f16colors)
+    >>> f16.animate(f16path, angle0 = x0, savedir = outfol, modelcolor = f16colors)
     >>> # the storage folder 'outfol' is the source of images for the gif function
     >>> # the 'duration' parameter sets the required length of the animation  
     >>> gifname = 'f16_animation.gif'
@@ -255,12 +287,15 @@ def animate(rb, modelpath, angle0 = [0, 0, 0]
 
   .. code::
 
-    >>> from IPython.display import Image
     >>> import os 
+    >>> from IPython.display import Image
+
+  .. code::
+
     >>> gifpath = os.path.join(outfol, gifname)
     >>> Image(filename = gifpath) 
 
-  .. figure:: /_static/gifs/f16_color2.gif
+  .. figure:: /_examples/animate/f16_color2.gif
 
   '''
   try:

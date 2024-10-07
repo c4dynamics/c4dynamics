@@ -108,9 +108,9 @@ acting on an object is the derivative of its momentum :math:`(m \\cdot v)`
 with respect to time :math:`(t)`:
 
 .. math:: 
-   F = {d(m \cdot v) \\over dt}
+   F = {d(m \\cdot v) \\over dt}
 
-where:
+Where:
 
 - :math:`F` is the total force acting on the object
 - :math:`m` is the mass of the object
@@ -121,9 +121,9 @@ This equation yields the final form of the equations of linear motion.
 In the final form, acceleration is represented by the rate of change of the velocity:
 
 .. math::
-   F = m \cdot \\dot{v}
+   F = m \\cdot \\dot{v}
 
-where:
+Where:
 
 - :math:`F` is the total force acting on the object
 - :math:`m` is the mass of the object
@@ -139,7 +139,7 @@ angular momentum of the paricle about that axis.
 .. math::
    M = {dh \\over dt} 
 
-where:
+Where:
 
 - :math:`M` is the total moment (torque) acting on the object
 - :math:`h` is the angular momentum vector of the object
@@ -149,15 +149,15 @@ where:
 Hence, the final form of the equations of angular motion is given by: 
 
 .. math::
-   M = [I] \\cdot \\dot{\omega}
+   M = [I] \\cdot \\dot{\\omega}
 
-where:
+Where:
 
 - :math:`M` is the total moment (torque) acting on the object
 
 - :math:`[I]` is the inertia matrix of the body relative to the axis of rotation
 
-- :math:`\\dot{\omega}` is the absolute angular acceleration vector of the body
+- :math:`\\dot{\\omega}` is the absolute angular acceleration vector of the body
 
 
 
@@ -191,7 +191,7 @@ translational displacement.
 
    dv_z = {F[2] \\over m}
 
-where:
+Where:
 
 - :math:`dx, dy, dz` are the changes in position in the :math:`x, y, z` inertial directions, respectively  
 - :math:`dv_x, dv_y, dv_z` are the changes in velocity in the :math:`x, y, z` inertial directions, respectively 
@@ -249,7 +249,7 @@ describe the equations governing the motion of a rigid body:
 
    d\\theta = q \\cdot cos(\\varphi) - r \\cdot sin(\\varphi)
    
-   d\\psi = {q \\cdot sin(\\varphi) + r \\cdot cos(\phi) \\over cos(\\theta)}
+   d\\psi = {q \\cdot sin(\\varphi) + r \\cdot cos(\\phi) \\over cos(\\theta)}
 
    dp = {M[0] - q \\cdot r \\cdot (I_{zz} - I_{yy}) \\over I_{xx}}
 
@@ -257,7 +257,7 @@ describe the equations governing the motion of a rigid body:
 
    dr = {M[2] - p \\cdot q \\cdot (I_{yy} - I_{xx}) \\over I_{zz}}
 
-where: 
+Where: 
 
 - :math:`d\\varphi, d\\theta, d\\psi` are the changes in Euler roll, Euler pitch, and Euler yaw angles, respectively 
 - :math:`dp, dq, dr` are the changes in body roll rate, pitch rate, and yaw rate, respectively

@@ -1,3 +1,5 @@
+# TODO add small photo for expreicne next to each state?
+# TODO how come the overall title is not word-capatilized and the smaller are.  
 '''
 
 .. currentmodule:: c4dynamics.states.state
@@ -285,9 +287,15 @@ as they are optimized for particular tasks.
 
 
 '''
-
+# 
 # TODO BUG FIXME HACK NOTE XXX 
-
+# TODO IMPROVMEMNT
+# BUG LOGICAL FAILURE PROBABLY COMES WITH XXX
+# FIXME NOT SEVERE BUT A BETTER IDEA IS TO DO SO
+# HACK I KNOW ITS NOT BEST SOLUTION TREAT IF U HAVE SPARE TIME
+# NOTE MORE IMPORTANT THAN A CASUAL COMMENT
+# XXX TREAT THIS BEFORE OTHERS
+# 
 
 from .lib import * 
 

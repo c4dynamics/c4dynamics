@@ -2,7 +2,16 @@ import numpy as np
 from matplotlib import pyplot as plt 
 from matplotlib.ticker import ScalarFormatter
 
-def plotdefaults(ax, title, xlabel, ylabel, fontsize = 12, ilines = None):
+
+def _figdef():
+    factorsize = 4
+    aspectratio = 1080 / 1920 
+    return plt.subplots(1, 1, dpi = 200
+                , figsize = (factorsize, factorsize * aspectratio) 
+                        , gridspec_kw = {'left': 0.15, 'right': .9
+                                            , 'top': .9, 'bottom': .2})
+
+def plotdefaults(ax, title, xlabel, ylabel, fontsize = 8, ilines = None):
     '''
 
     Setting default properties on a matplotlib axis.
@@ -96,8 +105,6 @@ def plotdefaults(ax, title, xlabel, ylabel, fontsize = 12, ilines = None):
     ax.yaxis.get_major_formatter().set_scientific(False)
 
     
-
-
 def figdefaults(fig, savefol = None, darkmode = True): 
 
     #
@@ -120,10 +127,6 @@ def figdefaults(fig, savefol = None, darkmode = True):
     ##
     if savefol is not None: 
         fig.savefig(savefol, dpi = fdpi, bbox_inches = 'tight', pad_inches = 0.1)
-
-
-
-
 
 
 def shiftmargins(filename, width, height, axl, axr):

@@ -7,7 +7,7 @@ import os, re
 
 def slides_gen(fol): 
   # Path to the folder containing images
-  # folder_path = os.path.join('D:/', 'Dropbox', 'c4dynamics', 'examples', 'out', 'cars2_short')
+  # folder_path = os.path.join('D:/', 'Dropbox', 'c4dynamics', 'examples', '_out', 'cars2_short')
   # print(folder_path)
   # Create a PowerPoint presentation object
   prs = Presentation()

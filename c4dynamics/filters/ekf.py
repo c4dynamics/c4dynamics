@@ -1,37 +1,38 @@
 import numpy as np
 import c4dynamics as c4d 
+from typing import Optional
 
 class ekf(c4d.state):
   '''  
-  Extended Kalman Filter.
+    Extended Kalman Filter.
 
-  Extended Kalman Filter class for state estimation.
+    Extended Kalman Filter class for state estimation.
+      
     
-  
-  Parameters
-  ==========
-  X : dict
-      Initial state variables and their values.
-  P0 : numpy.ndarray
-      Initial covariance matrix or standard deviations.
-  dt : float, optional
-      Time step for the filter. Defaults to None.
-  G : numpy.ndarray, optional
-      Control matrix. Defaults to None.
+    Parameters
+    ==========
+    X : dict
+        Initial state variables and their values.
+    P0 : numpy.ndarray
+        Initial covariance matrix or standard deviations.
+    dt : float, optional
+        Time step for the filter. Defaults to None.
+    G : numpy.ndarray, optional
+        Control matrix. Defaults to None.
 
-   
-  See Also
-  ========
-  .filters
-  .kalman  
-  .lowpass
-  .seeker 
-  .eqm 
+    
+    See Also
+    ========
+    .filters
+    .kalman  
+    .lowpass
+    .seeker 
+    .eqm 
 
 
-  Example
-  =======
-  TODO complete
+    Example
+    =======
+    TODO complete
 
   '''
 
@@ -41,10 +42,13 @@ class ekf(c4d.state):
   # H         measurement matrix 
   # R         measurement noise matrix 
   
-  def __init__(self, X, P0, dt = None, G = None): 
+  # def __init__(self, X, P0, dt = None, G = None): 
+  def __init__(self, X: dict, P0: np.ndarray, dt: Optional[float] = None, G: Optional[np.ndarray] = None) -> None:
 
     if not isinstance(X, dict):
       raise TypeError('X must be a dictionary containig pairs of variables and initial conditions, e.g.: {''x'': 0, ''y'': 0}')
+    
+
     super().__init__(**X)
 
     self.dt = dt
@@ -61,14 +65,16 @@ class ekf(c4d.state):
       self.P = P0
     else:
       # only standard deviations are provided 
-      self.P = np.diag(P0.flatten()**2)
+      # self.P = np.diag(P0.flatten()**2)
+      self.P = np.diag(P0.ravel()**2)
       
     self._Pdata = [] 
 
     self.F = None   
 
 
-  def predict(self, F, Qk, fx = None, dt = None, u = None):
+  # def predict(self, F, Qk, fx = None, dt = None, u = None):
+  def predict(self, F: np.ndarray, Qk: np.ndarray, fx: Optional[np.ndarray] = None, dt: Optional[float] = None, u: Optional[np.ndarray] = None) -> None:
     '''
     Predicts the next state and covariance based on the given parameters.
     
@@ -125,7 +131,8 @@ class ekf(c4d.state):
     
   
  
-  def update(self, z, H, Rk, hx = None): 
+  # def update(self, z, H, Rk, hx = None): 
+  def update(self, z: np.ndarray, H: np.ndarray, Rk: np.ndarray, hx: Optional[np.ndarray] = None) -> None:
     '''
     Updates the state estimate based on the given measurements.
         
@@ -182,7 +189,7 @@ class ekf(c4d.state):
 
 
 
-  def store(self, t = -1):
+  def store(self, t: int = -1) -> None:
     '''
     Stores the current state and diagonal elements of the covariance matrix.
         

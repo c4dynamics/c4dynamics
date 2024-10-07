@@ -51,7 +51,7 @@ from .utils.const import *
 from .utils.math import * 
 from .utils.gen_gif import gif
 from .utils.cprint import cprint
-from .utils.plottools import plotdefaults, figdefaults
+from .utils.plottools import plotdefaults, _figdef
 from .utils import tictoc
 from .utils.tictoc import tic, toc 
 from .utils._struct import struct 
@@ -88,4 +88,41 @@ __version__ = '1.2.00'
 ## 
 import os 
 j = os.path.join
+
+
+
+#
+# warnings 
+##
+import warnings 
+class c4warn(UserWarning): pass
+
+# customize the warning messages:  
+YELLOW = "\033[93m"  
+RESET  = "\033[0m"   # Reset color to default
+# Override showwarning to globally apply custom formatting
+def show_warning(message, category, filename, lineno, file = None, line = None):
+  
+
+  if issubclass(category, c4warn):
+    # Apply formatting for c4warn warnings
+
+    # FIXME suppressing is absolutely not working. 
+    message = str(message) + (f"\nTo suppress c4dynamics' warnings, run: import warnings, import c4dynamics as c4d, warnings.simplefilter('ignore', c4d.c4warn)\n")
+
+    print(f"{YELLOW}{message}{RESET} (File: {filename}, Line: {lineno})")
+  else:
+    # For other warnings, use the default behavior
+    print(f"{category.__name__}: {message} (File: {filename}, Line: {lineno})")
+
+warnings.showwarning = show_warning
+
+
+
+
+
+
+
+
+
 

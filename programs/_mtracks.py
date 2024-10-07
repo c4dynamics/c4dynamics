@@ -20,7 +20,7 @@ class Trkstate(Enum):
 class ppkalman(c4d.pixelpoint, c4d.filters.kalman):
 
   def __init__(self, pp, X, kf):
-    self.units  = pp.units 
+    # self.units  = pp.units 
     self.fsize  = pp.fsize
     self.class_id = pp.class_id 
     c4d.filters.kalman.__init__(self, X, kf['dt'], P0 = kf['P']
@@ -93,7 +93,7 @@ class mTracks:
     
     print(self.trackers[key])
     
-    self.trackers[key].predict(self.trackers[key].X)
+    self.trackers[key].predict()
 
     self.trackers[key].state = Trkstate.OPENED
     self.trackers[key].color = np.random.randint(50, 255, size = 3).tolist()

@@ -26,7 +26,7 @@ def tic():
       ...     a = np.concatenate((a, np.ones((1, 3))))
       >>> t1 = toc()
       >>> c4d.cprint('numpy concat: ' + str(1000 * t1) + ' ms', 'r')
-        numpy concat: 1101.062536239624 ms
+        numpy concat: 1101.062 ms
 
     .. code:: 
 
@@ -36,7 +36,7 @@ def tic():
       ...     a[i, :] = np.ones((1, 3))
       >>> t2 = toc()
       >>> c4d.cprint('numpy predefined: ' + str(1000 * t2) + ' ms', 'g')
-        numpy predefined: 294.16894912719727 ms
+        numpy predefined: 294.169 ms
 
     .. code:: 
 
@@ -47,7 +47,7 @@ def tic():
       >>> a = np.array(a)
       >>> t3 = toc()
       >>> c4d.cprint('list to numpy: ' + str(1000 * t3) + ' ms', 'y')
-        list to numpy: 86.08531951904297 ms
+        list to numpy: 86.085 ms
     
     '''
 
@@ -55,59 +55,59 @@ def tic():
     _tic = time.time()
     return _tic
 
-def toc():
-    '''
- 
-    Stops the stopwatch timer and reads the elapsed time.
+def toc(show = True):
+  '''
 
-    Measures the elapsed time since the last call to `tic()` and prints the result in seconds.
+  Stops the stopwatch timer and reads the elapsed time.
+
+  Measures the elapsed time since the last call to `tic()` and prints the result in seconds.
 
 
-    Returns
-    -------
-    out : float
-        Elapsed time in seconds.
+  Returns
+  -------
+  out : float
+      Elapsed time in seconds.
 
-    Examples 
-    --------
+  Examples 
+  --------
 
-    .. code:: 
-        
-      >>> N = 10000
-      >>> tic()
-      >>> a = np.ones((1, 3))
-      >>> for i in range(N - 1):
-      ...     a = np.concatenate((a, np.ones((1, 3))))
-      >>> t1 = toc()
-      >>> c4d.cprint('numpy concat: ' + str(1000 * t1) + ' ms', 'r')
-        numpy concat: 1101.062536239624 ms
+  .. code:: 
+      
+    >>> N = 10000
+    >>> tic()
+    >>> a = np.ones((1, 3))
+    >>> for i in range(N - 1):
+    ...     a = np.concatenate((a, np.ones((1, 3))))
+    >>> t1 = toc()
+    >>> c4d.cprint('numpy concat: ' + str(1000 * t1) + ' ms', 'r')
+    numpy concat: 1101.062 ms
 
-    .. code:: 
+  .. code:: 
 
-      >>> tic()
-      >>> a = np.zeros((N, 3))
-      >>> for i in range(N):
-      ...     a[i, :] = np.ones((1, 3))
-      >>> t2 = toc()
-      >>> c4d.cprint('numpy predefined: ' + str(1000 * t2) + ' ms', 'g')
-        numpy predefined: 294.16894912719727 ms
+    >>> tic()
+    >>> a = np.zeros((N, 3))
+    >>> for i in range(N):
+    ...     a[i, :] = np.ones((1, 3))
+    >>> t2 = toc()
+    >>> c4d.cprint('numpy predefined: ' + str(1000 * t2) + ' ms', 'g')
+    numpy predefined: 294.169 ms
 
-    .. code:: 
+  .. code:: 
 
-      >>> tic()
-      >>> a = []
-      >>> for i in range(N):
-      ...     a.append([1, 1, 1])
-      >>> a = np.array(a)
-      >>> t3 = toc()
-      >>> c4d.cprint('list to numpy: ' + str(1000 * t3) + ' ms', 'y')
-        list to numpy: 86.08531951904297 ms
-    '''
+    >>> tic()
+    >>> a = []
+    >>> for i in range(N):
+    ...     a.append([1, 1, 1])
+    >>> a = np.array(a)
+    >>> t3 = toc()
+    >>> c4d.cprint('list to numpy: ' + str(1000 * t3) + ' ms', 'y')
+      list to numpy: 86.085 ms
+  '''
 
-    global _tic
-    dt = time.time() - _tic
-    print(dt)
-    return dt
+  global _tic
+  dt = time.time() - _tic
+  if show: print(f'{dt:.3f}')
+  return dt
 
 
 

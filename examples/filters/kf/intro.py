@@ -59,16 +59,14 @@ from c4dynamics.filters import kalman
 savedir = os.path.join(c4path, 'docs', 'source', '_examples', 'kf') 
 
 
-
-
-
-c4d.cprint()
 kf = kalman({'x': 0}, P0 = 500, F = 1, G = 1, H = 1, Q = .2, R = 5)
 
 for i in range(50):
   kf.update(i + np.random.randn())
   kf.store(i)
   kf.predict(1 + np.random.randn())
+
+
 
 kf.plot('x')
 fig, ax = c4d._figdef()

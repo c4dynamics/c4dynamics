@@ -1,16 +1,27 @@
 import unittest
 import numpy as np
-from scipy.linalg import solve_discrete_are, solve_continuous_are
+from scipy.linalg import solve_discrete_are
+from scipy.linalg import expm
 
 # Assuming the kalman class is defined in a module named kalman_module
 import sys
 sys.path.append('')
-# import c4dynamics as c4d 
-from c4dynamics.filters import kalman
+import c4dynamics as c4d  
 
-class TestKalmanFilter(unittest.TestCase):
+import warnings 
+warnings.simplefilter('ignore', c4d.c4warn)
+
+ 
+
+# first order systems
+# https://eng.libretexts.org/Bookshelves/Industrial_and_Systems_Engineering/Introduction_to_Control_Systems_(Iqbal)/01%3A_Mathematical_Models_of_Physical_Systems/1.02%3A_First-Order_ODE_Models
+# https://cocalc.com/share/public_paths/7557a5ac1c870f1ec8f01271959b16b49df9d087/07-Kalman-Filter-Math.ipynb
+
+
+class TestKalman(unittest.TestCase):
     
     def setUp(self):
+        self.X = {'x': 0, 'y': 0}
         self.dt = 0.1
         
         # Initial state covariance matrix (P0)
@@ -18,61 +29,143 @@ class TestKalmanFilter(unittest.TestCase):
         
         # Continuous system matrices
         self.A = np.array([[0, 1], [-1, 0]])
-        self.c = np.array([[1, 0]])
+        self.C = np.array([[1, 0]])
         self.Q = np.array([[0.1, 0], [0, 0.1]])
         self.R = np.array([[0.1]])
         
         # Discrete system matrices
         self.F = np.array([[1, self.dt], [-self.dt, 1]])
         self.H = np.array([[1, 0]])
-        self.Qk = np.array([[0.01, 0], [0, 0.01]])
-        self.Rk = np.array([[0.1]])
+       
+
+        """Set up a default Kalman filter with steady state"""
+        self.dt = 0.1
+        self.process_noise = 0.01
+        self.measure_noise = 0.1
+        self.kf = c4d.filters.kalman.velocitymodel(self.dt, self.process_noise, self.measure_noise)
         
+
     def test_initialization_continuous(self):
-        kf = kalman(dt=self.dt, P0=self.P0, A=self.A, c=self.c, Q=self.Q, R=self.R)
+        kf = c4d.filters.kalman(self.X, dt=self.dt, P0=self.P0, A=self.A, C=self.C, Q=self.Q, R=self.R)
         np.testing.assert_array_almost_equal(kf.F, np.eye(2) + self.A * self.dt)
-        np.testing.assert_array_almost_equal(kf.H, self.c)
-        np.testing.assert_array_almost_equal(kf.Qk, self.Q * self.dt)
-        np.testing.assert_array_almost_equal(kf.Rk, self.R / self.dt)
+        np.testing.assert_array_almost_equal(kf.H, self.C)
         
+    
+
+        """Test Kalman filter initialization with a continuous model"""
+        A = np.zeros((6, 6))
+        A[0, 4] = A[1, 5] = 1
+        B = np.zeros((6, 2))
+        C = np.eye(6)[:4]
+        dt = 0.1
+        Q = np.eye(6) * 0.01
+        R = np.eye(4) * 0.1
+
+        kf_continuous = c4d.filters.kalman({'x': 0, 'y': 0, 'w': 0, 'h': 0, 'vx': 0, 'vy': 0}, dt=dt, A=A, B=B, C=C, Q=Q, R=R, P0 = self.P0)
+        self.assertFalse(kf_continuous.isdiscrete, "Expected system to be continuous")
+        self.assertAlmostEqual(kf_continuous.dt, dt, places=5)
+        
+
     def test_initialization_discrete(self):
-        kf = kalman(dt=self.dt, P0=self.P0, F=self.F, H=self.H, Qk=self.Qk, Rk=self.Rk)
+        kf = c4d.filters.kalman(self.X, dt=self.dt, P0=self.P0, F=self.F, H=self.H, Q=self.Q, R=self.R)
         np.testing.assert_array_almost_equal(kf.F, self.F)
         np.testing.assert_array_almost_equal(kf.H, self.H)
-        np.testing.assert_array_almost_equal(kf.Qk, self.Qk)
-        np.testing.assert_array_almost_equal(kf.Rk, self.Rk)
+        np.testing.assert_array_almost_equal(kf.Q, self.Q)
+        np.testing.assert_array_almost_equal(kf.R, self.R)
+
+        """Test Kalman filter initialization with a discrete model"""
+        self.assertTrue(self.kf.isdiscrete, "Expected system to be discrete")
+        F = np.zeros((6, 6))
+        F[0, 4] = 1
+        F[1, 5] = 1
+        F = expm(F * self.dt)
+        np.testing.assert_array_almost_equal(self.kf.F, F, decimal=5)
+        self.assertEqual(self.kf.H.shape, (4, 6), "Unexpected measurement matrix shape")
         
     def test_initialization_steadystate(self):
-        kf = kalman(dt=self.dt, P0=self.P0, steadystate=True, F=self.F, H=self.H, Qk=self.Qk, Rk=self.Rk)
-        P_expected = solve_discrete_are(self.F.T, self.H.T, self.Qk, self.Rk)
-        K_expected = P_expected @ self.H.T @ np.linalg.inv(self.H @ P_expected @ self.H.T + self.Rk)
+        kf = c4d.filters.kalman(self.X, dt=self.dt, P0=self.P0, steadystate=True, F=self.F, H=self.H, Q=self.Q, R=self.R)
+        P_expected = solve_discrete_are(self.F.T, self.H.T, self.Q, self.R)
+        K_expected = P_expected @ self.H.T @ np.linalg.inv(self.H @ P_expected @ self.H.T + self.R)
         np.testing.assert_array_almost_equal(kf.P, P_expected)
         np.testing.assert_array_almost_equal(kf.Kinf, K_expected)
         
     def test_predict(self):
-        kf = kalman(dt=self.dt, P0=self.P0, F=self.F, H=self.H, Qk=self.Qk, Rk=self.Rk)
+        kf = c4d.filters.kalman(self.X, dt=self.dt, P0=self.P0, F=self.F, H=self.H, Q=self.Q, R=self.R)
         x = np.array([1, 0])
-        x_pred = kf.predict(x)
+        kf.X = x 
         x_expected = self.F @ x
+        kf.predict()
+        x_pred = kf.X
         np.testing.assert_array_almost_equal(x_pred, x_expected)
         
     def test_predict_with_control(self):
-        kf = kalman(dt=self.dt, P0=self.P0, F=self.F, H=self.H, Qk=self.Qk, Rk=self.Rk, G=np.array([[0.5], [0.5]]))
+        kf = c4d.filters.kalman(self.X, dt=self.dt, P0=self.P0, F=self.F, H=self.H, Q=self.Q, R=self.R, G=np.array([[0.5], [0.5]]))
         x = np.array([1, 0])
+        kf.X = x 
         u = 1
-        x_pred = kf.predict(x, u)
         x_expected = self.F @ x + kf.G.reshape(x.shape) * u
+        kf.predict(u = u)
+        x_pred = kf.X
         np.testing.assert_array_almost_equal(x_pred, x_expected)
+
         
     def test_update(self):
-        kf = kalman(dt=self.dt, P0=self.P0, F=self.F, H=self.H, Qk=self.Qk, Rk=self.Rk)
-        x = np.array([1, 0])
+        
+        kf = c4d.filters.kalman(self.X, dt=self.dt, P0=self.P0, F=self.F, H=self.H, Q=self.Q, R=self.R)
+        
+        kf.predict()
+        x_pred = kf.X
+
+        K = kf.P @ kf.H.T @ np.linalg.inv(kf.H @ kf.P @ kf.H.T + kf.R)
         z = np.array([1.1])
-        x_pred = kf.predict(x)
-        x_updated = kf.update(x_pred, z)
-        K = kf.P @ kf.H.T @ np.linalg.inv(kf.H @ kf.P @ kf.H.T + kf.Rk)
         x_expected = x_pred + K @ (z - kf.H @ x_pred)
+        kf.update(z)
+        x_updated = kf.X
+        
+        
         np.testing.assert_array_almost_equal(x_updated, x_expected)
 
+        """Test update with measurement"""
+        z = np.array([1.0, 1.0, 1.0, 1.0])
+        self.kf.update(z)
+        self.assertEqual(self.kf.X.shape[0], 6, "Expected state dimension mismatch after update")
+
+
+
+
+
+
+
+
+
+
+    def test_steady_state_gain(self):
+        """Test if steady-state Kalman gain is correctly computed"""
+        self.assertIsNotNone(self.kf.Kinf, "Kalman gain should be defined in steady-state mode")
+        np.testing.assert_array_almost_equal(self.kf.Kinf, self.kf.P @ self.kf.H.T @ np.linalg.inv(self.kf.H @ self.kf.P @ self.kf.H.T + self.kf.R), decimal=5)
+
+    def test_invalid_initial_conditions(self):
+        """Test invalid initialization arguments"""
+        with self.assertRaises(TypeError):
+            c4d.filters.kalman(X=[0, 0, 0], dt=0.1)  # X should be a dict
+
+        with self.assertRaises(ValueError):
+            c4d.filters.kalman({'x': 0, 'y': 0}, dt=0.1, F=np.eye(2), H=None)  # H is missing
+
+    def test_store_state(self):
+        """Test state storage functionality"""
+        self.kf.store(t=0)
+        self.assertTrue(hasattr(self.kf, 'P00'), "P00 attribute should be stored after calling store")
+        self.assertEqual(self.kf.P00, np.diag(self.kf.P)[0], "Stored P00 should match the first diagonal element of P")
+
+
 if __name__ == '__main__':
-    unittest.main()
+  import contextlib
+  import os 
+  print(os.getcwd())
+  # Redirect both stdout and stderr to a file within this block
+  with open('tests\\_out\\output.txt', 'w') as f:
+    with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
+      unittest.main()
+      
+      

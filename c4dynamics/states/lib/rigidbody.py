@@ -103,18 +103,28 @@ class rigidbody(datapoint):  #
     \\dot{\\theta}(t) = -0.5 \\cdot \\theta(t) - 0.1 \\cdot z(t)
 
   
-  where:
+  Where:
 
   - :math:`z` is the deviation of the aircraft from the required altitude
   - :math:`\\theta` is the pitch angle 
 
   The aircraft is represented by a `rigidbody` object.
   `scipy's odeint` is employed to solve the 
-  dynamics equations and update the state vector `X`:
+  dynamics equations and update the state vector `X`. 
+
+  import required packages: 
+
   
   .. code:: 
   
+    >>> import c4dynamics as c4d 
+    >>> from matplotlib import pyplot as plt
     >>> from scipy.integrate import odeint
+    >>> import numpy as np 
+  
+    
+  .. code:: 
+  
     >>> dt, tf = 0.01, 15
     >>> tspan = np.arange(0, tf, dt)  
     >>> A = np.zeros((12, 12))
@@ -125,23 +135,34 @@ class rigidbody(datapoint):  #
     >>> for t in tspan:
     ...   f16.X = odeint(lambda y, t: A @ y, f16.X, [t, t + dt])[-1] 
     ...   f16.store(t)
+
+
+  .. code:: 
+    
     >>> f16.plot('z')
     >>> f16.plot('z', ax = ax[0])
     >>> ax[0].set(xlabel = '')
     >>> f16.plot('theta', ax = ax[1], scale = c4d.r2d)
     >>> plt.show()
 
-  .. figure:: /_static/figures/rigidbody/intro_f16_autopilot.png
+  .. figure:: /_examples/rigidbody/intro_f16_autopilot.png
 
   The :meth:`animate` method allows the user to play the attitude 
-  histories given a 3D model (requires installation of `open3D`):  
+  histories given a 3D model (requires installation of `open3D`). 
+
+  The model in the example can be fetched using the c4dynamics datasets module 
+  (see :mod:`c4dynamics.datasets`):  
+
+  .. code:: 
+
+    >>> modelpath = c4d.datasets.d3_model('f16') 
 
   .. code:: 
 
     >>> f16colors = np.vstack(([255, 215, 0], [255, 215, 0], [184, 134, 11], [0, 32, 38], [218, 165, 32], [218, 165, 32], [54, 69, 79], [205, 149, 12], [205, 149, 12])) / 255
     >>> f16.animate(modelpath, angle0 = [90 * c4d.d2r, 0, 180 * c4d.d2r], modelcolor = f16colors)
 
-  .. figure:: /_static/gifs/rb_intro_ap.gif
+  .. figure:: /_examples/rigidbody/rb_intro_ap.gif
 
   '''
 
@@ -251,7 +272,7 @@ class rigidbody(datapoint):  #
       >>> rb005.plot('theta', ax = plt.gca())
       >>> plt.show()
     
-    .. figure:: /_static/figures/rigidbody/Iyy_pendulum.png
+    .. figure:: /_examples/rigidbody/Iyy_pendulum.png
 
 
     '''
@@ -306,7 +327,7 @@ class rigidbody(datapoint):  #
      
     .. math:: 
 
-      ang_rates = [p, q, r]
+      angular rates = [p, q, r]
 
     
     
@@ -534,7 +555,7 @@ class rigidbody(datapoint):  #
       >>> rb.plot('p')
       >>> plt.show()
 
-    .. figure:: /_static/figures/rigidbody/inteqm_rollstable.png
+    .. figure:: /_examples/rigidbody/inteqm_rollstable.png
         
     
     '''

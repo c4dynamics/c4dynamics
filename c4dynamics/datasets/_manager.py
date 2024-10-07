@@ -1,19 +1,23 @@
+from typing import Optional
 import hashlib
 import shutil
-# import pooch 
-import os 
+import os, sys 
+sys.path.append('.')
 
-from ._registry import CACHE_DIR, image_register, video_register, nn_register, d3_register, d3_f16_register
+
+# from ._registry import CACHE_DIR, image_register, video_register, nn_register, d3_register, d3_f16_register
+from c4dynamics.datasets._registry import CACHE_DIR, image_register, video_register, nn_register, d3_register, d3_f16_register
 
 imagesmap = {'planes': 'planes.png', 'planes.png': 'planes.png', 'triangle': 'triangle.png', 'triangle.png': 'triangle.png'}
-videosmap = {'aerobatics': 'aerobatics.mp4', 'aerobatics.mp4': 'aerobatics.mp4'}
+videosmap = {'aerobatics': 'aerobatics.mp4', 'aerobatics.mp4': 'aerobatics.mp4'
+                , 'drifting_car.mp4': 'drifting_car.mp4', 'driftingcar': 'drifting_car.mp4', 'drifting_car': 'drifting_car.mp4'}
 nnsmap    = {'yolov3': 'yolov3.weights', 'yolo_v3': 'yolov3.weights', 'yolov3.weights': 'yolov3.weights'}
 d3smap    = {'f16': 'f16', 'f_16': 'f16', 'bunny': 'bunny.pcd', 'bunnymesh': 'bunny_mesh.ply', 'bunny_mesh': 'bunny_mesh.ply'
                 , 'bunny.pcd': 'bunny.pcd', 'bunnymesh.ply': 'bunny_mesh.ply', 'bunny_mesh.ply': 'bunny_mesh.ply'}
 
-def image(image_name):
+def image(image_name: str) -> str:
   ''' 
-    Gets a path to an image from the local cache.  
+    Fetches the path of an image from the local cache.
     
     `image` downloads and manages image files from `c4dynamics` datasets.  
         
@@ -51,32 +55,38 @@ def image(image_name):
     Examples
     --------
 
+    Import required packages: 
+
+    .. code::
+
+      >>> import c4dynamics as c4d
+      >>> import matplotlib.image as mpimg
+      >>> from matplotlib import pyplot as plt 
+
     **planes**
 
     .. code::
 
-      >>> import cv2
-      >>> import c4dynamics as c4d
       >>> impath = c4d.datasets.image('planes')
-      fetched successfully
-      >>> cv2.imshow('planes', cv2.imread(impath))
-      >>> cv2.waitKey(0)  # Display window waits for a key press to close
+      Fetched successfully
+      >>> img = mpimg.imread(impath) # read image 
+      >>> plt.imshow(img)
+      >>> plt.axis('off')
 
-    .. figure:: ../../../datasets/images/planes.png
+    .. figure:: /_examples/datasets/planes.png
 
     
     **triangle** 
 
     .. code::
 
-      >>> import cv2
-      >>> import c4dynamics as c4d
       >>> impath = c4d.datasets.image('triangle')
-      fetched successfully
-      >>> cv2.imshow('triangle', cv2.imread(impath))
-      >>> cv2.waitKey(0)  # Display window waits for a key press to close
+      Fetched successfully
+      >>> img = mpimg.imread(impath) # read image 
+      >>> plt.imshow(img)   
+      >>> plt.axis('off')
 
-    .. figure:: ../../../datasets/images/triangle.png
+    .. figure:: /_examples/datasets/triangle.png
     
   '''
 
@@ -90,9 +100,9 @@ def image(image_name):
   return filename 
 
 
-def video(video_name):
+def video(video_name: str) -> str:
   ''' 
-    Gets a path to a video from the local cache.  
+    Fetches the path of a video from the local cache.
     
     `video` downloads and manages video files from `c4dynamics` datasets.  
         
@@ -107,10 +117,14 @@ def video(video_name):
       * - planes 
         - 10 seconds video file of aerobatic airplanes (aerobatics.mp4, 7MB)
 
+      * - drifting_car 
+        - 9 seconds video file of a drifting car\\* (drifting_car.mp4, 10MB)
       
 
     The videos can be found at 
     https://github.com/C4dynamics/C4dynamics/blob/main/datasets/videos/
+
+    \\* Used by kind permission of `Abed Ismail <https://www.pexels.com/@abed-ismail>`_
 
     
     Parameters
@@ -127,11 +141,20 @@ def video(video_name):
     Examples
     --------
 
+    Import required packages: 
+
+    .. code:: 
+
+      >>> import c4dynamics as c4d
+      >>> import cv2 
+
+    
+    Fetch and run: 
+      
     .. code::
 
-      >>> import cv2 
-      >>> import c4dynamics as c4d
       >>> vidpath = c4d.datasets.video('aerobatics')
+      Fetched successfully
       >>> cap = cv2.VideoCapture(vidpath)
       >>> while cap.isOpened():
       ...   ret, frame = cap.read() 
@@ -142,7 +165,7 @@ def video(video_name):
       >>> cv2.destroyAllWindows()
 
     
-    .. figure:: /_static/gifs/aerobatics.gif
+    .. figure:: /_examples/datasets/aerobatics.gif
 
 
     
@@ -158,10 +181,10 @@ def video(video_name):
   return filename
 
 
-def nn_model(nn_name): 
+def nn_model(nn_name: str) -> str:
   ''' 
-    Gets a path to a neural network model from the local cache.  
-    
+    Fetches the path of a neural network model from the local cache.
+        
     `nn_model` downloads and manages neural network files from `c4dynamics` datasets.  
         
 
@@ -195,15 +218,20 @@ def nn_model(nn_name):
     Examples
     --------
 
-    
-    Print first 5 layers of YOLOv3: 
+    Import required packages: 
 
     .. code::
 
-      >>> import cv2 
       >>> import c4dynamics as c4d
+      >>> import cv2 
+
+      
+    Print first 5 layers of YOLOv3: 
+      
+    .. code::
+
       >>> impath = c4d.datasets.nn_model('yolov3')
-      fetched successfully
+      Fetched successfully
       >>> net = cv2.dnn.readNet(impath, 'c4dynamics/detectors/yolov3.cfg')
       >>> for i, layer in enumerate(layer_names):
       ...   print(f"Layer {i}:\t{layer}")
@@ -228,9 +256,10 @@ def nn_model(nn_name):
   return filename
 
 
-def d3_model(d3_name): 
-  '''
-    Gets a path to a 3D model from the local cache.  
+def d3_model(d3_name: str) -> str:
+  ''' 
+    Fetches the path of a 3D model from the local cache.
+    
     
     `d3_model` downloads and manages 3D model files from `c4dynamics` datasets.  
         
@@ -246,10 +275,10 @@ def d3_model(d3_name):
         - Point cloud file of Stanford bunny (bunny.pcd, 0.4MB)
         
       * - bunny_mesh 
-        - Triangle mesh file of Stanford bunny (bunny_mesh.ply, 3MB)
+        - Polygon file of Stanford bunny (bunny_mesh.ply, 3MB)
 
       * - F16 
-        - 10 stl files representing the jet parts as fuselage, ailerons, 
+        - A folder of 10 stl files, representing the jet parts as fuselage, ailerons, 
           cockpit, rudder and stabilators (10 files, total 3MB).  
         
 
@@ -274,55 +303,57 @@ def d3_model(d3_name):
     Examples
     --------
 
-    
     **Stanford bunny (point cloud)** 
 
+    Import required packages: 
+    
     .. code::
 
-      >>> import open3d as o3d 
       >>> import c4dynamics as c4d
+      >>> import open3d as o3d 
+      >>> import os 
+    
+      
+    .. code::
+
       >>> bunnypath = c4d.datasets.d3_model('bunny')
-      fetched successfully
+      Fetched successfully
       >>> pcd = o3d.io.read_point_cloud(bunnypath)
       >>> print(pcd)
       PointCloud with 35947 points.
       >>> o3d.visualization.draw_geometries([pcd])
 
-    .. figure:: /_static/images/datasets/bunny.png
+    .. figure:: /_examples/datasets/bunny.png
 
     
     **Stanford bunny (triangle mesh)** 
     
     .. code::
 
-      >>> import open3d as o3d 
-      >>> import c4dynamics as c4d
       >>> mbunnypath = c4d.datasets.d3_model('bunny_mesh')
-      fetched successfully
+      Fetched successfully
       >>> ply = o3d.io.read_triangle_mesh(mbunnypath)
       >>> ply.compute_vertex_normals()
       >>> print(ply)
       TriangleMesh with 35947 points and 69451 triangles.
       >>> o3d.visualization.draw_geometries([ply])
 
-    .. figure:: /_static/images/datasets/bunny_mesh.png
+    .. figure:: /_examples/datasets/bunny_mesh.png
 
 
     **F16 (10 stl files)** 
     
     .. code::
 
-      >>> import open3d as o3d 
-      >>> import c4dynamics as c4d
       >>> f16path = c4d.datasets.d3_model('f16')
-      fetched successfully
+      Fetched successfully
       >>> model = []
       >>> for f in sorted(os.listdir(f16path)):
       ...   model.append(o3d.io.read_triangle_mesh(os.path.join(f16path, f)).compute_vertex_normals())
       >>> o3d.visualization.draw_geometries(model)
 
       
-    .. figure:: /_static/images/datasets/f16.png    
+    .. figure:: /_examples/datasets/f16.png    
 
 
   '''
@@ -353,7 +384,65 @@ def d3_model(d3_name):
   return filename
 
 
-def download_all():
+def download_all() -> None:
+  '''
+    Downloads all available datasets to the local cache.
+
+    The `download_all` function fetches all predefined datasets, 
+    including images, videos, neural network models, and 3D models, 
+    and stores them in the local cache. 
+    
+    This function is a convenient way to ensure that all necessary data files are locally 
+    available for use without having to download each individually.
+
+    The datasets include:
+
+    .. list-table::
+      :widths: 20 80
+      :header-rows: 1
+
+      * - Dataset Type
+        - Included Files
+
+      * - Images
+        - 'planes.png', 'triangle.png'
+      
+      * - Videos
+        - 'aerobatics.mp4'
+      
+      * - Neural Networks
+        - 'yolov3.weights'
+      
+      * - 3D Models
+        - 'bunny.pcd', 'bunny_mesh.ply', 'f16' (multiple STL files)
+    
+    This function ensures all resources are fetched into the cache directory, 
+    making them accessible for further processing.
+
+    Examples
+    --------
+
+    **Download all datasets**
+
+    .. code::
+
+      >>> import c4dynamics as c4d
+
+    .. code::
+
+      >>> c4d.datasets.download_all()
+      Fetched successfully
+      Fetched successfully
+      Fetched successfully
+      Fetched successfully
+      Fetched successfully
+      Fetched successfully
+      Fetched successfully
+
+    After downloading, you can access each dataset using its 
+    corresponding function, such as `image`, `video`, `nn_model`, or `d3_model`.
+
+  '''
   image('planes')
   image('triangle')
   video('aerobatics')
@@ -363,7 +452,8 @@ def download_all():
   d3_model('f16')
 
 
-def clearcache(dataset = None):
+
+def clear_cache(dataset: Optional[str] = None) -> None:
   '''     
     Deletes datasets from the local cache.  
 
@@ -377,23 +467,28 @@ def clearcache(dataset = None):
         The name of the dataset to delete. 
 
 
-       
+        
     Examples
     --------
 
-    
-    **Given dataset** 
+    .. code:: 
+
+      >>> import c4dynamics as c4d 
+      >>> from matplotlib import pyplot as plt 
+      >>> import matplotlib.image as mpimg
+      >>> import os 
+
+    **Delete a dataset file** 
 
     .. code::
 
-      >>> import c4dynamics as c4d 
       >>> # download and verify 
       >>> impath = c4d.datasets.image('planes')
       Fetched successfully
       >>> print(os.path.exists(impath))
       True
       >>> # clear and verify 
-      >>> c4d.datasets.clearcache('planes')
+      >>> c4d.datasets.clear_cache('planes')
       >>> print(os.path.exists(impath))
       False
 
@@ -401,29 +496,26 @@ def clearcache(dataset = None):
     
     .. code::
 
-      >>> import c4dynamics as c4d 
       >>> # download all 
       >>> c4d.datasets.download_all()
       >>> # clear all and verify 
-      >>> c4d.datasets.clearcache()
+      >>> c4d.datasets.clear_cache()
       >>> for root, dirs, files in os.walk(CACHE_DIR):
       ...   for file in files:
       ...     print(os.path.join(root, file))
       ...   for dir in dirs:
       ...     print(os.path.join(root, dir))
 
-
-
-
-
- '''
+  '''
+  
   if dataset is None: 
     for root, dirs, files in os.walk(CACHE_DIR):
       for file in files:
         os.remove(os.path.join(root, file))
       for dir in dirs:
         shutil.rmtree(os.path.join(root, dir))
-    return 
+    return  
+  
 
 
   allmaps = imagesmap | videosmap | nnsmap | d3smap 
@@ -439,10 +531,27 @@ def clearcache(dataset = None):
     if os.path.exists(datafile):
       os.remove(datafile)
 
+   
 
 
 
-def sha256(filename):
+
+def sha256(filename: str) -> str:
+  ''' 
+    Computes the SHA-256 hash of a file.
+    
+    Parameters
+    ----------
+    filename : str
+        Path to the file for which the hash needs to be computed.
+
+    Returns
+    -------
+    str
+        The SHA-256 hash of the file.
+        
+  '''
+
   # filehash = pooch.file_hash(r'C:\Users\odely\Downloads\yolov3 (1).weights')
 
   hash_sha256 = hashlib.sha256()
@@ -450,4 +559,14 @@ def sha256(filename):
     for byte_block in iter(lambda: f.read(4096), b""):
       hash_sha256.update(byte_block)
   return hash_sha256.hexdigest()
+
+
+
+
+if __name__ == "__main__":
+  import doctest
+  doctest.testmod()
+ 
+
+
 

@@ -1,8 +1,12 @@
+from typing import Dict, Optional, Union, Tuple  
 from .derivs import eqm3, eqm6 
 import numpy as np
 
 
-def int3(dp, forces, dt, derivs_out = False):
+# def int3(dp, forces, dt, derivs_out = False):
+def int3(dp: 'datapoint', forces: Union[np.ndarray, list]
+            , dt: float, derivs_out: bool = False
+                ) -> Union[np.float64, Tuple[np.float64, np.float64]]:
   ''' 
   A step integration of the equations of translational motion.  
   
@@ -136,7 +140,8 @@ def int3(dp, forces, dt, derivs_out = False):
 
 # 
 
-def int6(rb, forces, moments, dt, derivs_out = False): 
+# def int6(rb, forces, moments, dt, derivs_out = False): 
+def int6(rb: 'rigidbody', forces: Union[np.ndarray, list], moments: Union[np.ndarray, list], dt: float, derivs_out: bool = False) -> Union[np.float64, Tuple[np.float64, np.float64]]:
   '''
   A step integration of the equations of motion.  
     

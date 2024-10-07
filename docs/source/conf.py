@@ -233,8 +233,17 @@ html_theme_options = {
 
 
 '''
+procedure for version.
+1 checkout main revision
+2 branch it 
+3 tag it
+4 .. check gpt wahts first. push and merge or merge and 
 
-XXX AIs for docstrings. 
+USE CASES
+1. see pretty example for jupyter demo here https://cocalc.com/share/public_paths/7557a5ac1c870f1ec8f01271959b16b49df9d087/07-Kalman-Filter-Math.ipynb
+
+
+AIs for docstrings. 
 1 edit the intro to the states and states lib. 
 2 animate is not a rb method. 
 3 rotmat is not a rb method. 

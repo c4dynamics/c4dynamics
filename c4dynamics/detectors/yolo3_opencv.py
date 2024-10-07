@@ -3,6 +3,7 @@ import cv2
 import numpy as np
 from c4dynamics import c4d 
 from c4dynamics import pixelpoint 
+from typing import Optional
 
 MODEL_SIZE = (416, 416, 3)
 
@@ -73,12 +74,12 @@ class yolov3:
 
     **Implementation (c4dynamics)**
 
-    The :class:yolov3 class abstracts the complexities of model initialization, 
+    The :class:`yolov3` class abstracts the complexities of model initialization, 
     input preprocessing, and output parsing. 
-    The :meth:detect method returns a 
-    :class:pixelpoint <c4dynamics.states.lib.pixelpoint.pixelpoint> 
+    The :meth:`detect` method returns a 
+    :class:`pixelpoint <c4dynamics.states.lib.pixelpoint.pixelpoint>` 
     for each detected object. 
-    The `pixelpoint` is a :mod:predefined state class <c4dynamics.states.lib>
+    The `pixelpoint` is a :mod:`predefined state class <c4dynamics.states.lib>`
     representing a data point in a video frame with an associated bounding box. 
     Its methods and properties enhance the YOLOv3 output structure, 
     providing a convenient data structure for handling tracking missions.
@@ -90,7 +91,7 @@ class yolov3:
 
     C4dynamics downloads 
     the YOLOv3' weights file 
-    once at first call to :class:yolov3 and saves the cache. 
+    once at first call to :class:`yolov3` and saves the cache. 
     For further details see :mod:`datasets <c4dynamics.datasets>`.
     Alternatively, the user can provide a path to his 
     own weights file using the parameter `weights_path`. 
@@ -103,7 +104,7 @@ class yolov3:
 
     .. code:: 
 
-        >>> yolo3 = c4d.detectors.yolov3()
+        >>> yolo3 = c4dynamics.detectors.yolov3()
 
     
     Initialization of the instance does not require any mandatory parameters.
@@ -113,26 +114,46 @@ class yolov3:
     Example
     =======
 
-    This example uses the `datasets` module from `c4dynamics` to fetch an image. 
+    The following snippet initializes the YOLOv3 model and 
+    runs the `detect()` method on an image containing four airplanes. 
+    The example uses the `datasets` module from `c4dynamics` to fetch an image. 
     For further details, see :mod:`c4dynamics.datasets`.
         
-    The following snippet initializes the YOLOv3 model and 
-    runs the `detect()` method on an image containing four airplanes:
+
+    Import required packages: 
 
     .. code:: 
 
-        >>> # load and read image file 
-        >>> imagepath = c4d.datasets.image('planes')
-        >>> img = cv2.imread(imagepath)
-        >>> # init YOLOv3 and run detection  
+        >>> import c4dynamics as c4d 
+        >>> import cv2 
+
+        
+    Load YOLOv3 detector: 
+
+    .. code:: 
+
         >>> yolo3 = c4d.detectors.yolov3()
+
+    
+    Fetch and read the image: 
+                
+    .. code:: 
+
+        >>> imagepath = c4d.datasets.image('planes')
+        Fetched successfully
+        >>> img = cv2.imread(imagepath)
+
+        
+    Run YOLOv3 detector on an image: 
+
+    .. code:: 
+
         >>> pts = yolo3.detect(img)
 
         
     Now `pts` consists of 
     :class:`pixelpoint <c4dynamics.states.lib.pixelpoint.pixelpoint>` 
-    instances for each object detected in the frame. 
-    
+    instances for each object detected in the frame.    
     Let's use the properties and methods of the `pixelpoint` class to 
     view the attributes of the detected objects:
 
@@ -142,25 +163,24 @@ class yolov3:
         >>> def ptup(n): return '(' + str(n[0]) + ', ' + str(n[1]) + ')'
         >>> print('{:^10} | {:^10} | {:^16} | {:^16} | {:^10} | {:^14}'.format('center x', 'center y', 'box top-left', 'box bottom-right', 'class', 'frame size'))
         >>> for p in pts:
-        ...   box = p.box
-        ...   fsize = p.fsize 
-        ...   classid = p.class_id 
-        ...   print('{:^10d} | {:^10d} | {:^16} | {:^16} | {:^10} | {:^14}'.format(p.x, p.y, ptup(box[0]), ptup(box[1]), classid, ptup(fsize)))
-        ...   cv2.rectangle(img, box[0], box[1], [0, 0, 0], 2)
-        ...   point = (int((box[0][0] + box[1][0]) / 2 - 75), box[1][1] + 22)
-        ...   cv2.putText(img, classid, point, cv2.FONT_HERSHEY_SIMPLEX, 1, [0, 0, 0], 2)
+        ...   print('{:^10d} | {:^10d} | {:^16} | {:^16} | {:^10} | {:^14}'.format(p.x, p.y, ptup(p.box[0]), ptup(p.box[1]), p.classid, ptup(p.fsize)))
+        ...   cv2.rectangle(img, p.box[0], p.box[1], [0, 0, 0], 2)
+        ...   point = (int((p.box[0][0] + p.box[1][0]) / 2 - 75), p.box[1][1] + 22)
+        ...   cv2.putText(img, p.classid, point, cv2.FONT_HERSHEY_SIMPLEX, 1, [0, 0, 0], 2)
         center x  |  center y  |   box top-left   | box bottom-right |   class    |   frame size
           615     |    295     |    (562, 259)    |    (668, 331)    | aeroplane  |  (1280, 720)
           779     |    233     |    (720, 199)    |    (838, 267)    | aeroplane  |  (1280, 720)
           635     |    189     |    (578, 153)    |    (692, 225)    | aeroplane  |  (1280, 720)
           793     |    575     |    (742, 540)    |    (844, 610)    | aeroplane  |  (1280, 720)
 
+          
     .. code:: 
 
-        >>> cv2.imshow('yolov3', img)
-        >>> cv2.waitKey(0)
+        >>> plt.figure()
+        >>> plt.axis(False)
+        >>> plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
 
-    .. figure:: /_static/images/yolov3/yolov3.png                  
+    .. figure:: /_examples/yolov3/intro.png                  
 
 
     '''
@@ -186,15 +206,12 @@ class yolov3:
     _nms_th = 0.5 
     _confidence_th = 0.5 
  
-    def __init__(self, weights_path = None): # , **kwargs): 
-      # TODO make nms_th and conf_th kwargs. it's too annoying this way.
-      # i think the original reason i didnt put it here was 
-      # to not need another variable which is not '_' prefixed. 
+    def __init__(self, weights_path: Optional[str] = None) -> None:
 
       errormsg = ''
       if weights_path is None: 
         weights_path = c4d.datasets.nn_model('YOLOv3')
-        errormsg = "Try to clear the cache by 'c4dynamics.datasets.clearcache()'"
+        errormsg = "Try to clear the cache by 'c4dynamics.datasets.clear_cache()'"
 
 
         
@@ -220,48 +237,75 @@ class yolov3:
 
 
     @property 
-    def nms_th(self):
+    def nms_th(self) -> float:
         '''
         Gets and sets the Non-Maximum Suppression (NMS) threshold.
 
-        Default: `nms_th = 0.5`. 
+        Objects with confidence scores below this threshold are suppressed. 
+        
 
         
         Parameters
         ----------
-        val : float
-            The new threshold value for NMS during object detection.
+        nms_th : float
+            The new threshold value for NMS during object detection. 
+            Defaults: `nms_th = 0.5`. 
 
         Returns 
         -------
-        out : float
+        nms_th : float
             The threshold value used for NMS during object detection.
             Objects with confidence scores below this threshold are suppressed. 
 
             
+
         Example
         -------
+
+        Import required packages:
         
         .. code:: 
             
-            >>> imagename = 'planes.jpg'
-            >>> imgpath = os.path.join(os.getcwd(), 'examples', 'resources', imagename)
-            >>> yolo3 = c4d.detectors.yolov3()
-            >>> nms_thresholds = [0.1, 0.5, 0.9]
-            >>> for i, nms_threshold in enumerate(nms_thresholds, 1)
+            >>> import c4dynamics as c4d 
+            >>> from matplotlib import pyplot as plt 
+            >>> import cv2 
+        
+            
+        Fetch 'planes.png' using the c4dynamics' datasets module (see :mod:`c4dynamics.datasets`):         
+            
+        .. code:: 
+            
+            >>> imgpath = c4d.datasets.image('planes')
+            Fetched successfully
+            
+
+        Load YOLOv3 detector and set 3 NMS threshold values to compare: 
+
+        .. code:: 
+            
+            >>> yolo3 = c4d.detectors.yolov3() 
+            >>> nms_thresholds = [0.1, 0.5, 0.9] 
+
+            
+        Run the detector on each threshold: 
+
+        .. code:: 
+
+            >>> _, axs = plt.subplots(1, 3)
+            >>> for i, nms_threshold in enumerate(nms_thresholds):
             ...   yolo3.nms_th = nms_threshold
-            ...   img = cv2.imread(imgpath)
+            ...   img = cv2.imread(impath)
             ...   pts = yolo3.detect(img)
             ...   for p in pts:
-            ...     cv2.rectangle(img, p.box[0], p.box[1], [0, 0, 0], 2)
-            ...   plt.subplots(1, 3)
-            ...   plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
-            ...   plt.title(f"NMS Threshold: {nms_threshold}")
-            ...   plt.axis('off')
+            ...     cv2.rectangle(img, p.box[0], p.box[1], [0, 255, 0], 2)
+            ...   axs[i].imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+            ...   axs[i].set_title(f"NMS Threshold: {nms_threshold}", fontsize = 6)
+            ...   axs[i].axis('off')
 
-        .. figure:: /_static/images/yolo3_nms_th.png                  
+            
+        .. figure:: /_examples/yolov3/nms_th.png                  
 
-
+        
         A high value (0.9) for the Non-Maximum Suppression (NMS) threshold here  
         leads to an increased number of bounding boxes around a single object.
         When the NMS threshold is high, it means that a significant overlap is 
@@ -278,30 +322,31 @@ class yolov3:
         for optimizing the performance of object detection models.
 
 
-
         '''
         return self._nms_th 
 
     @nms_th.setter
-    def nms_th(self, val):
+    def nms_th(self, val: float) -> None:
         self._nms_th = val
         
     @property 
-    def confidence_th(self):
+    def confidence_th(self) -> float:
         '''
         Gets and sets the confidence threshold used in the object detection.
 
-        Default: `confidence_th = 0.5`. 
+        Detected objects with confidence scores below this threshold are filtered out.
+        
 
 
         Parameters
         ----------
-        val : float
-            The new confidence threshold for object detection.
+        confidence_th : float
+            The new confidence threshold for object detection. 
+            Defaults: `confidence_th = 0.5`. 
 
         Returns
         -------
-        out : float
+        confidence_th : float
             The confidence threshold for object detection.
             Detected objects with confidence scores below this threshold are filtered out.
 
@@ -309,25 +354,48 @@ class yolov3:
         Example
         -------
 
+        Import required packages: 
+        
+        .. code:: 
+            
+            >>> import c4dynamics as c4d 
+            >>> from matplotlib import pyplot as plt 
+            >>> import cv2 
+        
+
+        Fetch 'planes.png' using the c4dynamics' datasets module (see :mod:`c4dynamics.datasets`):         
+            
+        .. code:: 
+            
+            >>> imgpath = c4d.datasets.image('planes')
+            Fetched successfully
+            
+
+        Load YOLOv3 detector and set 3 confidence threshold values to compare: 
+        
         .. code:: 
 
-            >>> imagename = 'planes.jpg'
-            >>> imgpath = os.path.join(os.getcwd(), 'examples', 'resources', imagename)
-            >>> yolo3 = c4d.detectors.yolov3()
-            >>> confidence_thresholds = [0.9, 0.95, 0.99]
-            ... for i, confidence_threshold in enumerate(confidence_thresholds, 1):  
+            >>> yolo3 = c4d.detectors.yolov3()  
+            >>> confidence_thresholds = [0.9, 0.95, 0.99] 
+
+            
+        Run the detector on each threshold: 
+            
+        .. code:: 
+
+            >>> _, axs = plt.subplots(1, 3)
+            >>> for i, confidence_threshold in enumerate(confidence_thresholds):
             ...   yolo3.confidence_th = confidence_threshold
-            ...   img = cv2.imread(imgpath)
+            ...   img = cv2.imread(impath) 
             ...   pts = yolo3.detect(img)
             ...   for p in pts:
-            ...     cv2.rectangle(img, p.box[0], p.box[1], [0, 0, 0], 2)
-            ...   plt.subplot(1, 3, i)
-            ...   plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
-            ...   plt.title(f"Confidence Threshold: {confidence_threshold}")
-            ...   plt.axis('off')
+            ...     cv2.rectangle(img, p.box[0], p.box[1], [0, 255, 0], 2)
+            ...   axs[i].imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+            ...   axs[i].set_title(f"Confidence Threshold: {confidence_threshold}", fontsize = 6)
+            ...   axs[i].axis('off')
 
 
-        .. figure:: /_static/images/yolo3_confidence_th.png
+        .. figure:: /_examples/yolov3/confidence_th.png
 
 
         A single object being missed, particularly when setting the confidence threshold to 0.99, 
@@ -343,16 +411,16 @@ class yolov3:
         return self._confidence_th 
 
     @confidence_th.setter
-    def confidence_th(self, val):
+    def confidence_th(self, val: float) -> None:
         self._confidence_th = val
         
 
 
-    def detect(self, frame):
+    def detect(self, frame: np.ndarray) -> list[pixelpoint]:
         '''
         Detects objects in a frame using the YOLOv3 model.
 
-        At each sample, the detector performs the following steps:
+        At each call, the detector performs the following steps:
 
         1. Preprocesses the frame by creating a blob, normalizing pixel values, and swapping Red and Blue channels.
 
@@ -360,83 +428,101 @@ class yolov3:
 
         3. Extracts detected objects based on a confidence threshold, calculates bounding box coordinates, and filters results using Non-Maximum Suppression (NMS).
 
+        
         Parameters
         ----------
-        frame : numpy.array or list
+        frame : numpy.array 
             An input frame for object detection.
 
         Returns
         -------
         out : list[pixelpoint]
             A list of :class:`pixelpoint` objects representing detected objects, 
-            each containing bounding box coordinates and class labels.
+            each containing bounding box coordinates and class label.
 
+            
         Examples
-        --------
-        FIXME broken link?
-        The datasets used in the examples are available in the 
-        `Source Repository <https://github.com/C4dynamics/C4dynamics>`_
-        under example/resources. 
+        --------        
 
+        **Setup**
 
-        **Import required packages**
-        
+        Import required packages:
         
         .. code:: 
         
-            >>> import os 
-            >>> import cv2      # opencv-python 
-            >>> import numpy as np 
+            >>> import cv2  # opencv-python 
             >>> import c4dynamics as c4d 
             >>> from matplotlib import pyplot as plt
 
+        
+            
+        Fetch 'planes.png' and 'aerobatics.mp4' using the c4dynamics' datasets module (see :mod:`c4dynamics.datasets`):         
+
+        .. code::
+
+            >>> imgpath = c4d.datasets.image('planes')
+            Fetched successfully
+            >>> vidpath = c4d.datasets.video('aerobatics')
+            Fetched successfully
+
+
+            
+        Load YOLOv3 detector: 
+        
+        .. code:: 
+
+            >>> yolo3 = c4d.detectors.yolov3()  
+
             
 
+        Let the auxiliary function:
 
+        .. code:: 
 
-        **Object detecion in a single frame**
+            >>> def ptup(n): return '(' + str(n[0]) + ', ' + str(n[1]) + ')'
+
+            
+
+        **Object detection in a single frame**
         
 
         .. code:: 
 
-            >>> imagename = 'planes.jpg'
-            >>> img = cv2.imread(os.path.join(os.getcwd(), 'examples', 'resources', imagename))
-            >>> yolo3 = c4d.detectors.yolov3()
+            >>> img = cv2.imread(impath) 
             >>> pts = yolo3.detect(img)
             >>> for p in pts:
-            ...   cv2.rectangle(img, p.box[0], p.box[1], np.random.randint(0, 255, 3).tolist(), 3)
-            >>> fig, ax = plt.subplots()
-            >>> ax.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+            ...   cv2.rectangle(img, p.box[0], p.box[1], [0, 255, 0], 2)
+        
+        .. code:: 
 
-        .. figure:: /_static/images/yolo3_image.png
+            >>> plt.figure()
+            >>> plt.axis(False)
+            >>> plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+  
+            
+        .. figure:: /_examples/yolov3/single_image.png
 
-
-        **Object detecion in a video**
         
 
+        **Object detection in a video**
+        
         .. code::
+            
+            >>> video_cap = cv2.VideoCapture(vidpath)
+            >>> while video_cap.isOpened():
+            ...   ret, frame = video_cap.read()
+            ...   if not ret: break
+            ...   pts = yolo3.detect(frame)
+            ...   for p in pts:
+            ...     cv2.rectangle(frame, p.box[0], p.box[1], [0, 255, 0], 2)
+            ...   cv2.imshow('YOLOv3', frame)
+            ...   cv2.waitKey(10)
+
+        .. figure:: /_examples/yolov3/aerobatics.gif
+
+
+
         
-            >>> videoname = 'aerobatics.mp4'
-            >>> videoin   = os.path.join('examples', 'resources', videoname)
-            >>> videoout  = os.path.join(os.getcwd(), videoname)
-            >>> cvideo      = cv2.VideoCapture(videoin)
-            >>> cvideo_out  = cv2.VideoWriter(videoout, cv2.VideoWriter_fourcc(*'mp4v')
-            ...                 , int(cvideo.get(cv2.CAP_PROP_FPS))
-            ...                     , [int(cvideo.get(cv2.CAP_PROP_FRAME_WIDTH))
-            ...                        , int(cvideo.get(cv2.CAP_PROP_FRAME_HEIGHT))])
-            >>> yolo3 = c4d.detectors.yolov3()
-            >>> while cvideo.isOpened():
-            ...     ret, frame = cvideo.read()
-            ...     if not ret: break
-            ...     pts = yolo3.detect(frame)
-            ...     for p in pts:
-            ...         cv2.rectangle(frame, p.box[0], p.box[1], [0, 0, 0], 2)# np.random.randint(0, 255, 3).tolist(), 2)    
-            ...     cvideo_out.write(frame)
-            >>> cvideo_out.release()
-
-        .. figure:: /_static/gifs/yolo_aerobatics.gif
-
-
         **The output structure**
         
 
@@ -446,29 +532,28 @@ class yolov3:
 
         .. code::
 
-            >>> print('{:^10} | {:^10} | {:^10} | {:^16} | {:^16} | {:^10} | {:^14}'.format(
-            ...     '# object', 'center x', 'center y', 'box top-left'
-            ...         , 'box bottom-right', 'class', 'frame size'))
+            >>> print('{:^10} | {:^10} | {:^10} | {:^16} | {:^16} | {:^10} | {:^14}'
+            ...             .format('# object', 'center x', 'center y', 'box top-left', 'box bottom-right', 'class', 'frame size'))
+            >>> # main loop:
             >>> for i, p in enumerate(pts):
-            ...     tlb = '(' + str(p.box[0][0]) + ', ' + str(p.box[0][1]) + ')'
-            ...     brb = '(' + str(p.box[1][0]) + ', ' + str(p.box[1][1]) + ')'
-            ...     fsize = '(' + str(p.fsize[0]) + ', ' + str(p.fsize[1]) + ')'
-            ...     print('{:^10d} | {:^10.3f} | {:^10.3f} | {:^16} | {:^16} | {:^10} | {:^14}'.format(
-            ...                 i, p.x, p.y, tlb, brb, p.class_id, fsize))
-            ...     c = np.random.randint(0, 255, 3).tolist()
-            ...     cv2.rectangle(img, p.box[0], p.box[1], c, 2)
-            ...     point = (int((p.box[0][0] + p.box[1][0]) / 2 - 75), p.box[1][1] + 22)
-            ...     cv2.putText(img, p.class_id, point, cv2.FONT_HERSHEY_SIMPLEX, 1, c, 2)
-            >>> fig, ax = plt.subplots()
-            >>> ax.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
-            >>> ax.set_axis_off()
-             # object  |  center x  |  center y  |   box top-left   | box bottom-right |   class    |  frame size  
-                0      |   0.584    |   0.376    |    (691, 234)    |    (802, 306)    | aeroplane  |  (1280, 720)  
-                1      |   0.457    |   0.473    |    (528, 305)    |    (642, 376)    | aeroplane  |  (1280, 720)  
-                2      |   0.471    |   0.322    |    (542, 196)    |    (661, 267)    | aeroplane  |  (1280, 720)  
-                3      |   0.546    |   0.873    |    (645, 588)    |    (752, 668)    | aeroplane  |  (1280, 720) 
+            ...   print('{:^10d} | {:^10.3f} | {:^10.3f} | {:^16} | {:^16} | {:^10} | {:^14}'
+            ...         .format(i, p.x, p.y, ptup(p.box[0]), ptup(p.box[1]), p.class_id, ptup(p.fsize)))
+            ...   cv2.rectangle(img, p.box[0], p.box[1], [0, 0, 0], 2)
+            ...   point = (int((p.box[0][0] + p.box[1][0]) / 2 - 75), p.box[1][1] + 22)
+            ...   cv2.putText(img, p.class_id, point, cv2.FONT_HERSHEY_SIMPLEX, 1, [0, 0, 0], 2)
+            # object  |  center x  |  center y  |   box top-left   | box bottom-right |   class    |  frame size  
+               0      |   0.584    |   0.376    |    (691, 234)    |    (802, 306)    | aeroplane  |  (1280, 720)  
+               1      |   0.457    |   0.473    |    (528, 305)    |    (642, 376)    | aeroplane  |  (1280, 720)  
+               2      |   0.471    |   0.322    |    (542, 196)    |    (661, 267)    | aeroplane  |  (1280, 720)  
+               3      |   0.546    |   0.873    |    (645, 588)    |    (752, 668)    | aeroplane  |  (1280, 720) 
 
-        .. figure:: /_static/images/yolo3_outformat.png
+        .. code:: 
+
+            >>> plt.figure()
+            >>> plt.axis(False)
+            >>> plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+        
+        .. figure:: /_examples/yolov3/outformat.png
 
 
         '''
@@ -542,7 +627,8 @@ class yolov3:
 
 
         if len(indices) > 0:
-            for i in indices.flatten():
+            # for i in indices.flatten():
+            for i in indices.ravel():
                 # (x, y) = (boxes[i][0], boxes[i][1])
                 # (w, h) = (boxes[i][2], boxes[i][3])
                 #               x top left, y top left,   x bottom right,           y bottom right 

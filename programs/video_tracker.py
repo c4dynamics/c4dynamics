@@ -474,8 +474,8 @@ def runtracker(vidpath, tf = None
     runs kalman filter, 
     returns path to processed video and a dictonary of tracks
   '''
-
   vidname = os.path.basename(vidpath)[:-4]
+  # XXX why not simply vidname = fol\subfol?
   outfol = os.path.join('examples', '_out', vidname) # video, detections. 
   subfol = os.path.join('examples', '_out', vidname, subfol) # mtracks, stills, processed vid. 
 
@@ -870,23 +870,33 @@ if __name__ == '__main__':
 
 
 ''' main '''
-resourcedir = os.path.join('examples', 'resources')
-vidtracks = {}
-print()
-for f in os.listdir(resourcedir):
-  if f.lower().endswith('.mp4'):
-    if videoname is not None and videoname != f.lower()[:-4]: continue
-    # if f.lower()[:-4] != 'cars1': continue  # '3 planes': continue # 'aerobatics': continue  # 
-    
-    c4d.cprint(f'{f[:-4]} is running', 'y')
 
-    vidtracks[f[:-4]] = runtracker(os.path.join(resourcedir, f)
-                              # , tf = tf
-                                  # , save_frames = True
-                                    # , save_png = plotbackend.SHOWSAVE
-                                      # , classlist = ['car'] # None # , 'person', 'truck', 'bus'
-                                        , **args_dict
-                              )
+if '\\' in videoname:
+  vidtracks[f[:-4]] = runtracker(videoname
+                            # , tf = tf
+                                # , save_frames = True
+                                  # , save_png = plotbackend.SHOWSAVE
+                                    # , classlist = ['car'] # None # , 'person', 'truck', 'bus'
+                                      , **args_dict
+                            )
+else: 
+  resourcedir = '_resources'
+  vidtracks = {}
+  print()
+  for f in os.listdir(resourcedir):
+    if f.lower().endswith('.mp4'):
+      if videoname is not None and videoname != f.lower()[:-4]: continue
+      # if f.lower()[:-4] != 'cars1': continue  # '3 planes': continue # 'aerobatics': continue  # 
+      
+      c4d.cprint(f'{f[:-4]} is running', 'y')
+
+      vidtracks[f[:-4]] = runtracker(os.path.join(resourcedir, f)
+                                # , tf = tf
+                                    # , save_frames = True
+                                      # , save_png = plotbackend.SHOWSAVE
+                                        # , classlist = ['car'] # None # , 'person', 'truck', 'bus'
+                                          , **args_dict
+                                )
 
 
 
