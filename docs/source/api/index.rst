@@ -1,35 +1,69 @@
-.. _api:
+API Reference
+=============
 
-####################
-C4dynamics Reference
-####################
+This API documentation is a comprehensive guide 
+to the various modules, classes, and functions 
+available in `c4dynamics`. 
+It covers everything from core components like **state 
+objects**, which encapsulate system states, 
+to modules like **sensors**, **detectors**, and **filters**.
 
-:Release: |version|
-:Date: |today|
+The API reference serves as both a learning tool for 
+newcomers and a quick lookup for experienced users.
 
-c4dynamics objects, modules and functions 
-
-This reference manual details functions, modules, and objects
-included in C4dynamics, describing what they are and what they do.
-
-
-A FEW WORDS ABOUT THE NAME SPACE. e.g.: All functions and classes 
-should be accessed from the pooch top-level namespace. Modules inside 
-of the pooch package are meant mostly for internal organization. Please 
-avoid importing directly from submodules since functions/classes may be moved around.
+For a quick overview of how to get started, 
+see the **Getting Started** section, and for 
+detailed use cases, refer to the **Programs** section.
 
 
-*******
+Namespaces 
+----------
+
+State objects and utilities should be accessed 
+from c4dynamics top-level namespace:
+
+.. code::
+
+  >>> import c4dynamics as c4d 
+  >>> s = c4d.state(...)        # Access state objects directly from the top-level namespace
+  >>> c4d.d2r                   # Access constants like degrees-to-radians conversion
+
+
+Other modules and classes are available by preceding the module name:
+
+.. code::
+
+  >>> import c4dynamics as c4d 
+  >>> rdr = c4d.sensors.radar(...)            
+  >>> kf = c4d.filters.kalman(...)           
+
+
+Datasets  
+--------
+
+Some examples in the following API reference use datasets 
+to demonstrate c4dynamics functionality. 
+c4dynamics uses `Pooch` to simplify fetching data files. 
+By calling: 
+:code:`c4dynamics.datasets.module(file)`, 
+where ``module`` and ``file`` define the dataset, 
+the dataset is downloaded over the network once 
+and saved to the cache for later usa.
+
+For more details, see the :mod:`datasets <c4dynamics.datasets>` module.
+
+
 Modules
-*******
+-------
 
 .. toctree:: 
   :maxdepth: 1 
 
-  State objects <States>
+  State Objects <States>
   Sensors 
   Detectors 
   Filters 
+  Routines
   Utils 
   Datasets 
 

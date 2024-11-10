@@ -1,6 +1,10 @@
 import numpy as np
 # from scipy.special import erfinv
+import sys 
+sys.path.append('.')
 import c4dynamics as c4d 
+import warnings 
+from typing import Optional
 
 class seeker(c4d.rigidbody):
   '''
@@ -103,7 +107,7 @@ class seeker(c4d.rigidbody):
   - :math:`el` is the elevation angle
   - :math:`x_b` is the target-radar position vector in radar body frame
 
-  .. figure:: /_static/figures/seeker/definitions.svg
+  .. figure:: /_static/skr_definitions.svg
     
     Fig-1: Azimuth and elevation angles definition   
 
@@ -193,7 +197,7 @@ class seeker(c4d.rigidbody):
 
   .. code:: 
 
-    skr = c4d.sensors.seeker()
+    >>> skr = c4d.sensors.seeker()
 
   Initialization of the instance does not require any 
   mandatory arguments, but the seeker parameters can be 
@@ -205,7 +209,15 @@ class seeker(c4d.rigidbody):
   Examples 
   ========
 
+  Import required packages:
 
+  .. code::
+
+    >>> import c4dynamics as c4d 
+    >>> from matplotlib import pyplot as plt 
+    >>> import numpy as np
+
+    
   **Target**
   
 
@@ -215,7 +227,7 @@ class seeker(c4d.rigidbody):
 
     >>> tgt = c4d.datapoint(x = 1000, y = 0, vx = -80 * c4d.kmh2ms, vy = 10 * c4d.kmh2ms)
     >>> for t in np.arange(0, 60, 0.01):
-    ...   tgt.inteqm(np.zeros(3), .01)
+    ...   tgt.inteqm(np.zeros(3), .01) # doctest: +IGNORE_OUTPUT 
     ...   tgt.store(t)
 
   The method :meth:`inteqm <c4dynamics.states.lib.datapoint.datapoint.inteqm>` 
@@ -254,16 +266,16 @@ class seeker(c4d.rigidbody):
 
     >>> skr_ideal = c4d.sensors.seeker(origin = pedestal, isideal = True)
     >>> for x in tgt.data():
-    ...   skr_ideal.measure(c4d.create(x[1:]), t = x[0], store = True)
+    ...   skr_ideal.measure(c4d.create(x[1:]), t = x[0], store = True)  # doctest: +IGNORE_OUTPUT 
     
   Comparing the seeker measurements with the true target angles requires 
   converting the relative position to the seeker body frame: 
 
   .. code:: 
 
-    >>> dx =  tgt.data('x')[1] - skr_ideal.x
-    >>> dy =  tgt.data('y')[1] - skr_ideal.y
-    >>> dz =  tgt.data('z')[1] - skr_ideal.z
+    >>> dx = tgt.data('x')[1] - skr_ideal.x
+    >>> dy = tgt.data('y')[1] - skr_ideal.y
+    >>> dz = tgt.data('z')[1] - skr_ideal.z
     >>> Xb = np.array([skr_ideal.BR @ [X[1] - skr_ideal.x, X[2] - skr_ideal.y, X[3] - skr_ideal.z] for X in tgt.data()])
 
   where :attr:`skr_ideal.BR <c4dynamics.states.lib.rigidbody.rigidbody.BR>` is a 
@@ -279,11 +291,11 @@ class seeker(c4d.rigidbody):
     >>> az_true = c4d.atan2d(Xb[:, 1], Xb[:, 0])
     >>> el_true = c4d.atan2d(Xb[:, 2], c4d.sqrt(Xb[:, 0]**2 + Xb[:, 1]**2))
     >>> # plot results
-    >>> fig, axs = plt.subplots(2, 1)
-    >>> axs[0].plot(tgt.data('t'), az_true, label = 'target')
-    >>> axs[0].plot(*skr_ideal.data('az', scale = c4d.r2d), label = 'seeker')
-    >>> axs[1].plot(tgt.data('t'), el_true)
-    >>> axs[1].plot(*skr_ideal.data('el', scale = c4d.r2d))
+    >>> fig, axs = plt.subplots(2, 1)  # doctest: +IGNORE_OUTPUT 
+    >>> axs[0].plot(tgt.data('t'), az_true, label = 'target')  # doctest: +IGNORE_OUTPUT 
+    >>> axs[0].plot(*skr_ideal.data('az', scale = c4d.r2d), label = 'seeker')  # doctest: +IGNORE_OUTPUT 
+    >>> axs[1].plot(tgt.data('t'), el_true)  # doctest: +IGNORE_OUTPUT 
+    >>> axs[1].plot(*skr_ideal.data('el', scale = c4d.r2d))  # doctest: +IGNORE_OUTPUT 
 
   .. figure:: /_examples/seeker/ideal.png
 
@@ -293,23 +305,30 @@ class seeker(c4d.rigidbody):
 
   Measure the target position with a *non-ideal* seeker. 
   The seeker's errors model introduces bias, scale factor, and 
-  noise that corrupt the measurements: 
+  noise that corrupt the measurements. 
+
+  To reproduce the result, let's set the random generator seed (42 is arbitrary):
+
+  ... code::
+
+    >>> np.random.seed(42)
 
   .. code:: 
 
     >>> skr = c4d.sensors.seeker(origin = pedestal)
     >>> for x in tgt.data():
-    ...   skr.measure(c4d.create(x[1:]), t = x[0], store = True)
+    ...   skr.measure(c4d.create(x[1:]), t = x[0], store = True) # doctest: +IGNORE_OUTPUT 
 
-  With respect to the ideal seeker: 
+  
+  Results with respect to an ideal seeker: 
 
   .. code:: 
 
-    >>> fig, axs = plt.subplots(2, 1)
-    >>> axs[0].plot(*skr_ideal.data('az', scale = c4d.r2d), label = 'ideal')
-    >>> axs[0].plot(*skr.data('az', scale = c4d.r2d), label = 'non-ideal')
-    >>> axs[1].plot(*skr_ideal.data('el', scale = c4d.r2d))
-    >>> axs[1].plot(*skr.data('el', scale = c4d.r2d))
+    >>> fig, axs = plt.subplots(2, 1)  
+    >>> axs[0].plot(*skr_ideal.data('az', scale = c4d.r2d), label = 'ideal')  # doctest: +IGNORE_OUTPUT 
+    >>> axs[0].plot(*skr.data('az', scale = c4d.r2d), label = 'non-ideal')  # doctest: +IGNORE_OUTPUT 
+    >>> axs[1].plot(*skr_ideal.data('el', scale = c4d.r2d))  # doctest: +IGNORE_OUTPUT 
+    >>> axs[1].plot(*skr.data('el', scale = c4d.r2d))  # doctest: +IGNORE_OUTPUT 
 
   .. figure:: /_examples/seeker/nonideal.png
 
@@ -319,14 +338,14 @@ class seeker(c4d.rigidbody):
 
   .. code::
 
-    >>> skr.bias * c4d.r2d
-    0.2
-    >>> skr.scale_factor
-    1.05
-    >>> skr.noise_std
-    0.01
+    >>> skr.bias * c4d.r2d # doctest: +ELLIPSIS
+    -0.01...
+    >>> skr.scale_factor # doctest: +ELLIPSIS
+    1.02...
+    >>> skr.noise_std * c4d.r2d 
+    0.4
 
-  Points to consider here: 
+  Points to consider: 
 
   - The scale factor error increases with the angle, such that for a :math:`5%` 
     scale factor, 
@@ -349,7 +368,7 @@ class seeker(c4d.rigidbody):
     >>> skr = c4d.sensors.seeker(origin = pedestal)
     >>> for x in tgt.data():
     ...   skr.psi += .02 * c4d.d2r 
-    ...   skr.measure(c4d.create(x[1:]), t = x[0], store = True)
+    ...   skr.measure(c4d.create(x[1:]), t = x[0], store = True) # doctest: +IGNORE_OUTPUT 
     ...   skr.store(x[0])
 
   The seeker yaw angle: 
@@ -361,10 +380,10 @@ class seeker(c4d.rigidbody):
   .. code:: 
 
     >>> fig, axs = plt.subplots(2, 1)
-    >>> axs[0].plot(*skr_ideal.data('az', c4d.r2d), label = 'ideal static seeker')
-    >>> axs[0].plot(*skr.data('az', c4d.r2d), label = 'non-ideal yawing seeker')
-    >>> axs[1].plot(*skr_ideal.data('el', scale = c4d.r2d))
-    >>> axs[1].plot(*skr.data('el', scale = c4d.r2d))
+    >>> axs[0].plot(*skr_ideal.data('az', c4d.r2d), label = 'ideal static seeker')  # doctest: +IGNORE_OUTPUT
+    >>> axs[0].plot(*skr.data('az', c4d.r2d), label = 'non-ideal yawing seeker')  # doctest: +IGNORE_OUTPUT
+    >>> axs[1].plot(*skr_ideal.data('el', scale = c4d.r2d))  # doctest: +IGNORE_OUTPUT
+    >>> axs[1].plot(*skr.data('el', scale = c4d.r2d))  # doctest: +IGNORE_OUTPUT
 
   .. figure:: /_examples/seeker/yawing.png
 
@@ -385,15 +404,16 @@ class seeker(c4d.rigidbody):
 
   .. code:: 
   
+    >>> np.random.seed(770)
     >>> tgt = c4d.datapoint(x = 100, y = 100)
     >>> skr = c4d.sensors.seeker(dt = 0.01)
-    >>> for t in np.arange(0, .025, .005):
-    ...   print(f'{t}: {skr.measure(tgt, t = t)}')
-    0.0:   (0.78648039 0.00732226)
+    >>> for t in np.arange(0, .025, .005):  # doctest: +ELLIPSIS
+    ...   print(f'{t}: {skr.measure(tgt, t = t)}')  
+    0.0: (0.73..., 0.007...)
     0.005: (None, None)
-    0.01:  [0.78032395 0.00116011)
+    0.01: (0.73..., 0.0006...)
     0.015: (None, None)
-    0.02:  (0.77982265 -0.00503559)
+    0.02: (0.71..., 0.006...)
 
 
   **Random Distribution** 
@@ -420,8 +440,8 @@ class seeker(c4d.rigidbody):
   .. code:: 
 
     >>> ax = plt.subplot()
-    >>> ax.hist(seekers_type_A, 30, label = 'Type A')
-    >>> ax.hist(seekers_type_B, 30, label = 'Type B') 
+    >>> ax.hist(seekers_type_A, 30, label = 'Type A')  # doctest: +IGNORE_OUTPUT
+    >>> ax.hist(seekers_type_B, 30, label = 'Type B')  # doctest: +IGNORE_OUTPUT
 
   .. figure:: /_examples/seeker/bias2.png
 
@@ -472,7 +492,7 @@ class seeker(c4d.rigidbody):
   # rng_noise_std = 0 
 
   # def __init__(self, origin = None, isideal = False, **kwargs):
-  def __init__(self, origin: 'c4d.rigidbody' = None, isideal: bool = False, **kwargs):
+  def __init__(self, origin: Optional['c4d.rigidbody'] = None, isideal: bool = False, **kwargs):
     # A flag indicating whether to run the errors model 
     # Initializes the Seeker object.
     # Args:
@@ -496,10 +516,13 @@ class seeker(c4d.rigidbody):
     for k in kwargs.keys(): 
       if k == 'rng_noise_std': 
         if not isradar: 
-          c4d.cprint(f'Warning: {k} is not an attribute of seeker', 'r')
+          # c4d.cprint(f'Warning: {k} is not an attribute of seeker', 'r')
+          warnings.warn(f"""Warning: {k} is not an attribute of seeker""" , c4d.c4warn)
+
         continue
 
-      c4d.cprint(f'Warning: {k} is not an attribute of seeker or radar', 'r')
+      # c4d.cprint(f'Warning: {k} is not an attribute of seeker or radar', 'r')
+      warnings.warn(f"""Warning: {k} is not an attribute of seeker or radar""" , c4d.c4warn)
 
 
     super().__init__()
@@ -511,7 +534,7 @@ class seeker(c4d.rigidbody):
 
     if origin is not None: 
       if not isinstance(origin, c4d.rigidbody):
-        raise TypeError('origin must be a c4d.rigidbody object whose state vector origin.X represents the seeker initial position and attitude initial conditions')
+        raise TypeError('origin must be a c4dynamics.rigidbody object whose state vector origin.X represents the seeker initial position and attitude initial conditions')
 
       self.X = origin.X 
 
@@ -565,7 +588,17 @@ class seeker(c4d.rigidbody):
     with :code:`c4d.sensors.radar(origin = pedestal,...)`.
 
 
-    **Auxiliary objects** 
+    Required packages:
+
+
+    .. code::
+
+      >>> import c4dynamics as c4d 
+      >>> from matplotlib import pyplot as plt
+      >>> import numpy as np  
+
+
+    Settings and initial conditions: 
     
     (see :class:`seeker` examples for more details): 
 
@@ -576,7 +609,7 @@ class seeker(c4d.rigidbody):
 
       >>> tgt = c4d.datapoint(x = 1000, y = 0, vx = -80 * c4d.kmh2ms, vy = 10 * c4d.kmh2ms)
       >>> for t in np.arange(0, 60, 0.01):
-      ...   tgt.inteqm(np.zeros(3), .01)
+      ...   tgt.inteqm(np.zeros(3), .01) # doctest: +IGNORE_OUTPUT 
       ...   tgt.store(t)
 
 
@@ -603,10 +636,10 @@ class seeker(c4d.rigidbody):
     .. code::
 
       >>> skr = c4d.sensors.seeker(origin = pedestal, scale_factor_std = 0, noise_std = 0)
-      >>> skr = skr.bias = .5 * c4d.d2r 
+      >>> skr.bias = .5 * c4d.d2r 
       >>> for x in tgt.data():
-      ...   skr_ideal.measure(c4d.create(x[1:]), t = x[0], store = True)
-      ...   skr.measure(c4d.create(x[1:]), t = x[0], store = True)
+      ...   skr_ideal.measure(c4d.create(x[1:]), t = x[0], store = True)  # doctest: +IGNORE_OUTPUT 
+      ...   skr.measure(c4d.create(x[1:]), t = x[0], store = True)  # doctest: +IGNORE_OUTPUT 
 
 
     Compare the biased seeker with the true target angles (ideal seeker):
@@ -614,8 +647,8 @@ class seeker(c4d.rigidbody):
     .. code::  
       
       >>> ax = plt.subplot()
-      >>> ax.plot(*skr_ideal.data('el', scale = c4d.r2d), label = 'target')
-      >>> ax.plot(*skr.data('el', scale = c4d.r2d), label = 'seeker')
+      >>> ax.plot(*skr_ideal.data('el', scale = c4d.r2d), label = 'target')  # doctest: +IGNORE_OUTPUT 
+      >>> ax.plot(*skr.data('el', scale = c4d.r2d), label = 'seeker')  # doctest: +IGNORE_OUTPUT 
 
     .. figure:: /_examples/seeker/bias1.png
 
@@ -655,8 +688,8 @@ class seeker(c4d.rigidbody):
       >>> seekers = []
       >>> radars = []
       >>> for i in range(1000):
-      >>> seekers.append(seeker().bias * c4d.r2d)
-      >>> radars.append(radar().bias * c4d.r2d)
+      ...   seekers.append(seeker().bias * c4d.r2d)
+      ...   radars.append(radar().bias * c4d.r2d)
 
   
     The histogram highlights the broadening of the distribution 
@@ -664,8 +697,8 @@ class seeker(c4d.rigidbody):
 
 
       >>> ax = plt.subplot()
-      >>> ax.hist(seekers, 30, label = 'Seekers')
-      >>> ax.hist(radars, 30, label = 'Radars') 
+      >>> ax.hist(seekers, 30, label = 'Seekers') # doctest: +IGNORE_OUTPUT 
+      >>> ax.hist(radars, 30, label = 'Radars')  # doctest: +IGNORE_OUTPUT 
 
     .. figure:: /_examples/radar/bias2.png
 
@@ -725,8 +758,19 @@ class seeker(c4d.rigidbody):
     with :code:`c4d.sensors.radar(...)`.
 
 
-    **Auxiliary objects** 
-    
+
+    Required packages:
+
+
+    .. code::
+
+      >>> import c4dynamics as c4d 
+      >>> from matplotlib import pyplot as plt
+      >>> import numpy as np  
+
+
+    Settings and initial conditions: 
+        
     (see :class:`seeker` or :class:`radar <c4dynamics.sensors.radar.radar>` 
     examples for more details): 
 
@@ -737,7 +781,7 @@ class seeker(c4d.rigidbody):
 
       >>> tgt = c4d.datapoint(x = 1000, y = 0, vx = -80 * c4d.kmh2ms, vy = 10 * c4d.kmh2ms)
       >>> for t in np.arange(0, 60, 0.01):
-      ...   tgt.inteqm(np.zeros(3), .01)
+      ...   tgt.inteqm(np.zeros(3), .01) # doctest: +IGNORE_OUTPUT 
       ...   tgt.store(t)
 
 
@@ -767,16 +811,17 @@ class seeker(c4d.rigidbody):
       >>> skr = c4d.sensors.seeker(origin = pedestal, bias_std = 0, noise_std = 0)
       >>> skr.scale_factor = 1.2
       >>> for x in tgt.data():
-      ...   skr.measure(c4d.create(x[1:]), t = x[0], store = True)  
-  
+      ...   skr_ideal.measure(c4d.create(x[1:]), t = x[0], store = True)  # doctest: +IGNORE_OUTPUT 
+      ...   skr.measure(c4d.create(x[1:]), t = x[0], store = True)    # doctest: +IGNORE_OUTPUT 
 
+  
     Compare with the true target angles (ideal seeker):
 
     .. code::
 
       >>> ax = plt.subplot()
-      >>> ax.plot(*skr_ideal.data('az', scale = c4d.r2d), label = 'target')
-      >>> ax.plot(*skr.data('az', scale = c4d.r2d), label = 'seeker')
+      >>> ax.plot(*skr_ideal.data('az', scale = c4d.r2d), label = 'target')  # doctest: +IGNORE_OUTPUT 
+      >>> ax.plot(*skr.data('az', scale = c4d.r2d), label = 'seeker')  # doctest: +IGNORE_OUTPUT 
 
     .. figure:: /_examples/seeker/sf.png
 
@@ -792,7 +837,7 @@ class seeker(c4d.rigidbody):
 
 
   # def measure(self, target, t = -1, store = False):
-  def measure(self, target: 'cartesian_state', t: float = -1, store: bool = False) -> tuple[float, float]:
+  def measure(self, target: 'c4d.state', t: float = -1, store: bool = False) -> tuple[Optional[float], Optional[float]]:
     '''
     Measures azimuth and elevation between the seeker and a `target`. 
 
@@ -810,8 +855,8 @@ class seeker(c4d.rigidbody):
 
     Parameters
     ----------
-    target : `cartesian_state`
-        A state object to measure by the seeker, including at least one position coordinate (x, y, z).  
+    target : state
+        A Cartesian state object to measure by the seeker, including at least one position coordinate (x, y, z).  
     store : bool, optional
         A flag indicating whether to store the measured values. Defaults `False`.
     t : float, optional
@@ -845,40 +890,59 @@ class seeker(c4d.rigidbody):
     At each cycle, the the seekers take measurements and store the samples for 
     later use in plotting the results.  
 
-    
+    Import required packages:
+
+    .. code:: 
+
+      >>> import c4dynamics as c4d
+      >>> from matplotlib import pyplot as plt 
+      >>> import numpy as np 
+
+
+    Settings and initial conditions:
+
     .. code:: 
 
       >>> dt = 0.01
+      >>> np.random.seed(321)
       >>> tgt = c4d.datapoint(x = 1000, vx = -80 * c4d.kmh2ms, vy = 10 * c4d.kmh2ms)
       >>> pedestal = c4d.rigidbody(z = 30, theta = -1 * c4d.d2r)
       >>> skr = c4d.sensors.seeker(origin = pedestal, dt = 0.05)
       >>> skr_ideal = c4d.sensors.seeker(origin = pedestal, isideal = True)
+      
+      
+    Main loop:
+    
+    .. code:: 
+    
       >>> for t in np.arange(0, 60, dt):
-      ...   tgt.inteqm(np.zeros(3), dt)
-      ...   skr_ideal.measure(tgt, t = t, store = True)  
-      ...   skr.measure(tgt, t = t, store = True)  
+      ...   tgt.inteqm(np.zeros(3), dt)   # doctest: +IGNORE_OUTPUT 
+      ...   skr_ideal.measure(tgt, t = t, store = True)     # doctest: +IGNORE_OUTPUT 
+      ...   skr.measure(tgt, t = t, store = True)     # doctest: +IGNORE_OUTPUT 
       ...   tgt.store(t)
+
+      
 
     Before viewing the results, let's examine the error parameters generated by 
     the errors model (`c4d.r2d` converts radians to degrees): 
 
     .. code::
 
-      >>> skr.bias * c4d.r2d
-      -0.02
-      >>> skr.scale_factor
-      0.95 
-      >>> skr.noise_std
-      TODO 
+      >>> skr.bias * c4d.r2d # doctest: +ELLIPSIS
+      0.16...
+      >>> skr.scale_factor # doctest: +ELLIPSIS
+      1.008...
+      >>> skr.noise_std * c4d.r2d
+      0.4
 
     Then we excpect a constant bias of -0.02° and a 'compression' or 'squeeze' of `5%` with 
     respect to the target (as represented by the ideal seeker):  
     
     .. code::
 
-      >>> ax = plt.subplot()
-      >>> ax.plot(*skr_ideal.data('az', scale = c4d.r2d), '.m', markersize = 1, label = 'target')
-      >>> ax.plot(*skr.data('az', scale = c4d.r2d), '.c', markersize = 1, label = 'seeker')
+      >>> ax = plt.subplot()   # doctest: +IGNORE_OUTPUT
+      >>> ax.plot(*skr_ideal.data('az', scale = c4d.r2d), '.m', markersize = 1, label = 'target')   # doctest: +IGNORE_OUTPUT
+      >>> ax.plot(*skr.data('az', scale = c4d.r2d), '.c', markersize = 1, label = 'seeker')   # doctest: +IGNORE_OUTPUT
 
     .. figure:: /_examples/seeker/measure.png
 
@@ -888,17 +952,11 @@ class seeker(c4d.rigidbody):
 
     .. figure:: /_examples/seeker/measure_zoom.png
 
-
-
-
-
-
     
-
     '''
 
     if not(hasattr(target, 'cartesian') and target.cartesian()): 
-      raise ValueError('target must be a state objects with at least one position coordinate, x, y, or z.')
+      raise TypeError('target must be a state objects with at least one position coordinate, x, y, or z.')
 
     
     if t < self._lastsample + self.dt - 1e-10: 
@@ -944,3 +1002,30 @@ class seeker(c4d.rigidbody):
     self._bias = self.bias_std * np.random.randn()
     
     
+
+if __name__ == "__main__":
+
+  import doctest, contextlib, os
+  from c4dynamics import IgnoreOutputChecker, cprint
+  
+  # Register the custom OutputChecker
+  doctest.OutputChecker = IgnoreOutputChecker
+
+  tofile = False 
+  optionflags = doctest.FAIL_FAST
+
+  if tofile: 
+    with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
+      with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
+        result = doctest.testmod(optionflags = optionflags) 
+  else: 
+    result = doctest.testmod(optionflags = optionflags)
+
+  if result.failed == 0:
+    cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
+  else:
+    print(f"{result.failed}")
+
+
+
+

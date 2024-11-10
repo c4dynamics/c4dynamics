@@ -1,6 +1,6 @@
-#
-# include in the version: 
-#   c4dynamics
+# include in the version
+# ======================
+#   c4dynamics 
 #   datasets 
 #   docs 
 #     source
@@ -10,8 +10,6 @@
 #   programs 
 #     !out    
 #   tests 
-#   .gitattrubutes
-#   .gitignore
 #   make.bat 
 #   code of conduct 
 #   conda installation ? 
@@ -20,168 +18,45 @@
 #   requirements.txt
 #   c4dynamics_env.yaml ?    
 
-.venv/ 
+
+# files in the base 
+# =================
 Thumbs.db 
-__pycache__ 
+.gitignore 
+.gitattributes
+x.png 
+pyrightconfig.json 
+
+# files in subfolders 
+# ===================
 c4dynamics/filters/a.py 
 c4dynamics/filters/kalman_v0.py 
-# docs/_* 
-# docs/api
-# docs/doctrees 
-# docs/user 
-# docs/.buildinfo 
-# docs/genindex.html
-# docs/py-modindex/html 
-# docs/search.html 
-# docs/objects.inv 
-# docs/searchindex.js 
-# docs/* 
-# !docs/.nojekyll
-examples/_out 
+c4dynamics/filters/kalman_v1.py 
 examples/docs_examples.ipynb 
 examples/run_examples.ipynb 
 examples/filters/07-Kalman*.ipynb 
+examples/filters/04-One-Dimensional-Kalman-Filters.ipynb
+
+
+# folders in the base 
+# ===================
+examples/_out 
+programs/_out 
+tests/_out  
 examples/temp 
 programs/temp 
+
+
+# subfolders 
+# ==========
+__pycache__ 
+.pytest_cache/ 
+.venv/ 
+.vscode/ 
 untracked/ 
 
 
-#
-# pycache
-##
-# __pycache__/
-# *.pyc
-# src/__pycache__/
-# src/main/__pycache__/
-# src/main/py/__pycache__/
-# src/main/py/body/__pycache__/
-# src/main/py/detectors/__pycache__/
-# src/main/py/filters/__pycache__/
-# src/main/py/path_planning/__pycache__/
-# src/main/py/pendulums/__pycache__/
-# src/main/py/sensors/__pycache__/
-# __pycache__/__init__.cpython-37.pyc
-# __pycache__/__init__.cpython-37.pyc
-# __pycache__
-# __pycache__/
-# __pycache__/*
-# __pycache__/*.*
 
-#
-# yolo v3 
-##
-# src/main/resources/detectors/yolo_darknet/variables/variables.data-00000-of-00001
-# src/main/resources/detectors/yolo/v3/tensorflow/variables/variables.data-00000-of-00001
-# src/main/resources/detectors/yolo/v3/yolov3.cfg
-# src/main/resources/detectors/yolo/v3/yolov3.weights
-# src/main/resources/detectors/yolo/v3/tensorflow/
-
-#
-# doc
-## 
-# doc/~$*.*
-# doc/MilHandbook Missile flight simulation.pdf.lnk
-# doc/posts - Shortcut.lnk
-# doc/posts.lnk
-# doc/Science.lnk
-# doc/physics vs data summary.pdf
-# doc/ul eadme github pages .pptx
-# source 
-# build/doctrees
-# docs/
-
-# 
-# .venv
-##
-# .venv/
-
-#
-# examples/out
-##
-# examples/out/*
-# examples/_out/*
-# !examples/out/.gitkeep
-# examples/out/*/*
-# examples/horse.jpg
-# examples/resources/tank_short_snapshot_t0.jpg
-# !examples/out/.gitkeep
-# !examples/out/detection-tracking-tank-truck.gif
-# !examples/out/dof6sim_trajectories.png
-
-
-#
-# pip setup
-## 
-# c4dynamics.egg-info
-# dist
-# build
-# setup.py 
-
-#
-#
-##
-# git-readme.txt
-# .python-version
-# importc4d.py 
-
-#
-#
-
-
-
-
-
-# docs/build_commands.txt
-# WindowsPowerShell - Shortcut.lnk
-# sitedocs_internet_accessibility_form.xlsx
-# GitHubDesktop.lnk
-# Missiles & Guidance.lnk
-# WindowsPowerShell.lnk
-# git_instructions.txt
-# cheatsheet.docx
-# git pip sphinx.txt
-# ~$eatsheet.docx
-# examples/resources/Independence Day Air Show Tel Aviv Israel 2023 מטס יום העצמאות תל אביב ישראל.mp4
-# Untitled-1.txt
-# classes_c4dynamics.png
-# classes_c4dynamics.svg
-# packages_c4dynamics.png
-# packages_c4dynamics.svg
-# Presentation1.pptx
-# yolo.txt
-
-
-# examples/resources/b1b_rok_japan.mp4_snapshot_00.00_[2024.01.14_19.28.00].jpg
-# examples/resources/b1b_rok_japan.mp4_snapshot_00.00_[2024.01.14_19.28.00].jpg
-# examples/resources/ball_movement.avi
-# examples/resources/datasets.txt
-# examples/resources/flying-aircraft.png
-# examples/resources/image_movement.avi
-# examples/resources/singleball.mp4
-# examples/resources/singlejet.avi
-# examples/resources/singlejet.mp4
-# examples/resources/warfares.png
-
-# examples/resources/New folder 
-
-
-# examples/detect track architecture.docx
-# examples/detect_track_pts_2.ipynb
-# examples/detect_track_pts.ipynb
-
-
-
-# untracked/*
-
-# programs/v0/*
-# c4dynamics/autorebase.bat 
-# c4dynamics/filters/a.py 
-# c4dynamics/filters/kalman_v0.py 
-
-# docs/_* 
-# !docs/source/* 
-# !docs/.nojekyll 
-# !untracked/icon.png 
 
 
 

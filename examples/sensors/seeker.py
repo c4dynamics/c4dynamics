@@ -1,3 +1,5 @@
+# type: ignore
+
 import sys, os 
 sys.path.append('.')
 import c4dynamics as c4d
@@ -97,13 +99,12 @@ def nonideal(tgt, skr_ideal):
   ''' non-ideal seeker'''
 
   # print(np.random.randn)
+  np.random.seed(42)
   pedestal = c4d.rigidbody(z = 30, theta = -1 * c4d.d2r)
   skr = c4d.sensors.seeker(origin = pedestal)
   # measure the target position
   # measured_angles = []
 
-  skr.bias = .2 * c4d.d2r
-  skr.scale_factor = 1.05
 
   for x in tgt.data():
     # measured_angles.append(skr.measure(c4d.create(x[1:]))[:2])
@@ -111,12 +112,12 @@ def nonideal(tgt, skr_ideal):
 
 
 
-  print(f'{ skr.bias * c4d.r2d :.2f}')
-  #  .2
-  print(f'{ skr.scale_factor :.2f}')
-  # 1.05
-  print(f'{ skr.noise_std * c4d.r2d :.2f}')
-  # .01 
+  print(f'{ skr.bias * c4d.r2d }')
+  #  -0.01
+  print(f'{ skr.scale_factor}')
+  # 1.02
+  print(f'{ skr.noise_std * c4d.r2d }')
+  # .4
 
   fig, axs = plt.subplots(2, 1, dpi = 200, figsize = (factorsize, factorsize * aspectratio), gridspec_kw = {'left': 0.15, 'right': .9, 'hspace': 0.5, 'top': .9, 'bottom': .2})
   fig.canvas.manager.set_window_title('non-ideal+measure')
@@ -179,15 +180,18 @@ def dt():
 
   c4d.cprint('dt', 'y')
   ''' dt '''
+
+  np.random.seed(770)
+
   tgt1 = c4d.datapoint(x = 100, y = 100)
   skr = c4d.sensors.seeker(dt = 0.01)
   for t in np.arange(0, .025, .005):
     print(f'{t}: {skr.measure(tgt1, t = t)}')
-  # 0.0:  [0.78648039 0.00732226]
-  # 0.005: None
-  # 0.01: [0.78032395 0.00116011]
-  # 0.015: None
-  # 0.02: [0.77982265 -0.00503559]
+  # 0.0: (0.7325279510815786, 0.007487690440959094)
+  # 0.005: (None, None)
+  # 0.01: (0.7316160225965218, 0.0006844339202759578)
+  # 0.015: (None, None)
+  # 0.02: (0.7185263968437489, 0.006279255919993379)
 
 
 def bias1(tgt): 
@@ -288,25 +292,27 @@ def SF(tgt):
 def measure(tgt): 
   c4d.cprint('measure', 'y')
 
+
+  np.random.seed(321)
   dt = .01
   tgt = c4d.datapoint(x = 1000, vx = -80 * c4d.kmh2ms, vy = 10 * c4d.kmh2ms)
 
   pedestal = c4d.rigidbody(z = 30, theta = -1 * c4d.d2r)
 
   skr = c4d.sensors.seeker(origin = pedestal, dt = 0.05)
-  skr.bias = -0.02 * c4d.d2r
-  skr.scale_factor = .95
+  # skr.bias = -0.02 * c4d.d2r
+  # skr.scale_factor = .95
 
   skr_ideal = c4d.sensors.seeker(origin = pedestal, isideal = True)
 
 
 
-  print(f'{ skr.bias * c4d.r2d :.2f}')
-  #  -0.02
-  print(f'{ skr.scale_factor :.2f}')
-  # .95
-  print(f'{ skr.noise_std :.2f}')
-  # .01 
+  print(f'{ skr.bias * c4d.r2d }')
+  # 0.16
+  print(f'{ skr.scale_factor }')
+  # 1
+  print(f'{ skr.noise_std * c4d.r2d}')
+  # 0.4
 
   for t in np.arange(0, 60, dt):
     tgt.inteqm(np.zeros(3), dt)
@@ -336,18 +342,18 @@ def measure(tgt):
 
 if __name__ == '__main__': 
 
-  constructor()
+  # constructor()
   tgt = target() 
   skr_ideal = ideal(tgt)
-  nonideal(tgt, skr_ideal)
-  yawing(tgt, skr_ideal)
-  dt()
-  bias1(tgt)
-  bias2()
-  SF(tgt)
+  # nonideal(tgt, skr_ideal)
+  # yawing(tgt, skr_ideal)
+  # dt()
+  # bias1(tgt)
+  # bias2()
+  # SF(tgt)
   measure(tgt) 
 
-  plt.show()
+  # plt.show()
 
 
 

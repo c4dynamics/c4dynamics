@@ -1,3 +1,5 @@
+# type: ignore
+
 # -*- coding: utf-8 -*-
 from IPython.core.display import HTML
 import matplotlib.pylab as pylab

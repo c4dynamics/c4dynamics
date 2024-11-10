@@ -1,3 +1,5 @@
+# type: ignore
+
 import os, sys
 sys.path.append('')
 import numpy as np 
@@ -52,6 +54,7 @@ print(s.data('vx_std')[1])
 c4d.cprint('objects detection', 'c') 
 s = c4d.state(x = 25, y = 25, w = 20, h = 10)
 
+np.random.seed(44)
 for i in range(3): 
 
   s.X += 1 
@@ -67,11 +70,10 @@ for i in range(3):
 
 print('   x    y    w    h    class')
 print(np.hstack((s.data()[:, 1:].astype(int), np.atleast_2d(s.data('class_id')[1]).T)))
-#    x    y    w    h    class
-# [['26' '26' '34' '21' 'truck']
-#  ['27' '27' '2' '4' 'car']
-#  ['28' '28' '35' '17' 'car']]
-
+#   x    y    w    h    class
+# [['26' '26' '20' '35' 'truck']
+#  ['27' '27' '49' '45' 'truck']
+#  ['28' '28' '3' '32' 'truck']]
 
 
 c4d.cprint('add method', 'c') 

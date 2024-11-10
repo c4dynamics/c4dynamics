@@ -1,3 +1,5 @@
+# type: ignore
+
 import sys, os 
 sys.path.append('.')
 import c4dynamics as c4d
