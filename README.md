@@ -1,6 +1,8 @@
 <div align="center">
-  <img src="https://github.com/C4dynamics/C4dynamics/raw/main/c4dynamics/utils/C4dynamics.png">
+  <img src="https://github.com/C4dynamics/C4dynamics/blob/main/docs/source/_static/c4dlogo.svg">
 </div>
+
+
 
 # Tsipor Dynamics
 ## Algorithms Engineering and Development
