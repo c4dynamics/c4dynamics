@@ -24,6 +24,14 @@ Download the latest version (not stable) for development:
   git clone https://github.com/C4dynamics/C4dynamics
 
 
+Install the required packages:
+
+.. code-block::
+
+  pip install -r requirements.txt
+
+
+ 
 Import 
 ------
 
