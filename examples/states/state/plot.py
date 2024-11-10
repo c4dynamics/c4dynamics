@@ -1,3 +1,5 @@
+# type: ignore
+
 import os, sys
 sys.path.append('')
 import numpy as np 
@@ -56,7 +58,7 @@ def anotheraxis(s):
 
   plt.plot(theta * c4d.r2d, 'm')
   ax = plt.gca()
-  s.plot('phi', scale = c4d.r2d, ax = ax, filename = os.path.join(savedir, 'plot_axis.png'), linecolor = 'c') 
+  s.plot('phi', scale = c4d.r2d, ax = ax, filename = os.path.join(savedir, 'plot_axis.png'), color = 'c') 
   ax.set_ylabel('deg')
   plt.legend(['θ', 'φ'], fontsize = 'x-small', facecolor = None, edgecolor = None)
   plt.title('θ vs φ', fontsize = 10)
@@ -69,16 +71,16 @@ def sideview():
   c4d.cprint('side view', 'c')
 
   dt = 0.01
-  helium_balloon = c4d.datapoint(vx = 10 * c4d.k2ms)
-  helium_balloon.mass = 0.1 
+  floating_balloon = c4d.datapoint(vx = 10 * c4d.k2ms)
+  floating_balloon.mass = 0.1 
 
   for t in np.arange(0, 10, dt):
-    helium_balloon.inteqm(forces = [0, 0, .05], dt = dt)
-    helium_balloon.store(t)
+    floating_balloon.inteqm(forces = [0, 0, .05], dt = dt)
+    floating_balloon.store(t)
 
 
   # plt.tight_layout(pad = 0)
-  helium_balloon.plot('side')
+  floating_balloon.plot('side')
   plt.gca().invert_yaxis()
   plt.savefig(os.path.join(savedir, 'plot_dp_inteqm3.png'), bbox_inches = 'tight', pad_inches = .2, dpi = 600)
 

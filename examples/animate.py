@@ -1,3 +1,5 @@
+# type: ignore
+
 from matplotlib import pyplot as plt 
 import sys, os, socket 
 sys.path.append('.')

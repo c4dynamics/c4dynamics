@@ -1,3 +1,4 @@
+# type: ignore 
 import os, sys
 sys.path.append('')
 import c4dynamics as c4d 
@@ -23,9 +24,9 @@ class ppkalman(c4d.pixelpoint, c4d.filters.kalman):
     # self.units  = pp.units 
     self.fsize  = pp.fsize
     self.class_id = pp.class_id 
-    c4d.filters.kalman.__init__(self, X, kf['dt'], P0 = kf['P']
+    c4d.filters.kalman.__init__(self, X, P0 = kf['P']
                                   , F = kf['F'], H = kf['H']
-                                    , Qk = kf['Qk'], Rk = kf['Rk'])
+                                    , Q = kf['Qk'], R = kf['Rk'])
   
   @property  
   def Xpixels(self):

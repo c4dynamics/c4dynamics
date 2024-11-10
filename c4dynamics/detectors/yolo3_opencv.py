@@ -1,6 +1,8 @@
-import os
+import os, sys 
 import cv2
+
 import numpy as np
+sys.path.append('.')
 from c4dynamics import c4d 
 from c4dynamics import pixelpoint 
 from typing import Optional
@@ -65,7 +67,7 @@ class yolov3:
 
 
 
-    .. figure:: /_static/images/yolo-object-detection.jpg
+    .. figure:: /_static/yolo-object-detection.jpg
 
     *Figure*
     Object Detection with YOLO using COCO pre-trained classes 'dog', 'bicycle', 'truck'.
@@ -104,7 +106,9 @@ class yolov3:
 
     .. code:: 
 
-        >>> yolo3 = c4dynamics.detectors.yolov3()
+        >>> from c4dynamics.detectors import yolov3
+        >>> yolo3 = yolov3()
+        Fetched successfully
 
     
     Initialization of the instance does not require any mandatory parameters.
@@ -124,16 +128,16 @@ class yolov3:
 
     .. code:: 
 
-        >>> import c4dynamics as c4d 
         >>> import cv2 
-
+        >>> import c4dynamics as c4d 
+        >>> from matplotlib import pyplot as plt 
         
     Load YOLOv3 detector: 
 
     .. code:: 
 
         >>> yolo3 = c4d.detectors.yolov3()
-
+        Fetched successfully
     
     Fetch and read the image: 
                 
@@ -161,12 +165,12 @@ class yolov3:
     .. code::
 
         >>> def ptup(n): return '(' + str(n[0]) + ', ' + str(n[1]) + ')'
-        >>> print('{:^10} | {:^10} | {:^16} | {:^16} | {:^10} | {:^14}'.format('center x', 'center y', 'box top-left', 'box bottom-right', 'class', 'frame size'))
+        >>> print('{:^10} | {:^10} | {:^16} | {:^16} | {:^10} | {:^14}'.format('center x', 'center y', 'box top-left', 'box bottom-right', 'class', 'frame size')) # doctest: +IGNORE_OUTPUT
         >>> for p in pts:
-        ...   print('{:^10d} | {:^10d} | {:^16} | {:^16} | {:^10} | {:^14}'.format(p.x, p.y, ptup(p.box[0]), ptup(p.box[1]), p.classid, ptup(p.fsize)))
-        ...   cv2.rectangle(img, p.box[0], p.box[1], [0, 0, 0], 2)
-        ...   point = (int((p.box[0][0] + p.box[1][0]) / 2 - 75), p.box[1][1] + 22)
-        ...   cv2.putText(img, p.classid, point, cv2.FONT_HERSHEY_SIMPLEX, 1, [0, 0, 0], 2)
+        ...   print('{:^10d} | {:^10d} | {:^16} | {:^16} | {:^10} | {:^14}'.format(p.x, p.y, ptup(p.box[0]), ptup(p.box[1]), p.class_id, ptup(p.fsize)))     # doctest: +IGNORE_OUTPUT
+        ...   cv2.rectangle(img, p.box[0], p.box[1], [0, 0, 0], 2)      # +IGNORE_OUTPUT
+        ...   point = (int((p.box[0][0] + p.box[1][0]) / 2 - 75), p.box[1][1] + 22)     # doctest: +IGNORE_OUTPUT
+        ...   cv2.putText(img, p.class_id, point, cv2.FONT_HERSHEY_SIMPLEX, 1, [0, 0, 0], 2)     # doctest: +IGNORE_OUTPUT
         center x  |  center y  |   box top-left   | box bottom-right |   class    |   frame size
           615     |    295     |    (562, 259)    |    (668, 331)    | aeroplane  |  (1280, 720)
           779     |    233     |    (720, 199)    |    (838, 267)    | aeroplane  |  (1280, 720)
@@ -176,9 +180,9 @@ class yolov3:
           
     .. code:: 
 
-        >>> plt.figure()
-        >>> plt.axis(False)
-        >>> plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+        >>> plt.figure() # doctest: +IGNORE_OUTPUT 
+        >>> plt.axis(False) # doctest: +IGNORE_OUTPUT 
+        >>> plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB)) # doctest: +IGNORE_OUTPUT 
 
     .. figure:: /_examples/yolov3/intro.png                  
 
@@ -275,7 +279,7 @@ class yolov3:
             
         .. code:: 
             
-            >>> imgpath = c4d.datasets.image('planes')
+            >>> impath = c4d.datasets.image('planes')
             Fetched successfully
             
 
@@ -284,6 +288,7 @@ class yolov3:
         .. code:: 
             
             >>> yolo3 = c4d.detectors.yolov3() 
+            Fetched successfully
             >>> nms_thresholds = [0.1, 0.5, 0.9] 
 
             
@@ -297,10 +302,10 @@ class yolov3:
             ...   img = cv2.imread(impath)
             ...   pts = yolo3.detect(img)
             ...   for p in pts:
-            ...     cv2.rectangle(img, p.box[0], p.box[1], [0, 255, 0], 2)
-            ...   axs[i].imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+            ...     cv2.rectangle(img, p.box[0], p.box[1], [0, 255, 0], 2) # doctest: +IGNORE_OUTPUT
+            ...   axs[i].imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB)) # doctest: +IGNORE_OUTPUT
             ...   axs[i].set_title(f"NMS Threshold: {nms_threshold}", fontsize = 6)
-            ...   axs[i].axis('off')
+            ...   axs[i].axis('off') # doctest: +IGNORE_OUTPUT
 
             
         .. figure:: /_examples/yolov3/nms_th.png                  
@@ -367,7 +372,7 @@ class yolov3:
             
         .. code:: 
             
-            >>> imgpath = c4d.datasets.image('planes')
+            >>> impath = c4d.datasets.image('planes')
             Fetched successfully
             
 
@@ -376,6 +381,7 @@ class yolov3:
         .. code:: 
 
             >>> yolo3 = c4d.detectors.yolov3()  
+            Fetched successfully
             >>> confidence_thresholds = [0.9, 0.95, 0.99] 
 
             
@@ -389,10 +395,10 @@ class yolov3:
             ...   img = cv2.imread(impath) 
             ...   pts = yolo3.detect(img)
             ...   for p in pts:
-            ...     cv2.rectangle(img, p.box[0], p.box[1], [0, 255, 0], 2)
-            ...   axs[i].imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+            ...     cv2.rectangle(img, p.box[0], p.box[1], [0, 255, 0], 2) # doctest: +IGNORE_OUTPUT
+            ...   axs[i].imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))  # doctest: +IGNORE_OUTPUT
             ...   axs[i].set_title(f"Confidence Threshold: {confidence_threshold}", fontsize = 6)
-            ...   axs[i].axis('off')
+            ...   axs[i].axis('off') # doctest: +IGNORE_OUTPUT 
 
 
         .. figure:: /_examples/yolov3/confidence_th.png
@@ -460,7 +466,7 @@ class yolov3:
 
         .. code::
 
-            >>> imgpath = c4d.datasets.image('planes')
+            >>> impath = c4d.datasets.image('planes')
             Fetched successfully
             >>> vidpath = c4d.datasets.video('aerobatics')
             Fetched successfully
@@ -472,6 +478,8 @@ class yolov3:
         .. code:: 
 
             >>> yolo3 = c4d.detectors.yolov3()  
+            Fetched successfully
+
 
             
 
@@ -491,13 +499,13 @@ class yolov3:
             >>> img = cv2.imread(impath) 
             >>> pts = yolo3.detect(img)
             >>> for p in pts:
-            ...   cv2.rectangle(img, p.box[0], p.box[1], [0, 255, 0], 2)
+            ...   cv2.rectangle(img, p.box[0], p.box[1], [0, 255, 0], 2) # doctest: +IGNORE_OUTPUT 
         
         .. code:: 
 
-            >>> plt.figure()
-            >>> plt.axis(False)
-            >>> plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+            >>> plt.figure() # doctest: +IGNORE_OUTPUT 
+            >>> plt.axis(False) # doctest: +IGNORE_OUTPUT 
+            >>> plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB)) # doctest: +IGNORE_OUTPUT  
   
             
         .. figure:: /_examples/yolov3/single_image.png
@@ -514,9 +522,9 @@ class yolov3:
             ...   if not ret: break
             ...   pts = yolo3.detect(frame)
             ...   for p in pts:
-            ...     cv2.rectangle(frame, p.box[0], p.box[1], [0, 255, 0], 2)
-            ...   cv2.imshow('YOLOv3', frame)
-            ...   cv2.waitKey(10)
+            ...     cv2.rectangle(frame, p.box[0], p.box[1], [0, 255, 0], 2) # doctest: +IGNORE_OUTPUT
+            ...     cv2.imshow('YOLOv3', frame)  # doctest: +IGNORE_OUTPUT
+            ...   cv2.waitKey(10) # doctest: +IGNORE_OUTPUT
 
         .. figure:: /_examples/yolov3/aerobatics.gif
 
@@ -532,15 +540,15 @@ class yolov3:
 
         .. code::
 
-            >>> print('{:^10} | {:^10} | {:^10} | {:^16} | {:^16} | {:^10} | {:^14}'
+            >>> print('{:^10} | {:^10} | {:^10} | {:^16} | {:^16} | {:^10} | {:^14}' # doctest: +IGNORE_OUTPUT 
             ...             .format('# object', 'center x', 'center y', 'box top-left', 'box bottom-right', 'class', 'frame size'))
             >>> # main loop:
             >>> for i, p in enumerate(pts):
             ...   print('{:^10d} | {:^10.3f} | {:^10.3f} | {:^16} | {:^16} | {:^10} | {:^14}'
             ...         .format(i, p.x, p.y, ptup(p.box[0]), ptup(p.box[1]), p.class_id, ptup(p.fsize)))
-            ...   cv2.rectangle(img, p.box[0], p.box[1], [0, 0, 0], 2)
-            ...   point = (int((p.box[0][0] + p.box[1][0]) / 2 - 75), p.box[1][1] + 22)
-            ...   cv2.putText(img, p.class_id, point, cv2.FONT_HERSHEY_SIMPLEX, 1, [0, 0, 0], 2)
+            ...   cv2.rectangle(img, p.box[0], p.box[1], [0, 0, 0], 2)      # doctest: +IGNORE_OUTPUT
+            ...   point = (int((p.box[0][0] + p.box[1][0]) / 2 - 75), p.box[1][1] + 22) 
+            ...   cv2.putText(img, p.class_id, point, cv2.FONT_HERSHEY_SIMPLEX, 1, [0, 0, 0], 2)  # doctest: +IGNORE_OUTPUT
             # object  |  center x  |  center y  |   box top-left   | box bottom-right |   class    |  frame size  
                0      |   0.584    |   0.376    |    (691, 234)    |    (802, 306)    | aeroplane  |  (1280, 720)  
                1      |   0.457    |   0.473    |    (528, 305)    |    (642, 376)    | aeroplane  |  (1280, 720)  
@@ -549,9 +557,9 @@ class yolov3:
 
         .. code:: 
 
-            >>> plt.figure()
-            >>> plt.axis(False)
-            >>> plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+            >>> plt.figure()  # doctest: +IGNORE_OUTPUT
+            >>> plt.axis(False) # doctest: +IGNORE_OUTPUT
+            >>> plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))  # doctest: +IGNORE_OUTPUT
         
         .. figure:: /_examples/yolov3/outformat.png
 
@@ -619,7 +627,7 @@ class yolov3:
                     raw.append(d[:4]) 
 
 
-        indices = cv2.dnn.NMSBoxes(boxes, confidences, self._confidence_th, self._nms_th)
+        indices = np.array(cv2.dnn.NMSBoxes(boxes, confidences, self._confidence_th, self._nms_th))
         
         # box_out = []
         # class_out = []
@@ -646,6 +654,33 @@ class yolov3:
         # box_out = np.array(box_out)
         
         return points_out # box_out, class_out,  
+
+
+
+
+
+if __name__ == "__main__":
+
+  import doctest, contextlib
+  from c4dynamics import IgnoreOutputChecker, cprint
+  
+  # Register the custom OutputChecker
+  doctest.OutputChecker = IgnoreOutputChecker
+
+  tofile = False 
+  optionflags = doctest.FAIL_FAST
+
+  if tofile: 
+    with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
+      with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
+        result = doctest.testmod(optionflags = optionflags) 
+  else: 
+    result = doctest.testmod(optionflags = optionflags)
+
+  if result.failed == 0:
+    cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
+  else:
+    print(f"{result.failed}")
 
 
 

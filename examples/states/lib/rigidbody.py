@@ -1,3 +1,5 @@
+# type: ignore
+
 from matplotlib import pyplot as plt 
 import sys, os, socket 
 sys.path.append('.')
@@ -80,7 +82,7 @@ def intro():
                         , gridspec_kw = {'left': 0.15, 'right': .9
                                             , 'top': .9, 'bottom': .2, 'hspace': .8})
 
-  # ax[0].plot(x, y, linecolor, linewidth = 1.5)
+  # ax[0].plot(x, y, color, linewidth = 1.5)
 
   f16.plot('z', ax = ax[0])
   ax[0].set(xlabel = '')
@@ -100,6 +102,7 @@ def intro():
     f16.animate(modelpath, angle0 = [90 * c4d.d2r, 0, 180 * c4d.d2r], savedir = example_imgs, modelcolor = f16colors)
     c4d.gif(example_imgs, 'rb_intro_ap', duration = 1)
 
+  plt.show(block = True)
 
 def iyy(): 
   c4d.cprint('iyy', 'y')
@@ -117,7 +120,7 @@ def iyy():
 
   dt = .01
 
-  for ti in np.arange(0, 4, dt): 
+  for ti in np.arange(0, 5, dt): 
 
     rb05.X = odeint(pendulum, rb05.X, [ti, ti + dt], (rb05.I[1],))[1]
     rb05.store(ti)
@@ -127,8 +130,8 @@ def iyy():
 
 
   rb05.plot('theta')
-  rb005.plot('theta', ax = plt.gca(), filename = c4d.j(savedir, 'Iyy_pendulum'))
-
+  rb005.plot('theta', ax = plt.gca(), color = 'c', filename = c4d.j(savedir, 'Iyy_pendulum'))
+  plt.show(block = True)
 
 def angles(): 
   c4d.cprint('angles', 'y')
@@ -209,14 +212,14 @@ def plot():
 
 if __name__ == '__main__': 
 
-  intro() 
+  # intro() 
   iyy() 
-  angles() 
-  anglerates() 
-  RB() 
-  BR() 
-  inteqm() 
-  plot() 
+  # angles() 
+  # anglerates() 
+  # RB() 
+  # BR() 
+  # inteqm() 
+  # plot() 
 
 
 

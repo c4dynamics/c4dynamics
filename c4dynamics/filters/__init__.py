@@ -33,7 +33,10 @@ and a snapshot of its values is provided by
 the property :attr:`state.X <c4dynamics.states.state.state.X>`). 
 
 When the coefficients of the state variables in the equations are constant, the 
-state model represents a linear system. Otherwise, the system is nonlinear. 
+state model represents a linear system (LTI, linear time invariant). 
+If the coefficients are 
+linear functions of time, the system is considered linear time varying.  
+Otherwise, the system is nonlinear. 
 
 
 Nonlinear Systems
@@ -42,7 +45,7 @@ Nonlinear Systems
 All systems are naturally nonlinear. When an equilibrium point 
 representing the major operation part of the system can be found, then a 
 linearization is performed about this point, and the system is regarded 
-as linear. 
+linear. 
 When such a point cannot be easily found, more advanced approaches 
 have to be considered to analyze and manipulate the system. Such 
 an approach is the extended Kalman filter. 
@@ -66,24 +69,24 @@ Where:
 - :math:`x` is the system state vector 
 - :math:`t` is a time variable 
 - :math:`u` is the system input signal
-- :math:`\\omega` is the process noise with covariance matrix :math:`Q`
+- :math:`\\omega` is the process uncertainty with covariance matrix :math:`Q_c`
 - :math:`y` is the system output vector (the measure)
 - :math:`h(\\cdot)` is an arbitrary vector-valued function representing the measurement equations 
-- :math:`\\nu` is the measure noise with covariance matrix :math:`R`
+- :math:`\\nu` is the measure noise with covariance matrix :math:`R_c`
 - :math:`x_0` is a vector of initial conditions  
 
 The noise processes :math:`\\omega(t)` and :math:`\\nu(t)` are white, zero-mean, uncorrelated, 
-and have known covariance matrices :math:`Q` and :math:`R`, respectively:
+and have known covariance matrices :math:`Q_c` and :math:`R_c`, respectively:
 
 .. math::
 
-  \\omega(t) \\sim (0, Q) 
+  \\omega(t) \\sim (0, Q_c) 
 
-  \\nu(t) \\sim (0, R) 
+  \\nu(t) \\sim (0, R_c) 
 
-  E[\\omega(t) \\cdot \\omega^T(t)] = Q \\cdot \\delta(t) 
+  E[\\omega(t) \\cdot \\omega^T(t)] = Q_c \\cdot \\delta(t) 
 
-  E[\\nu(t) \\cdot \\nu^T(t)] = R \\cdot \\delta(t) 
+  E[\\nu(t) \\cdot \\nu^T(t)] = R_c \\cdot \\delta(t) 
 
   E[\\nu(t) \\cdot \\omega^T(t)] = 0 
     
@@ -91,10 +94,10 @@ and have known covariance matrices :math:`Q` and :math:`R`, respectively:
 
 Where:
 
-- :math:`\\omega` is the process noise with covariance matrix :math:`Q`
-- :math:`\\nu` is the measure noise with covariance matrix :math:`R`
-- :math:`Q` is the process covariance matrix 
-- :math:`R` is the measurement covariance matrix 
+- :math:`\\omega` is the process uncertainty with covariance matrix :math:`Q_c`
+- :math:`\\nu` is the measure noise with covariance matrix :math:`R_c`
+- :math:`Q_c` is the process covariance matrix 
+- :math:`R_c` is the measurement covariance matrix 
 - :math:`\\sim` is the distribution operator. :math:`\\sim (\\mu, \\sigma)` means a normal distribution with mean :math:`\\mu` and standard deviation :math:`\\sigma`
 - :math:`E(\\cdot)` is the expectation operator 
 - :math:`\\delta(\\cdot)` is the Dirac delta function (:math:`\\delta(t) = \\infty` if :math:`t = 0`, and :math:`\\delta(t) = 0` if :math:`t \\neq 0`)
@@ -132,7 +135,7 @@ Where:
 
 - :math:`\\Delta{x}` is the linear approximation of a small deviation of the state :math:`x` from the nominal trajectory 
 - :math:`\\Delta{u}` is the linear approximation of a small deviation of the input control :math:`u` from the nominal trajectory 
-- :math:`\\omega` is the process noise  
+- :math:`\\omega` is the process uncertainty  
 - :math:`\\Delta{\\nu}` is the linear approximation of a small deviation of the noise :math:`\\nu` from the nominal trajectory 
 - :math:`{\\partial{f} \\over \\partial{i}}\\bigg|_{x_n, u_n}` is the partial derivative of :math:`f` with respect to :math:`i (i = x` or :math:`u)` substituted by the nominal point :math:`{x_n, u_n}`
 - :math:`{\\partial{h} \\over \\partial{x}}\\bigg|_{x_n}` is the partial derivative of :math:`h` with respect to :math:`x`, substituted by the nominal point :math:`{x_n}`
@@ -170,13 +173,13 @@ Where:
 - :math:`x` is the system state vector  
 - :math:`b` is the process input matrix
 - :math:`u` is the system input signal
-- :math:`\\omega` is the process noise with covariance matrix :math:`Q`
+- :math:`\\omega` is the process uncertainty with covariance matrix :math:`Q_c`
 - :math:`y` is the system output vector (the measure)
 - :math:`C` is the output matrix
-- :math:`\\nu` is the measure noise with covariance matrix :math:`R`
+- :math:`\\nu` is the measure noise with covariance matrix :math:`R_c`
 - :math:`x_0` is a vector of initial conditions  
-- :math:`Q` is the process covariance matrix 
-- :math:`R` is the measurement covariance matrix 
+- :math:`Q_c` is the process covariance matrix 
+- :math:`R_c` is the measurement covariance matrix 
 
 
 Sampled Systems
@@ -184,9 +187,9 @@ Sampled Systems
 
 The nonlinear system :eq:`nonlinearmodel` and its linearized form :eq:`linearmodel` 
 are given in the continuous-time domain, which is the progressive manifestation of any physical system. 
-However, the output of systems is sampled by digital devices in discrete time instances.
+However, the output of a system is usually sampled by digital devices in discrete time instances.
 
-Hence, In sampled-data systems the dynamics is described by a continuous-time differential equation, 
+Hence, in sampled-data systems the dynamics is described by a continuous-time differential equation, 
 but the output only changes at discrete time instants.
 
 Nonetheless, for numerical considerations the Kalman filter equations are usually given in the discrete-time domain
@@ -209,7 +212,7 @@ Where:
 - :math:`F` is the discretized process dynamics matrix (actually a first order approximation of the state transition matrix :math:`\\Phi`)
 - :math:`G` is the discretized process input matrix
 - :math:`u` is the discretized process input signal
-- :math:`\\omega_k` is the process noise with covariance matrix :math:`Q_k`
+- :math:`\\omega_k` is the process uncertainty with covariance matrix :math:`Q_k`
 - :math:`y_k` is the discretized system output vector (the measurement)
 - :math:`H` is the discrete measurement matrix 
 - :math:`\\nu_k` is the measure noise with covariance matrix :math:`R_k`
@@ -232,11 +235,13 @@ and have known covariance matrices :math:`Q_k` and :math:`R_k`, respectively:
   E[\\nu_k \\cdot \\omega^T_j] = 0
 
   
+  
 The discretization of a system is based on the state-transition matrix :math:`\\Phi(t)`. 
 For a matrix :math:`A` the state transition matrix :math:`\\Phi(t)` is given by the matrix exponential :math:`\\Phi = e^{A \\cdot t}` 
 which can be expanded as a power series. 
 
-An approximate representation of a continuous-time system by a series expansion up to the first-order is given by: 
+An approximate representation of a continuous-time 
+system by a series expansion up to the first-order is given by: 
 
 .. math::
 
@@ -244,9 +249,9 @@ An approximate representation of a continuous-time system by a series expansion 
 
   G = B \\cdot dt 
 
-  Q_k = Q \\cdot dt 
+  Q = Q_c \\cdot dt 
 
-  R_k = R / dt
+  R = R_c / dt
 
 
 Where: 
@@ -255,7 +260,7 @@ Where:
 - :math:`F` is the discretized process dynamics matrix (actually a first order approximation of the state transition matrix :math:`\\Phi`)
 - :math:`G` is the discretized process input matrix
 - :math:`u` is the discretized process input signal
-- :math:`\\omega_k` is the process noise with covariance matrix :math:`Q_k`
+- :math:`\\omega_k` is the process uncertainty with covariance matrix :math:`Q_k`
 - :math:`y_k` is the discretized system output vector (the measurement)
 - :math:`H` is the discrete measurement matrix 
 - :math:`\\nu_k` is the measure noise with covariance matrix :math:`R_k`
@@ -266,9 +271,28 @@ Where:
 - :math:`E(\\cdot)` is the expectation operator 
 - :math:`\\delta(\\cdot)` is the Kronecker delta function (:math:`\\delta(k-j) = 1` if :math:`k = j`, and :math:`\\delta_{k-j} = 0` if :math:`k \\neq j`)
 - superscript T is the transpose operator
-- :math:`Q_k` is the process covariance matrix 
-- :math:`R_k` is the measurement covariance matrix 
-- :math:`A, B, Q, R` are the continuous-time system variables of the system state matrix, system input vector, process covariance matrix, and measurement covariance matrix, respectively
+- :math:`Q` is the process covariance matrix 
+- :math:`R` is the measurement covariance matrix 
+- :math:`A, B, Q_c, R_c` are the continuous-time system variables of the system state matrix, system input vector, process covariance matrix, and measurement covariance matrix, respectively
+
+
+
+
+Note that the covariance matrices may have been converted from 
+the continuous-time system to discrete-time. 
+However, in most cases, these parameters are determined through experimentation 
+with the system in its final form.
+
+Additionally, measurements are sampled by digital devices at discrete time steps, 
+and the noise properties are typically provided in that form. 
+However, if the process noise applies to a kinematic system where the noise properties 
+are specified in continuous terms, the above approximation can be used or 
+the more exact expression for continuous white noise model 
+:math:`Q = \\int_{0}^{dt} F \\cdot Qc \\cdot F^T \\, dt`
+
+
+
+
 
 
 
@@ -317,7 +341,7 @@ are notated by :math:`(-)` superscript.
 
   x_k^- = F \\cdot x_{k-1}^+ + G \\cdot u_{k-1} 
 
-  P_k^- = F \\cdot P_{k-1}^+ \\cdot F^T + Q_k
+  P_k^- = F \\cdot P_{k-1}^+ \\cdot F^T + Q
 
   x_0^+ = x_0
 
@@ -331,8 +355,8 @@ Where:
 - :math:`u_k` is the process input signal
 - :math:`P_k^-` is the estimate of the system covariance matrix, :math:`P_k`, before a measurement update
 - :math:`P_{k-1}^+` is the system covariance matrix estimate, :math:`P_k`, from previous measurement update 
-- :math:`Q_k` is the process covariance matrix 
-- :math:`R_k` is the measurement covariance matrix 
+- :math:`Q` is the process covariance matrix 
+- :math:`R` is the measurement covariance matrix 
 - superscript T is the transpose operator
 - :math:`x_0` is the initial state estimation
 - :math:`P_0` is the covariance matrix consisting of errors of the initial estimation 
@@ -356,7 +380,7 @@ are notated by :math:`(+)` superscript.
 
 .. math:: 
 
-  K = P_k^- \\cdot H^T \\cdot (H \\cdot P_k^- \\cdot H^T + R_k)^{-1}
+  K = P_k^- \\cdot H^T \\cdot (H \\cdot P_k^- \\cdot H^T + R)^{-1}
 
   x_k^+ = x_k^- \\cdot K \\cdot (y - H \\cdot x_k^-)
 
@@ -367,7 +391,7 @@ Where:
 - :math:`K` is the Kalman gain
 - :math:`P_k^-` is the estimate of the system covariance matrix, :math:`P_k`, from the previous prediction
 - :math:`H` is the discrete measurement matrix 
-- :math:`R_k` is the measurement covariance matrix 
+- :math:`R` is the measurement covariance matrix 
 - :math:`x_k^+` is the estimate of the system state, :math:`x_k`, after a measurement update
 - :math:`x_k^-` is the estimate of the system state, :math:`x_k`, from the previous prediction
 - :math:`y` is the measure 
@@ -381,8 +405,11 @@ Where:
 Implementation (C4dynamics)
 ===========================
 
+:class:`kalman <c4dynamics.filters.kalman.kalman>`
+is a discrete linear Kalman filter model. 
+
 Following the concept of separating `predict` 
-and `update`, running a Kalman filter with `c4dynamics` is done 
+and `update`, running a Kalman filter is done 
 by constructing a Kalman filter with parameters as a 
 :class:`state <c4dynamics.states.state.state>` object 
 and calling the 
@@ -400,14 +427,14 @@ the object uses parameters and values from previous calls.
 Every filter class in `c4dynamics` is a 
 subclass of the state class. 
 This means that the filter itself 
-forms the estimated state vector:
+encapsulates the estimated state vector:
 
 .. code:: 
 
   >>> from c4dynamics.filters import kalman 
-  >>> import numpy as np 
-  >>> z = np.zeros((2, 2))
-  >>> kf = kalman(X = {'x1': 0, 'x2': 0}, dt = 0.1, P0 = z, A = z, C = z, Q = z, R = z)
+  >>> import numpy as np       
+  >>> z = np.zeros((2, 2)) 
+  >>> kf = kalman(X = {'x1': 0, 'x2': 0}, P0 = z, F = z, H = z, Q = z, R = z)
   >>> print(kf)
   [ x1  x2 ]
 
@@ -463,47 +490,76 @@ The initial conditions are: :math:`z_0 = 1010ft` (error of :math:`10ft`), and :m
 The altimeter is sampling in a rate of :math:`50Hz (dt = 20msec)` 
 with measure noise of :math:`\\nu \\sim (0, 0.5)[ft]`.
 
-A Kalman filter shall reduce the noise and estimate the state variables.  
+
+
+A Kalman filter shall reduce the noise and estimate the state variables. 
 But at first it must be verified that the system is observable, otherwise the filter cannot 
 fully estimate the state variables based on the output measurements. 
+
+
+**Setup** 
+
+
+Import required packages: 
+
+.. code::
+
+  >>> from c4dynamics.filters import kalman 
+  >>> from matplotlib import pyplot as plt 
+  >>> from scipy.integrate import odeint 
+  >>> import c4dynamics as c4d  
+  >>> import numpy as np 
+
+
+Define system matrices:
+
+.. code:: 
+
+  >>> A = np.array([[0, 5], [0, -0.5]])
+  >>> B = np.array([0, 0.1])
+  >>> C = np.array([1, 0])
+
+Observability test: 
 
 .. code:: 
 
   >>> n = A.shape[0]
-  >>> obsv = c
+  >>> obsv = C
   >>> for i in range(1, n):
-  ...   obsv = np.vstack((obsv, c @ np.linalg.matrix_power(A, i)))
+  ...   obsv = np.vstack((obsv, C @ np.linalg.matrix_power(A, i)))
   >>> rank = np.linalg.matrix_rank(obsv)
-  >>> c4d.cprint(f'The system is observable (rank = n = {n}).' if rank == n else 'The system is not observable (rank = {rank), n = {n}).', 'y')
-  The system is observable (rank = n = 2). 
+  >>> print(f'The system is observable (rank = n = {n}).' if rank == n else 'The system is not observable (rank = {rank), n = {n}).')
+  The system is observable (rank = n = 2).
 
   
-Let's start with a simulation of an ideal system. 
-
-Variable initialization and dynamics definition:
+Some constants and initialization of the scene: 
 
 .. code:: 
   
-  >>> dt, tf = 0.01, 10
-  >>> tspan = np.arange(0, tf, dt)  
-  >>> A = np.array([[0, 5], [0, -0.5]])
-  >>> B = np.array([0, 0.1])
-  >>> c = np.array([1, 0])
-  >>> Q = np.zeros((2, 2))
+  >>> dt, tf = 0.01, 50
+  >>> tspan = np.arange(0, tf + dt, dt)  
   >>> Hf = 1000
-  >>> # target and altimeter definitions 
+  >>> # reference target 
   >>> tgt = c4d.state(z = 1010, gamma = 0)
-  >>> altmtr = c4d.sensors.seeker(isideal = True)
 
 
 The dynamics is defined by an ODE function to be solved using scipy's ode integration:
 
 .. code:: 
 
-  >>> def autopilot(y, t, u = 0, Q = np.zeros((2, 1))):
-  ...   return A @ y + B * u + Q
+  >>> def autopilot(y, t, u = 0, w = np.zeros(2)):
+  ...   return A @ y + B * u + w
 
 
+**Ideal system** 
+  
+Let's start with a simulation of an ideal system. 
+The process has no uncertainties and the radar is clean of measurement errors (`isideal` flag on):  
+
+.. code:: 
+
+  >>> process_noise = np.zeros((2, 2))
+  >>> altmtr = c4d.sensors.radar(isideal = True, dt = 2 * dt)
 
 Main loop: 
 
@@ -511,98 +567,111 @@ Main loop:
 
   >>> for t in tspan:
   ...   tgt.store(t)
-  ...   altmtr.store(t)
   ...   _, _, Z = altmtr.measure(tgt, t = t, store = True)
-  ...   if Z is None: continue 
-  ...   tgt.X = odeint(autopilot, tgt.X, [t, t + dt], args = (F - Z, np.sqrt(Q) @ np.random.randn(2, 1)))[-1]
+  ...   if Z is not None:  
+  ...     tgt.X = odeint(autopilot, tgt.X, [t, t + dt], args = (Hf - Z, process_noise @ np.random.randn(2)))[-1]
 
-Plot the time histories of :math:`z` and :math:`\\gamma`:
+  
+The loop advances the target variables according to the `autopilot` (accurate) dynamics 
+and the (ideal) measures of the radar. 
+
+Plot the time histories of the target altitude (:math:`z`) and flight path angle (:math:`\\gamma`):
 
 .. code:: 
 
   >>> fig, ax = plt.subplots(1, 2)
   >>> # first axis 
-  >>> ax[0].plot(*tgt.data('z'), 'c', linewidth = 2, label = 'true') 
-  >>> ax[0].plot(*altmtr.data('range'), 'm', linewidth = 1, label = 'altimeter')
+  >>> ax[0].plot(*tgt.data('z'), 'm', label = 'true')                   # doctest: +IGNORE_OUTPUT                 
+  >>> ax[0].plot(*altmtr.data('range'), '.c', label = 'altimeter')      # doctest: +IGNORE_OUTPUT   
   >>> c4d.plotdefaults(ax[0], 'Altitude', 't', 'ft')
-  >>> ax[0].legend(fontsize = 'small', facecolor = None) 
+  >>> ax[0].legend()                                                    # doctest: +IGNORE_OUTPUT   
   >>> # second axis
-  >>> ax[1].plot(*tgt.data('gamma', c4d.r2d), 'c', linewidth = 1.5, label = 'true')
-  >>> c4d.plotdefaults(ax[1], 'Path Angle', 't', '')
-  >>> ax[1].legend(fontsize = 'small', facecolor = None)
+  >>> ax[1].plot(*tgt.data('gamma', c4d.r2d), 'm')                      # doctest: +IGNORE_OUTPUT   
+  >>> c4d.plotdefaults(ax[1], 'Path Angle', 't', '')  
+  >>> plt.show() 
 
-.. figure:: /_static/figures/filters_kalman_ideal.png
+.. figure:: /_examples/filters/ap_ideal.png
 
-The ideal altimeter measures precisely the aircraft altitude. 
-Its samples used to control the flight that started 
+The ideal altimeter measures the aircraft altitude precisely. 
+Its samples use to control the flight angle that started 
 at an altitude of :math:`10ft` above the required 
-altitude and is closed after about :math:`18s`.  
+altitude (:math:`Hf = 1000ft`) and is closed after about :math:`18s`.  
 
-Now, let's introduce the process noise and the measurement noise:
+
+**Noisy system** 
+
+Now, let's introduce the process uncertainty and measurement noise:
 
 .. code:: 
 
-  >>> Q = np.diag([0.5**2, (0.1 * c4d.d2r)**2])
-  >>> tgt = c4d.state(z = 1010, gamma = 0)
-  >>> altmtr = c4d.sensors.seeker(rng_noise_std = 0.5, dt = 20e-3) 
+  >>> process_noise = np.diag([0.5, 0.1 * c4d.d2r])
+  >>> measure_noise = 1 # ft
+  >>> altmtr = c4d.sensors.radar(rng_noise_std = measure_noise, dt = 2 * dt) 
 
 Re-running the main loop yields: 
 
-.. figure:: /_static/figures/filters_kalman_noisy.png
+.. figure:: /_examples/filters/ap_noisy.png
 
 Very bad.
 The errors corrupt the input that uses to control the altitude.
 The point in which the altitude converges to its steady-state is more 
 than :math:`10s` later than the ideal case. 
 
-The Kalman filter should find optimized gains to minimize the mean squared error. 
-For the estimated state let's define a new target, :math:`htgt`, where `h` stands for the 
-hat estimation symbol. Let's also add to the estimated target a Kalman filter object 
-that consists of the Kalman attributes: 
+
+**Filtered system** 
+
+A Kalman filter should find optimized gains to minimize the mean squared error. 
+For the estimated state let's define a new object, :math:`kf`, 
+and initialize it with the estimated errors: 
+
 
 .. code:: 
 
-  >>> htgt = c4d.state(z = tgt.z + 5, gamma = tgt.gamma + 0.05 * c4d.d2r) 
-  >>> htgt.kf = c4d.filters.kalman(P0 = [2 * 5, 2 * 0.05 * c4d.d2r] 
-  ...                               , R = v**2, Q = Q, dt = dt   
-  ...                                 , A = A, B = B, C = c) 
-
-Note that the Kalman filter was initialized here with continuous system matrices. 
-However, it could be initialized with discrete system matrices. The only limit
-is that all the four necessary parameters, i.e. :math:`A, B, Q, R` or :math:`F, G, Qk, Rk` 
-will be provided consistently and as a complete set:
-
-.. code:: 
-
-  >>> htgt.kf = c4d.filters.kalman(P0 = [2 * 5, 2 * 0.05 * c4d.d2r] 
-  ...                                , Rk = v**2 / 20e-3, Qk = Q * dt, dt = dt   
-  ...                                    , F = np.eye(2) + A * dt, G = B * dt, H = c) 
-
-
-
+  >>> z_err = 5 
+  >>> gma_err = 1 * c4d.d2r 
+  >>> tgt = c4d.state(z = 1010, gamma = 0)
+  >>> kf = kalman(X = {'z': tgt.z + z_err, 'gamma': tgt.gamma + gma_err}
+  ...                 , P0 = [2 * z_err, 2 * gma_err] 
+  ...                     , R = measure_noise**2 / dt, Q = process_noise**2 * dt 
+  ...                         , F = np.eye(2) + A * dt, G = B * dt, H = C)
+ 
+  
 
 The main loop is changed to: 
 
 .. code:: 
 
   >>> for t in tspan:
-  ...  tgt.store(t)
-  ...  htgt.store(t)
-  ...  htgt.p11, htgt.p22 = htgt.kf.P[0, 0], htgt.kf.P[1, 1]
-  ...  htgt.storeparams(['state', 'p11', 'p22'], t)
-  ...  altmtr.store(t)
-  ...  tgt.X = odeint(autopilot, tgt.X, [t, t + dt], args = (Hf - htgt.z, np.sqrt(Q) @ np.random.randn(2, 1)))[-1]
-  ...  # predict
-  ...  htgt.X = htgt.kf.predict(htgt.X, u = Hf - htgt.z)
-  ...  _, _, Z = altmtr.measure(tgt, t = t, store = True)
-  ...  if Z is None: continue 
-  ...  # update 
-  ...  htgt.X = htgt.kf.update(htgt.X, Z)
+  ...   tgt.store(t)
+  ...   kf.store(t)
+  ...   tgt.X = odeint(autopilot, tgt.X, [t, t + dt], args = (Hf - kf.z, process_noise @ np.random.randn(2)))[-1]
+  ...   kf.predict(u = Hf - kf.z)
+  ...   _, _, Z = altmtr.measure(tgt, t = t, store = True)
+  ...   if Z is not None: 
+  ...     kf.update(Z) # doctest: +IGNORE_OUTPUT
 
+  
 
-.. figure:: /_static/figures/filters_kalman_filtered.png
+Plot the state estimates on the true the target altitude (:math:`z`) and flight path angle (:math:`\\gamma`):
 
-The filtered altitude (`htgt.z`) is used as input to control the system and 
+.. code:: 
+
+  >>> fig, ax = plt.subplots(1, 2)
+  >>> # first axis 
+  >>> ax[0].plot(*tgt.data('z'), 'm', label = 'true')                   # doctest: +IGNORE_OUTPUT                 
+  >>> ax[0].plot(*altmtr.data('range'), '.c', label = 'altimeter')      # doctest: +IGNORE_OUTPUT   
+  >>> ax[0].plot(*kf.data('z'), 'y', label = 'kf')                      # doctest: +IGNORE_OUTPUT
+  >>> c4d.plotdefaults(ax[0], 'Altitude', 't', 'ft')
+  >>> ax[0].legend()                                                    # doctest: +IGNORE_OUTPUT   
+  >>> # second axis
+  >>> ax[1].plot(*tgt.data('gamma', c4d.r2d), 'm')                      # doctest: +IGNORE_OUTPUT   
+  >>> ax[1].plot(*kf.data('gamma', c4d.r2d), 'y')                       # doctest: +IGNORE_OUTPUT
+  >>> c4d.plotdefaults(ax[1], 'Path Angle', 't', '')  
+  >>> plt.show()   
+
+.. figure:: /_examples/filters/ap_filtered.png
+
+The filtered altitude (`kf.z`) is used as input to control the system and 
 generates results almost as good as the ideal case. 
 
 Ultimately, the altimeter measuring the aircraft altitude
@@ -675,7 +744,7 @@ Where:
 - :math:`f(\\cdot)` is an arbitrary vector-valued function representing the system dynamics
 - :math:`x` is the system state vector 
 - :math:`u` is the process input signal
-- :math:`\\omega` is the process noise with covariance matrix :math:`Q`
+- :math:`\\omega` is the process uncertainty with covariance matrix :math:`Q`
 - :math:`y` is the system output vector 
 - :math:`h(\\cdot)` is an arbitrary vector-valued function representing the system output
 - :math:`\\nu` is the measure noise with covariance matrix :math:`R`
@@ -699,7 +768,7 @@ and have known covariance matrices :math:`Q` and :math:`R`, respectively:
 
 Where:
 
-- :math:`\\omega` is the process noise with covariance matrix :math:`Q`
+- :math:`\\omega` is the process uncertainty with covariance matrix :math:`Q`
 - :math:`\\nu` is the measure noise with covariance matrix :math:`R`
 - :math:`Q` is the process covariance matrix 
 - :math:`R` is the measurement covariance matrix 
@@ -729,7 +798,7 @@ respect to :math:`x`:
  
 
 A last final step before getting into the filter itself 
-is to discretize these terms and the noise covariance matrices: 
+is to discretize these terms: 
 
 
 .. math::
@@ -738,21 +807,19 @@ is to discretize these terms and the noise covariance matrices:
 
   H = C  
 
-  Q_k = Q \\cdot dt 
-
-  R_k = R / dt
 
 Where:
 
 - :math:`F` is the discretized process dynamics matrix (actually a first order approximation of the state transition matrix :math:`\\Phi`)
-- :math:`G` is the discretized process input matrix
 - :math:`H` is the discrete measurement matrix 
-- :math:`\\nu_k` is the measure noise with covariance matrix :math:`R_k`
 - :math:`I` is the identity matrix
 - :math:`dt` is the sampling time 
-- :math:`Q_k` is the process covariance matrix 
-- :math:`R_k` is the measurement covariance matrix 
-- :math:`A, C, Q, R` are the continuous-time system variables of the system state matrix, system outrput vector, process covariance matrix, and measurement covariance matrix, respectively
+- :math:`A, C` are the continuous-time system dynamics and output matrices
+
+
+Note that :math:`Q` and :math:`R` refer to the covariance matrices 
+representing the system noise in its final form, regardless of the time domain.  
+
 
 Now the execution of the `predict` step and the `update` step is possible. 
 
@@ -778,7 +845,7 @@ equations for the covariance calculation (third):
 
   x_k^- = x_{k-1}^+ + dt \\cdot f(x_{k-1}^+, u_{k-1})
 
-  P_k^- = F \\cdot P_{k-1}^+ \\cdot F^T + Q_k
+  P_k^- = F \\cdot P_{k-1}^+ \\cdot F^T + Q
 
 subject to initial conditions: 
 
@@ -799,7 +866,7 @@ Where:
 - :math:`u_k` is the process input signal
 - :math:`P_k^-` is the estimate of the system covariance matrix, :math:`P_k`, before a measurement update
 - :math:`P_{k-1}^+` is the system covariance matrix estimate, :math:`P_k`, from previous measurement update 
-- :math:`Q_k` is the process covariance matrix 
+- :math:`Q` is the process covariance matrix 
 - superscript T is the transpose operator
 - :math:`x_0` is the initial state estimation
 - :math:`P_0` is the covariance matrix consisting of errors of the initial estimation 
@@ -820,7 +887,7 @@ the nonlinear equations themselves (third equation):
 
   H = {\\partial{h} \\over \\partial{x}}\\bigg|_{x_k^-} 
 
-  K = P_k^- \\cdot H^T \\cdot (H \\cdot P_k^- \\cdot H^T + R_k)^{-1}
+  K = P_k^- \\cdot H^T \\cdot (H \\cdot P_k^- \\cdot H^T + R)^{-1}
 
   x_k^+ = x_k^- \\cdot K \\cdot (y - h(x)) 
 
@@ -833,7 +900,7 @@ Where:
 - :math:`x_k^-` is the estimate of the system state, :math:`x_k`, from the previous prediction
 - :math:`K` is the Kalman gain
 - :math:`P_k^-` is the estimate of the system covariance matrix, :math:`P_k`, from the previous prediction
-- :math:`R_k` is the measurement covariance matrix 
+- :math:`R` is the measurement covariance matrix 
 - :math:`x_k^+` is the estimate of the system state, :math:`x_k`, after a measurement update
 - :math:`y` is the measure 
 - :math:`I` is the identity matrix 
@@ -910,17 +977,17 @@ The process equations are:
   y = z + \\nu_k 
 
 
-where
+Where:
 
 
 - :math:`\\rho_0 = 0.0034`
 - :math:`k = 22,000` 
 - :math:`g = 32.2 ft/sec^2`
-- :math:`\\omega_{\\beta} \\sim ()`
+- :math:`\\omega_{\\beta} \\sim (0, 300)`
 - :math:`\\nu_k \\sim (0, 500)` 
-- :math:`z` is the target altitude (ft)
-- :math:`v_z` is the target vertical velocity (ft/sec)
-- :math:`\\beta` is the target ballistic coefficient (lb/ft^2)
+- :math:`z` is the target altitude (:math:`ft`)
+- :math:`v_z` is the target vertical velocity (:math:`ft/sec`)
+- :math:`\\beta` is the target ballistic coefficient (:math:`lb/ft^2`)
 - :math:`y` is the system measure 
 
 
@@ -966,7 +1033,7 @@ Quick setup for an ideal case:
   >>> dtsensor = 0.05  
   >>> rho0, k = 0.0034, 22000 
   >>> tgt = c4d.state(z = 100000, vz = -6000, beta = 500)
-  >>> altmtr = c4d.sensors.seeker(isideal = True, dt = dt)
+  >>> altmtr = c4d.sensors.radar(isideal = True, dt = dt)
 
 Target equations of motion:
 
@@ -981,11 +1048,12 @@ Main loop:
 .. code::  
 
   >>> for t in tspan:
-  ...   tgt.X = odeint(ballistics, tgt.X, [t, t + dt])[-1]
-  ...   altmtr.measure(tgt, t = t, store = True)
   ...   tgt.store(t)
+  ...   tgt.X = odeint(ballistics, tgt.X, [t, t + dt])[-1]
+  ...   _, _, z = altmtr.measure(tgt, t = t, store = True)
 
-.. figure:: /_static/figures/filters_ekf_ideal.png
+.. figure:: /_examples/filters/bal_ideal.png
+
 
 These figures show the time histories of the altitude, velocity, 
 and ballistic coefficient, for a target in a free fall with ideal conditions. 
@@ -998,7 +1066,7 @@ the spectral density of a continuous system, such that for flight time :math:`t_
 the standard deviation of the ballistic coefficient noise 
 is :math:`\\omega_{\\beta} = \\sqrt{\\beta_{err} \\cdot t_f}`. 
 The measurement noise is :math:`\\nu = \\sqrt{500}`. These use 
-for the noise covariance matrices :math:`Q_k, R_k` as for 
+for the noise covariance matrices :math:`Q, R` as for 
 the initialization of the state covariance matrix :math:`P`:   
 
 
@@ -1007,10 +1075,10 @@ the initialization of the state covariance matrix :math:`P`:
   >>> zerr, vzerr, betaerr = 25, -150, 1000 
   >>> nu = np.sqrt(500) 
   >>> p0 = np.diag([nu**2, vzerr**2, betaerr**2])
-  >>> Rk = nu**2 / dt
-  >>> Qk = np.diag([0, 0, betaerr**2 / tf * dt])  
+  >>> R = nu**2 / dt
+  >>> Q = np.diag([0, 0, betaerr**2 / tf * dt])  
   >>> # altmeter and ekf construction: 
-  >>> altmtr = c4d.sensors.seeker(rng_noise_std = nu, dt = dtsensor) 
+  >>> altmtr = c4d.sensors.radar(rng_noise_std = nu, dt = dtsensor) 
   >>> ekf = c4d.filters.ekf(X = {'z': tgt.z + zerr, 'vz': tgt.vz + vzerr
   ...                                     , 'beta': tgt.beta + betaerr}
   ...                                         , P0 = p0, dt = dt) 
@@ -1034,13 +1102,13 @@ here as the measurement is already linear), and calling the `update` method.
   ...   # discretization 
   ...   F = np.array([[0, 1, 0], f2i, [0, 0, 0]]) * dt + np.eye(3)
   ...   # ekf predict 
-  ...   ekf.predict(F, Qk, fx = fx)
+  ...   ekf.predict(F, Q, fx = fx)
   ...   # take a measure 
   ...   _, _, Z = altmtr.measure(tgt, t = t, store = True)
   ...   if Z is not None:  
   ...     H = [1, 0, 0]
   ...     # ekf update 
-  ...     ekf.update(Z, H, Rk)
+  ...     ekf.update(Z, H, R)
   ...   # store states
   ...   tgt.store(t)
   ...   ekf.store(t)
@@ -1051,27 +1119,19 @@ stores the introduced `F` to prove that
 the `update` step always comes after calling the `predict`. 
 
 
-.. figure:: /_static/figures/filters_ekf_filtered.png
+.. figure:: /_examples/filters/bal_filtered.png
 
 
 
 A few steps to consider when designing a Kalman filter: 
 
-- If possible, find a nominal trajectory to linearize the system about.
-- Identify the nonlinearity; there may be mixed situations:
-- The process equations are nonlinear.
-- The measurement equations are nonlinear.
-- Both are nonlinear.
-- -> Design your filter accordingly.
-- The two major time-consuming activities are:
-- Proving the dynamic model.
-- Researching the weights for the noise matrices Q, R.
+- Spend some time understanding the dynamics. It's the basis of great filtering. 
+- If the system is nonlinear, identify the nonlinearity; is it in the process? in the measurement? both? 
+- Always prioriorotize linear Kalman. If possible, find a nominal trajectory to linearize the system about.
+- The major time-consuming activity is researching the balance between the noise matrices `Q` and `R`.
 - -> Plan your time in advance.
 - Use a framework that provides you with the most flexibility and control.
-- Make fun. 
-
-
-
+- Make fun! 
 
 
 
@@ -1081,158 +1141,116 @@ A few steps to consider when designing a Kalman filter:
 Low-pass Filter
 ***************
 
-A first-order lowpass filter. 
+A first-order low-pass filter is a fundamental component in signal processing 
+and control systems, designed to allow low-frequency signals to pass while 
+attenuating higher-frequency noise. 
 
-The kalman filter is a state observer. Namely it provides 
-a full state estimation based on the partial measure of variables. 
-
-
-The differential equation: 
-
-.. math:: 
-
-  \\alpha \\cdot \\dot{y} + y = x
-
-represents a first-order lowpass filter, which allows low-frequency 
-signals to pass while attenuating higher-frequency signals.
-
-In singal processing applications, it smooths signals by reducing high-frequency noise.
-
-In control system applications, it can use to describe 
-a first-order lag.
-
-In the frequency-domain, the above diffential equation is represented by: 
-
-.. math::
-
-  H(s) = {Y(s) \\over X(s)} = {1 \\over \\alpha \\cdot s}
-
-where 
-
-- :math:`H` is the transfer function
-- :math:`Y` is the output signal
-- :math:`X` is the input signal
-- :math:`\\alpha` is the shaping parameter  
-- :math:`s` is the complex frequency variable in the Laplace transform, :math:`s = j \\cdot 2 \\cdot \\pi \\cdot f` 
-
-
-Depending on the interpretation that \\alpha is given, the 
-
-when :math:`\\alpha` represents the cutoff frequency: 
-
-.. math::
-
-  s
-
-
-The frequency separating beween passing frequencies and attenuated 
-frequencies is called the cutoff frequency.
-
-
-In the context of a first-order low-pass filter (LPF), 
-the relationship between the time constant 𝜏
-τ and the cutoff frequency 𝑓𝑐f c​
-is important. The cutoff frequency is the frequency at which the 
-output signal is attenuated to 122​ 1
-​
-(or approximately 0.707) of its maximum value. 
-This frequency is also known as the -3dB point.
-
-The cutoff frequency 𝑓𝑐f c
-​
-(in Hertz) is related to the time constant 𝜏τ by the formula:
-𝑓𝑐=12𝜋𝜏f c​ = 2πτ1
-​
-Alternatively, the time constant can be expressed in terms of the cutoff frequency:
-𝜏=12𝜋𝑓𝑐τ 2πfc​1
-​
- 
-
-When designing or simulating a first-order low-pass filter, 
-you often start with a desired cutoff frequency and then calculate the 
-corresponding time constant 
-𝜏τ. In a discrete-time implementation, the filter's 
-behavior is determined by the sample rate and the cutoff frequency, which 
-together define the filter coefficient 𝛼α.
-
-Let's add tests for this additional context, ensuring that the 
-lowpass class can initialize using a cutoff frequency and sample rate, 
-and then use it to simulate a first-order system.
+This type of filter is represented by a simple differential equation 
+and is commonly used for signal smoothing and noise reduction.
 
 
 
-There are different types of lowpass filters, 
-including RC (resistor-capacitor) filters, 
-LC (inductor-capacitor) filters, 
-and active lowpass filters using operational amplifiers.
-
-
-
-A first-order lowpass filter is defined by:
+A low-pass filter (LPF) can be described by the differential equation:
 
 .. math:: 
 
-  \\dot{y}(t) = -{1 \\over \\tau} \\cdot y(t) + {1 \\over \\tau} \\cdot x(t) 
+   \\alpha \\cdot \\dot{y} + y = x
 
-in the continuous-time domain, and by:
+Where:
 
-.. math:: 
+- :math:`y` is the output signal
+- :math:`x` is the input signal
+- :math:`\\alpha` is a shaping parameter that influences the filter's cutoff frequency
 
-  y_k = \\alpha \\cdot x_k + (1 - \\alpha) \\cdot y_{k-1}
-
-in the discrete-time domain. 
-
-The differential equation of the continuous-time filter 
-can be Euler-integrated with time constant :math:`dt` as:
-
-.. math::
-
-  y(t + dt) = y(t) + dt \\cdot (-{1 \\over \\tau} \\cdot y(t) + {1 \\over \\tau} \\cdot x(t))
+In signal processing, the LPF smooths signals by reducing high-frequency noise. 
+In control systems, it is often used to model a first-order lag.
 
 
-We can substitute 
+Frequency-Domain
+================
+
+In the frequency domain, the transfer function of a first-order low-pass filter is given by:
 
 .. math::
 
-  k = t + dt 
+   H(s) = \\frac{Y(s)}{X(s)} = \\frac{1}{\\alpha \\cdot s + 1}
 
-  \\alpha = {dt \\over \\tau}
+Where:
 
-  
-we can derive one representation from the other. 
-
-As such, `c4dynamics` allows each 
-
-
+- :math:`H(s)` is the transfer function
+- :math:`Y(s)` and :math:`X(s)` are the Laplace transforms of the output and input signals respectively
+- :math:`s` is the complex frequency variable in the Laplace transform, defined as :math:`s = j \\cdot 2 \\cdot \\pi \\cdot f`
+- :math:`\\alpha` is a constant related to the cutoff frequency
 
 
-  
-  
- 
-  
+
+Time-Constant
+=============
+
+The cutoff frequency :math:`f_c` is the frequency at which the filter attenuates the signal to approximately 70.7% (-3dB) of its maximum value. It is related to the time constant :math:`\\tau` by:
+
+.. math::
+
+   f_c = \\frac{1}{2 \\cdot \\pi \\cdot \\tau}
+
+and equivalently,
+
+.. math::
+
+   \\tau = \\frac{1}{2 \\cdot \\pi \\cdot f_c}
+
+In practical applications, the desired cutoff frequency determines :math:`\\tau`, which in turn defines the filter behavior.
+
+
+Discrete-Time
+=============
+
+In the discrete-time domain, a first-order low-pass filter is represented as:
+
+.. math::
+
+   y_k = \\alpha \\cdot x_k + (1 - \\alpha) \\cdot y_{k-1}
+
+where :math:`y_k` and :math:`x_k` are the discrete output and input signals at sample index `k`, and :math:`\\alpha` is the filter coefficient derived from the sample rate and cutoff frequency.
+
+
+Implementation (C4dynamics)
+===========================
+
+This filter class can be initialized with a 
+cutoff frequency and sample rate, allowing users to simulate 
+first-order systems.
+
+
+References
+==========
+
 
 .. [SD] Simon, Dan, 
    'Optimal State Estimation: Kalman, H Infinity, and Nonlinear Approaches', 
    Hoboken: Wiley, 2006.
 
+   
 .. [AG] Agranovich, Grigory, 
    Lecture Notes on Modern and Digital Control Systems, 
    University of Ariel, 2012-2013.
 
+   
 .. [ZP] Zarchan, Paul, 
    'Tactical and Strategic Missile Guidance', 
    American Institute of Aeronautics and Astronautics, 1990. 
 
+   
 .. [MZ] Meri, Ziv, 
-   `Extended Lyapunov Analysis and Simulative 
-   Investigations in Stability of Proportional Navigation Guidance Systems
-   </_static/docs/PN_Stability_Extended_Lyapunov_and_Simulative_Investigations.pdf>`_,  
+   `Extended Lyapunov Analysis and Simulative Investigations in Stability of Proportional Navigation Guidance Systems 
+   </docs/source/_static/PN_Stability.pdf>`_,
    MSc. Thesis supervised by prof. Grigory Agranovich, University of Ariel, 2020.
 
 """
 
 
-# NOTE the line: 
+# NOTE 
+# the line: 
 # "Note that the divider of R is :math:`dt_{measure}` rather than simply :math:`dt` 
 #   because often times the sampling-time of the measures is different than 
 #   the sampling-time that uses to integrate the dynamics. 
@@ -1241,7 +1259,7 @@ As such, `c4dynamics` allows each
 # required clarification. i think i took it from simon. not sure. 
 # anyway it's weird. as for a continuous system with Q = R 
 # it's gone have balanced weights. 
-# however the translation of it to discrete matrices with Qk = Q*dt, Rk = R/dt 
+# however the translation of it to discrete matrices with Q = Q*dt, R = R/dt 
 # violates the balance.  
 # I think it's realy wrong. in pg 232 (247) he says explicitly: 
 # now let us think about measurement noise. suppose we have a discrete-time 
@@ -1267,16 +1285,40 @@ As such, `c4dynamics` allows each
 # discretization and just present it as given for the final system.
 # or to add a remark and say that if also the covarinace matrices are given for 
 # cont system then this the way to discretize it. 
+# or add a note that in practice the noise of the discrete system should be know ampricialy or by data sheet. 
+# or to add that in practice the sensors are taking measurements in discrete times. 
+# 
+# another problem arises: 
+# the kalman is implemented as discrete-time system. 
+# if the user provides system matrices A,B,C in the continuous-time domain, 
+# then i ask also the time-step parameter and convert them to the discrete-time 
+# form and then calculate the filter equations. 
+# the problem that if the user provide continuous-time matrices, 
+# probably he also provide his noise covariances Q and R in the continuous time domain, 
+# which means that the noise descriptions do not match the discrete form of my filter. 
+# what do u suggest to do?
+# gpt: 
+# convert q by yourself according to:  
+#     Qd = A^-1 * (e^AT - I) * Qc
+# R is in anyway sampled in disc times.
+# alternatively change the model to discrete inputs only.   
+# 
+#
+# FIXME 
+# the example of the kalman filter must be fixed as there's no reason to 
+# divide R here by dt becuase it's the vairance of the radar in the given time step!! 
+# see figures in w.doc. 
+  
 '''
 Franklin, G.F., Powell,D.J., and Workman, M.L., Digital Control of Dynamic Systems 
 ch 9 
 9.4.2 the discrete kf:
 w(t) and v(t) have no time correlation.
-E(w*w^T)=Rw=Qk
-E(v*v^T)=Rv=Rk
+E(w*w^T)=Rw=Q
+E(v*v^T)=Rv=R
 
 9.4.4. noise matrices and discerete equivalents.
-the process noise acts on the continuous portion of the system.  
+the process uncertainty acts on the continuous portion of the system.  
 
 
 
@@ -1297,13 +1339,35 @@ im not sure the model uncertainty behaves in that way.
 that same results could be achieved by using discrete matrices.
 '''
 
-from .kalman import kalman 
-from .ekf import ekf 
-# from .luenberger import luenberger
-from .lowpass import lowpass 
+import sys, os
+sys.path.append('.')
+
+from c4dynamics.filters.kalman import kalman
+from c4dynamics.filters.ekf import ekf
+from c4dynamics.filters.lowpass import lowpass
 
 
 if __name__ == "__main__":
-  import doctest
-  doctest.testmod()
- 
+
+  import doctest, contextlib
+  from c4dynamics import IgnoreOutputChecker, cprint
+  
+  # Register the custom OutputChecker
+  doctest.OutputChecker = IgnoreOutputChecker
+
+  tofile = False 
+  optionflags = doctest.FAIL_FAST
+
+  if tofile: 
+    with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
+      with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
+        result = doctest.testmod(optionflags = optionflags) 
+  else: 
+    result = doctest.testmod(optionflags = optionflags)
+
+  if result.failed == 0:
+    cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
+  else:
+    print(f"{result.failed}")
+
+

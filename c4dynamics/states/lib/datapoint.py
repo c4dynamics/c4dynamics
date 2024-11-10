@@ -1,10 +1,9 @@
 import numpy as np
-
-# directly import a submodule (eqm3) from the c4dynamics.eqm package:
+import sys 
+sys.path.append('.')
 import c4dynamics as c4d 
-from c4dynamics.eqm import int3  
-# from c4dynamics.src.main.py.eqm import eqm3
 from c4dynamics.states.state import state 
+import warnings 
 
 def create(X):
   if len(X) > 6:
@@ -59,8 +58,9 @@ class datapoint(state):
   
   .. code::
 
-    >>> dp = c4d.datapoint(x = 1000, vx = -100)
-    >>> dp.X0
+    >>> from c4dynamics import datapoint
+    >>> dp = datapoint(x = 1000, vx = -100)
+    >>> print(dp.X0) # doctest: +NUMPY_FORMAT
     [1000  0  0  -100  0  0]
 
 
@@ -95,16 +95,36 @@ class datapoint(state):
   in the three dimensional space, and integrate them 
   using the fourth-order Runge-Kutta method.
 
+  
+  Import required packages:
+
+  .. code:: 
+
+    >>> import c4dynamics as c4d 
+    >>> from matplotlib import pyplot as plt 
+    >>> import numpy as np 
+
+
+  Settings and initial conditions: 
 
   .. code:: 
 
     >>> dp = c4d.datapoint(z = 100)
     >>> dt = 1e-2
-    >>> t = np.arange(0, 10, dt) 
+    >>> t = np.arange(0, 10 + dt, dt)
+
+    
+  Main loop: 
+
+  .. code:: 
+
     >>> for ti in t:
-    ...   if dp.z < 0: break
-    ...   dp.inteqm([0, 0, -c4d.g_ms2], dt) 
     ...   dp.store(ti)
+    ...   if dp.z < 0: break
+    ...   dp.inteqm([0, 0, -c4d.g_ms2], dt) # doctest: +IGNORE_OUTPUT 
+
+  .. code:: 
+
     >>> dp.plot('z')
     >>> plt.show()
 
@@ -112,7 +132,13 @@ class datapoint(state):
 
 
   '''
-
+  x: float
+  y: float
+  z: float
+  vx: float
+  vy: float
+  vz: float
+  
   
   # Attributes
   # ==========
@@ -213,41 +239,58 @@ class datapoint(state):
 
     1. `datapoint` 
 
-    Two Helium balloons of 1kg and 10kg float with total force of L = 0.5N 
+    Two floating balloons of 1kg and 10kg float with total force of L = 0.5N 
     and expreience a side wind of 10k.
+
+    Import required packages: 
 
     .. code:: 
 
-      >>> t1, t2, dt = 0, 10, 0.01
+      >>> import c4dynamics as c4d 
+      >>> from matplotlib import pyplot as plt 
+      >>> import numpy as np 
+
+      
+    Settings and initial conditions: 
+
+    .. code:: 
+
+      >>> dt = 0.01
+      >>> tf = 10 + dt 
       >>> F = [0, 0, .5]
       >>> #
-      >>> hballoon1 = c4d.datapoint(vx = 10 * c4d.k2ms)
-      >>> hballoon1.mass = 1 
+      >>> bal1 = c4d.datapoint(vx = 10 * c4d.k2ms)
+      >>> bal1.mass = 1 
       >>> #
-      >>> hballoon10 = c4d.datapoint(vx = 10 * c4d.k2ms)
-      >>> hballoon10.mass = 10 
-      >>> #
-      >>> for t in np.arange(t1, t2, dt):
-      ...   hballoon1.X = int3(hballoon1, F, dt)
-      ...   hballoon1.store(t)
-      ...   hballoon10.X = int3(hballoon10, F, dt)
-      ...   hballoon10.store(t)
-      >>> hballoon1.plot('side')
-      >>> hballoon10.plot('side', ax = plt.gca(), linecolor = 'c')
+      >>> bal10 = c4d.datapoint(vx = 10 * c4d.k2ms)
+      >>> bal10.mass = 10 
+
+      
+    Main loop: 
+
+    .. code:: 
+            
+      >>> for t in np.arange(0, tf, dt):
+      ...   bal1.store(t)
+      ...   bal10.store(t)
+      ...   bal1.X = c4d.eqm.int3(bal1, F, dt)
+      ...   bal10.X = c4d.eqm.int3(bal10, F, dt)
+
+
+    .. code:: 
+
+      >>> bal1.plot('side')
+      >>> bal10.plot('side', ax = plt.gca(), color = 'c')
       >>> plt.show() 
 
     .. figure:: /_examples/datapoint/mass_balloon.png
 
     2. `rigidbody`
+
     The previous example for a `datapoint` object is directly applicable 
     to the `rigidbody` object, as both classes share the same underlying principles 
     concerning translational dynamics. Simply replace :code:`c4d.datapoint(vx = 10 * c4d.k2ms)` 
     with :code:`c4d.rigidbody(vx = 10 * c4d.k2ms)`.
-
-
-
-
-
 
 
     '''
@@ -296,7 +339,7 @@ class datapoint(state):
     ------- 
     This method is not recommanded when the vector 
     of forces depends on the state variables.
-    Since the vector of forces is provided once at the 
+    Since the force vector is provided once at the 
     entrance to the integration, it remains constant 
     for the entire steps. 
     Therefore, when the forces depend on the state variables 
@@ -306,8 +349,8 @@ class datapoint(state):
  
 
     
-    Examples
-    --------
+    Example
+    -------
 
     Simulation of the motion of a body in a free fall. 
 
@@ -318,15 +361,36 @@ class datapoint(state):
     using the fourth-order Runge-Kutta method.
 
 
+    Import required packages: 
+
+    .. code::
+
+      >>> import c4dynamics as c4d 
+      >>> from matplotlib import pyplot as plt 
+      >>> import numpy as np 
+
+      
+    Settings and initial conditions: 
+    
     .. code:: 
 
       >>> dp = c4d.datapoint(z = 100)
       >>> dt = 1e-2
-      >>> t = np.arange(0, 10, dt) 
+      >>> t = np.arange(0, 10 + dt, dt) 
+
+      
+    Main loop: 
+
+    .. code:: 
+
       >>> for ti in t:
-      ...   if dp.z < 0: break
-      ...   dp.inteqm([0, 0, -c4d.g_ms2], dt) 
       ...   dp.store(ti)
+      ...   if dp.z < 0: break
+      ...   dp.inteqm([0, 0, -c4d.g_ms2], dt) # doctest: +IGNORE_OUTPUT 
+      
+
+    .. code:: 
+
       >>> dp.plot('z')
       >>> plt.show()
 
@@ -335,7 +399,7 @@ class datapoint(state):
 
 
     '''
-    self.X, acc = int3(self, forces, dt, derivs_out = True)
+    self.X, acc = c4d.eqm.int3(self, forces, dt, derivs_out = True)
     return acc
      
   
@@ -343,7 +407,7 @@ class datapoint(state):
   # ploting functions
   ##
 
-  def plot(self, var, scale = 1, ax = None, filename = None, darkmode = True, linecolor = 'm'):
+  def plot(self, var, scale = 1, ax = None, filename = None, darkmode = True, **kwargs):
     ''' 
     Draws plots of trajectories or variable evolution over time. 
 
@@ -375,9 +439,12 @@ class datapoint(state):
         Directory path to save the plot image. 
         If None, the plot will not be saved, by default None.
 
-    linecolor : str, optional 
-        Color name for the line, by default 'm' (magenta).         
-
+    **kwargs : dict, optional
+        Additional key-value arguments passed to `matplotlib.pyplot.plot`.
+        These can include any keyword arguments accepted by `plot`,
+        such as `color`, `linestyle`, `marker`, etc. 
+        
+        
     Notes
     -----
     - The method overrides the :meth:`plot <c4dynamics.states.state.state.plot>` of 
@@ -397,6 +464,16 @@ class datapoint(state):
     Examples
     --------
 
+    Import necessary packages: 
+
+    .. code:: 
+
+      >>> import c4dynamics as c4d 
+      >>> from matplotlib import pyplot as plt 
+      >>> import numpy as np 
+      >>> import scipy 
+
+
     1) `datapoint`: 
 
     .. code:: 
@@ -409,34 +486,61 @@ class datapoint(state):
 
     .. figure:: /_examples/datapoint/plot.png
 
+
     2) `rigidbody`:
 
     A physical pendulum is represented by a rigidoby object.
     `scipy's odeint` integrates the equations of motion to simulate 
     the angle of rotation of the pendulum over time.    
 
+    
+    Settings and initial conditions: 
+    
     .. code:: 
 
       >>> dt =.01 
       >>> pndlm  = c4d.rigidbody(theta = 80 * c4d.d2r)
       >>> pndlm.I = [0, .5, 0]
-      >>> # dynamics  
-      >>> def physical_pendulum(yin, t, Iyy):
+    
+      
+    Dynamic equations: 
+
+    .. code:: 
+
+      >>> def pendulum(yin, t, Iyy):
       ...   yout = np.zeros(12)
       ...   yout[7]  =  yin[10]
       ...   yout[10] = -c4d.g_ms2 * c4d.sin(yin[7]) / Iyy - .5 * yin[10]
       ...   return yout
-      >>> # main loop 
+
+    
+    Main loop: 
+
+    .. code:: 
+
       >>> for ti in np.arange(0, 4, dt): 
       ...   pndlm.X = scipy.integrate.odeint(pendulum, pndlm.X, [ti, ti + dt], (pndlm.I[1],))[1]
       ...   pndlm.store(ti)
+
+      
+    Plot results: 
+    
+    .. code:: 
+
       >>> pndlm.plot('theta', scale = c4d.r2d)
+
 
     .. figure:: /_examples/rigidbody/plot_pendulum.png     
 
 
     '''
     from matplotlib import pyplot as plt
+    if var not in self._didx and var not in ['top', 'side']:
+      warnings.warn(f"""{var} is not a state variable or a valid trajectory to plot.""" , c4d.c4warn)
+      return None
+    if not self._data:
+      warnings.warn(f"""No stored data for {var}.""" , c4d.c4warn)
+      return None
 
     if darkmode: 
       plt.style.use('dark_background')  
@@ -444,7 +548,8 @@ class datapoint(state):
       plt.style.use('default')
     
     
-
+    title = ''
+    ylabel = ''
 
     if var.lower() == 'top':
       # x axis: y data
@@ -493,6 +598,9 @@ class datapoint(state):
 
 
 
+    # Set default values in kwargs only if the user hasn't provided them
+    kwargs.setdefault('color', 'm')
+    kwargs.setdefault('linewidth', 1.2)
 
     if ax is None: 
       # _, ax = plt.subplots()
@@ -511,12 +619,10 @@ class datapoint(state):
                     , figsize = (factorsize, factorsize * aspectratio) 
                             , gridspec_kw = {'left': 0.15, 'right': .9
                                                 , 'top': .9, 'bottom': .2})
-    else: 
-      if linecolor == 'm':
-        linecolor = 'c'
+    
 
 
-    ax.plot(x, y, linecolor, linewidth = 1.5)
+    ax.plot(x, y, **kwargs)
     c4d.plotdefaults(ax, title, xlabel, ylabel, 8)
 
     
@@ -527,4 +633,28 @@ class datapoint(state):
   
 
     
+
+if __name__ == "__main__":
+
+  import doctest, contextlib, os
+  from c4dynamics import IgnoreOutputChecker, cprint
   
+  # Register the custom OutputChecker
+  doctest.OutputChecker = IgnoreOutputChecker
+
+  tofile = False 
+  optionflags = doctest.FAIL_FAST
+
+  if tofile: 
+    with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
+      with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
+        result = doctest.testmod(optionflags = optionflags) 
+  else: 
+    result = doctest.testmod(optionflags = optionflags)
+
+  if result.failed == 0:
+    cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
+  else:
+    print(f"{result.failed}")
+
+

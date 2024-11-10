@@ -11,9 +11,12 @@ of electro-optic, lasers, and electro-magnetic devices.
 # measures \ 
 # 
 
-from .radar import radar, dzradar
-from .lineofsight import lineofsight 
-from .seeker import seeker
+import sys 
+sys.path.append('.')
+
+from c4dynamics.sensors.radar import radar
+from c4dynamics.sensors.lineofsight import lineofsight 
+from c4dynamics.sensors.seeker import seeker
 
 
 # '''
@@ -55,4 +58,31 @@ from .seeker import seeker
 # 		rate gyro
 # 	gps
 # 	lidar
+
+
+
+if __name__ == "__main__":
+
+  import doctest, contextlib, os
+  from c4dynamics import IgnoreOutputChecker, cprint
+  
+  # Register the custom OutputChecker
+  doctest.OutputChecker = IgnoreOutputChecker
+
+  tofile = False 
+  optionflags = doctest.FAIL_FAST
+
+  if tofile: 
+    with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
+      with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
+        result = doctest.testmod(optionflags = optionflags) 
+  else: 
+    result = doctest.testmod(optionflags = optionflags)
+
+  if result.failed == 0:
+    cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
+  else:
+    print(f"{result.failed}")
+
+
 

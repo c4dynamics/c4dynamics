@@ -1,3 +1,5 @@
+# type: ignore
+
 import os, sys
 sys.path.append('')
 import numpy as np 
@@ -29,6 +31,6 @@ print(s.V())
 
 s = c4d.state(x = 100, y = 0)
 print(s.V())
-# Warning: velocity is valid when at least one velocity coordinate variable (vx, vy, vz) exists.     
-# []
+# TypeError: state must have at least one velocity coordinate (vx, vy, or vz)
+
 

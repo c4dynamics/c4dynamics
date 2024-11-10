@@ -1,7 +1,11 @@
 import numpy as np
 # from scipy.special import erfinv
+import sys 
+sys.path.append('.')
 import c4dynamics as c4d 
 from c4dynamics.sensors.seeker import seeker
+import warnings 
+from typing import Optional
 
 # np.warnings.filterwarnings('ignore', category = np.VisibleDeprecationWarning)                 
  
@@ -133,7 +137,7 @@ class radar(seeker):
   - :math:`x_b` is the target-radar position vector in radar body frame
 
 
-  .. figure:: /_static/figures/radar/definitions.svg
+  .. figure:: /_static/rdr_definitions.svg
     
     Fig-1: Range and angles definition
 
@@ -259,7 +263,7 @@ class radar(seeker):
 
   .. code:: 
 
-    rdr = c4d.sensors.radar()
+    >>> rdr = c4d.sensors.radar()
 
   Initialization of the instance does not require any 
   mandatory arguments, but the radar parameters can be 
@@ -271,6 +275,17 @@ class radar(seeker):
   Examples 
   ========
 
+  
+  Import required packages:
+
+  .. code::
+
+    >>> import c4dynamics as c4d 
+    >>> from matplotlib import pyplot as plt 
+    >>> import numpy as np
+
+    
+
   **Target**
   
 
@@ -280,7 +295,7 @@ class radar(seeker):
 
     >>> tgt = c4d.datapoint(x = 1000, y = 0, vx = -80 * c4d.kmh2ms, vy = 10 * c4d.kmh2ms)
     >>> for t in np.arange(0, 60, 0.01):
-    ...   tgt.inteqm(np.zeros(3), .01)
+    ...   tgt.inteqm(np.zeros(3), .01) # doctest: +IGNORE_OUTPUT
     ...   tgt.store(t)
 
   The method :meth:`inteqm <c4dynamics.states.lib.datapoint.datapoint.inteqm>` 
@@ -321,7 +336,7 @@ class radar(seeker):
 
     >>> rdr_ideal = c4d.sensors.radar(origin = pedestal, isideal = True)
     >>> for x in tgt.data():
-    ...   rdr_ideal.measure(c4d.create(x[1:]), t = x[0], store = True)
+    ...   rdr_ideal.measure(c4d.create(x[1:]), t = x[0], store = True)  # doctest: +IGNORE_OUTPUT
     
   Comparing the radar measurements with the true target angles requires 
   converting the relative position to the radar body frame: 
@@ -346,15 +361,15 @@ class radar(seeker):
     >>> az_true = c4d.atan2d(Xb[:, 1], Xb[:, 0])
     >>> el_true = c4d.atan2d(Xb[:, 2], c4d.sqrt(Xb[:, 0]**2 + Xb[:, 1]**2))
     >>> # plot results
-    >>> fig, axs = plt.subplots(2, 1)
+    >>> fig, axs = plt.subplots(2, 1)  # doctest: +IGNORE_OUTPUT 
     >>> # range
-    >>> axs[0].plot(tgt.data('t'), c4d.norm(Xb, axis = 1), label = 'target')
-    >>> axs[0].plot(*rdr_ideal.data('range'), label = 'radar')
+    >>> axs[0].plot(tgt.data('t'), c4d.norm(Xb, axis = 1), label = 'target')  # doctest: +IGNORE_OUTPUT 
+    >>> axs[0].plot(*rdr_ideal.data('range'), label = 'radar')  # doctest: +IGNORE_OUTPUT 
     >>> # angles 
-    >>> axs[1].plot(tgt.data('t'), c4d.atan2d(Xb[:, 1], Xb[:, 0]), label = 'target azimuth')
-    >>> axs[1].plot(*rdr_ideal.data('az', scale = c4d.r2d), label = 'radar azimuth')
-    >>> axs[1].plot(tgt.data('t'), c4d.atan2d(Xb[:, 2], c4d.sqrt(Xb[:, 0]**2 + Xb[:, 1]**2)), label = 'target elevation')
-    >>> axs[1].plot(*rdr_ideal.data('el', scale = c4d.r2d), label = 'radar elevation')
+    >>> axs[1].plot(tgt.data('t'), c4d.atan2d(Xb[:, 1], Xb[:, 0]), label = 'target azimuth')  # doctest: +IGNORE_OUTPUT 
+    >>> axs[1].plot(*rdr_ideal.data('az', scale = c4d.r2d), label = 'radar azimuth')  # doctest: +IGNORE_OUTPUT 
+    >>> axs[1].plot(tgt.data('t'), c4d.atan2d(Xb[:, 2], c4d.sqrt(Xb[:, 0]**2 + Xb[:, 1]**2)), label = 'target elevation')  # doctest: +IGNORE_OUTPUT 
+    >>> axs[1].plot(*rdr_ideal.data('el', scale = c4d.r2d), label = 'radar elevation')  # doctest: +IGNORE_OUTPUT 
 
   .. figure:: /_examples/radar/ideal.png
 
@@ -369,25 +384,33 @@ class radar(seeker):
   The radar's errors model introduces bias, scale factor, and 
   noise that corrupt the measurements: 
 
+  
+  To reproduce the result, let's set the random generator seed (61 is arbitrary):
+
+  ... code::
+
+    >>> np.random.seed(61)
+
+
   .. code:: 
 
     >>> rdr = c4d.sensors.radar(origin = pedestal)
     >>> for x in tgt.data():
-    ...   rdr.measure(c4d.create(x[1:]), t = x[0], store = True)
+    ...   rdr.measure(c4d.create(x[1:]), t = x[0], store = True)  # doctest: +IGNORE_OUTPUT
 
-  With respect to the ideal radar: 
+  Results with respect to an ideal radar: 
 
   .. code:: 
 
     >>> fig, axs = plt.subplots(2, 1)
     >>> # range     
-    >>> axs[0].plot(*rdr_ideal.data('range'), label = 'target')
-    >>> axs[0].plot(*rdr.data('range'), label = 'radar')
+    >>> axs[0].plot(*rdr_ideal.data('range'), label = 'target') # doctest: +IGNORE_OUTPUT
+    >>> axs[0].plot(*rdr.data('range'), label = 'radar') # doctest: +IGNORE_OUTPUT
     >>> # angles  
-    >>> axs[1].plot(*rdr_ideal.data('az', scale = c4d.r2d), label = 'target azimuth')
-    >>> axs[1].plot(*rdr.data('az', scale = c4d.r2d), label = 'radar azimuth')
-    >>> axs[1].plot(*rdr_ideal.data('el', scale = c4d.r2d), label = 'target elevation')
-    >>> axs[1].plot(*rdr.data('el', scale = c4d.r2d), label = 'radar elevation')
+    >>> axs[1].plot(*rdr_ideal.data('az', scale = c4d.r2d), label = 'target azimuth') # doctest: +IGNORE_OUTPUT
+    >>> axs[1].plot(*rdr.data('az', scale = c4d.r2d), label = 'radar azimuth') # doctest: +IGNORE_OUTPUT
+    >>> axs[1].plot(*rdr_ideal.data('el', scale = c4d.r2d), label = 'target elevation') # doctest: +IGNORE_OUTPUT
+    >>> axs[1].plot(*rdr.data('el', scale = c4d.r2d), label = 'radar elevation') # doctest: +IGNORE_OUTPUT
 
   `target` labels mean the true position as measured by an ideal radar. 
 
@@ -399,14 +422,14 @@ class radar(seeker):
 
   .. code::
 
-    >>> rdr.rng_scale_factor 
-    3
-    >>> rdr.bias * c4d.r2d
-    0.4
-    >>> rdr.scale_factor
-    1.07
-    >>> rdr.noise_std
-    0.01
+    >>> rdr.rng_noise_std # doctest: +ELLIPSIS
+    1.0
+    >>> rdr.bias * c4d.r2d  # doctest: +ELLIPSIS 
+    0.13...
+    >>> rdr.scale_factor # doctest: +ELLIPSIS 
+    0.96...
+    >>> rdr.noise_std * c4d.r2d
+    0.8
 
   Points to consider here: 
 
@@ -433,7 +456,7 @@ class radar(seeker):
     >>> rdr = c4d.sensors.radar(origin = pedestal)
     >>> for x in tgt.data():
     ...   rdr.psi += .02 * c4d.d2r 
-    ...   rdr.measure(c4d.create(x[1:]), t = x[0], store = True)
+    ...   rdr.measure(c4d.create(x[1:]), t = x[0], store = True)# doctest: +IGNORE_OUTPUT 
     ...   rdr.store(x[0])
 
   The radar yaw angle: 
@@ -446,13 +469,13 @@ class radar(seeker):
 
     >>> fig, axs = plt.subplots(2, 1)
     >>> # range    
-    >>> axs[0].plot(*rdr_ideal.data('range'), label = 'ideal static')
-    >>> axs[0].plot(*rdr.data('range'),label = 'non-ideal yawing')
+    >>> axs[0].plot(*rdr_ideal.data('range'), label = 'ideal static') # doctest: +IGNORE_OUTPUT 
+    >>> axs[0].plot(*rdr.data('range'),label = 'non-ideal yawing') # doctest: +IGNORE_OUTPUT 
     >>> # angles
-    >>> axs[1].plot(*rdr_ideal.data('az', c4d.r2d), label = 'az: ideal static')
-    >>> axs[1].plot(*rdr.data('az', c4d.r2d), label = 'az: non-ideal yawing')
-    >>> axs[1].plot(*rdr_ideal.data('el', scale = c4d.r2d), label = 'el: ideal static')
-    >>> axs[1].plot(*rdr.data('el', scale = c4d.r2d), label = 'el: non-ideal yawing')
+    >>> axs[1].plot(*rdr_ideal.data('az', c4d.r2d), label = 'az: ideal static') # doctest: +IGNORE_OUTPUT 
+    >>> axs[1].plot(*rdr.data('az', c4d.r2d), label = 'az: non-ideal yawing') # doctest: +IGNORE_OUTPUT 
+    >>> axs[1].plot(*rdr_ideal.data('el', scale = c4d.r2d), label = 'el: ideal static') # doctest: +IGNORE_OUTPUT 
+    >>> axs[1].plot(*rdr.data('el', scale = c4d.r2d), label = 'el: non-ideal yawing') # doctest: +IGNORE_OUTPUT 
 
   .. figure:: /_examples/radar/yawing.png
 
@@ -472,16 +495,17 @@ class radar(seeker):
   `last_t` is the last measurement time, and `dt` is the radar time-constant: 
 
   .. code:: 
-  
+
+    >>> np.random.seed(770)
     >>> tgt = c4d.datapoint(x = 100, y = 100)
     >>> rdr = c4d.sensors.radar(dt = 0.01)
-    >>> for t in np.arange(0, .025, .005):
-    ...   print(f'{t}: {rdr.measure(tgt, t = t)}')
-    0.0:    (0.71, 0.005, 141.2)
-    0.005:  (None, None, None)
-    0.01:   (0.74, -0.007, 140.7)
-    0.015:  (None, None, None)
-    0.02:   (0.73, -0.02, 142.2)
+    >>> for t in np.arange(0, .025, .005):  # doctest: +ELLIPSIS
+    ...   print(f'{t}: {rdr.measure(tgt, t = t)}') 
+    0.0: (0.7..., 0.01..., 140.1...)
+    0.005: (None, None, None)
+    0.01: (0.72..., -0.04..., 142.1...)
+    0.015: (None, None, None)
+    0.02: (0.72..., -0.003..., 140.4...)
 
     
   **Random Distribution** 
@@ -518,8 +542,8 @@ class radar(seeker):
     >>> seekers = []
     >>> radars = []
     >>> for i in range(1000):
-    >>> seekers.append(seeker().bias * c4d.r2d)
-    >>> radars.append(radar().bias * c4d.r2d)
+    ...   seekers.append(seeker().bias * c4d.r2d)
+    ...   radars.append(radar().bias * c4d.r2d)
 
  
   The histogram highlights the broadening of the distribution 
@@ -527,30 +551,30 @@ class radar(seeker):
 
 
     >>> ax = plt.subplot()
-    >>> ax.hist(seekers, 30, label = 'Seekers')
-    >>> ax.hist(radars, 30, label = 'Radars') 
+    >>> ax.hist(seekers, 30, label = 'Seekers') # doctest: +IGNORE_OUTPUT 
+    >>> ax.hist(radars, 30, label = 'Radars')  # doctest: +IGNORE_OUTPUT 
 
   .. figure:: /_examples/radar/bias2.png
 
   '''
   
-  rng_noise_std = 0 
+  rng_noise_std = 0.0
 
   def __init__(self, origin = None, isideal = False, **kwargs):
 
     kwargs['radar'] = True 
     super().__init__(origin = origin, isideal = isideal, **kwargs)
-    self.rng_noise_std = kwargs.pop('rng_noise_std', 1)
-    self.range = 0
+    self.rng_noise_std = kwargs.pop('rng_noise_std', 1.0)
+    self.range = 0.0
 
     if isideal: 
-      self.rng_noise_std = 0 
+      self.rng_noise_std = 0.0 
 
 
 
 
 
-  def measure(self, target, t = -1, store = False):
+  def measure(self, target: 'c4d.state', t: float = -1, store: bool = False) -> tuple[Optional[float], Optional[float], Optional[float]]: # type: ignore
     '''
     Measures range, azimuth and elevation between the radar and a `target`. 
 
@@ -568,8 +592,8 @@ class radar(seeker):
 
     Parameters
     ----------
-    target : `cartesian_state`
-        A state object to measure by the radar, including at least one position coordinate (x, y, z).  
+    target : state
+        A Cartesian state object to measure by the radar, including at least one position coordinate (x, y, z).  
     store : bool, optional
         A flag indicating whether to store the measured values. Defaults `False`.
     t : float, optional
@@ -604,17 +628,35 @@ class radar(seeker):
     later use in plotting the results.  
 
     
+    Import required packages:
+
+    .. code:: 
+
+      >>> import c4dynamics as c4d
+      >>> from matplotlib import pyplot as plt 
+      >>> import numpy as np 
+
+
+
+    Settings and initial conditions:
+
     .. code:: 
 
       >>> dt = 0.01
+      >>> np.random.seed(321)
       >>> tgt = c4d.datapoint(x = 1000, vx = -80 * c4d.kmh2ms, vy = 10 * c4d.kmh2ms)
       >>> pedestal = c4d.rigidbody(z = 30, theta = -1 * c4d.d2r)
       >>> rdr = c4d.sensors.radar(origin = pedestal, dt = 0.05)
       >>> rdr_ideal = c4d.sensors.radar(origin = pedestal, isideal = True)
+   
+    Main loop:
+    
+    .. code:: 
+          
       >>> for t in np.arange(0, 60, dt):
-      ...   tgt.inteqm(np.zeros(3), dt)
-      ...   rdr_ideal.measure(tgt, t = t, store = True)  
-      ...   rdr.measure(tgt, t = t, store = True)  
+      ...   tgt.inteqm(np.zeros(3), dt)  # doctest: +IGNORE_OUTPUT 
+      ...   rdr_ideal.measure(tgt, t = t, store = True)    # doctest: +IGNORE_OUTPUT 
+      ...   rdr.measure(tgt, t = t, store = True)    # doctest: +IGNORE_OUTPUT 
       ...   tgt.store(t)
 
     Before viewing the results, let's examine the error parameters generated by 
@@ -623,26 +665,26 @@ class radar(seeker):
     .. code::
 
       >>> rdr.rng_noise_std
-      1
-      >>> rdr.bias * c4d.r2d
-      -0.025
-      >>> rdr.scale_factor
-      0.99 
+      1.0
+      >>> rdr.bias * c4d.r2d # doctest: +ELLIPSIS
+      0.49...
+      >>> rdr.scale_factor # doctest: +ELLIPSIS
+      1.01...
       >>> rdr.noise_std * c4d.r2d
-      .8 
+      0.8
 
     Then we excpect a constant bias of -0.02° and a 'compression' or 'squeeze' of `5%` with 
     respect to the target (as represented by the ideal radar):  
     
     .. code::
 
-      >>> ax = plt.subplots(2, 1)
+      >>> _, axs = plt.subplots(2, 1)  # doctest: +IGNORE_OUTPUT
       >>> # range      
-      >>> axs[0].plot(*rdr_ideal.data('range'), '.m', label = 'target')
-      >>> axs[0].plot(*rdr.data('range'), '.c', label = 'radar')
+      >>> axs[0].plot(*rdr_ideal.data('range'), '.m', label = 'target')  # doctest: +IGNORE_OUTPUT
+      >>> axs[0].plot(*rdr.data('range'), '.c', label = 'radar')  # doctest: +IGNORE_OUTPUT
       >>> # angles 
-      >>> axs[1].plot(*rdr_ideal.data('az', scale = c4d.r2d), '.m', label = 'target')
-      >>> axs[1].plot(*rdr.data('az', scale = c4d.r2d), '.c', label = 'radar')
+      >>> axs[1].plot(*rdr_ideal.data('az', scale = c4d.r2d), '.m', label = 'target')  # doctest: +IGNORE_OUTPUT
+      >>> axs[1].plot(*rdr.data('az', scale = c4d.r2d), '.c', label = 'radar')  # doctest: +IGNORE_OUTPUT
       
     .. figure:: /_examples/radar/measure.png
 
@@ -670,140 +712,29 @@ class radar(seeker):
     
     
 
-class dzradar:
-  ''' 
-  altitude radar
+if __name__ == "__main__":
+
+  import doctest, contextlib, os
+  from c4dynamics import IgnoreOutputChecker, cprint
   
-  Parameters
-  ==========
-  TODO complete 
+  # Register the custom OutputChecker
+  doctest.OutputChecker = IgnoreOutputChecker
 
-  
-  an electromagnetic radar 
-  meausres target vertical position.
-  vk: noise variance  
+  tofile = False 
+  optionflags = doctest.FAIL_FAST
 
-  TODO change this to be `sensor` namely a general sensor 
-  that measure any magnitude following an error model 
-  (starting simply with bias sf.). 
-  then remove the range measure from the seeker and 
-  use this that here. 
+  if tofile: 
+    with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
+      with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
+        result = doctest.testmod(optionflags = optionflags) 
+  else: 
+    result = doctest.testmod(optionflags = optionflags)
 
-  '''
-  
-  # 
-  # state vector
-  #   r position (in one dimension range)
-  #   v velocity 
-  #   b ballistic coefficient 
-  ##
-  r = 0 # measured range 
-  # vx = 0 # velocity 
-  
-  
-  ts = 0 # 50e-3                        # sample time 
-  q33 = 0
-  data = np.array([[0, 0, 0, 0]])   # time, z target, v target, beta target 
-  
-  # luenberger gains 
-  L = 0
-  
-  # 
-  # seeker errors 
-  ##
-  bias = 0 # deg
-  sf = 1 # scale factor error -10%
-  noise = np.sqrt(500 * c4d.ft2m) # 1 sigma 
-  # misalignment = 0.01 # deg
+  if result.failed == 0:
+    cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
+  else:
+    print(f"{result.failed}")
 
-  def __init__(obj, x0, filtype, ts):
-    '''
-      initial estimate: 
-      100025 ft    25ft error
-      6150 ft/s    150ft/s error
-      800 lb/ft^2  300lb/ft^2 
-    '''
-    obj.ts = ts
-    if filtype == c4d.filters.filtertype.ex_kalman:
-      obj.ifilter = c4d.filters.kalman(x0
-                                           , [obj.noise
-                                              , 141.42 * c4d.ft2m
-                                              , 300 * c4d.lbft2tokgm2]
-                                           , obj.ts)
-    elif filtype == c4d.filters.filtertype.luenberger:
-      # linear model
-      beta0 = x0[2]
-      A = np.array([[0, 1, 0], [0, -np.sqrt(2 * 0.0034 * c4d.g_ms2 / beta0)
-                                , -c4d.g_ms2 / beta0], [0, 0, 0]])
-      b = np.array([0, 0, 0])
-      c = np.array([1, 0, 0])
-      obj.ifilter = c4d.filters.luenberger(A, b, c)
-    elif filtype == c4d.filters.filtertype.lowpass:
-      obj.ifilter = c4d.filters.lowpass(.2, obj.ts, x0)
-    else:
-      print('filter type error')
-      
-    obj.data[0, :] =  np.insert(x0, 0, 0)  
-      
-      
-  def measure(obj, x):
-    # 
-    # apply errors
-    ##
-    obj.r = x * obj.sf + obj.bias + obj.noise * np.random.randn(1) 
-  
-      
-  def filter(obj, t):
-    
-    # check that t is at time of operation 
-    
-    
-    if (1000 * t) % (1000 * obj.ts) > 1e-6 or t <= 0:
-      return
-    
-    
-    # print(t)
-    rho = .0034 * np.exp(-obj.ifilter.x[0, 0] / 22000 / c4d.ft2m)
-    f21 = -rho * c4d.g_ms2 * obj.ifilter.x[1, 0]**2 / 44000 / obj.ifilter.x[2, 0] 
-    f22 =  rho * c4d.g_ms2 * obj.ifilter.x[1, 0] / obj.ifilter.x[2, 0]
-    f23 = -rho * c4d.g_ms2 * obj.ifilter.x[1, 0]**2 / 2 / obj.ifilter.x[2, 0]**2 
-    
-    Phi = np.array([[1, obj.ifilter.dt, 0], 
-                    [f21 * obj.ifilter.dt, 1 + f22 * obj.ifilter.dt, f23 * obj.ifilter.dt], 
-                    [0, 0, 1]])
-    
-    Q   = np.array([[0, 0, 0], 
-                    [0, obj.q33 * f23**2 * obj.ifilter.dt**3 / 3, obj.q33 * f23 * obj.ifilter.dt**2 / 2], 
-                    [0, obj.q33 * f23 * obj.ifilter.dt**2 / 2, obj.q33 * obj.ifilter.dt]])
 
-    f = lambda w: c4d.sensors.dzradar.system_model(w)
 
-    #
-    # prepare luenberger matrices
-    ##
-
-    ''' predict '''
-    obj.ifilter.predict(f, Phi, Q)
-    ''' correct '''    
-    x = obj.ifilter.update(f, obj.r)  
- 
-    obj.r = x[0]
-    #
-    # store results 
-    ##
- 
-    # obj.data = np.concatenate((obj.data, np.expand_dims(np.insert(x, 0, t), axis = 0)), axis = 0)  
-    obj.data = np.vstack((obj.data, np.insert(x, 0, t))).copy()
-    
-    return obj.r
-
-    
-
-  @staticmethod
-  def system_model(x):
-    dx = np.zeros((len(x), 1))
-    dx[0, 0] = x[1, 0]
-    dx[1, 0] = .0034 * np.exp(-x[0, 0].astype('float') / 22000 / c4d.ft2m) * c4d.g_ms2 * x[1, 0]**2 / 2 / x[2, 0] - c4d.g_ms2
-    dx[2, 0] = 0
-    return dx
 

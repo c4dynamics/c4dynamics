@@ -1,5 +1,6 @@
-import os 
+import os, sys 
 import numpy as np
+sys.path.append('.')
 import c4dynamics as c4d 
 from numpy.typing import NDArray
 from typing import Any
@@ -38,42 +39,42 @@ class state:
 
   .. code::
   
-    >>> s = c4d.state(theta = 10 * c4d.d2r, omega = 0)
+    >>> s = c4d.state(theta = 10 * c4d.d2r, omega = 0) # doctest: +IGNORE_OUTPUT
     [ θ  ω ]
 
   ``Strapdown navigation system`` 
   
   .. code::
   
-    >>> s = c4d.state(x = 0, y = 0, z = 0, vx = 0, vy = 0, vz = 0, q0 = 0, q1 = 0, q2 = 0, q3 = 0, bax = 0, bay = 0, baz = 0)
+    >>> s = c4d.state(x = 0, y = 0, z = 0, vx = 0, vy = 0, vz = 0, q0 = 0, q1 = 0, q2 = 0, q3 = 0, bax = 0, bay = 0, baz = 0)   # doctest: +IGNORE_OUTPUT
     [ x  y  z  vx  vy  vz  q0  q1  q2  q3  bax  bay  baz ]
   
   ``Objects tracker`` 
 
   .. code::
   
-    >>> s = c4d.state(x = 960, y = 540, w = 20, h = 10)
+    >>> s = c4d.state(x = 960, y = 540, w = 20, h = 10)   # doctest: +IGNORE_OUTPUT
     [ x  y  w  h ]
     
   ``Aircraft``
 
   .. code::
   
-    >>> s = c4d.state(x = 0, y = 0, z = 0, vx = 0, vy = 0, vz = 0, phi = 0, theta = 0, psi = 0, p = 0, q = 0, r = 0)
+    >>> s = c4d.state(x = 0, y = 0, z = 0, vx = 0, vy = 0, vz = 0, phi = 0, theta = 0, psi = 0, p = 0, q = 0, r = 0)   # doctest: +IGNORE_OUTPUT
     [ x  y  z  vx  vy  vz  φ  θ  Ψ  p  q  r ]
   
   ``Self-driving car``
 
   .. code::
   
-    >>> s = c4d.state(x = 0, y = 0, v = 0, theta = 0, omega = 0)
+    >>> s = c4d.state(x = 0, y = 0, v = 0, theta = 0, omega = 0)   # doctest: +IGNORE_OUTPUT
     [ x  y  v  θ  ω ]
 
   ``Robot arm``
 
   .. code::
   
-    >>> s = c4d.state(theta1 = 0, theta2 = 0, omega1 = 0, omega2 = 0)
+    >>> s = c4d.state(theta1 = 0, theta2 = 0, omega1 = 0, omega2 = 0)   # doctest: +IGNORE_OUTPUT
     [ θ1  θ2  ω1  ω2 ]
 
     
@@ -97,10 +98,11 @@ class state:
             ('Pi', '\u03A0'), ('Rho', '\u03A1'), ('Sigma', '\u03A3'), ('Tau', '\u03A4'),
               ('Upsilon', '\u03A5'), ('Phi', '\u03A6'), ('Chi', '\u03A7'), ('Psi', '\u03A8'), ('Omega', '\u03A9'))
     # 
+  _reserved_keys = ('X', 'X0', 'P', 'V')
 
 
   def __init__(self, **kwargs):    
-    # TODO allow providing type for the setter.X output.      
+    # TODO enable providing type for the setter.X output.      
 
     # the problem with this is it cannot be used with seeker and other c4d objects
     # that takes datapoint objects.
@@ -116,24 +118,20 @@ class state:
     # 3. the user must provide his implementations for poisiton velcity etc.. like used in the P() function that there i 
     #   encountered the problem.
 
-    # 4. 
-
-
-
-
     self._data = []    # for permanent class variables (t, x, y .. )
     self._prmdata = {} # for user additional variables 
 
     self._didx = {'t': 0}
 
     for i, (k, v) in enumerate(kwargs.items()):
+      if k in self._reserved_keys:
+        raise ValueError(f"{k} is a reserved key. Keys {self._reserved_keys} cannot use as variable names.")
       setattr(self, k, v)
       setattr(self, k + '0', v)
       self._didx[k] = 1 + i
 
 
   def __str__(self):
-    
 
     self_str = '[ '
     for i, s in enumerate(self._didx.keys()):
@@ -146,6 +144,25 @@ class state:
 
     return self_str
   
+
+  def __repr__(self):
+    # NOTE i think maybe to switch repr and str so 
+    # when i print >>> s   it show the variables and when 
+    # i do >>> print(s)   it show the entire description. 
+    # but then i need to iterate all the examples and remove the print from state presentations 
+    param_names = ", ".join(self._prmdata.keys())
+
+    return (f"<state object>\n"
+            f"State Variables: {self.__str__()}\n"
+            f"Initial Conditions (X0): {self.X0}\n"
+            f"Current State Vector (X): {self.X}\n"
+            f"Parameters: {param_names if param_names else 'None'}")
+
+  # def __setattr__(self, param, value):
+  #   if param in self._reserved_keys:
+  #     raise AttributeError(f"{param} is a reserved key. Keys {self._reserved_keys} cannot use as parameter names.")
+  #   else:
+  #     super().__setattr__(param, value)
 
 
 
@@ -180,7 +197,7 @@ class state:
     .. code:: 
     
       >>> s = c4d.state(x1 = 0, x2 = -1)
-      >>> s.X
+      >>> s.X   # doctest: +NUMPY_FORMAT 
       [0  -1]
 
 
@@ -190,7 +207,7 @@ class state:
     
       >>> s = c4d.state(x1 = 0, x2 = -1)
       >>> s.X += [0, 1] # equivalent to: s.X = s.X + [0, 1]
-      >>> s.X
+      >>> s.X   # doctest: +NUMPY_FORMAT
       [0  0]
 
 
@@ -199,11 +216,11 @@ class state:
     .. code:: 
     
       >>> dp = c4d.datapoint()
-      >>> dp.X
+      >>> dp.X   # doctest: +NUMPY_FORMAT
       [0  0  0  0  0  0]
       >>> #       x     y    z  vx vy vz 
       >>> dp.X = [1000, 100, 0, 0, 0, -100] 
-      >>> dp.X
+      >>> dp.X   # doctest: +NUMPY_FORMAT
       [1000  100  0  0  0  -100]
     
 
@@ -218,37 +235,35 @@ class state:
       # cope with non-homogenuous array 
       xout.append(np.atleast_1d(eval('self.' + k)))
 
-    # return np.array(xout).flatten().astype(np.float64) # XXX why float64? maybe it's just some default unlsess anything else required. 
-    return np.array(xout).ravel().astype(np.float64) # XXX why float64? maybe it's just some default unlsess anything else required. 
+    #
+    # XXX why float64? maybe it's just some default unlsess anything else required. 
+    # pixelpoint:override the .X property: will distance the devs from a datapoint class. 
+    #  con: much easier 
+    #
+    # return np.array(xout).flatten().astype(np.float64) 
+    return np.array(xout).ravel().astype(np.float64) 
 
   @X.setter
-  def X(self, x):
-    # x = np.atleast_1d(x).flatten()
+  def X(self, Xin):
+    # Xin = np.atleast_1d(Xin).flatten()
     # i think to replace flatten() with ravel() is 
-    # safe also here because x is iterated over its elements which are
-    # mutable. but lets XXX it to keep tracking. 
-    x = np.atleast_1d(x).ravel()
+    # safe also here because Xin is iterated over its elements which are
+    # mutable. but lets keep tracking. 
+    Xin = np.atleast_1d(Xin).ravel()
 
-    xlen = len(x)
+    xlen = len(Xin)
     Xlen = len(self.X)
 
     if xlen < Xlen:
-      # NOTE maybe it's too dangerous to allow partial vector here and
-      # the test must verify the exact length 
-      # another reason to not do partial assignment is that the operation:
-      # s.X = 3 may be interpreted as fixing a state with constant values like s.X = s.X * 0 + 3
-      # the problem is i think dp makes use of it. 
-      # c4d.cprint(f'Warning: partial vector assignment, len(x) = {xlen}, len(X) = {Xlen}', 'r')
-      raise ValueError(f'Partial vector assignment, len(x) = {xlen}, len(X) = {Xlen}', 'r')
+      raise ValueError(f'Partial vector assignment, len(Xin) = {xlen}, len(X) = {Xlen}', 'r')
 
     elif xlen > Xlen:
-      raise ValueError(f'The length of the input state is bigger than X, len(x) = {xlen}, len(X) = {Xlen}')
+      raise ValueError(f'The length of the input state is bigger than X, len(Xin) = {xlen}, len(X) = {Xlen}')
 
     for i, k in enumerate(self._didx.keys()):
       if k == 't': continue
-      if i > xlen: break # NOTE this test is probably useless. no. because it actually allows partial subs of X.  
-      # eval('self.' + k + ' = ' + str(x[i - 1]))
-      setattr(self, k, x[i - 1])
+      if i > xlen: break 
+      setattr(self, k, Xin[i - 1])
 
 
   @property
@@ -277,17 +292,17 @@ class state:
     
       >>> s = c4d.state(x1 = 0, x2 = -1)
       >>> s.X += [0, 1] 
-      >>> s.X0
+      >>> s.X0   # doctest: +NUMPY_FORMAT
       [0  -1]
 
         
     .. code:: 
     
       >>> s = c4d.state(x1 = 1, x2 = 1)
-      >>> s.X0
+      >>> s.X0   # doctest: +NUMPY_FORMAT
       [1  1]
       >>> s.x10 = s.x20 = 0
-      >>> s.X0
+      >>> s.X0   # doctest: +NUMPY_FORMAT
       [0  0]
 
       
@@ -331,10 +346,10 @@ class state:
     .. code:: 
     
       >>> s = c4d.state(x = 0, y = 0)
-      >>> s
+      >>> print(s)
       [ x  y ]
       >>> s.addvars(vx = 0, vy = 0)
-      >>> s
+      >>> print(s)
       [ x  y  vx  vy ]
 
     calling :meth:`store() <c4dynamics.states.state.state.store>` before 
@@ -347,9 +362,9 @@ class state:
       >>> s.store()
       >>> s.store()
       >>> s.addvars(vx = 0, vy = 0)
-      >>> s.data('x')[1]
+      >>> s.data('x')[1]   # doctest: +NUMPY_FORMAT
       [1  1  1]
-      >>> s.data('vx')[1]
+      >>> s.data('vx')[1]   # doctest: +NUMPY_FORMAT
       [0  0  0]
 
     '''
@@ -411,12 +426,19 @@ class state:
       >>> s = c4d.state(x = 1, y = 0, z = 0)
       >>> s.store()
 
-    Store with time stamp: 
+      
+    **Store with time stamp:** 
+
+    .. code:: 
 
       >>> s = c4d.state(x = 1, y = 0, z = 0)
       >>> s.store(t = 0.5)
     
-    Store in a for-loop:
+      
+
+    **Store in a for-loop:**
+
+    .. code:: 
 
       >>> s = c4d.state(x = 1, y = 0, z = 0)
       >>> for t in np.linspace(0, 1, 3):
@@ -436,10 +458,10 @@ class state:
       >>> h0 = 100 
       >>> dp = c4d.datapoint(z = h0)
       >>> while dp.z >= 0: 
-      ...   dp.inteqm([0, 0, -c4d.g_ms2], dt)
+      ...   dp.inteqm([0, 0, -c4d.g_ms2], dt) # doctest: +IGNORE_OUTPUT
       ...   t += dt
       ...   dp.store(t)
-      >>> for z in dp.data('z'):
+      >>> for z in dp.data('z'):   # doctest: +IGNORE_OUTPUT
       ...   print(z)
       99.9999950
       99.9999803
@@ -455,7 +477,7 @@ class state:
     self._data.append([t] + self.X.tolist())
     
 
-  def storeparams(self, params, t = -1):
+  def storeparams(self, params, t = -1.0):
     ''' 
     Stores parameters. 
 
@@ -489,20 +511,22 @@ class state:
       >>> s = c4d.state(x = 100, vx = 10)
       >>> s.mass = 25 
       >>> s.storeparams('mass')
-      >>> s.data('mass')[1]
+      >>> s.data('mass')[1]   # doctest: +NUMPY_FORMAT 
       [25]
 
       
-    Store with time stamp: 
+    **Store with time stamp:** 
 
     .. code:: 
 
+      >>> s = c4d.state(x = 100, vx = 10)
+      >>> s.mass = 25 
       >>> s.storeparams('mass', t = 0.1)
-      >>> s.data('mass')
-      ([0.1], [25])    
+      >>> s.data('mass')    
+      (array([0.1]), array([25.]))
 
       
-    Store multiple parameters: 
+    **Store multiple parameters:** 
     
     .. code:: 
 
@@ -510,18 +534,19 @@ class state:
       >>> s.x_std = 5 
       >>> s.vx_std = 10 
       >>> s.storeparams(['x_std', 'vx_std'])
-      >>> s.data('x_std')[1]
+      >>> s.data('x_std')[1]   # doctest: +NUMPY_FORMAT  
       [5]
-      >>> s.data('vx_std')[1]
+      >>> s.data('vx_std')[1] # doctest: +NUMPY_FORMAT 
       [10]
 
 
 
-    Objects classification: 
+    **Objects classification:** 
 
     .. code:: 
 
       >>> s = c4d.state(x = 25, y = 25, w = 20, h = 10)
+      >>> np.random.seed(44)
       >>> for i in range(3): 
       ...   s.X += 1 
       ...   s.w, s.h = np.random.randint(0, 50, 2)
@@ -531,12 +556,12 @@ class state:
       ...     s.class_id = 'car'
       ...   s.store() # stores the state 
       ...   s.storeparams('class_id') # store the class_id parameter 
-      >>> print('   x    y    w    h    class')
-      >>> print(np.hstack((s.data()[:, 1:].astype(int), np.atleast_2d(s.data('class_id')[1]).T)))
+      >>> print('   x    y    w    h    class')  # doctest: +IGNORE_OUTPUT
+      >>> print(np.hstack((s.data()[:, 1:].astype(int), np.atleast_2d(s.data('class_id')[1]).T)))  # doctest: +IGNORE_OUTPUT 
       x   y   w   h   class
-      26  26  34  21  truck
-      27  27  2   4   car
-      28  28  35  17  car
+      26  26  20  35  truck
+      27  27  49  45  car
+      28  28  3   32  car
 
 
     The `morphospectra` implements a custom method `getdim` to update 
@@ -570,9 +595,9 @@ class state:
       ...   morphospectra.store()
       ...   morphospectra.storeparams('dim')
       >>> # 
-      >>> print('x y z  | dim')
-      >>> print('------------')
-      >>> for x, dim in zip(morphospectra.data().astype(int)[:, 1 : 4].tolist(), morphospectra.data('dim')[1].tolist()):
+      >>> print('x y z  | dim')  # doctest: +IGNORE_OUTPUT 
+      >>> print('------------')  # doctest: +IGNORE_OUTPUT 
+      >>> for x, dim in zip(morphospectra.data().astype(int)[:, 1 : 4].tolist(), morphospectra.data('dim')[1].tolist()):  # doctest: +IGNORE_OUTPUT 
       ...   print(*(x + [' | '] + [dim]))
       x y z  | dim
       ------------
@@ -610,7 +635,7 @@ class state:
       self._prmdata[p].append([t] + vval.tolist())
 
   
-  def data(self, var = None, scale = 1):
+  def data(self, var = None, scale = 1.):
     ''' 
     Returns arrays of stored time and data.
     
@@ -653,27 +678,28 @@ class state:
 
     .. code:: 
 
+      >>> np.random.seed(100) # to reproduce results 
       >>> s = c4d.state(x = 1, y = 0, z = 0)
       >>> for t in np.linspace(0, 1, 3):
       ...   s.X = np.random.rand(3)
       ...   s.store(t)
-      >>> s.data())
-      [[0   0.37  0.76  0.20]
-      [0.5  0.93  0.28  0.59]
-      [1    0.79  0.39  0.33]]
+      >>> s.data() # doctest: +NUMPY_FORMAT 
+      [[0.   0.543  0.278  0.424] 
+       [0.5  0.845  0.005  0.121] 
+       [1.   0.671  0.826  0.137]]
 
-
+       
     Data of a variable: 
 
     .. code:: 
 
       >>> time, x_data = s.data('x')
-      >>> time
-      [0  0.5  1]
-      >>> x_data
-      [0.93  0.48  0.10]
-      >>> s.data('y')[1]
-      [0.76  0.28  0.39]
+      >>> time  # doctest: +NUMPY_FORMAT 
+      [0.  0.5  1.]
+      >>> x_data  # doctest: +NUMPY_FORMAT 
+      [0.543  0.845  0.671]
+      >>> s.data('y')[1]  # doctest: +NUMPY_FORMAT 
+      [0.278  0.005  0.826]
 
 
     Get data with scaling: 
@@ -684,8 +710,8 @@ class state:
       >>> for p in np.linspace(0, c4d.pi):
       ...   s.phi = p
       ...   s.store()
-      >>> s.data('phi', c4d.r2d)[1]
-      [0  3.7  7.3  11  14.7  18.3  22  25.7  ..  180]
+      >>> s.data('phi', c4d.r2d)[1]  # doctest: +IGNORE_OUTPUT 
+      [0  3.7  7.3  ...  176.3  180]
 
 
     Data of a parameter
@@ -696,11 +722,10 @@ class state:
       >>> s.mass = 25 
       >>> s.storeparams('mass', t = 0.1)
       >>> s.data('mass')
-      ([0.1], [25)])
+      (array([0.1]), array([25.]))
 
-
-    
     '''
+
     if var is None: 
       # return all 
       # XXX not sure this is applicable to the new change where arrays\ matrices 
@@ -712,7 +737,9 @@ class state:
     if idx >= 0:
       if not self._data:
         # empty array  
-        c4d.cprint('Warning: no history of state samples.', 'r')
+        # c4d.cprint('Warning: no history of state samples.', 'r')
+        warnings.warn(f"""No history of state samples.""" , c4d.c4warn)
+
         return np.array([])
       
       if idx == 0: 
@@ -722,7 +749,9 @@ class state:
 
     # else \ user defined variables 
     if var not in self._prmdata:
-      c4d.cprint('Warning: no history samples of ' + var + '.', 'r')
+      # c4d.cprint('Warning: no history samples of ' + var + '.', 'r')
+      warnings.warn(f"""No history samples of {var}.""" , c4d.c4warn)
+
       return np.array([])
 
     # if the var is text, dont multiply by scale
@@ -749,7 +778,7 @@ class state:
             
     Returns
     -------
-    out : numpy.array 
+    X : numpy.array 
         An array of the state vector 
         :attr:`state.X <c4dynamics.states.state.state.X>` 
         at time `t`. 
@@ -764,14 +793,14 @@ class state:
       >>> for t in np.linspace(0, 1, 3):
       ...   s.X += 1
       ...   s.store(t)
-      >>> s.timestate(0.5))
-      [0.28, 0.95, 0.82]
+      >>> s.timestate(0.5) # doctest: +NUMPY_FORMAT 
+      [2  2  2]
 
       
     .. code:: 
 
       >>> s = c4d.state(x = 1, y = 0, z = 0)
-      >>> s.timestate(0.5)
+      >>> s.timestate(0.5)  # doctest: +IGNORE_OUTPUT 
       Warning: no history of state samples.
       None 
 
@@ -779,18 +808,19 @@ class state:
 
     '''
 
-    # TODO what about throwing a warning when dt is too long? \\ what is dt and so what if its long? 
+    # TODO what about throwing a warning when dt is too long? 
+    # \\ what is dt and so what if its long? 
     times = self.data('t')
     if len(times) == 0: 
-      out = None
+      X = None
     else:
       idx = min(range(len(times)), key = lambda i: abs(times[i] - t))
-      out = self._data[idx][1:]
+      X = np.array(self._data[idx][1:])
 
-    return out 
+    return X 
     
 
-  def plot(self, var, scale = 1, ax = None, filename = None, darkmode = True, linecolor = 'm'):
+  def plot(self, var, scale = 1, ax = None, filename = None, darkmode = True, **kwargs):
     ''' 
     Draws plots of variable evolution over time.
 
@@ -817,11 +847,34 @@ class state:
         Directory path to save the plot image. 
         If None, the plot will not be saved, by default None.
 
-    linecolor : str, optional 
-        Color name for the line, by default 'm' (magenta). 
+    **kwargs : dict, optional
+        Additional key-value arguments passed to `matplotlib.pyplot.plot`.
+        These can include any keyword arguments accepted by `plot`,
+        such as `color`, `linestyle`, `marker`, etc. 
+        
+
+    Returns 
+    ------- 
+    ax : matplotlib.axes.Axes. 
+        Matplotlib axis of the derived plot. 
+
+        
+    Note
+    ----
+    - The default `color` is set to `'m'` (magenta).
+    - The default `linewidth` is set to `1.2`.
+        
 
     Examples
     --------
+
+    Import required packages:
+
+    .. code::
+
+      >>> import c4dynamics as c4d 
+      >>> from matplotlib import pyplot as plt 
+      >>> import numpy as np 
 
     Plot an arbitrary state variable and save: 
 
@@ -832,36 +885,36 @@ class state:
       >>> for _ in range(100):
       ...   s.x = np.random.randint(0, 100, 1)
       ...   s.store()
-      >>> s.plot('x', filename = 'x.png') 
+      >>> s.plot('x', filename = 'x.png')   # doctest: +IGNORE_OUTPUT 
       >>> plt.show()
 
     .. figure:: /_examples/state/plot_x.png
 
     
-    Plot in interactive mode:
+    **Interactive mode:**
 
     .. code:: 
     
       >>> plt.switch_backend('TkAgg')
-      >>> s.plot('x') 
+      >>> s.plot('x')   # doctest: +IGNORE_OUTPUT 
       >>> plt.show(block = True)
 
 
-    Dark mode off:  
+    **Dark mode off:**  
 
       >>> s = c4d.state(x = 0)
       >>> s.xstd = 0.2 
       >>> for t in np.linspace(-2 * c4d.pi, 2 * c4d.pi, 1000):
       ...   s.x = c4d.sin(t) + np.random.randn() * s.xstd 
       ...   s.store(t)
-      >>> s.plot('x', darkmode = False) 
+      >>> s.plot('x', darkmode = False)    # doctest: +IGNORE_OUTPUT 
       >>> plt.show()
 
     .. figure:: /_examples/state/plot_darkmode.png
 
 
       
-    Scale plot:  
+    **Scale plot:**  
 
     .. code:: 
 
@@ -869,22 +922,22 @@ class state:
       >>> for y in c4d.tan(np.linspace(-c4d.pi, c4d.pi, 500)):
       ...   s.phi = c4d.atan(y)
       ...   s.store()
-      >>> s.plot('phi', scale = c4d.r2d, fontsize = 'small', facecolor = None) 
-      >>> plt.gca().set_ylabel('deg')
+      >>> s.plot('phi', scale = c4d.r2d)  # doctest: +IGNORE_OUTPUT 
+      >>> plt.gca().set_ylabel('deg') # doctest: +IGNORE_OUTPUT
       >>> plt.show()
 
     .. figure:: /_examples/state/plot_scale.png
 
 
-    Given axis: 
+    **Given axis:** 
 
     .. code:: 
 
-      >>> plt.subplots(1, 1)
-      >>> plt.plot(np.linspace(-c4d.pi, c4d.pi, 500) * c4d.r2d, 'c')
-      >>> s.plot('phi', scale = c4d.r2d, ax = plt.gca()) 
-      >>> ax.set_ylabel('deg')
-      >>> plt.legend(['θ', 'φ'])
+      >>> plt.subplots(1, 1)  # doctest: +IGNORE_OUTPUT 
+      >>> plt.plot(np.linspace(-c4d.pi, c4d.pi, 500) * c4d.r2d, 'm')   # doctest: +IGNORE_OUTPUT 
+      >>> s.plot('phi', scale = c4d.r2d, ax = plt.gca(), color = 'c')    # doctest: +IGNORE_OUTPUT
+      >>> plt.gca().set_ylabel('deg')  # doctest: +IGNORE_OUTPUT 
+      >>> plt.legend(['θ', 'φ'])  # doctest: +IGNORE_OUTPUT 
       >>> plt.show()
 
     .. figure:: /_examples/state/plot_axis.png
@@ -896,12 +949,12 @@ class state:
     .. code::
 
       >>> dt = 0.01
-      >>> helium_balloon = c4d.datapoint(vx = 10 * c4d.k2ms)
-      >>> helium_balloon.mass = 0.1 
+      >>> floating_balloon = c4d.datapoint(vx = 10 * c4d.k2ms)
+      >>> floating_balloon.mass = 0.1 
       >>> for t in np.arange(0, 10, dt):
-      ...   helium_balloon.inteqm(forces = [0, 0, .05], dt = dt)
-      ...   helium_balloon.store(t)
-      >>> helium_balloon.plot('side')
+      ...   floating_balloon.inteqm(forces = [0, 0, .05], dt = dt)   # doctest: +IGNORE_OUTPUT 
+      ...   floating_balloon.store(t)
+      >>> floating_balloon.plot('side')
       >>> plt.gca().invert_yaxis()
       >>> plt.show()
 
@@ -948,6 +1001,13 @@ class state:
     # finally i think the best soultion regardint backends is not 
     # to do anythink and let the user select the backend from outside. 
     ##  
+    if var not in self._didx:
+      warnings.warn(f"""{var} is not a state variable.""" , c4d.c4warn)
+      return None
+    if not self._data:
+      warnings.warn(f"""No stored data for {var}.""" , c4d.c4warn)
+      return None
+
 
     if darkmode: 
       plt.style.use('dark_background')  
@@ -966,7 +1026,12 @@ class state:
     #       return True
     # except ImportError:
     #   return False
-    
+
+
+    # Set default values in kwargs only if the user hasn't provided them
+    kwargs.setdefault('color', 'm')
+    kwargs.setdefault('linewidth', 1.2)
+
     if ax is None: 
       # factorsize = 4
       # aspectratio = 1080 / 1920 
@@ -975,9 +1040,7 @@ class state:
       #                       , gridspec_kw = {'left': 0.15, 'right': .9
       #                                           , 'top': .9, 'bottom': .2})
       _, ax = c4d._figdef()
-    else: 
-      if linecolor == 'm':
-        linecolor = 'c'
+    
       
     if not len(np.flatnonzero(self.data('t') != -1)): # values for t weren't stored
       x = range(len(self.data('t'))) # t is just indices 
@@ -992,7 +1055,7 @@ class state:
     else: 
       title = var 
 
-    ax.plot(x, y, linecolor, linewidth = 1.5)
+    ax.plot(x, y, **kwargs)
     c4d.plotdefaults(ax, title, xlabel, '', 8)
     
 
@@ -1003,6 +1066,7 @@ class state:
       
 
     # plt.show(block = True)
+    return ax 
 
 
 
@@ -1030,8 +1094,8 @@ class state:
     .. code:: 
     
       >>> s = c4d.state(x1 = 1, x2 = -1)
-      >>> s.norm
-      1.414
+      >>> s.norm  # doctest: +ELLIPSIS  
+      1.414...
 
     '''
     return np.linalg.norm(self.X)
@@ -1055,8 +1119,8 @@ class state:
     .. code:: 
     
       >>> s = c4d.state(x = 1, y = 2, z = 3)
-      >>> s.normalize
-      [0.27  0.53  0.80]
+      >>> s.normalize   # doctest: +NUMPY_FORMAT 
+      [0.267  0.534  0.801]
 
     '''
 
@@ -1069,68 +1133,63 @@ class state:
   @property
   def position(self):
     ''' 
-    Returns a vector of position coordinates. 
+      Returns a vector of position coordinates. 
 
-    If the state doesn't include any position coordinate (x, y, z), 
-    an empty array is returned.  
-    
-    Note
-    ----
-    In the context of :attr:`position <c4dynamics.states.state.state.position>`, 
-    only x, y, z, are considered position coordinates.  
-
-    
-    Returns
-    -------
-    out : numpy.array   
-        A vector containing the values of the position coordinates, 
-        with a size corresponding to the number of these coordinates.
-
-
-    Examples
-    --------
-
-    .. code:: 
-    
-      >>> s = c4d.state(theta = 3.14, x = 1, y = 2)
-      >>> s.position
-      [1  2]
-    
+      If the state doesn't include any position coordinate (x, y, z), 
+      an empty array is returned.  
       
-    .. code:: 
-    
-      >>> s = c4d.state(theta = 3.14, x = 1, y = 2, z = 3)
-      >>> s.position
-      [1  2  3]
-    
-    
-    .. code:: 
-    
-      >>> s = c4d.state(theta = 3.14, z = -100)
-      >>> s.position
-      [-100]
+      Note
+      ----
+      In the context of :attr:`position <c4dynamics.states.state.state.position>`, 
+      only x, y, z, (case sensitive) are considered position coordinates.  
+
       
+      Returns
+      -------
+      out : numpy.array   
+          A vector containing the values of three position coordinates.
 
-    .. code:: 
-    
-      >>> s = c4d.state(theta = 3.14)
-      >>> s.position
-      Warning: position is valid when at least one cartesian coordinate variable (x, y, z) exists
-      []
 
+      Examples
+      --------
+
+      .. code:: 
+      
+        >>> s = c4d.state(theta = 3.14, x = 1, y = 2)
+        >>> s.position  # doctest: +NUMPY_FORMAT
+        [1  2  0]
+      
+        
+      .. code:: 
+      
+        >>> s = c4d.state(theta = 3.14, x = 1, y = 2, z = 3)
+        >>> s.position  # doctest: +NUMPY_FORMAT
+        [1  2  3]
+      
+      
+      .. code:: 
+      
+        >>> s = c4d.state(theta = 3.14, z = -100)
+        >>> s.position  # doctest: +NUMPY_FORMAT
+        [0  0  -100]
+        
+
+      .. code:: 
+      
+        >>> s = c4d.state(theta = 3.14)
+        >>> s.position   # doctest: +IGNORE_OUTPUT  
+        Position is valid when at least one cartesian coordinate variable (x, y, z) exists...
+        []
     '''
-   
-    Pcoords = []
-    for var in ['x', 'y', 'z']:
-      coord = getattr(self, var, None)
-      if coord is not None: 
-        Pcoords.append(coord) 
-
-    if not Pcoords:
-      c4d.cprint('Warning: position is valid when at least one cartesian'
-                  ' coordinate variable (x, y, z) exists.', 'm')
     
-    return np.array(Pcoords)
+    if not self.cartesian():
+      # c4d.cprint('Warning: position is valid when at least one cartesian'
+      #             ' coordinate variable (x, y, z) exists.', 'm')
+      warnings.warn(f"""Position is valid when at least one cartesian """
+                        """coordinate variable (x, y, z) exists.""" , c4d.c4warn)
+      return np.array([])
+      
+    return np.array([getattr(self, var, 0) for var in ['x', 'y', 'z']])
   
 
   @property
@@ -1144,12 +1203,12 @@ class state:
     Note
     ----
     In the context of :attr:`velocity <c4dynamics.states.state.state.velocity>`, 
-    only vx, vy, vz, are considered velocity coordinates.  
+    only vx, vy, vz, (case sensitive) are considered velocity coordinates.  
 
     Returns
     -------
     out : numpy.array   
-        A vector containing the values of the velocity coordinates, with a size corresponding to the number of these coordinates.
+        A vector containing the values of three velocity coordinates.
 
 
     Examples
@@ -1158,38 +1217,35 @@ class state:
     .. code:: 
     
       >>> s = c4d.state(x = 100, y = 0, vx = -10, vy = 5)
-      >>> s.velocity
-      [-10  5]
+      >>> s.velocity # doctest: +NUMPY_FORMAT 
+      [-10  5  0]
 
       
     .. code:: 
     
       >>> s = c4d.state(x = 100, vz = -100)
-      >>> s.velocity
-      [-100]
+      >>> s.velocity # doctest: +NUMPY_FORMAT 
+      [0  0  -100]
 
 
     .. code:: 
     
       >>> s = c4d.state(z = 100)
-      >>> s.velocity
+      >>> s.velocity  # doctest: +IGNORE_OUTPUT 
       Warning: velocity is valid when at least one velocity coordinate variable (vx, vy, vz) exists.    
       []
 
 
     '''
 
-    Vcoords = []
-    for var in ['vx', 'vy', 'vz']:
-      coord = getattr(self, var, None)
-      if coord is not None: 
-        Vcoords.append(coord) 
+    if self.cartesian() < 2:
+      # c4d.cprint('Warning: velocity is valid when at least one velocity '
+      #             'coordinate variable (vx, vy, vz) exists.', 'm')
+      warnings.warn(f"""Velocity is valid when at least one velocity """
+                        """coordinate variable (vx, vy, vz) exists.""" , c4d.c4warn)
+      return np.array([])
 
-    if not Vcoords:
-      c4d.cprint('Warning: velocity is valid when at least one velocity '
-                  'coordinate variable (vx, vy, vz) exists.', 'm')
-    
-    return np.array(Vcoords)
+    return np.array([getattr(self, var, 0) for var in ['vx', 'vy', 'vz']])
 
 
   def P(self, state2 = None):
@@ -1200,8 +1256,6 @@ class state:
     a second object `state2`. If `state2` is not provided, then the self 
     Euclidean distance is calculated. 
 
-    If the state doesn't include any position coordinate (x, y, z), 
-    a `ValueError` is raised.  
 
     When a second state object is provided: 
 
@@ -1216,17 +1270,19 @@ class state:
 
       P = \\sum_{k=x,y,z} self.k^2
     
+
       
     Raises 
     ------
-    ValueError
-        If the state doesn't include any position coordinate (x, y, z).  
+    TypeError
+        If the states don't include any position coordinate (x, y, z).  
 
 
     Note
     ----
-    In the context of :meth:`P() <c4dynamics.states.state.state.P>`, 
-    x, y, z, are considered position coordinates.      
+    1. The provided states must have at least oneposition coordinate (x, y, z).  
+    2. In the context of :meth:`P() <c4dynamics.states.state.state.P>`, 
+       x, y, z, (case sensitive) are considered position coordinates.      
       
 
     
@@ -1252,39 +1308,58 @@ class state:
     .. code::
     
       >>> s = c4d.state(theta = 3.14, x = 1, y = 1)
-      >>> s.P()
-      1.414 
+      >>> s.P()   # doctest: +ELLIPSIS 
+      1.414...
 
     .. code:: 
 
       >>> s  = c4d.state(theta = 3.14, x = 1, y = 1)
       >>> s2 = c4d.state(x = 1)
       >>> s.P(s2)
-      0
+      1.0
 
     .. code:: 
 
       >>> s  = c4d.state(theta = 3.14, x = 1, y = 1)
       >>> s2 = c4d.state(z = 1)
-      >>> s.P(s2)
-      Exception has occurred: ValueError  
-      At least one position coordinate, x, y, or z, must be common to both instances.
+      >>> s.P(s2)   # doctest: +ELLIPSIS 
+      1.73...
 
-      
+
+    For final example, import required packages: 
+
     .. code:: 
 
       >>> import numpy as np 
       >>> from matplotlib import pyplot as plt  
+
+
+    Settings and initial conditions: 
 
     .. code:: 
 
       >>> camera = c4d.state(x = 0, y = 0)
       >>> car    = c4d.datapoint(x = -100, vx = 40, vy = -7)
       >>> dist   = []
-      >>> for t in np.linspace(0, 10, 1000):
-      ...   car.inteqm(np.zeros(3), time[1] - time[0])
+      >>> time = np.linspace(0, 10, 1000)
+
+
+
+    Main loop: 
+
+    .. code:: 
+
+      >>> for t in time:
+      ...   car.inteqm(np.zeros(3), time[1] - time[0]) # doctest: +IGNORE_OUTPUT 
       ...   dist.append(camera.P(car))
-      >>> plt.plot(time, dist, 'm', linewidth = 2)
+
+
+    Show results: 
+
+    .. code:: 
+    
+      >>> plt.plot(time, dist, 'm') # doctest: +IGNORE_OUTPUT 
+      >>> c4d.plotdefaults(plt.gca(), 'Distance', 'Time (s)', '(m)')
       >>> plt.show()
 
     .. figure:: /_examples/states/state_P.png
@@ -1292,24 +1367,20 @@ class state:
 
 
     '''
-    arg1 = False 
+    
+
+    if not self.cartesian():
+      raise TypeError('state must have at least one position coordinate (x, y, or z)')
+    
     if state2 is None: 
       state2 = c4d.datapoint() 
-      arg1 = True 
-      
-
-    comcoords = [var for var in ['x', 'y', 'z'] if hasattr(self, var) and hasattr(state2, var)]
-    if not any(comcoords):
-      if arg1: 
-        raise ValueError('P() is valid when at least one position ' 
-                            'coordinate variable (x, y, z) exists')
-      else: 
-        raise ValueError('At least one position coordinate, '
-                           'x, y, or z, must be common to both instances.')
+    else: 
+      if not hasattr(state2, 'cartesian') or not state2.cartesian(): 
+        raise TypeError('state2 must be a state object with at least one position coordinate (x, y, or z)')
 
     dist = 0 
-    for var in comcoords: 
-      dist += (getattr(self, var) - getattr(state2, var))**2
+    for var in ['x', 'y', 'z']: 
+      dist += (getattr(self, var, 0) - getattr(state2, var, 0))**2
 
     return np.sqrt(dist)
 
@@ -1337,13 +1408,13 @@ class state:
 
     Raises 
     ------
-    ValueError
+    TypeError
         If the state does not include any velocity coordinate (vx, vy, vz).
 
     Note
     ----
     In the context of :meth:`V() <c4dynamics.states.state.state.V>`, 
-    vx, vy, vz, are considered velocity coordinates.      
+    vx, vy, vz, (case sensitive) are considered velocity coordinates.      
       
 
     Examples
@@ -1352,37 +1423,64 @@ class state:
     .. code::
 
       >>> s = c4d.state(vx = 7, vy = 24)
-      >>> s.V()
+      >>> s.V() 
       25.0
 
     .. code:: 
 
       >>> s = c4d.state(x = 100, y = 0, vx = -10, vy = 7)
-      >>> s.V()
-      12.2
+      >>> s.V()   # doctest: +ELLIPSIS 
+      12.2...
+
+    
+    Uncommenting the following line throws a type error:
 
     .. code::
 
       >>> s = c4d.state(x = 100, y = 0)
-      >>> s.V()
-      Warning: velocity is valid when at least one velocity coordinate variable (vx, vy, vz) exists.     
-      []
+      >>> # s.V()  
+      TypeError: state must have at least one velocity coordinate (vx, vy, or vz)
 
 
     '''
+
+    if self.cartesian() < 2:
+      raise TypeError('state must have at least one velocity coordinate (vx, vy, or vz)')
     
-    velocity = self.velocity
-
-    if len(velocity): 
-      velocity = np.linalg.norm(velocity)
-
-    return velocity
+    return np.linalg.norm(self.velocity)
   
 
   def cartesian(self):
     # TODO document! 
-    if any([var for var in ['x', 'y', 'z'] if hasattr(self, var)]):
-      return True
+    if any([var for var in ['vx', 'vy', 'vz'] if hasattr(self, var)]):
+      return 2 
+    elif any([var for var in ['x', 'y', 'z'] if hasattr(self, var)]):
+      return 1
     else: 
-      return False      
+      return 0
+
+
+if __name__ == "__main__":
+
+  import doctest, contextlib
+  from c4dynamics import IgnoreOutputChecker, cprint
+  
+  # Register the custom OutputChecker
+  doctest.OutputChecker = IgnoreOutputChecker
+
+  tofile = False 
+  optionflags = doctest.FAIL_FAST
+
+  if tofile: 
+    with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
+      with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
+        result = doctest.testmod(optionflags = optionflags) 
+  else: 
+    result = doctest.testmod(optionflags = optionflags)
+
+  if result.failed == 0:
+    cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
+  else:
+    print(f"{result.failed}")
+
 

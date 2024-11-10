@@ -1,3 +1,6 @@
+import sys 
+sys.path.append('.')
+
 TXTCOLORS =     { 'k': '30', 'black':   '30'
                 , 'r': '31', 'red':     '31'
                 , 'g': '32', 'green':   '32'
@@ -8,8 +11,8 @@ TXTCOLORS =     { 'k': '30', 'black':   '30'
                 , 'w': '37', 'white':   '37'
                     }
 
-def cprint(txt = '', color = 'white', bold = False, italic = False, end = '\n'):
-    '''
+def cprint(txt = '', color = 'white', end = '\n'):
+  '''
     Printing colored text in the console.
 
     Parameters
@@ -21,12 +24,6 @@ def cprint(txt = '', color = 'white', bold = False, italic = False, end = '\n'):
     color : str, optional
         The color of the text. Default is 'white'.
     
-    bold : bool, optional
-        If True, the text will be printed in bold. Default is False.
-    
-    italic : bool, optional
-        If True, the text will be printed in italic. Default is False.
-
     Example
     -------
 
@@ -34,22 +31,50 @@ def cprint(txt = '', color = 'white', bold = False, italic = False, end = '\n'):
     
       >>> carr = ['k', 'r', 'g', 'y', 'b', 'm', 'c', 'w']
       >>> for c in carr:
-      ...     c4d.cprint('C4DYNAMICS', c)
-        
-        
-    .. figure:: /_static/images/cprint.png
+      ...   c4d.cprint('C4DYNAMICS', c)
 
-    
-        
-    '''
-    settxt = '\033['
+    .. raw:: html
 
-    # if bold:
-    #     settxt += '1;'
-    # if italic:
-    #     settxt += '3;'
+      <span style="color:yellow">C4DYNAMICS</span><br>
+      <span style="color:white">C4DYNAMICS</span>
+      <span style="color:red">C4DYNAMICS</span><br>
+      <span style="color:magenta">C4DYNAMICS</span><br>
+      <span style="color:cyan">C4DYNAMICS</span><br>
+      <span style="color:green">C4DYNAMICS</span><br>
+      <span style="color:black">C4DYNAMICS</span><br>
+      <span style="color:blue">C4DYNAMICS</span><br>
+ 
+  '''
+  settxt = '\033['
 
-    settxt += TXTCOLORS[color] 
-        
-    print(settxt + 'm' + str(txt) + '\033[0m', end = end)
+
+  settxt += TXTCOLORS[color] 
+      
+  print(settxt + 'm' + str(txt) + '\033[0m', end = end)
+
+
+if __name__ == "__main__":
+
+  import os 
+  import doctest, contextlib
+  from c4dynamics import IgnoreOutputChecker, cprint
+  
+  # Register the custom OutputChecker
+  doctest.OutputChecker = IgnoreOutputChecker
+
+  tofile = False 
+  optionflags = doctest.FAIL_FAST
+
+  if tofile: 
+    with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
+      with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
+        result = doctest.testmod(optionflags = optionflags) 
+  else: 
+    result = doctest.testmod(optionflags = optionflags)
+
+  if result.failed == 0:
+    cprint("All tests passed!", 'g')
+  else:
+    print(f"{result.failed}")
+
 

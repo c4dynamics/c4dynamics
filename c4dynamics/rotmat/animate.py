@@ -1,13 +1,12 @@
-import os 
+import os, sys 
 import time 
 import numpy as np 
 import tkinter as tk
+sys.path.append('.')
 import c4dynamics as c4d 
 from typing import Optional, Union, List 
+import warnings
 
-# def animate(rb, modelpath, angle0 = [0, 0, 0] 
-#               , modelcolor = None, dt = 1e-3 
-#                 , savedir = None, cbackground = [1, 1, 1]):
 def animate(rb, modelpath: str, angle0: list = [0, 0, 0] 
               , modelcolor: Union[np.ndarray, List[float], tuple, None] = None, dt: float = 1e-3 
                 , savedir: Optional[str] = None, cbackground: Union[np.ndarray, List[float], tuple] = [1, 1, 1]):  
@@ -74,8 +73,8 @@ def animate(rb, modelpath: str, angle0: list = [0, 0, 0]
     .. code::
 
       >>> import open3d as o3d
-      >>> pcd = o3d.io.read_point_cloud('model.ply')
-      >>> o3d.io.write_point_cloud('model.pcd', pcd)
+      >>> pcd = o3d.io.read_point_cloud('model.ply') # doctest: +IGNORE_OUTPUT
+      >>> o3d.io.write_point_cloud('model.pcd', pcd) # doctest: +IGNORE_OUTPUT
     
     For more info see `Open3D documentation <https://www.open3d.org/docs/release/tutorial/geometry/file_io.html>`_
   - Initial Euler angles :math:`[\\varphi, \\theta, \\psi]`, in radians, representing
@@ -96,6 +95,10 @@ def animate(rb, modelpath: str, angle0: list = [0, 0, 0]
   The 3D models used in the following examples can be downloaded and 
   fetched by c4dynamics' datasets: 
 
+  .. code:: 
+
+    >>> import c4dynamics as c4d 
+
   .. code::
 
     >>> bunnypath = c4d.datasets.d3_model('bunny') # 'bunny.pcd': point cloud data file
@@ -106,12 +109,6 @@ def animate(rb, modelpath: str, angle0: list = [0, 0, 0]
     Fetched successfully
 
   For more details, refer to :mod:`c4dynamics.datasets`.
-
-
-
-  .. code:: 
-
-    >>> import c4dynamics as c4d 
 
 
 
@@ -166,7 +163,7 @@ def animate(rb, modelpath: str, angle0: list = [0, 0, 0]
     ...     f16.theta += dt * 180 * c4d.d2r / 3
     ...   else:
     ...     f16.phi -= dt * 180 * c4d.d2r / 3 
-    >>>   f16.store(t)
+    ...   f16.store(t)
 
   .. figure:: /_examples/animate/f16_eulers.png
   
@@ -205,17 +202,20 @@ def animate(rb, modelpath: str, angle0: list = [0, 0, 0]
   .. code::
 
     >>> import open3d as o3d
+    >>> import os 
 
 
   .. code::
 
     >>> model = []
-    >>> for f in sorted(os.listdir('f16')):
-    ...   mfilepath = os.path.join('f16', f)
-    ...   model.append(o3d.io.read_triangle_mesh(mfilepath))
+    >>> for f in sorted(os.listdir(f16path)):
+    ...   mfilepath = os.path.join(f16path, f)
+    ...   m = o3d.io.read_triangle_mesh(mfilepath)
+    ...   m.compute_vertex_normals()
+    ...   model.append(m)
     >>> o3d.visualization.draw_geometries(model)
 
-  .. figure:: /_static/images/f16_static.png
+  .. figure:: /_examples/animate/f16_static.png
 
   
   It turns out that for 3-2-1 order of rotation (see :mod:`rotmat <c4dynamics.rotmat>`)
@@ -263,7 +263,7 @@ def animate(rb, modelpath: str, angle0: list = [0, 0, 0]
 
   .. code::
 
-    >>> f16.animate(f16path, savedir = outfol, angle0 = x0, modelcolor = [0, 0, 0], cbackground = np.array([230, 230, 255]) / 255)
+    >>> f16.animate(f16path, angle0 = x0, modelcolor = [0, 0, 0], cbackground = np.array([230, 230, 255]) / 255)
 
   .. figure:: /_examples/animate/f16_monochrome.gif
 
@@ -273,10 +273,10 @@ def animate(rb, modelpath: str, angle0: list = [0, 0, 0]
   .. code::
 
     >>> f16colors = np.vstack(([255, 215, 0], [255, 215, 0]
-                                , [184, 134, 11], [0, 32, 38]
-                                    , [218, 165, 32], [218, 165, 32], [54, 69, 79]
-                                        , [205, 149, 12], [205, 149, 12])) / 255
-    >>> outfol ='out\\f16'
+    ...                         , [184, 134, 11], [0, 32, 38]
+    ...                             , [218, 165, 32], [218, 165, 32], [54, 69, 79]
+    ...                                 , [205, 149, 12], [205, 149, 12])) / 255
+    >>> outfol = os.path.join('tests', '_out', 'f16a')
     >>> f16.animate(f16path, angle0 = x0, savedir = outfol, modelcolor = f16colors)
     >>> # the storage folder 'outfol' is the source of images for the gif function
     >>> # the 'duration' parameter sets the required length of the animation  
@@ -293,7 +293,7 @@ def animate(rb, modelpath: str, angle0: list = [0, 0, 0]
   .. code::
 
     >>> gifpath = os.path.join(outfol, gifname)
-    >>> Image(filename = gifpath) 
+    >>> Image(filename = gifpath) # doctest: +IGNORE_OUTPUT
 
   .. figure:: /_examples/animate/f16_color2.gif
 
@@ -306,6 +306,9 @@ def animate(rb, modelpath: str, angle0: list = [0, 0, 0]
           "Please install it by running 'pip install open3d'."
       )
         
+  if not rb._data:
+    warnings.warn(f"""No stored data for the given rigidbody.""" , c4d.c4warn)
+    return None
 
   # 
   # load the model 
@@ -316,29 +319,44 @@ def animate(rb, modelpath: str, angle0: list = [0, 0, 0]
   ##
 
   model = []
+  
 
   if os.path.isfile(modelpath):
     modelpath, files = os.path.split(modelpath)
     files = [files]
-  else: 
+
+  elif os.path.isdir(modelpath):
     files = os.listdir(modelpath)
+    if not files: 
+      raise FileNotFoundError(f"'{modelpath}' is empty.")
+
     files = [file for file in files if os.path.isfile(os.path.join(modelpath, file))]
 
-  modelcolor = np.atleast_2d(modelcolor)
+  else: 
+    raise FileNotFoundError(f"'{modelpath}' doesn't exist.")
 
-  if modelcolor.shape[1] != 1 and modelcolor.shape[0] == 1: # if one row array, duplicate 
-    modelcolor = np.atleast_2d(np.repeat(modelcolor, len(files), axis = 0)) 
+  if modelcolor is not None:
+    # user input 
 
-  # c4d.cprint(modelcolor, 'm')
-  # c4d.cprint(type(modelcolor), 'r')  
-  # c4d.cprint(modelcolor.shape, 'c')
+    # if not 3 colums array, raise an error: 
+    modelcolor = np.atleast_2d(modelcolor)
+    if modelcolor.shape[1] != 3:  # Example condition: if modelcolor is empty
+      raise ValueError(f"modelcolor must be three columns array for RGB.")
+
+    # if one row, duplicate
+    if modelcolor.shape[1] != 1 and modelcolor.shape[0] == 1:  
+      modelcolor = np.atleast_2d(np.repeat(modelcolor, len(files), axis = 0)) 
+
+
+
+
 
   for i, f in enumerate(sorted(files)):
 
     mfilepath = os.path.join(modelpath, f)
     ismesh = True if any(f[-3:].lower() == s for s in ['stl', 'obj', 'ply']) else False 
     imodel = o3d.io.read_triangle_mesh(mfilepath) if ismesh else o3d.io.read_point_cloud(mfilepath) 
-    if modelcolor.shape[1] != 1:
+    if modelcolor is not None: #MAYBE WANTS TO SAY IS NOT NONE 
       imodel.paint_uniform_color(modelcolor[i])
     if ismesh: 
       imodel.compute_vertex_normals()
@@ -346,45 +364,6 @@ def animate(rb, modelpath: str, angle0: list = [0, 0, 0]
     model.append(imodel)
 
     
-  # if any(modelpath[-3:] == s for s in ['stl', 'obj', 'ply']):
-  #   imodel = o3d.io.read_triangle_mesh(modelpath) 
-  # else: 
-  #   imodel = o3d.io.read_point_cloud(modelpath)
-
-  # if np.atleast_2d(modelcolor).shape[1] == 1: 
-  #   model.append(imodel)
-  # else: 
-  #   model.append(imodel.paint_uniform_color(modelcolor).compute_vertex_normals())
-
-    
-    
-  # for i, f in enumerate(sorted(os.listdir(modelpath))):
-
-  #   mfilepath = os.path.join(modelpath, f)
-
-  #   if any(f[-3:] == s for s in ['stl', 'obj', 'ply']):
-  #     imodel = o3d.io.read_triangle_mesh(mfilepath)
-  #   else: 
-  #     imodel = o3d.io.read_point_cloud(mfilepath)
-      
-  #   if np.atleast_2d(modelcolor).shape[1] == 1: 
-  #     model.append(imodel)
-  #   elif np.atleast_2d(modelcolor).shape[0] == 1: 
-  #     model.append(imodel.paint_uniform_color(modelcolor).compute_vertex_normals())
-  #   else: 
-  #     model.append(imodel.paint_uniform_color(modelcolor[i]).compute_vertex_normals())
-
-          
-  #
-  # set the window form 
-  ##
-  
-  # # # find largest coordinate in the model
-  # max_coord = 0
-  # for i in range(len(model)): 
-  #   # Extract coordinates
-  #   max_coord = max(max_coord, int(np.max(np.abs(np.asarray(m.points))))) 
-
 
 
 
@@ -396,7 +375,7 @@ def animate(rb, modelpath: str, angle0: list = [0, 0, 0]
   # Close the dummy window
   root.destroy()
 
-  vis = o3d.visualization.Visualizer()
+  vis = o3d.visualization.Visualizer() # type: ignore
   vis.create_window(window_name = '' 
                       , width = int(screen_width / 2)
                           , height = int(screen_height / 2)
@@ -457,5 +436,30 @@ def animate(rb, modelpath: str, angle0: list = [0, 0, 0]
         vis.capture_screen_image(os.path.join(savedir, 'animated' + str(i) + '.png'))
 
   vis.destroy_window()
+
+
+
+if __name__ == "__main__":
+
+  import doctest, contextlib
+  from c4dynamics import IgnoreOutputChecker, cprint
+  
+  # Register the custom OutputChecker
+  doctest.OutputChecker = IgnoreOutputChecker
+
+  tofile = False 
+  optionflags = doctest.FAIL_FAST
+
+  if tofile: 
+    with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
+      with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
+        result = doctest.testmod(optionflags = optionflags) 
+  else: 
+    result = doctest.testmod(optionflags = optionflags)
+
+  if result.failed == 0:
+    cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
+  else:
+    print(f"{result.failed}")
 
 

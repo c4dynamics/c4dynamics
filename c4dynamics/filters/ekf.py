@@ -1,213 +1,272 @@
 import numpy as np
-import c4dynamics as c4d 
+import sys 
+sys.path.append('.')
+# import c4dynamics as c4d 
+from c4dynamics.filters import kalman 
 from typing import Optional
 
-class ekf(c4d.state):
-  '''  
-    Extended Kalman Filter.
+class ekf(kalman):
+  '''
+    Extended Kalman Filter class for handling nonlinear dynamics by 
+    incorporating functions for nonlinear state transitions and measurements.
+    
+    This subclass extends the base 
+    :class:`kalman <c4dynamics.filters.kalman.kalman>`
+    class to handle cases where 
+    system dynamics or measurements are nonlinear. The Jacobian matrices 
+    `F` and `H` can be dynamically updated as linearizations of the 
+    nonlinear functions.
 
-    Extended Kalman Filter class for state estimation.
-      
     
     Parameters
-    ==========
+    ----------
     X : dict
-        Initial state variables and their values.
-    P0 : numpy.ndarray
-        Initial covariance matrix or standard deviations.
-    dt : float, optional
-        Time step for the filter. Defaults to None.
-    G : numpy.ndarray, optional
-        Control matrix. Defaults to None.
+        Initial state estimate dictionary, where key-value pairs 
+        represent state variables and their initial values.
+    P0 : np.ndarray
+        Initial error covariance matrix, defining the initial 
+        uncertainty for each state variable.
+    F : np.ndarray, optional
+        State transition Jacobian matrix; defaults to an identity matrix
+        if not provided, assuming a linear system model.
+    H : np.ndarray, optional
+        Measurement Jacobian matrix; defaults to a zero matrix if not 
+        provided.
+    G : np.ndarray, optional
+        Control input matrix, mapping control inputs to the state.
+    Q : np.ndarray, optional
+        Process noise covariance matrix.
+    R : np.ndarray, optional
+        Measurement noise covariance matrix.
 
-    
-    See Also
-    ========
-    .filters
-    .kalman  
-    .lowpass
-    .seeker 
-    .eqm 
-
-
+        
     Example
-    =======
-    TODO complete
+    -------
+    A detailed example can be found in the introduction 
+    to the c4dynamics.filters module.
+    The mechanism of this class is similar to 
+    the :class:`kalman <c4dynamics.filters.kalman.kalman>`, 
+    so the examples provided there may serve as 
+    inspiration for using `ekf`.
 
   '''
 
-  # Phi \ F   transition matrix 
-  # P         covariance matrix
-  # Q         process noise matrix
-  # H         measurement matrix 
-  # R         measurement noise matrix 
-  
-  # def __init__(self, X, P0, dt = None, G = None): 
-  def __init__(self, X: dict, P0: np.ndarray, dt: Optional[float] = None, G: Optional[np.ndarray] = None) -> None:
-
-    if not isinstance(X, dict):
-      raise TypeError('X must be a dictionary containig pairs of variables and initial conditions, e.g.: {''x'': 0, ''y'': 0}')
+  def __init__(self, X: dict, P0: np.ndarray
+                , F: Optional[np.ndarray] = None
+                  , H:  Optional[np.ndarray] = None
+                    , G: Optional[np.ndarray] = None
+                      , Q: Optional[np.ndarray] = None
+                        , R: Optional[np.ndarray] = None):
+    # F and H are necessary also for ekf because they are required to the ricatti.
+    # yes but the can be delivered at each call in the immediate linearized form.  
     
+    if F is None: 
+      F = np.eye(P0.shape[0])
 
-    super().__init__(**X)
+    if H is None: 
+      H = np.zeros(P0.shape[0])
 
-    self.dt = dt
-    if self.dt is None:
-      c4d.cprint(f'dt is not provided. '
-                    'dt can be provided once when constructing the filter '
-                      'or on every call to predict()', 'y')
 
-    self.G = G
-    
-    P0 = np.atleast_2d(P0)
-    if P0.shape[0] == P0.shape[1]:
-      # square matrix
-      self.P = P0
-    else:
-      # only standard deviations are provided 
-      # self.P = np.diag(P0.flatten()**2)
-      self.P = np.diag(P0.ravel()**2)
+    super().__init__(X, F, H, P0 = P0, G = G, Q = Q, R = R)
+    self._ekf = True 
+
+
+
+
+
+
+  def predict(self, F: Optional[np.ndarray] = None, fx: Optional[np.ndarray] = None, dt = None # type: ignore
+                    , u: Optional[np.ndarray] = None
+                      , Q: Optional[np.ndarray] = None): 
+    '''
+      Predicts the next state of the system based on the current state
+      and an optional nonlinear state transition function.
+
+      Parameters
+      ----------
+      F : np.ndarray, optional
+          The state transition Jacobian matrix. If not provided, the 
+          previously set `F` matrix is used.
+      fx : np.ndarray, optional
+          Nonlinear state transition function derivative. If specified, 
+          this value is used for updating the state with nonlinear dynamics.
+      dt : float, optional
+          Time step duration. Must be provided if `fx` is specified.
+      u : np.ndarray, optional
+          Control input vector, affecting the state based on the `G` matrix.
+      Q : np.ndarray, optional
+          Process noise covariance matrix, representing uncertainty in 
+          the model during prediction.
       
-    self._Pdata = [] 
+      Raises
+      ------
+      TypeError
+          If `fx` is provided without a corresponding `dt` value.
+      
+      Examples
+      --------
+      The examples in this section are intended to 
+      demonstrate the usage of the `ekf` class and specifically the `predict` method. 
+      However, they are not limited to nonlinear dynamics.
+      For detailed usage that highlights the properties of nonlinear dynamics, 
+      refer to the :mod:`filters <c4dynamics.filters>` module introduction.
 
-    self.F = None   
+
+      
+      Import required packages: 
+
+      .. code:: 
+
+        >>> from c4dynamics.filters import ekf 
 
 
-  # def predict(self, F, Qk, fx = None, dt = None, u = None):
-  def predict(self, F: np.ndarray, Qk: np.ndarray, fx: Optional[np.ndarray] = None, dt: Optional[float] = None, u: Optional[np.ndarray] = None) -> None:
+
+      Plain `predict` step 
+      (predict in steady-state mode where the process variance matrix 
+      remains constant 
+      and is provided once to initialize the filter): 
+
+      .. code:: 
+
+        >>> _ekf = ekf({'x': 0}, P0 = 0.5**2, F = 1, H = 1, Q = 0.05, R = 200)
+        >>> print(_ekf)
+        [ x ]
+        >>> _ekf.X          # doctest: +NUMPY_FORMAT
+        [0]
+        >>> _ekf.P          # doctest: +NUMPY_FORMAT
+        [[0.25]]
+        >>> _ekf.predict()
+        >>> _ekf.X          # doctest: +NUMPY_FORMAT
+        [0]
+        >>> _ekf.P          # doctest: +NUMPY_FORMAT
+        [[0.3]]
+
+
+      Predict with control input: 
+
+      .. code:: 
+
+        >>> _ekf = ekf({'x': 0}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)
+        >>> _ekf.X      # doctest: +NUMPY_FORMAT
+        array([0])
+        >>> _ekf.P        # doctest: +ELLIPSIS
+        array([[0.25]])
+        >>> _ekf.predict(u = 1)
+        >>> _ekf.X   # doctest: +NUMPY_FORMAT
+        array([150])
+        >>> _ekf.P
+        array([[0.3]])
+
+
+        
+      Predict with updated process noise covariance matrix: 
+
+      .. code:: 
+
+        >>> _ekf = ekf({'x': 0}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)
+        >>> _ekf.X   # doctest: +NUMPY_FORMAT
+        array([0])
+        >>> _ekf.P
+        array([[0.25]])
+        >>> _ekf.predict(u = 1, Q = 0.01)
+        >>> _ekf.X  # doctest: +NUMPY_FORMAT
+        array([150]) 
+        >>> _ekf.P
+        array([[0.26]])
+
+      
+
+
     '''
-    Predicts the next state and covariance based on the given parameters.
+
+    if fx is not None: 
+      if dt is None: 
+        raise TypeError('For nonlinear derivatives inpout (fx), dt must be provided.')
+      self.X += np.atleast_1d(fx).ravel() * dt 
+      self._nonlinearF = True 
     
-    Parameters
-    ----------
 
-    F : numpy.ndarray
-        State transition matrix.
-    Qk : numpy.ndarray
-        Process noise covariance matrix.
-    fx : numpy.ndarray, optional
-        State transition function. Defaults to None.
-    dt : float, optional
-        Time step. Defaults to None.
-    u : numpy.ndarray, optional
-        Control input. Defaults to None.
+    if F is not None:
+      # "if F" is not enough because F is an array and 
+      # the truth value of an array with more than one 
+      # element is ambiguous.  
+      self.F = np.atleast_2d(F) 
+
+    super().predict(u = u, Q = Q)
     
-    Raises
-    ------
-    AttributeError
-        If dt is not provided.
-
-    Example
-    -------
-    TODO complete
-
-    '''
-    # TODO test the size of the objects. test the type. make sure the user is working with c4d modules. 
-    
-    if dt is not None: 
-      self.dt = dt 
-    elif self.dt is None: 
-      raise AttributeError(f'dt is not provided. '
-                              'dt can be provided once when constructing the filter '
-                                'or on every call to predict().')
-
-    self.F = np.atleast_2d(F) 
-    Qk = np.atleast_2d(Qk) 
-
-    # covariance matrix propagation 
-    self.P = self.F @ self.P @ self.F.T + Qk 
-
-    # state vector propagation 
-    if fx is not None:
-      Fxdt = self.X + np.array(fx) * self.dt 
-    else:
-      #      (I + A*dt)*x = x + A*x*dt  
-      Fxdt = self.F @ self.X  
-              
-    self.X = Fxdt
-
-    if u is not None and self.G is not None:
-        self.X += self.G.reshape(self.X.shape) * u * self.dt
+    self._nonlinearF = True   
     
   
  
-  # def update(self, z, H, Rk, hx = None): 
-  def update(self, z: np.ndarray, H: np.ndarray, Rk: np.ndarray, hx: Optional[np.ndarray] = None) -> None:
-    '''
-    Updates the state estimate based on the given measurements.
-        
-
-    Parameters
-    ----------
-    z : numpy.ndarray
-        Measurement vector.
-    H : numpy.ndarray
-        Measurement matrix.
-    Rk : numpy.ndarray
-        Measurement noise covariance matrix.
-    hx : numpy.ndarray, optional
-        Measurement prediction function. Defaults to None.
-        
-    Raises
-    ------
-    ValueError
-        If predict() has not been called before update().
-    ValueError
-        If the size of hx does not match the size of z.
-
+  def update(self, z: np.ndarray # type: ignore
+                , H: Optional[np.ndarray] = None
+                    , hx: Optional[np.ndarray] = None
+                        , R: Optional[np.ndarray] = None
+                        ):
     
     '''
+      Updates the state estimate based on the latest measurement, using an
+      optional nonlinear measurement function.
 
-    if self.F is None: 
-      raise ValueError('update() must be preceded by predict()') 
-
-    Rk = np.atleast_2d(Rk)
-
-    H = np.atleast_2d(H) 
-    # H is mxn where m measure number. 
-    # the H.shape[0] = len(z)
-    if hx is None:
-      hx = H @ self.X 
-    hx = np.atleast_1d(hx)    
-
-    z = np.atleast_1d(z)
-
-    if np.size(hx) != np.size(z):
-      raise ValueError(f'Number of measure variables in z must match the shape[0] of H or len(hx)')
-
-    
-    K = self.P @ H.T @ np.linalg.inv(H @ self.P @ H.T + Rk)
-    self.P = self.P - K @ H @ self.P
+      Parameters
+      ----------
+      z : np.ndarray
+          Measurement vector, representing observed values from the system.
+      H : np.ndarray, optional
+          Measurement Jacobian matrix. If provided, it overrides the 
+          previously set `H` matrix for this update step.
+      hx : np.ndarray, optional
+          Nonlinear measurement function output. If provided, it is used 
+          as the current estimate of the state based on measurement data.
+      R : np.ndarray, optional
+          Measurement noise covariance matrix, representing the uncertainty 
+          in the measurements.
 
 
-    self.X += K @ (z - hx)
-
-    self.F = None
-
-
-
-
-
-
-  def store(self, t: int = -1) -> None:
+      Examples
+      --------
+      The examples in this section are intended to 
+      demonstrate the usage of the `ekf` class and specifically the `update` method. 
+      However, they are not limited to nonlinear dynamics.
+      For detailed usage that highlights the properties of nonlinear dynamics, 
+      refer to the :mod:`filters <c4dynamics.filters>` module introduction.
+          
     '''
-    Stores the current state and diagonal elements of the covariance matrix.
-        
-    Parameters
-    ----------
+    if hx is not None: 
+      self.X = hx 
+      self._nonlinearH = True 
 
-    t : int, optional
-        Time step for storing the state. Defaults to -1.
-    
-    '''
-    # state 
-    super().store(t) # store state 
-    # store covariance: 
-    for i, p in enumerate(np.diag(self.P)): 
-      pstr = f'P{i}{i}'
-      setattr(self, pstr, p) # set 
-      self.storeparams(pstr, t) # store 
-    
+    if H is not None:
+      self.H = np.atleast_2d(H) 
+
+    K = super().update(z = z, R = R)
+    self._nonlinearH = False 
+    return K 
+
+
+
+if __name__ == "__main__":
+
+  import doctest, contextlib, os
+  from c4dynamics import IgnoreOutputChecker, cprint
+  
+  # Register the custom OutputChecker
+  doctest.OutputChecker = IgnoreOutputChecker
+
+  tofile = False 
+  optionflags = doctest.FAIL_FAST
+
+  if tofile: 
+    with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
+      with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
+        result = doctest.testmod(optionflags = optionflags) 
+  else: 
+    result = doctest.testmod(optionflags = optionflags)
+
+  if result.failed == 0:
+    cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
+  else:
+    print(f"{result.failed}")
 
 
 

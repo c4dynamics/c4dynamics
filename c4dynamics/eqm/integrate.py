@@ -1,102 +1,94 @@
 from typing import Dict, Optional, Union, Tuple  
-from .derivs import eqm3, eqm6 
+from numpy.typing import NDArray
 import numpy as np
+import sys 
+
+sys.path.append('.')
+from c4dynamics.eqm.derivs import eqm3, eqm6 
+from c4dynamics import datapoint, rigidbody  
 
 
-# def int3(dp, forces, dt, derivs_out = False):
 def int3(dp: 'datapoint', forces: Union[np.ndarray, list]
-            , dt: float, derivs_out: bool = False
-                ) -> Union[np.float64, Tuple[np.float64, np.float64]]:
+          , dt: float, derivs_out: bool = False
+            ) -> Union[NDArray[np.float64], Tuple[NDArray[np.float64], NDArray[np.float64]]]:
   ''' 
-  A step integration of the equations of translational motion.  
-  
-  This method makes a numerical integration using the 
-  fourth-order Runge-Kutta method.
+    A step integration of the equations of translational motion.  
+    
+    This method makes a numerical integration using the 
+    fourth-order Runge-Kutta method.
 
-  The integrated derivatives are of three dimensional translational motion as 
-  given by 
-  :func:`eqm3 <eqm3>`. 
-
-
-  The result is an integrated state in a single interval of time where the 
-  size of the step is determined by the parameter `dt`.
-
-  
-  Parameters
-  ----------
-  dp : :class:`datapoint <c4dynamics.states.lib.datapoint.datapoint>`
-      The datapoint which state vector is to be integrated. 
-  forces : numpy.array or list
-      An external forces array acting on the body.  
-  dt : float
-      Time step for integration.
-  derivs_out : bool, optional
-      If true, returns the last three derivatives as an estimation for 
-      the acceleration of the datapoint. 
-      
-
-  Returns
-  -------
-  X : numpy.float64
-      An integrated state. 
-  dxdt4 : numpy.float64, optional
-      The last three derivatives of the equations of motion.
-      These derivatives can use as an estimation for the acceleration of the datapoint. 
-      Returned if `derivs_out` is set to `True`.
+    The integrated derivatives are of three dimensional translational motion as 
+    given by 
+    :func:`eqm3 <c4dynamics.eqm.derivs.eqm3>`. 
 
 
+    The result is an integrated state in a single interval of time where the 
+    size of the step is determined by the parameter `dt`.
 
-  **Algorithm**
-  
-  
-  The integration steps follow the Runge-Kutta method:
+    
+    Parameters
+    ----------
+    dp : :class:`datapoint <c4dynamics.states.lib.datapoint.datapoint>`
+        The datapoint which state vector is to be integrated. 
+    forces : numpy.array or list
+        An external forces array acting on the body.  
+    dt : float
+        Time step for integration.
+    derivs_out : bool, optional
+        If true, returns the last three derivatives as an estimation for 
+        the acceleration of the datapoint. 
+        
 
-  1. Compute k1 = f(ti, yi)
+    Returns
+    -------
+    X : numpy.float64
+        An integrated state. 
+    dxdt4 : numpy.float64, optional
+        The last three derivatives of the equations of motion.
+        These derivatives can use as an estimation for the acceleration of the datapoint. 
+        Returned if `derivs_out` is set to `True`.
 
-  2. Compute k2 = f(ti + dt / 2, yi + dt * k1 / 2)
 
-  3. Compute k3 = f(ti + dt / 2, yi + dt * k2 / 2)
 
-  4. Compute k4 = f(ti + dt, yi + dt * k3)
+    **Algorithm**
+    
+    
+    The integration steps follow the Runge-Kutta method:
 
-  5. Update yi = yi + dt / 6 * (k1 + 2 * k2 + 2 * k3 + k4)
-  
+    1. Compute k1 = f(ti, yi)
 
-  
-  Examples
-  --------
+    2. Compute k2 = f(ti + dt / 2, yi + dt * k1 / 2)
 
-  Run the equations of motion on a  
-  mass in a free fall:
-  
-  .. code:: 
+    3. Compute k3 = f(ti + dt / 2, yi + dt * k2 / 2)
 
-    >>> h0 = 100
-    >>> dp = c4d.datapoint(z = h0)
-    >>> dt = 1e-2
-    >>> t = np.arange(0, 10, dt) 
-    >>> for ti in t:
-    ...   if dp.z < 0: break
-    ...   dp.X = int3(dp, [0, 0, -c4d.g_ms2], dt) 
-    ...   dp.store(ti)
-    >>> dp.plot('z')
-  
-  .. figure:: /_static/figures/int3_z.png
+    4. Compute k4 = f(ti + dt, yi + dt * k3)
 
-  **Compare `c4dynamics.eqm.int3` with an analytic soultion**
-  
+    5. Update yi = yi + dt / 6 * (k1 + 2 * k2 + 2 * k3 + k4)
+    
 
-  .. code::
+    
+    Examples
+    --------
 
-    >>> z = h0 - .5 * c4d.g_ms2 * t**2 
-    >>> fig = plt.subplots()
-    >>> plt.plot(t[z > 0], z[z > 0], 'm', linewidth = 3, label = 'analytic')
-    >>> ptz = dp.data('z')
-    >>> plt.plot(dp.data('t')[ptz > 0], ptz[ptz > 0], 'c', linewidth = 1, label = 'c4dynamics.eqm.int3')
-      
-  .. figure:: /_static/figures/int3_vs_analytic.png
+    Runge-Kutta integration of the equations of motion on a mass in a free fall
+    (compare to the same example in :func:`eqm3 <c4dynamics.eqm.derivs.eqm3>` with Euler integration):
+    
+    Import required packages
 
-  
+
+    .. code:: 
+
+      >>> import c4dynamics as c4d 
+
+    .. code:: 
+
+      >>> pt = c4d.datapoint(z = 10000)
+      >>> while pt.z > 0:
+      ...   pt.store()
+      ...   pt.X = c4d.eqm.int3(pt, [0, 0, -c4d.g_ms2], dt = 1)
+
+    .. figure:: /_examples/eqm/int3.png
+    
   '''
   
 
@@ -138,143 +130,172 @@ def int3(dp: 'datapoint', forces: Union[np.ndarray, list]
   ##
 
 
-# 
+def int6(rb: 'rigidbody', forces: Union[np.ndarray, list], moments: Union[np.ndarray, list]
+          , dt: float, derivs_out: bool = False
+            ) -> Union[NDArray[np.float64], Tuple[NDArray[np.float64], NDArray[np.float64]]]:
 
-# def int6(rb, forces, moments, dt, derivs_out = False): 
-def int6(rb: 'rigidbody', forces: Union[np.ndarray, list], moments: Union[np.ndarray, list], dt: float, derivs_out: bool = False) -> Union[np.float64, Tuple[np.float64, np.float64]]:
   '''
-  A step integration of the equations of motion.  
+    A step integration of the equations of motion.  
+      
+    This method makes a numerical integration using the 
+    fourth-order Runge-Kutta method.
+
+    The integrated derivatives are of three dimensional translational motion as 
+    given by
+    :func:`eqm6 <c4dynamics.eqm.derivs.eqm6>`.
+
+
+    The result is an integrated state in a single interval of time where the 
+    size of the step is determined by the parameter `dt`.
+
     
-  This method makes a numerical integration using the 
-  fourth-order Runge-Kutta method.
+    Parameters
+    ----------
+    dp : :class:`datapoint <c4dynamics.states.lib.datapoint.datapoint>`
+        The datapoint which state vector is to be integrated. 
+    forces : numpy.array or list
+        An external forces array acting on the body.  
+    dt : float
+        Time step for integration.
+    derivs_out : bool, optional
+        If true, returns the last three derivatives as an estimation for 
+        the acceleration of the datapoint. 
+        
 
-  The integrated derivatives are of three dimensional translational motion as 
-  given by
-  :func:`eqm6 <eqm6>`.
+    Returns
+    -------
+    X : numpy.float64
+        An integrated state. 
+    dxdt4 : numpy.float64, optional
+        The last six derivatives of the equations of motion.
+        These derivatives can use as an estimation for the
+        translational and angular acceleration of the datapoint. 
+        Returned if `derivs_out` is set to `True`.
+
+        
+    **Algorithm**
+    
+    
+    The integration steps follow the Runge-Kutta method:
+
+    1. Compute k1 = f(ti, yi)
+
+    2. Compute k2 = f(ti + dt / 2, yi + dt * k1 / 2)
+
+    3. Compute k3 = f(ti + dt / 2, yi + dt * k2 / 2)
+
+    4. Compute k4 = f(ti + dt, yi + dt * k3)
+
+    5. Update yi = yi + dt / 6 * (k1 + 2 * k2 + 2 * k3 + k4)
+    
+
+    Examples
+    --------
+
+    In the following example, the equations of motion of a 
+    cylinderical body are integrated by using the 
+    :func:`int6 <c4dynamics.eqm.integrate.int6>`. 
+
+    The results are compared to the results of the same equations 
+    integrated by using `scipy.odeint`.
+
+    
+    1. `int6`
 
 
-  The result is an integrated state in a single interval of time where the 
-  size of the step is determined by the parameter `dt`.
+    Import required packages
 
-  
-  Parameters
-  ----------
-  dp : :class:`datapoint <c4dynamics.states.lib.datapoint.datapoint>`
-      The datapoint which state vector is to be integrated. 
-  forces : numpy.array or list
-      An external forces array acting on the body.  
-  dt : float
-      Time step for integration.
-  derivs_out : bool, optional
-      If true, returns the last three derivatives as an estimation for 
-      the acceleration of the datapoint. 
+    .. code:: 
+
+      >>> import c4dynamics as c4d
+      >>> from matplotlib import pyplot as plt 
+      >>> from scipy.integrate import odeint
+      >>> import numpy as np 
+
+
+    Settings and initial conditions 
+
+    .. code:: 
+
+      >>> dt = 0.5e-3 
+      >>> t  = np.arange(0, 10, dt)
+      >>> theta0 =  80 * c4d.d2r       # deg 
+      >>> q0     =  0 * c4d.d2r        # deg to sec
+      >>> Iyy    =  .4                 # kg * m^2 
+      >>> length =  1                  # meter 
+      >>> mass   =  0.5                # kg 
+
       
-
-  Returns
-  -------
-  X : numpy.float64
-      An integrated state. 
-  dxdt4 : numpy.float64, optional
-      The last six derivatives of the equations of motion.
-      These derivatives can use as an estimation for the
-      translational and angular acceleration of the datapoint. 
-      Returned if `derivs_out` is set to `True`.
+    Define the cylinderical-rigidbody object 
+    
+    .. code:: 
+    
+      >>> rb = c4d.rigidbody(theta = theta0, q = q0)
+      >>> rb.I = [0, Iyy, 0] 
+      >>> rb.mass = mass
 
       
-  **Algorithm**
-  
-  
-  The integration steps follow the Runge-Kutta method:
+    Main loop:
 
-  1. Compute k1 = f(ti, yi)
+    .. code:: 
 
-  2. Compute k2 = f(ti + dt / 2, yi + dt * k1 / 2)
+      >>> for ti in t: 
+      ...   rb.store(ti)
+      ...   tau_g = -rb.mass * c4d.g_ms2 * length / 2 * c4d.cos(rb.theta)
+      ...   rb.X = c4d.eqm.int6(rb, np.zeros(3), [0, tau_g, 0], dt)
+    
+      
+    .. code:: 
 
-  3. Compute k3 = f(ti + dt / 2, yi + dt * k2 / 2)
-
-  4. Compute k4 = f(ti + dt, yi + dt * k3)
-
-  5. Update yi = yi + dt / 6 * (k1 + 2 * k2 + 2 * k3 + k4)
-  
-
-  Examples
-  --------
-
-  In the following example, the equations of motion of a 
-  cylinderical body are integrated by using the 
-  :func:`int6 <c4dynamics.eqm.int6>`. 
-
-  The results are compared to the results of the same equations 
-  integrated by using `scipy.odeint`.
-
-  1. `c4dynamics.eqm.int6`
-
-  .. code:: 
-
-    >>> # settings and initial conditions 
-    >>> dt = .5e-3 
-    >>> t = np.arange(0, 10, dt)
-    >>> theta0 =  80 * c4d.d2r       # deg 
-    >>> q0     =  0 * c4d.d2r        # deg to sec
-    >>> Iyy    =  .4                 # kg * m^2 
-    >>> length =  1                  # meter 
-    >>> mass   =  0.5                # kg 
-    >>> # define the cylinderical-rigidbody object 
-    >>> rb = c4d.rigidbody(theta = theta0, q = q0)
-    >>> rb.I = [0, Iyy, 0] 
-    >>> rb.mass = mass
-    >>> # integrate the equations of motion 
-    >>> for ti in t: 
-    ...   tau_g = -rb.mass * c4d.g_ms2 * length / 2 * c4d.cos(rb.theta)
-    ...   rb.X = c4d.eqm.int6(rb, np.zeros(3), [0, tau_g, 0], dt)
-    ...   rb.store(ti)
-    >>> rb.plot('theta')
-  
-  .. figure:: /_static/figures/eqm6_theta.png
+      >>> rb.plot('theta')
+    
+    .. figure:: /_examples/eqm/int6.png
 
 
-  2. `scipy.odeint`
+    2. `scipy.odeint`
 
-  .. code:: 
+    .. code:: 
 
-    >>> def pend(y, t):
-    ...  theta, omega = y
-    ...  dydt = [omega, -rb.mass * c4d.g_ms2 * length / 2 * c4d.cos(theta) / Iyy]
-    ...  return dydt
-    >>> sol = odeint(pend, [theta0, q0], t)
-    >>> fig = plt.subplots()
-    >>> plt.plot(rb.data('t'), rb.data('theta') * c4d.r2d, 'c', linewidth = 2, label = 'c4dynamics.eqm.int6')
-    >>> plt.plot(t, sol[:, 0] * c4d.r2d, 'm', linewidth = 2, label = 'scipy.odeint')
+      >>> def pend(y, t):
+      ...  theta, omega = y
+      ...  dydt = [omega, -rb.mass * c4d.g_ms2 * length / 2 * c4d.cos(theta) / Iyy]
+      ...  return dydt
+      >>> sol = odeint(pend, [theta0, q0], t)
 
+      
+    Compare to `int6`: 
 
-  .. figure:: /_static/figures/int6_scipy_vs_c4d.png
+    .. code:: 
 
-  **Note - Differences Between Scipy and C4dynamics Integration**
-  
-  
-  The difference in the results derive from the method of delivering the 
-  forces and moments.
-  scipy.odeint gets as input the function that caluclates the derivatives, 
-  where the forces and moments are included in it: 
-  
-  `dydt = [omega, -rb.mass * c4d.g_ms2 * length / 2 * c4d.cos(theta) / Iyy]`
+      >>> plt.plot(*rb.data('theta', c4d.r2d), 'm', label = 'c4dynamics.int6')  # doctest: +IGNORE_OUTPUT
+      >>> plt.plot(t, sol[:, 0] * c4d.r2d, 'c', label = 'scipy.odeint')         # doctest: +IGNORE_OUTPUT
+      >>> c4d.plotdefaults(plt.gca(), 'Equations of Motion Integration ($\\theta$)', 'Time', 'degrees', fontsize = 12)
+      >>> plt.legend() # doctest: +IGNORE_OUTPUT
 
-  This way, the forces and moments are recalculated for each step of 
-  the integration.
+      
+    .. figure:: /_examples/eqm/int6_vs_scipy.png
 
-  c4dynamics.eqm.int6 on the other hand, gets the vectors of forces and moments
-  only once when the function is called and therefore refer to them as constant 
-  for the four steps of integration. 
+    
+    **Note - Differences Between Scipy and C4dynamics Integration**
+    
+    The difference in the results derive from the method of delivering the 
+    forces and moments.
+    scipy.odeint gets as input the function that caluclates the derivatives, 
+    where the forces and moments are included in it: 
+    
+    `dydt = [omega, -rb.mass * c4d.g_ms2 * length / 2 * c4d.cos(theta) / Iyy]`
 
-  When external factors may vary quickly over time and a high level of
-  accuracy is required, using other methods, like scipy.odeint, is recommanded. 
-  If computational resources are available, a decrement of the step-size 
-  may be a workaround to achieve high accuracy results.
+    This way, the forces and moments are recalculated for each step of 
+    the integration.
 
-  **Results for `dt = 1msec`**
-  
+    c4dynamics.eqm.int6 on the other hand, gets the vectors of forces and moments
+    only once when the function is called and therefore refer to them as constant 
+    for the four steps of integration. 
 
-  .. figure:: /_static/figures/int6_scipy_vs_c4d_dt001.png
+    When external factors may vary quickly over time and a high level of
+    accuracy is required, using other methods, like scipy.odeint, is recommanded. 
+    If computational resources are available, a decrement of the step-size 
+    may be a workaround to achieve high accuracy results.
 
 
   '''
@@ -283,62 +304,56 @@ def int6(rb: 'rigidbody', forces: Union[np.ndarray, list], moments: Union[np.nda
   x0 = rb.X
   X  = rb.X
       
-  # print('t: ' + str(t) + ', f: ' + str(forces) + ', m: ' + str(moments))
-
   # step 1
   h1 = eqm6(rb, forces, moments)
-  # yt = 
-  # rb.update(np.concatenate((yt[0 : 6], np.zeros(3), yt[6 : 12], np.zeros(3)), axis = 0))
   X = x0 + dt / 2 * h1 
-  
-  # print('dydx: ' + str(dydx))
-  # print('yt: ' + str(yt))
-
+ 
   # step 2 
   h2 = eqm6(rb, forces, moments)
-  # yt = 
-  # rb.update(np.concatenate((yt[0 : 6], np.zeros(3), yt[6 : 12], np.zeros(3)), axis = 0))
   X = x0 + dt / 2 * h2 
-  
-  # print('dyt: ' + str(dyt))
-  # print('yt: ' + str(yt))
   
   # step 3 
   h3 = eqm6(rb, forces, moments)
-  # yt =
-  # rb.update(np.concatenate((yt[0 : 6], np.zeros(3), yt[6 : 12], np.zeros(3)), axis = 0))
   X = x0 + dt * h3 
-  
-  # print('dym: ' + str(dym))
-  # print('yt: ' + str(yt))
-  
-  # print('dym: ' + str(dym))
   
   # step 4
   h4 = eqm6(rb, forces, moments)
-  # print('dyt: ' + str(dyt))
-  # print('yout: ' + str(yout))
 
-  if (h1[10] - h2[10]) != 0:
-    print(np.linalg.norm((h2[10] - h3[10]) / (h1[10] - h2[10])))
-
-  # rb.update(np.concatenate((yout[0 : 6], dyt[3 : 6], yout[6 : 12], dyt[9 : 12]), axis = 0))
   
   X = x0 + dt / 6 * (h1 + 2 * h2 + 2 * h3 + h4) 
-    
-  # # rb.ax, rb.ay, rb.az = dxdt4[3 : 6] # dyt[-3:]
-  # # rb.p_dot, rb.q_dot, rb.r_dot = dxdt4[9 : 12] # dyt[-3:]
-  # return h4[3 : 6] + h4[9 : 12]
-  # ##
-
-
-
-
+  
   if not derivs_out: 
     return X
   
   # return also the derivatives. 
-  return X, h4[3 : 6] + h4[9 : 12]
+  #                0   1   2   3    4    5    6     7       8     9   10  11 
+  # h4 = np.array([dx, dy, dz, dvx, dvy, dvz, dphi, dtheta, dpsi, dp, dq, dr])
+  return X, np.concatenate([h4[3 : 6], h4[9 : 12]]) # X, [dvx, dvy, dvz, dp, dq, dr]
   
   ##
+
+
+if __name__ == "__main__":
+
+  import doctest, contextlib, os
+  from c4dynamics import IgnoreOutputChecker, cprint
+  
+  # Register the custom OutputChecker
+  doctest.OutputChecker = IgnoreOutputChecker
+
+  tofile = False 
+  optionflags = doctest.FAIL_FAST
+
+  if tofile: 
+    with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
+      with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
+        result = doctest.testmod(optionflags = optionflags) 
+  else: 
+    result = doctest.testmod(optionflags = optionflags)
+
+  if result.failed == 0:
+    cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
+  else:
+    print(f"{result.failed}")
+
 

@@ -1,9 +1,15 @@
 import os
 import imageio
 import natsort
+import warnings
+
+import sys 
+sys.path.append('.')
+import c4dynamics as c4d 
+
 
 def gif(dirname, gif_name, duration = None):
-    '''
+  '''
 
     Gif creator.
 
@@ -25,52 +31,112 @@ def gif(dirname, gif_name, duration = None):
         
     Example
     -------
+
+    1. Prepare trajectory to animate. 
+
+
+    Import required packages:
+
     .. code::
 
+      >>> import c4dynamics as c4d 
       >>> from IPython.display import Image
+      >>> import numpy as np 
+      >>> import os 
+
+      
+    Settings and initial conditions:
+
+    .. code::
+
       >>> f16 = c4d.rigidbody()
-      >>> dt = .01
+      >>> dt = 0.01
+
+    
+    Main loop:
+
+    .. code::
+
       >>> for t in np.arange(0, 9, dt): 
-      ...     # in 3 seconds make 180 deg: 
-      ...     if t < 3: 
-      ...         f16.psi += dt * 180 * c4d.d2r / 3
-      ...     elif t < 6: 
-      ...         f16.theta += dt * 180 * c4d.d2r / 3
-      ...     else:
-      ...         f16.phi -= dt * 180 * c4d.d2r / 3 
-      ...     f16.store(t)
+      ...  # in 3 seconds make 180 deg: 
+      ...  if t < 3: 
+      ...    f16.psi += dt * 180 * c4d.d2r / 3
+      ...  elif t < 6: 
+      ...    f16.theta += dt * 180 * c4d.d2r / 3
+      ...  else:
+      ...    f16.phi -= dt * 180 * c4d.d2r / 3 
+      ...  f16.store(t)
+
+      
+    2. Animate and save image files. 
+   
+    (Use c4dynamics' :mod:`datasets <c4dynamics.datasets>` to fetch F16 3D model.)
+
+    .. code::
+
+      >>> f16path = c4d.datasets.d3_model('f16') 
+      Fetched successfully
       >>> x0 = [90 * c4d.d2r, 0, 180 * c4d.d2r] 
-      >>> modelpath = os.path.join(os.getcwd(), 'examples\\resources\\f16')
-      >>> outfol = os.path.join(os.getcwd(), 'examples\\out\\f16_monochrome_gif')
-      >>> f16.animate(modelpath, savedir = outfol, angle0 = x0, modelcolor = [0, 0, 0], cbackground = [230 / 255, 230 / 255, 255 / 255])
+      >>> outfol = os.path.join('tests', '_out', 'f16b')
+      >>> f16.animate(f16path, savedir = outfol, angle0 = x0, modelcolor = [0, 0, 0], cbackground = [230 / 255, 230 / 255, 255 / 255])
+      
+      
+    3. Export images as gif.
+
+    .. code::
+
       >>> gifname = 'f16_monochrome_gif.gif'
       >>> c4d.gif(outfol, gifname, duration = 1)
-      >>> Image(filename = os.path.join(outfol, gifpath)) 
+      >>> Image(filename = os.path.join(outfol, gifname)) 
 
     .. figure:: /_examples/animate/f16_monochrome_gif.gif
     
-    '''
-    dirfiles = natsort.natsorted(os.listdir(dirname)) 
-    imgfiles = [f for f in dirfiles if f.lower().endswith(('.png', '.jpg', '.jpeg', 'bmp', '.tiff'))] 
+  '''
+  dirfiles = natsort.natsorted(os.listdir(dirname)) 
+  imgfiles = [f for f in dirfiles if f.lower().endswith(('.png', '.jpg', '.jpeg', 'bmp', '.tiff'))] 
 
-    # dirfiles.sort(key = lambda f: int(''.join(filter(str.isdigit, f))))
-    # dirfiles = [f for f in listdir(dirname) if isfile(join(dirname, f))]
+  if not imgfiles: 
+    warnings.warn(f"""No image files in {dirfiles}. ('.png', '.jpg', '.jpeg', 'bmp', '.tiff', are supported). """ , c4d.c4warn)
+    return None
 
-    # x = (frame_rate � duratio) / total number of images
+  fps = 60 # 60hz (60frames per second) -> 16.6msec
+  if duration is None: 
+    interval = 1
+  else: 
+    # FIXME sth here is wrong. see the test test_specified_fps_effect currently disabled. 
+    interval = max(int(len(imgfiles) / (duration * fps)), 1)
 
-    fps = 60 # 60hz (60frames per second) -> 16.6msec
-    if duration is None: 
-        interval = 1
-    else: 
-        interval = int(len(imgfiles) / (duration * fps))
+  images = []
 
-    images = []
+  for i in range(0, len(imgfiles), interval):
+    images.append(imageio.v2.imread(os.path.join(dirname, imgfiles[i])))
 
-    for i in range(0, len(imgfiles), interval):
-        images.append(imageio.imread(os.path.join(dirname, imgfiles[i])))
+  gif_name = gif_name if gif_name.endswith('.gif') else gif_name + '.gif'
+  imageio.mimsave(os.path.join(dirname, gif_name)
+                      , images, loop = 0, duration = int(1000 * 1 / fps))
 
-    gif_name = gif_name if gif_name.endswith('.gif') else gif_name + '.gif'
-    imageio.mimsave(os.path.join(dirname, gif_name)
-                        , images, loop = 0, duration = int(1000 * 1 / fps))
+
+if __name__ == "__main__":
+
+  import doctest, contextlib
+  from c4dynamics import IgnoreOutputChecker, cprint
+  
+  # Register the custom OutputChecker
+  doctest.OutputChecker = IgnoreOutputChecker
+
+  tofile = False 
+  optionflags = doctest.FAIL_FAST
+
+  if tofile: 
+    with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
+      with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
+        result = doctest.testmod(optionflags = optionflags) 
+  else: 
+    result = doctest.testmod(optionflags = optionflags)
+
+  if result.failed == 0:
+    cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
+  else:
+    print(f"{result.failed}")
 
 

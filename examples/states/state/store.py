@@ -1,3 +1,5 @@
+# type: ignore
+
 import os, sys
 sys.path.append('')
 import numpy as np 
@@ -5,6 +7,13 @@ import c4dynamics as c4d
 from matplotlib import pyplot as plt 
 plt.style.use('dark_background')  
 plt.switch_backend('TkAgg')
+
+
+
+
+c4path = c4d.c4dir(os.getcwd())
+savedir = os.path.join(c4path, 'docs', 'source', '_examples', 'state') 
+
 
 
 
@@ -53,8 +62,8 @@ s.store(0.5)
 s.z = 0.33 
 s.store(1)
 
-s.plot('z', filename = 'D:\\Dropbox\\c4dynamics\\docs\\source\\_examples\\z.png')
-
+s.plot('z', filename = c4d.j(savedir, 'store_z.png'))
+plt.show(block = True)
 
 
 

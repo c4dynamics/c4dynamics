@@ -48,11 +48,11 @@ axes and the directions of positive rotations
 about the axes are arbitrary.
 In right-handed systems:
 
-.. code:: 
+:: 
 
-  >>> i x j = k
-  >>> j x k = i
-  >>> k x i = j
+  i x j = k
+  j x k = i
+  k x i = j
 
 where i is the unit vector in the direction of the x-axis,
 j is the unit vector in the direction of the y-axis, 
@@ -66,7 +66,7 @@ These conventions are illustrated
 in Fig-1.
 
 
-.. figure:: /_static/figures/frames_conventions.svg
+.. figure:: /_static/frame_conventions.svg
    
    Fig-1: Coordinate System Conventions 
 
@@ -102,9 +102,36 @@ For examples, see the various functions.
 # but it can be expressed in any reference frame. 
 
 
+import sys 
+sys.path.append('.')
 
-from .rotmat import rotx, roty, rotz, dcm321, dcm321euler
-from .animate import animate  
+from c4dynamics.rotmat.rotmat import rotx, roty, rotz, dcm321, dcm321euler
+from c4dynamics.rotmat.animate import animate  
+
+
+
+if __name__ == "__main__":
+
+  import doctest, contextlib, os
+  from c4dynamics import IgnoreOutputChecker, cprint
+  
+  # Register the custom OutputChecker
+  doctest.OutputChecker = IgnoreOutputChecker
+
+  tofile = False 
+  optionflags = doctest.FAIL_FAST
+
+  if tofile: 
+    with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
+      with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
+        result = doctest.testmod(optionflags = optionflags) 
+  else: 
+    result = doctest.testmod(optionflags = optionflags)
+
+  if result.failed == 0:
+    cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
+  else:
+    print(f"{result.failed}")
 
 
 

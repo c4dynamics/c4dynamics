@@ -2,11 +2,10 @@ from typing import Optional
 import hashlib
 import shutil
 import os, sys 
+
 sys.path.append('.')
-
-
-# from ._registry import CACHE_DIR, image_register, video_register, nn_register, d3_register, d3_f16_register
 from c4dynamics.datasets._registry import CACHE_DIR, image_register, video_register, nn_register, d3_register, d3_f16_register
+
 
 imagesmap = {'planes': 'planes.png', 'planes.png': 'planes.png', 'triangle': 'triangle.png', 'triangle.png': 'triangle.png'}
 videosmap = {'aerobatics': 'aerobatics.mp4', 'aerobatics.mp4': 'aerobatics.mp4'
@@ -14,6 +13,7 @@ videosmap = {'aerobatics': 'aerobatics.mp4', 'aerobatics.mp4': 'aerobatics.mp4'
 nnsmap    = {'yolov3': 'yolov3.weights', 'yolo_v3': 'yolov3.weights', 'yolov3.weights': 'yolov3.weights'}
 d3smap    = {'f16': 'f16', 'f_16': 'f16', 'bunny': 'bunny.pcd', 'bunnymesh': 'bunny_mesh.ply', 'bunny_mesh': 'bunny_mesh.ply'
                 , 'bunny.pcd': 'bunny.pcd', 'bunnymesh.ply': 'bunny_mesh.ply', 'bunny_mesh.ply': 'bunny_mesh.ply'}
+
 
 def image(image_name: str) -> str:
   ''' 
@@ -70,8 +70,8 @@ def image(image_name: str) -> str:
       >>> impath = c4d.datasets.image('planes')
       Fetched successfully
       >>> img = mpimg.imread(impath) # read image 
-      >>> plt.imshow(img)
-      >>> plt.axis('off')
+      >>> plt.imshow(img) # doctest: +IGNORE_OUTPUT 
+      >>> plt.axis('off') # doctest: +IGNORE_OUTPUT 
 
     .. figure:: /_examples/datasets/planes.png
 
@@ -83,8 +83,8 @@ def image(image_name: str) -> str:
       >>> impath = c4d.datasets.image('triangle')
       Fetched successfully
       >>> img = mpimg.imread(impath) # read image 
-      >>> plt.imshow(img)   
-      >>> plt.axis('off')
+      >>> plt.imshow(img)   # doctest: +IGNORE_OUTPUT
+      >>> plt.axis('off')   # doctest: +IGNORE_OUTPUT
 
     .. figure:: /_examples/datasets/triangle.png
     
@@ -160,7 +160,7 @@ def video(video_name: str) -> str:
       ...   ret, frame = cap.read() 
       ...   if not ret: break
       ...   cv2.imshow('aerobatics', frame)  
-      ...   cv2.waitKey(33)
+      ...   cv2.waitKey(33) # doctest: +IGNORE_OUTPUT 
       >>> cap.release()
       >>> cv2.destroyAllWindows()
 
@@ -233,15 +233,15 @@ def nn_model(nn_name: str) -> str:
       >>> impath = c4d.datasets.nn_model('yolov3')
       Fetched successfully
       >>> net = cv2.dnn.readNet(impath, 'c4dynamics/detectors/yolov3.cfg')
-      >>> for i, layer in enumerate(layer_names):
+      >>> for i, layer in enumerate(net.getLayerNames()): 
       ...   print(f"Layer {i}:\t{layer}")
       ...   if i > 4: break 
-      Layer 0:        conv_0
-      Layer 1:        bn_0
-      Layer 2:        leaky_1
-      Layer 3:        conv_1
-      Layer 4:        bn_1
-      Layer 5:        leaky_2
+      Layer 0:  conv_0
+      Layer 1:  bn_0
+      Layer 2:  leaky_1
+      Layer 3:  conv_1
+      Layer 4:  bn_1
+      Layer 5:  leaky_2
 
     
   '''
@@ -333,7 +333,7 @@ def d3_model(d3_name: str) -> str:
       >>> mbunnypath = c4d.datasets.d3_model('bunny_mesh')
       Fetched successfully
       >>> ply = o3d.io.read_triangle_mesh(mbunnypath)
-      >>> ply.compute_vertex_normals()
+      >>> ply.compute_vertex_normals() # doctest: +IGNORE_OUTPUT 
       >>> print(ply)
       TriangleMesh with 35947 points and 69451 triangles.
       >>> o3d.visualization.draw_geometries([ply])
@@ -408,7 +408,7 @@ def download_all() -> None:
         - 'planes.png', 'triangle.png'
       
       * - Videos
-        - 'aerobatics.mp4'
+        - 'aerobatics.mp4', 'drifting_car.mp4'
       
       * - Neural Networks
         - 'yolov3.weights'
@@ -498,6 +498,13 @@ def clear_cache(dataset: Optional[str] = None) -> None:
 
       >>> # download all 
       >>> c4d.datasets.download_all()
+      Fetched successfully
+      Fetched successfully
+      Fetched successfully
+      Fetched successfully
+      Fetched successfully
+      Fetched successfully
+      Fetched successfully
       >>> # clear all and verify 
       >>> c4d.datasets.clear_cache()
       >>> for root, dirs, files in os.walk(CACHE_DIR):
@@ -564,9 +571,26 @@ def sha256(filename: str) -> str:
 
 
 if __name__ == "__main__":
-  import doctest
-  doctest.testmod()
- 
 
+  import doctest, contextlib
+  from c4dynamics import IgnoreOutputChecker, cprint
+  
+  # Register the custom OutputChecker
+  doctest.OutputChecker = IgnoreOutputChecker
+
+  tofile = False 
+  optionflags = doctest.FAIL_FAST
+
+  if tofile: 
+    with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
+      with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
+        result = doctest.testmod(optionflags = optionflags) 
+  else: 
+    result = doctest.testmod(optionflags = optionflags)
+
+  if result.failed == 0:
+    cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
+  else:
+    print(f"{result.failed}")
 
 

@@ -1,3 +1,5 @@
+# type: ignore
+
 import sys, os
 sys.path.append('')
 import c4dynamics as c4d
@@ -72,7 +74,10 @@ def mass():
 
   '''
   # 
-  t1, t2, dt = 0, 10, 0.01
+  dt = 0.01
+  t1 = 0
+  t2 = 10 + dt 
+
   F = [0, 0, .5]
 
   hballoon1 = c4d.datapoint(vx = 10 * c4d.k2ms)
@@ -82,15 +87,17 @@ def mass():
   hballoon10.mass = 10 
 
   for t in np.arange(t1, t2, dt):
-    hballoon1.X = int3(hballoon1, F, dt)
+    
     hballoon1.store(t)
-    hballoon10.X = int3(hballoon10, F, dt)
     hballoon10.store(t)
+
+    hballoon1.X = int3(hballoon1, F, dt)
+    hballoon10.X = int3(hballoon10, F, dt)
 
 
 
   hballoon1.plot('Side')
-  hballoon10.plot('Side', ax = plt.gca(), linecolor = 'c', filename = os.path.join(savedir, 'mass_balloon.png'))
+  hballoon10.plot('Side', ax = plt.gca(), filename = os.path.join(savedir, 'mass_balloon.png'))
 
 
 
@@ -109,10 +116,10 @@ def plot():
 
 if __name__ == '__main__': 
 
-  intro()
-  initials()
+  # intro()
+  # initials()
   mass()
-  plot() 
+  # plot() 
 
 
   plt.show()
