@@ -27,6 +27,7 @@ Thumbs.db
 x.png 
 pyrightconfig.json 
 
+
 # files in subfolders 
 # ===================
 c4dynamics/filters/a.py 
@@ -40,20 +41,23 @@ examples/filters/04-One-Dimensional-Kalman-Filters.ipynb
 
 # folders in the base 
 # ===================
-examples/_out 
-programs/_out 
-tests/_out  
-examples/temp 
-programs/temp 
-
-
-# subfolders 
-# ==========
 __pycache__ 
 .pytest_cache/ 
 .venv/ 
 .vscode/ 
 untracked/ 
+build/
+c4dynamics.egg-info/
+dist/
+
+
+# subfolders 
+# ==========
+examples/_out 
+programs/_out 
+tests/_out  
+examples/temp 
+programs/temp 
 
 
 
