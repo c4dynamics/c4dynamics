@@ -1,10 +1,8 @@
 import numpy as np
-# from scipy.integrate import solve_ivp 
+import sys 
+sys.path.append('.')
+import c4dynamics as c4d 
 
-import c4dynamics as c4d
-# from c4dynamics.src.main.py.eqm.eqm6 import eqm6
-from c4dynamics.eqm import eqm6
-from c4dynamics.rotmat import dcm321
 from c4dynamics.states.lib.datapoint import datapoint
 
 class rigidbody(datapoint):  # 
@@ -64,8 +62,12 @@ class rigidbody(datapoint):  #
 
   .. code::
 
-    >>> rb = c4d.rigidbody(z = 1000, theta = 10 * c4d.d2r, q = 0.5 * c4d.d2r)
-    >>> rb.X0
+    >>> from c4dynamics import rigidbody
+
+  .. code::
+
+    >>> rb = rigidbody(z = 1000, theta = 10 * c4d.d2r, q = 0.5 * c4d.d2r)
+    >>> rb.X0 # doctest: +NUMPY_FORMAT
     [0  0  1000  0  0  0  0  0.174  0  0  0.0087  0]
 
 
@@ -112,9 +114,9 @@ class rigidbody(datapoint):  #
   `scipy's odeint` is employed to solve the 
   dynamics equations and update the state vector `X`. 
 
+  
   import required packages: 
 
-  
   .. code:: 
   
     >>> import c4dynamics as c4d 
@@ -122,6 +124,8 @@ class rigidbody(datapoint):  #
     >>> from scipy.integrate import odeint
     >>> import numpy as np 
   
+    
+  Settings and initial conditions: 
     
   .. code:: 
   
@@ -139,9 +143,9 @@ class rigidbody(datapoint):  #
 
   .. code:: 
     
-    >>> f16.plot('z')
-    >>> f16.plot('z', ax = ax[0])
-    >>> ax[0].set(xlabel = '')
+    >>> _, ax = plt.subplots(2, 1) 
+    >>> f16.plot('z', ax = ax[0])   # doctest: +IGNORE_OUTPUT
+    >>> ax[0].set(xlabel = '')  # doctest: +IGNORE_OUTPUT
     >>> f16.plot('theta', ax = ax[1], scale = c4d.r2d)
     >>> plt.show()
 
@@ -156,6 +160,7 @@ class rigidbody(datapoint):  #
   .. code:: 
 
     >>> modelpath = c4d.datasets.d3_model('f16') 
+    Fetched successfully
 
   .. code:: 
 
@@ -165,6 +170,13 @@ class rigidbody(datapoint):  #
   .. figure:: /_examples/rigidbody/rb_intro_ap.gif
 
   '''
+  phi: float
+  theta: float
+  psi: float
+  p: float
+  q: float
+  r: float
+  
 
   _ixx = 0
   _iyy = 0
@@ -242,34 +254,64 @@ class rigidbody(datapoint):  #
     :math:`g` is the gravity acceleration, 
     and :math:`I` is the moment of inertia about :math:`y`, :math:`I_{yy1} = 0.5, I_{yy2} = 0.05`
 
+    
+    Import required packages: 
+
     .. code::
 
+      >>> import c4dynamics as c4d
+      >>> from matplotlib import pyplot as plt  
       >>> from scipy.integrate import odeint
-      >>> b = .05
-      >>> dt = .5e-3 
+      >>> import numpy as np 
+
+      
+    Settings and initial condtions: 
+
+    .. code::
+
+      >>> b = 0.5
+      >>> dt = 0.01 
       >>> g = c4d.g_ms2 
       >>> theta0 = 80 * c4d.d2r
       >>> rb05  = c4d.rigidbody(theta = theta0)
       >>> rb05.I = [0, .5, 0] 
       >>> rb005 = c4d.rigidbody(theta = theta0)
       >>> rb005.I = [0, .05, 0]
-      >>> # physical pendulum dynamics 
+
+      
+
+    Physical pendulum dynamics: 
+
+    .. code::
+
       >>> def pendulum(yin, t, Iyy):
       ...   theta, q = yin[7], yin[10]
       ...   yout = np.zeros(12)
-      ...   yout[7]  =  q
+      ...   yout[7] = q
       ...   yout[10] = -g * c4d.sin(theta) / Iyy - b * q
       ...   return yout
-      >>> # main loop 
-      >>> for ti in np.arange(0, 10, dt):
+
+      
+
+    Main loop 
+
+    .. code::
+
+      >>> for ti in np.arange(0, 5, dt):
       ...   # Iyy = 0.5 
       ...   rb05.X = odeint(pendulum, rb05.X, [ti, ti + dt], (rb05.I[1],))[1]
       ...   rb05.store(ti)
       ...   # Iyy = 0.05 
-      ...   rb005.X = odeint(pendulum, rb005.X, [ti, ti + dt], (rb005.I[1]))[1]
+      ...   rb005.X = odeint(pendulum, rb005.X, [ti, ti + dt], (rb005.I[1],))[1]
       ...   rb005.store(ti)
+
+      
+    Plot results:
+
+    .. code::
+
       >>> rb05.plot('theta')
-      >>> rb005.plot('theta', ax = plt.gca())
+      >>> rb005.plot('theta', ax = plt.gca(), color = 'c')
       >>> plt.show()
     
     .. figure:: /_examples/rigidbody/Iyy_pendulum.png
@@ -283,8 +325,6 @@ class rigidbody(datapoint):  #
     self._ixx = I[0]   
     self._iyy = I[1]  
     self._izz = I[2]  
-
-
 
 
   @property
@@ -312,7 +352,7 @@ class rigidbody(datapoint):  #
     .. code:: 
     
       >>> rb = c4d.rigidbody(phi = 135)
-      >>> rb.angles
+      >>> rb.angles # doctest: +NUMPY_FORMAT 
       [135  0  0]
     
     '''
@@ -345,14 +385,12 @@ class rigidbody(datapoint):  #
 
       >>> q0 = 30
       >>> rb = c4d.rigidbody(q = q0)
-      >>> rb.ang_rates
+      >>> rb.ang_rates # doctest: +NUMPY_FORMAT 
       [0  30  0]
 
     '''
     return np.array([self.p, self.q, self.r])
 
-
-  
 
   @property
   def BR(self): 
@@ -413,12 +451,12 @@ class rigidbody(datapoint):  #
       >>> v_inertial = [1, 0, 0]
       >>> rb = c4d.rigidbody(psi = 45 * c4d.d2r)
       >>> v_body = rb.BR @ v_inertial 
-      >>> v_body
-      [0.707  -0.707  0]
+      >>> v_body  # doctest: +NUMPY_FORMAT  
+      [0.707  -0.707  0.0]
 
     '''
 
-    return dcm321(phi = self.phi, theta = self.theta, psi = self.psi)
+    return c4d.rotmat.dcm321(phi = self.phi, theta = self.theta, psi = self.psi)
 
 
   @property 
@@ -483,16 +521,14 @@ class rigidbody(datapoint):  #
       >>> v_body = [np.sqrt(3), 0, 1]
       >>> rb = c4d.rigidbody(theta = 30 * c4d.d2r)
       >>> v_inertial = rb.RB @ v_body
-      >>> v_inertial
-      [2  0  0]
+      >>> v_inertial   # doctest: +NUMPY_FORMAT 
+      [2.0  0.0  0.0]
 
     '''
     return np.transpose(self.BR)
 
 
-
-
-  def inteqm(self, forces, moments, dt):
+  def inteqm(self, forces, moments, dt): # type: ignore 
     '''
     Advances the state vector, :attr:`rigidbody.X <c4dynamics.states.state.state.X>`, 
     with respect to the input
@@ -541,17 +577,40 @@ class rigidbody(datapoint):  #
     A torque is applied by spacecraft thrusters to stabilize 
     the roll in a constant rate.  
 
+    Import required packages: 
+
+    .. code::
+
+      >>> import c4dynamics as c4d 
+      >>> from matplotlib import pyplot as plt 
+      >>> import numpy as np 
+
+    
+    Settings and initial conditions: 
+
     .. code::
 
       >>> dt = 0.001
       >>> torque = [0.1, 0, 0]
       >>> rb = c4d.rigidbody()
       >>> rb.I = [0.5, 0, 0]  # Moment of inertia about x
+
+      
+    Main loop: 
+
+    .. code::
+
       >>> for ti in np.arange(0, 5, dt):
-      ...   rb.inteqm(np.zeros(3), torque, dt)  
+      ...   rb.inteqm(np.zeros(3), torque, dt)  # doctest: +IGNORE_OUTPUT
       ...   if rb.p >= 10 * c4d.d2r:
       ...     torque = [0, 0, 0]
       ...   rb.store(ti)  
+
+      
+    Plot results: 
+
+    .. code:: 
+
       >>> rb.plot('p')
       >>> plt.show()
 
@@ -559,52 +618,59 @@ class rigidbody(datapoint):  #
         
     
     '''
+    # from c4dynamics.eqm import eqm6
     self.X, acc = c4d.eqm.int6(self, forces, moments, dt, derivs_out = True)
     return acc 
+
 
   def animate(self, modelpath, angle0 = [0, 0, 0] 
               , modelcolor = None, dt = 1e-3 
                 , savedir = None, cbackground = [1, 1, 1]):
+
     c4d.rotmat.animate(self, modelpath, angle0, modelcolor, dt, savedir, cbackground)
 
 
 
-    
-  # @property
-  # def xcm(self): 
-  #   ''' 
-  #   Gets and sets the rigidbody center of mass. 
-
-  #   Default: :math:`xcm = 0`. 
-
-  #   Parameters
-  #   ----------
-  #   xcm : float or int 
-  #       Center of mass of the rigidbody object. 
-
-  #   Returns
-  #   -------
-  #   out : int or float  
-  #       A scalar representing the current center of mass of the object.  
-  
-        
-  #   Examples
-  #   --------
-
-  #   .. code:: 
-    
-  #     >>> rb = c4d.rigidbody(phi = 135 * c4d.d2r)
-  #     >>> rb.angles * c4d.r2d
-  #     [135.   0.   0.]
-    
-  #   '''
-
-  #   return self._xcm 
-  
-  # @xcm.setter
-  # def xcm(self, xcm): 
-  #   self._xcm = xcm  
 rigidbody.animate.__doc__ = c4d.rotmat.animate.__doc__ 
+
+
+
+if __name__ == "__main__":
+
+  import doctest, contextlib, os
+  from c4dynamics import IgnoreOutputChecker, cprint
+  
+  # Register the custom OutputChecker
+  doctest.OutputChecker = IgnoreOutputChecker
+
+  tofile = False 
+  optionflags = doctest.FAIL_FAST
+
+
+  # Filter out tests for the animate method by overriding the testmod.
+  def custom_testmod(module=None, **kwargs):
+    tests = doctest.DocTestFinder().find(module)
+    
+    tests = [test for test in tests if test.name != "__main__.rigidbody.animate"]  # Exclude animate
+
+    runner = doctest.DocTestRunner(**kwargs)
+    for test in tests:
+      runner.run(test)
+    return runner.summarize()
+
+
+
+  if tofile: 
+    with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
+      with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
+        result = custom_testmod(sys.modules[__name__], optionflags=optionflags) 
+  else: 
+    result = custom_testmod(sys.modules[__name__], optionflags=optionflags)
+
+  if result.failed == 0:
+    cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
+  else:
+    print(f"{result.failed}")
 
 
 

@@ -26,11 +26,11 @@ a class rigidbody a class defining a rigid body in space, i.e.
 an object with length and angular position.
 
 
-.. figure:: /_static/figures/bodies.svg
+.. figure:: /_static/body_states.svg
   :width: 482px
   :height: 534px   
 
-  **Figure** 
+  **Figure:** 
   Conceptual diagram showing the relationship between the two 
   fundamental objects used to describe bodies in space: 1) the
   datapoint, 2) the rigidbody. A rigidbody object extends the 
@@ -70,11 +70,12 @@ A `datapoint` instance is created by making a direct call to the datapoint const
 
 .. code::
 
-  >>> dp = c4d.datapoint()
+  >>> from c4dynamics import datapoint 
+  >>> dp = datapoint()
 
 .. code::
 
-  >>> dp
+  >>> print(dp)
   [ x  y  z  vx  vy  vz ]
 
 
@@ -87,7 +88,7 @@ setting values to any of the state variables uses as initial conditions:
 
 .. code::
 
-  >>> dp = c4d.datapoint(x = 1000, vx = -100)
+  >>> dp = datapoint(x = 1000, vx = -100)
 
   
 Functionality 
@@ -151,12 +152,13 @@ A `rigidbody` instance is created by making a direct call to the rigidbody const
 
 .. code::
 
-  >>> rb = c4d.rigidbody()
+  >>> from c4dynamics import rigidbody 
+  >>> rb = rigidbody()
 
 
 .. code::
 
-  >>> rb
+  >>> print(rb)
   [ x  y  z  vx  vy  vz  φ  θ  ψ  p  q  r ]
 
 
@@ -170,7 +172,8 @@ Setting values to any of the state variables uses as initial conditions:
 
 .. code::
 
-  >>> rb = c4d.rigidbody(theta = 10 * c4d.d2r, q = -1 * c4d.d2r)
+  >>> from c4dynamics import d2r  
+  >>> rb = rigidbody(theta = 10 * d2r, q = -1 * d2r)
   
 
 
@@ -235,23 +238,20 @@ Construction
 ^^^^^^^^^^^^
 
 Usually, the `pixelpoint` instance is created immediately after an object 
-detection: 
+detection:
 
 .. code::
 
-  >>> pp = c4d.pixelpoint(x = detect[0], y = detect[1], w = detect[2], h = detect[3])
-  >>> pp.fsize = (framewidth, frameheight)
-  >>> pp.class_id = classID
-
-where `detect` represents the detection coordinates, 
-framewidth and frameheight are the video frame dimensions, 
-and classID is the object classification. 
+  >>> from c4dynamics import pixelpoint 
+  >>> pp = pixelpoint(x = 50, y = 50, w = 15, h = 25) # (50, 50) detected object center, (15, 25) object bounding box  
+  >>> pp.fsize = (100, 100)   # frame width and frame height
+  >>> pp.class_id = 'fox'
 
 
 
 .. code::
 
-  >>> pp
+  >>> print(pp)
   [ x  y  w  h ]
 
   
@@ -277,6 +277,8 @@ See Also
 
 
 '''
+import sys 
+sys.path.append('.')
 
 
 
@@ -288,6 +290,30 @@ See Also
 # When `normalized` mode is selected, the method 
 # :attr:`Xpixels <c4dynamics.states.lib.pixelpoint.pixelpoint.Xpixels>` 
 # uses to retrun the state vector in pixel coordinates. 
+
+if __name__ == "__main__":
+
+  import doctest, contextlib, os
+  from c4dynamics import IgnoreOutputChecker, cprint
+  
+  # Register the custom OutputChecker
+  doctest.OutputChecker = IgnoreOutputChecker
+
+  tofile = False 
+  optionflags = doctest.FAIL_FAST
+
+  if tofile: 
+    with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
+      with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
+        result = doctest.testmod(optionflags = optionflags) 
+  else: 
+    result = doctest.testmod(optionflags = optionflags)
+
+  if result.failed == 0:
+    cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
+  else:
+    print(f"{result.failed}")
+
 
 
 

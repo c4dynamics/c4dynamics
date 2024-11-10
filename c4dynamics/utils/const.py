@@ -18,7 +18,7 @@ Global Constants
 
   ``pi = 3.1415926535897932384626433...``
 
-  .. rubric:: References
+  .. rubric:: Reference
 
   https://en.wikipedia.org/wiki/Pi
 
@@ -29,7 +29,7 @@ Global Constants
 
   ``g = 9.80665``
 
-  .. rubric:: References
+  .. rubric:: Reference
 
   https://en.wikipedia.org/wiki/Gravity_of_Earth
 
@@ -40,7 +40,7 @@ Global Constants
 
   ``g = 32.1740``
 
-  .. rubric:: References
+  .. rubric:: Reference
 
   https://en.wikipedia.org/wiki/Gravity_of_Earth
 
@@ -85,6 +85,10 @@ Conversion Constants
 
 '''
 
+import sys 
+sys.path.append('.')
+
+
 #  global quantities 
 pi       = np.pi
 g_ms2    = 9.80665  # m/s^2 
@@ -97,5 +101,30 @@ r2d         = 180 / np.pi
 d2r         = np.pi / 180 
 kmh2ms      = 1000 / 3600 
 k2ms        = 1852 / 3600   # knots to meter per second
+
+
+
+if __name__ == "__main__":
+
+  import doctest, contextlib, os
+  from c4dynamics import IgnoreOutputChecker, cprint
+  
+  # Register the custom OutputChecker
+  doctest.OutputChecker = IgnoreOutputChecker
+
+  tofile = False 
+  optionflags = doctest.FAIL_FAST
+
+  if tofile: 
+    with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
+      with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
+        result = doctest.testmod(optionflags = optionflags) 
+  else: 
+    result = doctest.testmod(optionflags = optionflags)
+
+  if result.failed == 0:
+    cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
+  else:
+    print(f"{result.failed}")
 
 

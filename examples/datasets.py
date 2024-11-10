@@ -1,3 +1,5 @@
+# type: ignore
+
 # from matplotlib import pyplot as plt 
 import sys, os
 sys.path.append('.')
@@ -210,16 +212,16 @@ def triangle():
 
 if __name__ == '__main__':
 
-  downloadall()
+  # downloadall()
   # clearcache() 
   # f16() 
   # mesh() 
   # bunny() 
-  # yolov3() 
+  yolov3() 
   # videos() 
   # planes() 
   # triangle() 
 
-  plt.show() 
+  # plt.show() 
 
 

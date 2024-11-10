@@ -1,6 +1,8 @@
 import numpy as np 
 from matplotlib import pyplot as plt 
 from matplotlib.ticker import ScalarFormatter
+import sys 
+sys.path.append('.')
 
 
 def _figdef():
@@ -10,6 +12,11 @@ def _figdef():
                 , figsize = (factorsize, factorsize * aspectratio) 
                         , gridspec_kw = {'left': 0.15, 'right': .9
                                             , 'top': .9, 'bottom': .2})
+
+
+def _legdef(): 
+    return {'fontsize': 4, 'facecolor': None}
+
 
 def plotdefaults(ax, title, xlabel, ylabel, fontsize = 8, ilines = None):
     '''
@@ -38,24 +45,25 @@ def plotdefaults(ax, title, xlabel, ylabel, fontsize = 8, ilines = None):
     Example
     -------
 
-    .. code:: 
+    .. code::
 
+      >>> import c4dynamics as c4d   
       >>> f16 = c4d.rigidbody()
       >>> dt = .01
       >>> for t in np.arange(0, 9, dt): 
-      ...     if t < 3: 
-      ...         f16.phi += dt * 180 / 9 * c4d.d2r
-      ...     elif t < 6: 
-      ...         f16.phi += dt * 180 / 6 * c4d.d2r
-      ...     else:
-      ...         f16.phi += dt * 180 / 3  * c4d.d2r
-      ...     f16.store(t)
+      ...   if t < 3: 
+      ...     f16.phi += dt * 180 / 9 * c4d.d2r
+      ...   elif t < 6: 
+      ...     f16.phi += dt * 180 / 6 * c4d.d2r
+      ...   else:
+      ...     f16.phi += dt * 180 / 3  * c4d.d2r
+      ...   f16.store(t)
       >>> ax = plt.subplot()
-      >>> ax.plot(f16.data('t'), f16.data('phi') * c4d.r2d, 'm', linewidth = 2)
+      >>> ax.plot(*f16.data('phi', c4d.r2d), 'm', linewidth = 2) # doctest: +IGNORE_OUTPUT 
       >>> c4d.plotdefaults(ax, '$\\varphi$', 'Time', 'deg', fontsize = 18)
 
         
-    .. figure:: /_static/images/plotdefaults.png
+    .. figure:: /_examples/utils/plotdefaults.png
 
     '''
     if False:
@@ -104,79 +112,29 @@ def plotdefaults(ax, title, xlabel, ylabel, fontsize = 8, ilines = None):
     ax.yaxis.get_major_formatter().set_useOffset(False)
     ax.yaxis.get_major_formatter().set_scientific(False)
 
-    
-def figdefaults(fig, savefol = None, darkmode = True): 
 
-    #
-    # pyplot
-    ##
-    if darkmode:
-        plt.style.use('dark_background')  
+if __name__ == "__main__":
 
-    #
-    # figure
-    ##
-    fdpi = 1200
+  import doctest, contextlib, os
+  from c4dynamics import IgnoreOutputChecker, cprint
+  
+  # Register the custom OutputChecker
+  doctest.OutputChecker = IgnoreOutputChecker
 
-    # fig.set_dpi(fdpi)
-    # plt.subplots_adjust(left = 0.086, right = 0.9, top = 0.9, bottom = 0.152
-    #                         , hspace = 0.5, wspace = 0.3) 
+  tofile = False 
+  optionflags = doctest.FAIL_FAST
 
-    #
-    # save
-    ##
-    if savefol is not None: 
-        fig.savefig(savefol, dpi = fdpi, bbox_inches = 'tight', pad_inches = 0.1)
+  if tofile: 
+    with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
+      with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
+        result = doctest.testmod(optionflags = optionflags) 
+  else: 
+    result = doctest.testmod(optionflags = optionflags)
 
-
-def shiftmargins(filename, width, height, axl, axr):
-    
-    
-    import cv2  
-
-    
-    if False: 
-        
-        bbox = ax.get_position()
-        fig_width, fig_height = fig.get_size_inches() * fig.dpi
-        width = int(fig_width)
-
-        height = int(fig_height)
-        top_left_corner_pixels = (int(bbox.xmin * fig_width), int((1 - bbox.ymax) * fig_height))
-        bottom_right_corner_pixels = (int(bbox.xmax * fig_width), int((1 - bbox.ymin) * fig_height))
-
-        axis_left_edge = top_left_corner_pixels[0]
-        axis_right_edge = bottom_right_corner_pixels[0]
+  if result.failed == 0:
+    cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
+  else:
+    print(f"{result.failed}")
 
 
-        # Create a Matplotlib figure and axis
-        # Render the figure to a canvas and get the NumPy array representation
-        fig.canvas.draw()
-
-        # Convert the canvas to a NumPy array
-        # The shape of the array is (height, width, 4), where 4 represents RGBA channels
-        image = np.frombuffer(fig.canvas.tostring_argb(), dtype = np.uint8)
-        image = image.reshape(fig.canvas.get_width_height()[::-1] + (4,))
-        # Convert the ARGB image to RGBA
-        image = np.roll(image, 3, axis = 2)
-        # Convert the RGBA image to RGB
-        image_rgb = cv2.cvtColor(image, cv2.COLOR_RGBA2RGB)
-
-
-    image_rgb = cv2.imread(filename) 
-
-    # calculate the shift size to cetner image 
-    equal_margin_shift = int((width - axr - axl) / 2)
-
-    # Create a translation matrix to shift the image left
-    M = np.float32([[1, 0, equal_margin_shift], [0, 1, 0]])
-    # Apply the translation to shift the image
-    image_rgb = cv2.warpAffine(image_rgb, M, (width, height))
-    # image_rgb = image_rgb[10 : -5, :] # crop by taking from row 10 to row -5. 
-
-
-    
-    cv2.imwrite(filename, image_rgb)
-
- 
 

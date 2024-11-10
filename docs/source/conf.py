@@ -29,6 +29,55 @@ ss 2022-10-08 15 54 25
 
 The cause is the same as that of the issue with the body text color; the color of h3 is overwritten in numpy.css.
 
+
+
+
+Each introduction page on your GitHub page, website, 
+and documentation serves different purposes and targets 
+different audiences. Here's a breakdown of the intention and focus for each:
+
+https://chatgpt.com/share/671776d9-c600-8002-bf9e-c9345a1fa792
+
+
+### 1. **GitHub Page (Repository README)**  
+**Purpose**: To introduce your project to developers and contributors.  
+**Focus**: Provide a concise overview of the project, its purpose, and how to get started.  
+**What to include**:  
+   - **Project Name** and **Brief Description**: Explain the problem your project solves or the features it offers.
+   - **Key Features**: Highlight what makes your project unique or useful.
+   - **Installation Instructions**: How someone can clone the repository and run the project locally.
+   - **Usage**: Basic examples of how to use the project or API.
+   - **Contributing Guidelines**: Link to guidelines for developers who want to contribute.
+   - **Links to Documentation**: Provide a link to the full documentation page.
+   - **License**: The open-source license under which your project is distributed.
+
+### 2. **Website (General Audience)**
+**Purpose**: To introduce your product or project to a broad, often non-technical audience.
+**Focus**: Showcase the benefits and value of your project in a way that appeals to potential users, stakeholders, or customers.
+**What to include**:
+   - **Clear Value Proposition**: A headline that clearly explains what the product or project does and why it matters.
+   - **Key Features and Benefits**: Highlight the primary benefits and advantages, focusing on user outcomes.
+   - **Visuals or Demos**: Include images, videos, or demos that show the product in action.
+   - **Call to Action**: Direct visitors to take the next step, whether it’s signing up, downloading, or contacting you for more information.
+   - **Testimonials or Success Stories**: If applicable, add feedback or use cases to demonstrate impact.
+   - **Links to GitHub/Documentation**: For technical users, offer easy access to the repository or full documentation.
+
+### 3. **Documentation Page (Technical Audience)**
+**Purpose**: To provide comprehensive and detailed instructions on how to use and integrate the product or project.
+**Focus**: Make it easy for users to navigate and understand how to effectively use the system.
+**What to include**:
+   - **Introduction to the Product/Project**: A technical overview that explains the functionality, components, and intended use.
+   - **Quick Start Guide**: A step-by-step guide to get the user up and running as quickly as possible.
+   - **Detailed API/Function Documentation**: Exhaustive documentation for developers that includes code examples, parameters, and return values.
+   - **Usage Scenarios or Tutorials**: Provide use cases, examples, or tutorials that demonstrate how to use different features.
+   - **Troubleshooting/FAQ**: Address common issues users might face.
+   - **Versioning Information**: Ensure users know which version they are reading about, and provide clear instructions for navigating between versions if necessary.
+
+Each introduction should be tailored to the specific audience, with clear and relevant information that guides them toward the next step, whether that’s using, contributing to, or learning more about your project.
+
+
+
+
 '''
 # Configuration file for the Sphinx documentation builder.
 #
@@ -38,7 +87,7 @@ The cause is the same as that of the issue with the body text color; the color o
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project   = 'c4dynamics'
+project   = 'C4DYNAMICS'
 copyright = '2023, C4dynamics'
 author    = 'C4dynamics'
 # release   = '0.0.40'
@@ -65,7 +114,7 @@ c4d.cprint('successfully imported c4dynamics', 'y')
 # Reload the module
 # importlib.reload(importlib.import_module(project.lower()))
 
-# The short X.Y version (including .devXXXX, rcX, b1 suffixes if present)
+# The short X.Y version (including .devxxx, rcX, b1 suffixes if present)
 version = re.sub(r'(\d+\.\d+)\.\d+(.*)', r'\1\2', c4d.__version__)
 version = re.sub(r'(\.dev\d+).*?$', r'\1', version)
 # The full version, including alpha/beta/rc tags.
@@ -199,7 +248,8 @@ add_function_parentheses = False
 
 # HTML output configuration
 # -----------------------------------------------------------------------------
-html_title = f'{project} <span class="project-version">{version}</span>'
+# html_title = f'{project} <span class="project-version">{version}</span>'
+html_title = "%s v%s Manual" % (project, version)
 html_short_title = project
 # Don't use the logo since it gets in the way of the project name and is
 # repeated in the front page.
@@ -242,108 +292,32 @@ procedure for version.
 USE CASES
 1. see pretty example for jupyter demo here https://cocalc.com/share/public_paths/7557a5ac1c870f1ec8f01271959b16b49df9d087/07-Kalman-Filter-Math.ipynb
 
+README:
+1. put a beatuful cheat sheet. like: https://www.doabledanny.com/static/ab88214c9082dc96bb7d53b90fc6981b/5620d/dark_mode.png
 
-AIs for docstrings. 
-1 edit the intro to the states and states lib. 
-2 animate is not a rb method. 
-3 rotmat is not a rb method. 
-4 what if the user wnats to povide vars that are not part of the state? 
-5 how the user passes args which are not part of the state 
-6 in every class after one paragraph to the most there comes parameters list. 
-7 complete example and docstring to kalamn, ekf, lpf.
-8 complete docing all the new modules
-9 complete docing the state object. 
-10 add new intro to pixelpoint 
-11 in all the examples include the moduels of c4d and all the imports in different section like this:
 
-  .. code::   
-  
-    >>> from scipy import ndimage, datasets 
-    >>> import matplotlib.pyplot as ply
 
-  .. code::
 
-    >>> fig = plt.figure()
-    ...
-
-  class
-  -----
-  state
-  datapoint
-  rigidbody
-  pixelpoint
-  seeker
-  yolo
-  kalman
-  ekf
-  lpf
-
-  
-7 all the classes should follow the structure:
-  intro paragraph.
-  parameters
-  kwargs parameters 
-  example
-  functionality? 
-  conntiunue. 
-8 datapoint and rigidbody should not include attrs that already appear at state. 
-11 figures in seeker are bad size. 
+AI for docstrings
+=================
 12 in seeker i commented some parts that included toctrees and description 
     of arguments in construction etc.
-13 docstrings of methods migrated from dp to state must be updated with their examples.
-14 new methods should get new docstrings.  
-16 rb has properties at the bottom. dp not. 
 17 add section explains how the user adds methods (not just params and vars. ) 
-18 test the plot functions with different backends. 
 19 protcet the _data array to prevent modification from outside. 
 20 maybe add an option to introduce parameters as dict in the constructor. 
-21 replace the example in the intro of pixelpoint with the final example of 
-    yolov3 in similar to seeker that examples in the intro give fully fledge descrption of the funcitonallity. 
-22 the class docstring should include examples for the different arguments while the
-    properties should have exmaples in their own page. 
 
-table example:
-
-.. list-table:: 
-   :widths: 10 70 20
-   :header-rows: 0
-
-   * - Control 
-     - :code:`s = c4d.state(theta = 0, omega = 0)`
-     - angle, angular velocity 
-   * - Navigation
-     - :code:`s = c4d.state(x = 0, y = 0, z = 0, vx = 0, vy = 0, vz = 0, q0 = 0, q1 = 0, q2 = 0, q3 = 0, bax = 0, bay = 0, baz = 0)`
-     - position, velocity, quaternions, biases
-   * - Objects Tracking 
-     - :code:`s = c4d.state(x = 0, y = 0, w = 0, h = 0)`
-     - center pixels, bounding box size 
-
-     
-
-
-matrix template 
-
-
-
-.. math::
-
-  M = \\begin{bmatrix}
-        m11   &   m12     &   m13     \\\\
-        m21   &   m22     &   m23     \\\\ 
-        m31   &   m32     &   m33     
-      \\end{bmatrix}  
 
       
 
-datasets for download and running the examples:
-1. f16 object model.
-2. planes.jpg 
 
 
 
 Omit Articles: In titles, headings, labels, lists, and brief technical descriptions.
 Include Articles: In full sentences, abstracts, summaries, and more narrative forms of writing
 https://chatgpt.com/share/799febb0-c875-41be-99f7-c5555741d387
+
+
+
 
 
 '''

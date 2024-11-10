@@ -1,4 +1,6 @@
 import numpy as np
+import sys 
+sys.path.append('.')
 from c4dynamics.states.state import state 
 
 
@@ -66,20 +68,38 @@ class pixelpoint(state):
 
     For a given detection `d` with the following indices: 
 
-    - [0] : x-center
-    - [1] : y-center
-    - [2] : width
-    - [3] : height
+    - [0] : x-center, pixels
+    - [1] : y-center, pixels
+    - [2] : width, pixels
+    - [3] : height, pixels
     - [4:end] : probabilities for each class of the list `class_names` 
     
     and for frames with dimensions `(f_width, f_height)`, the following snippet 
     constructs a `pixelpoint` and updates its properties. 
     
+    Import packages: 
+
+    .. code:: 
+
+      >>> from c4dynamics import pixelpoint 
+      >>> import numpy as np 
+
+
+    Given a detection with arbitrary values: 
+    
+    .. code:: 
+
+      >>> d = [50, 50, 15, 25, 0.8, 0.1, 0.0, 0.05, 0.89]
+      >>> f_width, f_height = 100, 100
+      >>> class_names = ['dog', 'cat', 'horse', 'fox']
+      
+    Initialize a `pixelpoint` instance with the input detection: 
+    
     .. code:: 
 
       >>> pp = pixelpoint(x = d[0], y = d[1], w = d[2], h = d[3])
       >>> pp.fsize = (f_width, f_height)
-      >>> pp.class_id = class_names[numpy.argmax(d[4:])]
+      >>> pp.class_id = class_names[np.argmax(d[5:])]
 
         
     See Also
@@ -104,12 +124,12 @@ class pixelpoint(state):
 
 
 
-    Fetch 'planes.png' and 'aerobatics.mp4' using the c4dynamics' 
+    Fetch 'planes.png' and 'triangle.png' using the c4dynamics' 
     datasets module (see :mod:`c4dynamics.datasets`):         
 
     .. code::
 
-      >>> tripath = c4d.datasets.video('triangle')
+      >>> tripath = c4d.datasets.image('triangle')
       Fetched successfully
       >>> planspath = c4d.datasets.image('planes')
       Fetched successfully
@@ -162,7 +182,7 @@ class pixelpoint(state):
 
       >>> pp = c4d.pixelpoint(x = d[0], y = d[1], w = d[2], h = d[3])
       >>> pp.fsize = (f_width, f_height)
-      >>> pp.class_id = class_names[np.argmax(d[4:])]
+      >>> pp.class_id = class_names[np.argmax(d[5:])]
 
 
 
@@ -178,22 +198,26 @@ class pixelpoint(state):
 
       >>> img = cv2.imread(tripath)
       >>> triangles = tridetect(img)
-      >>> print('{:^10} | {:^10} | {:^16} | {:^16} | {:^10} | {:^14}'.format('center x', 'center y', 'box top-left', 'box bottom-right', 'class', 'frame size'))
+    
+    
+    .. code:: 
+
+      >>> print('{:^10} | {:^10} | {:^16} | {:^16} | {:^10} | {:^14}'.format('center x', 'center y', 'box top-left', 'box bottom-right', 'class', 'frame size')) # doctest: +IGNORE_OUTPUT 
       >>> # iterate over the detected triangles: 
-      >>> for tri in triangles: 
+      >>> for tri in triangles: # doctest: +IGNORE_OUTPUT 
       ...   pp = c4d.pixelpoint(x = int(tri[0] + tri[2] / 2), y = int(tri[1] + tri[3] / 2), w = tri[2], h = tri[3])
       ...   pp.fsize = img.shape[:2]
       ...   pp.class_id = 'triangle'
-      ...   print('{:^10d} | {:^10d} | {:^16} | {:^16} | {:^10} | {:^14}'.format(pp.x, pp.y, ptup(pp.box[0]), ptup(pp.box[1]), pp.class_id, ptup(pp.fsize)))
+      ...   print('{:^10d} | {:^10d} | {:^16} | {:^16} | {:^10} | {:^14}'.format(pp.x, pp.y, ptup(pp.box[0]), ptup(pp.box[1]), pp.class_id, ptup(pp.fsize))) 
       ...   cv2.rectangle(img, pp.box[0], pp.box[1], [0, 255, 0], 2)
       center x  |  center y  |   box top-left   | box bottom-right |   class    |   frame size  
         399     |    274     |    (184, 117)    |    (614, 431)    |  triangle  |   (600, 800)
       
     .. code:: 
 
-      >>> plt.figure()
-      >>> plt.axis(False)
-      >>> plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+      >>> plt.figure() # doctest: +IGNORE_OUTPUT 
+      >>> plt.axis(False) # doctest: +IGNORE_OUTPUT 
+      >>> plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB)) # doctest: +IGNORE_OUTPUT 
 
 
     .. figure:: /_examples/pixelpoint/triangle.png
@@ -211,15 +235,20 @@ class pixelpoint(state):
     returns a list of `pixelpoint` for the detected objects in an image. 
     Print the output per a detected object and view the final image: 
 
+    
     .. code:: 
 
       >>> img = cv2.imread(planspath)
-      >>> # load detector and run on the image: 
-      >>> yolo3 = c4d.detectors.yolov3()
+      >>> yolo3 = c4d.detectors.yolov3()    
+      Fetched successfully
       >>> pts = yolo3.detect(img)
+    
+    
+    .. code:: 
+
       >>> # prepare for printing properties:  
-      >>> print('{:^10} | {:^10} | {:^16} | {:^16} | {:^10} | {:^14}'.format('center x', 'center y', 'box top-left', 'box bottom-right', 'class', 'frame size'))
-      >>> for p in pts:
+      >>> print('{:^10} | {:^10} | {:^16} | {:^16} | {:^10} | {:^14}'.format('center x', 'center y', 'box top-left', 'box bottom-right', 'class', 'frame size'))  # doctest: +IGNORE_OUTPUT 
+      >>> for p in pts:   # doctest: +IGNORE_OUTPUT 
       ...   print('{:^10d} | {:^10d} | {:^16} | {:^16} | {:^10} | {:^14}'.format(p.x, p.y, ptup(p.box[0]), ptup(p.box[1]), p.class_id, ptup(p.fsize)))
       ...   cv2.rectangle(img, p.box[0], p.box[1], [0, 255, 0], 2)
       ...   point = (int((p.box[0][0] + p.box[1][0]) / 2 - 75), p.box[1][1] + 22)
@@ -233,28 +262,20 @@ class pixelpoint(state):
 
     .. code:: 
 
-      >>> plt.figure()
-      >>> plt.axis(False)
-      >>> plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+      >>> plt.figure()  # doctest: +IGNORE_OUTPUT 
+      >>> plt.axis(False)  # doctest: +IGNORE_OUTPUT 
+      >>> plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))  # doctest: +IGNORE_OUTPUT 
 
 
     .. figure:: /_examples/pixelpoint/yolov3.png
 
   '''  
-
-  # framepoint/ imagepoint
-  # pixeldata/ pixelbox/ imagebox
-
-  # 
-  # NOTE override the .X property: will distance the devs from a datapoint class. 
-  #     con: much easier 
-
-  # __slots__ = ['_boxwidth', '_boxheight', '_framewidth', '_frameheight'] 
-
-  # ppunits = ('pixels', 'normalized')
+  x: float
+  y: float
+  w: float
+  h: float
 
   def __init__(self, x = 0, y = 0, w = 0, h = 0):
-    # def __init__(self, bbox, class_id, framesize):
       
  
     ppargs = {}
@@ -308,9 +329,9 @@ class pixelpoint(state):
     
 
 
-  @property
-  def X(self): 
-    return super().X.astype(np.int64)
+  # @property
+  # def X(self): 
+  #   return super().X.astype(np.int64)
   
 
   # parameters 
@@ -445,19 +466,19 @@ class pixelpoint(state):
 
 
     # top left
-    xtl = x - int(w / 2)
-    ytl = y - int(h / 2)
+    xtl = int(x - w / 2)
+    ytl = int(y - h / 2)
 
     # bottom right 
-    xbr = x + int(w / 2)
-    ybr = y + int(h / 2)
+    xbr = int(x + w / 2)
+    ybr = int(y + h / 2)
 
     return [(xtl, ytl), (xbr, ybr)]
 
 
 
   @property
-  def Xpixels(self):
+  def Xpixels(self): 
     '''
       Returns the state vector in pixel coordinates.  
 
@@ -474,20 +495,33 @@ class pixelpoint(state):
       Examples
       --------
 
+      Import required packages: 
       
       .. code:: 
 
-        >>> imagename = 'planes.jpg'
-        >>> imgpath = os.path.join(os.getcwd(), 'examples', 'resources', imagename)
+        >>> import c4dynamics as c4d
+        >>> import cv2 
+
+
+      Settings and initialization: 
+
+      .. code:: 
+ 
+        >>> imgpath = c4d.datasets.image('planes')
+        Fetched successfully
         >>> img = cv2.imread(imgpath)
         >>> yolo3 = c4d.detectors.yolov3()
+        Fetched successfully
         >>> pts = yolo3.detect(img)
-        >>> print('{:^10} | {:^12} | {:^12} | {:^12} | {:^12}'.format(
-        ...     '# object', 'X normalized', 'Y normalized', 'X pixels', 'Y pixels'))
-        >>> for i, p in enumerate(pts):
+        
+      Main loop: 
+
+      .. code:: 
+
+        >>> print('{:^10} | {:^12} | {:^12} | {:^12} | {:^12}'.format('# object', 'X normalized', 'Y normalized', 'X pixels', 'Y pixels'))  # doctest: +IGNORE_OUTPUT
+        >>> for i, p in enumerate(pts):  # doctest: +IGNORE_OUTPUT 
         ...     X = p.Xpixels
-        ...     print('{:^10d} | {:^12.3f} | {:^12.3f} | {:^12d} | {:^12d}'.format(
-        ...            i, p.x, p.y, X[0], X[1]))
+        ...     print('{:^10d} | {:^12.3f} | {:^12.3f} | {:^12d} | {:^12d}'.format(i, p.x, p.y, X[0], X[1]))
         # object | X normalized | Y normalized |   X pixels   |   Y pixels  
           0      |    0.427     |    0.339     |     503      |     232     
           1      |    0.411     |    0.491     |     484      |     336     
@@ -498,10 +532,10 @@ class pixelpoint(state):
     # TODO complete with full state vector. 
 
     # superx = super().X
-    return np.array([self.x * self._framewidth        # x
-                      , self.y * self._frameheight      # y
-                        , self.w * self._framewidth       # w
-                          , self.h * self._frameheight]      # h   
+    return np.array([self.x * self._framewidth        # x   # type: ignore 
+                      , self.y * self._frameheight      # y   # type: ignore 
+                        , self.w * self._framewidth       # w   # type: ignore 
+                          , self.h * self._frameheight]      # h  # type: ignore   
                             , dtype = np.int32)
   
 
@@ -566,7 +600,7 @@ class pixelpoint(state):
       
 
     if storepath:
-      pklname = os.path.join(storepath, os.path.basename(vidpath)[:-4] + '.pkl') 
+      pklname = os.path.join(storepath, os.path.basename(vidpath)[:-4] + '.pkl') # type: ignore 
       with open(pklname, 'wb') as file:
         pickle.dump(detections, file)
       print(f'detections stored at {pklname}')
@@ -713,4 +747,30 @@ class pixelpoint(state):
   # The `normalized` mode represents the image by normalized coordinates, 
   # ranging from `0` to `1`, where `0` represents 
   # the left or the upper edge, and `1` represents the right or the bottom edge. 
+
+
+if __name__ == "__main__":
+
+  import doctest, contextlib, os
+  from c4dynamics import IgnoreOutputChecker, cprint
+  
+  # Register the custom OutputChecker
+  doctest.OutputChecker = IgnoreOutputChecker
+
+  tofile = False 
+  optionflags = doctest.FAIL_FAST
+
+  if tofile: 
+    with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
+      with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
+        result = doctest.testmod(optionflags = optionflags) 
+  else: 
+    result = doctest.testmod(optionflags = optionflags)
+
+  if result.failed == 0:
+    cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
+  else:
+    print(f"{result.failed}")
+
+
 

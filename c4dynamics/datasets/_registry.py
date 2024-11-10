@@ -35,6 +35,7 @@ nn_register     = pooch.create(
     , urls      = {
           'yolov3.weights': 'https://pjreddie.com/media/files/yolov3.weights'
       }
+    , retry_if_failed = 1  
   )
 
 d3_f16_register = pooch.create(

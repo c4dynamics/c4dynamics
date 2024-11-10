@@ -1,4 +1,6 @@
 import numpy as np
+import sys 
+sys.path.append('.')
 # import c4dynamics as c4d 
 from c4dynamics.utils.const import *  
 from c4dynamics.utils.math import *  
@@ -35,29 +37,26 @@ def rotx(phi):
     Examples
     --------
     
-    >>> rotx(0)
+    >>> rotx(0)  # doctest: +NUMPY_FORMAT
     [[1  0  0]
-    [0  1  0]
-    [0  0  1]]
+     [0  1  0]
+     [0  0  1]]
 
     
-    >>> R = rotx(c4d.pi / 2)
-    >>> R
+    >>> rotx(c4d.pi / 2)  # doctest: +NUMPY_FORMAT
     [[1  0  0]
-    [0  0  1]
-    [0  -1  0]]
+     [0  0  1]
+     [0 -1  0]]
 
            
     >>> v1 = [0, 0, 1]
     >>> phi = 90 * c4d.d2r
-    >>> v2 = rotx(phi) @ v1
-    >>> v2
+    >>> rotx(phi) @ v1 # doctest: +NUMPY_FORMAT
     [0  1  0]
 
     
     >>> phi = 45 * c4d.d2r
-    >>> v2 = rotx(phi) @ v1
-    >>> v2
+    >>> rotx(phi) @ v1 # doctest: +NUMPY_FORMAT
     [0  0.707  0.707]
 
     '''
@@ -95,29 +94,26 @@ def roty(theta):
     Examples
     --------
     
-    >>> roty(0)
+    >>> roty(0)  # doctest: +NUMPY_FORMAT
     [[1  0  0]
-    [0  1  0]
-    [0  0  1]]
+     [0  1  0]
+     [0  0  1]]
            
         
-    >>> R = roty(c4d.pi / 2)
-    >>> R
-    [[ 0  0  -1]
-    [ 0  1  0]
-    [ 1  0  0]]
+    >>> roty(c4d.pi / 2) # doctest: +NUMPY_FORMAT
+    [[0  0 -1]
+     [0  1  0]
+     [1  0  0]]
 
     
     >>> v1 = [0, 0, 1]
     >>> phi = 90 * c4d.d2r
-    >>> v2 = roty(phi) @ v1
-    >>> v2
+    >>> roty(phi) @ v1  # doctest: +NUMPY_FORMAT
     [-1  0  0]
 
     
     >>> phi = 45 * c4d.d2r
-    >>> v2 = roty(phi) @ v1
-    >>> v2
+    >>> roty(phi) @ v1 # doctest: +NUMPY_FORMAT
     [-0.707  0  0.707]
 
     '''
@@ -155,35 +151,32 @@ def rotz(psi):
     Examples
     --------
     
-    >>> rotz(0)
+    >>> rotz(0)  # doctest: +NUMPY_FORMAT
     [[1  0  0]
-    [0  1  0]
-    [0  0  1]]
+     [0  1  0]
+     [0  0  1]]
 
 
-    >>> R = rotz(c4d.pi / 2)
-    >>> R
-    [[0  1  0]
-    [-1  0  0]
-    [0  0  1]]
+    >>> rotz(c4d.pi / 2)  # doctest: +NUMPY_FORMAT
+    [[0   1  0]
+     [-1  0  0]
+     [0   0  1]]
 
     
     >>> v1 = [0.707, 0.707, 0]
     >>> phi = 90 * c4d.d2r
-    >>> v2 = rotz(phi) @ v1
-    >>> v2
+    >>> rotz(phi) @ v1 # doctest: +NUMPY_FORMAT
     [0.707  -0.707  0]
 
     >>> phi = 45 * c4d.d2r
-    >>> v2 = rotz(phi) @ v1
-    >>> v2
+    >>> rotz(phi) @ v1 # doctest: +NUMPY_FORMAT
     [1  0  0]
     
     '''
     return np.array([[cos(psi), sin(psi), 0], [-sin(psi), cos(psi), 0], [0, 0, 1]])
 
 
-def dcm321(phi = 0, theta = 0, psi = 0):
+def dcm321(phi = 0.0, theta = 0.0, psi = 0.0):
     '''
     Generate a 3x3 Direction Cosine Matrix (DCM) for a sequence of 
     positive rotations around the axes in the following order: 
@@ -240,17 +233,21 @@ def dcm321(phi = 0, theta = 0, psi = 0):
     
     The attitude of the aircraft with respect to the inertial earth frame is
     given by the 3 Euler angles: 
+
+    .. math:: 
+
+        \\phi = 0
         
-    >>> rb = c4d.rigidbody(phi = 0, theta = 30 * c4d.d2r, psi = 0) 
-    
+        \\theta = 30 \\cdot {\\pi \\over 180}
+        
+        \\psi = 0
+            
     The velcoty expressed in body frame:
     
-    >>> vb = rb.BR @ v
-    >>> vb
+    >>> dcm321(phi = 0, theta = 30 * c4d.d2r, psi = 0) @ v  # doctest: +NUMPY_FORMAT
     [129.9  0  75]
 
     '''
-    # FIXME very bad example 
     return rotx(phi) @ roty(theta) @ rotz(psi)
 
 
@@ -306,16 +303,16 @@ def dcm321euler(dcm):
     Examples
     --------
 
-    >>> dcm321euler(np.eye(3))
+    >>> dcm321euler(np.eye(3)) # doctest: +NUMPY_FORMAT
     (0, 0, 0)    
         
     A rotation matrix that represents the attitude of an aircraft with respect to 
     an inertial earth frame is given by:
 
     >>> BI = np.array([[ 0.866,     0, -0.5      ]
-                        , [ 0,      1,  0        ]
-                        , [ 0.5,    0,  0.866    ]])
-    >>> dcm321euler(BI)
+    ...                 , [ 0,      1,  0        ]
+    ...                 , [ 0.5,    0,  0.866    ]])
+    >>> dcm321euler(BI) # doctest: +NUMPY_FORMAT
     (0, 30, 0)
 
     '''
@@ -325,3 +322,30 @@ def dcm321euler(dcm):
     phi   =  atan2(dcm[1, 2], dcm[2, 2]) * r2d
 
     return phi, theta, psi 
+
+
+
+if __name__ == "__main__":
+
+  import doctest, contextlib, os
+  from c4dynamics import IgnoreOutputChecker, cprint
+  
+  # Register the custom OutputChecker
+  doctest.OutputChecker = IgnoreOutputChecker
+
+  tofile = False 
+  optionflags = doctest.FAIL_FAST
+
+  if tofile: 
+    with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
+      with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
+        result = doctest.testmod(optionflags = optionflags) 
+  else: 
+    result = doctest.testmod(optionflags = optionflags)
+
+  if result.failed == 0:
+    cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
+  else:
+    print(f"{result.failed}")
+
+

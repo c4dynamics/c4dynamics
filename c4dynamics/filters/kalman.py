@@ -7,19 +7,16 @@ import numpy as np
 import warnings 
 
 
-def _noncontwarning(x): 
-  warnings.warn(f"""The system is not continuous."""
-                  f"""\nDid you mean {x}?""" 
-                    , c4d.c4warn)
-
 
 class kalman(c4d.state):
   ''' 
     Kalman Filter.
 
-    Kalman Filter class for state estimation. 
-    :class:`kalman` provides methods for prediction and update
-    phases of the Kalman filter, including both discrete and continuous systems.
+    
+    Discrete linear Kalman filter class for state estimation.
+     
+    :class:`kalman` provides methods for prediction and update (correct)
+    phases of the filter.
 
     For background material, implementation, and examples, 
     please refer to :mod:`filters <c4dynamics.filters>`. 
@@ -30,31 +27,23 @@ class kalman(c4d.state):
     ==========
     X : dict
         Initial state variables and their values.
-    dt : float, optional 
-        Time step for the filter. Mandatory if continuous-time matrices are provided. 
-    P0 : numpy.ndarray, optional
-        Covariance matrix, or standard deviations array, of the 
-        initial estimation error. Mandatory if steadystate is False.
-    FIXME how a scalar is interpreted?? 
-    
+    F : numpy.ndarray
+        Discrete-time state transition matrix. Defaults to None.
+    H : numpy.ndarray
+        Discrete-time measurement matrix. Defaults to None.
     steadystate : bool, optional
         Flag to indicate if the filter is in steady-state mode. Defaults to False.
-    A : numpy.ndarray, optional
-        Continuous-time state transition matrix. Defaults to None.
-    B : numpy.ndarray, optional
-        Continuous-time control matrix. Defaults to None.
-    C : numpy.ndarray, optional
-        Continuous-time measurement matrix. Defaults to None.
+    G : numpy.ndarray, optional
+        Discrete-time control matrix. Defaults to None.
+    P0 : numpy.ndarray, optional
+        Covariance matrix, or standard deviations array, of the 
+        initial estimation error. Mandatory if `steadystate` is False.
+        If P0 is one-dimensional array, standard deviation values are 
+        expected. Otherwise, variance values are expected.  
     Q : numpy.ndarray, optional
         Process noise covariance matrix. Defaults to None.
     R : numpy.ndarray, optional
         Measurement noise covariance matrix. Defaults to None.
-    F : numpy.ndarray, optional
-        Discrete-time state transition matrix. Defaults to None.
-    G : numpy.ndarray, optional
-        Discrete-time control matrix. Defaults to None.
-    H : numpy.ndarray, optional
-        Discrete-time measurement matrix. Defaults to None.
           
     Notes 
     =====
@@ -63,22 +52,12 @@ class kalman(c4d.state):
     Hence, `X` is a dictionary of variables and their initial values, for example:
     ``X = {'x': x0, 'y': y0, 'z': z0}``.
 
-    2. The filter may be initialized with either continuous-time matrices
-    or with discrete-time matrices. 
-    However, all the necessary parameters, 
-    i.e. `A` and `B` (for continuous system) or `F` and `G` 
-    (for discrete system) must be provided consistently.
-
-    3. If continuous-time matrices are provided, then a time step parameter `dt` 
-    has to be provided for the integration of the system at the 
-    :meth:`predict` stage. 
-
-    4. Steady-state mode: if the underlying system is linear time-invariant (LTI), 
-    and also the noise covariance matrices are time-invariant, 
-    then a steady-state mode of the Kalman filter can be utilized. 
+    2. Steady-state mode: if the underlying system is linear time-invariant (`LTI`), 
+    and the noise covariance matrices are time-invariant, 
+    then a steady-state mode of the Kalman filter can be employed. 
     In steady-state mode the Kalman gain (`K`) and the estimation covariance matrix 
-    (`P`) are computed once and are constant ('steady-state') for the entire run-time, 
-    performs as well as the time-varying filter.   
+    (`P`) are computed once and remain constant ('steady-state') for the entire run-time, 
+    performing as well as the time-varying filter.   
 
 
 
@@ -89,7 +68,7 @@ class kalman(c4d.state):
     ValueError: 
         If P0 is not provided when steadystate is False.
     ValueError: 
-        If neither continuous nor discrete system matrices are fully provided.
+        If system matrices are not fully provided.
 
 
         
@@ -110,531 +89,132 @@ class kalman(c4d.state):
     The examples in the introduction to the 
     :mod:`filters <c4dynamics.filters>`
     module demonstrate the operations of 
-    the Kalman filter 
-    for inputs from  
+    the Kalman filter for inputs from  
     electromagnetic devices, such as an altimeter, 
     which measures the altitude. 
 
-    In the following set of examples, we run a Kalman filter 
-    to demonstrate smooth and continuous tracking of vehicles 
-    across video frames. 
-    
 
-    **1. Setup** 
-
-    The process model assumes linear motion with constant velocity 
-    where the system matrix
-    
-
-    .. math::
-
-      A = \\begin{bmatrix}
-            0   &   0   &   0   &   0   &   1   &   0   \\\\
-            0   &   0   &   0   &   0   &   0   &   1   \\\\
-            0   &   0   &   0   &   0   &   0   &   0   \\\\
-            0   &   0   &   0   &   0   &   0   &   0   \\\\
-            0   &   0   &   0   &   0   &   0   &   0   \\\\
-            0   &   0   &   0   &   0   &   0   &   0 
-          \\end{bmatrix}  
-      
-
-    represents the linear ordinary differential equations: 
-
-    .. math:: 
-
-      \\dot{x} = v_x  \\\\
-      \\dot{y} = v_y  \\\\
-      \\dot{w} = 0    \\\\
-      \\dot{h} = 0    \\\\
-      \\dot{v}_x = 0  \\\\
-      \\dot{v}_y = 0  
 
     
-    It is therefore obvious that 
-    the system state vector is given by:
-
-    .. math::
-
-      x = [x, y, w, h, v_x, v_y]^T
-
-    Where :math:`x, y` are pixel coordinates, :math:`w, h` are bounding box dimensions, and :math:`v_x, v_y` are velocities. 
-
+    An accurate Japaneese train travels 150 meters in one second 
+    (:math:`F = 1, u = 1, G = 150, Q = 0.05`). 
+    A sensor measures the train position with noise 
+    variance of :math:`200m^2` (:math:`H = 1, R = 200`).
+    The initial position of the train is known with uncertainty 
+    of :math:`0.5m` (:math:`P0 = 0.5^2`).
     
-    As measurement for the vehicle position and 
-    box size we use the `YOLOv3` object detection model.
-    YOLOv3 is incorporated in the c4dynamics' class 
-    :class:`yolov3 <c4dynamics.detectors.yolo3_opencv.yolov3>`. 
 
-    The method :meth:`yolov3.detect <c4dynamics.detectors.yolo3_opencv.yolov3.detect>` 
-    returns a :class:`pixelpoint <c4dynamics.states.lib.pixelpoint.pixelpoint>` instance 
-    for each detected object: 
+    **Note** 
+
+    The system may be interpreted as follows: 
     
-    .. code:: 
-
-      >>> from c4dynamics import pixelpoint 
-      >>> print(pixelpoint())
-      [ x  y  w  h ]
-
+    - :math:`F = 1`             - constant position
     
-    That is, the measurements fed into the Kalman filter are 
-    directly the first four variables of the state. 
-
-    From this, we can directly derive the 
-    measurement matrix that forms the 
-    relation between the measurements and the state:
-
-
-    .. math::
-
-      C = \\begin{bmatrix}
-            1 & 0 & 0 & 0 & 0 & 0 \\\\
-            0 & 1 & 0 & 0 & 0 & 0 \\\\
-            0 & 0 & 1 & 0 & 0 & 0 \\\\
-            0 & 0 & 0 & 1 & 0 & 0 
-          \\end{bmatrix}  
+    - :math:`u = 1, G = 150`    - constant velocity control input 
+    
+    The advantage of this model is in its being first order. 
+    However, a slight difference between the actual dynamics and 
+    the modeled process will result in a lag with the tracked object.
 
 
-    This also implies that the system is observable but to be on the safe side 
-    let's examine the rank of the observability matrix.
 
-    First, import the required packages for the code 
-    in this snippet and the ones that follow: 
+    Import required packages: 
 
     .. code:: 
 
-      >>> import c4dynamics as c4d 
-      >>> from matplotlib import pyplot as plt 
-      >>> from scipy.linalg import expm 
-      >>> import numpy as np 
-      >>> import cv2 
+      >>> from c4dynamics.filters import kalman 
+      >>> from matplotlib import pyplot as plt  
+      >>> import c4dynamics as c4d
  
-      
-    Let's define the system matrices:
-
-    .. code::
     
-      >>> A = np.zeros((6, 6))
-      >>> A[0, 4] = A[1, 5] = 1
-      >>> C = np.zeros((4, 6))
-      >>> C[0, 0] = C[1, 1] = C[2, 2] = C[3, 3] = 1
+    Let's run a filter.
 
-    Now, build the observability matrix and check the rank: 
-
-    
-    .. code:: 
-    
-      >>> obsv = C
-      >>> n = len(A)
-      >>> for i in range(1, n):
-      ...   obsv = np.vstack((obsv, C @ np.linalg.matrix_power(A, i)))
-      >>> rank = np.linalg.matrix_rank(obsv)
-      >>> c4d.cprint(f'The system is observable (rank = n = {n}).' if rank == n else 'The system is not observable (rank = {rank), n = {n}).', 'y')
-      The system is observable 
-    
-    In each estimation, the `box` function converts the state coordinates to rectangle 
-    corners to draw a bounding box: 
-
-    .. code:: 
-    
-      >>> def box(X):
-      ...   # top left
-      ...   xtl = int(X[0] - X[2] / 2)
-      ...   ytl = int(X[1] - X[3] / 2)
-      ...   # bottom right 
-      ...   xbr = int(X[0] + X[2] / 2)
-      ...   ybr = int(X[1] + X[3] / 2)
-      ...   return [(xtl, ytl), (xbr, ybr)]
-
-
-      
-    The video in the following examples is used 
-    by kind permission of `Abed Ismail <https://www.pexels.com/@abed-ismail>`_
-
-    The video can be fetched using the c4dynamics' 
-    datasets module (see :mod:`c4dynamics.datasets`): 
+    First, since the covariance matrices are 
+    constant we can utilize the steady state mode of the filter.
+    This requires initalization with the respective flag:
 
     .. code:: 
 
-      >>> vidpath = c4d.datasets.video('drifting_car')
-      Fetched successfully
-      
-    Video setup: 
+      >>> v = 150
+      >>> sensor_noise = 200 
+      >>> kf = kalman({'x': 0}, P0 = 0.5**2, F = 1, G = v, H = 1
+      ...                         , Q = 0.05, R = sensor_noise**2, steadystate = True)
 
-    .. code:: 
-    
-      >>> video_cap = cv2.VideoCapture(vidpath)
-      >>> fps = video_cap.get(cv2.CAP_PROP_FPS)
-      >>> dt_frame = 1 / fps 
-
-    Let's take the prediction rate to be twice the frames rate:
-
-    .. code:: 
-
-      >>> dt = dt_frame / 2 
-
-
-    **2. Steady-state mode** 
-
-    As start, let's take the noise matrices (:math:`Q_k` of the process, and 
-    :math:`R_k` of the measurement) as constant. Since the system is 
-    LTI (linear time invariant), the Kalman gain (`K`) and consequently the estimation covariance matrix 
-    (`P`) are computed once and are constant ('steady-state') for the entire run-time.
-    
-      
-    Dynamics model and noise matrices: 
 
     
-    # TODO im not sure anymore its needed to start with cont. 
-    just add the cont matrices and explain why the covariances are the same.
-    # TODO my conclusion from all this is that it's not an example.
-    its a program. examples are short and straright froward and not 
-    entail all this intro. 
-    # maybe to separate between disc and cont only in the 
-    sys matrices but in the covariance to leave it to the user consid. 
-    # 3. instead of messing with all this maybe just show simple things.
-    things that relevant to the user and not to the fresh class studegnt of eng. 
-    focus on seeing the state of the kalman. of initializaing. of storging. 
-    much more important for this class. and move this example to programs==usecases. 
 
-    .. code::
-
-      >>> # process dynamics 
-      >>> A = np.zeros((6, 6))
-      >>> A[0, 4] = A[1, 5] = 1
-      >>> F = expm(A * dt)
-      >>> # measurement model 
-      >>> H = np.zeros((4, 6))
-      >>> H[0, 0] = H[1, 1] = H[2, 2] = H[3, 3] = 1
-      
-
-    From some exprerience with the objects detection model it is 
-    a fair evaulation to give the model an average error of 4 pixels 
-    both for position and box size. 
-    Assuming that the uncertainty TODO ??
-
-    The selection of the noise errors: 
-
-    .. code::
-
-      >>> # covariance matrices 
-      >>> process_std = measure_std = 4 
-      >>> Q = np.eye(6) * process_std**2   # process_noise
-      >>> R = np.eye(4) * measure_std**2   # measure_noise
-
-    indicates that the errors associated with the process 
-    and the errors associated with the measurement 
-    have equal weight (a standard deviation of `4`, units depend on the
-    variable). 
-
-
-
-    Kalman object definition. 
-    The initialization includes the state variables, mode, and matrices:
 
     .. code:: 
 
-      >>> kf = kalman({'x': 0, 'y': 0, 'w': 0, 'h': 0, 'vx': 0, 'vy': 0}
-      ...                      , steadystate = True, F = F, H = H, Q = Q, R = R)
-
-
-    Object detection model: 
-    
-    .. code:: 
-
-      >>> yolo3 = c4d.detectors.yolov3()
-      Fetched successfully 
-
-      
-    Main loop. The first step, prediction, occurs in every cycle. 
-    The second step, update (correction), occurs when a car detection is made:   
-
-    .. code:: 
-      
-      >>> t = 0
-      >>> while video_cap.isOpened():
-      ...   t += dt
-      ...   # predict
-      ...   kf.predict()
-      ...   ret, frame = video_cap.read()
-      ...   if not ret: break
-      ...   d = yolo3.detect(frame)
-      ...   if d and d[0].class_id == 'car': 
-      ...     # correct 
-      ...     kf.update(d[0].X)
-      ...     kf.detect = d 
-      ...     kf.storeparams('detect', t)
+      >>> for t in range(1, 26): #  seconds. 
+      ...   # store for later 
       ...   kf.store(t)
-      ...   _ = cv2.rectangle(frame, box(kf.X)[0], box(kf.X)[1], [0, 255, 0], 2)  
-      ...   cv2.imshow('', frame) 
-      ...   cv2.waitKey(10)
-      >>> cv2.destroyAllWindows()
-    
-
-    .. figure:: /_examples/kf/drifting_car.gif
-    
-    
+      ...   # predict + correct 
+      ...   kf.predict(u = 1) 
+      ...   kf.detect = v * t + np.random.randn() * sensor_noise 
+      ...   kf.storeparams('detect', t)
 
       
-    **3. Plotting** 
-    
-    The :meth:`plot <c4dynamics.states.state.state.plot>` 
-    method of the superclass :class:`state <c4dynamics.states.state.state>` 
-    allows direct generation of the state variables. 
-    The plot of the position `x` is given by: 
-
-    .. code:: 
-
-      >>> kf.plot('x')
-      >>> plt.show()
-
-    .. figure:: /_examples/kf/steadystate_x.png
-                  
-
-    
-    Now, since we also stored the detections (using 
-    :meth:`storeparams <c4dynamics.states.state.state.storeparams>`), 
-    we can add the detection marks on the state line: 
-
-
-    .. code:: 
-    
-      >>> plt.plot(*kf.data('x'), 'om', label = 'estimation')
-      >>> plt.gca().plot(kf.data('detect')[0], np.vectorize(lambda d: d.x if isinstance(d, c4d.pixelpoint) else np.nan)(kf.data('detect')[1]), 'co', label = 'detection')
-      >>> c4d.plotdefaults(plt.gca(), 'x - steady-state mode', 'Time', 'x', 8)
-      >>> plt.legend()
-
-      
-    The first argument (:code:`kf.data('detect')[0]`) in the third line is 
-    just the time series of the detections at the storing samples. 
-    The second argument uses numpy's `vectorize` to extract the 
-    `x` field from the detection data. 
-
-
-    .. code:: 
-    
-      >>> plt.show()
-    
-      
-    .. figure:: /_examples/kf/steadystate_detections.png
-
-    By focusing on an arbitrary region the operation of the prediction is revealed. 
-    While the frame rate is 30 frames per second, the main loop runs 60 frames 
-    per second. 
-    For every cycle where no image is taken, the prediction 
-    estimates the object's position based on the dynamics model: 
-
-    .. figure:: /_examples/kf/steadystate_detections_zoom.png
-
-
-    This is true also for the edges where the object is outside the frame and 
-    wherever the detection model fails to identify the object in the frame. 
-    In such cases, the Kalman filter provides 
-    an optimal estimation of the objects' current state. 
-      
-
-    By default, kalman's :meth:`store` stores also samples of the 
-    main diagonal of `P`, the covariance matrix. Each element 
-    is named `Pii`, where `i` is the index of the variable in 
-    the state. Here `x` is the first variable:
+    Recall that a :class:`kalman` object, as subclass of 
+    the :class:`state <c4dynamics.states.state.state>`, 
+    encapsulates the process state vector:
 
     .. code:: 
 
       >>> print(kf)
-      [ x  y  w  h  vx  vy ]
-
+      [ x ]
+    
       
-    Then extracting the standard deviations of `x` from the storage 
-    is possible by: 
-      
+    It can also employ the 
+    :meth:`plot <c4dynamics.states.state.state.plot>` 
+    or any other method of the `state` class: 
+
+
+    .. code::
+
+      >>> kf.plot('x')  # doctest: +IGNORE_OUTPUT
+      >>> plt.gca().plot(*kf.data('detect'), 'co', label = 'detection')   # doctest: +IGNORE_OUTPUT
+      >>> plt.gca().legend()    # doctest: +IGNORE_OUTPUT
+      >>> plt.show() 
+
+    .. figure:: /_examples/kf/steadystate.png
+
+    
+    Let's now assume that as the 
+    train moves farther from the station, 
+    the sensor measurements degrade. 
+
+    The measurement covariance matrix therefore increases accordingly,
+    and the steady state mode cannot be used:
+
 
     .. code:: 
 
-      >>> t_std, x_std = kf.data('P00')[0], np.sqrt(kf.data('P00')[1])
-
-    
-    As before, the first argument provides the 
-    time series for the samples of `P00`. 
-    In the second argument, we take 
-    square root of the values of `P00` to convert the variances to standard deviations. 
-
-    The standard deviations represent the estimation error. 
-    It is therefore convinent to plot them alongside the state variables: 
-
-
-    .. code:: 
-
-      >>> plt.gca().plot(t_std, kf.data('x')[1] - x_std, 'w', linewidth = 1, label = 'std')
-      >>> plt.gca().plot(t_std, kf.data('x')[1] + x_std, 'w', linewidth = 1)
-
-      
-    .. figure:: /_examples/kf/steadystate_std.png
-
-
-    The nature of the steady-state mode is conveyed here 
-    by the constant variance, which represents the error in the variable 
-    
-
-
-    
-
-
-    **4. Discrete system** 
-    
-
-    
-    In the previous example, we ran the filter in steady-state mode.
-    That means that the estimation error (the state covariance matrix `P`) 
-    is calculated once and remains
-    constant during the filter runtime. 
-
-    This mode is enabled when the covariance matrices 
-    that describe the process noise (:math:`Q` or :math:`Q_k`) 
-    and the measurement noise (:math:`R` or :math:`R_k`) are 
-    themselves constant. 
-
-    However, when the noise matrices are time-varying,  
-    steady-state mode is not feasible. 
-    
-    The previous case may be improved by adjusting 
-    the process noise matrix :math:`Q_k`.
-    
-    
-    Let's re-examine the plot of the x-coordinate over time: 
-
-    .. figure:: /_examples/kf/steadystate_x.png
-    
-    The dynamics model assumes linear motion.
-    However, the actual motion in the x-coordinate 
-    is approximately linear up to `4s`, but then 
-    changes direction, continues linearly until 
-    `7s`, and changes direction again until exit the frame. 
-
-    In fact, in the vicinity of `t = 4s`, there is a 
-    significant gap between the 
-    estimation (magenta) and the detection measures (cyan): 
-    
-    .. figure:: /_examples/kf/steadystate_std_zoom.png
-
-    The reason is that the filter relies on the process model 
-    just as it trusts the measurements and therefore 
-    averages the predictons and the measurements. 
-
-    Recall that we used :math:`Q, R` a diagonal matrices with 
-    a standard deviation of `4`:  
-
-    .. code:: 
-
-      >>> process_std = measure_std = 4 
-      >>> Q = np.eye(6) * process_std**2 
-      >>> R = np.eye(4) * measure_std**2 
-
-    To address the gap between the estimation and the detections, 
-    let's make the process noise :math:`Q` less 
-    tight around `t = 4s`:
-
-
-    .. math::
-
-      process std = \\begin{cases} 
-                    8 & \\text{3.9 < t < 4.15} \\\\ 
-                    4 & \\text{otherwise}
-                    \\end{cases}
-    
-    Namely, at `t = 4s`, the process error is high, and the filter 
-    should place less weight on the process model.
-
-    In fact, since the filter recalculates the covariance at each time step, 
-    it is better to reduce :math:`R` and :math:`Q` by a factor compared 
-    to the steady state mode values. Here, the factor is set to `0.5`. 
-
-    .. code:: 
-
-      >>> noisefactor = 0.5
-      >>> Q *= noisefactor
-      >>> R *= noisefactor
-
-      
-
-
-    The filter initialization is similar to the previous case, 
-    with the steady-state flag omitted.
-
-    Discrete system kalman initalization: 
-
-    .. code:: 
-
-      >>> kf = c4d.filters.kalman({'x': 0, 'y': 0, 'w': 0, 'h': 0, 'vx': 0, 'vy': 0}
-                              , P0 = Q, F = F, H = H, Q = Q, R = R)
-
-
-
-    The main loop is only modified to include the change in :math:`Q_k`: 
-
-    
-
-    .. code:: 
-
-      >>> t = 0
-      >>> # main loop       
-      >>> while video_cap.isOpened():
+      >>> v = 150
+      >>> kf = kalman({'x': 0}, P0 = 0.5*2, F = 1, G = v, H = 1, Q = 0.05)
+      >>> for t in range(1, 26): #  seconds. 
       ...   kf.store(t)
-      ...   t += dt
-      ...   if t > 3.9 and t < 4.15:
-      ...     Q = np.eye(6) * 8**2 * noisefactor
-      ...   else: 
-      ...     Q = np.eye(6) * 4**2 * noisefactor
-      ...   kf.predict(Q = Q)
-      ...   if round(t / dt_frame, 1) % 1 >= 1e-10: continue   
-      ...   # camera cycle:
-      ...   ret, frame = video_cap.read()
-      ...   if not ret: break
-      ...   d = yolo3.detect(frame)
-      ...   if d and (d[0].class_id == 'car'):  
-      ...     kf.update(d[0].X)
-      ...     kf.detect = d 
-      ...     kf.storeparams('detect', t)
-      ...   cv2.rectangle(frame, box(kf.X)[0], box(kf.X)[1], [0, 255, 0], 2) 
-      ...   cv2.imshow('', frame)
-      ...   cv2.waitKey(10)
-      >>> cv2.destroyAllWindows()
+      ...   sensor_noise = 200 + 8 * t 
+      ...   kf.predict(u = 1)
+      ...   kf.detect = v * t + np.random.randn() * sensor_noise   
+      ...   kf.K = kf.update(kf.detect, R = sensor_noise**2) 
+      ...   kf.storeparams('detect', t)
 
+      
+    .. figure:: /_examples/kf/varying_r.png
     
-    Now, the measures should respond stronger 
-    when the car changes direction at :math:`t \\approx 4s`: 
-    
-    .. figure:: /_examples/kf/discrete_std_zoom.png
     
 
-    
-
-
-    **5. Continuous system** 
-
-    We can achieve the same result by running continuous system. 
-
-    The respective system 
-
-    Let: 
-
-    .. code:: 
-
-      ... 
-
-
-    This however not suprising, as the class and its methods converts any input 
-    system to a discerte represnation according to the inverse of the equations above 
-    and run the filter. 
-    
   '''
-  # TODO maybe change 'time histories' with 'time series' or 'time evolution' 
+  # FIX maybe change 'time histories' with 'time series' or 'time evolution' 
 
-  Kinf = None 
+  _Kinf = None 
+  _nonlinearF = False 
+  _nonlinearH = False 
 
-
-  def __init__(self, X: dict, dt: Optional[float] = None, P0: Optional[np.ndarray] = None, steadystate: bool = False
-                , A: Optional[np.ndarray] = None, B: Optional[np.ndarray] = None, C: Optional[np.ndarray] = None
-                  , F: Optional[np.ndarray] = None, G: Optional[np.ndarray] = None, H: Optional[np.ndarray] = None
-                    , Q: Optional[np.ndarray] = None, R: Optional[np.ndarray] = None):
+  def __init__(self, X: dict, F: np.ndarray, H: np.ndarray, steadystate: bool = False
+                  , G: Optional[np.ndarray] = None, P0: Optional[np.ndarray] = None
+                      , Q: Optional[np.ndarray] = None, R: Optional[np.ndarray] = None):
     # 
     # P0 is mandatory and it is either the initial state covariance matrix itself or 
     # a vector of the diagonal standard deviations. 
@@ -652,38 +232,46 @@ class kalman(c4d.state):
     super().__init__(**X)
 
 
-    # initialize cont or discrete system 
-    self.isdiscrete = True 
+    #
+    # verify shapes consistency: 
+    #   x = Fx + Gu + w
+    #   y = Hx + v
+    # X: nx1, F: nxn, G: nxm, u: mx1, y: 1xk, H: kxn
+    # P: nxn, Q: nxn, R: kxk 
+    # state matrices should be 2dim array. 
+    ##  
+    def vershape(M1name, M1rows, M2name, M2columns):
+      if M1rows.shape[0] != M2columns.shape[1]: 
+        raise ValueError(f"The columns of {M2name} (= {M2columns.shape[1]}) must equal """ 
+                            f"the rows of {M1name} (= {M1rows.shape[0]})")
+
     self.G = None 
-    if A is not None and C is not None:
-      # continuous system 
-      # 
-      self.isdiscrete = False  
-      if dt is None:
-        raise ValueError("""dt is necessary for a continuous system""")
-
-      self.dt = dt
-      #         
-      self.F  = np.eye(len(A)) + A * dt 
-      self.H  = np.atleast_2d(C) 
-      if B is not None: 
-        self.G = np.atleast_2d(B) * dt 
-
-    elif F is not None and H is not None:
+    if F is not None and H is not None:
       # discrete
-      self.F  = np.atleast_2d(F) 
-      self.H  = np.atleast_2d(H) 
-      if G is not None: 
-        self.G = np.atleast_2d(G) 
-    else: 
-      raise ValueError("""At least one set of matrices has to be provided entirely:"""
-                          """\nFor a continuous system: A, C (B is optional). Where: x' = A*x + B*u + w, y = C*x + v"""
-                            """\nFor a dicscrete system: F, H (G is optional). Where: x(k) = F*x(k-1) + G*u(k-1) + w(k-1), y(k) = H*x(k) + v(k)""")
+      self.F  = np.atleast_2d(F).astype(float)
+      vershape('F', self.F, 'F', self.F)          # F: nxn
+      vershape('X', self.X.T, 'F', self.F)        # F: n columns 
 
+      self.H  = np.atleast_2d(H) 
+      vershape('X', self.X.T, 'H', self.H)        # H: n columns  
+
+      if G is not None: 
+        self.G = np.atleast_2d(G).reshape(self.F.shape[0], -1) # now G is necessarily a column vector. 
+        
+    else: 
+      raise ValueError("""F and H (G is optional) as a set of system matrices must be provided entirely:"""
+                            """\nx(k) = F*x(k-1) + G*u(k-1) + w(k-1), y(k) = H*x(k) + v(k)""")
+    
+    self.Q = None
+    self.R = None 
     if Q is not None:
       self.Q = np.atleast_2d(Q) 
+      vershape('Q', self.Q, 'Q', self.Q)                    # Q: nxn 
+      vershape('X', self.X.T, 'Q', self.Q)                  # Q: n columns 
     if R is not None:
       self.R = np.atleast_2d(R)  
+      vershape('R', self.R, 'R', self.R)                    # R: kxk 
+      vershape('H', self.H, 'R', self.R)                    # R: k columns 
       
     
     if steadystate: 
@@ -692,218 +280,335 @@ class kalman(c4d.state):
         raise ValueError("""In steady-state mode, the noise matrices Q and R must be provided.""")
 
       self.P = solve_discrete_are(self.F.T, self.H.T, self.Q, self.R)
-      self.Kinf = self.P @ self.H.T @ np.linalg.inv(self.H @ self.P @ self.H.T + self.R)
+      self._Kinf = self.P @ self.H.T @ np.linalg.inv(self.H @ self.P @ self.H.T + self.R)
 
     else: # steady state is off 
       if P0 is None:
         # NOTE maybe init with zeros and raising warning is better solution. 
-        raise ValueError(r'P0 is a necessary variable (optional only in steadystate mode)')
+        raise ValueError(r'P0 must be provided (optional only in steadystate mode)')
 
-      P0 = np.atleast_2d(P0)      
 
-      if P0.shape[0] == P0.shape[1]:  
-        # square matrix
-        self.P = P0
+      if np.array(P0).ndim == 1: 
+        # an array of standard deviations is provided 
+        self.P = np.diag(np.array(P0).ravel()**2)
       else:
-        # only standard deviations are provided 
-        # self.P = np.diag(P0.flatten()**2)
-        self.P = np.diag(P0.ravel()**2)
+        P0 = np.atleast_2d(P0)      
+        if P0.shape[0] == P0.shape[1]:  
+          # square matrix
+          self.P = P0
 
     self._Pdata = []   
 
 
 
-  @property
-  def A(self):
-    if self.isdiscrete: 
-      _noncontwarning('F')
-      return None
-    
-    a = (self.F - np.eye(len(self.F))) / self.dt 
-    return a 
-
-  @A.setter
-  def A(self, a):
-    if self.isdiscrete: 
-      _noncontwarning('F') 
-    else: 
-      self.F = np.eye(len(a)) + a * self.dt 
-
-
-  @property 
-  def B(self):
-    if self.isdiscrete: 
-      _noncontwarning('G')
-      return None 
-    return self.G / self.dt 
-  
-  @B.setter
-  def B(self, b):
-    if self.isdiscrete: 
-      _noncontwarning('G')
-    else: 
-      self.G = b * self.dt 
-
-
-  @property 
-  def C(self):
-    if self.isdiscrete: 
-      _noncontwarning('H')
-      return None 
-    return self.H 
-  
-  @C.setter
-  def C(self, c):
-    if self.isdiscrete: 
-      _noncontwarning('H')
-    else: 
-      self.H = c
-
 
   def predict(self, u: Optional[np.ndarray] = None, Q: Optional[np.ndarray] = None):
     '''
-      Predicts the next state and covariance based 
-      on the current state and process model.
+      Predicts the filter's next state and covariance matrix based 
+      on the current state and the process model.
       
       Parameters
       ----------
       u : numpy.ndarray, optional
           Control input. Defaults to None.
+      Q : numpy.ndarray, optional
+          Process noise covariance matrix. Defaults to None.
 
-
-      FROM PIXELPOINT: 
-
-
-      Gets and sets the frame size. 
-
-      Parameters
-      ----------
-      fsize : tuple 
-          Size of the frame in pixels (width, height).
-          - (width)  int : Frame width in pixels. 
-          - (height) int : Frame height in pixels. 
-
-
-      Returns
-      -------
-      out : tuple 
-          A tuple of the frame size in pixels (width, height). 
-          
 
       Raises
       ------
       ValueError
-          If `fsize` doesn't have exactly two elements, a ValueError is raised.
-
+          If `Q` is not missing (neither provided 
+          during construction nor passed to `predict`). 
+      ValueError
+          If a control input is provided, but the number of elements in `u` 
+          does not match the number of columns of the input matrix `G`. 
+          
           
       Examples
       --------
-      For detailed usage, 
+      For more detailed usage, 
       see the examples in the introduction to 
+      the :mod:`filters <c4dynamics.filters>` module and 
       the :class:`kalman` class.
 
-      define kalman:
       
 
-      run in steadys tate: 
+      
+      Import required packages: 
 
-      run with control input
+      .. code:: 
 
-      run with varying Q
+        >>> from c4dynamics.filters import kalman 
 
 
-          
+
+      Plain `predict` step 
+      (predict in steady-state mode where the process variance matrix 
+      remains constant 
+      and is provided once to initialize the filter): 
+
+      .. code:: 
+
+        >>> kf = kalman({'x': 0}, P0 = 0.5**2, F = 1, H = 1, Q = 0.05, R = 200, steadystate = True)
+        >>> print(kf)
+        [ x ]
+        >>> kf.X          # doctest: +NUMPY_FORMAT
+        [0]
+        >>> kf.P          # doctest: +NUMPY_FORMAT
+        [[3.187...]]
+        >>> kf.predict()
+        >>> kf.X          # doctest: +NUMPY_FORMAT
+        [0]
+        >>> kf.P          # doctest: +NUMPY_FORMAT
+        [[3.187...]]
+
+
+      Predict with control input: 
+
+      .. code:: 
+
+        >>> kf = kalman({'x': 0}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)
+        >>> kf.X  # doctest: +NUMPY_FORMAT
+        array([0])
+        >>> kf.P        # doctest: +ELLIPSIS
+        array([[0.25...]])
+        >>> kf.predict(u = 1)
+        >>> kf.X      # doctest: +NUMPY_FORMAT
+        array([150]) 
+        >>> kf.P
+        array([[0.3]])
+
+
+        
+      Predict with updated process noise covariance matrix: 
+
+      .. code:: 
+
+        >>> kf = kalman({'x': 0}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)
+        >>> kf.X  # doctest: +NUMPY_FORMAT
+        array([0])
+        >>> kf.P
+        array([[0.25]])
+        >>> kf.predict(u = 1, Q = 0.01)
+        >>> kf.X  # doctest: +NUMPY_FORMAT
+        array([150])
+        >>> kf.P
+        array([[0.26]])
+
 
     '''
-    # TODO test the size of the objects. 
-    # test the type. 
-    # make sure the user is working with c4d modules. 
-    # actually only u should be tested here all the other need be tested at the init stage. 
-	  # this F must be linear, but it can be linearized once for the entire
-    # process (regular kalman), or linearized and delivered at each step (extended kalman)
   
 
-    if self.Kinf is None:
+    if self._Kinf is None:
 
       if Q is not None: 
         self.Q = np.atleast_2d(Q) 
       elif self.Q is None: 
-        raise ValueError(r'Q must be provided in every call to predict() (optional only in steadystate mode)')
+        raise ValueError("""Q is missing. It can be provided once at construction """
+                         """or in every call to predict() """)
 
       self.P = self.F @ self.P @ self.F.T + self.Q
          
-    # this F can be either linear or nonlinear function of x. 
-    self.X = self.F @ self.X 
+    if not self._nonlinearF: 
+      self.X = self.F @ self.X 
 
-    if u is not None:
-      
+    if u is not None: 
       if self.G is None:
-        warnings.warn(f"""\nWarning: u={u} is introduced as control input but the input matrix is zero! (G for discrete system or B for continuous).""", c4d.c4warn) 
+        warnings.warn(f"""\nWarning: u={u} is introduced as control input but the input matrix G is zero!""", c4d.c4warn) 
       else:   
         u = np.atleast_2d(u)      
         if len(u.ravel()) != self.G.shape[1]:
-          raise ValueError(f"""The number of elements in u must equal the number of columns of the input matrix (B or G), {len(u.ravel())} != {self.G.shape[1]}""")
+          raise ValueError(f"""The number of elements in u must equal the number of columns of the input matrix G, {len(u.ravel())} != {self.G.shape[1]}""")
         self.X += self.G @ u.ravel() 
 
     
  
   def update(self, z: np.ndarray, R: Optional[np.ndarray] = None):
     '''
-      Updates the state estimate based on the given measurements.
+      Updates (corrects) the state estimate based on the given measurements.
       
       Parameters
       ----------
       z : numpy.ndarray
           Measurement vector.
+      R : numpy.ndarray, optional
+          Measurement noise covariance matrix. Defaults to None.
+
+      Returns
+      -------
+      K : numpy.ndarray 
+          Kalman gain. 
+
+
+      Raises
+      ------
+      ValueError
+          If the number of elements in `z` does not match 
+          the number of rows in the measurement matrix H. 
+      ValueError
+          If `R` is missing (neither provided 
+          during construction 
+          nor passed to `update`). 
+          
+      Examples
+      --------
+      For more detailed usage, 
+      see the examples in the introduction to 
+      the :mod:`filters <c4dynamics.filters>` module and 
+      the :class:`kalman` class.
+
+      
+      
+      Import required packages: 
+
+      .. code:: 
+
+        >>> from c4dynamics.filters import kalman 
 
 
 
+      Plain update step 
+      (update in steady-state mode 
+      where the measurement covariance matrix remains 
+      and is provided once during filter initialization): 
 
-    
-      define kalman:
+      .. code:: 
 
-      run in steadys tate: 
+        >>> kf = kalman({'x': 0}, P0 = 0.5**2, F = 1, H = 1, Q = 0.05, R = 200, steadystate = True)
+        >>> print(kf)
+        [ x ]
+        >>> kf.X   # doctest: +NUMPY_FORMAT
+        array([0])
+        >>> kf.P                # doctest: +NUMPY_FORMAT
+        [[3.187...]]     
+        >>> kf.update(z = 100)  # returns Kalman gain   # doctest: +NUMPY_FORMAT
+        [[0.0156...]]
+        >>> kf.X                # doctest: +NUMPY_FORMAT
+        [1.568...]   
+        >>> kf.P                # doctest: +NUMPY_FORMAT
+        [[3.187...]]
 
-      run with varying R
+
+        
+      Update with modified measurement noise covariance matrix: 
+
+      .. code:: 
+
+        >>> kf = kalman({'x': 0}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)
+        >>> kf.X   # doctest: +NUMPY_FORMAT
+        array([0])
+        >>> kf.P
+        array([[0.25]])
+        >>> K = kf.update(z = 150, R = 0)
+        >>> K   # doctest: +NUMPY_FORMAT
+        array([[1]])
+        >>> kf.X  # doctest: +NUMPY_FORMAT
+        array([150])
+        >>> kf.P  # doctest: +NUMPY_FORMAT
+        array([[0]])
+
           
     '''
 
     
-    # this H must be linear, but as F may it be linearized once about an equilibrium point for 
+    # this H must be linear, but like F may it be linearized once about an equilibrium point for 
     # the entire process (regular kalman) or at each 
     # iteration about the current state (ekf). 
     # TODO add Mahalanobis optional test 
     z = np.atleast_2d(z).ravel()
     if len(z) != self.H.shape[0]:
       raise ValueError(f"""The number of elements in the input z must equal """
-                          f"""the number of rows of the measurement matrix (C or H), """
+                          f"""the number of rows of the measurement matrix H, """
                               f"""{len(z.ravel())} != {self.H.shape[0]}""")
     
-    if self.Kinf is None:
+    if self._Kinf is None:
       if R is not None: 
         self.R = np.atleast_2d(R)
       elif self.R is None: 
-        raise ValueError(r'R must be provided in every call to update() (optional only in steadystate mode)')
+        raise ValueError("""R is missing. It can be provided once at construction """
+                         """or in every call to update() """)
 
       K = self.P @ self.H.T @ np.linalg.inv(self.H @ self.P @ self.H.T + self.R)
       self.P = self.P - K @ self.H @ self.P
     else: 
-      K = self.Kinf
+      K = self._Kinf
 
+    if not self._nonlinearH:
+      hx = self.H @ self.X
+      
     # this H can be expressed as either linear or nonlinear function of x.  
-    self.X += K @ (z - self.H @ self.X)
+    self.X += K @ (z - hx) # type: ignore # nx1 = nxm @ (mx1 - mxn @ nx1)
+    return K 
     
-    
+
   def store(self, t: int = -1):
     ''' 
-    Stores the current state and diagonal elements of the covariance matrix.
-        
-    Parameters
-    ----------
-
-    t : int, optional
-        Time step for storing the state. Defaults to -1.
+      Stores the current state and diagonal elements of the covariance matrix.
+          
+      The :meth:`store` method captures the current state of the Kalman filter, 
+      storing the state vector (`X`) and the error covariance matrix (`P`) 
+      at the specified time. 
       
+
+      Parameters
+      ----------
+      t : int, optional
+          The current time at which the state is being stored. Defaults to -1.
+      
+
+      Notes
+      -----
+      1. The stored data can be accessed via :meth:`data <c4dynamics.states.state.state.data>` 
+         or other methods for 
+         post-analysis or visualization.
+      2. The elements on the main diagonal of the covariance matrix are named 
+         according to their position, starting with 'P' followed by their row and column indices. 
+         For example, the first element is named 'P00', and so on.
+      3. See also :meth:`store <c4dynamics.states.state.state.store>` 
+         and :meth:`data <c4dynamics.states.state.state.data>` 
+         for more details. 
+
+      Examples
+      -------- 
+      For more detailed usage, 
+      see the examples in the introduction to 
+      the :mod:`filters <c4dynamics.filters>` module and 
+      the :class:`kalman <c4dynamics.filters.kalman.kalman>` class.
+
+        
+
+        
+      Import required packages: 
+
+      .. code:: 
+
+        >>> from c4dynamics.filters import kalman 
+
+
+      
+      .. code:: 
+
+        >>> kf = kalman({'x': 0}, P0 = 0.5**2, F = 1, H = 1, Q = 0.05, R = 200)
+        >>> # store initial conditions
+        >>> kf.store() 
+        >>> kf.predict()
+        >>> # store X after prediction
+        >>> kf.store() 
+        >>> kf.update(z = 100)  # doctest: +ELLIPSIS 
+        array([[0.00149...]])
+        >>> # store X after correct
+        >>> kf.store() 
+
+      Access stored data: 
+      
+      .. code:: 
+
+        >>> kf.data('x')[1]  # doctest: +NUMPY_FORMAT
+        [0  0  0.15])
+        >>> kf.data('P00')[1]  # doctest: +NUMPY_FORMAT
+        [0.25  0.3  0.299])
+          
     '''
     
     super().store(t) # store state 
@@ -966,19 +671,54 @@ class kalman(c4d.state):
     return kf 
 
 
+  @staticmethod
+  def nees(kf, true_obj):
+    ''' normalized estimated error squared '''
+
+    Ptimes = kf.data('P00')[0]
+    err = []
+    for t in kf.data('t'):
+
+      xkf = kf.timestate(t)
+      xtrain = true_obj.timestate(t)
+
+      idx = min(range(len(Ptimes)), key = lambda i: abs(Ptimes[i] - t))
+      P = kf.data('P00')[1][idx]
+
+      xerr = xtrain - xkf
+      err.append(xerr**2 / P)  
+    return np.mean(err)
+
 
 
 
 
 
 if __name__ == "__main__":
-  import contextlib
-  import doctest
 
-  # Redirect both stdout and stderr to a file within this block
-  with open('tests\\_out\\output.txt', 'w') as f:
-    with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
-      doctest.testmod()
+  import doctest, contextlib, os
+  from c4dynamics import IgnoreOutputChecker, cprint
+  
+  # Register the custom OutputChecker
+  doctest.OutputChecker = IgnoreOutputChecker
+
+  tofile = False 
+  optionflags = doctest.FAIL_FAST
+
+  if tofile: 
+    with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
+      with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
+        result = doctest.testmod(optionflags = optionflags) 
+  else: 
+    result = doctest.testmod(optionflags = optionflags)
+
+  if result.failed == 0:
+    cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
+  else:
+    print(f"{result.failed}")
+
+
+
  
 
 

@@ -4,7 +4,8 @@ Usage of Datasets
 =================
 
 C4dynamics dataset functions can be simply called as follows: 
-:code:`c4dynamics.datasets.module(file)`.
+:code:`c4dynamics.datasets.module(file)`, 
+where ``module`` and ``file`` define the dataset.
 The available modules and files are detailed on the corresponding pages. 
 This downloads the dataset file over the network once, saves it to the cache, 
 and returns the path to the file.
@@ -60,8 +61,35 @@ the internet connectivity.
 
 '''
 
+import sys, os
+sys.path.append('.')
 
-from ._manager import sha256, image, video, nn_model, d3_model, download_all, clear_cache  
+from c4dynamics.datasets._manager import sha256, image, video, nn_model, d3_model, download_all, clear_cache  
 
+
+
+
+if __name__ == "__main__":
+
+  import doctest, contextlib
+  from c4dynamics import IgnoreOutputChecker, cprint
+  
+  # Register the custom OutputChecker
+  doctest.OutputChecker = IgnoreOutputChecker
+
+  tofile = False 
+  optionflags = doctest.FAIL_FAST
+
+  if tofile: 
+    with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
+      with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
+        result = doctest.testmod(optionflags = optionflags) 
+  else: 
+    result = doctest.testmod(optionflags = optionflags)
+
+  if result.failed == 0:
+    cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
+  else:
+    print(f"{result.failed}")
 
 

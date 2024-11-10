@@ -1,3 +1,5 @@
+# type: ignore
+
 import sys, os 
 sys.path.append('.')
 import c4dynamics as c4d
@@ -14,6 +16,24 @@ savedir = os.path.join(os.getcwd(), 'docs', 'source', '_examples', 'pixelpoint')
 tripath = c4d.datasets.image('triangle')
 planespath = c4d.datasets.image('planes')
 
+
+def intro():
+
+  from c4dynamics import pixelpoint 
+  import numpy as np 
+  d = [50, 50, 15, 25, 0.8, 0.1, 0.0, 0.05, 0.89]
+  f_width, f_height = 100, 100
+  class_names = ['dog', 'cat', 'horse', 'fox']
+
+  pp = pixelpoint(x = d[0], y = d[1], w = d[2], h = d[3])
+  pp.fsize = (f_width, f_height)
+  pp.class_id = class_names[np.argmax(d[5:])]
+  print(f'{d = }')
+  print(f'{pp.fsize = }')
+  print(f'{pp.class_id = }')
+
+        
+  
 
 def tridetect(img):
   _, thresh = cv2.threshold(cv2.cvtColor(img, cv2.COLOR_BGR2GRAY), 50, 255, 0)
@@ -111,11 +131,11 @@ def yolo():
 
 
 if __name__ == '__main__': 
-
-  from_image()
-  from_detector()
-  detect_triangle()
-  yolo() 
+  intro()
+  # from_image()
+  # from_detector()
+  # detect_triangle()
+  # yolo() 
 
   plt.show(block = True)
 

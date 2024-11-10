@@ -54,7 +54,7 @@ sys.path.append(c4path)
 import c4dynamics as c4d 
 from c4dynamics.utils.tictoc import tic, toc 
 
-savedir = os.path.join(c4path, 'docs', 'source', '_examples', 'kf') 
+savedir = os.path.join(c4path, 'docs', 'source', 'programs', 'figures', 'driftcar') 
 
 
 
@@ -390,9 +390,9 @@ def discrete():
   Rk = np.eye(4) * 4**2 * noisefactor
 
   kf = c4d.filters.kalman({'x': 0, 'y': 0, 'w': 0, 'h': 0, 'vx': 0, 'vy': 0}
-                              , P0 = Qk, F = F, H = H, Qk = Qk, Rk = Rk)
+                              , P0 = Qk, F = F, H = H, Q = Qk, R = Rk)
    
-  print(kf.A) 
+  print(kf.F) 
   n = kf.F.shape[0]
   obsv = kf.H
   for i in range(1, n):
@@ -414,7 +414,7 @@ def discrete():
     else: 
       Qk = np.eye(6) * 4**2 * noisefactor
 
-    kf.predict(Qk = Qk)
+    kf.predict(Q = Qk)
 
     if round(t / dt_frame, 1) % 1 >= 1e-10: continue   
     
@@ -459,6 +459,6 @@ if __name__ == '__main__':
   kf, kf_label = discrete() 
   drawkf(kf, kf_label)
 
-  kf, kf_label = continuous() 
-  drawkf(kf, kf_label)
+  # kf, kf_label = continuous() 
+  # drawkf(kf, kf_label)
 

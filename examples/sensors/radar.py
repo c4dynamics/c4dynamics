@@ -1,3 +1,5 @@
+# type: ignore
+
 import sys, os 
 sys.path.append('.')
 import c4dynamics as c4d
@@ -146,28 +148,29 @@ def nonideal(tgt, rdr_ideal):
   c4d.cprint('non-ideal radar', 'y')
   ''' non-ideal radar'''
 
+  np.random.seed(61)
   pedestal = c4d.rigidbody(z = 30, theta = -1 * c4d.d2r)
   # print(np.random.randn)
   rdr = c4d.sensors.radar(origin = pedestal)
   # measure the target position
   # measured_angles = []
 
-  rdr.rng_noise_std = 3
-  rdr.bias = .4 * c4d.d2r
-  rdr.scale_factor = 1.07
+  # rdr.rng_noise_std = 3
+  # rdr.bias = .4 * c4d.d2r
+  # rdr.scale_factor = 1.07
 
   for x in tgt.data():
     # measured_angles.append(rdr.measure(c4d.create(x[1:]))[:2])
     rdr.measure(c4d.create(x[1:]), t = x[0], store = True)
 
 
-  print(f'{ rdr.rng_noise_std :.2f}')
+  print(f'{ rdr.rng_noise_std = }')
   # 3
-  print(f'{ rdr.bias * c4d.r2d :.2f}')
+  print(f'{ rdr.bias * c4d.r2d =}')
   # .4
-  print(f'{ rdr.scale_factor :.2f}')
+  print(f'{ rdr.scale_factor =}')
   # 1.07
-  print(f'{ rdr.noise_std * c4d.r2d  :.2f}')
+  print(f'{ rdr.noise_std * c4d.r2d =}')
   # .8
 
 
@@ -252,15 +255,17 @@ def timestep(tgt):
 
   c4d.cprint('dt', 'y')
   ''' dt '''
+
+  np.random.seed(770)
   tgt1 = c4d.datapoint(x = 100, y = 100)
   rdr = c4d.sensors.radar(dt = 0.01)
   for t in np.arange(0, .025, .005):
     print(f'{t}: {rdr.measure(tgt1, t = t)}')
-  # 0.0:    (0.71, 0.005, 141.2)
-  # 0.005:  (None, None, None)
-  # 0.01:   (0.74, -0.007, 140.7)
-  # 0.015:  (None, None, None)
-  # 0.02:   (0.73, -0.02, 142.2)
+  # 0.0: (0.7081153512624399, 0.0159259075895469, 140.14831212305964)
+  # 0.005: (None, None, None)
+  # 0.01: (0.723534357771057, -0.041102720436096044, 142.18464047240093)
+  # 0.015: (None, None, None)
+  # 0.02: (0.7213310832643385, -0.0037291551253552093, 140.46066042042435)
 
   c4d.cprint('bias2', 'y')
 
@@ -292,23 +297,25 @@ def measure(tgt):
   c4d.cprint('measure', 'y')
 
   dt = .01
+
+  np.random.seed(321)
   tgt = c4d.datapoint(x = 1000, vx = -80 * c4d.kmh2ms, vy = 10 * c4d.kmh2ms)
 
   pedestal = c4d.rigidbody(z = 30, theta = -1 * c4d.d2r)
 
   rdr = c4d.sensors.radar(origin = pedestal, dt = 0.05)
 
-  rdr.bias = -0.025 * c4d.d2r
-  rdr.scale_factor = .99
+  # rdr.bias = -0.025 * c4d.d2r
+  # rdr.scale_factor = .99
 
   rdr_ideal = c4d.sensors.radar(origin = pedestal, isideal = True)
 
 
-  print(f'{ rdr.rng_noise_std :.2f}')
+  print(f'{ rdr.rng_noise_std = }')
   # 1
-  print(f'{ rdr.bias * c4d.r2d :.3f}')
+  print(f'{ rdr.bias * c4d.r2d  = }')
   # -.03
-  print(f'{ rdr.scale_factor :.2f}')
+  print(f'{ rdr.scale_factor = }')
   # .99
   print(f'{ rdr.noise_std * c4d.r2d :.2f}')
   # .8

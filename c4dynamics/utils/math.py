@@ -1,5 +1,7 @@
 import numpy as np
 from scipy.special import erfinv
+import sys 
+sys.path.append('.')
 import c4dynamics as c4d 
 
 __doc__ = ''' 
@@ -102,8 +104,33 @@ norm    = np.linalg.norm
  
 # mrandn preserves matlab normal distributed numbers generation 
 # XXX it doesnt preserve anything. just a suggested implementation to make in both sides. 
-
+# no more it also doesnt generate normal distribution. see also the test test_mrandn currently disabled. 
 mrandn = lambda n = 1: np.sqrt(2) * erfinv(2 * np.random.rand(n) - 1)
+
+
+
+if __name__ == "__main__":
+
+  import doctest, contextlib, os
+  from c4dynamics import IgnoreOutputChecker, cprint
+  
+  # Register the custom OutputChecker
+  doctest.OutputChecker = IgnoreOutputChecker
+
+  tofile = False 
+  optionflags = doctest.FAIL_FAST
+
+  if tofile: 
+    with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
+      with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
+        result = doctest.testmod(optionflags = optionflags) 
+  else: 
+    result = doctest.testmod(optionflags = optionflags)
+
+  if result.failed == 0:
+    cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
+  else:
+    print(f"{result.failed}")
 
 
 

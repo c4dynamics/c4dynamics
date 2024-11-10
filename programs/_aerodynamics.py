@@ -1,4 +1,7 @@
 import numpy as np
+import sys 
+sys.path.append('..')
+import c4dynamics as c4d 
 
 class aerodynamics():
       

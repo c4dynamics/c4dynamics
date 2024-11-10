@@ -1,10 +1,12 @@
+# type: ignore
+
 import unittest
 import os, sys
 import hashlib
 from unittest.mock import patch, mock_open
 import pooch
 sys.path.append('.')
-from c4dynamics.data._manager import (CACHE_DIR, sha256, clear_cache, image, video, nn_model, d3_model)
+from c4dynamics.datasets._manager import (CACHE_DIR, sha256, clear_cache, image, video, nn_model, d3_model)
 
 
 class TestDatasetFunctions(unittest.TestCase):
@@ -50,7 +52,7 @@ class TestDatasetFunctions(unittest.TestCase):
   def test_clear_cache_specific_file(self):
     # Create dummy files for testing
     dummy_file_f16 = os.path.join(CACHE_DIR, 'f16', 'dummy.txt')
-    dummy_file_yolov3 = os.path.join(CACHE_DIR, 'yolov3.cfg')
+    dummy_file_yolov3 = os.path.join(CACHE_DIR, 'yolov3.weights')
     os.makedirs(os.path.dirname(dummy_file_f16), exist_ok = True)
     with open(dummy_file_f16, "w") as f:
       f.write("dummy data for f16")
@@ -69,42 +71,45 @@ class TestDatasetFunctions(unittest.TestCase):
     self.assertFalse(os.path.exists(dummy_file_f16))
     self.assertFalse(os.path.exists(dummy_file_yolov3))
 
-  @patch("pooch.create.fetch", return_value=os.path.join(CACHE_DIR, "planes.png"))
+  @patch("pooch.Pooch.fetch", return_value=os.path.join(CACHE_DIR, "planes.png"))
   def test_image_fetch(self, mock_fetch):
     # Test image fetch
     image_file = image('planes')
     self.assertEqual(image_file, os.path.join(CACHE_DIR, "planes.png"))
     mock_fetch.assert_called_once_with("planes.png")
 
-  @patch("pooch.create.fetch", return_value=os.path.join(CACHE_DIR, "aerobatics.mp4"))
+  @patch("pooch.Pooch.fetch", return_value=os.path.join(CACHE_DIR, "aerobatics.mp4"))
   def test_video_fetch(self, mock_fetch):
     # Test video fetch
     video_file = video('aerobatics')
     self.assertEqual(video_file, os.path.join(CACHE_DIR, "aerobatics.mp4"))
     mock_fetch.assert_called_once_with("aerobatics.mp4")
 
-  @patch("pooch.create.fetch", return_value=os.path.join(CACHE_DIR, "yolov3.cfg"))
+  @patch("pooch.Pooch.fetch", return_value=os.path.join(CACHE_DIR, "yolov3.weights"))
   def test_nn_model_fetch(self, mock_fetch):
+    # Simulate a failure on the first call and success on the second call
+    # mock_fetch.side_effect = [Exception("Fetch failed"), os.path.join(CACHE_DIR, "yolov3.weights")]
+
     # Test neural network model fetch
     nn_file = nn_model('yolov3')
-    self.assertEqual(nn_file, CACHE_DIR)
-    self.assertEqual(mock_fetch.call_count, 3)
+    self.assertEqual(nn_file, os.path.join(CACHE_DIR, "yolov3.weights"))
+    self.assertEqual(mock_fetch.call_count, 1)
 
-  @patch("pooch.create.fetch", return_value=os.path.join(CACHE_DIR, 'f16', 'Aileron_A_F16.stl'))
+  @patch("pooch.Pooch.fetch", return_value=os.path.join(CACHE_DIR, 'f16', 'Aileron_A_F16.stl'))
   def test_d3_model_fetch_f16(self, mock_fetch):
     # Test 3D model fetch for F16
     d3_file = d3_model('f16')
     self.assertTrue(d3_file.endswith('f16'))
     self.assertEqual(mock_fetch.call_count, 9)
 
-  @patch("pooch.create.fetch", return_value=os.path.join(CACHE_DIR, "bunny.pcd"))
+  @patch("pooch.Pooch.fetch", return_value=os.path.join(CACHE_DIR, "bunny.pcd"))
   def test_d3_model_fetch_bunny(self, mock_fetch):
     # Test 3D model fetch for bunny
     d3_file = d3_model('bunny')
     self.assertEqual(d3_file, os.path.join(CACHE_DIR, "bunny.pcd"))
     mock_fetch.assert_called_once_with("bunny.pcd")
 
-  @patch("pooch.create.fetch", return_value=os.path.join(CACHE_DIR, "bunny_mesh.ply"))
+  @patch("pooch.Pooch.fetch", return_value=os.path.join(CACHE_DIR, "bunny_mesh.ply"))
   def test_d3_model_fetch_bunnymesh(self, mock_fetch):
     # Test 3D model fetch for bunny mesh
     d3_file = d3_model('bunnymesh')

@@ -33,13 +33,6 @@ multi object tracking evaluation and benchmarks
 '''
 
 
-# HIGHLIGHTS:
-# BUG:    Highlights the presence of a bug or an issue.
-# FIXME:  Indicates that there is a problem or bug that needs to be fixed.
-# HACK:   Suggests that a workaround or temporary solution has been implemented and should be revisited.
-# NOTE:   Provides additional information or context about the code.
-# XXX:    Used to highlight something that is problematic, needs attention, or should be addressed later.
-
 
 class videofile():
 
@@ -871,7 +864,7 @@ if __name__ == '__main__':
 
 ''' main '''
 
-if '\\' in videoname:
+if type(videoname) == str and '\\' in videoname:
   vidtracks[f[:-4]] = runtracker(videoname
                             # , tf = tf
                                 # , save_frames = True
@@ -880,7 +873,7 @@ if '\\' in videoname:
                                       , **args_dict
                             )
 else: 
-  resourcedir = '_resources'
+  resourcedir = os.path.join('untracked', '_resources')
   vidtracks = {}
   print()
   for f in os.listdir(resourcedir):
