@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://github.com/C4dynamics/C4dynamics/blob/main/docs/source/_static/c4dlogo.svg">
+  <img src="https://github.com/C4dynamics/C4dynamics/blob/main/docs/source/icon/c4dlogotext.svg">
 </div>
 
 
