@@ -8,4 +8,5 @@ matplotlib
 opencv-python
 imageio
 natsort
+pooch 
 # scikit-learn==1.1.1
