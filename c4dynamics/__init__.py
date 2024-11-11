@@ -209,3 +209,32 @@ def c4dir(dir, addpath = ''):
 #      Provides additional information or context about the code.
 # XXX TREAT THIS BEFORE OTHERS
 #     Used to highlight something that is problematic, needs attention, or should be addressed later.
+
+
+
+# FIXME
+# dependencies: for time limits requirementx.txt currently 
+# install all. actually maybe 90% of the users use only numpy 
+# and pyplot so it's a good practice to offer another full-req.txt 
+# file and add an import check for those not necessary:
+import os
+import subprocess
+def ensure_package(package_name):
+  try:
+    __import__(package_name)
+  except ImportError:
+    # Check if the user is in a conda environment
+    in_conda_env = os.environ.get("CONDA_PREFIX") is not None
+    manager = "conda" if in_conda_env else "pip"
+    
+    user_input = input(
+        f"{package_name} is required but not installed. "
+        f"Would you like to install it with {manager}? (y/n): "
+    )
+    
+    if user_input.lower() == 'y':
+      if manager == "conda":
+        subprocess.check_call(["conda", "install", package_name, "-y"])
+      else:
+        subprocess.check_call(["pip", "install", package_name])
+
