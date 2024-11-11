@@ -79,7 +79,7 @@ from . import detectors
 #
 # version
 ##
-__version__ = '2.0.00'
+__version__ = '2.0.1'
 
 
 #
