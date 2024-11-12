@@ -249,7 +249,7 @@ add_function_parentheses = False
 # HTML output configuration
 # -----------------------------------------------------------------------------
 # html_title = f'{project} <span class="project-version">{version}</span>'
-html_title = "%s v%s Manual" % (project, version)
+html_title = "%s v%s" % (project, version)
 html_short_title = project
 # Don't use the logo since it gets in the way of the project name and is
 # repeated in the front page.
