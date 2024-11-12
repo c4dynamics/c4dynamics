@@ -29,14 +29,14 @@ def cprint(txt = '', color = 'white', end = '\n'):
 
     .. code:: 
     
-      >>> carr = ['k', 'r', 'g', 'y', 'b', 'm', 'c', 'w']
+      >>> carr = ['y', 'w', 'r', 'm', 'c', 'g', 'k', 'b']
       >>> for c in carr:
       ...   c4d.cprint('C4DYNAMICS', c)
 
     .. raw:: html
 
       <span style="color:yellow">C4DYNAMICS</span><br>
-      <span style="color:white">C4DYNAMICS</span>
+      <span style="color:white">C4DYNAMICS</span><br>
       <span style="color:red">C4DYNAMICS</span><br>
       <span style="color:magenta">C4DYNAMICS</span><br>
       <span style="color:cyan">C4DYNAMICS</span><br>

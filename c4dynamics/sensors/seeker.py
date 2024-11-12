@@ -600,7 +600,7 @@ class seeker(c4d.rigidbody):
 
     Settings and initial conditions: 
     
-    (see :class:`seeker` examples for more details): 
+    (see :class:`seeker <c4dynamics.sensors.seeker.seeker>` examples for more details): 
 
     
     Target: 
