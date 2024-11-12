@@ -148,14 +148,14 @@ class ekf(kalman):
 
         >>> _ekf = ekf({'x': 0}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)
         >>> _ekf.X      # doctest: +NUMPY_FORMAT
-        array([0])
-        >>> _ekf.P        # doctest: +ELLIPSIS
-        array([[0.25]])
+        [0]
+        >>> _ekf.P         # doctest: +NUMPY_FORMAT
+        [[0.25]]
         >>> _ekf.predict(u = 1)
         >>> _ekf.X   # doctest: +NUMPY_FORMAT
-        array([150])
-        >>> _ekf.P
-        array([[0.3]])
+        [150]
+        >>> _ekf.P  # doctest: +NUMPY_FORMAT
+        [[0.3]]
 
 
         
@@ -165,14 +165,14 @@ class ekf(kalman):
 
         >>> _ekf = ekf({'x': 0}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)
         >>> _ekf.X   # doctest: +NUMPY_FORMAT
-        array([0])
-        >>> _ekf.P
-        array([[0.25]])
+        [0]
+        >>> _ekf.P  # doctest: +NUMPY_FORMAT
+        [[0.25]]
         >>> _ekf.predict(u = 1, Q = 0.01)
         >>> _ekf.X  # doctest: +NUMPY_FORMAT
-        array([150]) 
-        >>> _ekf.P
-        array([[0.26]])
+        [150] 
+        >>> _ekf.P  # doctest: +NUMPY_FORMAT
+        [[0.26]]
 
       
 
@@ -230,7 +230,53 @@ class ekf(kalman):
       However, they are not limited to nonlinear dynamics.
       For detailed usage that highlights the properties of nonlinear dynamics, 
       refer to the :mod:`filters <c4dynamics.filters>` module introduction.
-          
+
+
+      Import required packages: 
+
+      .. code:: 
+
+        >>> from c4dynamics.filters import ekf 
+
+
+
+      Plain update step: 
+
+      .. code:: 
+
+        >>> _ekf = ekf({'x': 0}, P0 = 0.5**2, F = 1, H = 1, Q = 0.05, R = 200)
+        >>> print(_ekf)
+        [ x ]
+        >>> _ekf.X   # doctest: +NUMPY_FORMAT
+        [0]
+        >>> _ekf.P                # doctest: +NUMPY_FORMAT
+        [[0.25]]     
+        >>> _ekf.update(z = 100)  # returns Kalman gain   # doctest: +NUMPY_FORMAT
+        [[0.001...]]
+        >>> _ekf.X                # doctest: +NUMPY_FORMAT
+        [0.124...]   
+        >>> _ekf.P                # doctest: +NUMPY_FORMAT
+        [[0.249...]]
+
+
+        
+      Update with modified measurement noise covariance matrix: 
+
+      .. code:: 
+
+        >>> _ekf = ekf({'x': 0}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)
+        >>> _ekf.X   # doctest: +NUMPY_FORMAT
+        [0]
+        >>> _ekf.P  # doctest: +NUMPY_FORMAT
+        [[0.25]]
+        >>> K = _ekf.update(z = 150, R = 0)
+        >>> K   # doctest: +NUMPY_FORMAT
+        [[1]]
+        >>> _ekf.X  # doctest: +NUMPY_FORMAT
+        [150]
+        >>> _ekf.P  # doctest: +NUMPY_FORMAT
+        [[0]]
+                
     '''
     if hx is not None: 
       self.X = hx 

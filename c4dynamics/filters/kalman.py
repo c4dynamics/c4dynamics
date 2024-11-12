@@ -370,14 +370,14 @@ class kalman(c4d.state):
 
         >>> kf = kalman({'x': 0}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)
         >>> kf.X  # doctest: +NUMPY_FORMAT
-        array([0])
-        >>> kf.P        # doctest: +ELLIPSIS
-        array([[0.25...]])
+        [0]
+        >>> kf.P          # doctest: +NUMPY_FORMAT
+        [[0.25...]]
         >>> kf.predict(u = 1)
         >>> kf.X      # doctest: +NUMPY_FORMAT
-        array([150]) 
-        >>> kf.P
-        array([[0.3]])
+        [150]
+        >>> kf.P  # doctest: +NUMPY_FORMAT
+        [[0.3]]
 
 
         
@@ -387,14 +387,14 @@ class kalman(c4d.state):
 
         >>> kf = kalman({'x': 0}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)
         >>> kf.X  # doctest: +NUMPY_FORMAT
-        array([0])
-        >>> kf.P
-        array([[0.25]])
+        [0]
+        >>> kf.P # doctest: +NUMPY_FORMAT
+        [[0.25]]
         >>> kf.predict(u = 1, Q = 0.01)
         >>> kf.X  # doctest: +NUMPY_FORMAT
-        array([150])
-        >>> kf.P
-        array([[0.26]])
+        [150]
+        >>> kf.P # doctest: +NUMPY_FORMAT
+        [[0.26]]
 
 
     '''
@@ -479,7 +479,7 @@ class kalman(c4d.state):
         >>> print(kf)
         [ x ]
         >>> kf.X   # doctest: +NUMPY_FORMAT
-        array([0])
+        [0]
         >>> kf.P                # doctest: +NUMPY_FORMAT
         [[3.187...]]     
         >>> kf.update(z = 100)  # returns Kalman gain   # doctest: +NUMPY_FORMAT
@@ -497,16 +497,16 @@ class kalman(c4d.state):
 
         >>> kf = kalman({'x': 0}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)
         >>> kf.X   # doctest: +NUMPY_FORMAT
-        array([0])
-        >>> kf.P
-        array([[0.25]])
+        [0]
+        >>> kf.P   # doctest: +NUMPY_FORMAT
+        [[0.25]]
         >>> K = kf.update(z = 150, R = 0)
         >>> K   # doctest: +NUMPY_FORMAT
-        array([[1]])
+        [[1]]
         >>> kf.X  # doctest: +NUMPY_FORMAT
-        array([150])
+        [150]
         >>> kf.P  # doctest: +NUMPY_FORMAT
-        array([[0]])
+        [[0]]
 
           
     '''
@@ -595,8 +595,8 @@ class kalman(c4d.state):
         >>> kf.predict()
         >>> # store X after prediction
         >>> kf.store() 
-        >>> kf.update(z = 100)  # doctest: +ELLIPSIS 
-        array([[0.00149...]])
+        >>> kf.update(z = 100)    # doctest: +NUMPY_FORMAT
+        [[0.00149...]]
         >>> # store X after correct
         >>> kf.store() 
 

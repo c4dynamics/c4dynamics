@@ -16,7 +16,7 @@ class radar(seeker):
   `radar` is a subclass of :class:`seeker <c4dynamics.sensors.seeker.seeker>` 
   and utilizes its functionality and errors model for angular measurements. 
   This documentation supplaments the information concerning range measurements. 
-  Refer to :class:`seeker` for the full documentation.
+  Refer to :class:`seeker <c4dynamics.sensors.seeker.seeker>` for the full documentation.
 
 
   The `radar` class models sensors that 
@@ -387,7 +387,7 @@ class radar(seeker):
   
   To reproduce the result, let's set the random generator seed (61 is arbitrary):
 
-  ... code::
+  .. code::
 
     >>> np.random.seed(61)
 
