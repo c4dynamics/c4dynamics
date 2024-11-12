@@ -65,7 +65,7 @@ def plain_correct():
   print(ekf)
   print(ekf.X)
   print(ekf.P)
-  ekf.update(z = 100)
+  print(ekf.update(z = 100))
   print(ekf.X)
   print(ekf.P) 
 
@@ -80,7 +80,7 @@ def varying_R():
 
   print(ekf.X)
   print(ekf.P)
-  ekf.update(z = 150, R = 0)
+  print(ekf.update(z = 150, R = 0))
   print(ekf.X)
   print(ekf.P)
 
