@@ -107,7 +107,7 @@ class seeker(c4d.rigidbody):
   - :math:`el` is the elevation angle
   - :math:`x_b` is the target-radar position vector in radar body frame
 
-  .. figure:: /_static/skr_definitions.svg
+  .. figure:: /_architecture/skr_definitions.svg
     
     Fig-1: Azimuth and elevation angles definition   
 
@@ -309,7 +309,7 @@ class seeker(c4d.rigidbody):
 
   To reproduce the result, let's set the random generator seed (42 is arbitrary):
 
-  ... code::
+  .. code::
 
     >>> np.random.seed(42)
 
@@ -560,7 +560,7 @@ class seeker(c4d.rigidbody):
       bias = std \\cdot randn
 
     Where `bias_std` is a parameter with default 
-    value of `0.1°` for :class:`seeker` object, and `0.3°` for 
+    value of `0.1°` for :class:`seeker <c4dynamics.sensors.seeker.seeker>` object, and `0.3°` for 
     :class:`radar <c4dynamics.sensors.radar.radar>` object. 
 
     
@@ -671,7 +671,6 @@ class seeker(c4d.rigidbody):
     of performance behavior in a technique known as Monte Carlo.
     
     Let's examine the `bias` distribution across   
-    
     mutliple `radar` instances with a default `bias_std = 0.3°`
     in comparison to `seeker` instances with a default `bias_std = 0.1°`:
         
@@ -727,7 +726,7 @@ class seeker(c4d.rigidbody):
       scalefactor = std \\cdot randn
 
     Where `scale_factor_std` is a parameter with default 
-    value of `0.05 (5%)` for :class:`seeker` object, and `0.07 (7%)` for 
+    value of `0.05 (5%)` for :class:`seeker <c4dynamics.sensors.seeker.seeker>` object, and `0.07 (7%)` for 
     :class:`radar <c4dynamics.sensors.radar.radar>` object. 
 
       
@@ -771,7 +770,7 @@ class seeker(c4d.rigidbody):
 
     Settings and initial conditions: 
         
-    (see :class:`seeker` or :class:`radar <c4dynamics.sensors.radar.radar>` 
+    (see :class:`seeker <c4dynamics.sensors.seeker.seeker>` or :class:`radar <c4dynamics.sensors.radar.radar>` 
     examples for more details): 
 
     

@@ -137,7 +137,7 @@ class radar(seeker):
   - :math:`x_b` is the target-radar position vector in radar body frame
 
 
-  .. figure:: /_static/rdr_definitions.svg
+  .. figure:: /_architecture/rdr_definitions.svg
     
     Fig-1: Range and angles definition
 

@@ -19,22 +19,6 @@ from c4dynamics.sensors.lineofsight import lineofsight
 from c4dynamics.sensors.seeker import seeker
 
 
-# '''
-# Sensors (:mod:`c4dynamics.sensors`)
-# ===================================
-
-# .. currentmodule:: c4dynamics.sensors
-
-
-# Sensors
-# -------
-
-# .. autosummary::
-#    :toctree: generated/
-
-#    # seeker
-
-
 # Background Material
 # -------------------
 

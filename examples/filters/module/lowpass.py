@@ -71,12 +71,12 @@ ax.yaxis.get_major_formatter().set_scientific(False)
 
 
 
-for ext in ['.png', '.svg']:
-  plt.savefig(os.path.join(os.getcwd(), 'docs', 'source', '_static', 'figures'
-                        , 'filters_' + os.path.basename(__file__)[:-3] + ext)
-              , dpi = 1200
-                  , bbox_inches = 'tight', pad_inches = .3)
-                  # , bbox_inches = bbox)
+# for ext in ['.png', '.svg']:
+#   plt.savefig(os.path.join(os.getcwd(), 'docs', 'source', '_static', 'figures'
+#                         , 'filters_' + os.path.basename(__file__)[:-3] + ext)
+#               , dpi = 1200
+#                   , bbox_inches = 'tight', pad_inches = .3)
+#                   # , bbox_inches = bbox)
 
 
 

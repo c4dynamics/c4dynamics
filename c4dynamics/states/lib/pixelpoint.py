@@ -655,7 +655,7 @@ class pixelpoint(state):
   #       >>> ax3.axis('off')
   #       >>> ax3.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
 
-  #   .. figure:: /_static/images/fdp_setboxsize.png
+  #   .. figure:: /_architecture/images/fdp_setboxsize.png
     
 
 

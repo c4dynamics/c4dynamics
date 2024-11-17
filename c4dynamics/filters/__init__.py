@@ -1243,7 +1243,7 @@ References
    
 .. [MZ] Meri, Ziv, 
    `Extended Lyapunov Analysis and Simulative Investigations in Stability of Proportional Navigation Guidance Systems 
-   </docs/source/_static/PN_Stability.pdf>`_,
+   <../_static/PN_Stability.pdf>`_,
    MSc. Thesis supervised by prof. Grigory Agranovich, University of Ariel, 2020.
 
 """

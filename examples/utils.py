@@ -122,9 +122,9 @@ if socket.gethostname() != 'ZivMeri-PC':
     gifname = 'f16_monochrome_gif.gif'
     c4d.gif(outfol, gifname, duration = 1)
 
-    gifpath = os.path.join(os.getcwd(), 'docs/source/_static/gifs/', gifname)
-    os.replace(os.path.join(outfol, gifname), gifpath)
-    Image(filename = gifpath) 
+    # gifpath = os.path.join(os.getcwd(), 'docs/.../gifs/', gifname)
+    # os.replace(os.path.join(outfol, gifname), gifpath)
+    # Image(filename = gifpath) 
 
 ## plotdefautls
 
@@ -171,9 +171,9 @@ c4d.plotdefaults(ax, '$\\varphi$', 'Time', 'deg', fontsize = 18)
 
 
 plt.tight_layout()
-plt.savefig(os.path.join(os.getcwd()
-              , 'docs/source/_static/images/plotdefaults.png')
-                , dpi = 600, bbox_inches = 'tight', pad_inches = 0)
+# plt.savefig(os.path.join(os.getcwd()
+#               , 'docs/source/.../plotdefaults.png')
+#                 , dpi = 600, bbox_inches = 'tight', pad_inches = 0)
 
 
 

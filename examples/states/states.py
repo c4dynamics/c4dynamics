@@ -99,7 +99,7 @@ s.z = 0.59
 s.store(0.5)
 s.z = 0.33 
 s.store(1)
-# s.plot('z', savedir = 'D:\\Dropbox\\c4dynamics\\docs\\source\\_static\\figures')
+
 
 
 

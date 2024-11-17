@@ -26,7 +26,7 @@ a class rigidbody a class defining a rigid body in space, i.e.
 an object with length and angular position.
 
 
-.. figure:: /_static/body_states.svg
+.. figure:: /_architecture/body_states.svg
   :width: 482px
   :height: 534px   
 
