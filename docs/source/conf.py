@@ -51,6 +51,40 @@ https://chatgpt.com/share/671776d9-c600-8002-bf9e-c9345a1fa792
    - **Links to Documentation**: Provide a link to the full documentation page.
    - **License**: The open-source license under which your project is distributed.
 
+   readme: 
+    
+  ## Features 
+
+
+
+  ## Architecture
+
+  ## Roadmap 
+
+
+
+  ### 1. **GitHub Page (Repository README)**  
+  **Purpose**: To introduce your project to developers and contributors.  
+
+  **Focus**: Provide a concise overview of the project, its purpose, and how to get started.  
+
+  **What to include**:  
+
+   - **Project Name** and **Brief Description**: 
+   Explain the problem your project solves or the features it offers.
+
+   - **Key Features**: 
+   Highlight what makes your project unique or useful.
+
+   - **Installation Instructions**: 
+   How someone can clone the repository and run the project locally.
+   - **Usage**: Basic examples of how to use the project or API.
+   
+   - **Contributing Guidelines**: Link to guidelines for developers who want to contribute.
+   - **Links to Documentation**: Provide a link to the full documentation page.
+   - **License**: The open-source license under which your project is distributed.
+
+
 ### 2. **Website (General Audience)**
 **Purpose**: To introduce your product or project to a broad, often non-technical audience.
 **Focus**: Showcase the benefits and value of your project in a way that appeals to potential users, stakeholders, or customers.

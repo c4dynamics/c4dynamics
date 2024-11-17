@@ -49,7 +49,7 @@ untracked/
 build/
 c4dynamics.egg-info/
 dist/
-source
+# source
 
 # subfolders 
 # ==========
