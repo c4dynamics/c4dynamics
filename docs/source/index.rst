@@ -130,7 +130,7 @@ typical workflow with c4dynamics:
 
 
 
-.. figure:: /_static/workflow.png 
+.. figure:: /_architecture/workflow.png 
 
   **Typical workflow with c4dynamics**
 

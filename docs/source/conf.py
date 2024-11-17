@@ -88,8 +88,8 @@ Each introduction should be tailored to the specific audience, with clear and re
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project   = 'C4DYNAMICS'
-copyright = '2023, C4dynamics'
-author    = 'C4dynamics'
+copyright = '2023, c4dynamics'
+author    = 'c4dynamics'
 # release   = '0.0.40'
 # # Check if the module is loaded
 # if 'c4dynamics' in sys.modules:
@@ -136,6 +136,7 @@ extensions = [
     , 'sphinx.ext.intersphinx'
     , 'sphinx.ext.napoleon'
     , 'sphinx_design'
+    , 'nbsphinx'
     # , 'import__all__ext'
 ]
 
@@ -254,10 +255,32 @@ html_short_title = project
 # Don't use the logo since it gets in the way of the project name and is
 # repeated in the front page.
 # html_logo = "_static/pooch-logo.png"
+''' 
+  html_static_path
+  ----------------
+  A list of paths that contain custom static files. 
+  Relative paths are taken as relative to the configuration directory (conf.py base). 
+  
+  The content of these folders are copied to the output’s _static directory 
+  after the theme’s static files, 
+  so a file named default.css will overwrite the theme’s default.css.
+
+  Then no matter what static folder the image is located, for example 
+  source/_architecture/image.png 
+  the image is copied to _static 
+  then the reference to it should be with respct to _static:
+  _static/image.png 
+
+  
+  configuration directory
+  -----------------------
+  The directory containing conf.py. 
+
+'''
+html_static_path = ["_papers", "_architecture", "_static"]
 html_favicon = "_static/c4dlogo.svg"
 html_last_updated_fmt = "%b %d, %Y"
 # html_copy_source = True
-html_static_path = ["_static"]
 # CSS files are relative to the static path
 html_css_files = ["style.css"]
 html_extra_path = []

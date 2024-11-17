@@ -617,7 +617,7 @@ class datapoint(state):
       aspectratio = 1080 / 1920 
       _, ax = plt.subplots(1, 1, dpi = 200
                     , figsize = (factorsize, factorsize * aspectratio) 
-                            , gridspec_kw = {'left': 0.15, 'right': .9
+                            , gridspec_kw = {'left': 0.15, 'right': .85
                                                 , 'top': .9, 'bottom': .2})
     
 

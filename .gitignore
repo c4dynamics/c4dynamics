@@ -26,7 +26,7 @@ Thumbs.db
 .gitattributes
 x.png 
 pyrightconfig.json 
-
+gitstatus.txt
 
 # files in subfolders 
 # ===================
@@ -49,7 +49,7 @@ untracked/
 build/
 c4dynamics.egg-info/
 dist/
-
+source
 
 # subfolders 
 # ==========

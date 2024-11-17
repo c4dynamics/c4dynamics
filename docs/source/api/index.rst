@@ -57,6 +57,7 @@ Modules
 -------
 
 .. toctree:: 
+  :hidden:
   :maxdepth: 1 
 
   State Objects <States>
@@ -66,6 +67,28 @@ Modules
   Routines
   Utils 
   Datasets 
+
+
+
+.. list-table:: 
+  :header-rows: 0
+
+  * - `State Objects <States>`_
+    - Data-structures for state variables.
+  * - `Sensors <Sensors>`_
+    - Sensor models to simulate radar and seeker.
+  * - `Detectors <Detectors>`_
+    - API to object detection models.
+  * - `Filters <Filters>`_
+    - | State observers.
+      | Lowpass filter.
+  * - `Routines <Routines>`_
+    - | Equation of motion solvers.
+      | Rotation matrices. 
+  * - `Utils <Utils>`_
+    - Utility Functions and mathematical tools
+  * - `Datasets <Datasets>`_
+    - An interface for managing datasets and pre-trained models.
 
 
 

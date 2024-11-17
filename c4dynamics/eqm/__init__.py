@@ -35,7 +35,7 @@ The nomenclature and conventions for positive directions
 are as shown in Fig-1 and in the following Table:
 
 
-.. figure:: /_static/rigidbody.svg
+.. figure:: /_architecture/rigidbody.svg
    
    Fig-1: Forces, velocities, moments, and angular rates in body reference frame 
 

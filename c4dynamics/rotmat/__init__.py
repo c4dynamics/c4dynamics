@@ -66,7 +66,7 @@ These conventions are illustrated
 in Fig-1.
 
 
-.. figure:: /_static/frame_conventions.svg
+.. figure:: /_architecture/frame_conventions.svg
    
    Fig-1: Coordinate System Conventions 
 

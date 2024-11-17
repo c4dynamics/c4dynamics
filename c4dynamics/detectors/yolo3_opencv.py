@@ -67,7 +67,7 @@ class yolov3:
 
 
 
-    .. figure:: /_static/yolo-object-detection.jpg
+    .. figure:: /_architecture/yolo-object-detection.jpg
 
     *Figure*
     Object Detection with YOLO using COCO pre-trained classes 'dog', 'bicycle', 'truck'.
@@ -443,7 +443,7 @@ class yolov3:
         Returns
         -------
         out : list[pixelpoint]
-            A list of :class:`pixelpoint` objects representing detected objects, 
+            A list of :class:`pixelpoint <c4dynamics.states.pixelpoint.pixelpoint>` objects representing detected objects, 
             each containing bounding box coordinates and class label.
 
             
@@ -534,8 +534,8 @@ class yolov3:
         **The output structure**
         
 
-        The output of the detect() function is a list of :class:`pixelpoint` object.
-        The :class:`pixelpoint` has unique attributes to manipulate the detected object class and  
+        The output of the detect() function is a list of :class:`pixelpoint <c4dynamics.states.pixelpoint.pixelpoint>` object.
+        The :class:`pixelpoint <c4dynamics.states.pixelpoint.pixelpoint>` has unique attributes to manipulate the detected object class and  
         bounding box. 
 
         .. code::

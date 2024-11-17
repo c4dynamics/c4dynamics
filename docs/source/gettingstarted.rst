@@ -1,11 +1,6 @@
 Getting Started
 ===============
 
-Installation
-quickstart example
-running examples from the documentation
-running prgorams.
-embodying examples and prgorams in your project. 
 
 1. **Install the Framework**
 
@@ -13,16 +8,33 @@ embodying examples and prgorams in your project.
    
    ``pip install c4dynamics``
 
+
 2. **Explore the State Data Structure**
 
    Learn how to define and manipulate states, 
-   the core unit of dynamic systems within the framework.
+   the core units of dynamic systems within the framework.
+
 
 3. **Utilize Functional Libraries**
 
    Incorporate sensors, detectors, and filters to build real-world systems.
 
-Check out the [User Guide](user-guide/index.html) to dive 
-deeper into specific use cases and examples.
+
+4. **Follow the Workflow** 
+
+   Deepen your understanding by reviewing the workflow outline:
+
+   .. figure:: /_architecture/workflow.png 
+
+
+5. **User Guide** 
+
+   Refer to the user guide to explore 
+   specific use cases and examples.
+
+
+6. **API Reference**
+
+   Review the comprehensive explanations and examples in the API documentation.
 
 

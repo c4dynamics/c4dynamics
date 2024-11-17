@@ -15,7 +15,7 @@ Tsipor (bird) Dynamics (c4dynamics) is the open-source framework of algorithms d
 [![My Skills](https://skillicons.dev/icons?i=python)](https://skillicons.dev)  
 
 
-Complete Documentation: https://c4dynamics.github.io/C4dynamics/
+Documentation: https://c4dynamics.github.io/C4dynamics/
 
 
 ## Motivation
@@ -24,10 +24,10 @@ Complete Documentation: https://c4dynamics.github.io/C4dynamics/
 simplify the development of algorithms for dynamic systems, 
 using state space representations. 
 It offers engineers and researchers a systematic approach to model, 
-simulate, and control systems in fields like ``robotics``, 
-``aerospace``, and ``navigation``.
+simulate, and control systems in fields like 
+``robotics, aerospace,`` and ``navigation``.
 
-The framework introduces ``state objects``, which are foundational 
+The framework introduces ``state objects,`` which are foundational 
 data structures that encapsulate state vectors and provide 
 the tools for managing data, simulating system behavior, 
 and analyzing results. 
@@ -42,24 +42,24 @@ while maintaining flexibility and scalability.
 
 ## Installation 
 
+
 * PIP  
 
 ```
 >>> pip install c4dynamics
 ```
+Visit PyPi: 
+https://pypi.org/project/c4dynamics/
+
 
 * GitHub  
 
 To run the latest GitHub version, download c4dynamics: 
+
 https://github.com/C4dynamics/C4dynamics
 
+Install required packages:
 
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
-
-
-
-Install the required packages:
 ```
 >>> pip install -r requirements.txt
 ```
@@ -94,51 +94,41 @@ Print the state variables, the state vector, and the stored data:
 [ y  vy ]
 >>> s.X 
 [2.5  1]
->>> s.data('y')                      
+>>> s.data('y') 
 ([0,  1], [1,  2.5])
 ```
 
 
-Load an object detection module (YOLO):
-```
->>> yolodet = c4d.detectors.yolo(height = height, width = width)
-```
-
-Define errors to a general-purpose seeker with C4dynamics: 
-```
->>> rdr = c4d.seekers.radar(sf = 0.9, bias = 0, noisestd = 1)
-```
-
-Define a linear Kalman Filter, perform a prediction and an update: 
-```
->>> pt.filter = c4d.filters.kalman(np.hstack((z, np.zeros(2))), P, A, H, Q, R)
->>> pt.filter.predict()
->>> pt.filter.correct(measure)
-```
-
-
-
-Define a point in space (pre-defined state) with some initial conditions: 
-```
->>> pt = c4d.datapoint(x = 1000, vx = 100)
-```
-
-Define a body in space (pre-defined state) with some initial conditions: 
-```
->>> body = c4d.rigidbody(theta = 15 * 3.14 / 180)
-```
-
-
+## Features 
 
 
 
 ## Architecture
-For Architecture & Roadmap, see the Wiki page.  
+
+## Roadmap 
 
 
 
+### 1. **GitHub Page (Repository README)**  
+**Purpose**: To introduce your project to developers and contributors.  
 
+**Focus**: Provide a concise overview of the project, its purpose, and how to get started.  
 
+**What to include**:  
+
+   - **Project Name** and **Brief Description**: 
+   Explain the problem your project solves or the features it offers.
+
+   - **Key Features**: 
+   Highlight what makes your project unique or useful.
+
+   - **Installation Instructions**: 
+   How someone can clone the repository and run the project locally.
+   - **Usage**: Basic examples of how to use the project or API.
+   
+   - **Contributing Guidelines**: Link to guidelines for developers who want to contribute.
+   - **Links to Documentation**: Provide a link to the full documentation page.
+   - **License**: The open-source license under which your project is distributed.
 
 
 
