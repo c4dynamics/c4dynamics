@@ -164,7 +164,7 @@ typical workflow with c4dynamics:
  
 The documentation is organized as follows:
 
-- **Installation**: Simple instructions for setting up `c4dynamics`. 
+- **Installation**: Simple instructions for setting up c4dynamics. 
 
 - **Getting Started**: An overview of the core concepts and features of c4dynamics, with beginner-friendly examples to help you get started quickly.
 
@@ -179,5 +179,6 @@ The documentation is organized as follows:
 
   Installation <installation>
   Getting Started <gettingstarted>
+  Programs <programs/index>
   API Reference <api/index> 
 
