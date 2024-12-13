@@ -30,14 +30,14 @@ def pendulum(yin, t, Iyy):
   return yout
 
 
-def physical_pendulum(yin, t, Iyy):
+# def physical_pendulum(yin, t, Iyy):
 
-  yout = np.zeros(12)
+#   yout = np.zeros(12)
 
-  yout[7]  =  yin[10]
-  yout[10] = -c4d.g_ms2 * c4d.sin(yin[7]) / Iyy - .5 * yin[10]
+#   yout[7]  =  yin[10]
+#   yout[10] = -c4d.g_ms2 * c4d.sin(yin[7]) / Iyy - .5 * yin[10]
 
-  return yout
+#   return yout
 
 
 def intro(): 

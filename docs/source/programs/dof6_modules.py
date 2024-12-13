@@ -34,22 +34,19 @@ class aerodynamics():
   d    = 0.127
   xref = 1.35
   
-  def __init__(self):
+  mach_table = (0, 0.8, 1.14, 1.75, 2.5, 3.5) 
+  cD0_table  = (0.8, 0.8, 1.2, 1.15, 1.05, 0.94)
+  cLa_table  = (38,  39,  56,  55,   40,   33)
+  cMa_table  = (-160, -170, -185, -235, -190, -150) 
+  cMd_table  = (180, 250, 230, 130, 80, 45)
+  cMqcMadot_table = (-6000, -13000, -16000, -13500, -10000, -6000) 
+  k_table    = (0.0255, 0.0305, 0.0361, 0.0441, 0.0540, 0.0665)
+  
+  alt_table = (0, 2000, 4000, 6000)
+  pressure_table = (101325, 79501, 61660, 47217)
+  density_table  = (1.225, 1.0066, 0.81935, 0.66011)
+  speed_of_sound_table = (340.29, 332.53, 324.59, 316.45)
 
-    self.mach_table = np.array([0, 0.8, 1.14, 1.75, 2.5, 3.5]) 
-    self.cD0_table  = np.array([0.8, 0.8, 1.2, 1.15, 1.05, 0.94])
-    self.cLa_table  = np.array([38,  39,  56,  55,   40,   33])
-    self.cMa_table  = np.array([-160, -170, -185, -235, -190, -150]) 
-    self.cMd_table  = np.array([180, 250, 230, 130, 80, 45])
-    self.cMqcMadot_table = np.array([-6000, -13000, -16000, -13500, -10000, -6000]) 
-    self.k_table    = np.array([0.0255, 0.0305, 0.0361, 0.0441, 0.0540, 0.0665])
-    
-    self.alt_table = np.array([0, 2000, 4000, 6000])
-    self.pressure_table = np.array([101325, 79501, 61660, 47217])
-    self.density_table  = np.array([1.225, 1.0066, 0.81935, 0.66011])
-    self.speed_of_sound_table = np.array([340.29, 332.53, 324.59, 316.45])
-  
-  
   def f_coef(self, mach, alpha_total):
     cLa = np.interp(mach, self.mach_table, self.cLa_table)
     cD0 = np.interp(mach, self.mach_table, self.cD0_table)
@@ -103,9 +100,9 @@ class engine():
   
   def __init__(self):
     # sec
-    self.times = np.array([0, .01, .04, .05, .08, .1, .2, .3, .6, 1, 1.5, 2.5, 3.5, 3.8, 4, 4.1, 4.3, 4.5, 4.7, 4.9, 5.2, 5.6])
+    self.times  = np.array([0, .01,   .04,   .05,   .08,    .1,    .2,    .3,    .6,     1,   1.5,   2.5,   3.5,   3.8,     4,   4.1,  4.3,  4.5,  4.7,  4.9, 5.2, 5.6])
     # Newton
-    self.thrust = np.array([0, 450, 17800, 23100, 21300, 20000, 18200, 17000, 15000, 13800, 13300, 13800, 14700, 14300, 12900, 11000, 7000, 4500, 2900, 1500, 650, 0])
+    self.thrust = np.array([0, 450, 17800, 23100, 21300, 20000, 18200, 17000, 15000, 13800, 13300, 13800, 14700, 14300, 12900, 11000, 7000, 4500, 2900, 1500, 650,   0])
 
   def update(self, t, pa):
     # return thrust force at time t and pressure pa 
