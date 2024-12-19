@@ -1029,7 +1029,7 @@ Quick setup for an ideal case:
 .. code:: 
 
   >>> dt, tf = .01, 30
-  >>> tspan = np.arange(dt, tf, dt) 
+  >>> tspan = np.arange(0, tf + dt, dt) 
   >>> dtsensor = 0.05  
   >>> rho0, k = 0.0034, 22000 
   >>> tgt = c4d.state(z = 100000, vz = -6000, beta = 500)
@@ -1072,16 +1072,18 @@ the initialization of the state covariance matrix :math:`P`:
 
 .. code::
 
-  >>> zerr, vzerr, betaerr = 25, -150, 1000 
+  >>> zerr, vzerr, betaerr = 25, -150, 300 
   >>> nu = np.sqrt(500) 
   >>> p0 = np.diag([nu**2, vzerr**2, betaerr**2])
   >>> R = nu**2 / dt
   >>> Q = np.diag([0, 0, betaerr**2 / tf * dt])  
+  >>> H = [1, 0, 0]
+  >>> tgt = c4d.state(z = 100000, vz = -6000, beta = 500)
   >>> # altmeter and ekf construction: 
   >>> altmtr = c4d.sensors.radar(rng_noise_std = nu, dt = dtsensor) 
   >>> ekf = c4d.filters.ekf(X = {'z': tgt.z + zerr, 'vz': tgt.vz + vzerr
   ...                                     , 'beta': tgt.beta + betaerr}
-  ...                                         , P0 = p0, dt = dt) 
+  ...                                         , P0 = p0, H = H, Q = Q, R = R) 
 
 
 
@@ -1093,25 +1095,23 @@ here as the measurement is already linear), and calling the `update` method.
 .. code:: 
 
   >>> for t in tspan:
+  ...   tgt.store(t)
+  ...   ekf.store(t)
   ...   # target motion simulation  
   ...   tgt.X = odeint(ballistics, tgt.X, [t, t + dt])[-1]
   ...   # process linearization 
-  ...   rhoexp = rho0 * np.exp(-ekf.z / k) * c4d.g_fts2 * ekf.vz / ekf.beta
-  ...   fx = [ekf.vz, rhoexp * ekf.vz / 2 - c4d.g_fts2, 0]
-  ...   f2i = rhoexp * np.array([-ekf.vz / 2 / k, 1, -ekf.vz / 2 / ekf.beta])
+  ...   rhoexp  = rho0 * np.exp(-ekf.z / k) * c4d.g_fts2 * ekf.vz / ekf.beta
+  ...   fx      = [ekf.vz, rhoexp * ekf.vz / 2 - c4d.g_fts2, 0]
+  ...   f2i     = rhoexp * np.array([-ekf.vz / 2 / k, 1, -ekf.vz / 2 / ekf.beta])
   ...   # discretization 
   ...   F = np.array([[0, 1, 0], f2i, [0, 0, 0]]) * dt + np.eye(3)
   ...   # ekf predict 
-  ...   ekf.predict(F, Q, fx = fx)
+  ...   ekf.predict(F = F, fx = fx, dt = dt)
   ...   # take a measure 
   ...   _, _, Z = altmtr.measure(tgt, t = t, store = True)
   ...   if Z is not None:  
-  ...     H = [1, 0, 0]
-  ...     # ekf update 
-  ...     ekf.update(Z, H, R)
-  ...   # store states
-  ...   tgt.store(t)
-  ...   ekf.store(t)
+  ...     ekf.update(Z) # doctest: +IGNORE_OUTPUT
+
 
 Though the `update` requires also the linear 
 process matrix (:math:`F`), the `predict` method 

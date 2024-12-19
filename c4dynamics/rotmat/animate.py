@@ -201,8 +201,8 @@ def animate(rb, modelpath: str, angle0: list = [0, 0, 0]
 
   .. code::
 
-    >>> import open3d as o3d
     >>> import os 
+    >>> import open3d as o3d
 
 
   .. code::
@@ -211,7 +211,7 @@ def animate(rb, modelpath: str, angle0: list = [0, 0, 0]
     >>> for f in sorted(os.listdir(f16path)):
     ...   mfilepath = os.path.join(f16path, f)
     ...   m = o3d.io.read_triangle_mesh(mfilepath)
-    ...   m.compute_vertex_normals()
+    ...   m.compute_vertex_normals() # doctest: +IGNORE_OUTPUT
     ...   model.append(m)
     >>> o3d.visualization.draw_geometries(model)
 

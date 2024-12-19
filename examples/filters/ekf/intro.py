@@ -222,5 +222,5 @@ if __name__ == '__main__':
   ekf, train = varying_R() 
   print(nees(ekf, train))
   draw_kf(ekf, 'Varying R', std = False, trueobj = train, measures = True)
-  draw_kf(ekf, 'Varying R', filename = 'varying_q')
+  draw_kf(ekf, 'Varying R')
 

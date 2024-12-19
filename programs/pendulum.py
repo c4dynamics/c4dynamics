@@ -117,3 +117,6 @@ cv2.destroyAllWindows()
 video_out.release()
 pend.plot('theta', filename = 'pendulum.png')
 plt.show(block = False)
+
+
+

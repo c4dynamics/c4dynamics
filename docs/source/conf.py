@@ -121,6 +121,10 @@ Each introduction should be tailored to the specific audience, with clear and re
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
+# beutiful docs:
+# https://ds4sd.github.io/docling/reference/document_converter/
+
+
 project   = 'C4DYNAMICS'
 copyright = '2023, c4dynamics'
 author    = 'c4dynamics'

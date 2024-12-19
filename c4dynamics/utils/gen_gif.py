@@ -87,7 +87,7 @@ def gif(dirname, gif_name, duration = None):
 
       >>> gifname = 'f16_monochrome_gif.gif'
       >>> c4d.gif(outfol, gifname, duration = 1)
-      >>> Image(filename = os.path.join(outfol, gifname)) 
+      >>> Image(filename = os.path.join(outfol, gifname))  # doctest: +IGNORE_OUTPUT
 
     .. figure:: /_examples/animate/f16_monochrome_gif.gif
     

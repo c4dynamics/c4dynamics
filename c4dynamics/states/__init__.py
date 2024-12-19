@@ -166,7 +166,7 @@ Import c4dynamics:
      - :code:`>>> s.store(t = 0)`
 
    * - Store the state in a for-loop   	
-     - | :code:`>>> for t in np.linspace(0, 1, 3)):`
+     - | :code:`>>> for t in np.linspace(0, 1, 3):`
        | :code:`...   s.X = np.random.rand(3)`
        | :code:`...   s.store(t)`
 
