@@ -1,0 +1,1968 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>c4dynamics.states.state &#8212; C4DYNAMICS v2.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/style.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../../_static/documentation_options.js?v=d94dc4f2"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/c4dynamics/states/state';</script>
+    <link rel="icon" href="../../../_static/c4dlogo.svg"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="Dec 19, 2024"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">C4DYNAMICS v2.0</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../../index.html">
+                    Home
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../gettingstarted.html">Getting Started</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../programs/index.html">Programs</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../programs/dof6sim.html">6 Degrees Of Freedom Missile Guidance Simulation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/index.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/States.html">State Objects</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/states.state.html">The state class</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.X.html">c4dynamics.states.state.state.X</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.X0.html">c4dynamics.states.state.state.X0</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.norm.html">c4dynamics.states.state.state.norm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.normalize.html">c4dynamics.states.state.state.normalize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.position.html">c4dynamics.states.state.state.position</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.velocity.html">c4dynamics.states.state.state.velocity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.addvars.html">c4dynamics.states.state.state.addvars</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.P.html">c4dynamics.states.state.state.P</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.V.html">c4dynamics.states.state.state.V</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.store.html">c4dynamics.states.state.state.store</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.storeparams.html">c4dynamics.states.state.state.storeparams</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.data.html">c4dynamics.states.state.state.data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.timestate.html">c4dynamics.states.state.state.timestate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.plot.html">c4dynamics.states.state.state.plot</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/states.lib.html">States library</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/states.lib.datapoint.html">Datapoint</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/states.lib.rigidbody.html">Rigidbody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/states.lib.pixelpoint.html">Pixelpoint</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/Sensors.html">Sensors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/sensors.seeker.html">Seeker</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/seeker/c4dynamics.sensors.seeker.seeker.bias.html">c4dynamics.sensors.seeker.seeker.bias</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/seeker/c4dynamics.sensors.seeker.seeker.scale_factor.html">c4dynamics.sensors.seeker.seeker.scale_factor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/seeker/c4dynamics.sensors.seeker.seeker.measure.html">c4dynamics.sensors.seeker.seeker.measure</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/sensors.radar.html">Radar</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/radar/c4dynamics.sensors.radar.radar.bias.html">c4dynamics.sensors.radar.radar.bias</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/radar/c4dynamics.sensors.radar.radar.scale_factor.html">c4dynamics.sensors.radar.radar.scale_factor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/radar/c4dynamics.sensors.radar.radar.measure.html">c4dynamics.sensors.radar.radar.measure</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/Detectors.html">Detectors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/detectors.yolov3.html">YOLOv3</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/yolov3/c4dynamics.detectors.yolo3_opencv.yolov3.nms_th.html">c4dynamics.detectors.yolo3_opencv.yolov3.nms_th</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/yolov3/c4dynamics.detectors.yolo3_opencv.yolov3.confidence_th.html">c4dynamics.detectors.yolo3_opencv.yolov3.confidence_th</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/yolov3/c4dynamics.detectors.yolo3_opencv.yolov3.detect.html">c4dynamics.detectors.yolo3_opencv.yolov3.detect</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/Filters.html">Filters</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/filters.kalman.html">Kalman filter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/kalman/c4dynamics.filters.kalman.kalman.predict.html">c4dynamics.filters.kalman.kalman.predict</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/kalman/c4dynamics.filters.kalman.kalman.update.html">c4dynamics.filters.kalman.kalman.update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/kalman/c4dynamics.filters.kalman.kalman.store.html">c4dynamics.filters.kalman.kalman.store</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/filters.ekf.html">Extended Kalman filter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/ekf/c4dynamics.filters.ekf.ekf.predict.html">c4dynamics.filters.ekf.ekf.predict</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/ekf/c4dynamics.filters.ekf.ekf.update.html">c4dynamics.filters.ekf.ekf.update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/ekf/c4dynamics.filters.ekf.ekf.store.html">c4dynamics.filters.ekf.ekf.store</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/filters.lpf.html">Lowpass filter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/lpf/c4dynamics.filters.lowpass.lowpass.sample.html">c4dynamics.filters.lowpass.lowpass.sample</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/Routines.html">Routines</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/routines.eqm.html">Equations of motion solvers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/eqm/c4dynamics.eqm.derivs.eqm3.html">c4dynamics.eqm.derivs.eqm3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/eqm/c4dynamics.eqm.derivs.eqm6.html">c4dynamics.eqm.derivs.eqm6</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/eqm/c4dynamics.eqm.integrate.int3.html">c4dynamics.eqm.integrate.int3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/eqm/c4dynamics.eqm.integrate.int6.html">c4dynamics.eqm.integrate.int6</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/routines.rotmat.html">Rotation matrix operations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.rotx.html">c4dynamics.rotmat.rotmat.rotx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.roty.html">c4dynamics.rotmat.rotmat.roty</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.rotz.html">c4dynamics.rotmat.rotmat.rotz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.dcm321.html">c4dynamics.rotmat.rotmat.dcm321</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.dcm321euler.html">c4dynamics.rotmat.rotmat.dcm321euler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/rotmat/c4dynamics.rotmat.animate.animate.html">c4dynamics.rotmat.animate.animate</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/Utils.html">Utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/utils/c4dynamics.utils.tictoc.tic.html">c4dynamics.utils.tictoc.tic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/utils/c4dynamics.utils.tictoc.toc.html">c4dynamics.utils.tictoc.toc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/utils/c4dynamics.utils.cprint.cprint.html">c4dynamics.utils.cprint.cprint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/utils/c4dynamics.utils.gen_gif.gif.html">c4dynamics.utils.gen_gif.gif</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/utils/c4dynamics.utils.plottools.plotdefaults.html">c4dynamics.utils.plottools.plotdefaults</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.math.html">Math functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.const.html">Constants</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/Datasets.html">Datasets</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/datasets/c4dynamics.datasets.image.html">c4dynamics.datasets.image</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/datasets/c4dynamics.datasets.video.html">c4dynamics.datasets.video</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/datasets/c4dynamics.datasets.nn_model.html">c4dynamics.datasets.nn_model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/datasets/c4dynamics.datasets.d3_model.html">c4dynamics.datasets.d3_model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/datasets/c4dynamics.datasets.download_all.html">c4dynamics.datasets.download_all</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/datasets/c4dynamics.datasets.clear_cache.html">c4dynamics.datasets.clear_cache</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for c4dynamics.states.state</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span> 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">c4dynamics</span> <span class="k">as</span> <span class="nn">c4d</span> 
+<span class="kn">from</span> <span class="nn">numpy.typing</span> <span class="kn">import</span> <span class="n">NDArray</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">import</span> <span class="nn">warnings</span> 
+
+<div class="viewcode-block" id="state">
+<a class="viewcode-back" href="../../../api/states.state.html#c4dynamics.states.state.state">[docs]</a>
+<span class="k">class</span> <span class="nc">state</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">  Custom state object. </span>
+
+<span class="sd">  A state object represents a state vector and other attributes </span>
+<span class="sd">  that form an entity of a physical (dynamic) system.    </span>
+<span class="sd">  </span>
+<span class="sd">  A custom state object means any set of state variables is possible, </span>
+<span class="sd">  while pre-defined states from the :mod:`state library&lt;c4dynamics.states.lib&gt;` </span>
+<span class="sd">  are ready to use out of the box. </span>
+
+<span class="sd">  Keyword Arguments </span>
+<span class="sd">  =================</span>
+
+<span class="sd">  **kwargs : float or int  </span>
+<span class="sd">      Keyword arguments representing the variables and their initial conditions.</span>
+<span class="sd">      Each key is a variable name and each value is its initial condition.</span>
+<span class="sd">      For example: :code:`s = c4d.state(x = 0, theta = 3.14)`</span>
+
+
+<span class="sd">  See Also</span>
+<span class="sd">  ========</span>
+<span class="sd">  .states</span>
+
+<span class="sd">  </span>
+<span class="sd">  Examples</span>
+<span class="sd">  ======== </span>
+
+<span class="sd">  </span>
+<span class="sd">  ``Pendulum``</span>
+
+<span class="sd">  .. code::</span>
+<span class="sd">  </span>
+<span class="sd">    &gt;&gt;&gt; s = c4d.state(theta = 10 * c4d.d2r, omega = 0) # doctest: +IGNORE_OUTPUT</span>
+<span class="sd">    [ θ  ω ]</span>
+
+<span class="sd">  ``Strapdown navigation system`` </span>
+<span class="sd">  </span>
+<span class="sd">  .. code::</span>
+<span class="sd">  </span>
+<span class="sd">    &gt;&gt;&gt; s = c4d.state(x = 0, y = 0, z = 0, vx = 0, vy = 0, vz = 0, q0 = 0, q1 = 0, q2 = 0, q3 = 0, bax = 0, bay = 0, baz = 0)   # doctest: +IGNORE_OUTPUT</span>
+<span class="sd">    [ x  y  z  vx  vy  vz  q0  q1  q2  q3  bax  bay  baz ]</span>
+<span class="sd">  </span>
+<span class="sd">  ``Objects tracker`` </span>
+
+<span class="sd">  .. code::</span>
+<span class="sd">  </span>
+<span class="sd">    &gt;&gt;&gt; s = c4d.state(x = 960, y = 540, w = 20, h = 10)   # doctest: +IGNORE_OUTPUT</span>
+<span class="sd">    [ x  y  w  h ]</span>
+<span class="sd">    </span>
+<span class="sd">  ``Aircraft``</span>
+
+<span class="sd">  .. code::</span>
+<span class="sd">  </span>
+<span class="sd">    &gt;&gt;&gt; s = c4d.state(x = 0, y = 0, z = 0, vx = 0, vy = 0, vz = 0, phi = 0, theta = 0, psi = 0, p = 0, q = 0, r = 0)   # doctest: +IGNORE_OUTPUT</span>
+<span class="sd">    [ x  y  z  vx  vy  vz  φ  θ  Ψ  p  q  r ]</span>
+<span class="sd">  </span>
+<span class="sd">  ``Self-driving car``</span>
+
+<span class="sd">  .. code::</span>
+<span class="sd">  </span>
+<span class="sd">    &gt;&gt;&gt; s = c4d.state(x = 0, y = 0, v = 0, theta = 0, omega = 0)   # doctest: +IGNORE_OUTPUT</span>
+<span class="sd">    [ x  y  v  θ  ω ]</span>
+
+<span class="sd">  ``Robot arm``</span>
+
+<span class="sd">  .. code::</span>
+<span class="sd">  </span>
+<span class="sd">    &gt;&gt;&gt; s = c4d.state(theta1 = 0, theta2 = 0, omega1 = 0, omega2 = 0)   # doctest: +IGNORE_OUTPUT</span>
+<span class="sd">    [ θ1  θ2  ω1  ω2 ]</span>
+
+<span class="sd">    </span>
+<span class="sd">  &#39;&#39;&#39;</span>
+
+
+  <span class="c1"># Α α # Β β # Γ γ # Δ δ # Ε ε # Ζ ζ # Η η # Θ θ # Ι ι </span>
+  <span class="c1"># Κ κ # Λ λ # Μ μ # Ν ν # Ξ ξ # Ο ο # Π π # Ρ ρ # Σ σ/ς</span>
+  <span class="c1"># Τ τ # Υ υ # Φ φ # Χ χ # Ψ ψ # Ω ω</span>
+  <span class="n">_greek_unicode</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03B1</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03B2</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;gamma&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03B3</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;delta&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03B4</span><span class="s1">&#39;</span><span class="p">),</span>
+      <span class="p">(</span><span class="s1">&#39;epsilon&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03B5</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;zeta&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03B6</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;eta&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03B7</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;theta&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03B8</span><span class="s1">&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;iota&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03B9</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;kappa&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03BA</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;lambda&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03BB</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;mu&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03BC</span><span class="s1">&#39;</span><span class="p">),</span>
+          <span class="p">(</span><span class="s1">&#39;nu&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03BD</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;xi&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03BE</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;omicron&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03BF</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;pi&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03C0</span><span class="s1">&#39;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">&#39;rho&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03C1</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;sigma&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03C3</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;final_sigma&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03C2</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;tau&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03C4</span><span class="s1">&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s1">&#39;upsilon&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03C5</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;phi&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03C6</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;chi&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03C7</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;psi&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03C8</span><span class="s1">&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;omega&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03C9</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Alpha&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u0391</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Beta&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u0392</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Gamma&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u0393</span><span class="s1">&#39;</span><span class="p">),</span>
+      <span class="p">(</span><span class="s1">&#39;Delta&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u0394</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Epsilon&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u0395</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Zeta&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u0396</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Eta&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u0397</span><span class="s1">&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;Theta&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u0398</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Iota&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u0399</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Kappa&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u039A</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Lambda&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u039B</span><span class="s1">&#39;</span><span class="p">),</span>
+          <span class="p">(</span><span class="s1">&#39;Mu&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u039C</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Nu&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u039D</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Xi&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u039E</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Omicron&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u039F</span><span class="s1">&#39;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">&#39;Pi&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03A0</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Rho&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03A1</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Sigma&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03A3</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Tau&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03A4</span><span class="s1">&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s1">&#39;Upsilon&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03A5</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Phi&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03A6</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Chi&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03A7</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Psi&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03A8</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Omega&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03A9</span><span class="s1">&#39;</span><span class="p">))</span>
+    <span class="c1"># </span>
+  <span class="n">_reserved_keys</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;X0&#39;</span><span class="p">,</span> <span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="s1">&#39;V&#39;</span><span class="p">)</span>
+
+
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>    
+    <span class="c1"># TODO enable providing type for the setter.X output.      </span>
+
+    <span class="c1"># the problem with this is it cannot be used with seeker and other c4d objects</span>
+    <span class="c1"># that takes datapoint objects.</span>
+    <span class="c1"># beacuse sometimes it misses attributes such as y, z that are necessary for poistion etc</span>
+    
+    <span class="c1"># alternatives:</span>
+
+    <span class="c1"># 1. all the attributes always exist but they are muted and most importantly not reflected</span>
+    <span class="c1">#   in the state vector when doing dp.X</span>
+
+    <span class="c1"># 2. they will not be used in this fucntions. </span>
+
+    <span class="c1"># 3. the user must provide his implementations for poisiton velcity etc.. like used in the P() function that there i </span>
+    <span class="c1">#   encountered the problem.</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="p">[]</span>    <span class="c1"># for permanent class variables (t, x, y .. )</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_prmdata</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1"># for user additional variables </span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">_didx</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;t&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+      <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reserved_keys</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> is a reserved key. Keys </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_reserved_keys</span><span class="si">}</span><span class="s2"> cannot use as variable names.&quot;</span><span class="p">)</span>
+      <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+      <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span> <span class="o">+</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_didx</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">i</span>
+
+
+  <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+    <span class="n">self_str</span> <span class="o">=</span> <span class="s1">&#39;[ &#39;</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_didx</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+      <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="s1">&#39;t&#39;</span><span class="p">:</span> <span class="k">continue</span>
+      <span class="n">s</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_greek_unicode</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span> 
+      <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_didx</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">self_str</span> <span class="o">+=</span> <span class="n">s</span> <span class="o">+</span> <span class="s1">&#39;  &#39;</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="n">self_str</span> <span class="o">+=</span> <span class="n">s</span> <span class="o">+</span> <span class="s1">&#39; ]&#39;</span>
+
+    <span class="k">return</span> <span class="n">self_str</span>
+  
+
+  <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="c1"># NOTE i think maybe to switch repr and str so </span>
+    <span class="c1"># when i print &gt;&gt;&gt; s   it show the variables and when </span>
+    <span class="c1"># i do &gt;&gt;&gt; print(s)   it show the entire description. </span>
+    <span class="c1"># but then i need to iterate all the examples and remove the print from state presentations </span>
+    <span class="n">param_names</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_prmdata</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&lt;state object&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;State Variables: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Initial Conditions (X0): </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">X0</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Current State Vector (X): </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Parameters: </span><span class="si">{</span><span class="n">param_names</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">param_names</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;None&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+  <span class="c1"># def __setattr__(self, param, value):</span>
+  <span class="c1">#   if param in self._reserved_keys:</span>
+  <span class="c1">#     raise AttributeError(f&quot;{param} is a reserved key. Keys {self._reserved_keys} cannot use as parameter names.&quot;)</span>
+  <span class="c1">#   else:</span>
+  <span class="c1">#     super().__setattr__(param, value)</span>
+
+
+
+  <span class="c1">#</span>
+  <span class="c1"># state operations</span>
+  <span class="c1">## </span>
+
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">X</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Gets and sets the state vector variables.</span>
+
+<span class="sd">        </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : array_like </span>
+<span class="sd">        Values vector to set the variables of the state. </span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : numpy.array</span>
+<span class="sd">        Values vector of the state.</span>
+
+<span class="sd">    </span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    Getter:</span>
+
+<span class="sd">    .. code:: </span>
+<span class="sd">    </span>
+<span class="sd">      &gt;&gt;&gt; s = c4d.state(x1 = 0, x2 = -1)</span>
+<span class="sd">      &gt;&gt;&gt; s.X   # doctest: +NUMPY_FORMAT </span>
+<span class="sd">      [0  -1]</span>
+
+
+<span class="sd">    Setter:</span>
+
+<span class="sd">    .. code:: </span>
+<span class="sd">    </span>
+<span class="sd">      &gt;&gt;&gt; s = c4d.state(x1 = 0, x2 = -1)</span>
+<span class="sd">      &gt;&gt;&gt; s.X += [0, 1] # equivalent to: s.X = s.X + [0, 1]</span>
+<span class="sd">      &gt;&gt;&gt; s.X   # doctest: +NUMPY_FORMAT</span>
+<span class="sd">      [0  0]</span>
+
+
+<span class="sd">    :class:`datapoint &lt;c4dynamics.states.lib.datapoint.datapoint&gt;` getter - setter: </span>
+
+<span class="sd">    .. code:: </span>
+<span class="sd">    </span>
+<span class="sd">      &gt;&gt;&gt; dp = c4d.datapoint()</span>
+<span class="sd">      &gt;&gt;&gt; dp.X   # doctest: +NUMPY_FORMAT</span>
+<span class="sd">      [0  0  0  0  0  0]</span>
+<span class="sd">      &gt;&gt;&gt; #       x     y    z  vx vy vz </span>
+<span class="sd">      &gt;&gt;&gt; dp.X = [1000, 100, 0, 0, 0, -100] </span>
+<span class="sd">      &gt;&gt;&gt; dp.X   # doctest: +NUMPY_FORMAT</span>
+<span class="sd">      [1000  100  0  0  0  -100]</span>
+<span class="sd">    </span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+
+    <span class="n">xout</span> <span class="o">=</span> <span class="p">[]</span> 
+
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_didx</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+      <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;t&#39;</span><span class="p">:</span> <span class="k">continue</span>
+      <span class="c1"># the alteast_1d() + the flatten() is necessary to </span>
+      <span class="c1"># cope with non-homogenuous array </span>
+      <span class="n">xout</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;self.&#39;</span> <span class="o">+</span> <span class="n">k</span><span class="p">)))</span>
+
+    <span class="c1">#</span>
+    <span class="c1"># XXX why float64? maybe it&#39;s just some default unlsess anything else required. </span>
+    <span class="c1"># pixelpoint:override the .X property: will distance the devs from a datapoint class. </span>
+    <span class="c1">#  con: much easier </span>
+    <span class="c1">#</span>
+    <span class="c1"># return np.array(xout).flatten().astype(np.float64) </span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xout</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span> 
+
+  <span class="nd">@X</span><span class="o">.</span><span class="n">setter</span>
+  <span class="k">def</span> <span class="nf">X</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Xin</span><span class="p">):</span>
+    <span class="c1"># Xin = np.atleast_1d(Xin).flatten()</span>
+    <span class="c1"># i think to replace flatten() with ravel() is </span>
+    <span class="c1"># safe also here because Xin is iterated over its elements which are</span>
+    <span class="c1"># mutable. but lets keep tracking. </span>
+    <span class="n">Xin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">Xin</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+    <span class="n">xlen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Xin</span><span class="p">)</span>
+    <span class="n">Xlen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">xlen</span> <span class="o">&lt;</span> <span class="n">Xlen</span><span class="p">:</span>
+      <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Partial vector assignment, len(Xin) = </span><span class="si">{</span><span class="n">xlen</span><span class="si">}</span><span class="s1">, len(X) = </span><span class="si">{</span><span class="n">Xlen</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">xlen</span> <span class="o">&gt;</span> <span class="n">Xlen</span><span class="p">:</span>
+      <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The length of the input state is bigger than X, len(Xin) = </span><span class="si">{</span><span class="n">xlen</span><span class="si">}</span><span class="s1">, len(X) = </span><span class="si">{</span><span class="n">Xlen</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_didx</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+      <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;t&#39;</span><span class="p">:</span> <span class="k">continue</span>
+      <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">xlen</span><span class="p">:</span> <span class="k">break</span> 
+      <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">Xin</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">X0</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Returns the initial conditions of the state vector. </span>
+<span class="sd">      </span>
+<span class="sd">    The initial conditions are determined at the stage of constructing </span>
+<span class="sd">    the state object.</span>
+<span class="sd">    Modifying the initial conditions is possible by direct assignment </span>
+<span class="sd">    of the state variable with a &#39;0&#39; suffix. For a state variable </span>
+<span class="sd">    :math:`s.x`, its initial condition is modifyied by: </span>
+<span class="sd">    :code:`s.x0 = x0`, where :code:`x0` is an arbitrary parameter.  </span>
+<span class="sd">   </span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : numpy.array </span>
+<span class="sd">        An array representing the initial values of the state variables. </span>
+<span class="sd">    </span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. code:: </span>
+<span class="sd">    </span>
+<span class="sd">      &gt;&gt;&gt; s = c4d.state(x1 = 0, x2 = -1)</span>
+<span class="sd">      &gt;&gt;&gt; s.X += [0, 1] </span>
+<span class="sd">      &gt;&gt;&gt; s.X0   # doctest: +NUMPY_FORMAT</span>
+<span class="sd">      [0  -1]</span>
+
+<span class="sd">        </span>
+<span class="sd">    .. code:: </span>
+<span class="sd">    </span>
+<span class="sd">      &gt;&gt;&gt; s = c4d.state(x1 = 1, x2 = 1)</span>
+<span class="sd">      &gt;&gt;&gt; s.X0   # doctest: +NUMPY_FORMAT</span>
+<span class="sd">      [1  1]</span>
+<span class="sd">      &gt;&gt;&gt; s.x10 = s.x20 = 0</span>
+<span class="sd">      &gt;&gt;&gt; s.X0   # doctest: +NUMPY_FORMAT</span>
+<span class="sd">      [0  0]</span>
+
+<span class="sd">      </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">xout</span> <span class="o">=</span> <span class="p">[]</span> 
+
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_didx</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+      <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;t&#39;</span><span class="p">:</span> <span class="k">continue</span>
+      <span class="n">xout</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;self.&#39;</span> <span class="o">+</span> <span class="n">k</span> <span class="o">+</span> <span class="s1">&#39;0&#39;</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xout</span><span class="p">)</span> 
+  
+
+<div class="viewcode-block" id="state.addvars">
+<a class="viewcode-back" href="../../../api/generated/state/c4dynamics.states.state.state.addvars.html#c4dynamics.states.state.state.addvars">[docs]</a>
+  <span class="k">def</span> <span class="nf">addvars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">    Add state variables.  </span>
+<span class="sd">    </span>
+<span class="sd">    Adding variables to the state outside the :class:`state &lt;c4dynamics.states.state.state&gt;` </span>
+<span class="sd">    constructor is possible by using :meth:`addvars() &lt;c4dynamics.states.state.state.addvars&gt;`. </span>
+
+<span class="sd">        </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    **kwargs : float or int  </span>
+<span class="sd">        Keyword arguments representing the variables and their initial conditions.</span>
+<span class="sd">        Each key is a variable name and each value is its initial condition.</span>
+<span class="sd">      </span>
+<span class="sd">        </span>
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    If :meth:`store() &lt;c4dynamics.states.state.state.store&gt;` is called before </span>
+<span class="sd">    adding the new variables, then the time histories of the new states </span>
+<span class="sd">    are filled with zeros to maintain the same size as the other state variables. </span>
+
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. code:: </span>
+<span class="sd">    </span>
+<span class="sd">      &gt;&gt;&gt; s = c4d.state(x = 0, y = 0)</span>
+<span class="sd">      &gt;&gt;&gt; print(s)</span>
+<span class="sd">      [ x  y ]</span>
+<span class="sd">      &gt;&gt;&gt; s.addvars(vx = 0, vy = 0)</span>
+<span class="sd">      &gt;&gt;&gt; print(s)</span>
+<span class="sd">      [ x  y  vx  vy ]</span>
+
+<span class="sd">    calling :meth:`store() &lt;c4dynamics.states.state.state.store&gt;` before </span>
+<span class="sd">    adding the new variables:</span>
+
+<span class="sd">    .. code:: </span>
+<span class="sd">    </span>
+<span class="sd">      &gt;&gt;&gt; s = c4d.state(x = 1, y = 1)</span>
+<span class="sd">      &gt;&gt;&gt; s.store()</span>
+<span class="sd">      &gt;&gt;&gt; s.store()</span>
+<span class="sd">      &gt;&gt;&gt; s.store()</span>
+<span class="sd">      &gt;&gt;&gt; s.addvars(vx = 0, vy = 0)</span>
+<span class="sd">      &gt;&gt;&gt; s.data(&#39;x&#39;)[1]   # doctest: +NUMPY_FORMAT</span>
+<span class="sd">      [1  1  1]</span>
+<span class="sd">      &gt;&gt;&gt; s.data(&#39;vx&#39;)[1]   # doctest: +NUMPY_FORMAT</span>
+<span class="sd">      [0  0  0]</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">b0</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_didx</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+      <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+      <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span> <span class="o">+</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_didx</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">b0</span> <span class="o">+</span> <span class="n">i</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">:</span>
+      <span class="c1"># add zero columns at the size of the new vars to avoid wrong broadcasting. </span>
+      <span class="n">dataarr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span>
+      <span class="n">dataarr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">dataarr</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">dataarr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">b0</span><span class="p">))))</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">dataarr</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span></div>
+
+
+
+
+  <span class="c1">#</span>
+  <span class="c1"># data management operations </span>
+  <span class="c1">## </span>
+
+ 
+<div class="viewcode-block" id="state.store">
+<a class="viewcode-back" href="../../../api/generated/state/c4dynamics.states.state.state.store.html#c4dynamics.states.state.state.store">[docs]</a>
+  <span class="k">def</span> <span class="nf">store</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">    Stores the current state.</span>
+
+<span class="sd">    The current state is defined by the vector of variables </span>
+<span class="sd">    as given by :attr:`state.X &lt;c4dynamics.states.state.state.X&gt;`.</span>
+<span class="sd">    :meth:`store() &lt;c4dynamics.states.state.state.store&gt;` is used to store the </span>
+<span class="sd">    instantaneous state variables. </span>
+
+
+<span class="sd">    Parameters </span>
+<span class="sd">    ----------</span>
+<span class="sd">    t : float or int, optional </span>
+<span class="sd">        Time stamp for the stored state. </span>
+<span class="sd">    </span>
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    1. Time `t` is an optional parameter with a default value of :math:`t = -1`.</span>
+<span class="sd">    The time is always appended at the head of the array to store. However, </span>
+<span class="sd">    if `t` is not given, default :math:`t = -1` is stored instead.</span>
+
+<span class="sd">    2. The method :meth:`store() &lt;c4dynamics.states.state.state.store&gt;` goes together with </span>
+<span class="sd">    the methods :meth:`data() &lt;c4dynamics.states.state.state.data&gt;` </span>
+<span class="sd">    and :meth:`timestate() &lt;c4dynamics.states.state.state.timestate&gt;` as input and outputs. </span>
+
+<span class="sd">    3. :meth:`store() &lt;c4dynamics.states.state.state.store&gt;` only stores  </span>
+<span class="sd">    state variables (those construct :attr:`state.X &lt;c4dynamics.states.state.state.X&gt;`). </span>
+<span class="sd">    For other parameters, use :meth:`storeparams() &lt;c4dynamics.states.state.state.storeparams&gt;`. </span>
+
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; s = c4d.state(x = 1, y = 0, z = 0)</span>
+<span class="sd">      &gt;&gt;&gt; s.store()</span>
+
+<span class="sd">      </span>
+<span class="sd">    **Store with time stamp:** </span>
+
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; s = c4d.state(x = 1, y = 0, z = 0)</span>
+<span class="sd">      &gt;&gt;&gt; s.store(t = 0.5)</span>
+<span class="sd">    </span>
+<span class="sd">      </span>
+
+<span class="sd">    **Store in a for-loop:**</span>
+
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; s = c4d.state(x = 1, y = 0, z = 0)</span>
+<span class="sd">      &gt;&gt;&gt; for t in np.linspace(0, 1, 3):</span>
+<span class="sd">      ...   s.X = np.random.rand(3)</span>
+<span class="sd">      ...   s.store(t)</span>
+
+
+<span class="sd">    Usage of :meth:`store() &lt;c4dynamics.states.state.state.store&gt;` </span>
+<span class="sd">    inside a program with a :class:`datapoint &lt;c4dynamics.states.lib.datapoint.datapoint&gt;` </span>
+<span class="sd">    from the :mod:`states library &lt;c4dynamics.states.lib&gt;`:</span>
+
+<span class="sd">    </span>
+<span class="sd">    .. code::           </span>
+<span class="sd">     </span>
+<span class="sd">      &gt;&gt;&gt; t = 0</span>
+<span class="sd">      &gt;&gt;&gt; dt = 1e-3</span>
+<span class="sd">      &gt;&gt;&gt; h0 = 100 </span>
+<span class="sd">      &gt;&gt;&gt; dp = c4d.datapoint(z = h0)</span>
+<span class="sd">      &gt;&gt;&gt; while dp.z &gt;= 0: </span>
+<span class="sd">      ...   dp.inteqm([0, 0, -c4d.g_ms2], dt) # doctest: +IGNORE_OUTPUT</span>
+<span class="sd">      ...   t += dt</span>
+<span class="sd">      ...   dp.store(t)</span>
+<span class="sd">      &gt;&gt;&gt; for z in dp.data(&#39;z&#39;):   # doctest: +IGNORE_OUTPUT</span>
+<span class="sd">      ...   print(z)</span>
+<span class="sd">      99.9999950</span>
+<span class="sd">      99.9999803</span>
+<span class="sd">      99.9999558</span>
+<span class="sd">      ...</span>
+<span class="sd">      0.00033469</span>
+<span class="sd">      -0.0439570</span>
+
+
+<span class="sd">    &#39;&#39;&#39;</span> 
+    
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">t</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span></div>
+
+    
+
+<div class="viewcode-block" id="state.storeparams">
+<a class="viewcode-back" href="../../../api/generated/state/c4dynamics.states.state.state.storeparams.html#c4dynamics.states.state.state.storeparams">[docs]</a>
+  <span class="k">def</span> <span class="nf">storeparams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">    Stores parameters. </span>
+
+<span class="sd">    Parameters are data attributes which are not part of the state vector.</span>
+<span class="sd">    :meth:`storeparams() &lt;c4dynamics.states.state.state.storeparams&gt;` is </span>
+<span class="sd">    used to store the instantaneous parameters. </span>
+
+<span class="sd">    Parameters </span>
+<span class="sd">    ----------</span>
+<span class="sd">    params : str or list of str</span>
+<span class="sd">        Name or names of the parameters to store. </span>
+<span class="sd">    t : float or int, optional </span>
+<span class="sd">        Time stamp for the stored state. </span>
+<span class="sd">    </span>
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    1. Time `t` is an optional parameter with a default value of :math:`t = -1`.</span>
+<span class="sd">    The time is always appended at the head of the array to store. However, </span>
+<span class="sd">    if `t` is not given, default :math:`t = -1` is stored instead.</span>
+
+<span class="sd">    2. The method :meth:`storeparams() &lt;c4dynamics.states.state.state.storeparams&gt;` </span>
+<span class="sd">    goes together with the method :meth:`data() &lt;c4dynamics.states.state.state.data&gt;` </span>
+<span class="sd">    as input and output. </span>
+<span class="sd">    </span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    </span>
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; s = c4d.state(x = 100, vx = 10)</span>
+<span class="sd">      &gt;&gt;&gt; s.mass = 25 </span>
+<span class="sd">      &gt;&gt;&gt; s.storeparams(&#39;mass&#39;)</span>
+<span class="sd">      &gt;&gt;&gt; s.data(&#39;mass&#39;)[1]   # doctest: +NUMPY_FORMAT </span>
+<span class="sd">      [25]</span>
+
+<span class="sd">      </span>
+<span class="sd">    **Store with time stamp:** </span>
+
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; s = c4d.state(x = 100, vx = 10)</span>
+<span class="sd">      &gt;&gt;&gt; s.mass = 25 </span>
+<span class="sd">      &gt;&gt;&gt; s.storeparams(&#39;mass&#39;, t = 0.1)</span>
+<span class="sd">      &gt;&gt;&gt; s.data(&#39;mass&#39;)    </span>
+<span class="sd">      (array([0.1]), array([25.]))</span>
+
+<span class="sd">      </span>
+<span class="sd">    **Store multiple parameters:** </span>
+<span class="sd">    </span>
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; s = c4d.state(x = 100, vx = 10)</span>
+<span class="sd">      &gt;&gt;&gt; s.x_std = 5 </span>
+<span class="sd">      &gt;&gt;&gt; s.vx_std = 10 </span>
+<span class="sd">      &gt;&gt;&gt; s.storeparams([&#39;x_std&#39;, &#39;vx_std&#39;])</span>
+<span class="sd">      &gt;&gt;&gt; s.data(&#39;x_std&#39;)[1]   # doctest: +NUMPY_FORMAT  </span>
+<span class="sd">      [5]</span>
+<span class="sd">      &gt;&gt;&gt; s.data(&#39;vx_std&#39;)[1] # doctest: +NUMPY_FORMAT </span>
+<span class="sd">      [10]</span>
+
+
+
+<span class="sd">    **Objects classification:** </span>
+
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; s = c4d.state(x = 25, y = 25, w = 20, h = 10)</span>
+<span class="sd">      &gt;&gt;&gt; np.random.seed(44)</span>
+<span class="sd">      &gt;&gt;&gt; for i in range(3): </span>
+<span class="sd">      ...   s.X += 1 </span>
+<span class="sd">      ...   s.w, s.h = np.random.randint(0, 50, 2)</span>
+<span class="sd">      ...   if s.w &gt; 40 or s.h &gt; 20: </span>
+<span class="sd">      ...     s.class_id = &#39;truck&#39; </span>
+<span class="sd">      ...   else:  </span>
+<span class="sd">      ...     s.class_id = &#39;car&#39;</span>
+<span class="sd">      ...   s.store() # stores the state </span>
+<span class="sd">      ...   s.storeparams(&#39;class_id&#39;) # store the class_id parameter </span>
+<span class="sd">      &gt;&gt;&gt; print(&#39;   x    y    w    h    class&#39;)  # doctest: +IGNORE_OUTPUT</span>
+<span class="sd">      &gt;&gt;&gt; print(np.hstack((s.data()[:, 1:].astype(int), np.atleast_2d(s.data(&#39;class_id&#39;)[1]).T)))  # doctest: +IGNORE_OUTPUT </span>
+<span class="sd">      x   y   w   h   class</span>
+<span class="sd">      26  26  20  35  truck</span>
+<span class="sd">      27  27  49  45  car</span>
+<span class="sd">      28  28  3   32  car</span>
+
+
+<span class="sd">    The `morphospectra` implements a custom method `getdim` to update </span>
+<span class="sd">    the dimension parameter `dim` with respect to the position coordinates:</span>
+<span class="sd">    </span>
+<span class="sd">    .. code::</span>
+
+<span class="sd">      &gt;&gt;&gt; import types </span>
+<span class="sd">      &gt;&gt;&gt; # </span>
+<span class="sd">      &gt;&gt;&gt; def getdim(s):</span>
+<span class="sd">      ...   if s.X[2] != 0:</span>
+<span class="sd">      ...     # z </span>
+<span class="sd">      ...     s.dim = 3</span>
+<span class="sd">      ...   elif s.X[1] != 0:</span>
+<span class="sd">      ...     # y </span>
+<span class="sd">      ...     s.dim = 2</span>
+<span class="sd">      ...   elif s.X[0] != 0:</span>
+<span class="sd">      ...     # x</span>
+<span class="sd">      ...     s.dim = 1</span>
+<span class="sd">      ...   else: </span>
+<span class="sd">      ...     # none </span>
+<span class="sd">      ...     s.dim = 0</span>
+<span class="sd">      &gt;&gt;&gt; #</span>
+<span class="sd">      &gt;&gt;&gt; morphospectra = c4d.state(x = 0, y = 0, z = 0)</span>
+<span class="sd">      &gt;&gt;&gt; morphospectra.dim = 0 </span>
+<span class="sd">      &gt;&gt;&gt; morphospectra.getdim = types.MethodType(getdim, morphospectra)</span>
+<span class="sd">      &gt;&gt;&gt; # </span>
+<span class="sd">      &gt;&gt;&gt; for r in range(10):</span>
+<span class="sd">      ...   morphospectra.X = np.random.choice([0, 1], 3)</span>
+<span class="sd">      ...   morphospectra.getdim()</span>
+<span class="sd">      ...   morphospectra.store()</span>
+<span class="sd">      ...   morphospectra.storeparams(&#39;dim&#39;)</span>
+<span class="sd">      &gt;&gt;&gt; # </span>
+<span class="sd">      &gt;&gt;&gt; print(&#39;x y z  | dim&#39;)  # doctest: +IGNORE_OUTPUT </span>
+<span class="sd">      &gt;&gt;&gt; print(&#39;------------&#39;)  # doctest: +IGNORE_OUTPUT </span>
+<span class="sd">      &gt;&gt;&gt; for x, dim in zip(morphospectra.data().astype(int)[:, 1 : 4].tolist(), morphospectra.data(&#39;dim&#39;)[1].tolist()):  # doctest: +IGNORE_OUTPUT </span>
+<span class="sd">      ...   print(*(x + [&#39; | &#39;] + [dim]))</span>
+<span class="sd">      x y z  | dim</span>
+<span class="sd">      ------------</span>
+<span class="sd">      0 1 0  |  2</span>
+<span class="sd">      1 1 0  |  2</span>
+<span class="sd">      1 0 0  |  1</span>
+<span class="sd">      0 1 1  |  3</span>
+<span class="sd">      1 0 0  |  1</span>
+<span class="sd">      1 1 1  |  3</span>
+<span class="sd">      1 1 0  |  2</span>
+<span class="sd">      1 1 0  |  2</span>
+<span class="sd">      1 0 1  |  3</span>
+<span class="sd">      1 0 1  |  3</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># TODO show example of multiple vars  </span>
+    <span class="c1"># maybe the example of the kalman variables store </span>
+    <span class="c1">#   from the detect track exmaple. </span>
+    <span class="c1"># TODO add test if the params is not 0 or 1 dim throw error or warning. why?</span>
+    <span class="c1"># TODO document about the two if&#39;s down here: nonscalar param and empty param. </span>
+    <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">reduce</span>
+        
+    <span class="n">lparams</span> <span class="o">=</span> <span class="n">params</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="p">[</span><span class="n">params</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">lparams</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">p</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prmdata</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_prmdata</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+      <span class="n">vval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">reduce</span><span class="p">(</span><span class="nb">getattr</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">),</span> <span class="bp">self</span><span class="p">))</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+      <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vval</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="c1"># empty, convert to none to keep homogenuous array </span>
+        <span class="n">vval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+      <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">vval</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="c1"># c4d.cprint(f&#39;{p} is not a scalar. only first item is stored&#39;, &#39;r&#39;)</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s1"> is not a scalar. Only first item is stored&#39;</span><span class="p">,</span> <span class="n">c4d</span><span class="o">.</span><span class="n">c4warn</span><span class="p">)</span>
+        <span class="n">vval</span> <span class="o">=</span> <span class="n">vval</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_prmdata</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">t</span><span class="p">]</span> <span class="o">+</span> <span class="n">vval</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span></div>
+
+
+  
+<div class="viewcode-block" id="state.data">
+<a class="viewcode-back" href="../../../api/generated/state/c4dynamics.states.state.state.data.html#c4dynamics.states.state.state.data">[docs]</a>
+  <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">    Returns arrays of stored time and data.</span>
+<span class="sd">    </span>
+<span class="sd">    :meth:`data() &lt;c4dynamics.states.state.state.data&gt;` returns a tuple containing two numpy arrays:</span>
+<span class="sd">    the first consists of timestamps, and the second </span>
+<span class="sd">    contains the values of a `var` corresponding to those timestamps.</span>
+
+<span class="sd">    `var` may be each one of the state variables or the parameters. </span>
+<span class="sd">   </span>
+<span class="sd">    If `var` is not introduced, :meth:`data() &lt;c4dynamics.states.state.state.data&gt;` </span>
+<span class="sd">    returns a single array of the entire state histories. </span>
+<span class="sd">    </span>
+<span class="sd">    If data were not stored, :meth:`data() &lt;c4dynamics.states.state.state.data&gt;` </span>
+<span class="sd">    returns an empty array. </span>
+<span class="sd">    </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    var : str </span>
+<span class="sd">        The name of the variable or parameter of the required histories. </span>
+
+<span class="sd">    scale : float or int, optional</span>
+<span class="sd">        A scaling factor to apply to the variable values, by default 1.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : array or tuple of numpy arrays </span>
+<span class="sd">        if `var` is introduced, `out` is a tuple of a timestamps array</span>
+<span class="sd">        and an array of `var` values corresponding to those timestamps.</span>
+<span class="sd">        If `var` is not introduced, then :math:`n \\times m+1` numpy array is returned, </span>
+<span class="sd">        where `n` is the number of stored samples, and `m+1` is the </span>
+<span class="sd">        number of state variables and times. </span>
+
+<span class="sd">            </span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">  </span>
+<span class="sd">    Get all stored data: </span>
+
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; np.random.seed(100) # to reproduce results </span>
+<span class="sd">      &gt;&gt;&gt; s = c4d.state(x = 1, y = 0, z = 0)</span>
+<span class="sd">      &gt;&gt;&gt; for t in np.linspace(0, 1, 3):</span>
+<span class="sd">      ...   s.X = np.random.rand(3)</span>
+<span class="sd">      ...   s.store(t)</span>
+<span class="sd">      &gt;&gt;&gt; s.data() # doctest: +NUMPY_FORMAT </span>
+<span class="sd">      [[0.   0.543  0.278  0.424] </span>
+<span class="sd">       [0.5  0.845  0.005  0.121] </span>
+<span class="sd">       [1.   0.671  0.826  0.137]]</span>
+
+<span class="sd">       </span>
+<span class="sd">    Data of a variable: </span>
+
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; time, x_data = s.data(&#39;x&#39;)</span>
+<span class="sd">      &gt;&gt;&gt; time  # doctest: +NUMPY_FORMAT </span>
+<span class="sd">      [0.  0.5  1.]</span>
+<span class="sd">      &gt;&gt;&gt; x_data  # doctest: +NUMPY_FORMAT </span>
+<span class="sd">      [0.543  0.845  0.671]</span>
+<span class="sd">      &gt;&gt;&gt; s.data(&#39;y&#39;)[1]  # doctest: +NUMPY_FORMAT </span>
+<span class="sd">      [0.278  0.005  0.826]</span>
+
+
+<span class="sd">    Get data with scaling: </span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">      &gt;&gt;&gt; s = c4d.state(phi = 0)</span>
+<span class="sd">      &gt;&gt;&gt; for p in np.linspace(0, c4d.pi):</span>
+<span class="sd">      ...   s.phi = p</span>
+<span class="sd">      ...   s.store()</span>
+<span class="sd">      &gt;&gt;&gt; s.data(&#39;phi&#39;, c4d.r2d)[1]  # doctest: +IGNORE_OUTPUT </span>
+<span class="sd">      [0  3.7  7.3  ...  176.3  180]</span>
+
+
+<span class="sd">    Data of a parameter</span>
+
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; s = c4d.state(x = 100, vx = 10)</span>
+<span class="sd">      &gt;&gt;&gt; s.mass = 25 </span>
+<span class="sd">      &gt;&gt;&gt; s.storeparams(&#39;mass&#39;, t = 0.1)</span>
+<span class="sd">      &gt;&gt;&gt; s.data(&#39;mass&#39;)</span>
+<span class="sd">      (array([0.1]), array([25.]))</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">if</span> <span class="n">var</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> 
+      <span class="c1"># return all </span>
+      <span class="c1"># XXX not sure this is applicable to the new change where arrays\ matrices </span>
+      <span class="c1">#   are also stored.</span>
+      <span class="c1">#   in fact the matrices are not stored in _data but in _prmdata  </span>
+      <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span>
+     
+    <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_didx</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">idx</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">:</span>
+        <span class="c1"># empty array  </span>
+        <span class="c1"># c4d.cprint(&#39;Warning: no history of state samples.&#39;, &#39;r&#39;)</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;No history of state samples.&quot;&quot;&quot;</span> <span class="p">,</span> <span class="n">c4d</span><span class="o">.</span><span class="n">c4warn</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+      
+      <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> 
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)[:,</span> <span class="mi">0</span><span class="p">]</span>
+
+      <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)[:,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">*</span> <span class="n">scale</span><span class="p">)</span>
+
+    <span class="c1"># else \ user defined variables </span>
+    <span class="k">if</span> <span class="n">var</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prmdata</span><span class="p">:</span>
+      <span class="c1"># c4d.cprint(&#39;Warning: no history samples of &#39; + var + &#39;.&#39;, &#39;r&#39;)</span>
+      <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;No history samples of </span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2">.&quot;&quot;&quot;</span> <span class="p">,</span> <span class="n">c4d</span><span class="o">.</span><span class="n">c4warn</span><span class="p">)</span>
+
+      <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+
+    <span class="c1"># if the var is text, dont multiply by scale</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_prmdata</span><span class="p">[</span><span class="n">var</span><span class="p">])[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">):</span>
+      <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_prmdata</span><span class="p">[</span><span class="n">var</span><span class="p">])[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_prmdata</span><span class="p">[</span><span class="n">var</span><span class="p">])[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">scale</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span> 
+      <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_prmdata</span><span class="p">[</span><span class="n">var</span><span class="p">])[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_prmdata</span><span class="p">[</span><span class="n">var</span><span class="p">])[:,</span> <span class="mi">1</span><span class="p">])</span></div>
+
+    
+
+<div class="viewcode-block" id="state.timestate">
+<a class="viewcode-back" href="../../../api/generated/state/c4dynamics.states.state.state.timestate.html#c4dynamics.states.state.state.timestate">[docs]</a>
+  <span class="k">def</span> <span class="nf">timestate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Returns the state as stored at time `t`. </span>
+
+<span class="sd">    The method searches the closest time  </span>
+<span class="sd">    to time `t` in the sampled histories and </span>
+<span class="sd">    returns the state that stored at the time.  </span>
+
+<span class="sd">    If data were not stored returns None. </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    t : float or int   </span>
+<span class="sd">        The time at the required sample. </span>
+<span class="sd">            </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    X : numpy.array </span>
+<span class="sd">        An array of the state vector </span>
+<span class="sd">        :attr:`state.X &lt;c4dynamics.states.state.state.X&gt;` </span>
+<span class="sd">        at time `t`. </span>
+
+<span class="sd">        </span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; s = c4d.state(x = 0, y = 0, z = 0)</span>
+<span class="sd">      &gt;&gt;&gt; for t in np.linspace(0, 1, 3):</span>
+<span class="sd">      ...   s.X += 1</span>
+<span class="sd">      ...   s.store(t)</span>
+<span class="sd">      &gt;&gt;&gt; s.timestate(0.5) # doctest: +NUMPY_FORMAT </span>
+<span class="sd">      [2  2  2]</span>
+
+<span class="sd">      </span>
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; s = c4d.state(x = 1, y = 0, z = 0)</span>
+<span class="sd">      &gt;&gt;&gt; s.timestate(0.5)  # doctest: +IGNORE_OUTPUT </span>
+<span class="sd">      Warning: no history of state samples.</span>
+<span class="sd">      None </span>
+
+
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="c1"># TODO what about throwing a warning when dt is too long? </span>
+    <span class="c1"># \\ what is dt and so what if its long? </span>
+    <span class="n">times</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="s1">&#39;t&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> 
+      <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">idx</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">)),</span> <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">times</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">t</span><span class="p">))</span>
+      <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">1</span><span class="p">:])</span>
+
+    <span class="k">return</span> <span class="n">X</span> </div>
+
+    
+
+<div class="viewcode-block" id="state.plot">
+<a class="viewcode-back" href="../../../api/generated/state/c4dynamics.states.state.state.plot.html#c4dynamics.states.state.state.plot">[docs]</a>
+  <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">darkmode</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">    Draws plots of variable evolution over time.</span>
+
+<span class="sd">    This method plots the evolution of a state variable over time. </span>
+<span class="sd">    The resulting plot can be saved to a directory if specified.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    var : str</span>
+<span class="sd">        The name of the variable or parameter to be plotted.</span>
+
+<span class="sd">    scale : float or int, optional</span>
+<span class="sd">        A scaling factor to apply to the variable values. Defaults to `1`.</span>
+
+<span class="sd">    ax : matplotlib.axes.Axes, optional</span>
+<span class="sd">        An existing Matplotlib axis to plot on. </span>
+<span class="sd">        If None, a new figure and axis will be created, by default None.</span>
+
+<span class="sd">    filename : str, optional</span>
+<span class="sd">        Full file name to save the plot image. </span>
+<span class="sd">        If None, the plot will not be saved, by default None.</span>
+
+<span class="sd">    darkmode : bool, optional</span>
+<span class="sd">        Directory path to save the plot image. </span>
+<span class="sd">        If None, the plot will not be saved, by default None.</span>
+
+<span class="sd">    **kwargs : dict, optional</span>
+<span class="sd">        Additional key-value arguments passed to `matplotlib.pyplot.plot`.</span>
+<span class="sd">        These can include any keyword arguments accepted by `plot`,</span>
+<span class="sd">        such as `color`, `linestyle`, `marker`, etc. </span>
+<span class="sd">        </span>
+
+<span class="sd">    Returns </span>
+<span class="sd">    ------- </span>
+<span class="sd">    ax : matplotlib.axes.Axes. </span>
+<span class="sd">        Matplotlib axis of the derived plot. </span>
+
+<span class="sd">        </span>
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    - The default `color` is set to `&#39;m&#39;` (magenta).</span>
+<span class="sd">    - The default `linewidth` is set to `1.2`.</span>
+<span class="sd">        </span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    Import required packages:</span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">      &gt;&gt;&gt; import c4dynamics as c4d </span>
+<span class="sd">      &gt;&gt;&gt; from matplotlib import pyplot as plt </span>
+<span class="sd">      &gt;&gt;&gt; import numpy as np </span>
+
+<span class="sd">    Plot an arbitrary state variable and save: </span>
+
+<span class="sd">    .. code:: </span>
+<span class="sd">    </span>
+<span class="sd">      &gt;&gt;&gt; s = c4d.state(x = 0, y = 0)</span>
+<span class="sd">      &gt;&gt;&gt; s.store()</span>
+<span class="sd">      &gt;&gt;&gt; for _ in range(100):</span>
+<span class="sd">      ...   s.x = np.random.randint(0, 100, 1)</span>
+<span class="sd">      ...   s.store()</span>
+<span class="sd">      &gt;&gt;&gt; s.plot(&#39;x&#39;, filename = &#39;x.png&#39;)   # doctest: +IGNORE_OUTPUT </span>
+<span class="sd">      &gt;&gt;&gt; plt.show()</span>
+
+<span class="sd">    .. figure:: /_examples/state/plot_x.png</span>
+
+<span class="sd">    </span>
+<span class="sd">    **Interactive mode:**</span>
+
+<span class="sd">    .. code:: </span>
+<span class="sd">    </span>
+<span class="sd">      &gt;&gt;&gt; plt.switch_backend(&#39;TkAgg&#39;)</span>
+<span class="sd">      &gt;&gt;&gt; s.plot(&#39;x&#39;)   # doctest: +IGNORE_OUTPUT </span>
+<span class="sd">      &gt;&gt;&gt; plt.show(block = True)</span>
+
+
+<span class="sd">    **Dark mode off:**  </span>
+
+<span class="sd">      &gt;&gt;&gt; s = c4d.state(x = 0)</span>
+<span class="sd">      &gt;&gt;&gt; s.xstd = 0.2 </span>
+<span class="sd">      &gt;&gt;&gt; for t in np.linspace(-2 * c4d.pi, 2 * c4d.pi, 1000):</span>
+<span class="sd">      ...   s.x = c4d.sin(t) + np.random.randn() * s.xstd </span>
+<span class="sd">      ...   s.store(t)</span>
+<span class="sd">      &gt;&gt;&gt; s.plot(&#39;x&#39;, darkmode = False)    # doctest: +IGNORE_OUTPUT </span>
+<span class="sd">      &gt;&gt;&gt; plt.show()</span>
+
+<span class="sd">    .. figure:: /_examples/state/plot_darkmode.png</span>
+
+
+<span class="sd">      </span>
+<span class="sd">    **Scale plot:**  </span>
+
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; s = c4d.state(phi = 0)</span>
+<span class="sd">      &gt;&gt;&gt; for y in c4d.tan(np.linspace(-c4d.pi, c4d.pi, 500)):</span>
+<span class="sd">      ...   s.phi = c4d.atan(y)</span>
+<span class="sd">      ...   s.store()</span>
+<span class="sd">      &gt;&gt;&gt; s.plot(&#39;phi&#39;, scale = c4d.r2d)  # doctest: +IGNORE_OUTPUT </span>
+<span class="sd">      &gt;&gt;&gt; plt.gca().set_ylabel(&#39;deg&#39;) # doctest: +IGNORE_OUTPUT</span>
+<span class="sd">      &gt;&gt;&gt; plt.show()</span>
+
+<span class="sd">    .. figure:: /_examples/state/plot_scale.png</span>
+
+
+<span class="sd">    **Given axis:** </span>
+
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; plt.subplots(1, 1)  # doctest: +IGNORE_OUTPUT </span>
+<span class="sd">      &gt;&gt;&gt; plt.plot(np.linspace(-c4d.pi, c4d.pi, 500) * c4d.r2d, &#39;m&#39;)   # doctest: +IGNORE_OUTPUT </span>
+<span class="sd">      &gt;&gt;&gt; s.plot(&#39;phi&#39;, scale = c4d.r2d, ax = plt.gca(), color = &#39;c&#39;)    # doctest: +IGNORE_OUTPUT</span>
+<span class="sd">      &gt;&gt;&gt; plt.gca().set_ylabel(&#39;deg&#39;)  # doctest: +IGNORE_OUTPUT </span>
+<span class="sd">      &gt;&gt;&gt; plt.legend([&#39;θ&#39;, &#39;φ&#39;])  # doctest: +IGNORE_OUTPUT </span>
+<span class="sd">      &gt;&gt;&gt; plt.show()</span>
+
+<span class="sd">    .. figure:: /_examples/state/plot_axis.png</span>
+
+
+<span class="sd">    Top view + side view - options of :class:`datapoint &lt;c4dynamics.states.lib.datapoint.datapoint&gt;` </span>
+<span class="sd">    and :class:`rigidbody &lt;c4dynamics.states.lib.rigidbody.rigidbody&gt;` objects:</span>
+<span class="sd">    </span>
+<span class="sd">    .. code::</span>
+
+<span class="sd">      &gt;&gt;&gt; dt = 0.01</span>
+<span class="sd">      &gt;&gt;&gt; floating_balloon = c4d.datapoint(vx = 10 * c4d.k2ms)</span>
+<span class="sd">      &gt;&gt;&gt; floating_balloon.mass = 0.1 </span>
+<span class="sd">      &gt;&gt;&gt; for t in np.arange(0, 10, dt):</span>
+<span class="sd">      ...   floating_balloon.inteqm(forces = [0, 0, .05], dt = dt)   # doctest: +IGNORE_OUTPUT </span>
+<span class="sd">      ...   floating_balloon.store(t)</span>
+<span class="sd">      &gt;&gt;&gt; floating_balloon.plot(&#39;side&#39;)</span>
+<span class="sd">      &gt;&gt;&gt; plt.gca().invert_yaxis()</span>
+<span class="sd">      &gt;&gt;&gt; plt.show()</span>
+
+<span class="sd">    .. figure:: /_examples/state/plot_dp_inteqm3.png</span>
+
+
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span> 
+    <span class="c1"># </span>
+    <span class="c1"># points to consider </span>
+    <span class="c1"># -------------------</span>
+    <span class="c1"># </span>
+    <span class="c1"># figsize</span>
+    <span class="c1"># -------</span>
+    <span class="c1"># </span>
+    <span class="c1"># i think the challenge here is to get view + save images with </span>
+    <span class="c1"># 1920 x 1080 pixels (Full HD) </span>
+    <span class="c1"># 72 DPI (the standard for web images). no way. 72dpi is poor res. at least 300. </span>
+    <span class="c1"># --&gt; alternative: 960x540 600dpi.       # </span>
+    <span class="c1"># </span>
+    <span class="c1"># get the screen dpi to get the desired resolution. </span>
+    <span class="c1">#</span>
+    <span class="c1"># </span>
+    <span class="c1"># </span>
+    <span class="c1"># backends</span>
+    <span class="c1"># --------</span>
+    <span class="c1"># </span>
+    <span class="c1"># non-interactive backends: Agg, SVG, PDF: </span>
+    <span class="c1">#     When saving plots to files.</span>
+    <span class="c1">#     include plt.show()</span>
+    <span class="c1"># interactive backends: </span>
+    <span class="c1">#     TkAgg, Qt5Agg, etc.</span>
+    <span class="c1">#     dont include plt.show()</span>
+    <span class="c1"># </span>
+    <span class="c1"># Check Backend: matplotlib.get_backend().</span>
+    <span class="c1"># avoid hardcoding backend settings.</span>
+    <span class="c1"># Avoid using features that are specific to certain backends.</span>
+    <span class="c1"># Users should be able to override backend settings.</span>
+    <span class="c1"># </span>
+    <span class="c1"># Test your plotting functions across different backends. </span>
+    <span class="c1">#</span>
+    <span class="c1"># finally i think the best soultion regardint backends is not </span>
+    <span class="c1"># to do anythink and let the user select the backend from outside. </span>
+    <span class="c1">##  </span>
+    <span class="k">if</span> <span class="n">var</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_didx</span><span class="p">:</span>
+      <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> is not a state variable.&quot;&quot;&quot;</span> <span class="p">,</span> <span class="n">c4d</span><span class="o">.</span><span class="n">c4warn</span><span class="p">)</span>
+      <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">:</span>
+      <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;No stored data for </span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2">.&quot;&quot;&quot;</span> <span class="p">,</span> <span class="n">c4d</span><span class="o">.</span><span class="n">c4warn</span><span class="p">)</span>
+      <span class="k">return</span> <span class="kc">None</span>
+
+
+    <span class="k">if</span> <span class="n">darkmode</span><span class="p">:</span> 
+      <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;dark_background&#39;</span><span class="p">)</span>  
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">)</span>
+ 
+
+    <span class="c1"># plt.switch_backend(&#39;TkAgg&#39;)</span>
+    <span class="c1"># plt.switch_backend(&#39;TkAgg&#39;)</span>
+
+    <span class="c1"># try:</span>
+    <span class="c1">#   from IPython import get_ipython</span>
+    <span class="c1">#   if get_ipython() is None:</span>
+    <span class="c1">#       return False</span>
+    <span class="c1">#   else:</span>
+    <span class="c1">#       return True</span>
+    <span class="c1"># except ImportError:</span>
+    <span class="c1">#   return False</span>
+
+
+    <span class="c1"># Set default values in kwargs only if the user hasn&#39;t provided them</span>
+    <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;color&#39;</span><span class="p">,</span> <span class="s1">&#39;m&#39;</span><span class="p">)</span>
+    <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;linewidth&#39;</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> 
+      <span class="c1"># factorsize = 4</span>
+      <span class="c1"># aspectratio = 1080 / 1920 </span>
+      <span class="c1"># _, ax = plt.subplots(1, 1, dpi = 200</span>
+      <span class="c1">#               , figsize = (factorsize, factorsize * aspectratio) </span>
+      <span class="c1">#                       , gridspec_kw = {&#39;left&#39;: 0.15, &#39;right&#39;: .9</span>
+      <span class="c1">#                                           , &#39;top&#39;: .9, &#39;bottom&#39;: .2})</span>
+      <span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">_figdef</span><span class="p">()</span>
+    
+      
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">flatnonzero</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="s1">&#39;t&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)):</span> <span class="c1"># values for t weren&#39;t stored</span>
+      <span class="n">x</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="s1">&#39;t&#39;</span><span class="p">)))</span> <span class="c1"># t is just indices </span>
+      <span class="n">xlabel</span> <span class="o">=</span> <span class="s1">&#39;Samples&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="s1">&#39;t&#39;</span><span class="p">)</span>
+      <span class="n">xlabel</span> <span class="o">=</span> <span class="s1">&#39;Time&#39;</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_didx</span><span class="p">[</span><span class="n">var</span><span class="p">]]</span> <span class="o">*</span> <span class="n">scale</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># used selection </span>
+      
+    <span class="k">if</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_greek_unicode</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span> 
+      <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">var</span> <span class="o">+</span> <span class="s1">&#39;$&#39;</span> 
+    <span class="k">else</span><span class="p">:</span> 
+      <span class="n">title</span> <span class="o">=</span> <span class="n">var</span> 
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">c4d</span><span class="o">.</span><span class="n">plotdefaults</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">xlabel</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+    
+
+
+    <span class="k">if</span> <span class="n">filename</span><span class="p">:</span> 
+      <span class="c1"># plt.tight_layout(pad = 0)</span>
+      <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">bbox_inches</span> <span class="o">=</span> <span class="s1">&#39;tight&#39;</span><span class="p">,</span> <span class="n">pad_inches</span> <span class="o">=</span> <span class="mf">.2</span><span class="p">,</span> <span class="n">dpi</span> <span class="o">=</span> <span class="mi">600</span><span class="p">)</span>
+      
+
+    <span class="c1"># plt.show(block = True)</span>
+    <span class="k">return</span> <span class="n">ax</span> </div>
+
+
+
+
+
+  <span class="c1">#</span>
+  <span class="c1"># math operations </span>
+  <span class="c1">## </span>
+
+
+  <span class="nd">@property</span> 
+  <span class="k">def</span> <span class="nf">norm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Returns the Euclidean norm of the state vector. </span>
+<span class="sd">      </span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : float  </span>
+<span class="sd">        The computed norm of the state vector. The return type specifically is a numpy.float64. </span>
+<span class="sd">    </span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. code:: </span>
+<span class="sd">    </span>
+<span class="sd">      &gt;&gt;&gt; s = c4d.state(x1 = 1, x2 = -1)</span>
+<span class="sd">      &gt;&gt;&gt; s.norm  # doctest: +ELLIPSIS  </span>
+<span class="sd">      1.414...</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">)</span>
+  
+  
+  <span class="nd">@property</span> 
+  <span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Returns a unit vector representation of the state vector. </span>
+<span class="sd">    </span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : numpy.array   </span>
+<span class="sd">        A normalized vector of the same direction and shape as `self.X`, where the norm of the vector is `1`. </span>
+<span class="sd">    </span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. code:: </span>
+<span class="sd">    </span>
+<span class="sd">      &gt;&gt;&gt; s = c4d.state(x = 1, y = 2, z = 3)</span>
+<span class="sd">      &gt;&gt;&gt; s.normalize   # doctest: +NUMPY_FORMAT </span>
+<span class="sd">      [0.267  0.534  0.801]</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">)</span>
+
+  
+  <span class="c1"># cartesian operations</span>
+
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">position</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">      Returns a vector of position coordinates. </span>
+
+<span class="sd">      If the state doesn&#39;t include any position coordinate (x, y, z), </span>
+<span class="sd">      an empty array is returned.  </span>
+<span class="sd">      </span>
+<span class="sd">      Note</span>
+<span class="sd">      ----</span>
+<span class="sd">      In the context of :attr:`position &lt;c4dynamics.states.state.state.position&gt;`, </span>
+<span class="sd">      only x, y, z, (case sensitive) are considered position coordinates.  </span>
+
+<span class="sd">      </span>
+<span class="sd">      Returns</span>
+<span class="sd">      -------</span>
+<span class="sd">      out : numpy.array   </span>
+<span class="sd">          A vector containing the values of three position coordinates.</span>
+
+
+<span class="sd">      Examples</span>
+<span class="sd">      --------</span>
+
+<span class="sd">      .. code:: </span>
+<span class="sd">      </span>
+<span class="sd">        &gt;&gt;&gt; s = c4d.state(theta = 3.14, x = 1, y = 2)</span>
+<span class="sd">        &gt;&gt;&gt; s.position  # doctest: +NUMPY_FORMAT</span>
+<span class="sd">        [1  2  0]</span>
+<span class="sd">      </span>
+<span class="sd">        </span>
+<span class="sd">      .. code:: </span>
+<span class="sd">      </span>
+<span class="sd">        &gt;&gt;&gt; s = c4d.state(theta = 3.14, x = 1, y = 2, z = 3)</span>
+<span class="sd">        &gt;&gt;&gt; s.position  # doctest: +NUMPY_FORMAT</span>
+<span class="sd">        [1  2  3]</span>
+<span class="sd">      </span>
+<span class="sd">      </span>
+<span class="sd">      .. code:: </span>
+<span class="sd">      </span>
+<span class="sd">        &gt;&gt;&gt; s = c4d.state(theta = 3.14, z = -100)</span>
+<span class="sd">        &gt;&gt;&gt; s.position  # doctest: +NUMPY_FORMAT</span>
+<span class="sd">        [0  0  -100]</span>
+<span class="sd">        </span>
+
+<span class="sd">      .. code:: </span>
+<span class="sd">      </span>
+<span class="sd">        &gt;&gt;&gt; s = c4d.state(theta = 3.14)</span>
+<span class="sd">        &gt;&gt;&gt; s.position   # doctest: +IGNORE_OUTPUT  </span>
+<span class="sd">        Position is valid when at least one cartesian coordinate variable (x, y, z) exists...</span>
+<span class="sd">        []</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    
+    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">cartesian</span><span class="p">():</span>
+      <span class="c1"># c4d.cprint(&#39;Warning: position is valid when at least one cartesian&#39;</span>
+      <span class="c1">#             &#39; coordinate variable (x, y, z) exists.&#39;, &#39;m&#39;)</span>
+      <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;Position is valid when at least one cartesian &quot;&quot;&quot;</span>
+<span class="w">                        </span><span class="sd">&quot;&quot;&quot;coordinate variable (x, y, z) exists.&quot;&quot;&quot;</span> <span class="p">,</span> <span class="n">c4d</span><span class="o">.</span><span class="n">c4warn</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+      
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">]])</span>
+  
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">velocity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;     </span>
+<span class="sd">    Returns a vector of velocity coordinates. </span>
+<span class="sd">    </span>
+<span class="sd">    If the state doesn&#39;t include any velocity coordinate (vx, vy, vz), </span>
+<span class="sd">    an empty array is returned.  </span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    In the context of :attr:`velocity &lt;c4dynamics.states.state.state.velocity&gt;`, </span>
+<span class="sd">    only vx, vy, vz, (case sensitive) are considered velocity coordinates.  </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : numpy.array   </span>
+<span class="sd">        A vector containing the values of three velocity coordinates.</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. code:: </span>
+<span class="sd">    </span>
+<span class="sd">      &gt;&gt;&gt; s = c4d.state(x = 100, y = 0, vx = -10, vy = 5)</span>
+<span class="sd">      &gt;&gt;&gt; s.velocity # doctest: +NUMPY_FORMAT </span>
+<span class="sd">      [-10  5  0]</span>
+
+<span class="sd">      </span>
+<span class="sd">    .. code:: </span>
+<span class="sd">    </span>
+<span class="sd">      &gt;&gt;&gt; s = c4d.state(x = 100, vz = -100)</span>
+<span class="sd">      &gt;&gt;&gt; s.velocity # doctest: +NUMPY_FORMAT </span>
+<span class="sd">      [0  0  -100]</span>
+
+
+<span class="sd">    .. code:: </span>
+<span class="sd">    </span>
+<span class="sd">      &gt;&gt;&gt; s = c4d.state(z = 100)</span>
+<span class="sd">      &gt;&gt;&gt; s.velocity  # doctest: +IGNORE_OUTPUT </span>
+<span class="sd">      Warning: velocity is valid when at least one velocity coordinate variable (vx, vy, vz) exists.    </span>
+<span class="sd">      []</span>
+
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cartesian</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+      <span class="c1"># c4d.cprint(&#39;Warning: velocity is valid when at least one velocity &#39;</span>
+      <span class="c1">#             &#39;coordinate variable (vx, vy, vz) exists.&#39;, &#39;m&#39;)</span>
+      <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;Velocity is valid when at least one velocity &quot;&quot;&quot;</span>
+<span class="w">                        </span><span class="sd">&quot;&quot;&quot;coordinate variable (vx, vy, vz) exists.&quot;&quot;&quot;</span> <span class="p">,</span> <span class="n">c4d</span><span class="o">.</span><span class="n">c4warn</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;vx&#39;</span><span class="p">,</span> <span class="s1">&#39;vy&#39;</span><span class="p">,</span> <span class="s1">&#39;vz&#39;</span><span class="p">]])</span>
+
+
+<div class="viewcode-block" id="state.P">
+<a class="viewcode-back" href="../../../api/generated/state/c4dynamics.states.state.state.P.html#c4dynamics.states.state.state.P">[docs]</a>
+  <span class="k">def</span> <span class="nf">P</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state2</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">    Euclidean distance. </span>
+
+<span class="sd">    Calculates the Euclidean distance between the self state object and </span>
+<span class="sd">    a second object `state2`. If `state2` is not provided, then the self </span>
+<span class="sd">    Euclidean distance is calculated. </span>
+
+
+<span class="sd">    When a second state object is provided: </span>
+
+<span class="sd">    .. math:: </span>
+
+<span class="sd">      P = \\sum_{k=x,y,z} (self.k - state2.k)^2</span>
+
+
+<span class="sd">    Otherwise: </span>
+
+<span class="sd">    .. math:: </span>
+
+<span class="sd">      P = \\sum_{k=x,y,z} self.k^2</span>
+<span class="sd">    </span>
+
+<span class="sd">      </span>
+<span class="sd">    Raises </span>
+<span class="sd">    ------</span>
+<span class="sd">    TypeError</span>
+<span class="sd">        If the states don&#39;t include any position coordinate (x, y, z).  </span>
+
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    1. The provided states must have at least oneposition coordinate (x, y, z).  </span>
+<span class="sd">    2. In the context of :meth:`P() &lt;c4dynamics.states.state.state.P&gt;`, </span>
+<span class="sd">       x, y, z, (case sensitive) are considered position coordinates.      </span>
+<span class="sd">      </span>
+
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    state2 : :class:`state &lt;c4dynamics.states.state.state&gt;`</span>
+<span class="sd">        A second state object for which the relative distance is calculated. </span>
+<span class="sd">    </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : float </span>
+<span class="sd">        Euclidean norm of the distance vector. The return type specifically is a numpy.float64.</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; import c4dynamics as c4d </span>
+
+<span class="sd">    .. code::</span>
+<span class="sd">    </span>
+<span class="sd">      &gt;&gt;&gt; s = c4d.state(theta = 3.14, x = 1, y = 1)</span>
+<span class="sd">      &gt;&gt;&gt; s.P()   # doctest: +ELLIPSIS </span>
+<span class="sd">      1.414...</span>
+
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; s  = c4d.state(theta = 3.14, x = 1, y = 1)</span>
+<span class="sd">      &gt;&gt;&gt; s2 = c4d.state(x = 1)</span>
+<span class="sd">      &gt;&gt;&gt; s.P(s2)</span>
+<span class="sd">      1.0</span>
+
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; s  = c4d.state(theta = 3.14, x = 1, y = 1)</span>
+<span class="sd">      &gt;&gt;&gt; s2 = c4d.state(z = 1)</span>
+<span class="sd">      &gt;&gt;&gt; s.P(s2)   # doctest: +ELLIPSIS </span>
+<span class="sd">      1.73...</span>
+
+
+<span class="sd">    For final example, import required packages: </span>
+
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; import numpy as np </span>
+<span class="sd">      &gt;&gt;&gt; from matplotlib import pyplot as plt  </span>
+
+
+<span class="sd">    Settings and initial conditions: </span>
+
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; camera = c4d.state(x = 0, y = 0)</span>
+<span class="sd">      &gt;&gt;&gt; car    = c4d.datapoint(x = -100, vx = 40, vy = -7)</span>
+<span class="sd">      &gt;&gt;&gt; dist   = []</span>
+<span class="sd">      &gt;&gt;&gt; time = np.linspace(0, 10, 1000)</span>
+
+
+
+<span class="sd">    Main loop: </span>
+
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; for t in time:</span>
+<span class="sd">      ...   car.inteqm(np.zeros(3), time[1] - time[0]) # doctest: +IGNORE_OUTPUT </span>
+<span class="sd">      ...   dist.append(camera.P(car))</span>
+
+
+<span class="sd">    Show results: </span>
+
+<span class="sd">    .. code:: </span>
+<span class="sd">    </span>
+<span class="sd">      &gt;&gt;&gt; plt.plot(time, dist, &#39;m&#39;) # doctest: +IGNORE_OUTPUT </span>
+<span class="sd">      &gt;&gt;&gt; c4d.plotdefaults(plt.gca(), &#39;Distance&#39;, &#39;Time (s)&#39;, &#39;(m)&#39;)</span>
+<span class="sd">      &gt;&gt;&gt; plt.show()</span>
+
+<span class="sd">    .. figure:: /_examples/states/state_P.png</span>
+
+
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">cartesian</span><span class="p">():</span>
+      <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;state must have at least one position coordinate (x, y, or z)&#39;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">state2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> 
+      <span class="n">state2</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">datapoint</span><span class="p">()</span> 
+    <span class="k">else</span><span class="p">:</span> 
+      <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">state2</span><span class="p">,</span> <span class="s1">&#39;cartesian&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">state2</span><span class="o">.</span><span class="n">cartesian</span><span class="p">():</span> 
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;state2 must be a state object with at least one position coordinate (x, y, or z)&#39;</span><span class="p">)</span>
+
+    <span class="n">dist</span> <span class="o">=</span> <span class="mi">0</span> 
+    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">]:</span> 
+      <span class="n">dist</span> <span class="o">+=</span> <span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">state2</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="state.V">
+<a class="viewcode-back" href="../../../api/generated/state/c4dynamics.states.state.state.V.html#c4dynamics.states.state.state.V">[docs]</a>
+  <span class="k">def</span> <span class="nf">V</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">    Velocity Magnitude. </span>
+
+<span class="sd">    Calculates the magnitude of the object velocity :</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">      V = \\sum_{k=v_x,v_y,v_z} self.k^2</span>
+
+<span class="sd">    If the state doesn&#39;t include any velocity coordinate (vx, vy, vz), </span>
+<span class="sd">    a `ValueError` is raised.  </span>
+<span class="sd">      </span>
+<span class="sd">            </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : float</span>
+<span class="sd">        Euclidean norm of the velocity vector. The return type specifically is a numpy.float64.</span>
+
+
+<span class="sd">    Raises </span>
+<span class="sd">    ------</span>
+<span class="sd">    TypeError</span>
+<span class="sd">        If the state does not include any velocity coordinate (vx, vy, vz).</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    In the context of :meth:`V() &lt;c4dynamics.states.state.state.V&gt;`, </span>
+<span class="sd">    vx, vy, vz, (case sensitive) are considered velocity coordinates.      </span>
+<span class="sd">      </span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">      &gt;&gt;&gt; s = c4d.state(vx = 7, vy = 24)</span>
+<span class="sd">      &gt;&gt;&gt; s.V() </span>
+<span class="sd">      25.0</span>
+
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; s = c4d.state(x = 100, y = 0, vx = -10, vy = 7)</span>
+<span class="sd">      &gt;&gt;&gt; s.V()   # doctest: +ELLIPSIS </span>
+<span class="sd">      12.2...</span>
+
+<span class="sd">    </span>
+<span class="sd">    Uncommenting the following line throws a type error:</span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">      &gt;&gt;&gt; s = c4d.state(x = 100, y = 0)</span>
+<span class="sd">      &gt;&gt;&gt; # s.V()  </span>
+<span class="sd">      TypeError: state must have at least one velocity coordinate (vx, vy, or vz)</span>
+
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cartesian</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+      <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;state must have at least one velocity coordinate (vx, vy, or vz)&#39;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="p">)</span></div>
+
+  
+
+  <span class="k">def</span> <span class="nf">cartesian</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="c1"># TODO document! </span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">([</span><span class="n">var</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;vx&#39;</span><span class="p">,</span> <span class="s1">&#39;vy&#39;</span><span class="p">,</span> <span class="s1">&#39;vz&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">)]):</span>
+      <span class="k">return</span> <span class="mi">2</span> 
+    <span class="k">elif</span> <span class="nb">any</span><span class="p">([</span><span class="n">var</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">)]):</span>
+      <span class="k">return</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span> 
+      <span class="k">return</span> <span class="mi">0</span></div>
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+  <span class="kn">import</span> <span class="nn">doctest</span><span class="o">,</span> <span class="nn">contextlib</span>
+  <span class="kn">from</span> <span class="nn">c4dynamics</span> <span class="kn">import</span> <span class="n">IgnoreOutputChecker</span><span class="p">,</span> <span class="n">cprint</span>
+  
+  <span class="c1"># Register the custom OutputChecker</span>
+  <span class="n">doctest</span><span class="o">.</span><span class="n">OutputChecker</span> <span class="o">=</span> <span class="n">IgnoreOutputChecker</span>
+
+  <span class="n">tofile</span> <span class="o">=</span> <span class="kc">False</span> 
+  <span class="n">optionflags</span> <span class="o">=</span> <span class="n">doctest</span><span class="o">.</span><span class="n">FAIL_FAST</span>
+
+  <span class="k">if</span> <span class="n">tofile</span><span class="p">:</span> 
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;tests&#39;</span><span class="p">,</span> <span class="s1">&#39;_out&#39;</span><span class="p">,</span> <span class="s1">&#39;output.txt&#39;</span><span class="p">),</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+      <span class="k">with</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">redirect_stdout</span><span class="p">(</span><span class="n">f</span><span class="p">),</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">redirect_stderr</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">(</span><span class="n">optionflags</span> <span class="o">=</span> <span class="n">optionflags</span><span class="p">)</span> 
+  <span class="k">else</span><span class="p">:</span> 
+    <span class="n">result</span> <span class="o">=</span> <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">(</span><span class="n">optionflags</span> <span class="o">=</span> <span class="n">optionflags</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">failed</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">cprint</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;: all tests passed!&quot;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">failed</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By c4dynamics
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, c4dynamics.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on Dec 19, 2024.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
