@@ -1,0 +1,1234 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>c4dynamics.states.lib.pixelpoint &#8212; C4DYNAMICS v2.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/style.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../../../_static/documentation_options.js?v=d94dc4f2"></script>
+    <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/c4dynamics/states/lib/pixelpoint';</script>
+    <link rel="icon" href="../../../../_static/c4dlogo.svg"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="Dec 19, 2024"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">C4DYNAMICS v2.0</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../../../index.html">
+                    Home
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../gettingstarted.html">Getting Started</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../programs/index.html">Programs</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../programs/dof6sim.html">6 Degrees Of Freedom Missile Guidance Simulation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../api/index.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../api/States.html">State Objects</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../api/states.state.html">The state class</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/state/c4dynamics.states.state.state.X.html">c4dynamics.states.state.state.X</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/state/c4dynamics.states.state.state.X0.html">c4dynamics.states.state.state.X0</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/state/c4dynamics.states.state.state.norm.html">c4dynamics.states.state.state.norm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/state/c4dynamics.states.state.state.normalize.html">c4dynamics.states.state.state.normalize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/state/c4dynamics.states.state.state.position.html">c4dynamics.states.state.state.position</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/state/c4dynamics.states.state.state.velocity.html">c4dynamics.states.state.state.velocity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/state/c4dynamics.states.state.state.addvars.html">c4dynamics.states.state.state.addvars</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/state/c4dynamics.states.state.state.P.html">c4dynamics.states.state.state.P</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/state/c4dynamics.states.state.state.V.html">c4dynamics.states.state.state.V</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/state/c4dynamics.states.state.state.store.html">c4dynamics.states.state.state.store</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/state/c4dynamics.states.state.state.storeparams.html">c4dynamics.states.state.state.storeparams</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/state/c4dynamics.states.state.state.data.html">c4dynamics.states.state.state.data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/state/c4dynamics.states.state.state.timestate.html">c4dynamics.states.state.state.timestate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/state/c4dynamics.states.state.state.plot.html">c4dynamics.states.state.state.plot</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../api/states.lib.html">States library</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/states.lib.datapoint.html">Datapoint</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/states.lib.rigidbody.html">Rigidbody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/states.lib.pixelpoint.html">Pixelpoint</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../api/Sensors.html">Sensors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../api/sensors.seeker.html">Seeker</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/seeker/c4dynamics.sensors.seeker.seeker.bias.html">c4dynamics.sensors.seeker.seeker.bias</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/seeker/c4dynamics.sensors.seeker.seeker.scale_factor.html">c4dynamics.sensors.seeker.seeker.scale_factor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/seeker/c4dynamics.sensors.seeker.seeker.measure.html">c4dynamics.sensors.seeker.seeker.measure</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../api/sensors.radar.html">Radar</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/radar/c4dynamics.sensors.radar.radar.bias.html">c4dynamics.sensors.radar.radar.bias</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/radar/c4dynamics.sensors.radar.radar.scale_factor.html">c4dynamics.sensors.radar.radar.scale_factor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/radar/c4dynamics.sensors.radar.radar.measure.html">c4dynamics.sensors.radar.radar.measure</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../api/Detectors.html">Detectors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../api/detectors.yolov3.html">YOLOv3</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/yolov3/c4dynamics.detectors.yolo3_opencv.yolov3.nms_th.html">c4dynamics.detectors.yolo3_opencv.yolov3.nms_th</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/yolov3/c4dynamics.detectors.yolo3_opencv.yolov3.confidence_th.html">c4dynamics.detectors.yolo3_opencv.yolov3.confidence_th</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/yolov3/c4dynamics.detectors.yolo3_opencv.yolov3.detect.html">c4dynamics.detectors.yolo3_opencv.yolov3.detect</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../api/Filters.html">Filters</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../api/filters.kalman.html">Kalman filter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/kalman/c4dynamics.filters.kalman.kalman.predict.html">c4dynamics.filters.kalman.kalman.predict</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/kalman/c4dynamics.filters.kalman.kalman.update.html">c4dynamics.filters.kalman.kalman.update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/kalman/c4dynamics.filters.kalman.kalman.store.html">c4dynamics.filters.kalman.kalman.store</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../api/filters.ekf.html">Extended Kalman filter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/ekf/c4dynamics.filters.ekf.ekf.predict.html">c4dynamics.filters.ekf.ekf.predict</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/ekf/c4dynamics.filters.ekf.ekf.update.html">c4dynamics.filters.ekf.ekf.update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/ekf/c4dynamics.filters.ekf.ekf.store.html">c4dynamics.filters.ekf.ekf.store</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../api/filters.lpf.html">Lowpass filter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/lpf/c4dynamics.filters.lowpass.lowpass.sample.html">c4dynamics.filters.lowpass.lowpass.sample</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../api/Routines.html">Routines</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../api/routines.eqm.html">Equations of motion solvers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/eqm/c4dynamics.eqm.derivs.eqm3.html">c4dynamics.eqm.derivs.eqm3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/eqm/c4dynamics.eqm.derivs.eqm6.html">c4dynamics.eqm.derivs.eqm6</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/eqm/c4dynamics.eqm.integrate.int3.html">c4dynamics.eqm.integrate.int3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/eqm/c4dynamics.eqm.integrate.int6.html">c4dynamics.eqm.integrate.int6</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../api/routines.rotmat.html">Rotation matrix operations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.rotx.html">c4dynamics.rotmat.rotmat.rotx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.roty.html">c4dynamics.rotmat.rotmat.roty</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.rotz.html">c4dynamics.rotmat.rotmat.rotz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.dcm321.html">c4dynamics.rotmat.rotmat.dcm321</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.dcm321euler.html">c4dynamics.rotmat.rotmat.dcm321euler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/rotmat/c4dynamics.rotmat.animate.animate.html">c4dynamics.rotmat.animate.animate</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../api/Utils.html">Utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/utils/c4dynamics.utils.tictoc.tic.html">c4dynamics.utils.tictoc.tic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/utils/c4dynamics.utils.tictoc.toc.html">c4dynamics.utils.tictoc.toc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/utils/c4dynamics.utils.cprint.cprint.html">c4dynamics.utils.cprint.cprint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/utils/c4dynamics.utils.gen_gif.gif.html">c4dynamics.utils.gen_gif.gif</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/utils/c4dynamics.utils.plottools.plotdefaults.html">c4dynamics.utils.plottools.plotdefaults</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/utils.math.html">Math functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/utils.const.html">Constants</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../api/Datasets.html">Datasets</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/datasets/c4dynamics.datasets.image.html">c4dynamics.datasets.image</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/datasets/c4dynamics.datasets.video.html">c4dynamics.datasets.video</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/datasets/c4dynamics.datasets.nn_model.html">c4dynamics.datasets.nn_model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/datasets/c4dynamics.datasets.d3_model.html">c4dynamics.datasets.d3_model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/datasets/c4dynamics.datasets.download_all.html">c4dynamics.datasets.download_all</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/datasets/c4dynamics.datasets.clear_cache.html">c4dynamics.datasets.clear_cache</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for c4dynamics.states.lib.pixelpoint</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">sys</span> 
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">c4dynamics.states.state</span> <span class="kn">import</span> <span class="n">state</span> 
+
+
+<span class="c1"># from enum import Enum</span>
+
+
+<div class="viewcode-block" id="pixelpoint">
+<a class="viewcode-back" href="../../../../api/states.lib.pixelpoint.html#c4dynamics.states.lib.pixelpoint.pixelpoint">[docs]</a>
+<span class="k">class</span> <span class="nc">pixelpoint</span><span class="p">(</span><span class="n">state</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">    A data point in a video frame with a bounding box. </span>
+
+<span class="sd">    :class:`pixelpoint` is a data structure for managing </span>
+<span class="sd">    object detections in tracking missions. </span>
+<span class="sd">    It provides properties and methods to </span>
+<span class="sd">    conveniently interact with computer vision modules. </span>
+
+<span class="sd">    The `pixelpoint` state variables are </span>
+<span class="sd">    the object center and the bounding box: </span>
+<span class="sd">    </span>
+<span class="sd">    .. math:: </span>
+
+<span class="sd">      X = [x, y, w, h]^T </span>
+
+<span class="sd">    - Center pixel, bounding box size. </span>
+
+
+
+<span class="sd">    </span>
+<span class="sd">    **Arguments** </span>
+
+<span class="sd">    x : float or int </span>
+<span class="sd">        The x-coordinate of the center of the object.</span>
+
+<span class="sd">    y : float or int </span>
+<span class="sd">        The y-coordinate of the center of the object.</span>
+
+<span class="sd">    w : float or int</span>
+<span class="sd">        The width of the bounding box.</span>
+<span class="sd">    </span>
+<span class="sd">    h : float or int</span>
+<span class="sd">        The height of the bounding box.</span>
+<span class="sd">    </span>
+
+<span class="sd">    These variables use for streamlined operations through </span>
+<span class="sd">    the state vector :attr:`X &lt;c4dynamics.states.state.state.X&gt;`.</span>
+
+<span class="sd">    Parameters define the object and are not part of the state. </span>
+<span class="sd">    For the `pixelpoint` class these are the frame size and the object classification. </span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+
+<span class="sd">    fsize : (int, int)</span>
+<span class="sd">        Frame size in pixels. </span>
+
+<span class="sd">    class_id : str</span>
+<span class="sd">        Class label associated with the object.</span>
+
+<span class="sd">        </span>
+<span class="sd">    **Construction** </span>
+<span class="sd">    </span>
+
+<span class="sd">    A `pixelpoint` instance is typically created </span>
+<span class="sd">    when a new object is detected.  </span>
+
+<span class="sd">    For a given detection `d` with the following indices: </span>
+
+<span class="sd">    - [0] : x-center, pixels</span>
+<span class="sd">    - [1] : y-center, pixels</span>
+<span class="sd">    - [2] : width, pixels</span>
+<span class="sd">    - [3] : height, pixels</span>
+<span class="sd">    - [4:end] : probabilities for each class of the list `class_names` </span>
+<span class="sd">    </span>
+<span class="sd">    and for frames with dimensions `(f_width, f_height)`, the following snippet </span>
+<span class="sd">    constructs a `pixelpoint` and updates its properties. </span>
+<span class="sd">    </span>
+<span class="sd">    Import packages: </span>
+
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; from c4dynamics import pixelpoint </span>
+<span class="sd">      &gt;&gt;&gt; import numpy as np </span>
+
+
+<span class="sd">    Given a detection with arbitrary values: </span>
+<span class="sd">    </span>
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; d = [50, 50, 15, 25, 0.8, 0.1, 0.0, 0.05, 0.89]</span>
+<span class="sd">      &gt;&gt;&gt; f_width, f_height = 100, 100</span>
+<span class="sd">      &gt;&gt;&gt; class_names = [&#39;dog&#39;, &#39;cat&#39;, &#39;horse&#39;, &#39;fox&#39;]</span>
+<span class="sd">      </span>
+<span class="sd">    Initialize a `pixelpoint` instance with the input detection: </span>
+<span class="sd">    </span>
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; pp = pixelpoint(x = d[0], y = d[1], w = d[2], h = d[3])</span>
+<span class="sd">      &gt;&gt;&gt; pp.fsize = (f_width, f_height)</span>
+<span class="sd">      &gt;&gt;&gt; pp.class_id = class_names[np.argmax(d[5:])]</span>
+
+<span class="sd">        </span>
+<span class="sd">    See Also</span>
+<span class="sd">    ========</span>
+<span class="sd">    .lib</span>
+<span class="sd">    .state </span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    ========</span>
+
+<span class="sd">    **Setup and Preliminaries** </span>
+
+
+<span class="sd">    Import required packages:</span>
+
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; import cv2  # opencv-python </span>
+<span class="sd">      &gt;&gt;&gt; import numpy as np </span>
+<span class="sd">      &gt;&gt;&gt; import c4dynamics as c4d </span>
+<span class="sd">      &gt;&gt;&gt; from matplotlib import pyplot as plt</span>
+
+
+
+<span class="sd">    Fetch &#39;planes.png&#39; and &#39;triangle.png&#39; using the c4dynamics&#39; </span>
+<span class="sd">    datasets module (see :mod:`c4dynamics.datasets`):         </span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">      &gt;&gt;&gt; tripath = c4d.datasets.image(&#39;triangle&#39;)</span>
+<span class="sd">      Fetched successfully</span>
+<span class="sd">      &gt;&gt;&gt; planspath = c4d.datasets.image(&#39;planes&#39;)</span>
+<span class="sd">      Fetched successfully</span>
+
+
+
+<span class="sd">    Define two auxiliary functions. </span>
+<span class="sd">    The first, `tridetect()`, returns bounding boxes of the detected triangles:</span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">      &gt;&gt;&gt; def tridetect(img):</span>
+<span class="sd">      ...   _, thresh = cv2.threshold(cv2.cvtColor(img, cv2.COLOR_BGR2GRAY), 50, 255, 0)</span>
+<span class="sd">      ...   contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)</span>
+<span class="sd">      ...   bbox = []</span>
+<span class="sd">      ...   for contour in contours:</span>
+<span class="sd">      ...     approx = cv2.approxPolyDP(contour, 0.01 * cv2.arcLength(contour, True), True)    </span>
+<span class="sd">      ...     if len(approx) == 3:</span>
+<span class="sd">      ...       bbox.append(cv2.boundingRect(contour))</span>
+<span class="sd">      ...   return bbox</span>
+
+
+<span class="sd">    The second function, `ptup`, converts a tuple of two numbers into a formatted string: </span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">      &gt;&gt;&gt; def ptup(n): </span>
+<span class="sd">      ...   return &#39;(&#39; + str(n[0]) + &#39;, &#39; + str(n[1]) + &#39;)&#39;</span>
+
+
+
+
+<span class="sd">      </span>
+<span class="sd">    **Construction from image** </span>
+
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; img = cv2.imread(tripath)</span>
+<span class="sd">      &gt;&gt;&gt; pp = c4d.pixelpoint(x = int(img.shape[1] / 2), y = int(img.shape[0] / 2), w = 100, h = 100)</span>
+<span class="sd">      &gt;&gt;&gt; pp.fsize = img.shape[:2]</span>
+<span class="sd">      &gt;&gt;&gt; pp.class_id = &#39;triangle&#39; </span>
+
+
+<span class="sd">      </span>
+<span class="sd">    **Construction from detection** </span>
+
+<span class="sd">    Given a frame with dimensions `(f_width, f_height)` and a detection `d` from an object detector: </span>
+
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; pp = c4d.pixelpoint(x = d[0], y = d[1], w = d[2], h = d[3])</span>
+<span class="sd">      &gt;&gt;&gt; pp.fsize = (f_width, f_height)</span>
+<span class="sd">      &gt;&gt;&gt; pp.class_id = class_names[np.argmax(d[5:])]</span>
+
+
+
+
+<span class="sd">    **Triangles detection**</span>
+
+<span class="sd">    Run a triangles detector and create a `pixelpoint` object </span>
+<span class="sd">    per each detected triangle. </span>
+<span class="sd">    Use :attr:`box &lt;c4dynamics.states.lib.pixelpoint.pixelpoint.box&gt;` </span>
+<span class="sd">    to draw bounding boxes:</span>
+
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; img = cv2.imread(tripath)</span>
+<span class="sd">      &gt;&gt;&gt; triangles = tridetect(img)</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; print(&#39;{:^10} | {:^10} | {:^16} | {:^16} | {:^10} | {:^14}&#39;.format(&#39;center x&#39;, &#39;center y&#39;, &#39;box top-left&#39;, &#39;box bottom-right&#39;, &#39;class&#39;, &#39;frame size&#39;)) # doctest: +IGNORE_OUTPUT </span>
+<span class="sd">      &gt;&gt;&gt; # iterate over the detected triangles: </span>
+<span class="sd">      &gt;&gt;&gt; for tri in triangles: # doctest: +IGNORE_OUTPUT </span>
+<span class="sd">      ...   pp = c4d.pixelpoint(x = int(tri[0] + tri[2] / 2), y = int(tri[1] + tri[3] / 2), w = tri[2], h = tri[3])</span>
+<span class="sd">      ...   pp.fsize = img.shape[:2]</span>
+<span class="sd">      ...   pp.class_id = &#39;triangle&#39;</span>
+<span class="sd">      ...   print(&#39;{:^10d} | {:^10d} | {:^16} | {:^16} | {:^10} | {:^14}&#39;.format(pp.x, pp.y, ptup(pp.box[0]), ptup(pp.box[1]), pp.class_id, ptup(pp.fsize))) </span>
+<span class="sd">      ...   cv2.rectangle(img, pp.box[0], pp.box[1], [0, 255, 0], 2)</span>
+<span class="sd">      center x  |  center y  |   box top-left   | box bottom-right |   class    |   frame size  </span>
+<span class="sd">        399     |    274     |    (184, 117)    |    (614, 431)    |  triangle  |   (600, 800)</span>
+<span class="sd">      </span>
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; plt.figure() # doctest: +IGNORE_OUTPUT </span>
+<span class="sd">      &gt;&gt;&gt; plt.axis(False) # doctest: +IGNORE_OUTPUT </span>
+<span class="sd">      &gt;&gt;&gt; plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB)) # doctest: +IGNORE_OUTPUT </span>
+
+
+<span class="sd">    .. figure:: /_examples/pixelpoint/triangle.png</span>
+
+<span class="sd">      </span>
+
+
+
+
+
+<span class="sd">    **C4dynamics&#39; YOLOv3 detector** </span>
+
+<span class="sd">    The method :meth:`detect &lt;c4dynamics.detectors.yolo3_opencv.yolov3.detect&gt;` </span>
+<span class="sd">    of the class :class:`yolov3 &lt;c4dynamics.detectors.yolo3_opencv.yolov3&gt;` </span>
+<span class="sd">    returns a list of `pixelpoint` for the detected objects in an image. </span>
+<span class="sd">    Print the output per a detected object and view the final image: </span>
+
+<span class="sd">    </span>
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; img = cv2.imread(planspath)</span>
+<span class="sd">      &gt;&gt;&gt; yolo3 = c4d.detectors.yolov3()    </span>
+<span class="sd">      Fetched successfully</span>
+<span class="sd">      &gt;&gt;&gt; pts = yolo3.detect(img)</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; # prepare for printing properties:  </span>
+<span class="sd">      &gt;&gt;&gt; print(&#39;{:^10} | {:^10} | {:^16} | {:^16} | {:^10} | {:^14}&#39;.format(&#39;center x&#39;, &#39;center y&#39;, &#39;box top-left&#39;, &#39;box bottom-right&#39;, &#39;class&#39;, &#39;frame size&#39;))  # doctest: +IGNORE_OUTPUT </span>
+<span class="sd">      &gt;&gt;&gt; for p in pts:   # doctest: +IGNORE_OUTPUT </span>
+<span class="sd">      ...   print(&#39;{:^10d} | {:^10d} | {:^16} | {:^16} | {:^10} | {:^14}&#39;.format(p.x, p.y, ptup(p.box[0]), ptup(p.box[1]), p.class_id, ptup(p.fsize)))</span>
+<span class="sd">      ...   cv2.rectangle(img, p.box[0], p.box[1], [0, 255, 0], 2)</span>
+<span class="sd">      ...   point = (int((p.box[0][0] + p.box[1][0]) / 2 - 75), p.box[1][1] + 22)</span>
+<span class="sd">      ...   cv2.putText(img, p.class_id, point, cv2.FONT_HERSHEY_SIMPLEX, 1, [0, 255, 0], 2)</span>
+<span class="sd">      center x  |  center y  |   box top-left   | box bottom-right |   class    |  frame size</span>
+<span class="sd">        615     |    295     |    (562, 259)    |    (668, 331)    | aeroplane  |  (1280, 720)</span>
+<span class="sd">        779     |    233     |    (720, 199)    |    (838, 267)    | aeroplane  |  (1280, 720)</span>
+<span class="sd">        635     |    189     |    (578, 153)    |    (692, 225)    | aeroplane  |  (1280, 720)</span>
+<span class="sd">        793     |    575     |    (742, 540)    |    (844, 610)    | aeroplane  |  (1280, 720)</span>
+
+
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; plt.figure()  # doctest: +IGNORE_OUTPUT </span>
+<span class="sd">      &gt;&gt;&gt; plt.axis(False)  # doctest: +IGNORE_OUTPUT </span>
+<span class="sd">      &gt;&gt;&gt; plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))  # doctest: +IGNORE_OUTPUT </span>
+
+
+<span class="sd">    .. figure:: /_examples/pixelpoint/yolov3.png</span>
+
+<span class="sd">  &#39;&#39;&#39;</span>  
+  <span class="n">x</span><span class="p">:</span> <span class="nb">float</span>
+  <span class="n">y</span><span class="p">:</span> <span class="nb">float</span>
+  <span class="n">w</span><span class="p">:</span> <span class="nb">float</span>
+  <span class="n">h</span><span class="p">:</span> <span class="nb">float</span>
+
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+      
+ 
+    <span class="n">ppargs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">ppargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> 
+    <span class="n">ppargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> 
+    <span class="n">ppargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span> 
+    <span class="n">ppargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span> 
+     
+
+    <span class="c1"># super().__init__(x = bbox[0], y = bbox[1], w = bbox[2], h = bbox[3])</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">ppargs</span><span class="p">)</span>
+    <span class="c1"># NOTE what&#39;s the ultimate state? with velocities or not? </span>
+    <span class="c1">#       they can be added later. </span>
+    <span class="c1"># but if in anyway they are added, why not to introduce them here?</span>
+    <span class="c1">#       </span>
+
+    <span class="c1"># self._units = &#39;pixels&#39;</span>
+
+
+    <span class="c1"># NOTE still not sure whats the best idea to init of these properties: </span>
+    <span class="c1"># on the one hand they are not part of he state and shoudlnt be provdied as variables</span>
+    <span class="c1"># on the other they are necessary for methods like box. </span>
+    <span class="c1"># also the filters inherit from the state class i.e. they are states </span>
+    <span class="c1"># nontheless they are initialized not only with the state vairables but also with parameters. </span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_frameheight</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_framewidth</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_class</span> <span class="o">=</span> <span class="kc">None</span> 
+
+    <span class="c1"># - x (float): X-coordinate of the center of the bounding box in relative coordinates.</span>
+    <span class="c1"># - y (float): Y-coordinate of the center of the bounding box in relative coordinates.</span>
+
+
+    <span class="c1"># self._boxwidth = bbox[2]</span>
+    <span class="c1"># &#39;&#39;&#39; float; Width of the bounding box in a normalized format </span>
+    <span class="c1"># (0 = left image edge, 1 = right image edge. &#39;&#39;&#39;</span>
+
+    <span class="c1"># self._boxheight = bbox[3]</span>
+    <span class="c1"># &#39;&#39;&#39; float; Height of the bounding box in a normalized format</span>
+    <span class="c1"># (0 = upper image edge, 1 = bottom image edge. &#39;&#39;&#39;</span>
+
+
+    <span class="c1"># self._framewidth = framesize[0]</span>
+    <span class="c1"># &#39;&#39;&#39; int; Width of the frame in pixels. &#39;&#39;&#39;</span>
+
+    <span class="c1"># self._frameheight = framesize[1]</span>
+    <span class="c1"># &#39;&#39;&#39; int; Height of the frame in pixels. &#39;&#39;&#39;</span>
+
+
+    <span class="c1"># self.class_id = class_id </span>
+    <span class="c1"># &#39;&#39;&#39; string; Class label associated with the data point. &#39;&#39;&#39;</span>
+    
+
+
+  <span class="c1"># @property</span>
+  <span class="c1"># def X(self): </span>
+  <span class="c1">#   return super().X.astype(np.int64)</span>
+  
+
+  <span class="c1"># parameters </span>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">fsize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+
+<span class="sd">      Gets and sets the frame size. </span>
+
+<span class="sd">      Parameters</span>
+<span class="sd">      ----------</span>
+<span class="sd">      fsize : tuple </span>
+<span class="sd">          Size of the frame in pixels (width, height).</span>
+<span class="sd">          - (width)  int : Frame width in pixels. </span>
+<span class="sd">          - (height) int : Frame height in pixels. </span>
+
+
+<span class="sd">      Returns</span>
+<span class="sd">      -------</span>
+<span class="sd">      out : tuple </span>
+<span class="sd">          A tuple of the frame size in pixels (width, height). </span>
+<span class="sd">          </span>
+
+<span class="sd">      Raises</span>
+<span class="sd">      ------</span>
+<span class="sd">      ValueError</span>
+<span class="sd">          If `fsize` doesn&#39;t have exactly two elements, a ValueError is raised.</span>
+
+<span class="sd">      Examples</span>
+<span class="sd">      --------</span>
+<span class="sd">      For detailed usage, </span>
+<span class="sd">      see the examples in the introduction to the :class:`pixelpoint` class.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="c1"># TODO any way add even line example to show how to use given the objects defined.  </span>
+    <span class="c1"># for all the other methods too. </span>
+    <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_framewidth</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frameheight</span><span class="p">)</span>
+
+  <span class="nd">@fsize</span><span class="o">.</span><span class="n">setter</span>
+  <span class="k">def</span> <span class="nf">fsize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fsize</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fsize</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+      <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;fsize must have exactly two elements.&#39;</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">_framewidth</span>  <span class="o">=</span> <span class="n">fsize</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_frameheight</span> <span class="o">=</span> <span class="n">fsize</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    
+  
+  <span class="nd">@property</span>  
+  <span class="k">def</span> <span class="nf">class_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">      Gets and sets the object classification. </span>
+
+<span class="sd">      </span>
+<span class="sd">      Parameters</span>
+<span class="sd">      ----------</span>
+<span class="sd">      class_id : str </span>
+<span class="sd">          Class label associated with the data point.</span>
+
+<span class="sd">          </span>
+<span class="sd">      Returns </span>
+<span class="sd">      -------</span>
+<span class="sd">      out : str </span>
+<span class="sd">          The current class label associated with the data point.</span>
+
+
+<span class="sd">      Raises</span>
+<span class="sd">      ------</span>
+<span class="sd">      ValueError</span>
+<span class="sd">          If `class_id` is not str, a ValueError is raised.</span>
+<span class="sd">    </span>
+<span class="sd">      </span>
+<span class="sd">      Examples</span>
+<span class="sd">      --------</span>
+<span class="sd">      For detailed usage, </span>
+<span class="sd">      see the examples in the introduction to the :class:`pixelpoint` class.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span> 
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_class</span> 
+
+  <span class="nd">@class_id</span><span class="o">.</span><span class="n">setter</span> 
+  <span class="k">def</span> <span class="nf">class_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_id</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">class_id</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+      <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;class_id must be an str object&#39;</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">_class</span> <span class="o">=</span> <span class="n">class_id</span> 
+  
+
+
+  <span class="c1"># properties </span>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">box</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">      Returns the box coordinates.</span>
+<span class="sd">      </span>
+<span class="sd">      The box coordinates are given by: </span>
+<span class="sd">      `[(x top left, y top left), (x bottom right, y bottom right)]` </span>
+
+<span class="sd">      Returns</span>
+<span class="sd">      -------</span>
+<span class="sd">      out : list[tuple] </span>
+<span class="sd">          List containing two tuples representing </span>
+<span class="sd">          top-left and bottom-right coordinates (in pixels).</span>
+
+<span class="sd">      Examples</span>
+<span class="sd">      --------</span>
+<span class="sd">      For detailed usage, </span>
+<span class="sd">      see the examples in the introduction to the :class:`pixelpoint` class.</span>
+<span class="sd">      </span>
+<span class="sd">    &#39;&#39;&#39;</span> 
+    <span class="c1"># .. include:: ../../states.lib.pixelpoint.examples.rst</span>
+        
+    <span class="c1"># if self._units == &#39;normalized&#39;:</span>
+    <span class="c1">#   if self._frameheight is None or self._framewidth is None: </span>
+    <span class="c1">#     raise ValueError(&#39;When &#39;&#39;pixelpoint&#39;&#39; units are &#39;&#39;normalized&#39;&#39;, the property &#39;&#39;fsize&#39;&#39; &#39;</span>
+    <span class="c1">#                         &#39;must be set first with the frame width and height.&#39;)</span>
+
+    <span class="c1">#   x = int(self.x * self._framewidth)</span>
+    <span class="c1">#   y = int(self.y * self._frameheight)</span>
+
+    <span class="c1">#   w = self.w * self._framewidth</span>
+    <span class="c1">#   h = self.h * self._frameheight</span>
+
+    <span class="c1"># else: # units = pixels. </span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span>
+
+    <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span>  
+    <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span>      
+
+
+    <span class="c1"># top left</span>
+    <span class="n">xtl</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">w</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">ytl</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">h</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># bottom right </span>
+    <span class="n">xbr</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">w</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">ybr</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="n">h</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">[(</span><span class="n">xtl</span><span class="p">,</span> <span class="n">ytl</span><span class="p">),</span> <span class="p">(</span><span class="n">xbr</span><span class="p">,</span> <span class="n">ybr</span><span class="p">)]</span>
+
+
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">Xpixels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">      Returns the state vector in pixel coordinates.  </span>
+
+<span class="sd">      When pixelpoint.units are set to `normalized`, the method `Xpixels` </span>
+<span class="sd">      is used to return the state vector in pixels. </span>
+
+<span class="sd">      Returns</span>
+<span class="sd">      -------</span>
+<span class="sd">      out : numpy.int32</span>
+<span class="sd">        A numpy array of the normalized coordinates :math:`[x, y, v_x, v_y]` transformed</span>
+<span class="sd">        to pixel coordinates considering the specific dimensions of the image. </span>
+<span class="sd">          </span>
+<span class="sd">          </span>
+<span class="sd">      Examples</span>
+<span class="sd">      --------</span>
+
+<span class="sd">      Import required packages: </span>
+<span class="sd">      </span>
+<span class="sd">      .. code:: </span>
+
+<span class="sd">        &gt;&gt;&gt; import c4dynamics as c4d</span>
+<span class="sd">        &gt;&gt;&gt; import cv2 </span>
+
+
+<span class="sd">      Settings and initialization: </span>
+
+<span class="sd">      .. code:: </span>
+<span class="sd"> </span>
+<span class="sd">        &gt;&gt;&gt; imgpath = c4d.datasets.image(&#39;planes&#39;)</span>
+<span class="sd">        Fetched successfully</span>
+<span class="sd">        &gt;&gt;&gt; img = cv2.imread(imgpath)</span>
+<span class="sd">        &gt;&gt;&gt; yolo3 = c4d.detectors.yolov3()</span>
+<span class="sd">        Fetched successfully</span>
+<span class="sd">        &gt;&gt;&gt; pts = yolo3.detect(img)</span>
+<span class="sd">        </span>
+<span class="sd">      Main loop: </span>
+
+<span class="sd">      .. code:: </span>
+
+<span class="sd">        &gt;&gt;&gt; print(&#39;{:^10} | {:^12} | {:^12} | {:^12} | {:^12}&#39;.format(&#39;# object&#39;, &#39;X normalized&#39;, &#39;Y normalized&#39;, &#39;X pixels&#39;, &#39;Y pixels&#39;))  # doctest: +IGNORE_OUTPUT</span>
+<span class="sd">        &gt;&gt;&gt; for i, p in enumerate(pts):  # doctest: +IGNORE_OUTPUT </span>
+<span class="sd">        ...     X = p.Xpixels</span>
+<span class="sd">        ...     print(&#39;{:^10d} | {:^12.3f} | {:^12.3f} | {:^12d} | {:^12d}&#39;.format(i, p.x, p.y, X[0], X[1]))</span>
+<span class="sd">        # object | X normalized | Y normalized |   X pixels   |   Y pixels  </span>
+<span class="sd">          0      |    0.427     |    0.339     |     503      |     232     </span>
+<span class="sd">          1      |    0.411     |    0.491     |     484      |     336     </span>
+<span class="sd">          2      |    0.550     |    0.397     |     648      |     272     </span>
+<span class="sd">          3      |    0.507     |    0.916     |     598      |     627     </span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># TODO complete with full state vector. </span>
+
+    <span class="c1"># superx = super().X</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_framewidth</span>        <span class="c1"># x   # type: ignore </span>
+                      <span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frameheight</span>      <span class="c1"># y   # type: ignore </span>
+                        <span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_framewidth</span>       <span class="c1"># w   # type: ignore </span>
+                          <span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frameheight</span><span class="p">]</span>      <span class="c1"># h  # type: ignore   </span>
+                            <span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+  
+
+  
+  <span class="nd">@staticmethod</span>
+  <span class="k">def</span> <span class="nf">boxcenter</span><span class="p">(</span><span class="n">box</span><span class="p">):</span>
+    <span class="c1"># XXX seems like useless function and indeed is not in use anywhere. </span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    </span>
+<span class="sd">      Calculates the center coordinates of bounding boxes.</span>
+
+<span class="sd">      Given a list of bounding boxes, this static method computes the center</span>
+<span class="sd">      coordinates for each box.</span>
+
+
+
+<span class="sd">      Parameters</span>
+<span class="sd">      ----------</span>
+<span class="sd">      out : list[box] </span>
+<span class="sd">        List containing one pixelpoint.box or more. where  </span>
+<span class="sd">        every pixelpoint.box has two tuples </span>
+<span class="sd">        representing top-left and bottom-right coordinates.</span>
+
+<span class="sd">      Returns</span>
+<span class="sd">      -------</span>
+<span class="sd">      out : numpy.ndarray</span>
+<span class="sd">          An array containing center coordinates for each bounding box in the</span>
+<span class="sd">          format [[center_x1, center_y1], [center_x2, center_y2], ...].</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[(</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">box</span><span class="p">])</span> 
+
+
+  <span class="nd">@staticmethod</span>
+  <span class="k">def</span> <span class="nf">video_detections</span><span class="p">(</span><span class="n">vidpath</span><span class="p">,</span> <span class="n">tf</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">storepath</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">c4dynamics</span> <span class="k">as</span> <span class="nn">c4d</span> 
+    <span class="kn">import</span> <span class="nn">pickle</span> 
+    <span class="kn">import</span> <span class="nn">zlib</span> 
+    <span class="kn">import</span> <span class="nn">cv2</span> 
+    <span class="kn">import</span> <span class="nn">os</span> 
+
+    <span class="n">cap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="n">vidpath</span><span class="p">)</span>
+    <span class="n">fps</span> <span class="o">=</span> <span class="n">cap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_FPS</span><span class="p">)</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">fps</span> <span class="c1"># 1 / frame per second = the length of a single frame</span>
+    <span class="k">if</span> <span class="n">tf</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> 
+      <span class="n">N</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">cap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_FRAME_COUNT</span><span class="p">))</span> <span class="c1"># total frames count </span>
+      <span class="n">tf</span> <span class="o">=</span> <span class="n">N</span> <span class="o">*</span> <span class="n">dt</span> 
+    <span class="n">f_frames</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">tf</span> <span class="o">/</span> <span class="n">dt</span><span class="p">)</span>
+
+    <span class="n">yolo3</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">detectors</span><span class="o">.</span><span class="n">yolov3</span><span class="p">()</span>
+    <span class="n">yolo3</span><span class="o">.</span><span class="n">nms_th</span> <span class="o">=</span> <span class="mf">.45</span>
+
+    <span class="n">detections</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">f_frames</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+      <span class="nb">print</span><span class="p">(</span><span class="n">_</span><span class="p">)</span>
+      <span class="n">ret</span><span class="p">,</span> <span class="n">frame</span> <span class="o">=</span> <span class="n">cap</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">ret</span><span class="p">:</span> <span class="k">break</span>
+      <span class="n">crc32</span> <span class="o">=</span> <span class="n">zlib</span><span class="o">.</span><span class="n">crc32</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">tobytes</span><span class="p">())</span>
+      <span class="n">detections</span><span class="p">[</span><span class="n">crc32</span><span class="p">]</span> <span class="o">=</span> <span class="n">yolo3</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+      
+
+    <span class="k">if</span> <span class="n">storepath</span><span class="p">:</span>
+      <span class="n">pklname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">storepath</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">vidpath</span><span class="p">)[:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;.pkl&#39;</span><span class="p">)</span> <span class="c1"># type: ignore </span>
+      <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">pklname</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">detections</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+      <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;detections stored at </span><span class="si">{</span><span class="n">pklname</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        
+    <span class="n">cap</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">detections</span></div>
+
+
+
+
+
+  <span class="c1"># def set_box_size(self, width, height):</span>
+  <span class="c1">#   # TODO document! </span>
+  <span class="c1">#   &#39;&#39;&#39;</span>
+  <span class="c1">#   Sets the box size (box width, box height) </span>
+  <span class="c1">#   without changing the center. </span>
+
+
+  <span class="c1">#   Parameters</span>
+  <span class="c1">#   ----------</span>
+  <span class="c1">#   b : tuple(width, height)</span>
+  <span class="c1">#     A tuple containing two integers representing width and height (in pixels).</span>
+
+      
+  <span class="c1">#   Note</span>
+  <span class="c1">#   ----</span>
+  <span class="c1">#   This function sets the box width and height without</span>
+  <span class="c1">#   chaning the box center. </span>
+  <span class="c1">#   The center of the box is modified only by </span>
+  <span class="c1">#   direct substitution to the state variables </span>
+  <span class="c1">#   or by setting the state vector (:attr:`X &lt;datapoint.X&gt;`). </span>
+
+      
+        
+  <span class="c1">#   Examples</span>
+  <span class="c1">#   --------</span>
+
+  <span class="c1">#   .. code:: </span>
+
+  <span class="c1">#       &gt;&gt;&gt; width  = 800</span>
+  <span class="c1">#       &gt;&gt;&gt; height = 600</span>
+  <span class="c1">#       &gt;&gt;&gt; radius = 50</span>
+  <span class="c1">#       &gt;&gt;&gt; img = np.zeros((height, width, 3), dtype = np.uint8)</span>
+  <span class="c1">#       &gt;&gt;&gt; cv2.circle(img, (width // 2, height // 2), radius, (255, 0, 0), -1)</span>
+  <span class="c1">#       &gt;&gt;&gt; fdp = c4d.pixelpoint(bbox = (0, 0, 0, 0), class_id = &#39;ball&#39;, framesize = (width, height))</span>
+  <span class="c1">#       &gt;&gt;&gt; fdp.x = 0.5 </span>
+  <span class="c1">#       &gt;&gt;&gt; fdp.y = 0.5 </span>
+  <span class="c1">#       &gt;&gt;&gt; fdp.set_box_size(2 * radius + 2, 2 * radius + 2)</span>
+  <span class="c1">#       &gt;&gt;&gt; cv2.rectangle(img, fdp.box[0], fdp.box[1], [255, 255, 255], 2)</span>
+  <span class="c1">#       &gt;&gt;&gt; _, ax3 = plt.subplots()</span>
+  <span class="c1">#       &gt;&gt;&gt; ax3.axis(&#39;off&#39;)</span>
+  <span class="c1">#       &gt;&gt;&gt; ax3.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))</span>
+
+  <span class="c1">#   .. figure:: /_architecture/images/fdp_setboxsize.png</span>
+    
+
+
+  <span class="c1">#   &#39;&#39;&#39;</span>
+
+  <span class="c1">#   # self._boxwidth  = width  / self._framewidth</span>
+  <span class="c1">#   # self._boxheight = height / self._frameheight</span>
+
+
+
+
+
+
+
+
+
+
+  <span class="c1"># class ppunits(Enum):</span>
+  <span class="c1">#   pixels = &#39;pixels&#39;</span>
+  <span class="c1">#   normalized = &#39;normalized&#39;</span>
+
+
+  <span class="c1"># @property  </span>
+  <span class="c1"># def units(self):</span>
+  <span class="c1">#   &#39;&#39;&#39;</span>
+  <span class="c1">#   Gets and sets the image coordinates units. </span>
+
+  <span class="c1">#   Select between two modes of units: </span>
+  <span class="c1">#   - pixels (default): the image coordinates range between `[0 : width - 1]` horizontally and `[0 : height - 1]` vertically. </span>
+  <span class="c1">#   - normalized: the image coordinates range between `[0 : 1]` in both axes where `0` represents the top and the left edges and `1` the opposite.  </span>
+
+  <span class="c1">#   Note </span>
+  <span class="c1">#   ---- </span>
+  <span class="c1">#   Setting `units` as &#39;normalized&#39; must be preceded by setting the frame size by the `fsize` property.</span>
+
+
+  <span class="c1">#   Parameters</span>
+  <span class="c1">#   ----------</span>
+  <span class="c1">#   units : str</span>
+  <span class="c1">#       Required units. </span>
+  <span class="c1">#       - &#39;pixels&#39; (default) : image coordinates are `[0 : width - 1]` in the horizontal plane and `[0 : height - 1]` vertical plane.</span>
+  <span class="c1">#       - &#39;normalized&#39; : coordinates are `[0 : 1]` in the horizontal plane and `[0 : 1]` vertical plane. `0` represents the top and the left edges. </span>
+
+  <span class="c1">#   Returns</span>
+  <span class="c1">#   -------</span>
+  <span class="c1">#   out : str</span>
+  <span class="c1">#       Current coordinates units. </span>
+
+
+  <span class="c1">#   Raises</span>
+  <span class="c1">#   ------</span>
+  <span class="c1">#   ValueError</span>
+  <span class="c1">#       - If `units` is not in &#39;pixels&#39; or &#39;normalized&#39;, a ValueError is raised.</span>
+  <span class="c1">#       - If `units` is &#39;normalized&#39; and the `fsize` property is not set, a ValueError is raised.</span>
+            
+  <span class="c1">#   Example</span>
+  <span class="c1">#   -------    </span>
+    
+  <span class="c1">#   &#39;&#39;&#39;</span>
+  <span class="c1">#   return self._units </span>
+
+  <span class="c1"># @units.setter </span>
+  <span class="c1"># def units(self, units):</span>
+  <span class="c1">#   if not units in pixelpoint.ppunits:</span>
+  <span class="c1">#     raise ValueError(f&#39;Invalid units. Choose from {[value for option in pixelpoint.ppunits]}&#39;)</span>
+  <span class="c1">#   if units == &#39;normalized&#39; and self.fsize is None: </span>
+  <span class="c1">#     raise ValueError(f&#39;`fsize` property must be set before `units = &#39;&#39;normalized&#39;&#39;` is selected&#39;)</span>
+    
+  <span class="c1">#   # if self._units == &#39;normalized&#39; and (self._frameheight is None or self._framewidth is None): </span>
+  <span class="c1">#   #   raise ValueError(&#39;When pixelpoint units are &#39;&#39;normalized&#39;&#39;, the property &#39;&#39;fsize&#39;&#39; &#39;</span>
+  <span class="c1">#   #                         &#39;must be set first with the frame width and height.&#39;)</span>
+
+  <span class="c1">#   #</span>
+  <span class="c1">#   # currently leaving it because it&#39;s too complicated to track after the updates</span>
+  <span class="c1">#   # of the state and verify it&#39;s normalized. it probably invloves overriding X which </span>
+  <span class="c1">#   # i dont want to do right now.  </span>
+  <span class="c1">#   ## </span>
+    
+  <span class="c1">#   self._units = units </span>
+  
+  
+  <span class="c1"># Note</span>
+  <span class="c1"># ----</span>
+  <span class="c1"># The pixelpoint has two modes to represent the state coordinates </span>
+  <span class="c1"># (:attr:`X &lt;c4dynamics.states.state.state.X&gt;`); pixels (default) and normalized, </span>
+  <span class="c1"># controlled by the property </span>
+  <span class="c1"># (:attr:`units &lt;c4dynamics.states.lib.pixelpoint.pixelpoint.units&gt;`). </span>
+  <span class="c1"># In the `pixels` mode, the coordinates are directly represented by the pixel dimensions. </span>
+  <span class="c1"># The `normalized` mode represents the image by normalized coordinates, </span>
+  <span class="c1"># ranging from `0` to `1`, where `0` represents </span>
+  <span class="c1"># the left or the upper edge, and `1` represents the right or the bottom edge. </span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+  <span class="kn">import</span> <span class="nn">doctest</span><span class="o">,</span> <span class="nn">contextlib</span><span class="o">,</span> <span class="nn">os</span>
+  <span class="kn">from</span> <span class="nn">c4dynamics</span> <span class="kn">import</span> <span class="n">IgnoreOutputChecker</span><span class="p">,</span> <span class="n">cprint</span>
+  
+  <span class="c1"># Register the custom OutputChecker</span>
+  <span class="n">doctest</span><span class="o">.</span><span class="n">OutputChecker</span> <span class="o">=</span> <span class="n">IgnoreOutputChecker</span>
+
+  <span class="n">tofile</span> <span class="o">=</span> <span class="kc">False</span> 
+  <span class="n">optionflags</span> <span class="o">=</span> <span class="n">doctest</span><span class="o">.</span><span class="n">FAIL_FAST</span>
+
+  <span class="k">if</span> <span class="n">tofile</span><span class="p">:</span> 
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;tests&#39;</span><span class="p">,</span> <span class="s1">&#39;_out&#39;</span><span class="p">,</span> <span class="s1">&#39;output.txt&#39;</span><span class="p">),</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+      <span class="k">with</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">redirect_stdout</span><span class="p">(</span><span class="n">f</span><span class="p">),</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">redirect_stderr</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">(</span><span class="n">optionflags</span> <span class="o">=</span> <span class="n">optionflags</span><span class="p">)</span> 
+  <span class="k">else</span><span class="p">:</span> 
+    <span class="n">result</span> <span class="o">=</span> <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">(</span><span class="n">optionflags</span> <span class="o">=</span> <span class="n">optionflags</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">failed</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">cprint</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;: all tests passed!&quot;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">failed</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By c4dynamics
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, c4dynamics.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on Dec 19, 2024.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,793 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>c4dynamics.rotmat.animate.animate &#8212; C4DYNAMICS v2.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/style.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../../_static/documentation_options.js?v=d94dc4f2"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/generated/rotmat/c4dynamics.rotmat.animate.animate';</script>
+    <link rel="icon" href="../../../_static/c4dlogo.svg"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Utils" href="../../Utils.html" />
+    <link rel="prev" title="c4dynamics.rotmat.rotmat.dcm321euler" href="c4dynamics.rotmat.rotmat.dcm321euler.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="Dec 19, 2024"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">C4DYNAMICS v2.0</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../../index.html">
+                    Home
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../gettingstarted.html">Getting Started</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../programs/index.html">Programs</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../programs/dof6sim.html">6 Degrees Of Freedom Missile Guidance Simulation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../States.html">State Objects</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../states.state.html">The state class</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../state/c4dynamics.states.state.state.X.html">c4dynamics.states.state.state.X</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../state/c4dynamics.states.state.state.X0.html">c4dynamics.states.state.state.X0</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../state/c4dynamics.states.state.state.norm.html">c4dynamics.states.state.state.norm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../state/c4dynamics.states.state.state.normalize.html">c4dynamics.states.state.state.normalize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../state/c4dynamics.states.state.state.position.html">c4dynamics.states.state.state.position</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../state/c4dynamics.states.state.state.velocity.html">c4dynamics.states.state.state.velocity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../state/c4dynamics.states.state.state.addvars.html">c4dynamics.states.state.state.addvars</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../state/c4dynamics.states.state.state.P.html">c4dynamics.states.state.state.P</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../state/c4dynamics.states.state.state.V.html">c4dynamics.states.state.state.V</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../state/c4dynamics.states.state.state.store.html">c4dynamics.states.state.state.store</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../state/c4dynamics.states.state.state.storeparams.html">c4dynamics.states.state.state.storeparams</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../state/c4dynamics.states.state.state.data.html">c4dynamics.states.state.state.data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../state/c4dynamics.states.state.state.timestate.html">c4dynamics.states.state.state.timestate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../state/c4dynamics.states.state.state.plot.html">c4dynamics.states.state.state.plot</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../states.lib.html">States library</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../states.lib.datapoint.html">Datapoint</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../states.lib.rigidbody.html">Rigidbody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../states.lib.pixelpoint.html">Pixelpoint</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../Sensors.html">Sensors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../sensors.seeker.html">Seeker</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../seeker/c4dynamics.sensors.seeker.seeker.bias.html">c4dynamics.sensors.seeker.seeker.bias</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../seeker/c4dynamics.sensors.seeker.seeker.scale_factor.html">c4dynamics.sensors.seeker.seeker.scale_factor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../seeker/c4dynamics.sensors.seeker.seeker.measure.html">c4dynamics.sensors.seeker.seeker.measure</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../sensors.radar.html">Radar</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../radar/c4dynamics.sensors.radar.radar.bias.html">c4dynamics.sensors.radar.radar.bias</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../radar/c4dynamics.sensors.radar.radar.scale_factor.html">c4dynamics.sensors.radar.radar.scale_factor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../radar/c4dynamics.sensors.radar.radar.measure.html">c4dynamics.sensors.radar.radar.measure</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../Detectors.html">Detectors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../detectors.yolov3.html">YOLOv3</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../yolov3/c4dynamics.detectors.yolo3_opencv.yolov3.nms_th.html">c4dynamics.detectors.yolo3_opencv.yolov3.nms_th</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yolov3/c4dynamics.detectors.yolo3_opencv.yolov3.confidence_th.html">c4dynamics.detectors.yolo3_opencv.yolov3.confidence_th</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yolov3/c4dynamics.detectors.yolo3_opencv.yolov3.detect.html">c4dynamics.detectors.yolo3_opencv.yolov3.detect</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../Filters.html">Filters</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../filters.kalman.html">Kalman filter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../kalman/c4dynamics.filters.kalman.kalman.predict.html">c4dynamics.filters.kalman.kalman.predict</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../kalman/c4dynamics.filters.kalman.kalman.update.html">c4dynamics.filters.kalman.kalman.update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../kalman/c4dynamics.filters.kalman.kalman.store.html">c4dynamics.filters.kalman.kalman.store</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../filters.ekf.html">Extended Kalman filter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../ekf/c4dynamics.filters.ekf.ekf.predict.html">c4dynamics.filters.ekf.ekf.predict</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ekf/c4dynamics.filters.ekf.ekf.update.html">c4dynamics.filters.ekf.ekf.update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ekf/c4dynamics.filters.ekf.ekf.store.html">c4dynamics.filters.ekf.ekf.store</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../filters.lpf.html">Lowpass filter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../lpf/c4dynamics.filters.lowpass.lowpass.sample.html">c4dynamics.filters.lowpass.lowpass.sample</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../../Routines.html">Routines</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../routines.eqm.html">Equations of motion solvers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../eqm/c4dynamics.eqm.derivs.eqm3.html">c4dynamics.eqm.derivs.eqm3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../eqm/c4dynamics.eqm.derivs.eqm6.html">c4dynamics.eqm.derivs.eqm6</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../eqm/c4dynamics.eqm.integrate.int3.html">c4dynamics.eqm.integrate.int3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../eqm/c4dynamics.eqm.integrate.int6.html">c4dynamics.eqm.integrate.int6</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="../../routines.rotmat.html">Rotation matrix operations</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="c4dynamics.rotmat.rotmat.rotx.html">c4dynamics.rotmat.rotmat.rotx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="c4dynamics.rotmat.rotmat.roty.html">c4dynamics.rotmat.rotmat.roty</a></li>
+<li class="toctree-l4"><a class="reference internal" href="c4dynamics.rotmat.rotmat.rotz.html">c4dynamics.rotmat.rotmat.rotz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="c4dynamics.rotmat.rotmat.dcm321.html">c4dynamics.rotmat.rotmat.dcm321</a></li>
+<li class="toctree-l4"><a class="reference internal" href="c4dynamics.rotmat.rotmat.dcm321euler.html">c4dynamics.rotmat.rotmat.dcm321euler</a></li>
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">c4dynamics.rotmat.animate.animate</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../Utils.html">Utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../utils/c4dynamics.utils.tictoc.tic.html">c4dynamics.utils.tictoc.tic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utils/c4dynamics.utils.tictoc.toc.html">c4dynamics.utils.tictoc.toc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utils/c4dynamics.utils.cprint.cprint.html">c4dynamics.utils.cprint.cprint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utils/c4dynamics.utils.gen_gif.gif.html">c4dynamics.utils.gen_gif.gif</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utils/c4dynamics.utils.plottools.plotdefaults.html">c4dynamics.utils.plottools.plotdefaults</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils.math.html">Math functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils.const.html">Constants</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../Datasets.html">Datasets</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../datasets/c4dynamics.datasets.image.html">c4dynamics.datasets.image</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../datasets/c4dynamics.datasets.video.html">c4dynamics.datasets.video</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../datasets/c4dynamics.datasets.nn_model.html">c4dynamics.datasets.nn_model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../datasets/c4dynamics.datasets.d3_model.html">c4dynamics.datasets.d3_model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../datasets/c4dynamics.datasets.download_all.html">c4dynamics.datasets.download_all</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../datasets/c4dynamics.datasets.clear_cache.html">c4dynamics.datasets.clear_cache</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../../_sources/api/generated/rotmat/c4dynamics.rotmat.animate.animate.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>c4dynamics.rotmat.animate.animate</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c4dynamics.rotmat.animate.animate"><code class="docutils literal notranslate"><span class="pre">animate</span></code></a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="c4dynamics-rotmat-animate-animate">
+<h1>c4dynamics.rotmat.animate.animate<a class="headerlink" href="#c4dynamics-rotmat-animate-animate" title="Link to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="c4dynamics.rotmat.animate.animate">
+<span class="sig-prename descclassname"><span class="pre">c4dynamics.rotmat.animate.</span></span><span class="sig-name descname"><span class="pre">animate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modelpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modelcolor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savedir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbackground</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[1,</span> <span class="pre">1,</span> <span class="pre">1]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/c4dynamics/rotmat/animate.html#animate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#c4dynamics.rotmat.animate.animate" title="Link to this definition">#</a></dt>
+<dd><p>Animate a rigidbody.</p>
+<p>Animates the rigid body’s motion using a 3D model
+according to the 3-2-1 Euler angles histories.</p>
+<p><strong>Important Note</strong></p>
+<p>Using the <cite>animate</cite> function requires installation of <cite>Open3D</cite> which is not a prerequisite of <cite>C4dynamics</cite>.
+For the different ways to install <cite>Open3D</cite> please refer to its <a class="reference external" href="https://www.open3d.org/">official website</a>.
+A direct installation with pip:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">open3d</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>modelpath</strong> (<em>str</em>) – A path to a single file model or a path to a folder containing multiple
+model files.
+If the provided path is of a folder, only model files should exist in it.
+Typically supported files for mesh models are .obj, .stl, .ply.
+Supported point cloud file is .pcd.
+If your point cloud file has .ply extension, convert it to a .pcd first.
+You may do that by using <cite>Open3D</cite>, see note below.</p></li>
+<li><p><strong>angle0</strong> (<em>array_like</em><em>, </em><em>optional</em>) – Initial Euler angles <span class="math notranslate nohighlight">\([\varphi, \theta, \psi]\)</span>, in radians, representing
+the model attitude with respect to the screen frame, see note below.</p></li>
+<li><p><strong>modelcolor</strong> (<em>array_like</em><em>, </em><em>optional</em>) – Colors array [R, G, B] of values between 0 and 1.
+The shape of <cite>modelcolor</cite> is <cite>mx3</cite>, where m is either 1 or as
+the number of the model files.
+If <cite>m &gt; 1</cite>, then the order of the colors in the array
+should match the alphabetical order of the files in <cite>modelpath</cite>.</p></li>
+<li><p><strong>dt</strong> (<em>float</em><em>, </em><em>optional</em>) – Time step between two frames for the animation.
+Default is 1msec.</p></li>
+<li><p><strong>savedir</strong> (<em>str</em><em>, </em><em>optional</em>) – If provided, saves each frame as an image in the specified directory.
+Default is None.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul>
+<li><p>Currently, only 321 Euler order of rotation is supported.
+Therefore if the stored angular state is produced by
+using other set of Euler angles, they have to be converted to a 321 set first.</p></li>
+<li><p>If the provided path is of a folder, only model files should exist in it.
+Typically supported files for mesh models are .obj, .stl, .ply.
+Supported point cloud file is .pcd.
+If your point cloud file has .ply extension, convert it to a .pcd first.
+You may do that by using <cite>Open3D</cite>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">open3d</span> <span class="k">as</span> <span class="nn">o3d</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pcd</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_point_cloud</span><span class="p">(</span><span class="s1">&#39;model.ply&#39;</span><span class="p">)</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o3d</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">write_point_cloud</span><span class="p">(</span><span class="s1">&#39;model.pcd&#39;</span><span class="p">,</span> <span class="n">pcd</span><span class="p">)</span> 
+</pre></div>
+</div>
+<p>For more info see <a class="reference external" href="https://www.open3d.org/docs/release/tutorial/geometry/file_io.html">Open3D documentation</a></p>
+</li>
+<li><p>Initial Euler angles <span class="math notranslate nohighlight">\([\varphi, \theta, \psi]\)</span>, in radians, representing
+the model attitude with respect to the screen frame, see note below.
+The screen frame is defined as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">:</span> <span class="n">right</span>
+<span class="n">y</span><span class="p">:</span> <span class="n">up</span>
+<span class="n">z</span><span class="p">:</span> <span class="n">outside</span>
+</pre></div>
+</div>
+<p>Default attitude [0, 0, 0].</p>
+</li>
+</ul>
+</div>
+<p class="rubric">Examples</p>
+<p>The 3D models used in the following examples can be downloaded and
+fetched by c4dynamics’ datasets:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">c4dynamics</span> <span class="k">as</span> <span class="nn">c4d</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bunnypath</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">d3_model</span><span class="p">(</span><span class="s1">&#39;bunny&#39;</span><span class="p">)</span> <span class="c1"># &#39;bunny.pcd&#39;: point cloud data file</span>
+<span class="go">Fetched successfully</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bunnymesh_path</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">d3_model</span><span class="p">(</span><span class="s1">&#39;bunnymesh&#39;</span><span class="p">)</span> <span class="c1"># &#39;bunny_mesh.ply&#39;: polygon file</span>
+<span class="go">Fetched successfully</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f16path</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">d3_model</span><span class="p">(</span><span class="s1">&#39;f16&#39;</span><span class="p">)</span> <span class="c1"># folder of 10 stl files.</span>
+<span class="go">Fetched successfully</span>
+</pre></div>
+</div>
+<p>For more details, refer to <a class="reference internal" href="../../Datasets.html#module-c4dynamics.datasets" title="c4dynamics.datasets"><code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.datasets</span></code></a>.</p>
+<p><strong>Animate Stanford bunny</strong></p>
+<p>1. The Stanford bunny is a computer graphics 3D test model
+developed by Greg Turk and Marc Levoy in 1994 at Stanford University.
+The model consists of 69,451 triangles, with the data determined by
+3D scanning a ceramic figurine of a rabbit. For more details, refer to
+<a class="reference external" href="https://graphics.stanford.edu/data/3Dscanrep/#bunny">The Stanford 3D Scanning Repository</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bunny</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">rigidbody</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># generate an arbitrary attitude motion</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">T</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+<span class="gp">... </span>  <span class="n">bunny</span><span class="o">.</span><span class="n">psi</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="mi">360</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">d2r</span> <span class="o">/</span> <span class="n">T</span>
+<span class="gp">... </span>  <span class="n">bunny</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bunny</span><span class="o">.</span><span class="n">animate</span><span class="p">(</span><span class="n">bunnypath</span><span class="p">,</span> <span class="n">cbackground</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<figure class="align-default">
+<img alt="../../../_images/bunny.gif" src="../../../_images/bunny.gif" />
+</figure>
+<p>2. You can change the model’s color by setting the <cite>modelcolor</cite> parameter.
+Here is an example of a mesh version of Stanford bunny with a custom color:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bunny</span><span class="o">.</span><span class="n">animate</span><span class="p">(</span><span class="n">bunnymesh_path</span><span class="p">,</span> <span class="n">cbackground</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">modelcolor</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">.5</span><span class="p">])</span>
+</pre></div>
+</div>
+<figure class="align-default">
+<img alt="../../../_images/bunny_red.gif" src="../../../_images/bunny_red.gif" />
+</figure>
+<p><strong>Motion of a dynamic system</strong></p>
+<ol class="arabic simple" start="3">
+<li><p>An F16 has the following Euler angles:</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f16</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">rigidbody</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+<span class="gp">... </span>  <span class="k">if</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">f16</span><span class="o">.</span><span class="n">psi</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">d2r</span> <span class="o">/</span> <span class="mi">3</span>
+<span class="gp">... </span>  <span class="k">elif</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="mi">6</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">f16</span><span class="o">.</span><span class="n">theta</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">d2r</span> <span class="o">/</span> <span class="mi">3</span>
+<span class="gp">... </span>  <span class="k">else</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">f16</span><span class="o">.</span><span class="n">phi</span> <span class="o">-=</span> <span class="n">dt</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">d2r</span> <span class="o">/</span> <span class="mi">3</span>
+<span class="gp">... </span>  <span class="n">f16</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</pre></div>
+</div>
+<figure class="align-default">
+<img alt="../../../_images/f16_eulers.png" src="../../../_images/f16_eulers.png" />
+</figure>
+<p>The jet model is consisted of multiple files, therefore the <cite>f16</cite> rigidbody object
+that was simulated with the above motion is provided with a path to the consisting folder.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f16</span><span class="o">.</span><span class="n">animate</span><span class="p">(</span><span class="n">f16path</span><span class="p">)</span>
+</pre></div>
+</div>
+<figure class="align-default">
+<img alt="../../../_images/f16.gif" src="../../../_images/f16.gif" />
+</figure>
+<p>4. It’s obvious that the animated model doesn’t follow the required rotation as simulated above.
+This because the model initial postion isn’t aligned with the screen frame.
+To align the aircraft body frame which defined as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">:</span> <span class="n">centerline</span>
+<span class="n">z</span><span class="p">:</span> <span class="n">perpendicular</span> <span class="n">to</span> <span class="n">x</span><span class="p">,</span> <span class="n">downward</span>
+<span class="n">y</span><span class="p">:</span> <span class="n">completes</span> <span class="n">the</span> <span class="n">right</span><span class="o">-</span><span class="n">hand</span> <span class="n">coordinate</span> <span class="n">system</span>
+</pre></div>
+</div>
+<p>With the screen frame which defined as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">:</span> <span class="n">rightward</span>
+<span class="n">y</span><span class="p">:</span> <span class="n">upward</span>
+<span class="n">z</span><span class="p">:</span> <span class="n">outside</span> <span class="n">the</span> <span class="n">screen</span>
+</pre></div>
+</div>
+<p>We should examine a frame of the model before any rotation.
+It can be achieved by using <cite>Open3D</cite>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">open3d</span> <span class="k">as</span> <span class="nn">o3d</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">f16path</span><span class="p">)):</span>
+<span class="gp">... </span>  <span class="n">mfilepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">f16path</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="n">m</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_triangle_mesh</span><span class="p">(</span><span class="n">mfilepath</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="n">m</span><span class="o">.</span><span class="n">compute_vertex_normals</span><span class="p">()</span> 
+<span class="gp">... </span>  <span class="n">model</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o3d</span><span class="o">.</span><span class="n">visualization</span><span class="o">.</span><span class="n">draw_geometries</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+<figure class="align-default">
+<img alt="../../../_images/f16_static.png" src="../../../_images/f16_static.png" />
+</figure>
+<p>It turns out that for 3-2-1 order of rotation (see <a class="reference internal" href="../../routines.rotmat.html#module-c4dynamics.rotmat" title="c4dynamics.rotmat"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rotmat</span></code></a>)
+the body frame with respect to the screen frame is given by:</p>
+<ul class="simple">
+<li><p>Rotation of <cite>180deg</cite> about <cite>y</cite> (up the screen)</p></li>
+<li><p>Rotation of <cite>90deg</cite> about <cite>x</cite> (right the screen)</p></li>
+</ul>
+<p>Let’s re-run with the correct initial conditions:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x0</span> <span class="o">=</span> <span class="p">[</span><span class="mi">90</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">d2r</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">180</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">d2r</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f16</span><span class="o">.</span><span class="n">animate</span><span class="p">(</span><span class="n">f16path</span><span class="p">,</span> <span class="n">angle0</span> <span class="o">=</span> <span class="n">x0</span><span class="p">)</span>
+</pre></div>
+</div>
+<figure class="align-default">
+<img alt="../../../_images/f16_IC.gif" src="../../../_images/f16_IC.gif" />
+</figure>
+<p>5. The attitude is correct but the the model is colorless.
+Let’s give it some color;
+We sort the colors by the jet’s parts alphabetically as it
+assigns the values according to the order of an alphabetical
+reading of the files in the folder.
+Finally convert it to a list.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f16colors</span> <span class="o">=</span> <span class="nb">list</span><span class="p">({</span><span class="s1">&#39;Aileron_A_F16&#39;</span><span class="p">:</span>     <span class="p">[</span><span class="mf">0.3</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="mi">1</span><span class="p">]</span>
+<span class="gp">... </span>                <span class="p">,</span> <span class="s1">&#39;Aileron_B_F16&#39;</span><span class="p">:</span>     <span class="p">[</span><span class="mf">0.3</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="mi">1</span><span class="p">]</span>
+<span class="gp">... </span>                <span class="p">,</span> <span class="s1">&#39;Body_F16&#39;</span><span class="p">:</span>          <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">]</span>
+<span class="gp">... </span>                <span class="p">,</span> <span class="s1">&#39;Cockpit_F16&#39;</span><span class="p">:</span>       <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]</span>
+<span class="gp">... </span>                <span class="p">,</span> <span class="s1">&#39;LE_Slat_A_F16&#39;</span><span class="p">:</span>     <span class="p">[</span><span class="mf">0.3</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="mi">1</span><span class="p">]</span>
+<span class="gp">... </span>                <span class="p">,</span> <span class="s1">&#39;LE_Slat_B_F16&#39;</span><span class="p">:</span>     <span class="p">[</span><span class="mf">0.3</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="mi">1</span><span class="p">]</span>
+<span class="gp">... </span>                    <span class="p">,</span> <span class="s1">&#39;Rudder_F16&#39;</span><span class="p">:</span>        <span class="p">[</span><span class="mf">0.3</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="mi">1</span><span class="p">]</span>
+<span class="gp">... </span>                      <span class="p">,</span> <span class="s1">&#39;Stabilator_A_F16&#39;</span><span class="p">:</span>  <span class="p">[</span><span class="mf">0.3</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="mi">1</span><span class="p">]</span>
+<span class="gp">... </span>                         <span class="p">,</span> <span class="s1">&#39;Stabilator_B_F16&#39;</span><span class="p">:</span>  <span class="p">[</span><span class="mf">0.3</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="mi">1</span><span class="p">]</span>
+<span class="gp">... </span>                <span class="p">}</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f16</span><span class="o">.</span><span class="n">animate</span><span class="p">(</span><span class="n">f16path</span><span class="p">,</span> <span class="n">angle0</span> <span class="o">=</span> <span class="n">x0</span><span class="p">,</span> <span class="n">modelcolor</span> <span class="o">=</span> <span class="n">f16colors</span><span class="p">)</span>
+</pre></div>
+</div>
+<figure class="align-default">
+<img alt="../../../_images/f16_color.gif" src="../../../_images/f16_color.gif" />
+</figure>
+<ol class="arabic simple" start="6">
+<li><p>It can also be painted with a single color for all its parts and a single color for the background:</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f16</span><span class="o">.</span><span class="n">animate</span><span class="p">(</span><span class="n">f16path</span><span class="p">,</span> <span class="n">angle0</span> <span class="o">=</span> <span class="n">x0</span><span class="p">,</span> <span class="n">modelcolor</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">cbackground</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">230</span><span class="p">,</span> <span class="mi">230</span><span class="p">,</span> <span class="mi">255</span><span class="p">])</span> <span class="o">/</span> <span class="mi">255</span><span class="p">)</span>
+</pre></div>
+</div>
+<figure class="align-default">
+<img alt="../../../_images/f16_monochrome.gif" src="../../../_images/f16_monochrome.gif" />
+</figure>
+<ol class="arabic simple" start="7">
+<li><p>Finally, let’s use the <cite>savedir</cite> option using the c4dynamics’ gif util to generate a gif file out of the model animation</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f16colors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(([</span><span class="mi">255</span><span class="p">,</span> <span class="mi">215</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">255</span><span class="p">,</span> <span class="mi">215</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="gp">... </span>                        <span class="p">,</span> <span class="p">[</span><span class="mi">184</span><span class="p">,</span> <span class="mi">134</span><span class="p">,</span> <span class="mi">11</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">38</span><span class="p">]</span>
+<span class="gp">... </span>                            <span class="p">,</span> <span class="p">[</span><span class="mi">218</span><span class="p">,</span> <span class="mi">165</span><span class="p">,</span> <span class="mi">32</span><span class="p">],</span> <span class="p">[</span><span class="mi">218</span><span class="p">,</span> <span class="mi">165</span><span class="p">,</span> <span class="mi">32</span><span class="p">],</span> <span class="p">[</span><span class="mi">54</span><span class="p">,</span> <span class="mi">69</span><span class="p">,</span> <span class="mi">79</span><span class="p">]</span>
+<span class="gp">... </span>                                <span class="p">,</span> <span class="p">[</span><span class="mi">205</span><span class="p">,</span> <span class="mi">149</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span> <span class="p">[</span><span class="mi">205</span><span class="p">,</span> <span class="mi">149</span><span class="p">,</span> <span class="mi">12</span><span class="p">]))</span> <span class="o">/</span> <span class="mi">255</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">outfol</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;tests&#39;</span><span class="p">,</span> <span class="s1">&#39;_out&#39;</span><span class="p">,</span> <span class="s1">&#39;f16a&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f16</span><span class="o">.</span><span class="n">animate</span><span class="p">(</span><span class="n">f16path</span><span class="p">,</span> <span class="n">angle0</span> <span class="o">=</span> <span class="n">x0</span><span class="p">,</span> <span class="n">savedir</span> <span class="o">=</span> <span class="n">outfol</span><span class="p">,</span> <span class="n">modelcolor</span> <span class="o">=</span> <span class="n">f16colors</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># the storage folder &#39;outfol&#39; is the source of images for the gif function</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># the &#39;duration&#39; parameter sets the required length of the animation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gifname</span> <span class="o">=</span> <span class="s1">&#39;f16_animation.gif&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c4d</span><span class="o">.</span><span class="n">gif</span><span class="p">(</span><span class="n">outfol</span><span class="p">,</span> <span class="n">gifname</span><span class="p">,</span> <span class="n">duration</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Viewing the gif on a Jupyter notebook is possible by using the <cite>Image</cite> funtion of the <cite>IPython</cite> module:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gifpath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">outfol</span><span class="p">,</span> <span class="n">gifname</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span> <span class="o">=</span> <span class="n">gifpath</span><span class="p">)</span> 
+</pre></div>
+</div>
+<figure class="align-default">
+<img alt="../../../_images/f16_color2.gif" src="../../../_images/f16_color2.gif" />
+</figure>
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="c4dynamics.rotmat.rotmat.dcm321euler.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">c4dynamics.rotmat.rotmat.dcm321euler</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../../Utils.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Utils</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c4dynamics.rotmat.animate.animate"><code class="docutils literal notranslate"><span class="pre">animate</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By c4dynamics
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, c4dynamics.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on Dec 19, 2024.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
