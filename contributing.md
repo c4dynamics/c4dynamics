@@ -1,14 +1,14 @@
 
-# Quickstart for Contributors
+# Quickstart for Contributors 🚀
 
-* Press the 'Fork' button (upper right corner of the C4dynamics page)
-* Clone C4dynamics to your local machine (GitHub Desktop is a nice tool to help you clone and push your changes back)
-* Open a new python notebook (Jupyter) 
-* Import c4dynamics to your notebook (see some examples in the repository 'examples')
-* In the notebook, write some code you would like to do using the C4dynamics library
-* Create and edit files in C4dynamics to support your code
-* Make tests and document your changes
-* Push the changes back to your GitHub
-* Press the 'Pull Request' button. Submit a message with details about your changes.
-
-* It's a good advise to start with the example dof6sim.ipynb and change the missile-target conditions to gain some experience with the framework. This example appears also down here in the README
+* Add a use case to the [Programs section](https://c4dynamics.github.io/C4dynamics/programs/index.html) of the documentation: 
+* Press the 'Fork' button (top-right corner of the c4dynamics page)
+* Choose a classic simulation or an existing project as your base.
+* Employ state objects from c4dynamics.
+* Incorporate modules from the scientific library (e.g. sensors, filters, detectors).  
+* Create a Jupyter notebook and write your program.  
+* Keep it simple yet functional.   
+* Add comments and documentation to explain your approach.  
+* Ensure it runs without errors and produces meaningful results.  
+* Use c4dynamics tools (e.g., plotting functions) to visualize outputs.  
+* Submit your example as a pull request.  
