@@ -32,14 +32,12 @@ carbon-config.json
 
 # files in subfolders 
 # ===================
-c4dynamics/filters/a.py 
-c4dynamics/filters/kalman_v0.py 
-c4dynamics/filters/kalman_v1.py 
 examples/docs_examples.ipynb 
 examples/run_examples.ipynb 
 examples/filters/07-Kalman*.ipynb 
 examples/filters/04-One-Dimensional-Kalman-Filters.ipynb
-
+paper/c4dynamics - paper.docx
+paper/c4dynamics - paper.pdf 
 
 # folders in the base 
 # ===================
