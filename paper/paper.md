@@ -168,11 +168,13 @@ L = 1 								# rod length (m)
 tmax, dt = 30, 0.01  
 t = np.arange(0, tmax + dt, dt)  
   
+  
 ''' STATE OBJECTS SETUP '''  
 pend  = c4d.state(theta = np.pi / 4, omega = 0)   # pendulum definition  
   
 def pendulum(t, y):   
   return y[1], -(c4d.g_ms2 / L) * np.sin(y[0])    # equations of motion   
+
 
 ''' MAIN LOOP '''  
 for i, ti in enumerate(t):  
@@ -196,11 +198,3 @@ C4dynamics is a powerful and flexible Python framework designed to address the g
 
 </div>
 
-
-
-# Acknowledgements
-
-We acknowledge contributions from Brigitta Sipocz, Syrtis Major, and Semyeong
-Oh, and support from Kathryn Johnston during the genesis of this project.
-
-# References

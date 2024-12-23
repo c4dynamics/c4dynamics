@@ -3,11 +3,12 @@ Programs
 
 
 .. toctree::
-   :caption: Getting Started
-   :hidden:
-   :maxdepth: 1
+  :caption: Getting Started
+  :hidden:
+  :maxdepth: 1
 
-   dof6sim.ipynb
+  dof6sim.ipynb
+  
 
 
 
@@ -18,7 +19,7 @@ Selected examples that demonstrate the framework's versatility, showcasing its u
   :header-rows: 0
 
   * - `6DOF <dof6sim.ipynb>`_
-    - Six degrees of freedom simulation of a missile pursuing a target.
+    - Six degrees of freedom simulation of a missile pursuing a target
 
 
 

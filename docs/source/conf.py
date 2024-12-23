@@ -352,6 +352,7 @@ procedure for version.
 
 USE CASES
 1. see pretty example for jupyter demo here https://cocalc.com/share/public_paths/7557a5ac1c870f1ec8f01271959b16b49df9d087/07-Kalman-Filter-Math.ipynb
+2. beatuiful user guide session: https://genesis-world.readthedocs.io/en/latest/
 
 README:
 1. put a beatuful cheat sheet. like: https://www.doabledanny.com/static/ab88214c9082dc96bb7d53b90fc6981b/5620d/dark_mode.png

@@ -1002,7 +1002,7 @@ The lineariztion of the process matrix for the `predict` step:
 
 .. math::
 
-  M = \\begin{bmatrix}
+  F = \\begin{bmatrix}
         0 & 1 & 0 \\\\
           -\\rho \\cdot g \\cdot v_z^2 / (44000 \\cdot \\beta) 
           & \\rho \\cdot g \\cdot v_z / \\beta
