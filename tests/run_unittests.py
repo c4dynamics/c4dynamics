@@ -1,7 +1,7 @@
 import os, sys 
 import subprocess
 
-sys.path.append('.')
+sys.path.append('..')
 import c4dynamics as c4d 
 
 

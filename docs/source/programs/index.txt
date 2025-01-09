@@ -3,14 +3,17 @@ Programs
 
 
 .. toctree::
-   :caption: Getting Started
-   :hidden:
-   :maxdepth: 1
+  :caption: Getting Started
+  :hidden:
+  :maxdepth: 1
 
-   drifting_car
-   detect_track.ipynb
-   dof6sim.ipynb
-   ballisticestimation
+  6DOF <dof6sim.ipynb>
+  EKF <ballistic_coefficient.ipynb>
+  drifting_car
+  detect_track.ipynb
+
+
+
 
 
 
@@ -30,8 +33,9 @@ variables for radar-tracked targets.
     - Simultaneous objects detection object and tracking.
   * - `6DOF <dof6sim.ipynb>`_
     - Six degrees of freedom simulation of a missile pursuing a target.
-  * - `Ballistic <ballisticestimation>`_
-    - Ballistic coefficient estimation using Extended Kalman filter.
 
+
+  * - `Ballistics Estimation <ballistic_coefficient.ipynb>`_
+    - Ballistic coefficient estimation using Extended Kalman fitler
 
 
