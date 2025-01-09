@@ -130,7 +130,7 @@ typical workflow with c4dynamics:
 
 
 
-.. figure:: /_architecture/workflow.png 
+.. figure:: /_architecture/workflow.drawio.png 
 
   **Typical workflow with c4dynamics**
 
@@ -168,7 +168,7 @@ The documentation is organized as follows:
 
 - **Getting Started**: An overview of the core concepts and features of c4dynamics, with beginner-friendly examples to help you get started quickly.
 
-- **Programs**: Real-world use cases showcasing how c4dynamics can be applied in fields such as robotics, aerospace, and computer vision.
+- **User Guide**: Real-world use cases showcasing how c4dynamics can be applied in fields such as robotics, aerospace, and computer vision.
 
 - **API Reference**: Comprehensive documentation for technical users, covering all the classes, functions, and modules available in c4dynamics.
 
@@ -179,6 +179,6 @@ The documentation is organized as follows:
 
   Installation <installation>
   Getting Started <gettingstarted>
-  Programs <programs/index>
+  User Guide <programs/index>
   API Reference <api/index> 
 

@@ -1,7 +1,6 @@
 import os, sys 
 import time 
 import numpy as np 
-import tkinter as tk
 sys.path.append('.')
 import c4dynamics as c4d 
 from typing import Optional, Union, List 
@@ -305,7 +304,16 @@ def animate(rb, modelpath: str, angle0: list = [0, 0, 0]
           "The 'open3d' package is required for this function to work. "
           "Please install it by running 'pip install open3d'."
       )
-        
+  
+  try: 
+    import tkinter as tk
+  except ImportError: 
+    raise ImportError(
+      "ModuleNotFoundError: No module named 'tkinter'."
+          "To install on Debian-based systems: 'sudo apt install python3-tk'"
+      )
+  
+
   if not rb._data:
     warnings.warn(f"""No stored data for the given rigidbody.""" , c4d.c4warn)
     return None

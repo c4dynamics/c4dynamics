@@ -11,7 +11,7 @@ State Data-Structure
 -------------------- 
 
 
-C4dynamics offers a versatile data-structures for managing state variables. 
+C4dynamics offers versatile data-structures for managing state variables. 
 
 
 Users from a range of disciplines, particularly those involving mathematical modeling, 

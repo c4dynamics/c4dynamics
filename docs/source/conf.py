@@ -176,7 +176,12 @@ extensions = [
     , 'sphinx_design'
     , 'nbsphinx'
     # , 'import__all__ext'
+    # , 'myst_nb'
+    # , 'sphinxcontrib.bibtex'
 ]
+
+# bibtex_bibfiles = ['references.bib']
+# jupyter_execute_notebooks = 'off'
 
 
 # verbose debug 

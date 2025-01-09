@@ -52,7 +52,7 @@ build/
 c4dynamics.egg-info/
 dist/
 # source
-
+.venv (Ignored Item Conflict)/
 
 # subfolders 
 # ==========
@@ -68,3 +68,7 @@ programs/temp
 
 
 paper/~$dynamics - paper.docx
+docs/source/programs/ballistic_coefficient_drawing.docx
+docs/source/programs/~$llistic_coefficient_drawing.docx
+docs/source/programs/ballistic_coefficient_py.py
+pend_video.avi

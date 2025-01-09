@@ -18,7 +18,7 @@ def _legdef():
     return {'fontsize': 4, 'facecolor': None}
 
 
-def plotdefaults(ax, title, xlabel, ylabel, fontsize = 8, ilines = None):
+def plotdefaults(ax, title, xlabel = '', ylabel = '', fontsize = 8, ilines = None):
     '''
 
     Setting default properties on a matplotlib axis.

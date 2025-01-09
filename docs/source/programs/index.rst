@@ -1,5 +1,5 @@
-Programs
-========
+User Guide
+==========
 
 
 .. toctree::
@@ -8,11 +8,14 @@ Programs
   :maxdepth: 1
 
   dof6sim.ipynb
+  ballistic_coefficient.ipynb
+
   
 
 
 
-Selected examples that demonstrate the framework's versatility, showcasing its use in diverse fields. 
+Selected programs that demonstrate the framework's versatility, 
+showcasing its use in diverse fields. 
 
 
 .. list-table:: 
@@ -20,6 +23,8 @@ Selected examples that demonstrate the framework's versatility, showcasing its u
 
   * - `6DOF <dof6sim.ipynb>`_
     - Six degrees of freedom simulation of a missile pursuing a target
+  * - `EKF <ballistic_coefficient.ipynb>`_
+    - Ballistic coefficient estimation using Extended Kalman fitler
 
 
 
