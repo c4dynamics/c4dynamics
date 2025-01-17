@@ -24,7 +24,7 @@ Getting Started
 
    Deepen your understanding by reviewing the workflow outline:
 
-   .. figure:: /_architecture/workflow.drawio.png 
+   .. figure:: /_architecture/workflow.drawio.high.png 
 
 
 5. **User Guide** 
