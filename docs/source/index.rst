@@ -14,7 +14,7 @@
     style = "width: 200%; max-width: 200px;">
   <h1 class="display-1">C4DYNAMICS</h1>
   <p class="fs-4"><strong>(Tsipor Dynamics)</strong></p>
-  <p class="fs-4"><strong>Elevating your algorithms</strong></p>
+  <p class="fs-4"><strong>Elevating Algorithms</strong></p>
   </div>
 
 
@@ -130,7 +130,7 @@ typical workflow with c4dynamics:
 
 
 
-.. figure:: /_architecture/workflow.drawio.png 
+.. figure:: /_architecture/workflow.drawio.high.png 
 
   **Typical workflow with c4dynamics**
 
