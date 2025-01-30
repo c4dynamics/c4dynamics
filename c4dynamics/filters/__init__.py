@@ -382,7 +382,7 @@ are notated by :math:`(+)` superscript.
 
   K = P_k^- \\cdot H^T \\cdot (H \\cdot P_k^- \\cdot H^T + R)^{-1}
 
-  x_k^+ = x_k^- \\cdot K \\cdot (y - H \\cdot x_k^-)
+  x_k^+ = x_k^- + K \\cdot (y - H \\cdot x_k^-)
 
   P_k^+ = (I - K \\cdot H) \\cdot P_k^-
 
@@ -449,7 +449,7 @@ inherits all the mathematical attributes
 and data attributes (storage, plotting, etc.) 
 of a state object 
 (for further details, see :mod:`states <c4dynamics.states>`, 
-state :class:`state <c4dynamics.states.state.state>`, 
+:class:`state <c4dynamics.states.state.state>`, 
 and refer to the examples below)
     
 
