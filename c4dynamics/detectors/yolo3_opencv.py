@@ -69,7 +69,7 @@ class yolov3:
 
     .. figure:: /_architecture/yolo-object-detection.jpg
 
-    *Figure*
+    *Figure 1*:
     Object Detection with YOLO using COCO pre-trained classes 'dog', 'bicycle', 'truck'.
     Read more at: `darknet-yolo <https://pjreddie.com/darknet/yolo/>`_ .
 
