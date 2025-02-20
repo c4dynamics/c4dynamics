@@ -212,25 +212,25 @@ Where:
 - :math:`F` is the discretized process dynamics matrix (actually a first order approximation of the state transition matrix :math:`\\Phi`)
 - :math:`G` is the discretized process input matrix
 - :math:`u` is the discretized process input signal
-- :math:`\\omega_k` is the process uncertainty with covariance matrix :math:`Q_k`
+- :math:`\\omega_k` is the process uncertainty with covariance matrix :math:`Q`
 - :math:`y_k` is the discretized system output vector (the measurement)
 - :math:`H` is the discrete measurement matrix 
-- :math:`\\nu_k` is the measure noise with covariance matrix :math:`R_k`
+- :math:`\\nu_k` is the measure noise with covariance matrix :math:`R`
 - :math:`x_0` is a vector of initial conditions  
 
   
 The noise processes :math:`\\omega_{k}` and :math:`\\nu_k` are white, zero-mean, uncorrelated, 
-and have known covariance matrices :math:`Q_k` and :math:`R_k`, respectively:
+and have known covariance matrices :math:`Q` and :math:`R`, respectively:
 
 .. math::
 
-  \\omega_k \\sim (0, Q_k) 
+  \\omega_k \\sim (0, Q) 
 
-  \\nu_k \\sim (0, R_k) 
+  \\nu_k \\sim (0, R) 
 
-  E[\\omega_k \\cdot \\omega^T_j] = Q_k \\cdot \\delta_{k-j} 
+  E[\\omega_k \\cdot \\omega^T_j] = Q \\cdot \\delta_{k-j} 
   
-  E[\\nu_k \\cdot \\nu^T_j] = R_k \\cdot \\delta_{k-j} 
+  E[\\nu_k \\cdot \\nu^T_j] = R \\cdot \\delta_{k-j} 
 
   E[\\nu_k \\cdot \\omega^T_j] = 0
 
@@ -260,10 +260,10 @@ Where:
 - :math:`F` is the discretized process dynamics matrix (actually a first order approximation of the state transition matrix :math:`\\Phi`)
 - :math:`G` is the discretized process input matrix
 - :math:`u` is the discretized process input signal
-- :math:`\\omega_k` is the process uncertainty with covariance matrix :math:`Q_k`
+- :math:`\\omega_k` is the process uncertainty with covariance matrix :math:`Q`
 - :math:`y_k` is the discretized system output vector (the measurement)
 - :math:`H` is the discrete measurement matrix 
-- :math:`\\nu_k` is the measure noise with covariance matrix :math:`R_k`
+- :math:`\\nu_k` is the measure noise with covariance matrix :math:`R`
 - :math:`x_0` is a vector of initial conditions  
 - :math:`I` is the identity matrix
 - :math:`dt` is the sampling time 

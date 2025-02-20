@@ -71,7 +71,7 @@ class yolov3:
 
     *Figure 1*:
     Object Detection with YOLO using COCO pre-trained classes 'dog', 'bicycle', 'truck'.
-    Read more at: `darknet-yolo <https://pjreddie.com/darknet/yolo/>`_ .
+    Read more at: `darknet-yolo <https://pjreddie.com/darknet/yolo/>`_.
 
 
     **Implementation (c4dynamics)**
@@ -93,7 +93,7 @@ class yolov3:
 
     C4dynamics downloads 
     the YOLOv3' weights file 
-    once at first call to :class:`yolov3` and saves the cache. 
+    once at first call to :class:`yolov3` and saves it to the cache. 
     For further details see :mod:`datasets <c4dynamics.datasets>`.
     Alternatively, the user can provide a path to his 
     own weights file using the parameter `weights_path`. 
