@@ -20,11 +20,11 @@ Available subpackages
 sensors
   Models of EO and EM sensors. 
 detectors
-  Objects detection models to computer vision manipulations.
+  Objects detection models.
 filters
   Kalman and lowpass filters.
 eqm 
-  Runge Kutta solvers for integrating the equations of motion on the datapoint and rigidbody objects. 
+  Runge Kutta solvers for integrating the equations of motion. 
 rotmat
   Rotation matrices and rotational operations. 
 '''
