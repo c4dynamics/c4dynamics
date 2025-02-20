@@ -58,6 +58,8 @@ class kalman(c4d.state):
     In steady-state mode the Kalman gain (`K`) and the estimation covariance matrix 
     (`P`) are computed once and remain constant ('steady-state') for the entire run-time, 
     performing as well as the time-varying filter.   
+    Note however that also in steady-state mode the predict and the update steps are separated 
+    and the user must call each of them at a time. 
 
 
 

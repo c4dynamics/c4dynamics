@@ -618,6 +618,7 @@ class state:
     #   from the detect track exmaple. 
     # TODO add test if the params is not 0 or 1 dim throw error or warning. why?
     # TODO document about the two if's down here: nonscalar param and empty param. 
+    # TODO add an option to provide the values to store becuase sometimes its not realy using the state on realtime but just for storage
     from functools import reduce
         
     lparams = params if isinstance(params, list) else [params]
