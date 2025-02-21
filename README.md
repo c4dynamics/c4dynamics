@@ -12,6 +12,17 @@
 
 Tsipor (bird) Dynamics (c4dynamics) is the open-source framework of algorithms development for objects in space and time.
 
+
+<a href="https://pypi.org/project/c4dynamics/" rel="nofollow">
+  <img src="https://img.shields.io/pypi/v/c4dynamics.svg?style=for-the-badge"
+    alt="PyPI"
+    data-canonical-src="https://img.shields.io/pypi/v/c4dynamics.svg?style=for-the-badge"
+    style="max-width: 100%;">
+</a>
+
+
+
+
 [![My Skills](https://skillicons.dev/icons?i=python)](https://skillicons.dev)  
 
 
