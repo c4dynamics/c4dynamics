@@ -13,17 +13,16 @@
 Tsipor (bird) Dynamics (c4dynamics) is the open-source framework of algorithms development for objects in space and time.
 
 
-<a href="https://pypi.org/project/c4dynamics/" rel="nofollow">
-  <img src="https://img.shields.io/pypi/v/c4dynamics.svg?style=for-the-badge"
-    alt="PyPI"
-    data-canonical-src="https://img.shields.io/pypi/v/c4dynamics.svg?style=for-the-badge"
-    style="max-width: 100%;">
-</a>
 
 
+![Static Badge](https://img.shields.io/badge/python-%20?style=for-the-badge&logo=python&color=white)
+![PyPI - Version](https://img.shields.io/pypi/v/c4dynamics?style=for-the-badge&color=orange&link=https%3A%2F%2Fpypi.org%2Fproject%2Fc4dynamics%2F)
+![GitHub deployments](https://img.shields.io/github/deployments/C4dynamics/C4dynamics/github-pages%20?style=for-the-badge&label=docs)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/c4dynamics/c4dynamics/run-tests.yml?style=for-the-badge&label=tests&link=https%3A%2F%2Fgithub.com%2FC4dynamics%2FC4dynamics%2Fblob%2Fmain%2F.github%2Fworkflows%2Frun-tests.yml)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/C4dynamics/C4dynamics/paper.yml?style=for-the-badge&label=Paper)
+![Pepy Total Downloads](https://img.shields.io/pepy/dt/c4dynamics?style=for-the-badge&color=blue%20&link=https%3A%2F%2Fpepy.tech%2Fprojects%2Fc4dynamics%3FtimeRange%3DthreeMonths%26category%3Dversion%26includeCIDownloads%3Dtrue%26granularity%3Ddaily%26viewType%3Dline%26versions%3D2.0.3%252C2.0.1%252C2.0.0)
 
 
-[![My Skills](https://skillicons.dev/icons?i=python)](https://skillicons.dev)  
 
 
 [Documentation](https://c4dynamics.github.io/C4dynamics/)
