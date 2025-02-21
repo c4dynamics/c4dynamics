@@ -32,6 +32,8 @@ def gif(dirname, gif_name, duration = None):
     Example
     -------
 
+    Let's generate images of an F16 aircraft in different orientations and create a gif from them.
+    
     1. Prepare trajectory to animate. 
 
 
