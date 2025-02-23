@@ -53,19 +53,17 @@ while maintaining flexibility and scalability.
 ## Installation 
 
 
-* PIP  
+* [PIP](https://pypi.org/project/c4dynamics/)
 
 ```
 >>> pip install c4dynamics
 ```
-[PyPi](https://pypi.org/project/c4dynamics/)
 
 
-* GitHub  
 
-To run the latest GitHub version, download [c4dynamics](https://github.com/C4dynamics/C4dynamics)
+* [GitHub](https://github.com/C4dynamics/C4dynamics)  
 
-Install required packages:
+To run the latest GitHub version, download the repo and install required packages:
 
 ```
 >>> pip install -r requirements.txt
