@@ -52,14 +52,9 @@ class MockVisualizer:
     def destroy_window(self):
         pass
 
-from unittest.mock import MagicMock
-
-# Try importing Open3D, mock it if not available
-try:
-    import open3d as o3d
-except ImportError:
-    sys.modules["open3d"] = MagicMock()
-
+# Replace the o3d.visualization.Visualizer with our MockVisualizer
+# import open3d as o3d
+import open3d as o3d
 o3d.utility.set_verbosity_level(o3d.utility.VerbosityLevel.Error)
 
 o3d.visualization.Visualizer = MockVisualizer
