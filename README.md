@@ -63,9 +63,7 @@ while maintaining flexibility and scalability.
 
 * [GitHub](https://github.com/C4dynamics/C4dynamics)  
 
-To run the latest GitHub version, download 
-
-Install required packages:
+To run the latest GitHub version, download the repo and install required packages:
 
 ```
 >>> pip install -r requirements.txt
