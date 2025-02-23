@@ -39,7 +39,7 @@ jobs:
 
       - name: Run unittests
         run: |
-          python -m unittest discover -s tests -p "_test.py"
+          python -m unittest discover -s tests -p "test_*.py"
 
       - name: Upload coverage to Codecov
         if: ${{ matrix.os == 'ubuntu-latest' &&  matrix.python-version == '3.10'}}
