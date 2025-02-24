@@ -6,6 +6,7 @@ import sys
 sys.path.append('.')
 from c4dynamics import rigidbody 
 import c4dynamics as c4d 
+import os
 
 class TestRigidbody(unittest.TestCase):
 
