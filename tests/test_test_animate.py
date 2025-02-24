@@ -108,11 +108,13 @@ class TestAnimateFunction(unittest.TestCase):
         with self.assertRaises(FileNotFoundError):
             animate(self.rb, '')
 
+    @unittest.skipIf("DISPLAY" not in os.environ, "Skipping GUI test in headless mode")
     def test_single_model_file(self):
         """Test animate function with a single model file."""
         # Should run without errors
         animate(self.rb, self.model_file)
 
+    @unittest.skipIf("DISPLAY" not in os.environ, "Skipping GUI test in headless mode")
     def test_directory_of_models(self):
         """Test animate function with a directory of model files."""
         # Setup additional mock model files
@@ -129,6 +131,7 @@ class TestAnimateFunction(unittest.TestCase):
         with self.assertRaises(ValueError):
             animate(self.rb, modelfile, modelcolor='invalid_color')
 
+    @unittest.skipIf("DISPLAY" not in os.environ, "Skipping GUI test in headless mode")
     def test_output_image_creation(self):
         """Test if output images are created when savedir is provided."""
         output_dir = os.path.join('tests', '_out', 'animate')

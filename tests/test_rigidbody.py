@@ -63,6 +63,7 @@ class TestRigidbody(unittest.TestCase):
         acc = self.rb.inteqm(forces, moments, dt)
         self.assertIsInstance(acc, np.ndarray)  # Check if acceleration is returned as numpy array
 
+    @unittest.skipIf("DISPLAY" not in os.environ, "Skipping GUI test in headless mode")
     def test_animate_method(self):
         """Test the animate method."""
         modelpath = c4d.datasets.d3_model('bunny') # "path/to/model"  # Mock model path
