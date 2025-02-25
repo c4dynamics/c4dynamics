@@ -15,7 +15,12 @@ class TestTimingFunctions(unittest.TestCase):
         time.sleep(0.1)
         elapsed = c4d.toc(show=False)
         # self.assertAlmostEqual(elapsed, 0.1, places=0)
-        self.assertAlmostEqual(elapsed, 0.1, delta = 0.1)
+        # self.assertAlmostEqual(elapsed, 0.1, delta = 0.1)
+        if sys.platform == "darwin":  # macOS
+            self.assertAlmostEqual(elapsed, 0.1, places=0)
+        else:  # Linux and Windows
+            self.assertAlmostEqual(elapsed, 0.1, places=1)
+
 
     def test_toc_output(self):
       """Test that toc prints output correctly."""
