@@ -14,7 +14,8 @@ class TestTimingFunctions(unittest.TestCase):
         start = c4d.tic()
         time.sleep(0.1)
         elapsed = c4d.toc(show=False)
-        self.assertAlmostEqual(elapsed, 0.1, places=0)
+        # self.assertAlmostEqual(elapsed, 0.1, places=0)
+        self.assertAlmostEqual(elapsed, 0.1, delta = 0.1)
 
     def test_toc_output(self):
       """Test that toc prints output correctly."""
