@@ -9,6 +9,7 @@ User Guide
 
   dof6sim.ipynb
   ballistic_coefficient.ipynb
+  car_tracker.ipynb
 
   
 
@@ -25,6 +26,7 @@ showcasing its use in diverse fields.
     - Six degrees of freedom simulation of a missile pursuing a target
   * - `EKF <ballistic_coefficient.ipynb>`_
     - Ballistic coefficient estimation using Extended Kalman fitler
-
+  * - `Tracker <car_tracker.ipynb>`_
+    - Use a Kalman filter to track a vehicle across video frames.
 
 
