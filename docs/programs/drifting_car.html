@@ -1,0 +1,917 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Object Tracking &#8212; C4DYNAMICS v2.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/style.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=d94dc4f2"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'programs/drifting_car';</script>
+    <link rel="icon" href="../_static/c4dlogo.svg"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="Mar 07, 2025"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">C4DYNAMICS v2.0</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Home
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Getting Started</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="index.html">User Guide</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="dof6sim.html">6 Degrees Of Freedom Missile Guidance Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ballistic_coefficient.html">Ballistic Coefficient Estimation using Extended Kalman Filter</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="car_tracker.html">Object Tracking with YOLOv3</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/index.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/States.html">State Objects</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/states.state.html">The state class</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.X.html">c4dynamics.states.state.state.X</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.X0.html">c4dynamics.states.state.state.X0</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.norm.html">c4dynamics.states.state.state.norm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.normalize.html">c4dynamics.states.state.state.normalize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.position.html">c4dynamics.states.state.state.position</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.velocity.html">c4dynamics.states.state.state.velocity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.addvars.html">c4dynamics.states.state.state.addvars</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.P.html">c4dynamics.states.state.state.P</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.V.html">c4dynamics.states.state.state.V</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.store.html">c4dynamics.states.state.state.store</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.storeparams.html">c4dynamics.states.state.state.storeparams</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.data.html">c4dynamics.states.state.state.data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.timestate.html">c4dynamics.states.state.state.timestate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.plot.html">c4dynamics.states.state.state.plot</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/states.lib.html">States library</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/states.lib.datapoint.html">Datapoint</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/states.lib.rigidbody.html">Rigidbody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/states.lib.pixelpoint.html">Pixelpoint</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/Sensors.html">Sensors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/sensors.seeker.html">Seeker</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/seeker/c4dynamics.sensors.seeker.seeker.bias.html">c4dynamics.sensors.seeker.seeker.bias</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/seeker/c4dynamics.sensors.seeker.seeker.scale_factor.html">c4dynamics.sensors.seeker.seeker.scale_factor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/seeker/c4dynamics.sensors.seeker.seeker.measure.html">c4dynamics.sensors.seeker.seeker.measure</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/sensors.radar.html">Radar</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/radar/c4dynamics.sensors.radar.radar.bias.html">c4dynamics.sensors.radar.radar.bias</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/radar/c4dynamics.sensors.radar.radar.scale_factor.html">c4dynamics.sensors.radar.radar.scale_factor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/radar/c4dynamics.sensors.radar.radar.measure.html">c4dynamics.sensors.radar.radar.measure</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/Detectors.html">Detectors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/detectors.yolov3.html">YOLOv3</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/yolov3/c4dynamics.detectors.yolo3_opencv.yolov3.nms_th.html">c4dynamics.detectors.yolo3_opencv.yolov3.nms_th</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/yolov3/c4dynamics.detectors.yolo3_opencv.yolov3.confidence_th.html">c4dynamics.detectors.yolo3_opencv.yolov3.confidence_th</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/yolov3/c4dynamics.detectors.yolo3_opencv.yolov3.detect.html">c4dynamics.detectors.yolo3_opencv.yolov3.detect</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/Filters.html">Filters</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/filters.kalman.html">Kalman filter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/kalman/c4dynamics.filters.kalman.kalman.predict.html">c4dynamics.filters.kalman.kalman.predict</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/kalman/c4dynamics.filters.kalman.kalman.update.html">c4dynamics.filters.kalman.kalman.update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/kalman/c4dynamics.filters.kalman.kalman.store.html">c4dynamics.filters.kalman.kalman.store</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/filters.ekf.html">Extended Kalman filter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/ekf/c4dynamics.filters.ekf.ekf.predict.html">c4dynamics.filters.ekf.ekf.predict</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/ekf/c4dynamics.filters.ekf.ekf.update.html">c4dynamics.filters.ekf.ekf.update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/ekf/c4dynamics.filters.ekf.ekf.store.html">c4dynamics.filters.ekf.ekf.store</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/filters.lpf.html">Lowpass filter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/lpf/c4dynamics.filters.lowpass.lowpass.sample.html">c4dynamics.filters.lowpass.lowpass.sample</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/Routines.html">Routines</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/routines.eqm.html">Equations of motion solvers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm3.html">c4dynamics.eqm.derivs.eqm3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm6.html">c4dynamics.eqm.derivs.eqm6</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.integrate.int3.html">c4dynamics.eqm.integrate.int3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.integrate.int6.html">c4dynamics.eqm.integrate.int6</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/routines.rotmat.html">Rotation matrix operations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.rotmat.rotx.html">c4dynamics.rotmat.rotmat.rotx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.rotmat.roty.html">c4dynamics.rotmat.rotmat.roty</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.rotmat.rotz.html">c4dynamics.rotmat.rotmat.rotz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.rotmat.dcm321.html">c4dynamics.rotmat.rotmat.dcm321</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.rotmat.dcm321euler.html">c4dynamics.rotmat.rotmat.dcm321euler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.animate.animate.html">c4dynamics.rotmat.animate.animate</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/Utils.html">Utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/utils/c4dynamics.utils.tictoc.tic.html">c4dynamics.utils.tictoc.tic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/utils/c4dynamics.utils.tictoc.toc.html">c4dynamics.utils.tictoc.toc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/utils/c4dynamics.utils.cprint.cprint.html">c4dynamics.utils.cprint.cprint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/utils/c4dynamics.utils.gen_gif.gif.html">c4dynamics.utils.gen_gif.gif</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/utils/c4dynamics.utils.plottools.plotdefaults.html">c4dynamics.utils.plottools.plotdefaults</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/utils.math.html">Math functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/utils.const.html">Constants</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/Datasets.html">Datasets</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/datasets/c4dynamics.datasets.image.html">c4dynamics.datasets.image</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/datasets/c4dynamics.datasets.video.html">c4dynamics.datasets.video</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/datasets/c4dynamics.datasets.nn_model.html">c4dynamics.datasets.nn_model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/datasets/c4dynamics.datasets.d3_model.html">c4dynamics.datasets.d3_model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/datasets/c4dynamics.datasets.download_all.html">c4dynamics.datasets.download_all</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/datasets/c4dynamics.datasets.clear_cache.html">c4dynamics.datasets.clear_cache</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/programs/drifting_car.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Object Tracking</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">1. Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#steady-state-mode">2. Steady-state mode</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting">3. Plotting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discrete-system">4. Discrete system</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous-system">5. Continuous system</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="object-tracking">
+<h1>Object Tracking<a class="headerlink" href="#object-tracking" title="Link to this heading">#</a></h1>
+<p>In the following set of examples, we run a Kalman filter
+to demonstrate smooth and continuous tracking of vehicles
+across video frames.</p>
+<section id="setup">
+<h2>1. Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<p>The process model assumes linear motion with constant velocity
+where the system matrix</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}A = \\begin{bmatrix}
+      0   &amp;   0   &amp;   0   &amp;   0   &amp;   1   &amp;   0   \\\\
+      0   &amp;   0   &amp;   0   &amp;   0   &amp;   0   &amp;   1   \\\\
+      0   &amp;   0   &amp;   0   &amp;   0   &amp;   0   &amp;   0   \\\\
+      0   &amp;   0   &amp;   0   &amp;   0   &amp;   0   &amp;   0   \\\\
+      0   &amp;   0   &amp;   0   &amp;   0   &amp;   0   &amp;   0   \\\\
+      0   &amp;   0   &amp;   0   &amp;   0   &amp;   0   &amp;   0
+    \\end{bmatrix}\end{split}\]</div>
+<p>represents the linear ordinary differential equations:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\\dot{x} = v_x  \\\\
+\\dot{y} = v_y  \\\\
+\\dot{w} = 0    \\\\
+\\dot{h} = 0    \\\\
+\\dot{v}_x = 0  \\\\
+\\dot{v}_y = 0\end{split}\]</div>
+<p>It is therefore obvious that
+the system state vector is given by:</p>
+<div class="math notranslate nohighlight">
+\[x = [x, y, w, h, v_x, v_y]^T\]</div>
+<p>Where <span class="math notranslate nohighlight">\(x, y\)</span> are pixel coordinates, <span class="math notranslate nohighlight">\(w, h\)</span> are bounding box dimensions, and <span class="math notranslate nohighlight">\(v_x, v_y\)</span> are velocities.</p>
+<p>As measurement for the vehicle position and
+box size we use the <cite>YOLOv3</cite> object detection model.
+YOLOv3 is incorporated in the c4dynamics’ class
+<a class="reference internal" href="../api/detectors.yolov3.html#c4dynamics.detectors.yolo3_opencv.yolov3" title="c4dynamics.detectors.yolo3_opencv.yolov3"><code class="xref py py-class docutils literal notranslate"><span class="pre">yolov3</span></code></a>.</p>
+<p>The method <a class="reference internal" href="../api/generated/yolov3/c4dynamics.detectors.yolo3_opencv.yolov3.detect.html#c4dynamics.detectors.yolo3_opencv.yolov3.detect" title="c4dynamics.detectors.yolo3_opencv.yolov3.detect"><code class="xref py py-meth docutils literal notranslate"><span class="pre">yolov3.detect</span></code></a>
+returns a <a class="reference internal" href="../api/states.lib.pixelpoint.html#c4dynamics.states.lib.pixelpoint.pixelpoint" title="c4dynamics.states.lib.pixelpoint.pixelpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">pixelpoint</span></code></a> instance
+for each detected object:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="kn">import</span> <span class="n">pixelpoint</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">pixelpoint</span><span class="p">())</span>
+<span class="go">[ x  y  w  h ]</span>
+</pre></div>
+</div>
+<p>That is, the measurements fed into the Kalman filter are
+directly the first four variables of the state.</p>
+<p>From this, we can directly derive the
+measurement matrix that forms the
+relation between the measurements and the state:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}C = \\begin{bmatrix}
+      1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\\\
+      0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\\\
+      0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \\\\
+      0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0
+    \\end{bmatrix}\end{split}\]</div>
+<p>This also implies that the system is observable but to be on the safe side
+let’s examine the rank of the observability matrix.</p>
+<p>First, import the required packages for the code
+in this snippet and the ones that follow:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">c4d</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">expm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">cv2</span>
+</pre></div>
+</div>
+<p>Let’s define the system matrices:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">C</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>Now, build the observability matrix and check the rank:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">obsv</span> <span class="o">=</span> <span class="n">C</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<span class="gp">... </span>  <span class="n">obsv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">obsv</span><span class="p">,</span> <span class="n">C</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">matrix_power</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">i</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rank</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">matrix_rank</span><span class="p">(</span><span class="n">obsv</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c4d</span><span class="o">.</span><span class="n">cprint</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The system is observable (rank = n = </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s1">).&#39;</span> <span class="k">if</span> <span class="n">rank</span> <span class="o">==</span> <span class="n">n</span> <span class="k">else</span> <span class="s1">&#39;The system is not observable (rank = {rank), n = </span><span class="si">{n}</span><span class="s1">).&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">)</span>
+<span class="go">The system is observable</span>
+</pre></div>
+</div>
+<p>In each estimation, the <cite>box</cite> function converts the state coordinates to rectangle
+corners to draw a bounding box:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">box</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+<span class="gp">... </span>  <span class="c1"># top left</span>
+<span class="gp">... </span>  <span class="n">xtl</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="n">ytl</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="c1"># bottom right</span>
+<span class="gp">... </span>  <span class="n">xbr</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">X</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="n">ybr</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">X</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="k">return</span> <span class="p">[(</span><span class="n">xtl</span><span class="p">,</span> <span class="n">ytl</span><span class="p">),</span> <span class="p">(</span><span class="n">xbr</span><span class="p">,</span> <span class="n">ybr</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>The video in the following examples is used
+by kind permission of <a class="reference external" href="https://www.pexels.com/&#64;abed-ismail">Abed Ismail</a></p>
+<p>The video can be fetched using the c4dynamics’
+datasets module (see <a class="reference internal" href="../api/Datasets.html#module-c4dynamics.datasets" title="c4dynamics.datasets"><code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.datasets</span></code></a>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">vidpath</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">video</span><span class="p">(</span><span class="s1">&#39;drifting_car&#39;</span><span class="p">)</span>
+<span class="go">Fetched successfully</span>
+</pre></div>
+</div>
+<p>Video setup:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">video_cap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="n">vidpath</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fps</span> <span class="o">=</span> <span class="n">video_cap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_FPS</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dt_frame</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">fps</span>
+</pre></div>
+</div>
+<p>Let’s take the prediction rate to be twice the frames rate:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span> <span class="o">=</span> <span class="n">dt_frame</span> <span class="o">/</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</section>
+<section id="steady-state-mode">
+<h2>2. Steady-state mode<a class="headerlink" href="#steady-state-mode" title="Link to this heading">#</a></h2>
+<p>As start, let’s take the noise matrices (<span class="math notranslate nohighlight">\(Q_k\)</span> of the process, and
+<span class="math notranslate nohighlight">\(R_k\)</span> of the measurement) as constant. Since the system is
+LTI (linear time invariant), the Kalman gain (<cite>K</cite>) and consequently the estimation covariance matrix
+(<cite>P</cite>) are computed once and are constant (‘steady-state’) for the entire run-time.</p>
+<p>Dynamics model and noise matrices:</p>
+<p># TODO im not sure anymore its needed to start with cont.
+just add the cont matrices and explain why the covariances are the same.
+# TODO my conclusion from all this is that it’s not an example.
+its a program. examples are short and straright froward and not
+entail all this intro.
+# maybe to separate between disc and cont only in the
+sys matrices but in the covariance to leave it to the user consid.
+# 3. instead of messing with all this maybe just show simple things.
+things that relevant to the user and not to the fresh class studegnt of eng.
+focus on seeing the state of the kalman. of initializaing. of storging.
+much more important for this class. and move this example to programs==usecases.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># process dynamics</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">F</span> <span class="o">=</span> <span class="n">expm</span><span class="p">(</span><span class="n">A</span> <span class="o">*</span> <span class="n">dt</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># measurement model</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">H</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">H</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">H</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">H</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">H</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>From some exprerience with the objects detection model it is
+a fair evaulation to give the model an average error of 4 pixels
+both for position and box size.
+Assuming that the uncertainty TODO ??</p>
+<p>The selection of the noise errors:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># covariance matrices</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">process_std</span> <span class="o">=</span> <span class="n">measure_std</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="o">*</span> <span class="n">process_std</span><span class="o">**</span><span class="mi">2</span>   <span class="c1"># process_noise</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">*</span> <span class="n">measure_std</span><span class="o">**</span><span class="mi">2</span>   <span class="c1"># measure_noise</span>
+</pre></div>
+</div>
+<p>indicates that the errors associated with the process
+and the errors associated with the measurement
+have equal weight (a standard deviation of <cite>4</cite>, units depend on the
+variable).</p>
+<p>Kalman object definition.
+The initialization includes the state variables, mode, and matrices:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">kf</span> <span class="o">=</span> <span class="n">kalman</span><span class="p">({</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;vx&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;vy&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+<span class="gp">... </span>                     <span class="p">,</span> <span class="n">steadystate</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">F</span> <span class="o">=</span> <span class="n">F</span><span class="p">,</span> <span class="n">H</span> <span class="o">=</span> <span class="n">H</span><span class="p">,</span> <span class="n">Q</span> <span class="o">=</span> <span class="n">Q</span><span class="p">,</span> <span class="n">R</span> <span class="o">=</span> <span class="n">R</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Object detection model:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">yolo3</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">detectors</span><span class="o">.</span><span class="n">yolov3</span><span class="p">()</span>
+<span class="go">Fetched successfully</span>
+</pre></div>
+</div>
+<p>Main loop. The first step, prediction, occurs in every cycle.
+The second step, update (correction), occurs when a car detection is made:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">while</span> <span class="n">video_cap</span><span class="o">.</span><span class="n">isOpened</span><span class="p">():</span>
+<span class="gp">... </span>  <span class="n">t</span> <span class="o">+=</span> <span class="n">dt</span>
+<span class="gp">... </span>  <span class="c1"># predict</span>
+<span class="gp">... </span>  <span class="n">kf</span><span class="o">.</span><span class="n">predict</span><span class="p">()</span>
+<span class="gp">... </span>  <span class="n">ret</span><span class="p">,</span> <span class="n">frame</span> <span class="o">=</span> <span class="n">video_cap</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="gp">... </span>  <span class="k">if</span> <span class="ow">not</span> <span class="n">ret</span><span class="p">:</span> <span class="k">break</span>
+<span class="gp">... </span>  <span class="n">d</span> <span class="o">=</span> <span class="n">yolo3</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="k">if</span> <span class="n">d</span> <span class="ow">and</span> <span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">class_id</span> <span class="o">==</span> <span class="s1">&#39;car&#39;</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="c1"># correct</span>
+<span class="gp">... </span>    <span class="n">kf</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">X</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">kf</span><span class="o">.</span><span class="n">detect</span> <span class="o">=</span> <span class="n">d</span>
+<span class="gp">... </span>    <span class="n">kf</span><span class="o">.</span><span class="n">storeparams</span><span class="p">(</span><span class="s1">&#39;detect&#39;</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="n">kf</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="n">_</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">box</span><span class="p">(</span><span class="n">kf</span><span class="o">.</span><span class="n">X</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">box</span><span class="p">(</span><span class="n">kf</span><span class="o">.</span><span class="n">X</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
+</pre></div>
+</div>
+<figure class="align-default">
+<img alt="../_images/drifting_car.gif" src="../_images/drifting_car.gif" />
+</figure>
+</section>
+<section id="plotting">
+<h2>3. Plotting<a class="headerlink" href="#plotting" title="Link to this heading">#</a></h2>
+<p>The <a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.plot.html#c4dynamics.states.state.state.plot" title="c4dynamics.states.state.state.plot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">plot</span></code></a>
+method of the superclass <a class="reference internal" href="../api/states.state.html#c4dynamics.states.state.state" title="c4dynamics.states.state.state"><code class="xref py py-class docutils literal notranslate"><span class="pre">state</span></code></a>
+allows direct generation of the state variables.
+The plot of the position <cite>x</cite> is given by:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">kf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<figure class="align-default">
+<img alt="../_images/steadystate_x.png" src="../_images/steadystate_x.png" />
+</figure>
+<p>Now, since we also stored the detections (using
+<a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.storeparams.html#c4dynamics.states.state.state.storeparams" title="c4dynamics.states.state.state.storeparams"><code class="xref py py-meth docutils literal notranslate"><span class="pre">storeparams</span></code></a>),
+we can add the detection marks on the state line:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">*</span><span class="n">kf</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">),</span> <span class="s1">&#39;om&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;estimation&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kf</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="s1">&#39;detect&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">d</span><span class="o">.</span><span class="n">x</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">c4d</span><span class="o">.</span><span class="n">pixelpoint</span><span class="p">)</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)(</span><span class="n">kf</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="s1">&#39;detect&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]),</span> <span class="s1">&#39;co&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;detection&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c4d</span><span class="o">.</span><span class="n">plotdefaults</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">(),</span> <span class="s1">&#39;x - steady-state mode&#39;</span><span class="p">,</span> <span class="s1">&#39;Time&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The first argument (<code class="code docutils literal notranslate"><span class="pre">kf.data('detect')[0]</span></code>) in the third line is
+just the time series of the detections at the storing samples.
+The second argument uses numpy’s <cite>vectorize</cite> to extract the
+<cite>x</cite> field from the detection data.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<figure class="align-default">
+<img alt="../_images/steadystate_detections.png" src="../_images/steadystate_detections.png" />
+</figure>
+<p>By focusing on an arbitrary region the operation of the prediction is revealed.
+While the frame rate is 30 frames per second, the main loop runs 60 frames
+per second.
+For every cycle where no image is taken, the prediction
+estimates the object’s position based on the dynamics model:</p>
+<figure class="align-default">
+<img alt="../_images/steadystate_detections_zoom.png" src="../_images/steadystate_detections_zoom.png" />
+</figure>
+<p>This is true also for the edges where the object is outside the frame and
+wherever the detection model fails to identify the object in the frame.
+In such cases, the Kalman filter provides
+an optimal estimation of the objects’ current state.</p>
+<p>By default, kalman’s <code class="xref py py-meth docutils literal notranslate"><span class="pre">store</span></code> stores also samples of the
+main diagonal of <cite>P</cite>, the covariance matrix. Each element
+is named <cite>Pii</cite>, where <cite>i</cite> is the index of the variable in
+the state. Here <cite>x</cite> is the first variable:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">kf</span><span class="p">)</span>
+<span class="go">[ x  y  w  h  vx  vy ]</span>
+</pre></div>
+</div>
+<p>Then extracting the standard deviations of <cite>x</cite> from the storage
+is possible by:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t_std</span><span class="p">,</span> <span class="n">x_std</span> <span class="o">=</span> <span class="n">kf</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="s1">&#39;P00&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">kf</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="s1">&#39;P00&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>As before, the first argument provides the
+time series for the samples of <cite>P00</cite>.
+In the second argument, we take
+square root of the values of <cite>P00</cite> to convert the variances to standard deviations.</p>
+<p>The standard deviations represent the estimation error.
+It is therefore convinent to plot them alongside the state variables:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_std</span><span class="p">,</span> <span class="n">kf</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x_std</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">linewidth</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;std&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_std</span><span class="p">,</span> <span class="n">kf</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">x_std</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">linewidth</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<figure class="align-default">
+<img alt="../_images/steadystate_std.png" src="../_images/steadystate_std.png" />
+</figure>
+<p>The nature of the steady-state mode is conveyed here
+by the constant variance, which represents the error in the variable</p>
+</section>
+<section id="discrete-system">
+<h2>4. Discrete system<a class="headerlink" href="#discrete-system" title="Link to this heading">#</a></h2>
+<p>In the previous example, we ran the filter in steady-state mode.
+That means that the estimation error (the state covariance matrix <cite>P</cite>)
+is calculated once and remains
+constant during the filter runtime.</p>
+<p>This mode is enabled when the covariance matrices
+that describe the process noise (<span class="math notranslate nohighlight">\(Q\)</span> or <span class="math notranslate nohighlight">\(Q_k\)</span>)
+and the measurement noise (<span class="math notranslate nohighlight">\(R\)</span> or <span class="math notranslate nohighlight">\(R_k\)</span>) are
+themselves constant.</p>
+<p>However, when the noise matrices are time-varying,
+steady-state mode is not feasible.</p>
+<p>The previous case may be improved by adjusting
+the process noise matrix <span class="math notranslate nohighlight">\(Q_k\)</span>.</p>
+<p>Let’s re-examine the plot of the x-coordinate over time:</p>
+<figure class="align-default">
+<img alt="../_images/steadystate_x.png" src="../_images/steadystate_x.png" />
+</figure>
+<p>The dynamics model assumes linear motion.
+However, the actual motion in the x-coordinate
+is approximately linear up to <cite>4s</cite>, but then
+changes direction, continues linearly until
+<cite>7s</cite>, and changes direction again until exit the frame.</p>
+<p>In fact, in the vicinity of <cite>t = 4s</cite>, there is a
+significant gap between the
+estimation (magenta) and the detection measures (cyan):</p>
+<figure class="align-default">
+<img alt="../_images/steadystate_std_zoom.png" src="../_images/steadystate_std_zoom.png" />
+</figure>
+<p>The reason is that the filter relies on the process model
+just as it trusts the measurements and therefore
+averages the predictons and the measurements.</p>
+<p>Recall that we used <span class="math notranslate nohighlight">\(Q, R\)</span> a diagonal matrices with
+a standard deviation of <cite>4</cite>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">process_std</span> <span class="o">=</span> <span class="n">measure_std</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="o">*</span> <span class="n">process_std</span><span class="o">**</span><span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">*</span> <span class="n">measure_std</span><span class="o">**</span><span class="mi">2</span>
+</pre></div>
+</div>
+<p>To address the gap between the estimation and the detections,
+let’s make the process noise <span class="math notranslate nohighlight">\(Q\)</span> less
+tight around <cite>t = 4s</cite>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}process std = \\begin{cases}
+              8 &amp; \\text{3.9 &lt; t &lt; 4.15} \\\\
+              4 &amp; \\text{otherwise}
+              \\end{cases}\end{split}\]</div>
+<p>Namely, at <cite>t = 4s</cite>, the process error is high, and the filter
+should place less weight on the process model.</p>
+<p>In fact, since the filter recalculates the covariance at each time step,
+it is better to reduce <span class="math notranslate nohighlight">\(R\)</span> and <span class="math notranslate nohighlight">\(Q\)</span> by a factor compared
+to the steady state mode values. Here, the factor is set to <cite>0.5</cite>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">noisefactor</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Q</span> <span class="o">*=</span> <span class="n">noisefactor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">R</span> <span class="o">*=</span> <span class="n">noisefactor</span>
+</pre></div>
+</div>
+<p>The filter initialization is similar to the previous case,
+with the steady-state flag omitted.</p>
+<p>Discrete system kalman initalization:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">kf</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">kalman</span><span class="p">({</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;vx&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;vy&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+<span class="go">                        , P0 = Q, F = F, H = H, Q = Q, R = R)</span>
+</pre></div>
+</div>
+<p>The main loop is only modified to include the change in <span class="math notranslate nohighlight">\(Q_k\)</span>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># main loop</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">while</span> <span class="n">video_cap</span><span class="o">.</span><span class="n">isOpened</span><span class="p">():</span>
+<span class="gp">... </span>  <span class="n">kf</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="n">t</span> <span class="o">+=</span> <span class="n">dt</span>
+<span class="gp">... </span>  <span class="k">if</span> <span class="n">t</span> <span class="o">&gt;</span> <span class="mf">3.9</span> <span class="ow">and</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="mf">4.15</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="o">*</span> <span class="mi">8</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">noisefactor</span>
+<span class="gp">... </span>  <span class="k">else</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="o">*</span> <span class="mi">4</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">noisefactor</span>
+<span class="gp">... </span>  <span class="n">kf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Q</span> <span class="o">=</span> <span class="n">Q</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="k">if</span> <span class="nb">round</span><span class="p">(</span><span class="n">t</span> <span class="o">/</span> <span class="n">dt_frame</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="mf">1e-10</span><span class="p">:</span> <span class="k">continue</span>
+<span class="gp">... </span>  <span class="c1"># camera cycle:</span>
+<span class="gp">... </span>  <span class="n">ret</span><span class="p">,</span> <span class="n">frame</span> <span class="o">=</span> <span class="n">video_cap</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="gp">... </span>  <span class="k">if</span> <span class="ow">not</span> <span class="n">ret</span><span class="p">:</span> <span class="k">break</span>
+<span class="gp">... </span>  <span class="n">d</span> <span class="o">=</span> <span class="n">yolo3</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="k">if</span> <span class="n">d</span> <span class="ow">and</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">class_id</span> <span class="o">==</span> <span class="s1">&#39;car&#39;</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">kf</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">X</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">kf</span><span class="o">.</span><span class="n">detect</span> <span class="o">=</span> <span class="n">d</span>
+<span class="gp">... </span>    <span class="n">kf</span><span class="o">.</span><span class="n">storeparams</span><span class="p">(</span><span class="s1">&#39;detect&#39;</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="n">cv2</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">box</span><span class="p">(</span><span class="n">kf</span><span class="o">.</span><span class="n">X</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">box</span><span class="p">(</span><span class="n">kf</span><span class="o">.</span><span class="n">X</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Now, the measures should respond stronger
+when the car changes direction at <span class="math notranslate nohighlight">\(t \\approx 4s\)</span>:</p>
+<figure class="align-default">
+<img alt="../_images/discrete_std_zoom.png" src="../_images/discrete_std_zoom.png" />
+</figure>
+</section>
+<section id="continuous-system">
+<h2>5. Continuous system<a class="headerlink" href="#continuous-system" title="Link to this heading">#</a></h2>
+<p>We can achieve the same result by running continuous system.</p>
+<p>The respective system</p>
+<p>Let:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">...</span>
+</pre></div>
+</div>
+<p>This however not suprising, as the class and its methods converts any input
+system to a discerte represnation according to the inverse of the equations above
+and run the filter.</p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">1. Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#steady-state-mode">2. Steady-state mode</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting">3. Plotting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discrete-system">4. Discrete system</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous-system">5. Continuous system</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By c4dynamics
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, c4dynamics.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on Mar 07, 2025.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
