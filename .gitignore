@@ -70,17 +70,17 @@ paper/~$dynamics - paper.docx
 # 
 # docs
 # ==== 
-docs/.buildinfo
-docs/objects.inv
+# docs/.buildinfo
+# docs/objects.inv
 docs/source/programs/car_detected.mp4
 docs/doctrees
-docs/_images
-docs/_modules
-docs/_sources
-docs/_sphinx_design_static
-docs/_static
-docs/api
-docs/programs 
+# docs/_images
+# docs/_modules
+# docs/_sources
+# docs/_sphinx_design_static
+# docs/_static
+# docs/api
+# docs/programs 
 docs/source/programs/ballistic_coefficient_drawing.docx
 docs/source/programs/~$llistic_coefficient_drawing.docx
 docs/source/programs/ballistic_coefficient_py.py
