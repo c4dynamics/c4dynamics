@@ -1,0 +1,1073 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>c4dynamics.datasets._manager &#8212; C4DYNAMICS v2.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/style.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../../_static/documentation_options.js?v=d94dc4f2"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/c4dynamics/datasets/_manager';</script>
+    <link rel="icon" href="../../../_static/c4dlogo.svg"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="Mar 07, 2025"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">C4DYNAMICS v2.0</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../../index.html">
+                    Home
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../gettingstarted.html">Getting Started</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../programs/index.html">User Guide</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../programs/dof6sim.html">6 Degrees Of Freedom Missile Guidance Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../programs/ballistic_coefficient.html">Ballistic Coefficient Estimation using Extended Kalman Filter</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../../../programs/car_tracker.html">Object Tracking with YOLOv3</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/index.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/States.html">State Objects</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/states.state.html">The state class</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.X.html">c4dynamics.states.state.state.X</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.X0.html">c4dynamics.states.state.state.X0</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.norm.html">c4dynamics.states.state.state.norm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.normalize.html">c4dynamics.states.state.state.normalize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.position.html">c4dynamics.states.state.state.position</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.velocity.html">c4dynamics.states.state.state.velocity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.addvars.html">c4dynamics.states.state.state.addvars</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.P.html">c4dynamics.states.state.state.P</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.V.html">c4dynamics.states.state.state.V</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.store.html">c4dynamics.states.state.state.store</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.storeparams.html">c4dynamics.states.state.state.storeparams</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.data.html">c4dynamics.states.state.state.data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.timestate.html">c4dynamics.states.state.state.timestate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.plot.html">c4dynamics.states.state.state.plot</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/states.lib.html">States library</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/states.lib.datapoint.html">Datapoint</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/states.lib.rigidbody.html">Rigidbody</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/states.lib.pixelpoint.html">Pixelpoint</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/Sensors.html">Sensors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/sensors.seeker.html">Seeker</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/seeker/c4dynamics.sensors.seeker.seeker.bias.html">c4dynamics.sensors.seeker.seeker.bias</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/seeker/c4dynamics.sensors.seeker.seeker.scale_factor.html">c4dynamics.sensors.seeker.seeker.scale_factor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/seeker/c4dynamics.sensors.seeker.seeker.measure.html">c4dynamics.sensors.seeker.seeker.measure</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/sensors.radar.html">Radar</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/radar/c4dynamics.sensors.radar.radar.bias.html">c4dynamics.sensors.radar.radar.bias</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/radar/c4dynamics.sensors.radar.radar.scale_factor.html">c4dynamics.sensors.radar.radar.scale_factor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/radar/c4dynamics.sensors.radar.radar.measure.html">c4dynamics.sensors.radar.radar.measure</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/Detectors.html">Detectors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/detectors.yolov3.html">YOLOv3</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/yolov3/c4dynamics.detectors.yolo3_opencv.yolov3.nms_th.html">c4dynamics.detectors.yolo3_opencv.yolov3.nms_th</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/yolov3/c4dynamics.detectors.yolo3_opencv.yolov3.confidence_th.html">c4dynamics.detectors.yolo3_opencv.yolov3.confidence_th</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/yolov3/c4dynamics.detectors.yolo3_opencv.yolov3.detect.html">c4dynamics.detectors.yolo3_opencv.yolov3.detect</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/Filters.html">Filters</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/filters.kalman.html">Kalman filter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/kalman/c4dynamics.filters.kalman.kalman.predict.html">c4dynamics.filters.kalman.kalman.predict</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/kalman/c4dynamics.filters.kalman.kalman.update.html">c4dynamics.filters.kalman.kalman.update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/kalman/c4dynamics.filters.kalman.kalman.store.html">c4dynamics.filters.kalman.kalman.store</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/filters.ekf.html">Extended Kalman filter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/ekf/c4dynamics.filters.ekf.ekf.predict.html">c4dynamics.filters.ekf.ekf.predict</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/ekf/c4dynamics.filters.ekf.ekf.update.html">c4dynamics.filters.ekf.ekf.update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/ekf/c4dynamics.filters.ekf.ekf.store.html">c4dynamics.filters.ekf.ekf.store</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/filters.lpf.html">Lowpass filter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/lpf/c4dynamics.filters.lowpass.lowpass.sample.html">c4dynamics.filters.lowpass.lowpass.sample</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/Routines.html">Routines</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/routines.eqm.html">Equations of motion solvers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/eqm/c4dynamics.eqm.derivs.eqm3.html">c4dynamics.eqm.derivs.eqm3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/eqm/c4dynamics.eqm.derivs.eqm6.html">c4dynamics.eqm.derivs.eqm6</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/eqm/c4dynamics.eqm.integrate.int3.html">c4dynamics.eqm.integrate.int3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/eqm/c4dynamics.eqm.integrate.int6.html">c4dynamics.eqm.integrate.int6</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/routines.rotmat.html">Rotation matrix operations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.rotx.html">c4dynamics.rotmat.rotmat.rotx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.roty.html">c4dynamics.rotmat.rotmat.roty</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.rotz.html">c4dynamics.rotmat.rotmat.rotz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.dcm321.html">c4dynamics.rotmat.rotmat.dcm321</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.dcm321euler.html">c4dynamics.rotmat.rotmat.dcm321euler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/rotmat/c4dynamics.rotmat.animate.animate.html">c4dynamics.rotmat.animate.animate</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/Utils.html">Utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/utils/c4dynamics.utils.tictoc.tic.html">c4dynamics.utils.tictoc.tic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/utils/c4dynamics.utils.tictoc.toc.html">c4dynamics.utils.tictoc.toc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/utils/c4dynamics.utils.cprint.cprint.html">c4dynamics.utils.cprint.cprint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/utils/c4dynamics.utils.gen_gif.gif.html">c4dynamics.utils.gen_gif.gif</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/utils/c4dynamics.utils.plottools.plotdefaults.html">c4dynamics.utils.plottools.plotdefaults</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.math.html">Math functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.const.html">Constants</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/Datasets.html">Datasets</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/datasets/c4dynamics.datasets.image.html">c4dynamics.datasets.image</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/datasets/c4dynamics.datasets.video.html">c4dynamics.datasets.video</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/datasets/c4dynamics.datasets.nn_model.html">c4dynamics.datasets.nn_model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/datasets/c4dynamics.datasets.d3_model.html">c4dynamics.datasets.d3_model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/datasets/c4dynamics.datasets.download_all.html">c4dynamics.datasets.download_all</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/datasets/c4dynamics.datasets.clear_cache.html">c4dynamics.datasets.clear_cache</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for c4dynamics.datasets._manager</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span><span class="o">,</span><span class="w"> </span><span class="nn">sys</span> 
+
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics.datasets._registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">CACHE_DIR</span><span class="p">,</span> <span class="n">image_register</span><span class="p">,</span> <span class="n">video_register</span><span class="p">,</span> <span class="n">nn_register</span><span class="p">,</span> <span class="n">d3_register</span><span class="p">,</span> <span class="n">d3_f16_register</span>
+
+
+<span class="n">imagesmap</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;planes&#39;</span><span class="p">:</span> <span class="s1">&#39;planes.png&#39;</span><span class="p">,</span> <span class="s1">&#39;planes.png&#39;</span><span class="p">:</span> <span class="s1">&#39;planes.png&#39;</span><span class="p">,</span> <span class="s1">&#39;triangle&#39;</span><span class="p">:</span> <span class="s1">&#39;triangle.png&#39;</span><span class="p">,</span> <span class="s1">&#39;triangle.png&#39;</span><span class="p">:</span> <span class="s1">&#39;triangle.png&#39;</span><span class="p">}</span>
+<span class="n">videosmap</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;aerobatics&#39;</span><span class="p">:</span> <span class="s1">&#39;aerobatics.mp4&#39;</span><span class="p">,</span> <span class="s1">&#39;aerobatics.mp4&#39;</span><span class="p">:</span> <span class="s1">&#39;aerobatics.mp4&#39;</span>
+                <span class="p">,</span> <span class="s1">&#39;drifting_car.mp4&#39;</span><span class="p">:</span> <span class="s1">&#39;drifting_car.mp4&#39;</span><span class="p">,</span> <span class="s1">&#39;driftingcar&#39;</span><span class="p">:</span> <span class="s1">&#39;drifting_car.mp4&#39;</span><span class="p">,</span> <span class="s1">&#39;drifting_car&#39;</span><span class="p">:</span> <span class="s1">&#39;drifting_car.mp4&#39;</span><span class="p">}</span>
+<span class="n">nnsmap</span>    <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;yolov3&#39;</span><span class="p">:</span> <span class="s1">&#39;yolov3.weights&#39;</span><span class="p">,</span> <span class="s1">&#39;yolo_v3&#39;</span><span class="p">:</span> <span class="s1">&#39;yolov3.weights&#39;</span><span class="p">,</span> <span class="s1">&#39;yolov3.weights&#39;</span><span class="p">:</span> <span class="s1">&#39;yolov3.weights&#39;</span><span class="p">}</span>
+<span class="n">d3smap</span>    <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;f16&#39;</span><span class="p">:</span> <span class="s1">&#39;f16&#39;</span><span class="p">,</span> <span class="s1">&#39;f_16&#39;</span><span class="p">:</span> <span class="s1">&#39;f16&#39;</span><span class="p">,</span> <span class="s1">&#39;bunny&#39;</span><span class="p">:</span> <span class="s1">&#39;bunny.pcd&#39;</span><span class="p">,</span> <span class="s1">&#39;bunnymesh&#39;</span><span class="p">:</span> <span class="s1">&#39;bunny_mesh.ply&#39;</span><span class="p">,</span> <span class="s1">&#39;bunny_mesh&#39;</span><span class="p">:</span> <span class="s1">&#39;bunny_mesh.ply&#39;</span>
+                <span class="p">,</span> <span class="s1">&#39;bunny.pcd&#39;</span><span class="p">:</span> <span class="s1">&#39;bunny.pcd&#39;</span><span class="p">,</span> <span class="s1">&#39;bunnymesh.ply&#39;</span><span class="p">:</span> <span class="s1">&#39;bunny_mesh.ply&#39;</span><span class="p">,</span> <span class="s1">&#39;bunny_mesh.ply&#39;</span><span class="p">:</span> <span class="s1">&#39;bunny_mesh.ply&#39;</span><span class="p">}</span>
+
+
+<div class="viewcode-block" id="image">
+<a class="viewcode-back" href="../../../api/generated/datasets/c4dynamics.datasets.image.html#c4dynamics.datasets.image">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">image</span><span class="p">(</span><span class="n">image_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">    Fetches the path of an image from the local cache.</span>
+<span class="sd">    </span>
+<span class="sd">    `image` downloads and manages image files from `c4dynamics` datasets.  </span>
+<span class="sd">        </span>
+
+<span class="sd">    .. list-table:: </span>
+<span class="sd">      :widths: 20 80</span>
+<span class="sd">      :header-rows: 1</span>
+
+<span class="sd">      * - Image Name</span>
+<span class="sd">        - Description</span>
+
+<span class="sd">      * - planes </span>
+<span class="sd">        - A 1280x720 snapshot of aerobatic airplanes (planes.png, 300KB)</span>
+
+<span class="sd">      * - triangle </span>
+<span class="sd">        - A 800x600 image of a triangle (triangle.png, 20KB) </span>
+<span class="sd">        </span>
+
+
+<span class="sd">    The images can be found at </span>
+<span class="sd">    https://github.com/C4dynamics/C4dynamics/blob/main/datasets/images/</span>
+
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image_name : str</span>
+<span class="sd">        The name of the image to download </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : str</span>
+<span class="sd">        A path to the image file in the local cache</span>
+
+<span class="sd">       </span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    Import required packages: </span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">      &gt;&gt;&gt; import c4dynamics as c4d</span>
+<span class="sd">      &gt;&gt;&gt; import matplotlib.image as mpimg</span>
+<span class="sd">      &gt;&gt;&gt; from matplotlib import pyplot as plt </span>
+
+<span class="sd">    **planes**</span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">      &gt;&gt;&gt; impath = c4d.datasets.image(&#39;planes&#39;)</span>
+<span class="sd">      Fetched successfully</span>
+<span class="sd">      &gt;&gt;&gt; img = mpimg.imread(impath) # read image </span>
+<span class="sd">      &gt;&gt;&gt; plt.imshow(img) # doctest: +IGNORE_OUTPUT </span>
+<span class="sd">      &gt;&gt;&gt; plt.axis(&#39;off&#39;) # doctest: +IGNORE_OUTPUT </span>
+
+<span class="sd">    .. figure:: /_examples/datasets/planes.png</span>
+
+<span class="sd">    </span>
+<span class="sd">    **triangle** </span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">      &gt;&gt;&gt; impath = c4d.datasets.image(&#39;triangle&#39;)</span>
+<span class="sd">      Fetched successfully</span>
+<span class="sd">      &gt;&gt;&gt; img = mpimg.imread(impath) # read image </span>
+<span class="sd">      &gt;&gt;&gt; plt.imshow(img)   # doctest: +IGNORE_OUTPUT</span>
+<span class="sd">      &gt;&gt;&gt; plt.axis(&#39;off&#39;)   # doctest: +IGNORE_OUTPUT</span>
+
+<span class="sd">    .. figure:: /_examples/datasets/triangle.png</span>
+<span class="sd">    </span>
+<span class="sd">  &#39;&#39;&#39;</span>
+
+  <span class="n">imagein</span> <span class="o">=</span> <span class="n">imagesmap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">image_name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="kc">None</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">imagein</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">image_name</span><span class="si">}</span><span class="s2">&#39; is not an image in c4dynamics datasets. Available images are: &#39;planes&#39;, &#39;triangle&#39;.&quot;</span><span class="p">)</span>
+
+  <span class="n">filename</span> <span class="o">=</span> <span class="n">image_register</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">imagein</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Fetched successfully&#39;</span><span class="p">)</span> 
+  <span class="k">return</span> <span class="n">filename</span> </div>
+
+
+
+<div class="viewcode-block" id="video">
+<a class="viewcode-back" href="../../../api/generated/datasets/c4dynamics.datasets.video.html#c4dynamics.datasets.video">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">video</span><span class="p">(</span><span class="n">video_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">    Fetches the path of a video from the local cache.</span>
+<span class="sd">    </span>
+<span class="sd">    `video` downloads and manages video files from `c4dynamics` datasets.  </span>
+<span class="sd">        </span>
+
+<span class="sd">    .. list-table:: </span>
+<span class="sd">      :widths: 20 80</span>
+<span class="sd">      :header-rows: 1</span>
+
+<span class="sd">      * - Video Name</span>
+<span class="sd">        - Description</span>
+
+<span class="sd">      * - planes </span>
+<span class="sd">        - 10 seconds video file of aerobatic airplanes (aerobatics.mp4, 7MB)</span>
+
+<span class="sd">      * - drifting_car </span>
+<span class="sd">        - 9 seconds video file of a drifting car\\* (drifting_car.mp4, 10MB)</span>
+<span class="sd">      </span>
+
+<span class="sd">    The videos can be found at </span>
+<span class="sd">    https://github.com/C4dynamics/C4dynamics/blob/main/datasets/videos/</span>
+
+<span class="sd">    \\* Used by kind permission of `Abed Ismail &lt;https://www.pexels.com/@abed-ismail&gt;`_</span>
+
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    video_name : str</span>
+<span class="sd">        The name of the video to download </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : str</span>
+<span class="sd">        A path to the video file in the local cache</span>
+
+<span class="sd">       </span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    Import required packages: </span>
+
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; import c4dynamics as c4d</span>
+<span class="sd">      &gt;&gt;&gt; import cv2 </span>
+
+<span class="sd">    </span>
+<span class="sd">    Fetch and run: </span>
+<span class="sd">      </span>
+<span class="sd">    .. code::</span>
+
+<span class="sd">      &gt;&gt;&gt; vidpath = c4d.datasets.video(&#39;aerobatics&#39;)</span>
+<span class="sd">      Fetched successfully</span>
+<span class="sd">      &gt;&gt;&gt; cap = cv2.VideoCapture(vidpath)</span>
+<span class="sd">      &gt;&gt;&gt; while cap.isOpened():</span>
+<span class="sd">      ...   ret, frame = cap.read() </span>
+<span class="sd">      ...   if not ret: break</span>
+<span class="sd">      ...   cv2.imshow(&#39;aerobatics&#39;, frame)  </span>
+<span class="sd">      ...   cv2.waitKey(33) # doctest: +IGNORE_OUTPUT </span>
+<span class="sd">      &gt;&gt;&gt; cap.release()</span>
+<span class="sd">      &gt;&gt;&gt; cv2.destroyAllWindows()</span>
+
+<span class="sd">    </span>
+<span class="sd">    .. figure:: /_examples/datasets/aerobatics.gif</span>
+
+
+<span class="sd">    </span>
+<span class="sd">  &#39;&#39;&#39;</span>
+
+  <span class="n">videoin</span> <span class="o">=</span> <span class="n">videosmap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">video_name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="kc">None</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">videoin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">video_name</span><span class="si">}</span><span class="s2">&#39; is not a video in c4dynamics datasets. An available video is: &#39;aerobatics&#39;.&quot;</span><span class="p">)</span>
+
+  <span class="n">filename</span> <span class="o">=</span> <span class="n">video_register</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">videoin</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Fetched successfully&#39;</span><span class="p">)</span> 
+  <span class="k">return</span> <span class="n">filename</span></div>
+
+
+
+<div class="viewcode-block" id="nn_model">
+<a class="viewcode-back" href="../../../api/generated/datasets/c4dynamics.datasets.nn_model.html#c4dynamics.datasets.nn_model">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">nn_model</span><span class="p">(</span><span class="n">nn_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">    Fetches the path of a neural network model from the local cache.</span>
+<span class="sd">        </span>
+<span class="sd">    `nn_model` downloads and manages neural network files from `c4dynamics` datasets.  </span>
+<span class="sd">        </span>
+
+<span class="sd">    .. list-table:: </span>
+<span class="sd">      :widths: 20 80</span>
+<span class="sd">      :header-rows: 1</span>
+
+<span class="sd">      * - NN Name</span>
+<span class="sd">        - Description</span>
+
+<span class="sd">      * - YOLOv3 </span>
+<span class="sd">        - Pre-trained weights file (237 MB)</span>
+<span class="sd">        </span>
+
+
+<span class="sd">    YOLOv3 weights file can be found at </span>
+<span class="sd">    https://pjreddie.com/media/files/yolov3.weights</span>
+
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    nn_name : str</span>
+<span class="sd">        The name of the neural network model to download </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : str</span>
+<span class="sd">        A path to the neural network in the local cache</span>
+
+<span class="sd">       </span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    Import required packages: </span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">      &gt;&gt;&gt; import c4dynamics as c4d</span>
+<span class="sd">      &gt;&gt;&gt; import cv2 </span>
+
+<span class="sd">      </span>
+<span class="sd">    Print first 5 layers of YOLOv3: </span>
+<span class="sd">      </span>
+<span class="sd">    .. code::</span>
+
+<span class="sd">      &gt;&gt;&gt; impath = c4d.datasets.nn_model(&#39;yolov3&#39;)</span>
+<span class="sd">      Fetched successfully</span>
+<span class="sd">      &gt;&gt;&gt; net = cv2.dnn.readNet(impath, &#39;c4dynamics/detectors/yolov3.cfg&#39;)</span>
+<span class="sd">      &gt;&gt;&gt; for i, layer in enumerate(net.getLayerNames()): </span>
+<span class="sd">      ...   print(f&quot;Layer {i}:\t{layer}&quot;)</span>
+<span class="sd">      ...   if i &gt; 4: break </span>
+<span class="sd">      Layer 0:  conv_0</span>
+<span class="sd">      Layer 1:  bn_0</span>
+<span class="sd">      Layer 2:  leaky_1</span>
+<span class="sd">      Layer 3:  conv_1</span>
+<span class="sd">      Layer 4:  bn_1</span>
+<span class="sd">      Layer 5:  leaky_2</span>
+
+<span class="sd">    </span>
+<span class="sd">  &#39;&#39;&#39;</span>
+
+  <span class="n">nnin</span> <span class="o">=</span> <span class="n">nnsmap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">nn_name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="kc">None</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">nnin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">nn_name</span><span class="si">}</span><span class="s2">&#39; is not a neural network model in c4dynamics datasets. An available model is: &#39;yolov3&#39;.&quot;</span><span class="p">)</span>
+
+  <span class="n">filename</span> <span class="o">=</span> <span class="n">nn_register</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">nnin</span><span class="p">)</span> 
+  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Fetched successfully&#39;</span><span class="p">)</span> 
+  <span class="k">return</span> <span class="n">filename</span></div>
+
+
+
+<div class="viewcode-block" id="d3_model">
+<a class="viewcode-back" href="../../../api/generated/datasets/c4dynamics.datasets.d3_model.html#c4dynamics.datasets.d3_model">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">d3_model</span><span class="p">(</span><span class="n">d3_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">    Fetches the path of a 3D model from the local cache.</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    `d3_model` downloads and manages 3D model files from `c4dynamics` datasets.  </span>
+<span class="sd">        </span>
+
+<span class="sd">    .. list-table:: </span>
+<span class="sd">      :widths: 20 80</span>
+<span class="sd">      :header-rows: 1</span>
+
+<span class="sd">      * - Model Name</span>
+<span class="sd">        - Description</span>
+
+<span class="sd">      * - bunny </span>
+<span class="sd">        - Point cloud file of Stanford bunny (bunny.pcd, 0.4MB)</span>
+<span class="sd">        </span>
+<span class="sd">      * - bunny_mesh </span>
+<span class="sd">        - Polygon file of Stanford bunny (bunny_mesh.ply, 3MB)</span>
+
+<span class="sd">      * - F16 </span>
+<span class="sd">        - A folder of 10 stl files, representing the jet parts as fuselage, ailerons, </span>
+<span class="sd">          cockpit, rudder and stabilators (10 files, total 3MB).  </span>
+<span class="sd">        </span>
+
+<span class="sd">    The models can be found at </span>
+<span class="sd">    https://github.com/C4dynamics/C4dynamics/blob/main/datasets/d3_models/</span>
+
+<span class="sd">    </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    d3_name : str</span>
+<span class="sd">        The name of the 3D model to download </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : str</span>
+<span class="sd">        A path to the model in the local cache. </span>
+<span class="sd">        For the `f16` model, the function returns a path </span>
+<span class="sd">        to the folder including 10 files.  </span>
+
+<span class="sd">       </span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    **Stanford bunny (point cloud)** </span>
+
+<span class="sd">    Import required packages: </span>
+<span class="sd">    </span>
+<span class="sd">    .. code::</span>
+
+<span class="sd">      &gt;&gt;&gt; import c4dynamics as c4d</span>
+<span class="sd">      &gt;&gt;&gt; import open3d as o3d </span>
+<span class="sd">      &gt;&gt;&gt; import os </span>
+<span class="sd">    </span>
+<span class="sd">      </span>
+<span class="sd">    .. code::</span>
+
+<span class="sd">      &gt;&gt;&gt; bunnypath = c4d.datasets.d3_model(&#39;bunny&#39;)</span>
+<span class="sd">      Fetched successfully</span>
+<span class="sd">      &gt;&gt;&gt; pcd = o3d.io.read_point_cloud(bunnypath)</span>
+<span class="sd">      &gt;&gt;&gt; print(pcd)</span>
+<span class="sd">      PointCloud with 35947 points.</span>
+<span class="sd">      &gt;&gt;&gt; o3d.visualization.draw_geometries([pcd])</span>
+
+<span class="sd">    .. figure:: /_examples/datasets/bunny.png</span>
+
+<span class="sd">    </span>
+<span class="sd">    **Stanford bunny (triangle mesh)** </span>
+<span class="sd">    </span>
+<span class="sd">    .. code::</span>
+
+<span class="sd">      &gt;&gt;&gt; mbunnypath = c4d.datasets.d3_model(&#39;bunny_mesh&#39;)</span>
+<span class="sd">      Fetched successfully</span>
+<span class="sd">      &gt;&gt;&gt; ply = o3d.io.read_triangle_mesh(mbunnypath)</span>
+<span class="sd">      &gt;&gt;&gt; ply.compute_vertex_normals() # doctest: +IGNORE_OUTPUT </span>
+<span class="sd">      &gt;&gt;&gt; print(ply)</span>
+<span class="sd">      TriangleMesh with 35947 points and 69451 triangles.</span>
+<span class="sd">      &gt;&gt;&gt; o3d.visualization.draw_geometries([ply])</span>
+
+<span class="sd">    .. figure:: /_examples/datasets/bunny_mesh.png</span>
+
+
+<span class="sd">    **F16 (10 stl files)** </span>
+<span class="sd">    </span>
+<span class="sd">    .. code::</span>
+
+<span class="sd">      &gt;&gt;&gt; f16path = c4d.datasets.d3_model(&#39;f16&#39;)</span>
+<span class="sd">      Fetched successfully</span>
+<span class="sd">      &gt;&gt;&gt; model = []</span>
+<span class="sd">      &gt;&gt;&gt; for f in sorted(os.listdir(f16path)):</span>
+<span class="sd">      ...   model.append(o3d.io.read_triangle_mesh(os.path.join(f16path, f)).compute_vertex_normals())</span>
+<span class="sd">      &gt;&gt;&gt; o3d.visualization.draw_geometries(model)</span>
+
+<span class="sd">      </span>
+<span class="sd">    .. figure:: /_examples/datasets/f16.png    </span>
+
+
+<span class="sd">  &#39;&#39;&#39;</span>
+
+  <span class="n">d3in</span> <span class="o">=</span> <span class="n">d3smap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">d3_name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="kc">None</span><span class="p">)</span> 
+
+  <span class="k">if</span> <span class="n">d3in</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> 
+    <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">d3_name</span><span class="si">}</span><span class="s2">&#39; is not a 3D model in c4dynamics datasets. Available models are: &#39;bunny&#39;, &#39;bunny_mesh&#39;, &#39;f16&#39;.&quot;</span><span class="p">)</span>
+
+
+  <span class="c1"># returns path </span>
+  <span class="k">if</span> <span class="n">d3in</span> <span class="o">==</span> <span class="s1">&#39;f16&#39;</span><span class="p">:</span> 
+    <span class="n">d3_f16_register</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;Aileron_A_F16.stl&#39;</span><span class="p">)</span>
+    <span class="n">d3_f16_register</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;Aileron_B_F16.stl&#39;</span><span class="p">)</span>
+    <span class="n">d3_f16_register</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;Body_F16.stl&#39;</span><span class="p">)</span> 
+    <span class="n">d3_f16_register</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;Cockpit_F16.stl&#39;</span><span class="p">)</span> 
+    <span class="n">d3_f16_register</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;LE_Slat_A_F16.stl&#39;</span><span class="p">)</span> 
+    <span class="n">d3_f16_register</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;LE_Slat_B_F16.stl&#39;</span><span class="p">)</span> 
+    <span class="n">d3_f16_register</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;Rudder_F16.stl&#39;</span><span class="p">)</span> 
+    <span class="n">d3_f16_register</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;Stabilator_A_F16.stl&#39;</span><span class="p">)</span> 
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">d3_f16_register</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;Stabilator_B_F16.stl&#39;</span><span class="p">))</span>
+    
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">d3_register</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">d3in</span><span class="p">)</span> 
+
+
+  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Fetched successfully&#39;</span><span class="p">)</span> 
+  <span class="k">return</span> <span class="n">filename</span></div>
+
+
+
+<div class="viewcode-block" id="download_all">
+<a class="viewcode-back" href="../../../api/generated/datasets/c4dynamics.datasets.download_all.html#c4dynamics.datasets.download_all">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">download_all</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Downloads all available datasets to the local cache.</span>
+
+<span class="sd">    The `download_all` function fetches all predefined datasets, </span>
+<span class="sd">    including images, videos, neural network models, and 3D models, </span>
+<span class="sd">    and stores them in the local cache. </span>
+<span class="sd">    </span>
+<span class="sd">    This function is a convenient way to ensure that all necessary data files are locally </span>
+<span class="sd">    available for use without having to download each individually.</span>
+
+<span class="sd">    The datasets include:</span>
+
+<span class="sd">    .. list-table::</span>
+<span class="sd">      :widths: 20 80</span>
+<span class="sd">      :header-rows: 1</span>
+
+<span class="sd">      * - Dataset Type</span>
+<span class="sd">        - Included Files</span>
+
+<span class="sd">      * - Images</span>
+<span class="sd">        - &#39;planes.png&#39;, &#39;triangle.png&#39;</span>
+<span class="sd">      </span>
+<span class="sd">      * - Videos</span>
+<span class="sd">        - &#39;aerobatics.mp4&#39;, &#39;drifting_car.mp4&#39;</span>
+<span class="sd">      </span>
+<span class="sd">      * - Neural Networks</span>
+<span class="sd">        - &#39;yolov3.weights&#39;</span>
+<span class="sd">      </span>
+<span class="sd">      * - 3D Models</span>
+<span class="sd">        - &#39;bunny.pcd&#39;, &#39;bunny_mesh.ply&#39;, &#39;f16&#39; (multiple STL files)</span>
+<span class="sd">    </span>
+<span class="sd">    This function ensures all resources are fetched into the cache directory, </span>
+<span class="sd">    making them accessible for further processing.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    **Download all datasets**</span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">      &gt;&gt;&gt; import c4dynamics as c4d</span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">      &gt;&gt;&gt; c4d.datasets.download_all()</span>
+<span class="sd">      Fetched successfully</span>
+<span class="sd">      Fetched successfully</span>
+<span class="sd">      Fetched successfully</span>
+<span class="sd">      Fetched successfully</span>
+<span class="sd">      Fetched successfully</span>
+<span class="sd">      Fetched successfully</span>
+<span class="sd">      Fetched successfully</span>
+
+<span class="sd">    After downloading, you can access each dataset using its </span>
+<span class="sd">    corresponding function, such as `image`, `video`, `nn_model`, or `d3_model`.</span>
+
+<span class="sd">  &#39;&#39;&#39;</span>
+  <span class="n">image</span><span class="p">(</span><span class="s1">&#39;planes&#39;</span><span class="p">)</span>
+  <span class="n">image</span><span class="p">(</span><span class="s1">&#39;triangle&#39;</span><span class="p">)</span>
+  <span class="n">video</span><span class="p">(</span><span class="s1">&#39;aerobatics&#39;</span><span class="p">)</span>
+  <span class="n">nn_model</span><span class="p">(</span><span class="s1">&#39;yolov3&#39;</span><span class="p">)</span>
+  <span class="n">d3_model</span><span class="p">(</span><span class="s1">&#39;bunny&#39;</span><span class="p">)</span>
+  <span class="n">d3_model</span><span class="p">(</span><span class="s1">&#39;bunny_mesh&#39;</span><span class="p">)</span>
+  <span class="n">d3_model</span><span class="p">(</span><span class="s1">&#39;f16&#39;</span><span class="p">)</span></div>
+
+
+
+
+<div class="viewcode-block" id="clear_cache">
+<a class="viewcode-back" href="../../../api/generated/datasets/c4dynamics.datasets.clear_cache.html#c4dynamics.datasets.clear_cache">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">clear_cache</span><span class="p">(</span><span class="n">dataset</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&#39;&#39;&#39;     </span>
+<span class="sd">    Deletes datasets from the local cache.  </span>
+
+<span class="sd">    If a dataset name is provided, the function deletes this alone.</span>
+<span class="sd">    Otherwise, clears all the cache. </span>
+<span class="sd">    </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dataset : str, optional</span>
+<span class="sd">        The name of the dataset to delete. </span>
+
+
+<span class="sd">        </span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; import c4dynamics as c4d </span>
+<span class="sd">      &gt;&gt;&gt; from matplotlib import pyplot as plt </span>
+<span class="sd">      &gt;&gt;&gt; import matplotlib.image as mpimg</span>
+<span class="sd">      &gt;&gt;&gt; import os </span>
+
+<span class="sd">    **Delete a dataset file** </span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">      &gt;&gt;&gt; # download and verify </span>
+<span class="sd">      &gt;&gt;&gt; impath = c4d.datasets.image(&#39;planes&#39;)</span>
+<span class="sd">      Fetched successfully</span>
+<span class="sd">      &gt;&gt;&gt; print(os.path.exists(impath))</span>
+<span class="sd">      True</span>
+<span class="sd">      &gt;&gt;&gt; # clear and verify </span>
+<span class="sd">      &gt;&gt;&gt; c4d.datasets.clear_cache(&#39;planes&#39;)</span>
+<span class="sd">      &gt;&gt;&gt; print(os.path.exists(impath))</span>
+<span class="sd">      False</span>
+
+<span class="sd">    **Clear all**</span>
+<span class="sd">    </span>
+<span class="sd">    .. code::</span>
+
+<span class="sd">      &gt;&gt;&gt; # download all </span>
+<span class="sd">      &gt;&gt;&gt; c4d.datasets.download_all()</span>
+<span class="sd">      Fetched successfully</span>
+<span class="sd">      Fetched successfully</span>
+<span class="sd">      Fetched successfully</span>
+<span class="sd">      Fetched successfully</span>
+<span class="sd">      Fetched successfully</span>
+<span class="sd">      Fetched successfully</span>
+<span class="sd">      Fetched successfully</span>
+<span class="sd">      &gt;&gt;&gt; # clear all and verify </span>
+<span class="sd">      &gt;&gt;&gt; c4d.datasets.clear_cache()</span>
+<span class="sd">      &gt;&gt;&gt; for root, dirs, files in os.walk(CACHE_DIR):</span>
+<span class="sd">      ...   for file in files:</span>
+<span class="sd">      ...     print(os.path.join(root, file))</span>
+<span class="sd">      ...   for dir in dirs:</span>
+<span class="sd">      ...     print(os.path.join(root, dir))</span>
+
+<span class="sd">  &#39;&#39;&#39;</span>
+  
+  <span class="k">if</span> <span class="n">dataset</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> 
+    <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">CACHE_DIR</span><span class="p">):</span>
+      <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">file</span><span class="p">))</span>
+      <span class="k">for</span> <span class="nb">dir</span> <span class="ow">in</span> <span class="n">dirs</span><span class="p">:</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="nb">dir</span><span class="p">))</span>
+    <span class="k">return</span>  
+  
+
+
+  <span class="n">allmaps</span> <span class="o">=</span> <span class="n">imagesmap</span> <span class="o">|</span> <span class="n">videosmap</span> <span class="o">|</span> <span class="n">nnsmap</span> <span class="o">|</span> <span class="n">d3smap</span> 
+  <span class="n">datain</span>  <span class="o">=</span> <span class="n">allmaps</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="kc">None</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">datain</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">dataset</span><span class="si">}</span><span class="s2">&#39; is not a dataset in c4dynamics.&quot;</span><span class="p">)</span>
+
+  <span class="n">datafile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">CACHE_DIR</span><span class="p">,</span> <span class="n">datain</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">datain</span> <span class="o">==</span> <span class="s1">&#39;f16&#39;</span><span class="p">:</span>
+    <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">datafile</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span> 
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">datafile</span><span class="p">):</span>
+      <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">datafile</span><span class="p">)</span></div>
+
+
+   
+
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">sha256</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">    Computes the SHA-256 hash of a file.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filename : str</span>
+<span class="sd">        Path to the file for which the hash needs to be computed.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        The SHA-256 hash of the file.</span>
+<span class="sd">        </span>
+<span class="sd">  &#39;&#39;&#39;</span>
+
+  <span class="c1"># filehash = pooch.file_hash(r&#39;C:\Users\odely\Downloads\yolov3 (1).weights&#39;)</span>
+
+  <span class="n">hash_sha256</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">()</span>
+  <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">byte_block</span> <span class="ow">in</span> <span class="nb">iter</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">4096</span><span class="p">),</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+      <span class="n">hash_sha256</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">byte_block</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">hash_sha256</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+  <span class="kn">import</span><span class="w"> </span><span class="nn">doctest</span><span class="o">,</span><span class="w"> </span><span class="nn">contextlib</span>
+  <span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="kn">import</span> <span class="n">IgnoreOutputChecker</span><span class="p">,</span> <span class="n">cprint</span>
+  
+  <span class="c1"># Register the custom OutputChecker</span>
+  <span class="n">doctest</span><span class="o">.</span><span class="n">OutputChecker</span> <span class="o">=</span> <span class="n">IgnoreOutputChecker</span>
+
+  <span class="n">tofile</span> <span class="o">=</span> <span class="kc">False</span> 
+  <span class="n">optionflags</span> <span class="o">=</span> <span class="n">doctest</span><span class="o">.</span><span class="n">FAIL_FAST</span>
+
+  <span class="k">if</span> <span class="n">tofile</span><span class="p">:</span> 
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;tests&#39;</span><span class="p">,</span> <span class="s1">&#39;_out&#39;</span><span class="p">,</span> <span class="s1">&#39;output.txt&#39;</span><span class="p">),</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+      <span class="k">with</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">redirect_stdout</span><span class="p">(</span><span class="n">f</span><span class="p">),</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">redirect_stderr</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">(</span><span class="n">optionflags</span> <span class="o">=</span> <span class="n">optionflags</span><span class="p">)</span> 
+  <span class="k">else</span><span class="p">:</span> 
+    <span class="n">result</span> <span class="o">=</span> <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">(</span><span class="n">optionflags</span> <span class="o">=</span> <span class="n">optionflags</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">failed</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">cprint</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;: all tests passed!&quot;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">failed</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By c4dynamics
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, c4dynamics.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on Mar 07, 2025.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
