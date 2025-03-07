@@ -33,6 +33,7 @@ c4dynamics.egg-info/
 dist/
 # source
 .venv (Ignored Item Conflict)/
+c4dynamics-2.0.3
 
 # files in the base 
 # =================
@@ -81,6 +82,5 @@ docs/source/_icon/icon.docx
 docs/source/programs/detections.pkl
 docs/.buildinfo
 docs/objects.inv
-docs/searchindex.js
-
+docs/source/programs/car_detected.mp4
 
