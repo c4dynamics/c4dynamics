@@ -54,14 +54,6 @@ programs/_out
 tests/_out  
 examples/temp 
 programs/temp 
-docs/doctrees
-docs/_images
-docs/_modules
-docs/_sources
-docs/_sphinx_design_static
-docs/_static
-docs/api
-docs/programs 
 
 # files in subfolders 
 # ===================
@@ -73,6 +65,22 @@ paper/c4dynamics - paper.docx
 paper/c4dynamics - paper.pdf 
 paper/paper_v0.md 
 paper/~$dynamics - paper.docx
+
+
+# 
+# docs
+# ==== 
+docs/.buildinfo
+docs/objects.inv
+docs/source/programs/car_detected.mp4
+docs/doctrees
+docs/_images
+docs/_modules
+docs/_sources
+docs/_sphinx_design_static
+docs/_static
+docs/api
+docs/programs 
 docs/source/programs/ballistic_coefficient_drawing.docx
 docs/source/programs/~$llistic_coefficient_drawing.docx
 docs/source/programs/ballistic_coefficient_py.py
@@ -80,7 +88,3 @@ docs/source/_icon/icon.docx
 docs/source/_icon/c4dlogotext.png
 docs/source/_icon/icon.docx
 docs/source/programs/detections.pkl
-docs/.buildinfo
-docs/objects.inv
-docs/source/programs/car_detected.mp4
-
