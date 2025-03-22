@@ -49,7 +49,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Mar 13, 2025"/>
+    <meta name="docbuild:last-update" content="Mar 22, 2025"/>
   </head>
   
   
@@ -164,7 +164,7 @@
         <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../gettingstarted.html">Getting Started</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../programs/index.html">User Guide</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../programs/index.html">Use Cases</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../programs/dof6sim.html">6 Degrees Of Freedom Missile Guidance Simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../programs/ballistic_coefficient.html">Ballistic Coefficient Estimation using Extended Kalman Filter</a></li>
 
@@ -455,7 +455,7 @@ document.write(`
 
 <div class="viewcode-block" id="toc">
 <a class="viewcode-back" href="../../../api/generated/utils/c4dynamics.utils.tictoc.toc.html#c4dynamics.utils.tictoc.toc">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">toc</span><span class="p">(</span><span class="n">show</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">toc</span><span class="p">(</span><span class="n">show</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">minutes</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 <span class="w">  </span><span class="sd">&#39;&#39;&#39;</span>
 
 <span class="sd">  Stops the stopwatch timer and reads the elapsed time.</span>
@@ -514,7 +514,11 @@ document.write(`
 
   <span class="k">global</span> <span class="n">_tic</span>
   <span class="n">dt</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">_tic</span>
-  <span class="k">if</span> <span class="n">show</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">dt</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+  <span class="n">units</span> <span class="o">=</span> <span class="s1">&#39;sec&#39;</span>
+  <span class="k">if</span> <span class="n">minutes</span><span class="p">:</span> 
+    <span class="n">dt</span> <span class="o">/=</span> <span class="mi">60</span>
+    <span class="n">units</span> <span class="o">=</span> <span class="s1">&#39;min&#39;</span>
+  <span class="k">if</span> <span class="n">show</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">dt</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}{</span><span class="n">units</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
   <span class="k">return</span> <span class="n">dt</span></div>
 
 
@@ -605,7 +609,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Mar 13, 2025.
+  Last updated on Mar 22, 2025.
   <br/>
 </p>
   </div>
