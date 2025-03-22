@@ -168,7 +168,7 @@ The documentation is organized as follows:
 
 - **Getting Started**: An overview of the core concepts and features of c4dynamics, with beginner-friendly examples to help you get started quickly.
 
-- **User Guide**: Real-world use cases showcasing how c4dynamics can be applied in fields such as robotics, aerospace, and computer vision.
+- **Use Cases**: Real-world use cases showcasing how c4dynamics can be applied in fields such as robotics, aerospace, and computer vision.
 
 - **API Reference**: Comprehensive documentation for technical users, covering all the classes, functions, and modules available in c4dynamics.
 
@@ -179,6 +179,6 @@ The documentation is organized as follows:
 
   Installation <installation>
   Getting Started <gettingstarted>
-  User Guide <programs/index>
+  Use Cases <programs/index>
   API Reference <api/index> 
 

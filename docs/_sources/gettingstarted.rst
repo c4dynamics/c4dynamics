@@ -27,10 +27,9 @@ Getting Started
    .. figure:: /_architecture/workflow.drawio.high.png 
 
 
-5. **User Guide** 
+5. **Use Cases** 
 
-   Refer to the user guide to explore 
-   specific use cases and examples.
+   Explore specific use cases and examples.
 
 
 6. **API Reference**

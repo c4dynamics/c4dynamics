@@ -49,7 +49,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Mar 13, 2025"/>
+    <meta name="docbuild:last-update" content="Mar 22, 2025"/>
   </head>
   
   
@@ -164,7 +164,7 @@
         <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../gettingstarted.html">Getting Started</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../programs/index.html">User Guide</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../programs/index.html">Use Cases</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../programs/dof6sim.html">6 Degrees Of Freedom Missile Guidance Simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../programs/ballistic_coefficient.html">Ballistic Coefficient Estimation using Extended Kalman Filter</a></li>
 
@@ -486,11 +486,14 @@ document.write(`
           <span class="p">(</span><span class="s1">&#39;Mu&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u039C</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Nu&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u039D</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Xi&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u039E</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Omicron&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u039F</span><span class="s1">&#39;</span><span class="p">),</span>
             <span class="p">(</span><span class="s1">&#39;Pi&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03A0</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Rho&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03A1</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Sigma&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03A3</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Tau&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03A4</span><span class="s1">&#39;</span><span class="p">),</span>
               <span class="p">(</span><span class="s1">&#39;Upsilon&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03A5</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Phi&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03A6</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Chi&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03A7</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Psi&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03A8</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Omega&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03A9</span><span class="s1">&#39;</span><span class="p">))</span>
-    <span class="c1"># </span>
-  <span class="n">_reserved_keys</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;X0&#39;</span><span class="p">,</span> <span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="s1">&#39;V&#39;</span><span class="p">)</span>
+    <span class="c1">#</span>
 
+  <span class="c1"># TODO: to allow position and velocity as variable names, change the properties to Position, Velocity</span>
+  <span class="n">_reserved_keys</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;X0&#39;</span><span class="p">,</span> <span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="s1">&#39;V&#39;</span><span class="p">,</span> <span class="s1">&#39;position&#39;</span><span class="p">,</span> <span class="s1">&#39;velocity&#39;</span><span class="p">,</span> <span class="s1">&#39;norm&#39;</span><span class="p">,</span> <span class="s1">&#39;normalize&#39;</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="s1">&#39;_data&#39;</span><span class="p">,</span> <span class="s1">&#39;_prmdata&#39;</span><span class="p">,</span> <span class="s1">&#39;_didx&#39;</span><span class="p">)</span>
 
-  <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>    
+  <span class="n">_dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span>
+
+  <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="c1"># TODO enable providing type for the setter.X output.      </span>
 
     <span class="c1"># the problem with this is it cannot be used with seeker and other c4d objects</span>
@@ -541,6 +544,7 @@ document.write(`
     <span class="c1"># but then i need to iterate all the examples and remove the print from state presentations </span>
     <span class="n">param_names</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_prmdata</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
+    <span class="c1"># FIXME Parameters is wrong. because currently parameters are determined only by those which stored at least once with the storeparams method. </span>
     <span class="k">return</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&lt;state object&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
             <span class="sa">f</span><span class="s2">&quot;State Variables: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
             <span class="sa">f</span><span class="s2">&quot;Initial Conditions (X0): </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">X0</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -553,6 +557,42 @@ document.write(`
   <span class="c1">#   else:</span>
   <span class="c1">#     super().__setattr__(param, value)</span>
 
+  <span class="nd">@property</span> 
+  <span class="k">def</span><span class="w"> </span><span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Gets and sets the data type of the state variables. </span>
+
+<span class="sd">    The data type is used to determine the type of the state variables. </span>
+<span class="sd">    The default data type is :code:`np.float64`. </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dtype : numpy.dtype </span>
+<span class="sd">        Data type to set the state variables. </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : numpy.dtype </span>
+<span class="sd">        Data type of the state variables. </span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. code:: </span>
+
+<span class="sd">      &gt;&gt;&gt; s = c4d.state(x = 1, y = 0)</span>
+<span class="sd">      &gt;&gt;&gt; s.dtype</span>
+<span class="sd">      dtype(&#39;float64&#39;)</span>
+<span class="sd">      &gt;&gt;&gt; s.dtype = np.float32</span>
+<span class="sd">      &gt;&gt;&gt; s.dtype</span>
+<span class="sd">      dtype(&#39;float32&#39;)</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span>
+
+  <span class="nd">@dtype</span><span class="o">.</span><span class="n">setter</span>
+  <span class="k">def</span><span class="w"> </span><span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dtype</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span> <span class="o">=</span> <span class="n">dtype</span>
 
 
   <span class="c1">#</span>
@@ -630,7 +670,7 @@ document.write(`
     <span class="c1">#  con: much easier </span>
     <span class="c1">#</span>
     <span class="c1"># return np.array(xout).flatten().astype(np.float64) </span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xout</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span> 
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xout</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span><span class="p">)</span> 
 
   <span class="nd">@X</span><span class="o">.</span><span class="n">setter</span>
   <span class="k">def</span><span class="w"> </span><span class="nf">X</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Xin</span><span class="p">):</span>
@@ -1946,7 +1986,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Mar 13, 2025.
+  Last updated on Mar 22, 2025.
   <br/>
 </p>
   </div>
