@@ -1,5 +1,5 @@
-User Guide
-==========
+Use Cases
+=========
 
 
 .. toctree::
