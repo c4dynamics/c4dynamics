@@ -28,7 +28,17 @@ Tsipor (bird) Dynamics (c4dynamics) is the open-source framework of algorithms d
 [Documentation](https://c4dynamics.github.io/C4dynamics/)
 
 
-## Motivation
+## Why c4dynamics?
+
+✅ State objects for easy modeling
+
+✅ Built-in functions for Kalman filters
+
+✅ Optimization for Monte Carlo simulations
+
+✅ Seamless integration with OpenCV & Open3D 
+
+
 
 **c4dynamics** is designed to 
 simplify the development of algorithms for dynamic systems, 

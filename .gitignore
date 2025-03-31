@@ -54,6 +54,8 @@ programs/_out
 tests/_out  
 examples/temp 
 programs/temp 
+programs/zarchan_guidance
+
 
 # files in subfolders 
 # ===================
