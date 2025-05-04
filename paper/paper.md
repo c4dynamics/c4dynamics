@@ -14,7 +14,7 @@ authors:
 affiliations:
   - name: C4DYNAMICS, Haifa, Israel
     index: 1
-date: 2024-12-17
+date: "2024-12-17"
 ---
 
 # Summary
