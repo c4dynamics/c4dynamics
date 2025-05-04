@@ -10,8 +10,11 @@ tags:
 authors:
   - name: Ziv Meri
     orcid: 0000-0002-7932-0562
-    affiliation: C4DYNAMICS
-date: December 17 2024
+    affiliation: 1
+affiliations:
+  - name: C4DYNAMICS, Haifa, Israel
+    index: 1
+date: 2024-12-17
 ---
 
 # Summary
