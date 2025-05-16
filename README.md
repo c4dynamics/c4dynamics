@@ -114,7 +114,9 @@ Print the state variables, the state vector, and the stored data:
 ```
 
 
-## Block 2
+## New in Block 2
+
+Enhancements and modules in latest release:
 
 - Complete state space objects mechanism
 - Seeker and radar measurements
