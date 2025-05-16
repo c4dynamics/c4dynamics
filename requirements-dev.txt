@@ -1,0 +1,13 @@
+# notice also that pandoc should be included in windows path. currently running from \\zivmeri-pc\D\pc\pandoc-3.5
+scipy
+numpy
+matplotlib
+opencv-python
+imageio
+natsort
+pooch 
+sphinx
+sphinx_design
+nbsphinx
+sphinx_book_theme
+
