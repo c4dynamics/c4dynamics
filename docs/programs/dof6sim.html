@@ -28,7 +28,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
@@ -55,7 +55,7 @@
     <link rel="prev" title="Use Cases" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="May 16, 2025"/>
+    <meta name="docbuild:last-update" content="May 20, 2025"/>
   </head>
   
   
@@ -461,7 +461,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Line-of-sight-rates">Line-of-sight rates</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#7.-Summary">7. Summary</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#7.-Provision-for-Monte-Carlo-Simulation">7. Provision for Monte Carlo Simulation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#8.-Summary">8. Summary</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#References">References</a></li>
 </ul>
 </li>
@@ -506,7 +507,10 @@ document.write(`
 <section id="2.-Simulation-Overview">
 <h2>2. Simulation Overview<a class="headerlink" href="#2.-Simulation-Overview" title="Link to this heading">#</a></h2>
 <div style="text-align: center;"><p><img alt="alt text" src="../_images/dof6sim.drawio.png" /></p>
-</div><p>The process begins with initial conditions, where the missile, target, and seeker (a line-of-sight sensor) are defined. Key parameters are set to establish the starting state.</p>
+</div><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Figure</span> <span class="pre">1:</span> <span class="pre">Simulation</span> <span class="pre">Overview</span></code></div>
+<div class="line">The process begins with initial conditions, where the missile, target, and seeker (a line-of-sight sensor) are defined. Key parameters are set to establish the starting state.</div>
+</div>
 <p>The simulation then enters a main loop, which iterates at a time step of 5 milliseconds until termination conditions are met. Each iteration involves the following steps:</p>
 <ol class="arabic simple">
 <li><p>Update Atmospheric Properties: Atmospheric conditions, including pressure, density, and speed of sound, are calculated based on the missile’s current altitude using an atmospheric model. These properties determine aerodynamic forces and the Mach number, influencing the missile’s behavior.</p></li>
@@ -568,8 +572,8 @@ document.write(`
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">c4d</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">c4dynamics</span> <span class="k">as</span> <span class="nn">c4d</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </pre></div>
 </div>
 </div>
@@ -582,7 +586,7 @@ document.write(`
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dof6_modules</span><span class="w"> </span><span class="kn">import</span> <span class="n">control_system</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">aerodynamics</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dof6_modules</span> <span class="kn">import</span> <span class="n">control_system</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">aerodynamics</span>
 </pre></div>
 </div>
 </div>
@@ -1025,6 +1029,15 @@ miss: 0.00339, flight time: 7.8
 </pre></div></div>
 </div>
 <p><img alt="alt text" src="../_images/missdistance.png" /></p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Figure</span> <span class="pre">2:</span> <span class="pre">Miss-distance</span></code></div>
+<div class="line">Miss-distance vector diagram (taken from [1]). The descriptions in the handbook for the symbols in the illustration are:</div>
+</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(𝑀_𝑑\)</span>: miss distance vector at time of closet approach directed from missile to target</p></li>
+<li><p><span class="math notranslate nohighlight">\(𝑅\)</span>: range vector</p></li>
+<li><p><span class="math notranslate nohighlight">\(𝑢_{𝑉_{𝑇/𝑀}}\)</span>: unit vector in direction of relative velocity vector <span class="math notranslate nohighlight">\(𝑉_{𝑇/𝑀}\)</span></p></li>
+</ul>
 </section>
 <section id="6.-Results">
 <h2>6. Results<a class="headerlink" href="#6.-Results" title="Link to this heading">#</a></h2>
@@ -1034,7 +1047,7 @@ miss: 0.00339, flight time: 7.8
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;dark_background&#39;</span><span class="p">)</span>
 
 <span class="n">fcsize</span> <span class="o">=</span> <span class="mi">4</span>
@@ -1078,8 +1091,12 @@ miss: 0.00339, flight time: 7.8
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/programs_dof6sim_43_0.png" src="../_images/programs_dof6sim_43_0.png" />
+<img alt="../_images/programs_dof6sim_44_0.png" src="../_images/programs_dof6sim_44_0.png" />
 </div>
+</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Figure</span> <span class="pre">3:</span> <span class="pre">Trajectories</span></code></div>
+<div class="line">The trajectory is shown from both a top view and a side view. The top view illustrates the missile’s crossrange motion relative to the target, while the side view displays the altitude change over the downrange distance. These plots visually confirm that the missile successfully intercepts the target with minimal miss distance, as the paths converge closely at the point of closest approach.</div>
 </div>
 </section>
 <section id="Euler-angles">
@@ -1103,8 +1120,12 @@ miss: 0.00339, flight time: 7.8
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/programs_dof6sim_45_0.png" src="../_images/programs_dof6sim_45_0.png" />
+<img alt="../_images/programs_dof6sim_47_0.png" src="../_images/programs_dof6sim_47_0.png" />
 </div>
+</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Figure</span> <span class="pre">4:</span> <span class="pre">Euler</span> <span class="pre">Angles</span></code></div>
+<div class="line">This plot shows the evolution of the missile’s orientation angles — roll (<span class="math notranslate nohighlight">\(\varphi\)</span>), pitch (<span class="math notranslate nohighlight">\(\theta\)</span>), yaw (<span class="math notranslate nohighlight">\(\psi\)</span>) — throughout the flight. The variations in these angles reflect the missile’s rotational dynamics as it maneuvers to a collistion path with the target.</div>
 </div>
 </section>
 <section id="Line-of-sight-rates">
@@ -1128,13 +1149,24 @@ miss: 0.00339, flight time: 7.8
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/programs_dof6sim_47_0.png" src="../_images/programs_dof6sim_47_0.png" />
+<img alt="../_images/programs_dof6sim_50_0.png" src="../_images/programs_dof6sim_50_0.png" />
 </div>
+</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">Figure</span> <span class="pre">5:</span> <span class="pre">Line-Of-Sight</span> <span class="pre">Rates</span></code></div>
+<div class="line">The line-of-sight (LOS) angular rates in pitch and yaw, denoted as <span class="math notranslate nohighlight">\(\omega_{pitch}\)</span> and <span class="math notranslate nohighlight">\(\omega_{yaw}\)</span>, are shown as measured by the seeker. These rates are critical inputs to the proportional navigation guidance law. The decreasing trend in both angular rates toward zero suggests that the guidance system is effectively driving the LOS rotation to zero — indicating a successful intercept trajectory.</div>
 </div>
 </section>
 </section>
-<section id="7.-Summary">
-<h2>7. Summary<a class="headerlink" href="#7.-Summary" title="Link to this heading">#</a></h2>
+<section id="7.-Provision-for-Monte-Carlo-Simulation">
+<h2>7. Provision for Monte Carlo Simulation<a class="headerlink" href="#7.-Provision-for-Monte-Carlo-Simulation" title="Link to this heading">#</a></h2>
+<p>While this simulation demonstrates the development and testing of a guidance system, future work can explore the system’s sensitivity to internal modeling errors.</p>
+<p>In this implementation, the main loop was executed using a fixed sample of the seeker’s random variables, the time constants (<span class="math notranslate nohighlight">\(\tau_1\)</span>, <span class="math notranslate nohighlight">\(\tau_2\)</span>), which influence the accuracy of the LOS rate measurements.</p>
+<p>A Monte Carlo simulation can be conducted to evaluate how variability in these time constants affects system performance.</p>
+<p>By introducing random variations within reasonable bounds for <span class="math notranslate nohighlight">\(\tau_1\)</span> and <span class="math notranslate nohighlight">\(\tau_2\)</span>, one can assess the robustness of the guidance algorithm and its tolerance to modeling inaccuracies and hardware imperfections.</p>
+</section>
+<section id="8.-Summary">
+<h2>8. Summary<a class="headerlink" href="#8.-Summary" title="Link to this heading">#</a></h2>
 <p>This 6DOF missile guidance simulation models the flight dynamics of a missile pursuing a non-maneuvering target, achieving a precise miss distance through the proportional navigation guidance algorithms. The simulation integrates translational and rotational equations of motion, accounts for aerodynamic forces, propulsion, and gravity, and employs a line-of-sight seeker to generate control commands.</p>
 <p>Trajectory plots and Euler angle visualizations reveal the missile’s dynamic behavior, offering insights into guidance system performance.</p>
 <p>Future enhancements could incorporate maneuvering targets or environmental effects to broaden the simulation’s applicability.</p>
@@ -1217,7 +1249,8 @@ miss: 0.00339, flight time: 7.8
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Line-of-sight-rates">Line-of-sight rates</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#7.-Summary">7. Summary</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#7.-Provision-for-Monte-Carlo-Simulation">7. Provision for Monte Carlo Simulation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#8.-Summary">8. Summary</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#References">References</a></li>
 </ul>
 </li>
@@ -1254,7 +1287,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 16, 2025.
+  Last updated on May 20, 2025.
   <br/>
 </p>
   </div>
