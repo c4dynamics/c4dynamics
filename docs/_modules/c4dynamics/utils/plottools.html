@@ -27,7 +27,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../../_static/style.css" />
@@ -49,7 +49,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="May 16, 2025"/>
+    <meta name="docbuild:last-update" content="May 20, 2025"/>
   </head>
   
   
@@ -385,14 +385,14 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for c4dynamics.utils.plottools</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span> 
-<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span> 
-<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.ticker</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScalarFormatter</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span> 
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span> 
+<span class="kn">from</span> <span class="nn">matplotlib.ticker</span> <span class="kn">import</span> <span class="n">ScalarFormatter</span>
+<span class="kn">import</span> <span class="nn">sys</span> 
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_figdef</span><span class="p">():</span>
+<span class="k">def</span> <span class="nf">_figdef</span><span class="p">():</span>
     <span class="n">factorsize</span> <span class="o">=</span> <span class="mi">4</span>
     <span class="n">aspectratio</span> <span class="o">=</span> <span class="mi">1080</span> <span class="o">/</span> <span class="mi">1920</span> 
     <span class="k">return</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dpi</span> <span class="o">=</span> <span class="mi">200</span>
@@ -401,13 +401,13 @@ document.write(`
                                             <span class="p">,</span> <span class="s1">&#39;top&#39;</span><span class="p">:</span> <span class="mf">.9</span><span class="p">,</span> <span class="s1">&#39;bottom&#39;</span><span class="p">:</span> <span class="mf">.2</span><span class="p">})</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_legdef</span><span class="p">():</span> 
+<span class="k">def</span> <span class="nf">_legdef</span><span class="p">():</span> 
     <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;fontsize&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;facecolor&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
 
 
 <div class="viewcode-block" id="plotdefaults">
 <a class="viewcode-back" href="../../../api/generated/utils/c4dynamics.utils.plottools.plotdefaults.html#c4dynamics.utils.plottools.plotdefaults">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">plotdefaults</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">xlabel</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">ylabel</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">ilines</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">plotdefaults</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">xlabel</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">ylabel</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">ilines</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 
 <span class="sd">    Setting default properties on a matplotlib axis.</span>
@@ -505,8 +505,8 @@ document.write(`
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
 
-  <span class="kn">import</span><span class="w"> </span><span class="nn">doctest</span><span class="o">,</span><span class="w"> </span><span class="nn">contextlib</span><span class="o">,</span><span class="w"> </span><span class="nn">os</span>
-  <span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="kn">import</span> <span class="n">IgnoreOutputChecker</span><span class="p">,</span> <span class="n">cprint</span>
+  <span class="kn">import</span> <span class="nn">doctest</span><span class="o">,</span> <span class="nn">contextlib</span><span class="o">,</span> <span class="nn">os</span>
+  <span class="kn">from</span> <span class="nn">c4dynamics</span> <span class="kn">import</span> <span class="n">IgnoreOutputChecker</span><span class="p">,</span> <span class="n">cprint</span>
   
   <span class="c1"># Register the custom OutputChecker</span>
   <span class="n">doctest</span><span class="o">.</span><span class="n">OutputChecker</span> <span class="o">=</span> <span class="n">IgnoreOutputChecker</span>
@@ -575,7 +575,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 16, 2025.
+  Last updated on May 20, 2025.
   <br/>
 </p>
   </div>

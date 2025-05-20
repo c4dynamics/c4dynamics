@@ -28,7 +28,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/style.css" />
@@ -52,7 +52,7 @@
     <link rel="search" title="Search" href="../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="May 16, 2025"/>
+    <meta name="docbuild:last-update" content="May 20, 2025"/>
   </head>
   
   
@@ -487,7 +487,7 @@ YOLOv3 is incorporated in the c4dynamics’ class
 <p>The method <a class="reference internal" href="../api/generated/yolov3/c4dynamics.detectors.yolo3_opencv.yolov3.detect.html#c4dynamics.detectors.yolo3_opencv.yolov3.detect" title="c4dynamics.detectors.yolo3_opencv.yolov3.detect"><code class="xref py py-meth docutils literal notranslate"><span class="pre">yolov3.detect</span></code></a>
 returns a <a class="reference internal" href="../api/states.lib.pixelpoint.html#c4dynamics.states.lib.pixelpoint.pixelpoint" title="c4dynamics.states.lib.pixelpoint.pixelpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">pixelpoint</span></code></a> instance
 for each detected object:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="kn">import</span> <span class="n">pixelpoint</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">c4dynamics</span> <span class="kn">import</span> <span class="n">pixelpoint</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">pixelpoint</span><span class="p">())</span>
 <span class="go">[ x  y  w  h ]</span>
 </pre></div>
@@ -508,11 +508,11 @@ relation between the measurements and the state:</p>
 let’s examine the rank of the observability matrix.</p>
 <p>First, import the required packages for the code
 in this snippet and the ones that follow:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">c4d</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">expm</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">cv2</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">c4dynamics</span> <span class="k">as</span> <span class="nn">c4d</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="kn">import</span> <span class="n">expm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">cv2</span>
 </pre></div>
 </div>
 <p>Let’s define the system matrices:</p>
@@ -534,7 +534,7 @@ in this snippet and the ones that follow:</p>
 </div>
 <p>In each estimation, the <cite>box</cite> function converts the state coordinates to rectangle
 corners to draw a bounding box:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">box</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">box</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
 <span class="gp">... </span>  <span class="c1"># top left</span>
 <span class="gp">... </span>  <span class="n">xtl</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
 <span class="gp">... </span>  <span class="n">ytl</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
@@ -890,7 +890,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 16, 2025.
+  Last updated on May 20, 2025.
   <br/>
 </p>
   </div>
