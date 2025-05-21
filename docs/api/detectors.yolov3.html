@@ -28,7 +28,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/style.css" />
@@ -52,7 +52,7 @@
     <link rel="prev" title="Detectors" href="Detectors.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="May 20, 2025"/>
+    <meta name="docbuild:last-update" content="May 21, 2025"/>
   </head>
   
   
@@ -166,7 +166,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Getting Started</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../programs/index.html">Use Cases</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../programs/dof6sim.html">6 Degrees Of Freedom - Missile Guidance Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../programs/dof6sim.html">6 Degrees Of Freedom - Guided Flight Simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../programs/ballistic_coefficient.html">Ballistic Coefficient Estimation using Extended Kalman Filter</a></li>
 
 
@@ -511,7 +511,7 @@ own weights file using the parameter <cite>weights_path</cite>.</p>
 <p><strong>Construction</strong></p>
 <p>A YOLOv3 detector instance is created by making a direct call
 to the <cite>yolov3</cite> constructor:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">c4dynamics.detectors</span> <span class="kn">import</span> <span class="n">yolov3</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics.detectors</span><span class="w"> </span><span class="kn">import</span> <span class="n">yolov3</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">yolo3</span> <span class="o">=</span> <span class="n">yolov3</span><span class="p">()</span>
 <span class="go">Fetched successfully</span>
 </pre></div>
@@ -523,9 +523,9 @@ runs the <cite>detect()</cite> method on an image containing four airplanes.
 The example uses the <cite>datasets</cite> module from <cite>c4dynamics</cite> to fetch an image.
 For further details, see <a class="reference internal" href="Datasets.html#module-c4dynamics.datasets" title="c4dynamics.datasets"><code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.datasets</span></code></a>.</p>
 <p>Import required packages:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">cv2</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">c4dynamics</span> <span class="k">as</span> <span class="nn">c4d</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">cv2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">c4d</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 </pre></div>
 </div>
 <p>Load YOLOv3 detector:</p>
@@ -548,7 +548,7 @@ For further details, see <a class="reference internal" href="Datasets.html#modul
 instances for each object detected in the frame.
 Let’s use the properties and methods of the <cite>pixelpoint</cite> class to
 view the attributes of the detected objects:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">ptup</span><span class="p">(</span><span class="n">n</span><span class="p">):</span> <span class="k">return</span> <span class="s1">&#39;(&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;, &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">ptup</span><span class="p">(</span><span class="n">n</span><span class="p">):</span> <span class="k">return</span> <span class="s1">&#39;(&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;, &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{:^10}</span><span class="s1"> | </span><span class="si">{:^10}</span><span class="s1"> | </span><span class="si">{:^16}</span><span class="s1"> | </span><span class="si">{:^16}</span><span class="s1"> | </span><span class="si">{:^10}</span><span class="s1"> | </span><span class="si">{:^14}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;center x&#39;</span><span class="p">,</span> <span class="s1">&#39;center y&#39;</span><span class="p">,</span> <span class="s1">&#39;box top-left&#39;</span><span class="p">,</span> <span class="s1">&#39;box bottom-right&#39;</span><span class="p">,</span> <span class="s1">&#39;class&#39;</span><span class="p">,</span> <span class="s1">&#39;frame size&#39;</span><span class="p">))</span> 
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pts</span><span class="p">:</span>
 <span class="gp">... </span>  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{:^10d}</span><span class="s1"> | </span><span class="si">{:^10d}</span><span class="s1"> | </span><span class="si">{:^16}</span><span class="s1"> | </span><span class="si">{:^16}</span><span class="s1"> | </span><span class="si">{:^10}</span><span class="s1"> | </span><span class="si">{:^14}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">ptup</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">box</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">ptup</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">box</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">p</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">ptup</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">fsize</span><span class="p">)))</span>     
@@ -674,7 +674,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 20, 2025.
+  Last updated on May 21, 2025.
   <br/>
 </p>
   </div>
