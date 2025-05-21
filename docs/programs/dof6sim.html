@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>6 Degrees Of Freedom - Missile Guidance Simulation &#8212; C4DYNAMICS v2.0</title>
+    <title>6 Degrees Of Freedom - Guided Flight Simulation &#8212; C4DYNAMICS v2.0</title>
   
   
   
@@ -28,7 +28,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
@@ -55,7 +55,7 @@
     <link rel="prev" title="Use Cases" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="May 20, 2025"/>
+    <meta name="docbuild:last-update" content="May 21, 2025"/>
   </head>
   
   
@@ -169,7 +169,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Getting Started</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Use Cases</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">6 Degrees Of Freedom - Missile Guidance Simulation</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">6 Degrees Of Freedom - Guided Flight Simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ballistic_coefficient.html">Ballistic Coefficient Estimation using Extended Kalman Filter</a></li>
 
 
@@ -424,7 +424,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>6 Degrees Of Freedom - Missile Guidance Simulation</h1>
+    <h1>6 Degrees Of Freedom - Guided Flight Simulation</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -481,10 +481,9 @@ document.write(`
 <li><p>To download this notebook, click the download icon in the toolbar above and select the .ipynb format.</p></li>
 <li><p>For any questions or comments, please open an issue on the <a class="reference external" href="https://github.com/C4dynamics/C4dynamics/issues">c4dynamics issues page</a>.</p></li>
 </ul>
-<section id="6-Degrees-Of-Freedom---Missile-Guidance-Simulation">
-<h1>6 Degrees Of Freedom - Missile Guidance Simulation<a class="headerlink" href="#6-Degrees-Of-Freedom---Missile-Guidance-Simulation" title="Link to this heading">#</a></h1>
-<p>6 degrees of Freedom simulation of a missile pursuing a target employing proportional navigation guidance system.</p>
-<p>The details of the missile models and the guidance system can be found in the example at chapter <span class="math notranslate nohighlight">\(12\)</span> of the Military Handbook of Missile Flight Simulation [1].</p>
+<section id="6-Degrees-Of-Freedom---Guided-Flight-Simulation">
+<h1>6 Degrees Of Freedom - Guided Flight Simulation<a class="headerlink" href="#6-Degrees-Of-Freedom---Guided-Flight-Simulation" title="Link to this heading">#</a></h1>
+<p>This notebook demonstrates a six degrees of freedom (6DOF) simulation of a guided aircraft, modeling its dynamics, aerodynamics, and control system.</p>
 <section id="Contents">
 <h2>Contents<a class="headerlink" href="#Contents" title="Link to this heading">#</a></h2>
 <ol class="arabic simple">
@@ -492,17 +491,16 @@ document.write(`
 <li><p>Simulation Overview</p></li>
 <li><p>Setup and Initial Conditions</p></li>
 <li><p>Main Loop</p></li>
-<li><p>Miss Distance Calculation</p></li>
+<li><p>Miss Distance</p></li>
 <li><p>Results</p></li>
 <li><p>Summary</p></li>
 </ol>
 </section>
 <section id="1.-Introduction">
 <h2>1. Introduction<a class="headerlink" href="#1.-Introduction" title="Link to this heading">#</a></h2>
-<p>This notebook demonstrates a six degrees of freedom (6DOF) missile guidance simulation, modeling the dynamics of a missile intercepting a non-maneuvering target.</p>
-<p>It integrates detailed missile and target models, a line-of-sight seeker, and a guidance system to compute real-time trajectories and miss distance.</p>
-<p>The simulation captures translational and rotational dynamics, aerodynamic forces, and control surface deflections. Explore the setup, implementation, and results to understand the intricacies of 6DOF guidance algorithms.</p>
-<p>The missile, the target, and seeker, are modeled using the c4dynamics framework, an open-source for algorithms engineering that provides <a class="reference external" href="https://c4dynamics.github.io/C4dynamics/api/States.html">state objects</a> to represent objects in space and time.</p>
+<p>This notebook presents a six degrees of freedom (6DOF) simulation of a guided aircraft, capturing the dynamics, aerodynamics, control system, and seeker behavior. The guided aircraft in this case is a missile pursuing a target using a proportional navigation guidance law. The simulation includes both translational and rotational dynamics, accounts for aerodynamic forces, and models control surface deflections in response to seeker feedback.</p>
+<p>By walking through the setup, implementation, and results, the notebook provides a complete view of how 6DOF guidance algorithms operate in practice. The missile, target, and seeker are modeled using the c4dynamics — an open-source framework for algorithm engineering that provides <a class="reference external" href="https://c4dynamics.github.io/C4dynamics/api/States.html">state objects</a> to represent dynamic entities in space and time. The details of the missile model and the guidance system are based on the example in Chapter
+12 of the Military Handbook of Missile Flight Simulation [1].</p>
 </section>
 <section id="2.-Simulation-Overview">
 <h2>2. Simulation Overview<a class="headerlink" href="#2.-Simulation-Overview" title="Link to this heading">#</a></h2>
@@ -572,8 +570,8 @@ document.write(`
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">c4dynamics</span> <span class="k">as</span> <span class="nn">c4d</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">c4d</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 </pre></div>
 </div>
 </div>
@@ -586,7 +584,7 @@ document.write(`
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dof6_modules</span> <span class="kn">import</span> <span class="n">control_system</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">aerodynamics</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dof6_modules</span><span class="w"> </span><span class="kn">import</span> <span class="n">control_system</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">aerodynamics</span>
 </pre></div>
 </div>
 </div>
@@ -1047,7 +1045,7 @@ miss: 0.00339, flight time: 7.8
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;dark_background&#39;</span><span class="p">)</span>
 
 <span class="n">fcsize</span> <span class="o">=</span> <span class="mi">4</span>
@@ -1287,7 +1285,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 20, 2025.
+  Last updated on May 21, 2025.
   <br/>
 </p>
   </div>
