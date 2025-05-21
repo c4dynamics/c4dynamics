@@ -28,7 +28,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
@@ -53,7 +53,7 @@
     <link rel="search" title="Search" href="../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="May 20, 2025"/>
+    <meta name="docbuild:last-update" content="May 21, 2025"/>
   </head>
   
   
@@ -169,7 +169,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Getting Started</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="index.html">Use Cases</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="dof6sim.html">6 Degrees Of Freedom - Missile Guidance Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dof6sim.html">6 Degrees Of Freedom - Guided Flight Simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ballistic_coefficient.html">Ballistic Coefficient Estimation using Extended Kalman Filter</a></li>
 
 
@@ -537,19 +537,19 @@ document.write(`
 <span class="c1">#</span>
 <span class="c1"># https://github.com/elbazam/multi_object_tracking</span>
 <span class="c1">##</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">cv2</span>
-<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">NearestNeighbors</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cv2</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">NearestNeighbors</span>
 <span class="c1"># %matplotlib inline</span>
-<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">image</span> <span class="k">as</span> <span class="n">mpimg</span>
-<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">image</span> <span class="k">as</span> <span class="n">mpimg</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
 <span class="c1"># import pandas as pd</span>
 
 <span class="c1">#</span>
 <span class="c1"># config pyplot</span>
 <span class="c1">##</span>
-<span class="kn">import</span> <span class="nn">matplotlib.ticker</span> <span class="k">as</span> <span class="nn">ticker</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.ticker</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ticker</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;font.family&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Times New Roman&#39;</span> <span class="c1"># &quot;Britannic Bold&quot; # &quot;Modern Love&quot;#  &quot;Corbel Bold&quot;#</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;font.size&quot;</span><span class="p">]</span>   <span class="o">=</span> <span class="mi">20</span>
@@ -596,7 +596,7 @@ document.write(`
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">openvideo</span><span class="p">():</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">openvideo</span><span class="p">():</span>
     <span class="n">cvideo</span>       <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="n">videoin</span><span class="p">)</span>
     <span class="n">dt</span>          <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">cvideo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_FPS</span><span class="p">)</span> <span class="c1"># 1 / frame per second = the length of a single frame</span>
     <span class="n">Nframes</span>     <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">cvideo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_FRAME_COUNT</span><span class="p">))</span> <span class="c1"># total frames count</span>
@@ -673,14 +673,14 @@ document.write(`
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">trkstate</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">trkstate</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
     <span class="n">CLOSED</span>      <span class="o">=</span> <span class="mi">0</span>
     <span class="n">PREDICTED</span>   <span class="o">=</span> <span class="mi">1</span>
     <span class="n">CORRECTED</span>   <span class="o">=</span> <span class="mi">2</span>
 
 
 
-<span class="k">class</span> <span class="nc">tracker</span><span class="p">(</span><span class="n">c4d</span><span class="o">.</span><span class="n">datapoint</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">tracker</span><span class="p">(</span><span class="n">c4d</span><span class="o">.</span><span class="n">datapoint</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        TODO</span>
 <span class="sd">        1) a tracker object is actually a 2 datapoints object</span>
@@ -696,7 +696,7 @@ document.write(`
     <span class="c1"># display color</span>
     <span class="c1">##</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span> <span class="c1"># , measure_id, t):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span> <span class="c1"># , measure_id, t):</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>  <span class="c1"># Call the constructor of c4d.datapoint</span>
 
@@ -714,7 +714,7 @@ document.write(`
 
 
 
-    <span class="k">def</span> <span class="nf">isvalid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">measure</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">isvalid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">measure</span><span class="p">):</span>
         <span class="c1">#</span>
         <span class="c1"># confirm valid measure for state correction</span>
         <span class="c1">##</span>
@@ -745,7 +745,7 @@ document.write(`
 
 
 
-    <span class="k">def</span> <span class="nf">position</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">position</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># kalman states:</span>
         <span class="c1">#   x(t) = [x1 y1 x2 y2 vx vy]</span>
         <span class="c1"># then x[:4] are the center coords.</span>
@@ -753,7 +753,7 @@ document.write(`
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filter</span><span class="o">.</span><span class="n">x</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">))</span>
 
 
-    <span class="k">def</span> <span class="nf">getvelocity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getvelocity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># kalman states:</span>
         <span class="c1">#   x(t) = [x1 y1 x2 y2 vx vy]</span>
         <span class="c1"># then x[4:] are the velocity coords.</span>
@@ -761,7 +761,7 @@ document.write(`
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
 
 
-    <span class="k">def</span> <span class="nf">getcenter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getcenter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">center</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
         <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">()</span>
         <span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">state</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
@@ -770,7 +770,7 @@ document.write(`
 
 
 
-    <span class="k">def</span> <span class="nf">duplicated</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">duplicated</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">counterSame</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">counterSame</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">True</span>
@@ -778,7 +778,7 @@ document.write(`
 
 
 
-    <span class="k">def</span> <span class="nf">advance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">corrected</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">advance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">corrected</span><span class="p">):</span>
 
         <span class="k">if</span> <span class="n">corrected</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">counterEscaped</span> <span class="o">=</span> <span class="mi">0</span>
@@ -795,7 +795,7 @@ document.write(`
 
 
 
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="n">x1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">()</span>
         <span class="n">x2</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">position</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="n">x2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
@@ -816,7 +816,7 @@ document.write(`
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># trackers manager:</span>
 <span class="c1">#   list of active trackers</span>
 <span class="c1">#   add or remove tracks methods</span>
-<span class="k">class</span> <span class="nc">mTracks</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">mTracks</span><span class="p">:</span>
     <span class="c1">#</span>
     <span class="c1"># this class shouldnt belong to this project notebook but to the body module of c4d.</span>
     <span class="c1"># theres also should be a saperation between the objects detecton processing and the objects bank handling.</span>
@@ -824,7 +824,7 @@ document.write(`
     <span class="c1"># which is another class of this nb.</span>
     <span class="c1">##</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">trackers</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="c1"># self.removelist = []</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">neigh</span> <span class="o">=</span> <span class="n">NearestNeighbors</span><span class="p">(</span><span class="n">n_neighbors</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
@@ -841,11 +841,11 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">cov</span> <span class="o">=</span> <span class="mi">25</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 
 
-    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span><span class="c1">#, measure_id):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span><span class="c1">#, measure_id):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">trackers</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">tracker</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
 
 
-    <span class="k">def</span> <span class="nf">trackerMaker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zList</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">trackerMaker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zList</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
         <span class="c1">#</span>
         <span class="c1"># updates the existing trackers based on a list of new observations zList.</span>
         <span class="c1"># uses the Nearest Neighbors algorithm to find the nearest observation for each tracker,</span>
@@ -925,7 +925,7 @@ document.write(`
                 <span class="n">UpdateTracker</span> <span class="o">=</span> <span class="kc">False</span>
 
 
-    <span class="k">def</span> <span class="nf">refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zList</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">zarray</span><span class="p">,</span> <span class="n">outfile</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zList</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">zarray</span><span class="p">,</span> <span class="n">outfile</span><span class="p">):</span>
         <span class="c1"># updates the state of each tracker:</span>
         <span class="c1">#   - Performs measurements handling. \\ isnt the meausre performed in the main? \\</span>
         <span class="c1">#   - Associates trk id by a nearest neighbor.</span>
@@ -1077,7 +1077,7 @@ document.write(`
             <span class="n">cv2</span><span class="o">.</span><span class="n">arrowedLine</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">center</span> <span class="o">+</span> <span class="n">vel</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">),</span> <span class="n">color</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
 
 
-    <span class="k">def</span> <span class="nf">RemoveDoubles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">RemoveDoubles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
         <span class="c1"># more trackers than measurements</span>
         <span class="c1"># removes duplicate trackers that are close to each other.</span>
         <span class="c1"># compares trackers and removes duplicates based on a threshold.</span>
@@ -1119,7 +1119,7 @@ document.write(`
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">tf</span> <span class="o">=</span> <span class="n">tf_video</span><span class="p">,</span> <span class="n">showmustgoon</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">outfile</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="n">tf</span> <span class="o">=</span> <span class="n">tf_video</span><span class="p">,</span> <span class="n">showmustgoon</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">outfile</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">outfile</span><span class="p">,</span> <span class="s1">&#39;wt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
         <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
@@ -1618,7 +1618,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 20, 2025.
+  Last updated on May 21, 2025.
   <br/>
 </p>
   </div>
