@@ -27,7 +27,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/style.css" />
@@ -49,7 +49,7 @@
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="May 20, 2025"/>
+    <meta name="docbuild:last-update" content="May 21, 2025"/>
   </head>
   
   
@@ -165,7 +165,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../gettingstarted.html">Getting Started</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../programs/index.html">Use Cases</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../../programs/dof6sim.html">6 Degrees Of Freedom - Missile Guidance Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../programs/dof6sim.html">6 Degrees Of Freedom - Guided Flight Simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../programs/ballistic_coefficient.html">Ballistic Coefficient Estimation using Extended Kalman Filter</a></li>
 
 
@@ -385,10 +385,10 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for c4dynamics.states.lib.pixelpoint</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">sys</span> 
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span> 
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">c4dynamics.states.state</span> <span class="kn">import</span> <span class="n">state</span> 
+<span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics.states.state</span><span class="w"> </span><span class="kn">import</span> <span class="n">state</span> 
 
 
 <span class="c1"># from enum import Enum</span>
@@ -396,7 +396,7 @@ document.write(`
 
 <div class="viewcode-block" id="pixelpoint">
 <a class="viewcode-back" href="../../../../api/states.lib.pixelpoint.html#c4dynamics.states.lib.pixelpoint.pixelpoint">[docs]</a>
-<span class="k">class</span> <span class="nc">pixelpoint</span><span class="p">(</span><span class="n">state</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">pixelpoint</span><span class="p">(</span><span class="n">state</span><span class="p">):</span>
 <span class="w">  </span><span class="sd">&#39;&#39;&#39; </span>
 <span class="sd">    A data point in a video frame with a bounding box. </span>
 
@@ -664,7 +664,7 @@ document.write(`
   <span class="n">w</span><span class="p">:</span> <span class="nb">float</span>
   <span class="n">h</span><span class="p">:</span> <span class="nb">float</span>
 
-  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+  <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
       
  
     <span class="n">ppargs</span> <span class="o">=</span> <span class="p">{}</span>
@@ -726,7 +726,7 @@ document.write(`
   <span class="c1"># parameters </span>
 
   <span class="nd">@property</span>
-  <span class="k">def</span> <span class="nf">fsize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="k">def</span><span class="w"> </span><span class="nf">fsize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 
 <span class="sd">      Gets and sets the frame size. </span>
@@ -761,7 +761,7 @@ document.write(`
     <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_framewidth</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frameheight</span><span class="p">)</span>
 
   <span class="nd">@fsize</span><span class="o">.</span><span class="n">setter</span>
-  <span class="k">def</span> <span class="nf">fsize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fsize</span><span class="p">):</span>
+  <span class="k">def</span><span class="w"> </span><span class="nf">fsize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fsize</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fsize</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
       <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;fsize must have exactly two elements.&#39;</span><span class="p">)</span>
 
@@ -770,7 +770,7 @@ document.write(`
     
   
   <span class="nd">@property</span>  
-  <span class="k">def</span> <span class="nf">class_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="k">def</span><span class="w"> </span><span class="nf">class_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">      Gets and sets the object classification. </span>
 
@@ -802,7 +802,7 @@ document.write(`
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_class</span> 
 
   <span class="nd">@class_id</span><span class="o">.</span><span class="n">setter</span> 
-  <span class="k">def</span> <span class="nf">class_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_id</span><span class="p">):</span>
+  <span class="k">def</span><span class="w"> </span><span class="nf">class_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_id</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">class_id</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
       <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;class_id must be an str object&#39;</span><span class="p">)</span>
 
@@ -813,7 +813,7 @@ document.write(`
   <span class="c1"># properties </span>
 
   <span class="nd">@property</span>
-  <span class="k">def</span> <span class="nf">box</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="k">def</span><span class="w"> </span><span class="nf">box</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">      Returns the box coordinates.</span>
 <span class="sd">      </span>
@@ -867,7 +867,7 @@ document.write(`
 
 
   <span class="nd">@property</span>
-  <span class="k">def</span> <span class="nf">Xpixels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
+  <span class="k">def</span><span class="w"> </span><span class="nf">Xpixels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">      Returns the state vector in pixel coordinates.  </span>
 
@@ -930,7 +930,7 @@ document.write(`
 
   
   <span class="nd">@staticmethod</span>
-  <span class="k">def</span> <span class="nf">boxcenter</span><span class="p">(</span><span class="n">box</span><span class="p">):</span>
+  <span class="k">def</span><span class="w"> </span><span class="nf">boxcenter</span><span class="p">(</span><span class="n">box</span><span class="p">):</span>
     <span class="c1"># XXX seems like useless function and indeed is not in use anywhere. </span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    </span>
@@ -960,12 +960,12 @@ document.write(`
 
 
   <span class="nd">@staticmethod</span>
-  <span class="k">def</span> <span class="nf">video_detections</span><span class="p">(</span><span class="n">vidpath</span><span class="p">,</span> <span class="n">tf</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">storepath</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-    <span class="kn">import</span> <span class="nn">c4dynamics</span> <span class="k">as</span> <span class="nn">c4d</span> 
-    <span class="kn">import</span> <span class="nn">pickle</span> 
-    <span class="kn">import</span> <span class="nn">zlib</span> 
-    <span class="kn">import</span> <span class="nn">cv2</span> 
-    <span class="kn">import</span> <span class="nn">os</span> 
+  <span class="k">def</span><span class="w"> </span><span class="nf">video_detections</span><span class="p">(</span><span class="n">vidpath</span><span class="p">,</span> <span class="n">tf</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">storepath</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">c4d</span> 
+    <span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span> 
+    <span class="kn">import</span><span class="w"> </span><span class="nn">zlib</span> 
+    <span class="kn">import</span><span class="w"> </span><span class="nn">cv2</span> 
+    <span class="kn">import</span><span class="w"> </span><span class="nn">os</span> 
 
     <span class="n">cap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="n">vidpath</span><span class="p">)</span>
     <span class="n">fps</span> <span class="o">=</span> <span class="n">cap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_FPS</span><span class="p">)</span>
@@ -1141,8 +1141,8 @@ document.write(`
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
 
-  <span class="kn">import</span> <span class="nn">doctest</span><span class="o">,</span> <span class="nn">contextlib</span><span class="o">,</span> <span class="nn">os</span>
-  <span class="kn">from</span> <span class="nn">c4dynamics</span> <span class="kn">import</span> <span class="n">IgnoreOutputChecker</span><span class="p">,</span> <span class="n">cprint</span>
+  <span class="kn">import</span><span class="w"> </span><span class="nn">doctest</span><span class="o">,</span><span class="w"> </span><span class="nn">contextlib</span><span class="o">,</span><span class="w"> </span><span class="nn">os</span>
+  <span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="kn">import</span> <span class="n">IgnoreOutputChecker</span><span class="p">,</span> <span class="n">cprint</span>
   
   <span class="c1"># Register the custom OutputChecker</span>
   <span class="n">doctest</span><span class="o">.</span><span class="n">OutputChecker</span> <span class="o">=</span> <span class="n">IgnoreOutputChecker</span>
@@ -1211,7 +1211,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 20, 2025.
+  Last updated on May 21, 2025.
   <br/>
 </p>
   </div>
