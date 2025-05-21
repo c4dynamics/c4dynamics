@@ -27,7 +27,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../../_static/style.css" />
@@ -49,7 +49,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="May 20, 2025"/>
+    <meta name="docbuild:last-update" content="May 21, 2025"/>
   </head>
   
   
@@ -165,7 +165,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../gettingstarted.html">Getting Started</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../programs/index.html">Use Cases</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../programs/dof6sim.html">6 Degrees Of Freedom - Missile Guidance Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../programs/dof6sim.html">6 Degrees Of Freedom - Guided Flight Simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../programs/ballistic_coefficient.html">Ballistic Coefficient Estimation using Extended Kalman Filter</a></li>
 
 
@@ -385,17 +385,17 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for c4dynamics.rotmat.rotmat</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">sys</span> 
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span> 
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
 <span class="c1"># import c4dynamics as c4d </span>
-<span class="kn">from</span> <span class="nn">c4dynamics.utils.const</span> <span class="kn">import</span> <span class="o">*</span>  
-<span class="kn">from</span> <span class="nn">c4dynamics.utils.math</span> <span class="kn">import</span> <span class="o">*</span>  
+<span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics.utils.const</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>  
+<span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics.utils.math</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>  
 
 
 <div class="viewcode-block" id="rotx">
 <a class="viewcode-back" href="../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.rotx.html#c4dynamics.rotmat.rotmat.rotx">[docs]</a>
-<span class="k">def</span> <span class="nf">rotx</span><span class="p">(</span><span class="n">phi</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">rotx</span><span class="p">(</span><span class="n">phi</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39; </span>
 <span class="sd">    Generate a 3x3 Direction Cosine Matrix for </span>
 <span class="sd">    a positive rotation about the x-axis by an angle :math:`\\phi` in radians.</span>
@@ -455,7 +455,7 @@ document.write(`
 
 <div class="viewcode-block" id="roty">
 <a class="viewcode-back" href="../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.roty.html#c4dynamics.rotmat.rotmat.roty">[docs]</a>
-<span class="k">def</span> <span class="nf">roty</span><span class="p">(</span><span class="n">theta</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">roty</span><span class="p">(</span><span class="n">theta</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39; </span>
 <span class="sd">    Generate a 3x3 Direction Cosine Matrix for </span>
 <span class="sd">    a positive rotation about the y-axis by an angle :math:`\\theta` in radians.</span>
@@ -515,7 +515,7 @@ document.write(`
 
 <div class="viewcode-block" id="rotz">
 <a class="viewcode-back" href="../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.rotz.html#c4dynamics.rotmat.rotmat.rotz">[docs]</a>
-<span class="k">def</span> <span class="nf">rotz</span><span class="p">(</span><span class="n">psi</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">rotz</span><span class="p">(</span><span class="n">psi</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39; </span>
 <span class="sd">    Generate a 3x3 Direction Cosine Matrix for </span>
 <span class="sd">    a positive rotation about the z-axis by an angle :math:`\\psi` in radians.</span>
@@ -574,7 +574,7 @@ document.write(`
 
 <div class="viewcode-block" id="dcm321">
 <a class="viewcode-back" href="../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.dcm321.html#c4dynamics.rotmat.rotmat.dcm321">[docs]</a>
-<span class="k">def</span> <span class="nf">dcm321</span><span class="p">(</span><span class="n">phi</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">psi</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">dcm321</span><span class="p">(</span><span class="n">phi</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">psi</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Generate a 3x3 Direction Cosine Matrix (DCM) for a sequence of </span>
 <span class="sd">    positive rotations around the axes in the following order: </span>
@@ -652,7 +652,7 @@ document.write(`
 
 <div class="viewcode-block" id="dcm321euler">
 <a class="viewcode-back" href="../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.dcm321euler.html#c4dynamics.rotmat.rotmat.dcm321euler">[docs]</a>
-<span class="k">def</span> <span class="nf">dcm321euler</span><span class="p">(</span><span class="n">dcm</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">dcm321euler</span><span class="p">(</span><span class="n">dcm</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;    </span>
 <span class="sd">    Extract Euler angles (roll, pitch, yaw) from a Direction Cosine Matrix (DCM) of 3-2-1 order.</span>
 
@@ -729,8 +729,8 @@ document.write(`
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
 
-  <span class="kn">import</span> <span class="nn">doctest</span><span class="o">,</span> <span class="nn">contextlib</span><span class="o">,</span> <span class="nn">os</span>
-  <span class="kn">from</span> <span class="nn">c4dynamics</span> <span class="kn">import</span> <span class="n">IgnoreOutputChecker</span><span class="p">,</span> <span class="n">cprint</span>
+  <span class="kn">import</span><span class="w"> </span><span class="nn">doctest</span><span class="o">,</span><span class="w"> </span><span class="nn">contextlib</span><span class="o">,</span><span class="w"> </span><span class="nn">os</span>
+  <span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="kn">import</span> <span class="n">IgnoreOutputChecker</span><span class="p">,</span> <span class="n">cprint</span>
   
   <span class="c1"># Register the custom OutputChecker</span>
   <span class="n">doctest</span><span class="o">.</span><span class="n">OutputChecker</span> <span class="o">=</span> <span class="n">IgnoreOutputChecker</span>
@@ -798,7 +798,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 20, 2025.
+  Last updated on May 21, 2025.
   <br/>
 </p>
   </div>

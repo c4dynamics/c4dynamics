@@ -27,7 +27,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/style.css" />
@@ -49,7 +49,7 @@
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="May 20, 2025"/>
+    <meta name="docbuild:last-update" content="May 21, 2025"/>
   </head>
   
   
@@ -165,7 +165,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../gettingstarted.html">Getting Started</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../programs/index.html">Use Cases</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../../programs/dof6sim.html">6 Degrees Of Freedom - Missile Guidance Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../programs/dof6sim.html">6 Degrees Of Freedom - Guided Flight Simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../programs/ballistic_coefficient.html">Ballistic Coefficient Estimation using Extended Kalman Filter</a></li>
 
 
@@ -385,16 +385,16 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for c4dynamics.states.lib.rigidbody</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">sys</span> 
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span> 
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">c4dynamics</span> <span class="k">as</span> <span class="nn">c4d</span> 
+<span class="kn">import</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">c4d</span> 
 
-<span class="kn">from</span> <span class="nn">c4dynamics.states.lib.datapoint</span> <span class="kn">import</span> <span class="n">datapoint</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics.states.lib.datapoint</span><span class="w"> </span><span class="kn">import</span> <span class="n">datapoint</span>
 
 <div class="viewcode-block" id="rigidbody">
 <a class="viewcode-back" href="../../../../api/states.lib.rigidbody.html#c4dynamics.states.lib.rigidbody.rigidbody">[docs]</a>
-<span class="k">class</span> <span class="nc">rigidbody</span><span class="p">(</span><span class="n">datapoint</span><span class="p">):</span>  <span class="c1"># </span>
+<span class="k">class</span><span class="w"> </span><span class="nc">rigidbody</span><span class="p">(</span><span class="n">datapoint</span><span class="p">):</span>  <span class="c1"># </span>
 <span class="w">  </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">  A rigid-body object </span>
 
@@ -571,7 +571,7 @@ document.write(`
   <span class="n">_iyy</span> <span class="o">=</span> <span class="mi">0</span>
   <span class="n">_izz</span> <span class="o">=</span> <span class="mi">0</span>
 
-  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">vx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">vy</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">vz</span> <span class="o">=</span> <span class="mi">0</span> 
+  <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">vx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">vy</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">vz</span> <span class="o">=</span> <span class="mi">0</span> 
                       <span class="p">,</span>  <span class="n">phi</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">psi</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">q</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span>
                           <span class="p">):</span> 
 
@@ -596,7 +596,7 @@ document.write(`
 
 
   <span class="nd">@property</span>
-  <span class="k">def</span> <span class="nf">I</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
+  <span class="k">def</span><span class="w"> </span><span class="nf">I</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
 <span class="w">    </span><span class="sd">&#39;&#39;&#39; </span>
 <span class="sd">    Gets and sets the array of moments of inertia. </span>
 
@@ -710,14 +710,14 @@ document.write(`
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_ixx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iyy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_izz</span><span class="p">])</span> 
   
   <span class="nd">@I</span><span class="o">.</span><span class="n">setter</span>
-  <span class="k">def</span> <span class="nf">I</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">I</span><span class="p">):</span> 
+  <span class="k">def</span><span class="w"> </span><span class="nf">I</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">I</span><span class="p">):</span> 
     <span class="bp">self</span><span class="o">.</span><span class="n">_ixx</span> <span class="o">=</span> <span class="n">I</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>   
     <span class="bp">self</span><span class="o">.</span><span class="n">_iyy</span> <span class="o">=</span> <span class="n">I</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  
     <span class="bp">self</span><span class="o">.</span><span class="n">_izz</span> <span class="o">=</span> <span class="n">I</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>  
 
 
   <span class="nd">@property</span>
-  <span class="k">def</span> <span class="nf">angles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="k">def</span><span class="w"> </span><span class="nf">angles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39; </span>
 <span class="sd">    Returns an array of Euler angles. </span>
 <span class="sd">     </span>
@@ -750,7 +750,7 @@ document.write(`
 
 
   <span class="nd">@property</span>
-  <span class="k">def</span> <span class="nf">ang_rates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="k">def</span><span class="w"> </span><span class="nf">ang_rates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39; </span>
 <span class="sd">    Returns an array of angular rates. </span>
 <span class="sd">     </span>
@@ -782,7 +782,7 @@ document.write(`
 
 
   <span class="nd">@property</span>
-  <span class="k">def</span> <span class="nf">BR</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
+  <span class="k">def</span><span class="w"> </span><span class="nf">BR</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
 <span class="w">    </span><span class="sd">&#39;&#39;&#39; </span>
 <span class="sd">    Returns a Body-from-Reference Direction Cosine Matrix (DCM). </span>
 
@@ -849,7 +849,7 @@ document.write(`
 
 
   <span class="nd">@property</span> 
-  <span class="k">def</span> <span class="nf">RB</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
+  <span class="k">def</span><span class="w"> </span><span class="nf">RB</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
 <span class="w">    </span><span class="sd">&#39;&#39;&#39; </span>
 <span class="sd">    Returns a Reference-from-Body Direction Cosine Matrix (DCM). </span>
 
@@ -919,7 +919,7 @@ document.write(`
 
 <div class="viewcode-block" id="rigidbody.inteqm">
 <a class="viewcode-back" href="../../../../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.inteqm.html#c4dynamics.states.lib.rigidbody.rigidbody.inteqm">[docs]</a>
-  <span class="k">def</span> <span class="nf">inteqm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">forces</span><span class="p">,</span> <span class="n">moments</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span> <span class="c1"># type: ignore </span>
+  <span class="k">def</span><span class="w"> </span><span class="nf">inteqm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">forces</span><span class="p">,</span> <span class="n">moments</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span> <span class="c1"># type: ignore </span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Advances the state vector, :attr:`rigidbody.X &lt;c4dynamics.states.state.state.X&gt;`, </span>
 <span class="sd">    with respect to the input</span>
@@ -1017,7 +1017,7 @@ document.write(`
 
 <div class="viewcode-block" id="rigidbody.animate">
 <a class="viewcode-back" href="../../../../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.animate.html#c4dynamics.states.lib.rigidbody.rigidbody.animate">[docs]</a>
-  <span class="k">def</span> <span class="nf">animate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modelpath</span><span class="p">,</span> <span class="n">angle0</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> 
+  <span class="k">def</span><span class="w"> </span><span class="nf">animate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modelpath</span><span class="p">,</span> <span class="n">angle0</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> 
               <span class="p">,</span> <span class="n">modelcolor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dt</span> <span class="o">=</span> <span class="mf">1e-3</span> 
                 <span class="p">,</span> <span class="n">savedir</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">cbackground</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]):</span>
 
@@ -1033,8 +1033,8 @@ document.write(`
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
 
-  <span class="kn">import</span> <span class="nn">doctest</span><span class="o">,</span> <span class="nn">contextlib</span><span class="o">,</span> <span class="nn">os</span>
-  <span class="kn">from</span> <span class="nn">c4dynamics</span> <span class="kn">import</span> <span class="n">IgnoreOutputChecker</span><span class="p">,</span> <span class="n">cprint</span>
+  <span class="kn">import</span><span class="w"> </span><span class="nn">doctest</span><span class="o">,</span><span class="w"> </span><span class="nn">contextlib</span><span class="o">,</span><span class="w"> </span><span class="nn">os</span>
+  <span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="kn">import</span> <span class="n">IgnoreOutputChecker</span><span class="p">,</span> <span class="n">cprint</span>
   
   <span class="c1"># Register the custom OutputChecker</span>
   <span class="n">doctest</span><span class="o">.</span><span class="n">OutputChecker</span> <span class="o">=</span> <span class="n">IgnoreOutputChecker</span>
@@ -1044,7 +1044,7 @@ document.write(`
 
 
   <span class="c1"># Filter out tests for the animate method by overriding the testmod.</span>
-  <span class="k">def</span> <span class="nf">custom_testmod</span><span class="p">(</span><span class="n">module</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+  <span class="k">def</span><span class="w"> </span><span class="nf">custom_testmod</span><span class="p">(</span><span class="n">module</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="n">tests</span> <span class="o">=</span> <span class="n">doctest</span><span class="o">.</span><span class="n">DocTestFinder</span><span class="p">()</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">module</span><span class="p">)</span>
     
     <span class="n">tests</span> <span class="o">=</span> <span class="p">[</span><span class="n">test</span> <span class="k">for</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">tests</span> <span class="k">if</span> <span class="n">test</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="s2">&quot;__main__.rigidbody.animate&quot;</span><span class="p">]</span>  <span class="c1"># Exclude animate</span>
@@ -1118,7 +1118,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 20, 2025.
+  Last updated on May 21, 2025.
   <br/>
 </p>
   </div>
