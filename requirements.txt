@@ -2,6 +2,7 @@
 # Releases made after that only support Python 3.8 and above.
 # https://endoflife.date/numpy#:~:text=Python%20Support&text=NumPy%20stopped%20supporting%20Python%203.7,support%20Python%203.8%20and%20above.
 # pip install -r /path/to/requirements.txt
+# TODO move cv2 to dev or optional. when image is necessary use pillow 
 scipy
 numpy
 matplotlib

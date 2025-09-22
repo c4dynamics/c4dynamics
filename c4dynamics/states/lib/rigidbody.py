@@ -147,7 +147,6 @@ class rigidbody(datapoint):  #
     >>> f16.plot('z', ax = ax[0])   # doctest: +IGNORE_OUTPUT
     >>> ax[0].set(xlabel = '')  # doctest: +IGNORE_OUTPUT
     >>> f16.plot('theta', ax = ax[1], scale = c4d.r2d)
-    >>> plt.show()
 
   .. figure:: /_examples/rigidbody/intro_f16_autopilot.png
 
@@ -312,7 +311,6 @@ class rigidbody(datapoint):  #
 
       >>> rb05.plot('theta')
       >>> rb005.plot('theta', ax = plt.gca(), color = 'c')
-      >>> plt.show()
     
     .. figure:: /_examples/rigidbody/Iyy_pendulum.png
 
@@ -612,7 +610,6 @@ class rigidbody(datapoint):  #
     .. code:: 
 
       >>> rb.plot('p')
-      >>> plt.show()
 
     .. figure:: /_examples/rigidbody/inteqm_rollstable.png
         
@@ -637,40 +634,51 @@ rigidbody.animate.__doc__ = c4d.rotmat.animate.__doc__
 
 if __name__ == "__main__":
 
-  import doctest, contextlib, os
-  from c4dynamics import IgnoreOutputChecker, cprint
+  # import doctest, contextlib, os
+
+  # from c4dynamics import IgnoreOutputChecker, cprint
   
-  # Register the custom OutputChecker
-  doctest.OutputChecker = IgnoreOutputChecker
-
-  tofile = False 
-  optionflags = doctest.FAIL_FAST
+  # # Register the custom OutputChecker
+  # doctest.OutputChecker = IgnoreOutputChecker
+  # import doctest
 
 
-  # Filter out tests for the animate method by overriding the testmod.
-  def custom_testmod(module=None, **kwargs):
-    tests = doctest.DocTestFinder().find(module)
+  # # Filter out tests for the animate method by overriding the testmod.
+  # def custom_testmod(module = None, **kwargs):
+  #   tests = doctest.DocTestFinder().find(module)
     
-    tests = [test for test in tests if test.name != "__main__.rigidbody.animate"]  # Exclude animate
 
-    runner = doctest.DocTestRunner(**kwargs)
-    for test in tests:
-      runner.run(test)
-    return runner.summarize()
+  #   tests = [test for test in tests if (test.name != "__main__.rigidbody.animate" and test.name != "__main__.rigidbody")]  # Exclude animate
+
+  #   runner = doctest.DocTestRunner(**kwargs)
+  #   for test in tests:
+  #     runner.run(test)
+  #   return runner.summarize()
 
 
+  # tofile = False 
+  # optionflags = doctest.FAIL_FAST
 
-  if tofile: 
-    with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
-      with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
-        result = custom_testmod(sys.modules[__name__], optionflags=optionflags) 
-  else: 
-    result = custom_testmod(sys.modules[__name__], optionflags=optionflags)
+  # if tofile: 
+  #   with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
+  #     with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
+  #       result = custom_testmod(sys.modules[__name__], optionflags=optionflags) 
+  # else: 
+  #   result = custom_testmod(sys.modules[__name__], optionflags=optionflags)
 
-  if result.failed == 0:
-    cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
-  else:
-    print(f"{result.failed}")
+  # if result.failed == 0:
+  #   cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
+  # else:
+  #   print(f"{result.failed}")
+
+
+  from c4dynamics import rundoctests
+  try:
+    import open3d as o3d
+    rundoctests(sys.modules[__name__])
+  except ImportError:
+    rundoctests(sys.modules[__name__], ["__main__.rigidbody.animate", "__main__.rigidbody"])
+  
 
 
 

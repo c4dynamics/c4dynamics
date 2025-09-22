@@ -255,6 +255,8 @@ def timestep(tgt):
 
   c4d.cprint('dt', 'y')
   ''' dt '''
+  
+  np.set_printoptions(legacy="1.25")
 
   np.random.seed(770)
   tgt1 = c4d.datapoint(x = 100, y = 100)

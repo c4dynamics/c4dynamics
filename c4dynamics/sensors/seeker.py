@@ -6,6 +6,7 @@ import c4dynamics as c4d
 import warnings 
 from typing import Optional
 
+
 class seeker(c4d.rigidbody):
   '''
   Direction seeker.
@@ -24,13 +25,6 @@ class seeker(c4d.rigidbody):
   A random variable generation mechanism allows 
   for Monte Carlo simulations.   
 
-
-
-
-
-
-  
-  
 
   Parameters
   ==========
@@ -973,7 +967,7 @@ class seeker(c4d.rigidbody):
     # self.range = self.P(target) + self.rng_noise_std * np.sqrt(2) * erfinv(2 * rand1 - 1)  # c4d.mrandn() # 
     
     # target-seeker position in seeker-body coordinates
-    x = target.position - self.position
+    x = target.Position - self.Position
     x_body = self.BR @ x 
 
     # extract angles:
@@ -1004,26 +998,28 @@ class seeker(c4d.rigidbody):
 
 if __name__ == "__main__":
 
-  import doctest, contextlib, os
-  from c4dynamics import IgnoreOutputChecker, cprint
+  # import doctest, contextlib, os
+  # from c4dynamics import IgnoreOutputChecker, cprint
   
-  # Register the custom OutputChecker
-  doctest.OutputChecker = IgnoreOutputChecker
+  # # Register the custom OutputChecker
+  # doctest.OutputChecker = IgnoreOutputChecker
 
-  tofile = False 
-  optionflags = doctest.FAIL_FAST
+  # tofile = False 
+  # optionflags = doctest.FAIL_FAST
 
-  if tofile: 
-    with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
-      with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
-        result = doctest.testmod(optionflags = optionflags) 
-  else: 
-    result = doctest.testmod(optionflags = optionflags)
+  # if tofile: 
+  #   with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
+  #     with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
+  #       result = doctest.testmod(optionflags = optionflags) 
+  # else: 
+  #   result = doctest.testmod(optionflags = optionflags)
 
-  if result.failed == 0:
-    cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
-  else:
-    print(f"{result.failed}")
+  # if result.failed == 0:
+  #   cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
+  # else:
+  #   print(f"{result.failed}")
+  from c4dynamics import rundoctests
+  rundoctests(sys.modules[__name__])
 
 
 

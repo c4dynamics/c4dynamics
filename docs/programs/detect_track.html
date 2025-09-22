@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Detection and Tracking with YOLO and Kalman Filter using C4dynamics &#8212; C4DYNAMICS v2.0</title>
+    <title>Detection and Tracking with YOLO and Kalman Filter using C4dynamics &#8212; C4DYNAMICS v2.1</title>
   
   
   
@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=d94dc4f2"></script>
+    <script src="../_static/documentation_options.js?v=32e37178"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -53,7 +53,7 @@
     <link rel="search" title="Search" href="../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="May 21, 2025"/>
+    <meta name="docbuild:last-update" content="Sep 22, 2025"/>
   </head>
   
   
@@ -141,7 +141,7 @@
   
   
   
-    <p class="title logo__title">C4DYNAMICS v2.0</p>
+    <p class="title logo__title">C4DYNAMICS v2.1</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -169,7 +169,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Getting Started</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="index.html">Use Cases</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="dof6sim.html">6 Degrees Of Freedom - Guided Flight Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dof6sim.html">6 Degrees of Freedom - Guided Flight Simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ballistic_coefficient.html">Ballistic Coefficient Estimation using Extended Kalman Filter</a></li>
 
 
@@ -183,8 +183,8 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.X0.html">c4dynamics.states.state.state.X0</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.norm.html">c4dynamics.states.state.state.norm</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.normalize.html">c4dynamics.states.state.state.normalize</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.position.html">c4dynamics.states.state.state.position</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.velocity.html">c4dynamics.states.state.state.velocity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.Position.html">c4dynamics.states.state.state.Position</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.Velocity.html">c4dynamics.states.state.state.Velocity</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.addvars.html">c4dynamics.states.state.state.addvars</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.P.html">c4dynamics.states.state.state.P</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.V.html">c4dynamics.states.state.state.V</a></li>
@@ -670,7 +670,7 @@ document.write(`
 <section id="(Data-point-and-Kalman-filter-are-core-elements-of-C4dynamics)">
 <h2>(Data point and Kalman filter are core elements of C4dynamics)<a class="headerlink" href="#(Data-point-and-Kalman-filter-are-core-elements-of-C4dynamics)" title="Link to this heading">#</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">trkstate</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
@@ -763,7 +763,7 @@ document.write(`
 
     <span class="k">def</span><span class="w"> </span><span class="nf">getcenter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">center</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">()</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Position</span><span class="p">()</span>
         <span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">state</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
         <span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">state</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">center</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
@@ -796,8 +796,8 @@ document.write(`
 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="n">x1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">()</span>
-        <span class="n">x2</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">position</span><span class="p">()</span>
+        <span class="n">x1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Position</span><span class="p">()</span>
+        <span class="n">x2</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">Position</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="n">x2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">True</span>
 </pre></div>
@@ -810,7 +810,7 @@ document.write(`
 <section id="(a-dictionary-of-trackers-and-methods-to-add-and-remove-elements)">
 <h2>(a dictionary of trackers and methods to add and remove elements)<a class="headerlink" href="#(a-dictionary-of-trackers-and-methods-to-add-and-remove-elements)" title="Link to this heading">#</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># trackers manager:</span>
@@ -863,7 +863,7 @@ document.write(`
 
         <span class="k">for</span> <span class="n">trk</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">trackers</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
 
-            <span class="n">_</span><span class="p">,</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">check</span><span class="o">.</span><span class="n">kneighbors</span><span class="p">([</span><span class="n">trk</span><span class="o">.</span><span class="n">position</span><span class="p">()])</span> <span class="c1"># uses the previously created nearest neighbors model to find the index of the nearest neighbor to the kfPose in the zList</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">check</span><span class="o">.</span><span class="n">kneighbors</span><span class="p">([</span><span class="n">trk</span><span class="o">.</span><span class="n">Position</span><span class="p">()])</span> <span class="c1"># uses the previously created nearest neighbors model to find the index of the nearest neighbor to the kfPose in the zList</span>
 
             <span class="k">if</span> <span class="n">idx</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">delist</span><span class="p">:</span>
                 <span class="c1"># If the found index of the nearest data point is not already in the delist,</span>
@@ -987,7 +987,7 @@ document.write(`
                 <span class="c1">#   Each row in the array corresponds to a sample in the dataset, and the values</span>
                 <span class="c1">#   in that row represent the indices of its k-nearest neighbors in the dataset.</span>
                 <span class="c1">##</span>
-                <span class="n">d</span><span class="p">,</span> <span class="n">relativeIndex</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">neigh</span><span class="o">.</span><span class="n">kneighbors</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trackers</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">position</span><span class="p">()[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:])</span>
+                <span class="n">d</span><span class="p">,</span> <span class="n">relativeIndex</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">neigh</span><span class="o">.</span><span class="n">kneighbors</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trackers</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">Position</span><span class="p">()[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:])</span>
 
                 <span class="c1"># as we query one element with 1 neighbor it&#39;s possible to extract the results with item():</span>
                 <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">thresh</span><span class="p">:</span>
@@ -1056,7 +1056,7 @@ document.write(`
             <span class="c1"># prepare to present on the frame</span>
             <span class="c1">##</span>
 
-            <span class="n">pose</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trackers</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">position</span><span class="p">()</span>
+            <span class="n">pose</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trackers</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">Position</span><span class="p">()</span>
             <span class="n">vel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trackers</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">getvelocity</span><span class="p">()</span> <span class="o">*</span> <span class="n">dt</span>
             <span class="n">center</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trackers</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">getcenter</span><span class="p">()</span>
             <span class="n">color</span> <span class="o">=</span> <span class="n">trk</span><span class="o">.</span><span class="n">color</span>
@@ -1618,7 +1618,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 21, 2025.
+  Last updated on Sep 22, 2025.
   <br/>
 </p>
   </div>

@@ -5,6 +5,9 @@ import numpy as np
 import sys 
 sys.path.append('.')
 from c4dynamics import state  # Adjust import based on your structure
+import c4dynamics as c4d
+import warnings 
+
 
 class TestState(unittest.TestCase):
 
@@ -54,7 +57,9 @@ class TestState(unittest.TestCase):
     def test_plot(self):
         """Test the plot method (mocked for unit tests)."""
         import matplotlib.pyplot as plt
-        ax = self.state_instance.plot('x', scale=1, darkmode=False)
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", c4d.c4warn)
+            ax = self.state_instance.plot('x', scale=1, darkmode=False)
         self.assertIsNone(ax)  # Ensure a valid axis is returned
         self.state_instance.store()
         self.state_instance.store()
@@ -77,12 +82,12 @@ class TestState(unittest.TestCase):
 
     def test_position_property(self):
         """Test the position property."""
-        position = self.state_instance.position
+        position = self.state_instance.Position
         self.assertTrue(np.array_equal(position, np.array([1.0, 2.0, 3.0])))
 
     def test_velocity_property(self):
         """Test the velocity property."""
-        velocity = self.state_instance.velocity
+        velocity = self.state_instance.Velocity
         self.assertTrue(np.array_equal(velocity, np.array([0.5, 1.5, 2.5])))
 
     def test_norm_property(self):

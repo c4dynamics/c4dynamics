@@ -98,7 +98,7 @@ and :math:`(v_x, v_y, v_z)` on the earth-frame axes.
 Newton's Second Law 
 ^^^^^^^^^^^^^^^^^^^
 
-Newton’s second law of motion establishes the foundational 
+Newton's second law of motion establishes the foundational 
 equation governing the relationship among 
 force, mass, and acceleration.
  

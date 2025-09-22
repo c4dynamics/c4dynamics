@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>c4dynamics.states.state &#8212; C4DYNAMICS v2.0</title>
+    <title>c4dynamics.states.state &#8212; C4DYNAMICS v2.1</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=d94dc4f2"></script>
+    <script src="../../../_static/documentation_options.js?v=32e37178"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -49,7 +49,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="May 21, 2025"/>
+    <meta name="docbuild:last-update" content="Sep 22, 2025"/>
   </head>
   
   
@@ -137,7 +137,7 @@
   
   
   
-    <p class="title logo__title">C4DYNAMICS v2.0</p>
+    <p class="title logo__title">C4DYNAMICS v2.1</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -165,7 +165,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../gettingstarted.html">Getting Started</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../programs/index.html">Use Cases</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../programs/dof6sim.html">6 Degrees Of Freedom - Guided Flight Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../programs/dof6sim.html">6 Degrees of Freedom - Guided Flight Simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../programs/ballistic_coefficient.html">Ballistic Coefficient Estimation using Extended Kalman Filter</a></li>
 
 
@@ -179,8 +179,8 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.X0.html">c4dynamics.states.state.state.X0</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.norm.html">c4dynamics.states.state.state.norm</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.normalize.html">c4dynamics.states.state.state.normalize</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.position.html">c4dynamics.states.state.state.position</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.velocity.html">c4dynamics.states.state.state.velocity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.Position.html">c4dynamics.states.state.state.Position</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.Velocity.html">c4dynamics.states.state.state.Velocity</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.addvars.html">c4dynamics.states.state.state.addvars</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.P.html">c4dynamics.states.state.state.P</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.V.html">c4dynamics.states.state.state.V</a></li>
@@ -469,6 +469,9 @@ document.write(`
 <span class="sd">    </span>
 <span class="sd">  &#39;&#39;&#39;</span>
 
+  <span class="c1"># TODO: define state space, i.e. define the state properties such</span>
+  <span class="c1">#       as scope, limits, continuouty. etc. </span>
+  <span class="c1">#     probably basicaly for rl algos. </span>
 
   <span class="c1"># Α α # Β β # Γ γ # Δ δ # Ε ε # Ζ ζ # Η η # Θ θ # Ι ι </span>
   <span class="c1"># Κ κ # Λ λ # Μ μ # Ν ν # Ξ ξ # Ο ο # Π π # Ρ ρ # Σ σ/ς</span>
@@ -486,11 +489,12 @@ document.write(`
           <span class="p">(</span><span class="s1">&#39;Mu&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u039C</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Nu&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u039D</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Xi&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u039E</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Omicron&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u039F</span><span class="s1">&#39;</span><span class="p">),</span>
             <span class="p">(</span><span class="s1">&#39;Pi&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03A0</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Rho&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03A1</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Sigma&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03A3</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Tau&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03A4</span><span class="s1">&#39;</span><span class="p">),</span>
               <span class="p">(</span><span class="s1">&#39;Upsilon&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03A5</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Phi&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03A6</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Chi&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03A7</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Psi&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03A8</span><span class="s1">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Omega&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\u03A9</span><span class="s1">&#39;</span><span class="p">))</span>
-    <span class="c1"># </span>
-  <span class="n">_reserved_keys</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;X0&#39;</span><span class="p">,</span> <span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="s1">&#39;V&#39;</span><span class="p">)</span>
+    <span class="c1">#</span>
+
+  <span class="n">_reserved_keys</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;X0&#39;</span><span class="p">,</span> <span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="s1">&#39;V&#39;</span><span class="p">,</span> <span class="s1">&#39;Position&#39;</span><span class="p">,</span> <span class="s1">&#39;Velocity&#39;</span><span class="p">,</span> <span class="s1">&#39;norm&#39;</span><span class="p">,</span> <span class="s1">&#39;normalize&#39;</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="s1">&#39;_data&#39;</span><span class="p">,</span> <span class="s1">&#39;_prmdata&#39;</span><span class="p">,</span> <span class="s1">&#39;_didx&#39;</span><span class="p">)</span>
 
 
-  <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>    
+  <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="c1"># TODO enable providing type for the setter.X output.      </span>
 
     <span class="c1"># the problem with this is it cannot be used with seeker and other c4d objects</span>
@@ -507,6 +511,7 @@ document.write(`
     <span class="c1"># 3. the user must provide his implementations for poisiton velcity etc.. like used in the P() function that there i </span>
     <span class="c1">#   encountered the problem.</span>
 
+    <span class="c1"># self._dtype = np.float32</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="p">[]</span>    <span class="c1"># for permanent class variables (t, x, y .. )</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_prmdata</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1"># for user additional variables </span>
 
@@ -541,6 +546,7 @@ document.write(`
     <span class="c1"># but then i need to iterate all the examples and remove the print from state presentations </span>
     <span class="n">param_names</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_prmdata</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
+    <span class="c1"># FIXME Parameters is wrong. because currently parameters are determined only by those which stored at least once with the storeparams method. </span>
     <span class="k">return</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&lt;state object&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
             <span class="sa">f</span><span class="s2">&quot;State Variables: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
             <span class="sa">f</span><span class="s2">&quot;Initial Conditions (X0): </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">X0</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -552,6 +558,44 @@ document.write(`
   <span class="c1">#     raise AttributeError(f&quot;{param} is a reserved key. Keys {self._reserved_keys} cannot use as parameter names.&quot;)</span>
   <span class="c1">#   else:</span>
   <span class="c1">#     super().__setattr__(param, value)</span>
+
+  <span class="c1"># @property </span>
+  <span class="c1"># def dtype(self) -&gt; np.dtype:</span>
+  <span class="c1">#   &#39;&#39;&#39;</span>
+  <span class="c1">#   Gets and sets the data type of the state variables. </span>
+
+  <span class="c1">#   The data type is used to determine the type of the state variables. </span>
+  <span class="c1">#   The default data type is :code:`np.float64`. </span>
+
+  <span class="c1">#   Parameters</span>
+  <span class="c1">#   ----------</span>
+  <span class="c1">#   dtype : numpy.dtype </span>
+  <span class="c1">#       Data type to set the state variables. </span>
+
+  <span class="c1">#   Returns</span>
+  <span class="c1">#   -------</span>
+  <span class="c1">#   out : numpy.dtype </span>
+  <span class="c1">#       Data type of the state variables. </span>
+
+  <span class="c1">#   Examples</span>
+  <span class="c1">#   --------</span>
+
+  <span class="c1">#   .. code:: </span>
+
+  <span class="c1">#     &gt;&gt;&gt; s = c4d.state(x = 1, y = 0)</span>
+  <span class="c1">#     &gt;&gt;&gt; s.dtype</span>
+  <span class="c1">#     dtype(&#39;float64&#39;)</span>
+  <span class="c1">#     &gt;&gt;&gt; s.dtype = np.float32</span>
+  <span class="c1">#     &gt;&gt;&gt; s.dtype</span>
+  <span class="c1">#     dtype(&#39;float32&#39;)</span>
+
+  <span class="c1">#   &#39;&#39;&#39;</span>
+  <span class="c1">#   return self._dtype</span>
+
+  <span class="c1"># @dtype.setter</span>
+  <span class="c1"># def dtype(self, dtype):</span>
+  <span class="c1">#   self._dtype = np.dtype(dtype)</span>
+
 
 
 
@@ -622,15 +666,16 @@ document.write(`
       <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;t&#39;</span><span class="p">:</span> <span class="k">continue</span>
       <span class="c1"># the alteast_1d() + the flatten() is necessary to </span>
       <span class="c1"># cope with non-homogenuous array </span>
-      <span class="n">xout</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;self.&#39;</span> <span class="o">+</span> <span class="n">k</span><span class="p">)))</span>
+      <span class="c1"># xout.append(np.atleast_1d(eval(&#39;self.&#39; + k)))</span>
+      <span class="n">xout</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">)))</span>
 
     <span class="c1">#</span>
     <span class="c1"># XXX why float64? maybe it&#39;s just some default unlsess anything else required. </span>
     <span class="c1"># pixelpoint:override the .X property: will distance the devs from a datapoint class. </span>
     <span class="c1">#  con: much easier </span>
     <span class="c1">#</span>
-    <span class="c1"># return np.array(xout).flatten().astype(np.float64) </span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xout</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span> 
+    <span class="c1"># return np.array(xout).ravel().astype(self._dtype) </span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xout</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span> 
 
   <span class="nd">@X</span><span class="o">.</span><span class="n">setter</span>
   <span class="k">def</span><span class="w"> </span><span class="nf">X</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Xin</span><span class="p">):</span>
@@ -700,7 +745,8 @@ document.write(`
 
     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_didx</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
       <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;t&#39;</span><span class="p">:</span> <span class="k">continue</span>
-      <span class="n">xout</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;self.&#39;</span> <span class="o">+</span> <span class="n">k</span> <span class="o">+</span> <span class="s1">&#39;0&#39;</span><span class="p">))</span>
+      <span class="c1"># xout.append(eval(&#39;self.&#39; + k + &#39;0&#39;))</span>
+      <span class="n">xout</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span> <span class="o">+</span> <span class="s1">&#39;0&#39;</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xout</span><span class="p">)</span> 
   
@@ -1126,7 +1172,9 @@ document.write(`
 <span class="sd">      (array([0.1]), array([25.]))</span>
 
 <span class="sd">    &#39;&#39;&#39;</span>
-
+    
+    <span class="c1"># FIXME: check if var is a state variable</span>
+    
     <span class="k">if</span> <span class="n">var</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> 
       <span class="c1"># return all </span>
       <span class="c1"># XXX not sure this is applicable to the new change where arrays\ matrices </span>
@@ -1227,7 +1275,7 @@ document.write(`
 
 <div class="viewcode-block" id="state.plot">
 <a class="viewcode-back" href="../../../api/generated/state/c4dynamics.states.state.state.plot.html#c4dynamics.states.state.state.plot">[docs]</a>
-  <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">darkmode</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+  <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">darkmode</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">block</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39; </span>
 <span class="sd">    Draws plots of variable evolution over time.</span>
 
@@ -1472,12 +1520,19 @@ document.write(`
       <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">bbox_inches</span> <span class="o">=</span> <span class="s1">&#39;tight&#39;</span><span class="p">,</span> <span class="n">pad_inches</span> <span class="o">=</span> <span class="mf">.2</span><span class="p">,</span> <span class="n">dpi</span> <span class="o">=</span> <span class="mi">600</span><span class="p">)</span>
       
 
-    <span class="c1"># plt.show(block = True)</span>
+    <span class="k">if</span> <span class="n">block</span><span class="p">:</span> 
+      <span class="n">be</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_backend</span><span class="p">()</span>
+      <span class="n">plt</span><span class="o">.</span><span class="n">switch_backend</span><span class="p">(</span><span class="s1">&#39;tkagg&#39;</span><span class="p">)</span>
+      <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">block</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+      <span class="n">plt</span><span class="o">.</span><span class="n">switch_backend</span><span class="p">(</span><span class="n">be</span><span class="p">)</span>
+      
     <span class="k">return</span> <span class="n">ax</span> </div>
 
 
 
-
+  <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
+    <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="p">[]</span>    
+    <span class="bp">self</span><span class="o">.</span><span class="n">_prmdata</span> <span class="o">=</span> <span class="p">{}</span>  
 
   <span class="c1">#</span>
   <span class="c1"># math operations </span>
@@ -1539,7 +1594,7 @@ document.write(`
 
 
   <span class="nd">@property</span>
-  <span class="k">def</span><span class="w"> </span><span class="nf">position</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="k">def</span><span class="w"> </span><span class="nf">Position</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39; </span>
 <span class="sd">      Returns a vector of position coordinates. </span>
 
@@ -1548,7 +1603,7 @@ document.write(`
 <span class="sd">      </span>
 <span class="sd">      Note</span>
 <span class="sd">      ----</span>
-<span class="sd">      In the context of :attr:`position &lt;c4dynamics.states.state.state.position&gt;`, </span>
+<span class="sd">      In the context of :attr:`Position &lt;c4dynamics.states.state.state.Position&gt;`, </span>
 <span class="sd">      only x, y, z, (case sensitive) are considered position coordinates.  </span>
 
 <span class="sd">      </span>
@@ -1564,34 +1619,34 @@ document.write(`
 <span class="sd">      .. code:: </span>
 <span class="sd">      </span>
 <span class="sd">        &gt;&gt;&gt; s = c4d.state(theta = 3.14, x = 1, y = 2)</span>
-<span class="sd">        &gt;&gt;&gt; s.position  # doctest: +NUMPY_FORMAT</span>
+<span class="sd">        &gt;&gt;&gt; s.Position  # doctest: +NUMPY_FORMAT</span>
 <span class="sd">        [1  2  0]</span>
 <span class="sd">      </span>
 <span class="sd">        </span>
 <span class="sd">      .. code:: </span>
 <span class="sd">      </span>
 <span class="sd">        &gt;&gt;&gt; s = c4d.state(theta = 3.14, x = 1, y = 2, z = 3)</span>
-<span class="sd">        &gt;&gt;&gt; s.position  # doctest: +NUMPY_FORMAT</span>
+<span class="sd">        &gt;&gt;&gt; s.Position  # doctest: +NUMPY_FORMAT</span>
 <span class="sd">        [1  2  3]</span>
 <span class="sd">      </span>
 <span class="sd">      </span>
 <span class="sd">      .. code:: </span>
 <span class="sd">      </span>
 <span class="sd">        &gt;&gt;&gt; s = c4d.state(theta = 3.14, z = -100)</span>
-<span class="sd">        &gt;&gt;&gt; s.position  # doctest: +NUMPY_FORMAT</span>
+<span class="sd">        &gt;&gt;&gt; s.Position  # doctest: +NUMPY_FORMAT</span>
 <span class="sd">        [0  0  -100]</span>
 <span class="sd">        </span>
 
 <span class="sd">      .. code:: </span>
 <span class="sd">      </span>
 <span class="sd">        &gt;&gt;&gt; s = c4d.state(theta = 3.14)</span>
-<span class="sd">        &gt;&gt;&gt; s.position   # doctest: +IGNORE_OUTPUT  </span>
+<span class="sd">        &gt;&gt;&gt; s.Position   # doctest: +IGNORE_OUTPUT  </span>
 <span class="sd">        Position is valid when at least one cartesian coordinate variable (x, y, z) exists...</span>
 <span class="sd">        []</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     
     <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">cartesian</span><span class="p">():</span>
-      <span class="c1"># c4d.cprint(&#39;Warning: position is valid when at least one cartesian&#39;</span>
+      <span class="c1"># c4d.cprint(&#39;Warning: Position is valid when at least one cartesian&#39;</span>
       <span class="c1">#             &#39; coordinate variable (x, y, z) exists.&#39;, &#39;m&#39;)</span>
       <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;Position is valid when at least one cartesian &quot;&quot;&quot;</span>
 <span class="w">                        </span><span class="sd">&quot;&quot;&quot;coordinate variable (x, y, z) exists.&quot;&quot;&quot;</span> <span class="p">,</span> <span class="n">c4d</span><span class="o">.</span><span class="n">c4warn</span><span class="p">)</span>
@@ -1601,7 +1656,7 @@ document.write(`
   
 
   <span class="nd">@property</span>
-  <span class="k">def</span><span class="w"> </span><span class="nf">velocity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="k">def</span><span class="w"> </span><span class="nf">Velocity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;     </span>
 <span class="sd">    Returns a vector of velocity coordinates. </span>
 <span class="sd">    </span>
@@ -1610,7 +1665,7 @@ document.write(`
 
 <span class="sd">    Note</span>
 <span class="sd">    ----</span>
-<span class="sd">    In the context of :attr:`velocity &lt;c4dynamics.states.state.state.velocity&gt;`, </span>
+<span class="sd">    In the context of :attr:`Velocity &lt;c4dynamics.states.state.state.Velocity&gt;`, </span>
 <span class="sd">    only vx, vy, vz, (case sensitive) are considered velocity coordinates.  </span>
 
 <span class="sd">    Returns</span>
@@ -1625,29 +1680,29 @@ document.write(`
 <span class="sd">    .. code:: </span>
 <span class="sd">    </span>
 <span class="sd">      &gt;&gt;&gt; s = c4d.state(x = 100, y = 0, vx = -10, vy = 5)</span>
-<span class="sd">      &gt;&gt;&gt; s.velocity # doctest: +NUMPY_FORMAT </span>
+<span class="sd">      &gt;&gt;&gt; s.Velocity # doctest: +NUMPY_FORMAT </span>
 <span class="sd">      [-10  5  0]</span>
 
 <span class="sd">      </span>
 <span class="sd">    .. code:: </span>
 <span class="sd">    </span>
 <span class="sd">      &gt;&gt;&gt; s = c4d.state(x = 100, vz = -100)</span>
-<span class="sd">      &gt;&gt;&gt; s.velocity # doctest: +NUMPY_FORMAT </span>
+<span class="sd">      &gt;&gt;&gt; s.Velocity # doctest: +NUMPY_FORMAT </span>
 <span class="sd">      [0  0  -100]</span>
 
 
 <span class="sd">    .. code:: </span>
 <span class="sd">    </span>
 <span class="sd">      &gt;&gt;&gt; s = c4d.state(z = 100)</span>
-<span class="sd">      &gt;&gt;&gt; s.velocity  # doctest: +IGNORE_OUTPUT </span>
-<span class="sd">      Warning: velocity is valid when at least one velocity coordinate variable (vx, vy, vz) exists.    </span>
+<span class="sd">      &gt;&gt;&gt; s.Velocity  # doctest: +IGNORE_OUTPUT </span>
+<span class="sd">      Warning: Velocity is valid when at least one velocity coordinate variable (vx, vy, vz) exists.    </span>
 <span class="sd">      []</span>
 
 
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cartesian</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
-      <span class="c1"># c4d.cprint(&#39;Warning: velocity is valid when at least one velocity &#39;</span>
+      <span class="c1"># c4d.cprint(&#39;Warning: Velocity is valid when at least one velocity &#39;</span>
       <span class="c1">#             &#39;coordinate variable (vx, vy, vz) exists.&#39;, &#39;m&#39;)</span>
       <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;Velocity is valid when at least one velocity &quot;&quot;&quot;</span>
 <span class="w">                        </span><span class="sd">&quot;&quot;&quot;coordinate variable (vx, vy, vz) exists.&quot;&quot;&quot;</span> <span class="p">,</span> <span class="n">c4d</span><span class="o">.</span><span class="n">c4warn</span><span class="p">)</span>
@@ -1860,7 +1915,7 @@ document.write(`
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cartesian</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
       <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;state must have at least one velocity coordinate (vx, vy, or vz)&#39;</span><span class="p">)</span>
     
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Velocity</span><span class="p">)</span></div>
 
   
 
@@ -1877,27 +1932,29 @@ document.write(`
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
 
-  <span class="kn">import</span><span class="w"> </span><span class="nn">doctest</span><span class="o">,</span><span class="w"> </span><span class="nn">contextlib</span>
-  <span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="kn">import</span> <span class="n">IgnoreOutputChecker</span><span class="p">,</span> <span class="n">cprint</span>
+  <span class="c1"># import doctest, contextlib</span>
+  <span class="c1"># from c4dynamics import IgnoreOutputChecker, cprint</span>
   
-  <span class="c1"># Register the custom OutputChecker</span>
-  <span class="n">doctest</span><span class="o">.</span><span class="n">OutputChecker</span> <span class="o">=</span> <span class="n">IgnoreOutputChecker</span>
+  <span class="c1"># # Register the custom OutputChecker</span>
+  <span class="c1"># doctest.OutputChecker = IgnoreOutputChecker</span>
 
-  <span class="n">tofile</span> <span class="o">=</span> <span class="kc">False</span> 
-  <span class="n">optionflags</span> <span class="o">=</span> <span class="n">doctest</span><span class="o">.</span><span class="n">FAIL_FAST</span>
+  <span class="c1"># tofile = False </span>
+  <span class="c1"># optionflags = doctest.FAIL_FAST</span>
 
-  <span class="k">if</span> <span class="n">tofile</span><span class="p">:</span> 
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;tests&#39;</span><span class="p">,</span> <span class="s1">&#39;_out&#39;</span><span class="p">,</span> <span class="s1">&#39;output.txt&#39;</span><span class="p">),</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-      <span class="k">with</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">redirect_stdout</span><span class="p">(</span><span class="n">f</span><span class="p">),</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">redirect_stderr</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">(</span><span class="n">optionflags</span> <span class="o">=</span> <span class="n">optionflags</span><span class="p">)</span> 
-  <span class="k">else</span><span class="p">:</span> 
-    <span class="n">result</span> <span class="o">=</span> <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">(</span><span class="n">optionflags</span> <span class="o">=</span> <span class="n">optionflags</span><span class="p">)</span>
+  <span class="c1"># if tofile: </span>
+  <span class="c1">#   with open(os.path.join(&#39;tests&#39;, &#39;_out&#39;, &#39;output.txt&#39;), &#39;w&#39;) as f:</span>
+  <span class="c1">#     with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):</span>
+  <span class="c1">#       result = doctest.testmod(optionflags = optionflags) </span>
+  <span class="c1"># else: </span>
+  <span class="c1">#   result = doctest.testmod(optionflags = optionflags)</span>
 
-  <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">failed</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-    <span class="n">cprint</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;: all tests passed!&quot;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">)</span>
-  <span class="k">else</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">failed</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="c1"># if result.failed == 0:</span>
+  <span class="c1">#   cprint(os.path.basename(__file__) + &quot;: all tests passed!&quot;, &#39;g&#39;)</span>
+  <span class="c1"># else:</span>
+  <span class="c1">#   print(f&quot;{result.failed}&quot;)</span>
 
+  <span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="kn">import</span> <span class="n">rundoctests</span>
+  <span class="n">rundoctests</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">])</span>
 
 </pre></div>
 
@@ -1946,7 +2003,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 21, 2025.
+  Last updated on Sep 22, 2025.
   <br/>
 </p>
   </div>

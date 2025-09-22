@@ -10,6 +10,10 @@ print(sys.executable)
 
 packagefol = 'c4dynamics'
 
+
+skip_datasets = False # True # (default = false)
+skip_videos = False # True   # (default = false)
+
 for dirpath, _, filenames in os.walk(packagefol):
   if '__pycache__' in dirpath: continue
   c4d.cprint(f'dir: {dirpath}', 'c')
@@ -29,19 +33,22 @@ for dirpath, _, filenames in os.walk(packagefol):
     if file_name == 'slides_gen.py':    continue
     if file_name == 'plottracks.py':    continue
     if file_name == 'printpts.py':      continue
-    
     if not file_name.endswith(".py"):   continue
+    if skip_datasets and file_name == '_manager.py': continue
+    if skip_videos and file_name == 'yolo3_opencv.py': continue
+    if file_name == '__init__.py' and dirpath == 'c4dynamics': continue
 
     # if file_name == 'yolo3_opencv.py' or file_name == '_manager.py' or file_name == 'animate.py':     
     #   c4d.cprint('warning: yolo3, datasets, animate, are skipped!', 'r')
     #   continue
 
-    testfile = os.path.join(dirpath, file_name)
+    # testfile = os.path.join(dirpath, file_name)
     
-    if dirpath == 'c4dynamics' and file_name == '__init__.py': 
-      subprocess.run([sys.executable, '-m', 'c4dynamics'])
-    else:       
-      subprocess.run([sys.executable, testfile])
+    # if dirpath == 'c4dynamics' and file_name == '__init__.py': 
+    #   subprocess.run([sys.executable, '-m', 'c4dynamics'])
+    # else:       
+    #   subprocess.run([sys.executable, testfile])
+    subprocess.run([sys.executable, os.path.join(dirpath, file_name)])
 
 
 

@@ -18,15 +18,15 @@ viewimages = False
 
 c4d.cprint('velocity', 'c')
 s = c4d.state(x = 100, y = 0, vx = -10, vy = 5)
-print(s.velocity)
+print(s.Velocity)
 # [-10  5]
 
 s = c4d.state(z = 100, vz = -100)
-print(s.velocity)
+print(s.Velocity)
 # [-100]
 
 s = c4d.state(z = 100)
-print(s.velocity)
+print(s.Velocity)
 # Warning: velocity is valid when at least one cartesian coordinate variable (vx, vy, vz) exists.    
 # []
 

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>c4dynamics.utils.cprint.cprint &#8212; C4DYNAMICS v2.0</title>
+    <title>c4dynamics.utils.cprint.cprint &#8212; C4DYNAMICS v2.1</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=d94dc4f2"></script>
+    <script src="../../../_static/documentation_options.js?v=32e37178"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -52,7 +52,7 @@
     <link rel="prev" title="c4dynamics.utils.tictoc.toc" href="c4dynamics.utils.tictoc.toc.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="May 21, 2025"/>
+    <meta name="docbuild:last-update" content="Sep 22, 2025"/>
   </head>
   
   
@@ -138,7 +138,7 @@
   
   
   
-    <p class="title logo__title">C4DYNAMICS v2.0</p>
+    <p class="title logo__title">C4DYNAMICS v2.1</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -166,7 +166,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../gettingstarted.html">Getting Started</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../programs/index.html">Use Cases</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../programs/dof6sim.html">6 Degrees Of Freedom - Guided Flight Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../programs/dof6sim.html">6 Degrees of Freedom - Guided Flight Simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../programs/ballistic_coefficient.html">Ballistic Coefficient Estimation using Extended Kalman Filter</a></li>
 
 
@@ -180,8 +180,8 @@
 <li class="toctree-l4"><a class="reference internal" href="../state/c4dynamics.states.state.state.X0.html">c4dynamics.states.state.state.X0</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../state/c4dynamics.states.state.state.norm.html">c4dynamics.states.state.state.norm</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../state/c4dynamics.states.state.state.normalize.html">c4dynamics.states.state.state.normalize</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../state/c4dynamics.states.state.state.position.html">c4dynamics.states.state.state.position</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../state/c4dynamics.states.state.state.velocity.html">c4dynamics.states.state.state.velocity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../state/c4dynamics.states.state.state.Position.html">c4dynamics.states.state.state.Position</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../state/c4dynamics.states.state.state.Velocity.html">c4dynamics.states.state.state.Velocity</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../state/c4dynamics.states.state.state.addvars.html">c4dynamics.states.state.state.addvars</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../state/c4dynamics.states.state.state.P.html">c4dynamics.states.state.state.P</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../state/c4dynamics.states.state.state.V.html">c4dynamics.states.state.state.V</a></li>
@@ -458,9 +458,10 @@ document.write(`
 </dd>
 </dl>
 <p class="rubric">Example</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">carr</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">c4d</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">carr</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">carr</span><span class="p">:</span>
-<span class="gp">... </span>  <span class="n">c4d</span><span class="o">.</span><span class="n">cprint</span><span class="p">(</span><span class="s1">&#39;C4DYNAMICS&#39;</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="n">c4d</span><span class="o">.</span><span class="n">cprint</span><span class="p">(</span><span class="s1">&#39;C4DYNAMICS&#39;</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> 
 </pre></div>
 </div>
 <span style="color:yellow">C4DYNAMICS</span><br>
@@ -553,7 +554,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 21, 2025.
+  Last updated on Sep 22, 2025.
   <br/>
 </p>
   </div>

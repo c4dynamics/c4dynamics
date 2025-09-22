@@ -15,7 +15,7 @@ class TestSeeker(unittest.TestCase):
         self.origin = MagicMock(spec=c4d.rigidbody)
         self.origin.X = np.zeros(12)
         self.target = MagicMock(spec=c4d.state)
-        self.target.position = np.array([1, 1, 1])  # Arbitrary position
+        self.target.Position = np.array([1, 1, 1])  # Arbitrary position
         self.target.cartesian.return_value = True  # Mock cartesian method to return True
 
     def test_initialization_with_origin(self):

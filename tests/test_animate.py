@@ -10,54 +10,14 @@ from c4dynamics.rotmat import animate
 from c4dynamics import rigidbody
 import c4dynamics as c4d  
 
-# # Mocking the Open3D Visualizer and other dependencies
-# import warnings
 
-# # Suppress specific warning messages globally
-# warnings.filterwarnings("ignore", message="RPly: Wrong magic number. Expected 'ply'")
-# warnings.filterwarnings("ignore", message="Read PLY failed: unable to parse header.")
+try: 
+	import open3d as o3d
+	o3d.utility.set_verbosity_level(o3d.utility.VerbosityLevel.Error)      
+	OPEN3D_AVAILABLE = True
+except ImportError: 
+	OPEN3D_AVAILABLE = False 
 
-class RenderOption:
-    def __init__(self):
-        # Initialize with any default properties you need
-        pass
-class MockVisualizer:
-    def __init__(self):
-        # Initialize any needed properties here
-        pass
-    
-    def get_render_option(self):
-        # Return a mock render option object
-        return RenderOption()  # Replace with your actual render option class
-        
-    def create_window(self, *args, **kwargs):
-        pass
-    
-    def add_geometry(self, geometry):
-        pass
-    
-    def update_geometry(self, geometry):
-        pass
-    
-    def poll_events(self):
-        pass
-    
-    def update_renderer(self):
-        pass
-    
-    def capture_screen_image(self, filepath):
-        with open(filepath, 'w') as f:
-            f.write("Mock image data")
-    
-    def destroy_window(self):
-        pass
-
-# Replace the o3d.visualization.Visualizer with our MockVisualizer
-# import open3d as o3d
-import open3d as o3d
-o3d.utility.set_verbosity_level(o3d.utility.VerbosityLevel.Error)
-
-o3d.visualization.Visualizer = MockVisualizer
 
 class TestAnimateFunction(unittest.TestCase):
 
@@ -92,6 +52,8 @@ class TestAnimateFunction(unittest.TestCase):
         # Cleanup the test directory
         shutil.rmtree(self.test_dir, ignore_errors=True)
 
+
+    @unittest.skipUnless(OPEN3D_AVAILABLE, "Skipping Open3D tests because Open3D is not installed")
     def test_invalid_model_path(self):
         """Test if animate handles an invalid model path."""
         self.rb.store()
@@ -100,6 +62,7 @@ class TestAnimateFunction(unittest.TestCase):
         with self.assertRaises(FileNotFoundError):
             animate(self.rb, 'invalid/path')
 
+    @unittest.skipUnless(OPEN3D_AVAILABLE, "Skipping Open3D tests because Open3D is not installed")
     def test_empty_model_path(self):
         """Test if animate handles an empty model path."""
         self.rb.store()
@@ -108,12 +71,16 @@ class TestAnimateFunction(unittest.TestCase):
         with self.assertRaises(FileNotFoundError):
             animate(self.rb, '')
 
+
+    @unittest.skipUnless(OPEN3D_AVAILABLE, "Skipping Open3D tests because Open3D is not installed")
     @unittest.skipIf("DISPLAY" not in os.environ, "Skipping GUI test in headless mode")
     def test_single_model_file(self):
         """Test animate function with a single model file."""
         # Should run without errors
         animate(self.rb, self.model_file)
 
+
+    @unittest.skipUnless(OPEN3D_AVAILABLE, "Skipping Open3D tests because Open3D is not installed")
     @unittest.skipIf("DISPLAY" not in os.environ, "Skipping GUI test in headless mode")
     def test_directory_of_models(self):
         """Test animate function with a directory of model files."""
@@ -124,6 +91,8 @@ class TestAnimateFunction(unittest.TestCase):
 
         animate(self.rb, self.test_dir)
 
+
+    @unittest.skipUnless(OPEN3D_AVAILABLE, "Skipping Open3D tests because Open3D is not installed")
     def test_invalid_model_color(self):
         """Test animate function with invalid model color input."""
         self.rb.store()
@@ -131,6 +100,8 @@ class TestAnimateFunction(unittest.TestCase):
         with self.assertRaises(ValueError):
             animate(self.rb, modelfile, modelcolor='invalid_color')
 
+
+    @unittest.skipUnless(OPEN3D_AVAILABLE, "Skipping Open3D tests because Open3D is not installed")
     @unittest.skipIf("DISPLAY" not in os.environ, "Skipping GUI test in headless mode")
     def test_output_image_creation(self):
         """Test if output images are created when savedir is provided."""
@@ -146,4 +117,4 @@ class TestAnimateFunction(unittest.TestCase):
         shutil.rmtree(output_dir)
 
 if __name__ == '__main__':
-    unittest.main()
+	unittest.main()

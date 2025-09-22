@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>6 Degrees Of Freedom - Guided Flight Simulation &#8212; C4DYNAMICS v2.0</title>
+    <title>6 Degrees of Freedom - Guided Flight Simulation &#8212; C4DYNAMICS v2.1</title>
   
   
   
@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=d94dc4f2"></script>
+    <script src="../_static/documentation_options.js?v=32e37178"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -55,7 +55,7 @@
     <link rel="prev" title="Use Cases" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="May 21, 2025"/>
+    <meta name="docbuild:last-update" content="Sep 22, 2025"/>
   </head>
   
   
@@ -141,7 +141,7 @@
   
   
   
-    <p class="title logo__title">C4DYNAMICS v2.0</p>
+    <p class="title logo__title">C4DYNAMICS v2.1</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -169,7 +169,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Getting Started</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Use Cases</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">6 Degrees Of Freedom - Guided Flight Simulation</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">6 Degrees of Freedom - Guided Flight Simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ballistic_coefficient.html">Ballistic Coefficient Estimation using Extended Kalman Filter</a></li>
 
 
@@ -183,8 +183,8 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.X0.html">c4dynamics.states.state.state.X0</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.norm.html">c4dynamics.states.state.state.norm</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.normalize.html">c4dynamics.states.state.state.normalize</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.position.html">c4dynamics.states.state.state.position</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.velocity.html">c4dynamics.states.state.state.velocity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.Position.html">c4dynamics.states.state.state.Position</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.Velocity.html">c4dynamics.states.state.state.Velocity</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.addvars.html">c4dynamics.states.state.state.addvars</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.P.html">c4dynamics.states.state.state.P</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.V.html">c4dynamics.states.state.state.V</a></li>
@@ -424,7 +424,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>6 Degrees Of Freedom - Guided Flight Simulation</h1>
+    <h1>6 Degrees of Freedom - Guided Flight Simulation</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -481,9 +481,9 @@ document.write(`
 <li><p>To download this notebook, click the download icon in the toolbar above and select the .ipynb format.</p></li>
 <li><p>For any questions or comments, please open an issue on the <a class="reference external" href="https://github.com/C4dynamics/C4dynamics/issues">c4dynamics issues page</a>.</p></li>
 </ul>
-<section id="6-Degrees-Of-Freedom---Guided-Flight-Simulation">
-<h1>6 Degrees Of Freedom - Guided Flight Simulation<a class="headerlink" href="#6-Degrees-Of-Freedom---Guided-Flight-Simulation" title="Link to this heading">#</a></h1>
-<p>This notebook demonstrates a six degrees of freedom (6DOF) simulation of a guided aircraft, modeling its dynamics, aerodynamics, and control system.</p>
+<section id="6-Degrees-of-Freedom---Guided-Flight-Simulation">
+<h1>6 Degrees of Freedom - Guided Flight Simulation<a class="headerlink" href="#6-Degrees-of-Freedom---Guided-Flight-Simulation" title="Link to this heading">#</a></h1>
+<p>Six Degrees Of Freedom (6DOF) simulation of a guided aircraft, modeling its dynamics, aerodynamics, and control system.</p>
 <section id="Contents">
 <h2>Contents<a class="headerlink" href="#Contents" title="Link to this heading">#</a></h2>
 <ol class="arabic simple">
@@ -685,10 +685,10 @@ document.write(`
 <h3>Initial conditions<a class="headerlink" href="#Initial-conditions" title="Link to this heading">#</a></h3>
 <p>The initial missile direction is calculated by employing a simple algorithm in which the missile is pointed <span class="math notranslate nohighlight">\(30°\)</span> below the line-of-sight to the target at the instant of launch. The missile angular rates at launch are assumed to be negligible.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rTM</span>           <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">position</span> <span class="o">-</span> <span class="n">missile</span><span class="o">.</span><span class="n">position</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rTM</span>           <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">Position</span> <span class="o">-</span> <span class="n">missile</span><span class="o">.</span><span class="n">Position</span>
 <span class="n">rTMnorm</span>       <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">rTM</span><span class="p">)</span>
 <span class="n">ucl</span>           <span class="o">=</span> <span class="n">rTM</span> <span class="o">/</span> <span class="n">rTMnorm</span> <span class="c1"># center line unit vector</span>
 
@@ -702,7 +702,7 @@ document.write(`
 <span class="n">missile</span><span class="o">.</span><span class="n">psi</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="n">ucl</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">ucl</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="n">missile</span><span class="o">.</span><span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="o">-</span><span class="n">ucl</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">ucl</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">ucl</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
 <span class="n">missile</span><span class="o">.</span><span class="n">phi</span>   <span class="o">=</span> <span class="mi">0</span>
-<span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span>       <span class="o">=</span> <span class="n">missile</span><span class="o">.</span><span class="n">BR</span> <span class="o">@</span> <span class="n">missile</span><span class="o">.</span><span class="n">velocity</span>
+<span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span>       <span class="o">=</span> <span class="n">missile</span><span class="o">.</span><span class="n">BR</span> <span class="o">@</span> <span class="n">missile</span><span class="o">.</span><span class="n">Velocity</span>
 <span class="n">vc</span>            <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">ab_cmd</span>        <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">h</span>             <span class="o">=</span> <span class="o">-</span><span class="n">missile</span><span class="o">.</span><span class="n">z</span> <span class="c1"># missile altitude above sea level</span>
@@ -839,14 +839,14 @@ document.write(`
 </ul>
 <p>Comments are introduced inline.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="n">t</span> <span class="o">&lt;=</span> <span class="n">tf</span> <span class="ow">and</span> <span class="n">h</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">vc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
 
     <span class="c1"># relative position</span>
-    <span class="n">vTM</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">velocity</span> <span class="o">-</span> <span class="n">missile</span><span class="o">.</span><span class="n">velocity</span> <span class="c1"># missile-target relative velocity</span>
-    <span class="n">rTM</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">position</span> <span class="o">-</span> <span class="n">missile</span><span class="o">.</span><span class="n">position</span> <span class="c1"># relative position</span>
+    <span class="n">vTM</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">Velocity</span> <span class="o">-</span> <span class="n">missile</span><span class="o">.</span><span class="n">Velocity</span> <span class="c1"># missile-target relative velocity</span>
+    <span class="n">rTM</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">Position</span> <span class="o">-</span> <span class="n">missile</span><span class="o">.</span><span class="n">Position</span> <span class="c1"># relative position</span>
 
     <span class="c1"># relative velcoity</span>
     <span class="n">rTMnorm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">rTM</span><span class="p">)</span> <span class="c1"># for next round</span>
@@ -979,7 +979,7 @@ document.write(`
     <span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span>
     <span class="n">beta</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="o">-</span><span class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span>
 
-    <span class="n">uvm</span> <span class="o">=</span> <span class="n">missile</span><span class="o">.</span><span class="n">velocity</span> <span class="o">/</span> <span class="n">missile</span><span class="o">.</span><span class="n">V</span><span class="p">()</span>
+    <span class="n">uvm</span> <span class="o">=</span> <span class="n">missile</span><span class="o">.</span><span class="n">Velocity</span> <span class="o">/</span> <span class="n">missile</span><span class="o">.</span><span class="n">V</span><span class="p">()</span>
     <span class="n">ucl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">missile</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">missile</span><span class="o">.</span><span class="n">psi</span><span class="p">)</span>
                     <span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">missile</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">missile</span><span class="o">.</span><span class="n">psi</span><span class="p">)</span>
                     <span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="o">-</span><span class="n">missile</span><span class="o">.</span><span class="n">theta</span><span class="p">)])</span>
@@ -1003,13 +1003,13 @@ document.write(`
 <li><p>Time at closest range The time of the closest approach is approximated by calculating the time it takes the target to travel along the relative flight path from the point of closest approach to the final target position and then subtracting this calculated time from the time of the last computation.</p></li>
 </ol>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vTM</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">velocity</span> <span class="o">-</span> <span class="n">missile</span><span class="o">.</span><span class="n">velocity</span> <span class="c1"># missile-target relative velocity</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vTM</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">Velocity</span> <span class="o">-</span> <span class="n">missile</span><span class="o">.</span><span class="n">Velocity</span> <span class="c1"># missile-target relative velocity</span>
 <span class="n">uvTM</span> <span class="o">=</span> <span class="n">vTM</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vTM</span><span class="p">)</span>
 
-<span class="n">rTM</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">position</span> <span class="o">-</span> <span class="n">missile</span><span class="o">.</span><span class="n">position</span> <span class="c1"># relative position</span>
+<span class="n">rTM</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">Position</span> <span class="o">-</span> <span class="n">missile</span><span class="o">.</span><span class="n">Position</span> <span class="c1"># relative position</span>
 
 <span class="n">md</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">rTM</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">rTM</span><span class="p">,</span> <span class="n">uvTM</span><span class="p">)</span> <span class="o">*</span> <span class="n">uvTM</span><span class="p">)</span>
 <span class="n">tfinal</span> <span class="o">=</span> <span class="n">t</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">rTM</span><span class="p">,</span> <span class="n">uvTM</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vTM</span><span class="p">)</span>
@@ -1285,7 +1285,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 21, 2025.
+  Last updated on Sep 22, 2025.
   <br/>
 </p>
   </div>

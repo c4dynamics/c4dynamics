@@ -1,6 +1,6 @@
-c4dynamics.states.state.state.velocity
+c4dynamics.states.state.state.Velocity
 ======================================
 
 .. currentmodule:: c4dynamics.states.state
 
-.. autoproperty:: state.velocity
+.. autoproperty:: state.Velocity

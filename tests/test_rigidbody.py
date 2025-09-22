@@ -8,6 +8,16 @@ from c4dynamics import rigidbody
 import c4dynamics as c4d 
 import os
 
+
+try:
+    import open3d as o3d
+    o3d.utility.set_verbosity_level(o3d.utility.VerbosityLevel.Error)
+    OPEN3D_AVAILABLE = True
+except ImportError:
+    OPEN3D_AVAILABLE = False
+
+    
+
 class TestRigidbody(unittest.TestCase):
 
     def setUp(self):
@@ -64,6 +74,8 @@ class TestRigidbody(unittest.TestCase):
         acc = self.rb.inteqm(forces, moments, dt)
         self.assertIsInstance(acc, np.ndarray)  # Check if acceleration is returned as numpy array
 
+
+    @unittest.skipUnless(OPEN3D_AVAILABLE, "Skipping Open3D tests because Open3D is not installed")
     @unittest.skipIf("DISPLAY" not in os.environ, "Skipping GUI test in headless mode")
     def test_animate_method(self):
         """Test the animate method."""
