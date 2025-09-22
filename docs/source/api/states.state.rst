@@ -32,8 +32,8 @@ The state object
     state.X0 
     state.norm 
     state.normalize 
-    state.position 
-    state.velocity 
+    state.Position 
+    state.Velocity 
 
 
   **Methods** 

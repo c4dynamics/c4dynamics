@@ -9,12 +9,13 @@ import numpy as np
 import pooch 
 # import shutil 
 from c4dynamics.datasets._manager import imagesmap, videosmap, nnsmap, d3smap 
+from c4dynamics.datasets._registry import CACHE_DIR
 import matplotlib.image as mpimg
 from matplotlib import pyplot as plt 
 
 
 
-CACHE_DIR     = os.path.join(pooch.os_cache(''), 'c4data')
+# CACHE_DIR     = os.path.join(pooch.os_cache(''), 'c4data')
 aeropath      = c4d.j(CACHE_DIR, videosmap['aerobatics'])
 trianglepath  = c4d.j(CACHE_DIR, imagesmap['triangle'])
 planespath    = c4d.j(CACHE_DIR, imagesmap['planes'])

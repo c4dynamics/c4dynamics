@@ -30,10 +30,13 @@ nn_register     = pooch.create(
       path      = CACHE_DIR
     , base_url  = ''
     , registry  = {
-          'yolov3.weights': '523e4e69e1d015393a1b0a441cef1d9c7659e3eb2d7e15f793f060a21b32f297'          
+          # 'yolov3.weights': '523e4e69e1d015393a1b0a441cef1d9c7659e3eb2d7e15f793f060a21b32f297'    
+          'yolov3.weights': '523e4e69e1d015393a1b0a441cef1d9c7659e3eb2d7e15f793f060a21b32f297'    
+                
       }
     , urls      = {
-          'yolov3.weights': 'https://pjreddie.com/media/files/yolov3.weights'
+          # 'yolov3.weights': 'https://pjreddie.com/media/files/yolov3.weights'
+          'yolov3.weights': 'https://huggingface.co/spaces/Epitech/Scarecrow/resolve/main/yolov3.weights'
       }
     , retry_if_failed = 1  
   )

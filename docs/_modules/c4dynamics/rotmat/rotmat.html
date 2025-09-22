@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>c4dynamics.rotmat.rotmat &#8212; C4DYNAMICS v2.0</title>
+    <title>c4dynamics.rotmat.rotmat &#8212; C4DYNAMICS v2.1</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=d94dc4f2"></script>
+    <script src="../../../_static/documentation_options.js?v=32e37178"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -49,7 +49,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="May 21, 2025"/>
+    <meta name="docbuild:last-update" content="Sep 22, 2025"/>
   </head>
   
   
@@ -137,7 +137,7 @@
   
   
   
-    <p class="title logo__title">C4DYNAMICS v2.0</p>
+    <p class="title logo__title">C4DYNAMICS v2.1</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -165,7 +165,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../gettingstarted.html">Getting Started</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../programs/index.html">Use Cases</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../programs/dof6sim.html">6 Degrees Of Freedom - Guided Flight Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../programs/dof6sim.html">6 Degrees of Freedom - Guided Flight Simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../programs/ballistic_coefficient.html">Ballistic Coefficient Estimation using Extended Kalman Filter</a></li>
 
 
@@ -179,8 +179,8 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.X0.html">c4dynamics.states.state.state.X0</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.norm.html">c4dynamics.states.state.state.norm</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.normalize.html">c4dynamics.states.state.state.normalize</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.position.html">c4dynamics.states.state.state.position</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.velocity.html">c4dynamics.states.state.state.velocity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.Position.html">c4dynamics.states.state.state.Position</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.Velocity.html">c4dynamics.states.state.state.Velocity</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.addvars.html">c4dynamics.states.state.state.addvars</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.P.html">c4dynamics.states.state.state.P</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.V.html">c4dynamics.states.state.state.V</a></li>
@@ -729,27 +729,33 @@ document.write(`
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
 
-  <span class="kn">import</span><span class="w"> </span><span class="nn">doctest</span><span class="o">,</span><span class="w"> </span><span class="nn">contextlib</span><span class="o">,</span><span class="w"> </span><span class="nn">os</span>
-  <span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="kn">import</span> <span class="n">IgnoreOutputChecker</span><span class="p">,</span> <span class="n">cprint</span>
-  
-  <span class="c1"># Register the custom OutputChecker</span>
-  <span class="n">doctest</span><span class="o">.</span><span class="n">OutputChecker</span> <span class="o">=</span> <span class="n">IgnoreOutputChecker</span>
+<span class="c1">#   import  matplotlib</span>
+<span class="c1">#   matplotlib.use(&quot;TkAgg&quot;)   # keep interactive</span>
+<span class="c1">#   import matplotlib.pyplot as plt  </span>
 
-  <span class="n">tofile</span> <span class="o">=</span> <span class="kc">False</span> 
-  <span class="n">optionflags</span> <span class="o">=</span> <span class="n">doctest</span><span class="o">.</span><span class="n">FAIL_FAST</span>
+<span class="c1">#   import doctest, contextlib, os</span>
+<span class="c1">#   from c4dynamics import IgnoreOutputChecker, cprint</span>
+	  
+<span class="c1"># 	# Register the custom OutputChecker</span>
+<span class="c1">#   doctest.OutputChecker = IgnoreOutputChecker</span>
 
-  <span class="k">if</span> <span class="n">tofile</span><span class="p">:</span> 
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;tests&#39;</span><span class="p">,</span> <span class="s1">&#39;_out&#39;</span><span class="p">,</span> <span class="s1">&#39;output.txt&#39;</span><span class="p">),</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-      <span class="k">with</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">redirect_stdout</span><span class="p">(</span><span class="n">f</span><span class="p">),</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">redirect_stderr</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">(</span><span class="n">optionflags</span> <span class="o">=</span> <span class="n">optionflags</span><span class="p">)</span> 
-  <span class="k">else</span><span class="p">:</span> 
-    <span class="n">result</span> <span class="o">=</span> <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">(</span><span class="n">optionflags</span> <span class="o">=</span> <span class="n">optionflags</span><span class="p">)</span>
+<span class="c1">#   tofile = False </span>
+<span class="c1">#   optionflags = doctest.FAIL_FAST</span>
 
-  <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">failed</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-    <span class="n">cprint</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;: all tests passed!&quot;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">)</span>
-  <span class="k">else</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">failed</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1">#   if tofile: </span>
+<span class="c1">#     with open(os.path.join(&#39;tests&#39;, &#39;_out&#39;, &#39;output.txt&#39;), &#39;w&#39;) as f:</span>
+<span class="c1">#       with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):</span>
+<span class="c1">#         result = doctest.testmod(optionflags = optionflags) </span>
+<span class="c1">#   else: </span>
+<span class="c1">#     result = doctest.testmod(optionflags = optionflags)</span>
 
+<span class="c1">#   if result.failed == 0:</span>
+<span class="c1">#     cprint(os.path.basename(__file__) + &quot;: all tests passed!&quot;, &#39;g&#39;)</span>
+<span class="c1">#   else:</span>
+<span class="c1">#     print(f&quot;{result.failed}&quot;)</span>
+
+  <span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="kn">import</span> <span class="n">rundoctests</span>
+  <span class="n">rundoctests</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">])</span>
 
 </pre></div>
 
@@ -798,7 +804,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on May 21, 2025.
+  Last updated on Sep 22, 2025.
   <br/>
 </p>
   </div>

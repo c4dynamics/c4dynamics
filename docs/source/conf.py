@@ -92,7 +92,7 @@ https://chatgpt.com/share/671776d9-c600-8002-bf9e-c9345a1fa792
    - **Clear Value Proposition**: A headline that clearly explains what the product or project does and why it matters.
    - **Key Features and Benefits**: Highlight the primary benefits and advantages, focusing on user outcomes.
    - **Visuals or Demos**: Include images, videos, or demos that show the product in action.
-   - **Call to Action**: Direct visitors to take the next step, whether it’s signing up, downloading, or contacting you for more information.
+   - **Call to Action**: Direct visitors to take the next step, whether it's signing up, downloading, or contacting you for more information.
    - **Testimonials or Success Stories**: If applicable, add feedback or use cases to demonstrate impact.
    - **Links to GitHub/Documentation**: For technical users, offer easy access to the repository or full documentation.
 
