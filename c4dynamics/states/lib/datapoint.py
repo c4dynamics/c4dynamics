@@ -37,20 +37,19 @@ class datapoint(state):
   **Arguments**
 
   x : float or int, optional
-      The x-position of the datapoint. Default value :math:`x = 0`. 
+      The initial x-position of the datapoint. Default value :math:`x = 0`. 
   y : float or int, optional
-      The y-position of the datapoint. Default value :math:`y = 0`. 
+      The initial y-position of the datapoint. Default value :math:`y = 0`. 
   z : float or int, optional
-      The z-position of the datapoint. Default value :math:`z = 0`. 
+      The initial z-position of the datapoint. Default value :math:`z = 0`. 
   vx : float or int, optional
-      Component of velocity along the x-axis. Default value :math:`v_x = 0`. 
+      The initial x-velocity of the datapoint. Default value :math:`v_x = 0`. 
   vy : float or int, optional
-      Component of velocity along the y-axis. Default value :math:`v_y = 0`. 
+      The initial y-velocity of the datapoint. Default value :math:`v_y = 0`. 
   vz : float or int, optional
-      Component of velocity along the z-axis. Default value :math:`v_z = 0`. 
+      The initial z-velocity of the datapoint. Default value :math:`v_z = 0`. 
 
       
-
   The input arguments determine the initial values of the instance. 
   The vector of initial conditions can be retrieved by calling 
   :attr:`datapoint.X0 <c4dynamics.states.state.state.X0>`:
@@ -126,7 +125,6 @@ class datapoint(state):
   .. code:: 
 
     >>> dp.plot('z')
-    >>> plt.show()
 
   .. figure:: /_examples/datapoint/intro_freefall.png
 
@@ -281,7 +279,6 @@ class datapoint(state):
 
       >>> bal1.plot('side')
       >>> bal10.plot('side', ax = plt.gca(), color = 'c')
-      >>> plt.show() 
 
     .. figure:: /_examples/datapoint/mass_balloon.png
 
@@ -392,7 +389,6 @@ class datapoint(state):
     .. code:: 
 
       >>> dp.plot('z')
-      >>> plt.show()
 
     .. figure:: /_examples/datapoint/intro_freefall.png
     
@@ -636,25 +632,27 @@ class datapoint(state):
 
 if __name__ == "__main__":
 
-  import doctest, contextlib, os
-  from c4dynamics import IgnoreOutputChecker, cprint
+  # import doctest, contextlib, os
+  # from c4dynamics import IgnoreOutputChecker, cprint
   
-  # Register the custom OutputChecker
-  doctest.OutputChecker = IgnoreOutputChecker
+  # # Register the custom OutputChecker
+  # doctest.OutputChecker = IgnoreOutputChecker
 
-  tofile = False 
-  optionflags = doctest.FAIL_FAST
+  # tofile = False 
+  # optionflags = doctest.FAIL_FAST
 
-  if tofile: 
-    with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
-      with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
-        result = doctest.testmod(optionflags = optionflags) 
-  else: 
-    result = doctest.testmod(optionflags = optionflags)
+  # if tofile: 
+  #   with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
+  #     with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
+  #       result = doctest.testmod(optionflags = optionflags) 
+  # else: 
+  #   result = doctest.testmod(optionflags = optionflags)
 
-  if result.failed == 0:
-    cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
-  else:
-    print(f"{result.failed}")
+  # if result.failed == 0:
+  #   cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
+  # else:
+  #   print(f"{result.failed}")
+  from c4dynamics import rundoctests
+  rundoctests(sys.modules[__name__])
 
 

@@ -59,6 +59,11 @@ while maintaining flexibility and scalability.
 
 
 
+## Requirements 
+- 3.8 <= Python <= 3.12
+- Required packages are listed in [requirements.txt](requirements.txt)
+
+
 
 ## Installation 
 
@@ -112,6 +117,10 @@ Print the state variables, the state vector, and the stored data:
 >>> s.data('y') 
 ([0,  1], [1,  2.5])
 ```
+
+## Support 
+If you encounter problems, have questions, or would like to suggest improvements, 
+please open an Issue in this repository.
 
 
 ## New in Block 2

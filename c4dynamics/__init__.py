@@ -43,7 +43,7 @@ from .states.state import state
 from .states.lib.pixelpoint import pixelpoint
 from .states.lib.datapoint import datapoint, create
 from . import rotmat
-# rotmat is required to import rigidbody:  
+# rotmat is required to importing rigidbody:  
 from .states.lib.rigidbody import rigidbody # rotmat is required to import rigidbody.  
 
 #
@@ -74,12 +74,16 @@ from . import filters
 from . import detectors
 
 
+#
+# reinforcement learning 
+## 
+from . import envs 
 
 
 #
 # version
 ##
-__version__ = '2.0.3'
+__version__ = '2.1.0'
 
 
 #
@@ -89,9 +93,9 @@ j = os.path.join
 
 
 
-#
-# warnings 
-##
+''' 
+WARNINGS 
+'''
 class c4warn(UserWarning): pass
 
 # customize the warning messages:  
@@ -114,15 +118,18 @@ def show_warning(message, category, filename, lineno, file = None, line = None):
 
 warnings.showwarning = show_warning
 
-
+'''
+TESTING 
+'''
 
 class IgnoreOutputChecker(doctest.OutputChecker):
   from typing import Union
 
   IGNORE_OUTPUT = doctest.register_optionflag("IGNORE_OUTPUT") # 2048
-  NUMPY_FORMAT = doctest.register_optionflag("NUMPY_FORMAT")  # 4096 
+  NUMPY_FORMAT = doctest.register_optionflag("NUMPY_FORMAT") # 4096 
 
   def check_output(self, want, got, optionflags): 
+
 
     # If the IGNORE_OUTPUT flag is set, always return True
     if optionflags & self.IGNORE_OUTPUT:
@@ -130,8 +137,10 @@ class IgnoreOutputChecker(doctest.OutputChecker):
 
     # If NUMPY_FORMAT flag is set, compare NumPy arrays with formatting tolerance
     if optionflags & self.NUMPY_FORMAT:
+
       want = self._convert_to_array(want)
       got = self._convert_to_array(got)
+
       if want is not None and got is not None:
 
         abs_tol = 1e-3
@@ -155,27 +164,90 @@ class IgnoreOutputChecker(doctest.OutputChecker):
 
     import re 
 
-
     """Attempt to convert text to a NumPy array for comparison."""
     try:
 
       if ',' not in text:
         text = re.sub(r'\s+', ',', text.strip())
 
-      # Remove extraneous text like 'array(' and closing ')' using regex
-      clean_text = re.sub(r'(array\(|\))', '', text).strip()
-      # Remove brackets
-      clean_text = re.sub(r'[\[\]]', '', clean_text)
-
+      # Remove 'np.type'
+      text = re.sub(r'np\.\w+', '', text)
+      # Remove 'array(' and strip leading/trailing whitespace characters 
+      text = re.sub(r'(array\()', '', text).strip()
+      # Remove brackets and parantheses 
+      text = re.sub(r'[\[\]\(\)]', '', text)
+      # remove ellipsis
+      text = re.sub(r'\.\.\.', '', text)
       # Convert to NumPy array
-      return np.fromstring(clean_text, sep = ',')
+      return np.fromstring(text, sep = ',')
     
     except ValueError:
+      print(f"\n \033[31m DOCSTRING ERROR: Could not convert to an array \033[0m", file = sys.stderr)
       return None  # Return None if conversion fails
 
 
-# just find the package root folder: 
 
+  # Filter out tests for the animate method by overriding the testmod.
+
+
+def testmod_filtering(module, filter_functions = [], **kwargs):
+
+  tests = []
+  
+  for test in doctest.DocTestFinder().find(module):
+    filtfunc = False
+    for func in filter_functions:
+      if func == test.name:
+        filtfunc = True
+        break
+    if filtfunc: continue
+    tests.append(test)
+  
+
+  runner = doctest.DocTestRunner(**kwargs)
+  for test in tests:
+    runner.run(test)
+  return runner.summarize()
+
+
+def rundoctests(module, exclude_functions = []):
+  import doctest, contextlib, os
+  from c4dynamics import IgnoreOutputChecker, cprint
+  from matplotlib import pyplot as plt
+  from pathlib import Path 
+  
+  tofile = False
+  # pltbe = plt.get_backend()
+  # plt.switch_backend("tkAgg")
+
+  # Register the custom OutputChecker
+  doctest.OutputChecker = IgnoreOutputChecker
+
+  optionflags = doctest.FAIL_FAST
+  np.set_printoptions(legacy = "1.25")
+  
+  if tofile: 
+    with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
+      with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
+        # result = doctest.testmod(optionflags = optionflags) 
+        result = testmod_filtering(module, exclude_functions, optionflags = optionflags) 
+  else: 
+    # result = doctest.testmod(optionflags = optionflags)
+    result = testmod_filtering(module, exclude_functions, optionflags = optionflags) 
+
+  if result.failed == 0:
+    cprint(Path(module.__file__).parts[-1] + ": all tests passed!", 'g')
+  else:
+    print(f"{result.failed}")
+
+  
+  # plt.switch_backend(pltbe)
+
+
+''' 
+ROOT FOLDER
+'''
+# just find the package root folder: 
 def c4dir(dir, addpath = ''):
   # dirname and basename are supplamentary:
   # c:\dropbox\c4dynamics\text.txt
@@ -194,6 +266,9 @@ def c4dir(dir, addpath = ''):
   return c4dir(os.path.dirname(dir), addpath)
 
 
+''' 
+KEYWORDS 
+'''
 # 
 # TODO BUG FIXME HACK NOTE XXX 
 # 

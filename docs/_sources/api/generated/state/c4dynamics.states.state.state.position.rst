@@ -1,6 +1,6 @@
-c4dynamics.states.state.state.position
+c4dynamics.states.state.state.Position
 ======================================
 
 .. currentmodule:: c4dynamics.states.state
 
-.. autoproperty:: state.position
+.. autoproperty:: state.Position

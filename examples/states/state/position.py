@@ -20,19 +20,19 @@ viewimages = False
 
 c4d.cprint('position', 'c')
 s = c4d.state(theta = 3.14, x = 1, y = 2)
-print(s.position)
+print(s.Position)
 # [1, 2]
 
 s = c4d.state(theta = 3.14, x = 1, y = 2, z = 3)
-print(s.position)
+print(s.Position)
 # [1  2  3]
 
 s = c4d.state(theta = 3.14, z = -100)
-print(s.position)
+print(s.Position)
 # [-100]
 
 s = c4d.state(theta = 3.14)
-print(s.position)
+print(s.Position)
 # Warning: position is valid when at least one cartesian coordinate variable (x, y, z) exists.
 
 

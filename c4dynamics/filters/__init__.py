@@ -588,7 +588,6 @@ Plot the time histories of the target altitude (:math:`z`) and flight path angle
   >>> # second axis
   >>> ax[1].plot(*tgt.data('gamma', c4d.r2d), 'm')                      # doctest: +IGNORE_OUTPUT   
   >>> c4d.plotdefaults(ax[1], 'Path Angle', 't', '')  
-  >>> plt.show() 
 
 .. figure:: /_examples/filters/ap_ideal.png
 
@@ -667,7 +666,6 @@ Plot the state estimates on the true the target altitude (:math:`z`) and flight 
   >>> ax[1].plot(*tgt.data('gamma', c4d.r2d), 'm')                      # doctest: +IGNORE_OUTPUT   
   >>> ax[1].plot(*kf.data('gamma', c4d.r2d), 'y')                       # doctest: +IGNORE_OUTPUT
   >>> c4d.plotdefaults(ax[1], 'Path Angle', 't', '')  
-  >>> plt.show()   
 
 .. figure:: /_examples/filters/ap_filtered.png
 
@@ -1349,25 +1347,27 @@ from c4dynamics.filters.lowpass import lowpass
 
 if __name__ == "__main__":
 
-  import doctest, contextlib
-  from c4dynamics import IgnoreOutputChecker, cprint
+  # import doctest, contextlib
+  # from c4dynamics import IgnoreOutputChecker, cprint
   
-  # Register the custom OutputChecker
-  doctest.OutputChecker = IgnoreOutputChecker
+  # # Register the custom OutputChecker
+  # doctest.OutputChecker = IgnoreOutputChecker
 
-  tofile = False 
-  optionflags = doctest.FAIL_FAST
+  # tofile = False 
+  # optionflags = doctest.FAIL_FAST
 
-  if tofile: 
-    with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
-      with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
-        result = doctest.testmod(optionflags = optionflags) 
-  else: 
-    result = doctest.testmod(optionflags = optionflags)
+  # if tofile: 
+  #   with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
+  #     with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
+  #       result = doctest.testmod(optionflags = optionflags) 
+  # else: 
+  #   result = doctest.testmod(optionflags = optionflags)
 
-  if result.failed == 0:
-    cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
-  else:
-    print(f"{result.failed}")
+  # if result.failed == 0:
+  #   cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
+  # else:
+  #   print(f"{result.failed}")
 
 
+  from c4dynamics import rundoctests
+  rundoctests(sys.modules[__name__])

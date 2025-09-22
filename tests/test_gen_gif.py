@@ -3,7 +3,9 @@ from unittest.mock import patch, call
 import os
 import sys 
 sys.path.append('.')
+import c4dynamics as c4d  
 from c4dynamics import gif 
+import warnings
 
 
 class TestGifFunction(unittest.TestCase):
@@ -24,6 +26,7 @@ class TestGifFunction(unittest.TestCase):
 
         # Mock os.path.join to return the correct file path
         mock_join.side_effect = lambda *args: "/".join(args)
+
 
         # Call the gif function
         gif("test_dir", "test_gif")
@@ -67,12 +70,17 @@ class TestGifFunction(unittest.TestCase):
 
     @patch("os.listdir")
     @patch("imageio.mimsave")
-    def test_empty_directory(self, mock_mimsave, mock_listdir):
+    @patch("os.path.isfile")
+    def test_empty_directory(self, mock_isfile, mock_mimsave, mock_listdir):
         """Test GIF creation with an empty directory."""
         mock_listdir.return_value = []  # Empty directory
 
-        gif("test_dir", "test_gif")
+        mock_isfile.return_value = True
 
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", c4d.c4warn)
+            gif("test_dir", "test_gif")
+            
         # mimsave should not be called since there are no images to process
         mock_mimsave.assert_not_called()
 
@@ -96,24 +104,6 @@ class TestGifFunction(unittest.TestCase):
         args, _ = mock_mimsave.call_args
         self.assertTrue(args[0].endswith("test_gif_no_ext.gif"))
 
-
-
-    # @patch("os.listdir")
-    # @patch("imageio.v2.imread")  # Mock the image read function
-    # @patch("imageio.mimsave")
-    # def test_specified_fps_effect(self, mock_mimsave, mock_imread, mock_listdir):
-    #     """Test that specified duration parameter influences frame interval."""
-    #     mock_listdir.return_value = ["image1.png"] * 100  # Simulate 100 frames
-
-    #     # Mock imread to prevent reading from the filesystem
-    #     mock_imread.side_effect = lambda x: f"image data for {x}"  # Return dummy image data
-
-    #     gif("test_dir", "test_gif", duration = 1)  # 1-second GIF
-
-    #     # Verify the number of images included depends on duration and fps
-    #     args, _ = mock_mimsave.call_args
-    #     # Total Frames = Duration(seconds) × FPS = 1 × 60 = 60 
-    #     self.assertEqual(len(args[1]), 60)  # For a 1s duration at 60 fps, expect 60 frames. 
 
 
 

@@ -80,6 +80,9 @@ class state:
     
   '''
 
+  # TODO: define state space, i.e. define the state properties such
+  #       as scope, limits, continuouty. etc. 
+  #     probably basicaly for rl algos. 
 
   # Α α # Β β # Γ γ # Δ δ # Ε ε # Ζ ζ # Η η # Θ θ # Ι ι 
   # Κ κ # Λ λ # Μ μ # Ν ν # Ξ ξ # Ο ο # Π π # Ρ ρ # Σ σ/ς
@@ -97,11 +100,12 @@ class state:
           ('Mu', '\u039C'), ('Nu', '\u039D'), ('Xi', '\u039E'), ('Omicron', '\u039F'),
             ('Pi', '\u03A0'), ('Rho', '\u03A1'), ('Sigma', '\u03A3'), ('Tau', '\u03A4'),
               ('Upsilon', '\u03A5'), ('Phi', '\u03A6'), ('Chi', '\u03A7'), ('Psi', '\u03A8'), ('Omega', '\u03A9'))
-    # 
-  _reserved_keys = ('X', 'X0', 'P', 'V')
+    #
+
+  _reserved_keys = ('X', 'X0', 'P', 'V', 'Position', 'Velocity', 'norm', 'normalize', 'data', '_data', '_prmdata', '_didx')
 
 
-  def __init__(self, **kwargs):    
+  def __init__(self, **kwargs):
     # TODO enable providing type for the setter.X output.      
 
     # the problem with this is it cannot be used with seeker and other c4d objects
@@ -118,6 +122,7 @@ class state:
     # 3. the user must provide his implementations for poisiton velcity etc.. like used in the P() function that there i 
     #   encountered the problem.
 
+    # self._dtype = np.float32
     self._data = []    # for permanent class variables (t, x, y .. )
     self._prmdata = {} # for user additional variables 
 
@@ -152,6 +157,7 @@ class state:
     # but then i need to iterate all the examples and remove the print from state presentations 
     param_names = ", ".join(self._prmdata.keys())
 
+    # FIXME Parameters is wrong. because currently parameters are determined only by those which stored at least once with the storeparams method. 
     return (f"<state object>\n"
             f"State Variables: {self.__str__()}\n"
             f"Initial Conditions (X0): {self.X0}\n"
@@ -163,6 +169,44 @@ class state:
   #     raise AttributeError(f"{param} is a reserved key. Keys {self._reserved_keys} cannot use as parameter names.")
   #   else:
   #     super().__setattr__(param, value)
+
+  # @property 
+  # def dtype(self) -> np.dtype:
+  #   '''
+  #   Gets and sets the data type of the state variables. 
+
+  #   The data type is used to determine the type of the state variables. 
+  #   The default data type is :code:`np.float64`. 
+
+  #   Parameters
+  #   ----------
+  #   dtype : numpy.dtype 
+  #       Data type to set the state variables. 
+
+  #   Returns
+  #   -------
+  #   out : numpy.dtype 
+  #       Data type of the state variables. 
+
+  #   Examples
+  #   --------
+
+  #   .. code:: 
+
+  #     >>> s = c4d.state(x = 1, y = 0)
+  #     >>> s.dtype
+  #     dtype('float64')
+  #     >>> s.dtype = np.float32
+  #     >>> s.dtype
+  #     dtype('float32')
+
+  #   '''
+  #   return self._dtype
+
+  # @dtype.setter
+  # def dtype(self, dtype):
+  #   self._dtype = np.dtype(dtype)
+
 
 
 
@@ -233,15 +277,16 @@ class state:
       if k == 't': continue
       # the alteast_1d() + the flatten() is necessary to 
       # cope with non-homogenuous array 
-      xout.append(np.atleast_1d(eval('self.' + k)))
+      # xout.append(np.atleast_1d(eval('self.' + k)))
+      xout.append(np.atleast_1d(getattr(self, k)))
 
     #
     # XXX why float64? maybe it's just some default unlsess anything else required. 
     # pixelpoint:override the .X property: will distance the devs from a datapoint class. 
     #  con: much easier 
     #
-    # return np.array(xout).flatten().astype(np.float64) 
-    return np.array(xout).ravel().astype(np.float64) 
+    # return np.array(xout).ravel().astype(self._dtype) 
+    return np.array(xout).flatten().astype(np.float64) 
 
   @X.setter
   def X(self, Xin):
@@ -311,7 +356,8 @@ class state:
 
     for k in self._didx.keys():
       if k == 't': continue
-      xout.append(eval('self.' + k + '0'))
+      # xout.append(eval('self.' + k + '0'))
+      xout.append(getattr(self, k + '0'))
 
     return np.array(xout) 
   
@@ -726,7 +772,9 @@ class state:
       (array([0.1]), array([25.]))
 
     '''
-
+    
+    # FIXME: check if var is a state variable
+    
     if var is None: 
       # return all 
       # XXX not sure this is applicable to the new change where arrays\ matrices 
@@ -821,7 +869,7 @@ class state:
     return X 
     
 
-  def plot(self, var, scale = 1, ax = None, filename = None, darkmode = True, **kwargs):
+  def plot(self, var, scale = 1, ax = None, filename = None, darkmode = True, block = False, **kwargs):
     ''' 
     Draws plots of variable evolution over time.
 
@@ -1066,11 +1114,18 @@ class state:
       plt.savefig(filename, bbox_inches = 'tight', pad_inches = .2, dpi = 600)
       
 
-    # plt.show(block = True)
+    if block: 
+      be = plt.get_backend()
+      plt.switch_backend('tkagg')
+      plt.show(block = True)
+      plt.switch_backend(be)
+      
     return ax 
 
 
-
+  def reset(self): 
+    self._data = []    
+    self._prmdata = {}  
 
   #
   # math operations 
@@ -1132,7 +1187,7 @@ class state:
 
 
   @property
-  def position(self):
+  def Position(self):
     ''' 
       Returns a vector of position coordinates. 
 
@@ -1141,7 +1196,7 @@ class state:
       
       Note
       ----
-      In the context of :attr:`position <c4dynamics.states.state.state.position>`, 
+      In the context of :attr:`Position <c4dynamics.states.state.state.Position>`, 
       only x, y, z, (case sensitive) are considered position coordinates.  
 
       
@@ -1157,34 +1212,34 @@ class state:
       .. code:: 
       
         >>> s = c4d.state(theta = 3.14, x = 1, y = 2)
-        >>> s.position  # doctest: +NUMPY_FORMAT
+        >>> s.Position  # doctest: +NUMPY_FORMAT
         [1  2  0]
       
         
       .. code:: 
       
         >>> s = c4d.state(theta = 3.14, x = 1, y = 2, z = 3)
-        >>> s.position  # doctest: +NUMPY_FORMAT
+        >>> s.Position  # doctest: +NUMPY_FORMAT
         [1  2  3]
       
       
       .. code:: 
       
         >>> s = c4d.state(theta = 3.14, z = -100)
-        >>> s.position  # doctest: +NUMPY_FORMAT
+        >>> s.Position  # doctest: +NUMPY_FORMAT
         [0  0  -100]
         
 
       .. code:: 
       
         >>> s = c4d.state(theta = 3.14)
-        >>> s.position   # doctest: +IGNORE_OUTPUT  
+        >>> s.Position   # doctest: +IGNORE_OUTPUT  
         Position is valid when at least one cartesian coordinate variable (x, y, z) exists...
         []
     '''
     
     if not self.cartesian():
-      # c4d.cprint('Warning: position is valid when at least one cartesian'
+      # c4d.cprint('Warning: Position is valid when at least one cartesian'
       #             ' coordinate variable (x, y, z) exists.', 'm')
       warnings.warn(f"""Position is valid when at least one cartesian """
                         """coordinate variable (x, y, z) exists.""" , c4d.c4warn)
@@ -1194,7 +1249,7 @@ class state:
   
 
   @property
-  def velocity(self):
+  def Velocity(self):
     '''     
     Returns a vector of velocity coordinates. 
     
@@ -1203,7 +1258,7 @@ class state:
 
     Note
     ----
-    In the context of :attr:`velocity <c4dynamics.states.state.state.velocity>`, 
+    In the context of :attr:`Velocity <c4dynamics.states.state.state.Velocity>`, 
     only vx, vy, vz, (case sensitive) are considered velocity coordinates.  
 
     Returns
@@ -1218,29 +1273,29 @@ class state:
     .. code:: 
     
       >>> s = c4d.state(x = 100, y = 0, vx = -10, vy = 5)
-      >>> s.velocity # doctest: +NUMPY_FORMAT 
+      >>> s.Velocity # doctest: +NUMPY_FORMAT 
       [-10  5  0]
 
       
     .. code:: 
     
       >>> s = c4d.state(x = 100, vz = -100)
-      >>> s.velocity # doctest: +NUMPY_FORMAT 
+      >>> s.Velocity # doctest: +NUMPY_FORMAT 
       [0  0  -100]
 
 
     .. code:: 
     
       >>> s = c4d.state(z = 100)
-      >>> s.velocity  # doctest: +IGNORE_OUTPUT 
-      Warning: velocity is valid when at least one velocity coordinate variable (vx, vy, vz) exists.    
+      >>> s.Velocity  # doctest: +IGNORE_OUTPUT 
+      Warning: Velocity is valid when at least one velocity coordinate variable (vx, vy, vz) exists.    
       []
 
 
     '''
 
     if self.cartesian() < 2:
-      # c4d.cprint('Warning: velocity is valid when at least one velocity '
+      # c4d.cprint('Warning: Velocity is valid when at least one velocity '
       #             'coordinate variable (vx, vy, vz) exists.', 'm')
       warnings.warn(f"""Velocity is valid when at least one velocity """
                         """coordinate variable (vx, vy, vz) exists.""" , c4d.c4warn)
@@ -1448,7 +1503,7 @@ class state:
     if self.cartesian() < 2:
       raise TypeError('state must have at least one velocity coordinate (vx, vy, or vz)')
     
-    return np.linalg.norm(self.velocity)
+    return np.linalg.norm(self.Velocity)
   
 
   def cartesian(self):
@@ -1463,25 +1518,27 @@ class state:
 
 if __name__ == "__main__":
 
-  import doctest, contextlib
-  from c4dynamics import IgnoreOutputChecker, cprint
+  # import doctest, contextlib
+  # from c4dynamics import IgnoreOutputChecker, cprint
   
-  # Register the custom OutputChecker
-  doctest.OutputChecker = IgnoreOutputChecker
+  # # Register the custom OutputChecker
+  # doctest.OutputChecker = IgnoreOutputChecker
 
-  tofile = False 
-  optionflags = doctest.FAIL_FAST
+  # tofile = False 
+  # optionflags = doctest.FAIL_FAST
 
-  if tofile: 
-    with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
-      with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
-        result = doctest.testmod(optionflags = optionflags) 
-  else: 
-    result = doctest.testmod(optionflags = optionflags)
+  # if tofile: 
+  #   with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
+  #     with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
+  #       result = doctest.testmod(optionflags = optionflags) 
+  # else: 
+  #   result = doctest.testmod(optionflags = optionflags)
 
-  if result.failed == 0:
-    cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
-  else:
-    print(f"{result.failed}")
+  # if result.failed == 0:
+  #   cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
+  # else:
+  #   print(f"{result.failed}")
 
+  from c4dynamics import rundoctests
+  rundoctests(sys.modules[__name__])
 
