@@ -69,9 +69,5 @@ plt.show()
 
 
 # References
-\nocite{1104873}
-<!-- \nocite{[@Margolis2017simupy]} -->
-\nocite{Margolis2017simupy}
-
----
+[@1104873]
 bibliography: paper.bib
