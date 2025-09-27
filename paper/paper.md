@@ -11,17 +11,12 @@ authors:
   - name: Ziv Meri
     orcid: 0000-0002-7932-0562
     affiliation: 1
-affiliations:
-  - name: C4DYNAMICS, Haifa, Israel
-    index: 1
 date: "2024-12-17"
 bibliography: paper.bib
 ---
 
 # Summary
 Dynamic systems play a critical role across various fields such as robotics, aerospace, and control theory. While Python offers robust mathematical tools, it lacks a dedicated framework tailored for dynamic systems. **C4DYNAMICS** bridges this gap by introducing a Python-based platform designed for state-space modeling and analysis. The framework's modular architecture, with "state objects" at its core, simplifies the development of algorithms for sensors, filters, and detectors. This allows researchers, engineers, and students to effectively design, simulate, and analyze dynamic systems. By integrating state objects with a scientific library, **C4DYNAMICS** offers a scalable and efficient solution for dynamic systems modeling.
-
-\nocite[1104873]
 
 # Statement of Need
 Modeling and simulation of dynamical systems are essential across robotics, aerospace, and control engineering. While Python provides powerful numerical libraries (e.g., NumPy, SciPy) and several domain-specific frameworks, none directly support low-level, state-space–based algorithm development.
@@ -41,7 +36,7 @@ This leaves a gap for engineers and researchers who wish to work explicitly at t
 
 
 # Example 
-A simple pendulum with a point mass on a rigid massless rod of length = `1[m]`, swiniging under gravity of `9.8[m/s²].` with initial angle `θ = 50[°]` and angle rate `q = 0[°/s]`, integrated with `solve_ivp` 
+A simple pendulum with a point mass on a rigid massless rod of length = `1[m]`, swiniging under gravity of `9.8[m/s²].` with initial angle `θ = 50[deg]` and angle rate `q = 0[deg/s]`, integrated with `solve_ivp` 
 with a time step of `0.01[s]` for `5[s]`.
 
 Import required packages:
