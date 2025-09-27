@@ -23,28 +23,69 @@ Dynamic systems play a critical role across various fields such as robotics, aer
 
 # Statement of Need
 
-Modeling and analyzing dynamic systems, especially those involving time-evolving states, is a complex task that requires specialized tools. While MATLAB is a popular choice, it is not open-source and lacks modern software engineering integrations. Python, with its vast ecosystem, provides libraries like NumPy and SciPy for numerical computing but lacks a dedicated framework for dynamic systems. **C4DYNAMICS** addresses this need by offering a Python-based, modular framework for state-space modeling. Its flexibility and accessibility make it a valuable tool for researchers and practitioners in robotics, aerospace, and control theory.
+
+Modeling and simulation of dynamical systems are essential across robotics, aerospace, and control engineering. While Python provides powerful numerical libraries (e.g., NumPy, SciPy) and several domain-specific frameworks, none directly support low-level, state-space–based algorithm development.
+
+**C4DYNAMICS** is designed for engineers who prefer code-based modeling and want a framework to explicitly define the variables encapsulated in the system’s state vector, and perform streamlined mathematical operations such as scalar multiplication, dot products, and vector addition/subtraction, and data operations such as storing states, retrieving histories, and plotting variables.
+
 
 # Comparison with Existing Software
+Existing tools generally fall into two categories: 
+  1) Block-diagram frameworks (e.g., SimuPy [@Margolis2017simupy], BdSim [@NEVAY2020107200]) mimic Simulink and simplify model building through graphical interfaces, but they abstract away the state vector and limit direct mathematical manipulation. 
+  2) High-level simulators (e.g., IR-Sim, RobotDART [@Chatzilygeroudis2024]) allow algorithm testing in predefined environments, but lack flexibility for core system modeling and algorithm design.
 
-C4DYNAMICS differs from existing solutions in several ways:
+This leaves a gap for engineers and researchers who wish to work explicitly at the state-space level—defining variables, performing mathematical operations on them, and integrating with modern data-driven pipelines.
 
-- **Python-based**: Unlike MATLAB, C4DYNAMICS is open-source and leverages Python's ecosystem for accessibility and flexibility.
+**C4DYNAMICS** fills this gap with a modular, Python-native framework for state-space modeling of dynamical systems. Built around explicit state representations and complemented by a scientific library of filters and sensor models, it enables reproducible modeling, testing, and optimization of dynamic systems within the scientific Python ecosystem.
+
+\\
+
+**C4DYNAMICS** differs from existing solutions in several ways:
+
+- **Python-based**: Unlike MATLAB, **C4DYNAMICS** is open-source and leverages Python's ecosystem for accessibility and flexibility.
 - **Modular Design**: Its architecture allows users to extend functionalities and adapt the framework for specific applications.
 - **State Object**: A unique feature enabling seamless state management and mathematical operations, reducing complexity in algorithm development.
 - **Integrated Scientific Library**: Provides built-in modules for sensors, filters, and detectors, streamlining the development of dynamic system models.
 
 These features make **C4DYNAMICS** a superior choice for Python users who require robust dynamic systems modeling capabilities.
 
-# Ongoing Research and Applications
+# Example 
 
-C4DYNAMICS is currently being utilized in projects involving control system design, robotics navigation algorithms, and aerospace simulations. For example, its "state object" and filter modules have been employed in autonomous vehicle research for state estimation and sensor fusion. Additionally, its detector library is aiding machine learning-based object detection in real-time applications.
+A simple pendulum with a point mass on a rigid massless rod of length = `1[m]`, swiniging under gravity of `9.8[m/s²].` with initial angle `θ = 50[°]` and angle rate `q = 0[°/s]`, integrated with `solve_ivp` 
+with a time step of `0.01[s]` for `5[s]`.
 
-# Key References
+Import required packages:
+```
+from scipy.integrate import solve_ivp
+from matplotlib import pyplot as plt 
+import c4dynamics as c4d
+import numpy as np 
+```
 
-1. Meri, Z. (2024). C4DYNAMICS: Python Framework for Dynamic Systems. *Journal of Open Source Software*. [C4DYNAMICS](https://github.com/C4dynamics/C4dynamics)
-2. NumPy Developers. (2024). NumPy: Fundamental package for scientific computing with Python. [https://numpy.org/](https://numpy.org/)
-3. SciPy Developers. (2024). SciPy: Open-source software for mathematics, science, and engineering. [https://scipy.org/](https://scipy.org/)
+Define a state object (`pend`) and run the main-loop:
+```
+dt = 0.01 
+pend  = c4d.state(theta = 50 * c4d.d2r, q = 0)
+
+for ti in np.arange(0, 5, dt): 
+  pend.store(ti)
+  pend.X = solve_ivp(lambda t, y: [y[1], -9.8 * c4d.sin(y[0])], [ti, ti + dt], pend.X).y[:, -1]
+
+pend.plot('theta', scale = c4d.r2d, darkmode = False)
+plt.show()
+
+```
+![](pendulum.png)
+
+
+\nocite{1104873}
+
+# References
+
+---
+bibliography: paper.bib
+---
+
 
 # Software Archive
 
