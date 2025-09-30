@@ -65,7 +65,8 @@ Modules
   Sensors 
   Detectors 
   Filters 
-  Routines
+  Kinematics <eqm>
+  Rotations <rotmat>
   Utils 
   Datasets 
 
@@ -74,22 +75,23 @@ Modules
 .. list-table:: 
   :header-rows: 0
 
-  * - `State Objects <States>`_
-    - Data-structures for state variables.
-  * - `Sensors <Sensors>`_
-    - Sensor models to simulate radar and seeker.
-  * - `Detectors <Detectors>`_
-    - API to object detection models.
-  * - `Filters <Filters>`_
+  * - :doc:`State Objects <States>`
+    - Data-structures for state variables
+  * - :doc:`Sensors <Sensors>`
+    - Sensor models to simulate radar and seeker
+  * - :doc:`Detectors <Detectors>`
+    - API to object detection models
+  * - :doc:`Filters <Filters>`
     - | State observers.
       | Lowpass filter.
-  * - `Routines <Routines>`_
-    - | Equation of motion solvers.
-      | Rotation matrices. 
-  * - `Utils <Utils>`_
+  * - :doc:`Kinematics <eqm>`
+    - Equations of motion solvers
+  * - :doc:`Rotations <rotmat>`
+    - Rotation matrix operations
+  * - :doc:`Utils <Utils>`
     - Utility Functions and mathematical tools
-  * - `Datasets <Datasets>`_
-    - An interface for managing datasets and pre-trained models.
+  * - :doc:`Datasets <Datasets>`
+    - An interface for managing datasets and pre-trained models
 
 
 

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>States library &#8212; C4DYNAMICS v2.1</title>
+    <title>States Library &#8212; C4DYNAMICS v2.1</title>
   
   
   
@@ -54,7 +54,7 @@
     <link rel="prev" title="c4dynamics.states.state.state.plot" href="generated/state/c4dynamics.states.state.state.plot.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Sep 22, 2025"/>
+    <meta name="docbuild:last-update" content="Sep 30, 2025"/>
   </head>
   
   
@@ -164,20 +164,33 @@
                 </a>
             </li>
         </ul>
-        <ul class="current nav bd-sidenav">
+        <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Getting Started</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../programs/index.html">Use Cases</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../programs/dof6sim.html">6 Degrees of Freedom - Guided Flight Simulation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../programs/ballistic_coefficient.html">Ballistic Coefficient Estimation using Extended Kalman Filter</a></li>
-
-
-<li class="toctree-l2"><a class="reference internal" href="../programs/car_tracker.html">Kalman Tracking with Object Detection Models</a></li>
 </ul>
-</details></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../concepts/states.html">State Objects</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../concepts/kinematics.html">Kinematics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/transformations.html">Rigid Body Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/sensors.html">Sensors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/filters.html">Filters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/rl_env.html">Reinforcement Learning Enviroenment</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Use Cases</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../programs/dof6sim.html">Proportional Navigation Guidance - 6 Degrees of Freedom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../programs/ballistic_coefficient.html">Ballistic Coefficient Estimation using Extended Kalman Filter</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../programs/car_tracker.html">Car Tracker - Objects Detection and Kalman Filter</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="States.html">State Objects</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l3 has-children"><a class="reference internal" href="states.state.html">The state class</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="states.state.html">The State Class</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="generated/state/c4dynamics.states.state.state.X.html">c4dynamics.states.state.state.X</a></li>
 <li class="toctree-l4"><a class="reference internal" href="generated/state/c4dynamics.states.state.state.X0.html">c4dynamics.states.state.state.X0</a></li>
 <li class="toctree-l4"><a class="reference internal" href="generated/state/c4dynamics.states.state.state.norm.html">c4dynamics.states.state.state.norm</a></li>
@@ -194,7 +207,7 @@
 <li class="toctree-l4"><a class="reference internal" href="generated/state/c4dynamics.states.state.state.plot.html">c4dynamics.states.state.state.plot</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3 current active has-children"><a class="current reference internal" href="#">States library</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 current active has-children"><a class="current reference internal" href="#">States Library</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="states.lib.datapoint.html">Datapoint</a></li>
 <li class="toctree-l4"><a class="reference internal" href="states.lib.rigidbody.html">Rigidbody</a></li>
 <li class="toctree-l4"><a class="reference internal" href="states.lib.pixelpoint.html">Pixelpoint</a></li>
@@ -245,23 +258,20 @@
 </details></li>
 </ul>
 </details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="Routines.html">Routines</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="routines.eqm.html">Equations of motion solvers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="generated/eqm/c4dynamics.eqm.derivs.eqm3.html">c4dynamics.eqm.derivs.eqm3</a></li>
-<li class="toctree-l4"><a class="reference internal" href="generated/eqm/c4dynamics.eqm.derivs.eqm6.html">c4dynamics.eqm.derivs.eqm6</a></li>
-<li class="toctree-l4"><a class="reference internal" href="generated/eqm/c4dynamics.eqm.integrate.int3.html">c4dynamics.eqm.integrate.int3</a></li>
-<li class="toctree-l4"><a class="reference internal" href="generated/eqm/c4dynamics.eqm.integrate.int6.html">c4dynamics.eqm.integrate.int6</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="eqm.html">Kinematics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/eqm/c4dynamics.eqm.derivs.eqm3.html">c4dynamics.eqm.derivs.eqm3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/eqm/c4dynamics.eqm.derivs.eqm6.html">c4dynamics.eqm.derivs.eqm6</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/eqm/c4dynamics.eqm.integrate.int3.html">c4dynamics.eqm.integrate.int3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/eqm/c4dynamics.eqm.integrate.int6.html">c4dynamics.eqm.integrate.int6</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="routines.rotmat.html">Rotation matrix operations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="generated/rotmat/c4dynamics.rotmat.rotmat.rotx.html">c4dynamics.rotmat.rotmat.rotx</a></li>
-<li class="toctree-l4"><a class="reference internal" href="generated/rotmat/c4dynamics.rotmat.rotmat.roty.html">c4dynamics.rotmat.rotmat.roty</a></li>
-<li class="toctree-l4"><a class="reference internal" href="generated/rotmat/c4dynamics.rotmat.rotmat.rotz.html">c4dynamics.rotmat.rotmat.rotz</a></li>
-<li class="toctree-l4"><a class="reference internal" href="generated/rotmat/c4dynamics.rotmat.rotmat.dcm321.html">c4dynamics.rotmat.rotmat.dcm321</a></li>
-<li class="toctree-l4"><a class="reference internal" href="generated/rotmat/c4dynamics.rotmat.rotmat.dcm321euler.html">c4dynamics.rotmat.rotmat.dcm321euler</a></li>
-<li class="toctree-l4"><a class="reference internal" href="generated/rotmat/c4dynamics.rotmat.animate.animate.html">c4dynamics.rotmat.animate.animate</a></li>
-</ul>
-</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="rotmat.html">Rotations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/rotmat/c4dynamics.rotmat.rotmat.rotx.html">c4dynamics.rotmat.rotmat.rotx</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/rotmat/c4dynamics.rotmat.rotmat.roty.html">c4dynamics.rotmat.rotmat.roty</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/rotmat/c4dynamics.rotmat.rotmat.rotz.html">c4dynamics.rotmat.rotmat.rotz</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/rotmat/c4dynamics.rotmat.rotmat.dcm321.html">c4dynamics.rotmat.rotmat.dcm321</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/rotmat/c4dynamics.rotmat.rotmat.dcm321euler.html">c4dynamics.rotmat.rotmat.dcm321euler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/rotmat/c4dynamics.rotmat.animate.animate.html">c4dynamics.rotmat.animate.animate</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="Utils.html">Utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -270,7 +280,7 @@
 <li class="toctree-l3"><a class="reference internal" href="generated/utils/c4dynamics.utils.cprint.cprint.html">c4dynamics.utils.cprint.cprint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/utils/c4dynamics.utils.gen_gif.gif.html">c4dynamics.utils.gen_gif.gif</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/utils/c4dynamics.utils.plottools.plotdefaults.html">c4dynamics.utils.plottools.plotdefaults</a></li>
-<li class="toctree-l3"><a class="reference internal" href="utils.math.html">Math functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.math.html">Math Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utils.const.html">Constants</a></li>
 </ul>
 </details></li>
@@ -410,9 +420,7 @@ document.write(`
   </button>
 `);
 </script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="fa-solid fa-list"></span>
-</button>
+
 </div></div>
       
     </div>
@@ -423,37 +431,11 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>States library</h1>
+    <h1>States Library</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
-            <div>
-                <h2> Contents </h2>
-            </div>
-            <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-point">1. Data Point</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-attributes">Data Attributes</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#construction">Construction</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#functionality">Functionality</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rigid-body">2. Rigid Body</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Data Attributes</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Construction</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Functionality</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pixel-point">3. Pixel Point</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Data Attributes</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Construction</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Functionality</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-defined-state-objects">Pre-defined state objects</a></li>
-</ul>
-            </nav>
         </div>
     </div>
 </div>
@@ -464,218 +446,24 @@ document.write(`
                 <article class="bd-article">
                   
   <section id="module-c4dynamics.states.lib">
-<span id="states-library"></span><h1>States library<a class="headerlink" href="#module-c4dynamics.states.lib" title="Link to this heading">#</a></h1>
-<p>This page is an <cite>introduction</cite> to the states library.
-For the different pre-defined states themselves, go to <a class="reference internal" href="#states-header"><span class="std std-ref">Pre-defined state objects</span></a>.</p>
-<p>Each one of the states in the library is inherited from the
-<a class="reference internal" href="states.state.html#c4dynamics.states.state.state" title="c4dynamics.states.state.state"><code class="xref py py-class docutils literal notranslate"><span class="pre">state</span></code></a>
-class and has the benefit of its attributes, like
-<a class="reference internal" href="generated/state/c4dynamics.states.state.state.store.html#c4dynamics.states.state.state.store" title="c4dynamics.states.state.state.store"><code class="xref py py-meth docutils literal notranslate"><span class="pre">store()</span></code></a>
-<a class="reference internal" href="generated/state/c4dynamics.states.state.state.data.html#c4dynamics.states.state.state.data" title="c4dynamics.states.state.state.data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">data()</span></code></a>
-etc.</p>
-<section id="data-point">
-<h2>1. Data Point<a class="headerlink" href="#data-point" title="Link to this heading">#</a></h2>
-<p>C4dynamics provides built-in entities for developing
-and analyzing algorithms of objects in space and time:</p>
-<p><a class="reference internal" href="states.lib.datapoint.html#c4dynamics.states.lib.datapoint.datapoint" title="c4dynamics.states.lib.datapoint.datapoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">datapoint</span></code></a>:
-a class defining a point in space: position, velocity, and mass.</p>
-<p><a class="reference internal" href="states.lib.rigidbody.html#c4dynamics.states.lib.rigidbody.rigidbody" title="c4dynamics.states.lib.rigidbody.rigidbody"><code class="xref py py-class docutils literal notranslate"><span class="pre">rigidbody</span></code></a>:
-a class rigidbody a class defining a rigid body in space, i.e.
-an object with length and angular position.</p>
-<figure class="align-default" id="id7">
-<a class="reference internal image-reference" href="../_images/body_states.svg"><img alt="../_images/body_states.svg" src="../_images/body_states.svg" style="width: 482px; height: 534px;" />
-</a>
-<figcaption>
-<p><span class="caption-text"><strong>Figure:</strong>
-Conceptual diagram showing the relationship between the two
-fundamental objects used to describe bodies in space: 1) the
-datapoint, 2) the rigidbody. A rigidbody object extends the
-datapoint by adding on it body rotational motion.</span><a class="headerlink" href="#id7" title="Link to this image">#</a></p>
-</figcaption>
-</figure>
-<p>The <a class="reference internal" href="states.lib.datapoint.html#c4dynamics.states.lib.datapoint.datapoint" title="c4dynamics.states.lib.datapoint.datapoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">datapoint</span></code></a>
-is the most basic element in translational dynamics; it’s a point in space.</p>
-<p>A <cite>datapoint</cite> serves as the building block for modeling and simulating
-the motion of objects in a three-dimensional space.
-In the context of translational dynamics, a datapoint represents
-a point mass in space with defined Cartesian coordinates <span class="math notranslate nohighlight">\((x, y, z)\)</span>
-and associated velocities <span class="math notranslate nohighlight">\((v_x, v_y, v_z)\)</span>.</p>
-<section id="data-attributes">
-<h3>Data Attributes<a class="headerlink" href="#data-attributes" title="Link to this heading">#</a></h3>
-<p>State variables:</p>
-<div class="math notranslate nohighlight">
-\[X = [x, y, z, v_x, v_y, v_z]^T\]</div>
-<ul class="simple">
-<li><p>Position coordinates, velocity coordinates.</p></li>
-</ul>
-<p>Parameters:</p>
-<ul class="simple">
-<li><p><cite>mass</cite>: point mass.</p></li>
-</ul>
-</section>
-<section id="construction">
-<h3>Construction<a class="headerlink" href="#construction" title="Link to this heading">#</a></h3>
-<p>A <cite>datapoint</cite> instance is created by making a direct call to the datapoint constructor:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="kn">import</span> <span class="n">datapoint</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dp</span> <span class="o">=</span> <span class="n">datapoint</span><span class="p">()</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span>
-<span class="go">[ x  y  z  vx  vy  vz ]</span>
-</pre></div>
-</div>
-<p>Initialization of an instance does not require any mandatory parameters.
-However,
-setting values to any of the state variables uses as initial conditions:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dp</span> <span class="o">=</span> <span class="n">datapoint</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">vx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">100</span><span class="p">)</span>
-</pre></div>
-</div>
-</section>
-<section id="functionality">
-<h3>Functionality<a class="headerlink" href="#functionality" title="Link to this heading">#</a></h3>
-<p>The <a class="reference internal" href="generated/dp/c4dynamics.states.lib.datapoint.datapoint.inteqm.html#c4dynamics.states.lib.datapoint.datapoint.inteqm" title="c4dynamics.states.lib.datapoint.datapoint.inteqm"><code class="xref py py-meth docutils literal notranslate"><span class="pre">inteqm()</span></code></a> method uses
-the Runge-Kutta integration technique
-to evolve the state in response to external forces.
-The mechanics underlying the equations of motion can be found
-<a class="reference internal" href="routines.eqm.html#module-c4dynamics.eqm" title="c4dynamics.eqm"><code class="xref py py-mod docutils literal notranslate"><span class="pre">here</span></code></a>.</p>
-<p>The method <a class="reference internal" href="generated/dp/c4dynamics.states.lib.datapoint.datapoint.plot.html#c4dynamics.states.lib.datapoint.datapoint.plot" title="c4dynamics.states.lib.datapoint.datapoint.plot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">plot()</span></code></a> adds on
-the standard <a class="reference internal" href="generated/state/c4dynamics.states.state.state.plot.html#c4dynamics.states.state.state.plot" title="c4dynamics.states.state.state.plot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">state.plot()</span></code></a>
-the option to draw trajectories from side view and from top view.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><a class="reference internal" href="states.lib.datapoint.html#c4dynamics.states.lib.datapoint.datapoint" title="c4dynamics.states.lib.datapoint.datapoint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">datapoint</span></code></a>, <a class="reference internal" href="routines.eqm.html#module-c4dynamics.eqm" title="c4dynamics.eqm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eqm</span></code></a></p>
-</div>
-</section>
-</section>
-<section id="rigid-body">
-<h2>2. Rigid Body<a class="headerlink" href="#rigid-body" title="Link to this heading">#</a></h2>
-<p>The <a class="reference internal" href="states.lib.rigidbody.html#c4dynamics.states.lib.rigidbody.rigidbody" title="c4dynamics.states.lib.rigidbody.rigidbody"><code class="xref py py-class docutils literal notranslate"><span class="pre">rigidbody</span></code></a>
-class extends the functionality of the <a class="reference internal" href="states.lib.datapoint.html#c4dynamics.states.lib.datapoint.datapoint" title="c4dynamics.states.lib.datapoint.datapoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">datapoint</span></code></a>.</p>
-<p>It introduces additional attributes related to rotational
-dynamics, such as angular position, angular velocity, and moment of inertia.
-The class leverages the capabilities of the datapoint
-class for handling translational dynamics and extends
-it to include rotational aspects. See the figure above.</p>
-<section id="id1">
-<h3>Data Attributes<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
-<p>State variables:</p>
-<div class="math notranslate nohighlight">
-\[X = [x, y, z, v_x, v_y, v_z, {\varphi}, {\theta}, {\psi}, p, q, r]^T\]</div>
-<ul class="simple">
-<li><p>Position, velocity, angles, angle rates.</p></li>
-</ul>
-<p>Parameters:</p>
-<ul class="simple">
-<li><p><cite>mass</cite>: point mass.</p></li>
-<li><p><cite>I</cite>: vector of moments of inertia about 3 axes.</p></li>
-</ul>
-</section>
-<section id="id2">
-<h3>Construction<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
-<p>A <cite>rigidbody</cite> instance is created by making a direct call to the rigidbody constructor:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="kn">import</span> <span class="n">rigidbody</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">rb</span> <span class="o">=</span> <span class="n">rigidbody</span><span class="p">()</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">rb</span><span class="p">)</span>
-<span class="go">[ x  y  z  vx  vy  vz  φ  θ  ψ  p  q  r ]</span>
-</pre></div>
-</div>
-<p>Similar to the datapoint,
-initialization of an instance does not require any mandatory parameters.
-Setting values to any of the state variables uses as initial conditions:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="kn">import</span> <span class="n">d2r</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">rb</span> <span class="o">=</span> <span class="n">rigidbody</span><span class="p">(</span><span class="n">theta</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">d2r</span><span class="p">,</span> <span class="n">q</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">d2r</span><span class="p">)</span>
-</pre></div>
-</div>
-</section>
-<section id="id3">
-<h3>Functionality<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
-<p>The <a class="reference internal" href="generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.inteqm.html#c4dynamics.states.lib.rigidbody.rigidbody.inteqm" title="c4dynamics.states.lib.rigidbody.rigidbody.inteqm"><code class="xref py py-meth docutils literal notranslate"><span class="pre">inteqm()</span></code></a> method uses
-the Runge-Kutta integration technique
-to evolve the state in response to external forces and moments.
-The mechanics underlying the equations of motion can be found
-<a class="reference internal" href="routines.eqm.html#module-c4dynamics.eqm" title="c4dynamics.eqm"><code class="xref py py-mod docutils literal notranslate"><span class="pre">here</span></code></a> and <a class="reference internal" href="routines.rotmat.html#module-c4dynamics.rotmat" title="c4dynamics.rotmat"><code class="xref py py-mod docutils literal notranslate"><span class="pre">here</span></code></a>.</p>
-<p><a class="reference internal" href="generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.BR.html#c4dynamics.states.lib.rigidbody.rigidbody.BR" title="c4dynamics.states.lib.rigidbody.rigidbody.BR"><code class="xref py py-attr docutils literal notranslate"><span class="pre">BR</span></code></a> and
-<a class="reference internal" href="generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.RB.html#c4dynamics.states.lib.rigidbody.rigidbody.RB" title="c4dynamics.states.lib.rigidbody.rigidbody.RB"><code class="xref py py-attr docutils literal notranslate"><span class="pre">RB</span></code></a> return
-Direction Cosine Matrices, Body from Reference (<cite>[BR]</cite>)
-and Reference from Body (<cite>[RB]</cite>), with respect to the
-instantaneous Euler angles (<span class="math notranslate nohighlight">\(\varphi, \theta, \psi\)</span>).</p>
-<p>When a 3D model is provided, the method
-<a class="reference internal" href="generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.animate.html#c4dynamics.states.lib.rigidbody.rigidbody.animate" title="c4dynamics.states.lib.rigidbody.rigidbody.animate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">animate()</span></code></a>
-animates the object with respect to the histories of
-the rigidbody attitude.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><a class="reference internal" href="states.lib.rigidbody.html#c4dynamics.states.lib.rigidbody.rigidbody" title="c4dynamics.states.lib.rigidbody.rigidbody"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rigidbody</span></code></a>, <a class="reference internal" href="routines.eqm.html#module-c4dynamics.eqm" title="c4dynamics.eqm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eqm</span></code></a>, <a class="reference internal" href="routines.rotmat.html#module-c4dynamics.rotmat" title="c4dynamics.rotmat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotmat</span></code></a></p>
-</div>
-</section>
-</section>
-<section id="pixel-point">
-<h2>3. Pixel Point<a class="headerlink" href="#pixel-point" title="Link to this heading">#</a></h2>
-<p>The <a class="reference internal" href="states.lib.pixelpoint.html#c4dynamics.states.lib.pixelpoint.pixelpoint" title="c4dynamics.states.lib.pixelpoint.pixelpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">pixelpoint</span></code></a>
-class representing a data point in a video frame with a
-bounding box.</p>
-<p>This class is particularly useful for applications in computer vision,
-such as object detection and tracking.</p>
-<section id="id4">
-<h3>Data Attributes<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
-<p>State variables:</p>
-<div class="math notranslate nohighlight">
-\[X = [x, y, w, h]^T\]</div>
-<ul class="simple">
-<li><p>Center pixel, box size.</p></li>
-</ul>
-<p>Parameters:</p>
-<ul class="simple">
-<li><p><cite>fsize</cite>: frame size.</p></li>
-<li><p><cite>class_id</cite>: object classification.</p></li>
-</ul>
-</section>
-<section id="id5">
-<h3>Construction<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
-<p>Usually, the <cite>pixelpoint</cite> instance is created immediately after an object
-detection:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="kn">import</span> <span class="n">pixelpoint</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span> <span class="o">=</span> <span class="n">pixelpoint</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="mi">15</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="mi">25</span><span class="p">)</span> <span class="c1"># (50, 50) detected object center, (15, 25) object bounding box</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span><span class="o">.</span><span class="n">fsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>   <span class="c1"># frame width and frame height</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pp</span><span class="o">.</span><span class="n">class_id</span> <span class="o">=</span> <span class="s1">&#39;fox&#39;</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">pp</span><span class="p">)</span>
-<span class="go">[ x  y  w  h ]</span>
-</pre></div>
-</div>
-</section>
-<section id="id6">
-<h3>Functionality<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
-<p><a class="reference internal" href="generated/fdp/c4dynamics.states.lib.pixelpoint.pixelpoint.box.html#c4dynamics.states.lib.pixelpoint.pixelpoint.box" title="c4dynamics.states.lib.pixelpoint.pixelpoint.box"><code class="xref py py-attr docutils literal notranslate"><span class="pre">box</span></code></a>
-returns the bounding box in terms of top-left and bottom-right coordinates.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><a class="reference internal" href="states.lib.pixelpoint.html#c4dynamics.states.lib.pixelpoint.pixelpoint" title="c4dynamics.states.lib.pixelpoint.pixelpoint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pixelpoint</span></code></a>, <a class="reference internal" href="detectors.yolov3.html#c4dynamics.detectors.yolo3_opencv.yolov3" title="c4dynamics.detectors.yolo3_opencv.yolov3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">yolov3</span></code></a></p>
-</div>
-</section>
-</section>
-<section id="pre-defined-state-objects">
-<span id="states-header"></span><h2>Pre-defined state objects<a class="headerlink" href="#pre-defined-state-objects" title="Link to this heading">#</a></h2>
-<div class="toctree-wrapper compound">
-</div>
+<span id="states-library"></span><h1>States Library<a class="headerlink" href="#module-c4dynamics.states.lib" title="Link to this heading">#</a></h1>
+<p>Pre-defined state objects</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference external" href="states.lib.datapoint">datapoint</a></p></td>
-<td><p>A point in space.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="states.lib.datapoint.html#c4dynamics.states.lib.datapoint.datapoint" title="c4dynamics.states.lib.datapoint.datapoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">datapoint</span></code></a></p></td>
+<td><p>A point in space</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference external" href="states.lib.rigidbody">rigidbody</a></p></td>
-<td><p>Rigid body object.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="states.lib.rigidbody.html#c4dynamics.states.lib.rigidbody.rigidbody" title="c4dynamics.states.lib.rigidbody.rigidbody"><code class="xref py py-class docutils literal notranslate"><span class="pre">rigidbody</span></code></a></p></td>
+<td><p>Rigid body object</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference external" href="states.lib.pixelpoint">pixelpoint</a></p></td>
-<td><p>A pixel point in an image.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="states.lib.pixelpoint.html#c4dynamics.states.lib.pixelpoint.pixelpoint" title="c4dynamics.states.lib.pixelpoint.pixelpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">pixelpoint</span></code></a></p></td>
+<td><p>A pixel point in an image</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-</section>
+<div class="toctree-wrapper compound" id="states-header">
+</div>
 </section>
 
 
@@ -714,39 +502,6 @@ returns the bounding box in terms of top-left and bottom-right coordinates.</p>
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Contents
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-point">1. Data Point</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-attributes">Data Attributes</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#construction">Construction</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#functionality">Functionality</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rigid-body">2. Rigid Body</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Data Attributes</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Construction</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Functionality</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pixel-point">3. Pixel Point</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Data Attributes</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Construction</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Functionality</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-defined-state-objects">Pre-defined state objects</a></li>
-</ul>
-  </nav></div>
-
-</div></div>
-              
             
           </div>
           <footer class="bd-footer-content">
@@ -775,7 +530,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Sep 22, 2025.
+  Last updated on Sep 30, 2025.
   <br/>
 </p>
   </div>

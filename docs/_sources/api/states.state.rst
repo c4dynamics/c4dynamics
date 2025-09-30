@@ -1,4 +1,4 @@
-The state object 
+The State Object 
 ================
 .. currentmodule:: c4dynamics.states.state
 

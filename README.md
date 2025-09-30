@@ -10,7 +10,8 @@
 
 
 
-Tsipor (bird) Dynamics (c4dynamics) is the open-source framework of algorithms development for objects in space and time.
+Tsipor (bird) Dynamics (c4dynamics) is the Python framework for state-space modeling and algorithm development.
+
 
 
 

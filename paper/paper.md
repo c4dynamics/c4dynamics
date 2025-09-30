@@ -1,5 +1,5 @@
 ---
-title: 'C4DYNAMICS: Python Framework for Dynamic Systems'
+title: 'C4DYNAMICS: The Python framework for state-space modeling and algorithm development'
 tags:
   - Python
   - dynamics

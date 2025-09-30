@@ -40,7 +40,7 @@ print(required_packages)
 setup(
       name                          =  package
     , version                       =  VERSION
-    , author                        = 'C4dynamics'
+    , author                        = 'c4dynamics'
     , author_email                  = 'zivmeri@gmail.com'
     , description                   =  DESCRIPTION
     , long_description_content_type = 'text/markdown'

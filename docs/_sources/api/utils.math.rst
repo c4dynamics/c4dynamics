@@ -1,4 +1,4 @@
-Math functions aliasing 
+Math Functions Aliasing 
 =======================
 
 

@@ -1,4 +1,4 @@
-States library 
+States Library 
 ==============
 
 .. automodule:: c4dynamics.states.lib 
@@ -6,8 +6,6 @@ States library
 
 .. _states-header:
 
-Pre-defined state objects
--------------------------
 
 .. toctree::
   :hidden:
@@ -18,15 +16,7 @@ Pre-defined state objects
   states.lib.pixelpoint
 
 
-.. list-table:: 
-  :header-rows: 0
 
-  * - `datapoint <states.lib.datapoint>`_
-    - A point in space.
-  * - `rigidbody <states.lib.rigidbody>`_
-    - Rigid body object.
-  * - `pixelpoint <states.lib.pixelpoint>`_
-    - A pixel point in an image.
 
 
 

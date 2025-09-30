@@ -18,7 +18,7 @@
   </div>
 
 
-``c4dynamics`` is a Python framework for developing algorithms in space and time.
+``The Python framework for state-space modeling and algorithm development.``
 
 `Source repository <https://github.com/C4dynamics/C4dynamics>`_
 
@@ -179,6 +179,32 @@ The documentation is organized as follows:
 
   Installation <installation>
   Getting Started <gettingstarted>
-  Use Cases <programs/index>
-  API Reference <api/index> 
+
+.. toctree::
+  :maxdepth: 0
+  :caption: Concepts
+  :hidden:
+
+  State Objects <concepts/states>
+  Kinematics <concepts/kinematics>
+  Rigid Body Transformations <concepts/transformations>
+  Sensors <concepts/sensors>
+  Filters <concepts/filters> 
+  Reinforcement Learning Enviroenment <concepts/rl_env>
+
+.. toctree::
+  :maxdepth: 0
+  :caption: Use Cases
+  :hidden:
+
+  Proportional Navigation Guidance - 6 Degrees of Freedom <programs/dof6sim.ipynb>
+  Ballistic Coefficient Estimation - Extended Kalman Filter <programs/ballistic_coefficient.ipynb>
+  Car Tracker - Objects Detection and Kalman Filter <programs/car_tracker.ipynb>
+
+.. toctree::
+  :maxdepth: 1
+  :caption: API
+  :hidden:
+
+  Reference <api/index> 
 

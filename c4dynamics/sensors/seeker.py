@@ -6,7 +6,7 @@ import c4dynamics as c4d
 import warnings 
 from typing import Optional
 
-
+# TODO: change 'seeker' to 'direction seeker'  
 class seeker(c4d.rigidbody):
   '''
   Direction seeker.

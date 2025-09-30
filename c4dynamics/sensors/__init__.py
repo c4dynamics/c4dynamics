@@ -4,6 +4,18 @@
 The models include the functionality and the errors model 
 of electro-optic, lasers, and electro-magnetic devices. 
 
+
+.. list-table:: 
+  :header-rows: 0
+
+  * - :class:`seeker <c4dynamics.sensors.seeker.seeker>`
+    - Direction detector
+  * - :class:`radar <c4dynamics.sensors.radar.radar>`
+    - Range-direction detector
+
+
+
+
 '''
 #
 # i think maybe to include also detectors in this module

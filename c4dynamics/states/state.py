@@ -6,6 +6,12 @@ from numpy.typing import NDArray
 from typing import Any
 import warnings 
 
+# ======= top level
+# ------- level 2 
+# ~~~~~~~ level 3 
+# ^^^^^^^ level 4 
+# ******* level 5
+
 class state:
   ''' 
   Custom state object. 

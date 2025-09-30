@@ -1,4 +1,4 @@
-Extended Kalman filter
+Extended Kalman Filter
 ======================
 .. currentmodule:: c4dynamics.filters.ekf
 
