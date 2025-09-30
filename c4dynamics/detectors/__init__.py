@@ -3,6 +3,13 @@
 `c4dynamics` provides an API to third party object detection models.
 
 
+.. list-table:: 
+  :header-rows: 0
+
+  * - :class:`YOLOv3 <c4dynamics.detectors.yolo3_opencv.yolov3>`
+    - Realtime object detection model based on YOLO (You Only Look Once) approach with 80 pre-trained COCO classes
+
+   
 '''
 
 import os, sys 

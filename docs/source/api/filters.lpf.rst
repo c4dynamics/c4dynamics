@@ -1,4 +1,4 @@
-Low pass filter
+Low Pass Filter
 ===============
 .. currentmodule:: c4dynamics.filters.lowpass
 

@@ -16,15 +16,15 @@ Utils
   :hidden:
   :maxdepth: 1
 
-  Math functions <utils.math>
+  Math Functions <utils.math>
   Constants <utils.const>
 
 
 .. list-table:: 
   :header-rows: 0
 
-  * - `Math functions <utils.math>`_
+  * - :doc:`Math functions <utils.math>`
     - Math functions aliasing.
-  * - `Constants <utils.const>`_
+  * - :doc:`Constants <utils.const>`
     - Globals and conversion constants.
 
