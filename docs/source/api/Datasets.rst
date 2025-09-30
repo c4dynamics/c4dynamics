@@ -10,7 +10,7 @@ supporting experimentation with c4Dynamics examples and use cases.
 
 
 
-Dataset functions 
+Dataset Functions 
 -----------------
 
 .. autosummary::  
@@ -22,7 +22,7 @@ Dataset functions
   d3_model 
 
 
-Utility functions  
+Utility Functions  
 -----------------
 
 .. autosummary::  
