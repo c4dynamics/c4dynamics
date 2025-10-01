@@ -10,7 +10,6 @@ tags:
 authors:
   - name: Ziv Meri
     orcid: 0000-0002-7932-0562
-    affiliation: 1
 date: "2024-12-17"
 bibliography: paper.bib
 ---
