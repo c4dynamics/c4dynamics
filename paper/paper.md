@@ -16,7 +16,7 @@ bibliography: paper.bib
 ---
 
 # Summary
-Dynamic systems play a critical role across various fields such as robotics, aerospace, and control theory. While Python offers robust mathematical tools, it lacks a dedicated framework tailored for dynamic systems. **C4DYNAMICS** bridges this gap by introducing a Python-based platform designed for state-space modeling and analysis [@1104873; @3830260412]. 
+Dynamic systems play a critical role across various fields such as robotics, aerospace, and guidance, navigation, and control (GNC). The state-space representation is the most widely used modeling approach for dynamic systems in the time domain. While Python offers robust mathematical tools, it lacks a dedicated framework tailored for state-space modeling. C4DYNAMICS bridges this gap by introducing a Python-based platform designed for state-space modeling and analysis [@1104873; @3830260412]. 
 The framework's modular architecture, with "state objects" at its core, simplifies the development of algorithms for sensors, filters, and detectors. This allows researchers, engineers, and students to effectively design, simulate, and analyze dynamic systems. By integrating state objects with a scientific library, **C4DYNAMICS** offers a scalable and efficient solution for dynamic systems modeling.
 
 # Statement of Need
