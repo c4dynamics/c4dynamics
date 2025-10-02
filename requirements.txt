@@ -4,9 +4,9 @@
 # pip install -r /path/to/requirements.txt
 # TODO move cv2 to dev or optional. when image is necessary use pillow 
 imageio>=2.37.0
-matplotlib>=3.10.3
-natsort>=8.4.0
-numpy>=2.3.1
+matplotlib>=3.9.2
+natsort>=8.3.1
+numpy>=1.26.0
 opencv-python>=4.11.0.86
-pooch>=1.8.2
-scipy>=1.16.0
+pooch>=1.8.0
+scipy>=1.13.0
