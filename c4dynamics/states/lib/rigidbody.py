@@ -634,44 +634,6 @@ rigidbody.animate.__doc__ = c4d.rotmat.animate.__doc__
 
 if __name__ == "__main__":
 
-  # import doctest, contextlib, os
-
-  # from c4dynamics import IgnoreOutputChecker, cprint
-  
-  # # Register the custom OutputChecker
-  # doctest.OutputChecker = IgnoreOutputChecker
-  # import doctest
-
-
-  # # Filter out tests for the animate method by overriding the testmod.
-  # def custom_testmod(module = None, **kwargs):
-  #   tests = doctest.DocTestFinder().find(module)
-    
-
-  #   tests = [test for test in tests if (test.name != "__main__.rigidbody.animate" and test.name != "__main__.rigidbody")]  # Exclude animate
-
-  #   runner = doctest.DocTestRunner(**kwargs)
-  #   for test in tests:
-  #     runner.run(test)
-  #   return runner.summarize()
-
-
-  # tofile = False 
-  # optionflags = doctest.FAIL_FAST
-
-  # if tofile: 
-  #   with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
-  #     with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
-  #       result = custom_testmod(sys.modules[__name__], optionflags=optionflags) 
-  # else: 
-  #   result = custom_testmod(sys.modules[__name__], optionflags=optionflags)
-
-  # if result.failed == 0:
-  #   cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
-  # else:
-  #   print(f"{result.failed}")
-
-
   from c4dynamics import rundoctests
   try:
     import open3d as o3d

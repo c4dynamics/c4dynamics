@@ -6,6 +6,7 @@ sys.path.append('.')
 from c4dynamics import c4d 
 from c4dynamics import pixelpoint 
 from typing import Optional
+import importlib.resources as resources 
 
 MODEL_SIZE = (416, 416, 3)
 
@@ -217,18 +218,13 @@ class yolov3:
         weights_path = c4d.datasets.nn_model('YOLOv3')
         errormsg = "Try to clear the cache by 'c4dynamics.datasets.clear_cache()'"
 
-
-        
       if not os.path.exists(weights_path):
         raise FileNotFoundError(f"The file 'yolov3.weights' does not "
                                     f"exist in: '{weights_path}'. {errormsg}")
 
-
-      cfg_path  = os.path.join(os.path.dirname(__file__), 'yolov3.cfg')
-    #   cfg_path = 'yolov3.cfg'
-    #   coconames = os.path.join(yolodir, 'coco.names')
-
-      self.net = cv2.dnn.readNetFromDarknet(cfg_path, weights_path)
+      with resources.path('c4dynamics.detectors', 'yolov3.cfg') as cfgpath:
+        self.net = cv2.dnn.readNetFromDarknet(str(cfgpath), weights_path)
+      
       self.net.setPreferableBackend(cv2.dnn.DNN_BACKEND_OPENCV)
       ln = self.net.getLayerNames()
       self.ln = [ln[i - 1] for i in self.net.getUnconnectedOutLayers()]
@@ -661,26 +657,6 @@ class yolov3:
 
 if __name__ == "__main__":
 
-#   import doctest, contextlib
-#   from c4dynamics import IgnoreOutputChecker, cprint
-  
-#   # Register the custom OutputChecker
-#   doctest.OutputChecker = IgnoreOutputChecker
-
-#   tofile = False 
-#   optionflags = doctest.FAIL_FAST
-
-#   if tofile: 
-#     with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
-#       with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
-#         result = doctest.testmod(optionflags = optionflags) 
-#   else: 
-#     result = doctest.testmod(optionflags = optionflags)
-
-#   if result.failed == 0:
-#     cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
-#   else:
-#     print(f"{result.failed}")
   from c4dynamics import rundoctests
   rundoctests(sys.modules[__name__])
 

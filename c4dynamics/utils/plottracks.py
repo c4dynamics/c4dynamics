@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+# pragma: no cover
+
 # import time 
 import os, sys 
 import argparse
