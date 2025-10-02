@@ -449,40 +449,6 @@ def animate(rb, modelpath: str, angle0: list = [0, 0, 0]
 
 if __name__ == "__main__":
 
-  # try:
-  #   import open3d as o3d  # OPEN3D AVAILABLE
-
-  # except ImportError:     # OPEN3D UNAVAILABLE
-  #   # remove the doctests for animate() if open3d is not available
-    
-  #   current_module = sys.modules[__name__]
-  #   if hasattr(current_module, "animate"):
-  #     current_module.animate.__doc__ = ""   # clears doctest examples
-
-  # import doctest, contextlib
-  # from c4dynamics import IgnoreOutputChecker, cprint
-  
-  
-
-  # # Register the custom OutputChecker
-  # doctest.OutputChecker = IgnoreOutputChecker
-
-  # tofile = False 
-  # optionflags = doctest.FAIL_FAST
-
-  # if tofile: 
-  #   with open(os.path.join('tests', '_out', 'output.txt'), 'w') as f:
-  #     with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
-  #       result = doctest.testmod(optionflags = optionflags) 
-  # else: 
-  #   result = doctest.testmod(optionflags = optionflags)
-
-  # if result.failed == 0:
-  #   cprint(os.path.basename(__file__) + ": all tests passed!", 'g')
-  # else:
-  #   print(f"{result.failed}")
-
-
   from c4dynamics import rundoctests
   try:
     import open3d as o3d

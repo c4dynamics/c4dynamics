@@ -3,11 +3,10 @@
 # https://endoflife.date/numpy#:~:text=Python%20Support&text=NumPy%20stopped%20supporting%20Python%203.7,support%20Python%203.8%20and%20above.
 # pip install -r /path/to/requirements.txt
 # TODO move cv2 to dev or optional. when image is necessary use pillow 
-scipy
-numpy
-matplotlib
-opencv-python
-imageio
-natsort
-pooch 
-# scikit-learn==1.1.1
+imageio>=2.37.0
+matplotlib>=3.10.3
+natsort>=8.4.0
+numpy>=2.3.1
+opencv-python>=4.11.0.86
+pooch>=1.8.2
+scipy>=1.16.0

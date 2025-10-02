@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+# pragma: no cover
+
 # sngl3
 #   load single image as 3 layers rgb
 # snglv
