@@ -9,4 +9,4 @@
 *.nb linguist-vendored
 *.ipynb linguist-vendored
 *.bat linguist-vendored 
-
+*.tex linguist-vendored

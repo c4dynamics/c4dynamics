@@ -202,7 +202,7 @@ The documentation is organized as follows:
   Car Tracker - Objects Detection and Kalman Filter <programs/car_tracker.ipynb>
 
 .. toctree::
-  :maxdepth: 1
+  :maxdepth: 2
   :caption: API
   :hidden:
 
