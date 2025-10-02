@@ -52,7 +52,7 @@ setup(
     # , exclude_package_data          = {package: ['resources/detectors/yolo/v3/*.*']}
     # , exclude_package_data          = {package: ['src/main/resources/*.*']}
     , install_requires              = required_packages
-    , python_requires = ">=3.8,<=3.12" # updated from run-tests.yml build-test python-version. 
+    , python_requires = ">=3.8,<=3.12" # update also in run-tests.yml, readme.md, pyprogect.yaml. 
     , keywords = ['python', 'dynamics', 'physics'
                     , 'algorithms', 'computer vision'
                         , 'navigation', 'guidance', 'slam' 

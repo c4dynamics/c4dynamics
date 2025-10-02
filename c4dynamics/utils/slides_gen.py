@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+# pragma: no cover
+
 from pptx import Presentation
 from pptx.util import Inches
 import argparse
