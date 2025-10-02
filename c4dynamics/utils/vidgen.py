@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+# pragma: no cover
+
 import sys, os, re
 # print(sys.version)
 import natsort

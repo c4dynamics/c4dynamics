@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+# pragma: no cover
+
 import os, sys
 sys.path.append('')
 import c4dynamics as c4d 
