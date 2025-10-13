@@ -168,6 +168,8 @@ The documentation is organized as follows:
 
 - **Getting Started**: An overview of the core concepts and features of c4dynamics, with beginner-friendly examples to help you get started quickly.
 
+- **Concepts**: Detailed explanations of the underlying theories and state-space modeling principles used in c4dynamics, ideal for users who want to deepen their understanding.
+
 - **Use Cases**: Real-world use cases showcasing how c4dynamics can be applied in fields such as robotics, aerospace, and computer vision.
 
 - **API Reference**: Comprehensive documentation for technical users, covering all the classes, functions, and modules available in c4dynamics.

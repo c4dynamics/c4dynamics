@@ -49,7 +49,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Sep 30, 2025"/>
+    <meta name="docbuild:last-update" content="Oct 13, 2025"/>
   </head>
   
   
@@ -403,6 +403,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="kn">import</span> <span class="n">c4d</span> 
 <span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="kn">import</span> <span class="n">pixelpoint</span> 
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib.resources</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">resources</span> 
 
 <span class="n">MODEL_SIZE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">416</span><span class="p">,</span> <span class="mi">416</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 
@@ -616,18 +617,13 @@ document.write(`
         <span class="n">weights_path</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">nn_model</span><span class="p">(</span><span class="s1">&#39;YOLOv3&#39;</span><span class="p">)</span>
         <span class="n">errormsg</span> <span class="o">=</span> <span class="s2">&quot;Try to clear the cache by &#39;c4dynamics.datasets.clear_cache()&#39;&quot;</span>
 
-
-        
       <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">weights_path</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The file &#39;yolov3.weights&#39; does not &quot;</span>
                                     <span class="sa">f</span><span class="s2">&quot;exist in: &#39;</span><span class="si">{</span><span class="n">weights_path</span><span class="si">}</span><span class="s2">&#39;. </span><span class="si">{</span><span class="n">errormsg</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-
-      <span class="n">cfg_path</span>  <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s1">&#39;yolov3.cfg&#39;</span><span class="p">)</span>
-    <span class="c1">#   cfg_path = &#39;yolov3.cfg&#39;</span>
-    <span class="c1">#   coconames = os.path.join(yolodir, &#39;coco.names&#39;)</span>
-
-      <span class="bp">self</span><span class="o">.</span><span class="n">net</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">dnn</span><span class="o">.</span><span class="n">readNetFromDarknet</span><span class="p">(</span><span class="n">cfg_path</span><span class="p">,</span> <span class="n">weights_path</span><span class="p">)</span>
+      <span class="k">with</span> <span class="n">resources</span><span class="o">.</span><span class="n">path</span><span class="p">(</span><span class="s1">&#39;c4dynamics.detectors&#39;</span><span class="p">,</span> <span class="s1">&#39;yolov3.cfg&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">cfgpath</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">net</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">dnn</span><span class="o">.</span><span class="n">readNetFromDarknet</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">cfgpath</span><span class="p">),</span> <span class="n">weights_path</span><span class="p">)</span>
+      
       <span class="bp">self</span><span class="o">.</span><span class="n">net</span><span class="o">.</span><span class="n">setPreferableBackend</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">dnn</span><span class="o">.</span><span class="n">DNN_BACKEND_OPENCV</span><span class="p">)</span>
       <span class="n">ln</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">net</span><span class="o">.</span><span class="n">getLayerNames</span><span class="p">()</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">ln</span> <span class="o">=</span> <span class="p">[</span><span class="n">ln</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">net</span><span class="o">.</span><span class="n">getUnconnectedOutLayers</span><span class="p">()]</span>
@@ -1064,26 +1060,6 @@ document.write(`
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
 
-<span class="c1">#   import doctest, contextlib</span>
-<span class="c1">#   from c4dynamics import IgnoreOutputChecker, cprint</span>
-  
-<span class="c1">#   # Register the custom OutputChecker</span>
-<span class="c1">#   doctest.OutputChecker = IgnoreOutputChecker</span>
-
-<span class="c1">#   tofile = False </span>
-<span class="c1">#   optionflags = doctest.FAIL_FAST</span>
-
-<span class="c1">#   if tofile: </span>
-<span class="c1">#     with open(os.path.join(&#39;tests&#39;, &#39;_out&#39;, &#39;output.txt&#39;), &#39;w&#39;) as f:</span>
-<span class="c1">#       with contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):</span>
-<span class="c1">#         result = doctest.testmod(optionflags = optionflags) </span>
-<span class="c1">#   else: </span>
-<span class="c1">#     result = doctest.testmod(optionflags = optionflags)</span>
-
-<span class="c1">#   if result.failed == 0:</span>
-<span class="c1">#     cprint(os.path.basename(__file__) + &quot;: all tests passed!&quot;, &#39;g&#39;)</span>
-<span class="c1">#   else:</span>
-<span class="c1">#     print(f&quot;{result.failed}&quot;)</span>
   <span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="kn">import</span> <span class="n">rundoctests</span>
   <span class="n">rundoctests</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">])</span>
 
@@ -1136,7 +1112,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Sep 30, 2025.
+  Last updated on Oct 13, 2025.
   <br/>
 </p>
   </div>
