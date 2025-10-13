@@ -524,7 +524,7 @@ class state:
 
 
     ''' 
-    
+    # FIXME: make that when t is not provided a counter is used instead.
 
     self._data.append([t] + self.X.tolist())
     
