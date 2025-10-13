@@ -12,8 +12,8 @@ authors:
     orcid: 0000-0002-7932-0562
     affiliation: 1
 affiliations:
-  - name: Independent 
-    index: 1    
+  - name: Independent Researcher, Israel
+    index: 1
 date: "2024-12-17"
 bibliography: paper.bib
 ---

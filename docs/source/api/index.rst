@@ -59,7 +59,7 @@ Modules
 
 .. toctree:: 
   :hidden:
-  :maxdepth: 1 
+  :maxdepth: 2 
 
   State Objects <States>
   Sensors 
