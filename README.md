@@ -73,6 +73,7 @@ while maintaining flexibility and scalability.
 
 ## Installation 
 
+For detailed instructions on installing c4dynamics, including setup for virtual environments, Python version requirements, and troubleshooting, refer to the [c4dynamics setup guide](c4dynamics_setup.ipynb).
 
 * [PIP](https://pypi.org/project/c4dynamics/)
 
