@@ -54,7 +54,7 @@
     <link rel="prev" title="Sensors" href="sensors.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Oct 13, 2025"/>
+    <meta name="docbuild:last-update" content="Oct 26, 2025"/>
   </head>
   
   
@@ -461,10 +461,10 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extended-kalman-filter-ekf">Extended Kalman Filter (<code class="xref py py-class docutils literal notranslate"><span class="pre">ekf</span></code>)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Predict</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Update</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Implementation (c4dynamics)</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Predict</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Update</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Implementation (c4dynamics)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Example</a></li>
 </ul>
 </li>
 </ul>
@@ -473,7 +473,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#frequency-domain">Frequency-Domain</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#time-constant">Time-Constant</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#discrete-time">Discrete-Time</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Implementation (c4dynamics)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">Implementation (c4dynamics)</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
@@ -497,7 +497,7 @@ systems and state estimation.</p>
 <section id="background-material">
 <h2>Background Material<a class="headerlink" href="#background-material" title="Link to this heading">#</a></h2>
 <p>The background material and the sections concerning the particular filters
-are based on sources in references [_AG]_ [_SD]_ [_ZP]_.</p>
+are based on sources in references <a class="reference internal" href="#fag" id="id1"><span>[fAG]</span></a> <a class="reference internal" href="#fsd" id="id2"><span>[fSD]</span></a> <a class="reference internal" href="#fzp" id="id3"><span>[fZP]</span></a>.</p>
 <section id="system-model">
 <h3>System Model<a class="headerlink" href="#system-model" title="Link to this heading">#</a></h3>
 <p>State-space representation is a mathematical model of a physical system represented
@@ -563,7 +563,7 @@ in a linear Kalman provides exact predictions of the errors in the state estimat
 The extended Kalman filter offers no such guarantees.
 Therefore it is always a good practice to start by
 an attempt to linearize the system.</p>
-<p>The linearized model of system <a class="reference internal" href="#equation-nonlinearmodel">(1)</a> around a nominal trajectory <span class="math notranslate nohighlight">\(x_n\)</span> is given by [_MZ]_:</p>
+<p>The linearized model of system <a class="reference internal" href="#equation-nonlinearmodel">(1)</a> around a nominal trajectory <span class="math notranslate nohighlight">\(x_n\)</span> is given by <a class="reference internal" href="#fmz" id="id4"><span>[fMZ]</span></a>:</p>
 <div class="math notranslate nohighlight" id="equation-linearizedmodel">
 <span class="eqno">(2)<a class="headerlink" href="#equation-linearizedmodel" title="Link to this equation">#</a></span>\[ \begin{align}\begin{aligned}\dot{x} = \Delta{x} \cdot {\partial{f} \over \partial{x}}\bigg|_{x_n, u_n}
               + \Delta{u} \cdot {\partial{f} \over \partial{u}}\bigg|_{x_n, u_n} + \omega\\y = \Delta{x} \cdot {\partial{h} \over \partial{x}}\bigg|_{x_n} + \nu\end{aligned}\end{align} \]</div>
@@ -1025,8 +1025,8 @@ is to discretize these terms:</p>
 <p>Note that <span class="math notranslate nohighlight">\(Q\)</span> and <span class="math notranslate nohighlight">\(R\)</span> refer to the covariance matrices
 representing the system noise in its final form, regardless of the time domain.</p>
 <p>Now the execution of the <cite>predict</cite> step and the <cite>update</cite> step is possible.</p>
-<section id="id1">
-<h3>Predict<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<section id="id5">
+<h3>Predict<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
 <p>As mentioned earlier, the advancement of the state vector
 is possible by using the exact equations. The second in
 the following equations is an Euler integration to the
@@ -1057,8 +1057,8 @@ equations for the covariance calculation (third):</p>
 <li><p><span class="math notranslate nohighlight">\(P_0\)</span> is the covariance matrix consisting of errors of the initial estimation</p></li>
 </ul>
 </section>
-<section id="id2">
-<h3>Update<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<section id="id6">
+<h3>Update<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
 <p>In a similar manner, the measurement equations <span class="math notranslate nohighlight">\(h(x)\)</span> are
 linearized (<span class="math notranslate nohighlight">\(H\)</span>) before the <cite>update</cite> to correct the covariance matrix.
 But the correction of the state vector is possible by using
@@ -1080,8 +1080,8 @@ the nonlinear equations themselves (third equation):</p>
 <li><p>superscript T is the transpose operator</p></li>
 </ul>
 </section>
-<section id="id3">
-<h3>Implementation (c4dynamics)<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<section id="id7">
+<h3>Implementation (c4dynamics)<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
 <p>We saw that in both the
 <cite>predict</cite> and <cite>update</cite> stages,
 the state doesn’t have
@@ -1119,10 +1119,10 @@ the next time.
 <a class="reference internal" href="../api/generated/ekf/c4dynamics.filters.ekf.ekf.update.html#c4dynamics.filters.ekf.ekf.update" title="c4dynamics.filters.ekf.ekf.update"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ekf.update</span></code></a>
 calculates the optimized gain and
 corrects the state based on the input measurement.</p>
-<section id="id4">
-<h4>Example<a class="headerlink" href="#id4" title="Link to this heading">#</a></h4>
+<section id="id8">
+<h4>Example<a class="headerlink" href="#id8" title="Link to this heading">#</a></h4>
 <p>The following example appears in several sources.
-[_ZP]_ provides a great deal of detail. Additional sources can be found in [_SD]_.
+<a class="reference internal" href="#fzp" id="id9"><span>[fZP]</span></a> provides a great deal of detail. Additional sources can be found in <a class="reference internal" href="#fsd" id="id10"><span>[fSD]</span></a>.
 The problem is to estimate the ballistic coefficient of a target
 in a free fall where a noisy radar is tracking it.</p>
 <p>The process equations are:</p>
@@ -1300,8 +1300,8 @@ In control systems, it is often used to model a first-order lag.</p>
 \[y_k = \alpha \cdot x_k + (1 - \alpha) \cdot y_{k-1}\]</div>
 <p>where <span class="math notranslate nohighlight">\(y_k\)</span> and <span class="math notranslate nohighlight">\(x_k\)</span> are the discrete output and input signals at sample index <cite>k</cite>, and <span class="math notranslate nohighlight">\(\alpha\)</span> is the filter coefficient derived from the sample rate and cutoff frequency.</p>
 </section>
-<section id="id5">
-<h3>Implementation (c4dynamics)<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<section id="id11">
+<h3>Implementation (c4dynamics)<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
 <p>This filter class can be initialized with a
 cutoff frequency and sample rate, allowing users to simulate
 first-order systems.</p>
@@ -1309,6 +1309,34 @@ first-order systems.</p>
 </section>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<div role="list" class="citation-list">
+<div class="citation" id="fsd" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>fSD<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id10">2</a>)</span>
+<p>Simon, Dan,
+‘Optimal State Estimation: Kalman, H Infinity, and Nonlinear Approaches’,
+Hoboken: Wiley, 2006.</p>
+</div>
+<div class="citation" id="fag" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">fAG</a><span class="fn-bracket">]</span></span>
+<p>Agranovich, Grigory,
+Lecture Notes on Modern and Digital Control Systems,
+University of Ariel, 2012-2013.</p>
+</div>
+<div class="citation" id="fzp" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>fZP<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id3">1</a>,<a role="doc-backlink" href="#id9">2</a>)</span>
+<p>Zarchan, Paul,
+‘Tactical and Strategic Missile Guidance’,
+American Institute of Aeronautics and Astronautics, 1990.</p>
+</div>
+<div class="citation" id="fmz" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">fMZ</a><span class="fn-bracket">]</span></span>
+<p>Meri, Ziv,
+<a class="reference external" href="../_static/PN_Stability.pdf">Extended Lyapunov Analysis and Simulative Investigations in Stability of Proportional Navigation Guidance Systems</a>,
+MSc. Thesis supervised by prof. Grigory Agranovich, University of Ariel, 2020.</p>
+</div>
+</div>
 </section>
 <section id="see-also">
 <h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h2>
@@ -1392,10 +1420,10 @@ first-order systems.</p>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extended-kalman-filter-ekf">Extended Kalman Filter (<code class="xref py py-class docutils literal notranslate"><span class="pre">ekf</span></code>)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Predict</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Update</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Implementation (c4dynamics)</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Predict</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Update</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Implementation (c4dynamics)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Example</a></li>
 </ul>
 </li>
 </ul>
@@ -1404,7 +1432,7 @@ first-order systems.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#frequency-domain">Frequency-Domain</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#time-constant">Time-Constant</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#discrete-time">Discrete-Time</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Implementation (c4dynamics)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">Implementation (c4dynamics)</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
@@ -1442,7 +1470,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Oct 13, 2025.
+  Last updated on Oct 26, 2025.
   <br/>
 </p>
   </div>
