@@ -13,7 +13,7 @@ Background Material
 -------------------
 
 The background material and the sections concerning the particular filters 
-are based on sources in references [_AG]_ [_SD]_ [_ZP]_.  
+are based on sources in references [fAG]_ [fSD]_ [fZP]_.  
 
 System Model
 ~~~~~~~~~~~~
@@ -112,7 +112,7 @@ The extended Kalman filter offers no such guarantees.
 Therefore it is always a good practice to start by 
 an attempt to linearize the system. 
 
-The linearized model of system :eq:`_nonlinearmodel` around a nominal trajectory :math:`x_n` is given by [_MZ]_:
+The linearized model of system :eq:`_nonlinearmodel` around a nominal trajectory :math:`x_n` is given by [fMZ]_:
 
 
 .. math::
@@ -957,7 +957,7 @@ Example
 ^^^^^^^
 
 The following example appears in several sources. 
-[_ZP]_ provides a great deal of detail. Additional sources can be found in [_SD]_. 
+[fZP]_ provides a great deal of detail. Additional sources can be found in [fSD]_. 
 The problem is to estimate the ballistic coefficient of a target 
 in a free fall where a noisy radar is tracking it.
 
@@ -1223,22 +1223,22 @@ References
 ----------
 
 
-.. [_SD] Simon, Dan, 
+.. [fSD] Simon, Dan, 
    'Optimal State Estimation: Kalman, H Infinity, and Nonlinear Approaches', 
    Hoboken: Wiley, 2006.
 
    
-.. [_AG] Agranovich, Grigory, 
+.. [fAG] Agranovich, Grigory, 
    Lecture Notes on Modern and Digital Control Systems, 
    University of Ariel, 2012-2013.
 
    
-.. [_ZP] Zarchan, Paul, 
+.. [fZP] Zarchan, Paul, 
    'Tactical and Strategic Missile Guidance', 
    American Institute of Aeronautics and Astronautics, 1990. 
 
    
-.. [_MZ] Meri, Ziv, 
+.. [fMZ] Meri, Ziv, 
    `Extended Lyapunov Analysis and Simulative Investigations in Stability of Proportional Navigation Guidance Systems 
    <../_static/PN_Stability.pdf>`_,
    MSc. Thesis supervised by prof. Grigory Agranovich, University of Ariel, 2020.
