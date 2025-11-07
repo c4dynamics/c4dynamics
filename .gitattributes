@@ -6,7 +6,11 @@
 *.weights filter=lfs diff=lfs merge=lfs -text
 
 # exclude file size counting on github: 
-*.nb linguist-vendored
-*.ipynb linguist-vendored
-*.bat linguist-vendored 
-*.tex linguist-vendored
+*.nb          linguist-vendored
+*.ipynb       linguist-vendored
+*.bat         linguist-vendored 
+*.tex         linguist-vendored
+build/**      linguist-vendored
+docs/**       linguist-vendored
+htmlcov/**    linguist-vendored
+.untracked/** linguist-vendored
