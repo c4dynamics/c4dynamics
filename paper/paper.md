@@ -60,22 +60,22 @@ The state of the pendulum consists of two variables:
 
 Initial conditions: `X0 = [50, 0]` (degrees, degrees per second, respectively). 
 
-![](rod_and_bob.png)
+![](rod_and_bob.png)  
+
 Figure 1. Simplified pendulum configuration.
 
 The pendulum dynamics in state space form is given by: 
 
-$$
-\dot{\theta} = q \\
-\dot{q} = \frac{g}{L}\sin\theta 
-$$
+$$ \dot{\theta} = q $$   
 
-Parameters: 
-- Rod length: `L = 1[m]` (rigid, massless)
-- Gravity: `g = 9.8[m/s²]` 
-- Integration function: `solve_ivp` (SciPy)
-- Time step: `0.01[s]`
-- Simulation duration: `5[s]`
+$$ \dot{q} = \frac{g}{L}\sin\theta $$
+
+Parameters:  
+- Rod length: `L = 1[m]` (rigid, massless)  
+- Gravity: `g = 9.8[m/s²]`  
+- Integration function: `solve_ivp` (SciPy)  
+- Time step: `0.01[s]`  
+- Simulation duration: `5[s]`  
 
 The expected result is an oscillatory motion of the angle 𝜃(𝑡), representing the pendulum swinging back and forth.
 
@@ -106,7 +106,8 @@ pend.plot('theta', scale = c4d.r2d, darkmode = False)
 plt.show()
 ```
 
-![](pendulum.png)
+![](pendulum.png)  
+
 Figure 2. Pendulum angle θ(t) over time.
 
 
