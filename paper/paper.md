@@ -44,7 +44,8 @@ In high-level simulators, states are often predefined by the environment (e.g., 
 
 In contrast, c4dynamics brings the state-space representation back into focus, allowing engineers to define, manipulate, and analyze the system’s state vector directly — bridging the gap between physical modeling and algorithm design.
 
-For illustration, consider the modeling and simulation of a pendulum:
+For illustration, consider the modeling and simulation of a pendulum:  
+
 - In a block-diagram framework, the user connects integrators and functional blocks, focusing on signal flow rather than the physical meaning of the state variables.  
 - High-level simulators abstract the system even further: users define parameters in configuration files and observe the resulting motion at the behavioral level, rather than interacting with the underlying mathematical or algorithmic model.  
 - In a stateful approach, the user explicitly defines the state variables and their initial conditions, performing algorithmic operations — both mathematical and data-related — within the main loop.  
@@ -60,24 +61,22 @@ The state of the pendulum consists of two variables:
 
 Initial conditions: `X0 = [50, 0]` (degrees, degrees per second, respectively). 
 
-![](rod_and_bob.png)  
+![Figure 1. Simplified pendulum configuration.](rod_and_bob.png){#fig-pendulum}  
 
-Figure 1. Simplified pendulum configuration.
 
 The pendulum dynamics in state space form is given by: 
 
-$$ \dot{\theta} = q $$   
-
+$$ \dot{\theta} = q $$
 $$ \dot{q} = \frac{g}{L}\sin\theta $$
 
-Parameters:  
+[Figure 1](#fig-pendulum) shows a schematic of the simple pendulum, and the system parameters are listed below:  
 - Rod length: `L = 1[m]` (rigid, massless)  
 - Gravity: `g = 9.8[m/s²]`  
 - Integration function: `solve_ivp` (SciPy)  
 - Time step: `0.01[s]`  
 - Simulation duration: `5[s]`  
 
-The expected result is an oscillatory motion of the angle 𝜃(𝑡), representing the pendulum swinging back and forth.
+The expected result is an oscillatory motion of the angle `θ(t)` in [Figure 2](#fig-theta), representing the pendulum swinging back and forth.
 
 Import required packages:
 ```
@@ -106,11 +105,9 @@ pend.plot('theta', scale = c4d.r2d, darkmode = False)
 plt.show()
 ```
 
-![](pendulum.png)  
-
-Figure 2. Pendulum angle θ(t) over time.
+![Figure 2. Pendulum angle θ(t) over time.](pendulum.png){#fig-theta}  
 
 
-
+Through this example, we see how `c4dynamics` lets users describe a system’s physics directly, run the simulation, and visualize results—all within a consistent, state-based framework. The same workflow applies seamlessly to more advanced dynamic models.
 
 # References
