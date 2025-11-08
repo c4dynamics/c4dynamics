@@ -61,7 +61,7 @@ The state of the pendulum consists of two variables:
 
 Initial conditions: `X0 = [50, 0]` (degrees, degrees per second, respectively). 
 
-![Figure 1. Simplified pendulum configuration.](rod_and_bob.png){#fig-pendulum}  
+![Simplified pendulum configuration.](rod_and_bob.png){#fig-pendulum}  
 
 
 The pendulum dynamics in state space form is given by: 
@@ -105,7 +105,7 @@ pend.plot('theta', scale = c4d.r2d, darkmode = False)
 plt.show()
 ```
 
-![Figure 2. Pendulum angle θ(t) over time.](pendulum.png){#fig-theta}  
+![Pendulum angle θ(t) over time.](pendulum.png){#fig-theta}  
 
 
 Through this example, we see how `c4dynamics` lets users describe a system’s physics directly, run the simulation, and visualize results—all within a consistent, state-based framework. The same workflow applies seamlessly to more advanced dynamic models.
