@@ -200,8 +200,9 @@ class datapoint(state):
   _mass = 1
 
 
-  def __init__(self, x = 0, y = 0, z = 0, vx = 0, vy = 0, vz = 0):
-     
+  def __init__(self, x = 0., y = 0., z = 0., vx = 0., vy = 0., vz = 0.):
+    # TODO: document the state type being float by default. (required after chaning vars to 0.0 and the mechanism of generating the state vector array. ) 
+
     dpargs = {}
     dpargs.setdefault('x', x) 
     dpargs.setdefault('y', y) 

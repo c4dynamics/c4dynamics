@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>c4dynamics.states.state.state.data &#8212; C4DYNAMICS v2.1</title>
+    <title>c4dynamics.states.state.state.data &#8212; C4DYNAMICS v2.2</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=32e37178"></script>
+    <script src="../../../_static/documentation_options.js?v=ecfc290d"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -54,7 +54,7 @@
     <link rel="prev" title="c4dynamics.states.state.state.storeparams" href="c4dynamics.states.state.state.storeparams.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Oct 26, 2025"/>
+    <meta name="docbuild:last-update" content="Nov 19, 2025"/>
   </head>
   
   
@@ -140,7 +140,7 @@
   
   
   
-    <p class="title logo__title">C4DYNAMICS v2.1</p>
+    <p class="title logo__title">C4DYNAMICS v2.2</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -181,7 +181,7 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Use Cases</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../../programs/dof6sim.html">Proportional Navigation Guidance - 6 Degrees of Freedom</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../programs/ballistic_coefficient.html">Ballistic Coefficient Estimation using Extended Kalman Filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../programs/ballistic_coefficient.html">Ballistic Coefficient Estimation - Extended Kalman Filter</a></li>
 
 
 <li class="toctree-l1"><a class="reference internal" href="../../../programs/car_tracker.html">Car Tracker - Objects Detection and Kalman Filter</a></li>
@@ -487,7 +487,7 @@ number of state variables and times.</p>
 <p class="rubric">Examples</p>
 <p>Get all stored data:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="c1"># to reproduce results</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">state</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">state</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span>
 <span class="gp">... </span>  <span class="n">s</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="gp">... </span>  <span class="n">s</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
@@ -508,7 +508,7 @@ number of state variables and times.</p>
 </pre></div>
 </div>
 <p>Get data with scaling:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">state</span><span class="p">(</span><span class="n">phi</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">state</span><span class="p">(</span><span class="n">phi</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">c4d</span><span class="o">.</span><span class="n">pi</span><span class="p">):</span>
 <span class="gp">... </span>  <span class="n">s</span><span class="o">.</span><span class="n">phi</span> <span class="o">=</span> <span class="n">p</span>
 <span class="gp">... </span>  <span class="n">s</span><span class="o">.</span><span class="n">store</span><span class="p">()</span>
@@ -607,7 +607,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Oct 26, 2025.
+  Last updated on Nov 19, 2025.
   <br/>
 </p>
   </div>

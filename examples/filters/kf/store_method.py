@@ -63,7 +63,7 @@ def plain_store():
 
   c4d.cprint('plain store', 'y')
 
-  kf = kalman({'x': 0}, P0 = 0.5**2, F = 1, H = 1, Q = 0.05, R = 200)
+  kf = kalman({'x': 0.}, P0 = 0.5**2, F = 1, H = 1, Q = 0.05, R = 200)
   # store initial conditions
   kf.store() 
   kf.predict()
