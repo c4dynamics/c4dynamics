@@ -47,7 +47,7 @@ class TestEquationsOfMotion(unittest.TestCase):
     def test_eqm3_constant_velocity(self):
         """Test eqm3 with constant velocity and zero force."""
         F = np.array([0, 0, 0])  # No force
-        self.dp.vx, self.dp.vy, self.dp.vz = 5, 5, 5  # constant velocity in each axis
+        self.dp.vx, self.dp.vy, self.dp.vz = 5., 5., 5.  # constant velocity in each axis
 
         result = eqm3(self.dp, F)
         expected = np.array([5, 5, 5, 0, 0, 0])  # Constant velocity, no acceleration

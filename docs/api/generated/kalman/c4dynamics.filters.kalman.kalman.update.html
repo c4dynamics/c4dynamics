@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>c4dynamics.filters.kalman.kalman.update &#8212; C4DYNAMICS v2.1</title>
+    <title>c4dynamics.filters.kalman.kalman.update &#8212; C4DYNAMICS v2.2</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=32e37178"></script>
+    <script src="../../../_static/documentation_options.js?v=ecfc290d"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -52,7 +52,7 @@
     <link rel="prev" title="c4dynamics.filters.kalman.kalman.predict" href="c4dynamics.filters.kalman.kalman.predict.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Oct 26, 2025"/>
+    <meta name="docbuild:last-update" content="Nov 19, 2025"/>
   </head>
   
   
@@ -138,7 +138,7 @@
   
   
   
-    <p class="title logo__title">C4DYNAMICS v2.1</p>
+    <p class="title logo__title">C4DYNAMICS v2.2</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -179,7 +179,7 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Use Cases</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../../programs/dof6sim.html">Proportional Navigation Guidance - 6 Degrees of Freedom</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../programs/ballistic_coefficient.html">Ballistic Coefficient Estimation using Extended Kalman Filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../programs/ballistic_coefficient.html">Ballistic Coefficient Estimation - Extended Kalman Filter</a></li>
 
 
 <li class="toctree-l1"><a class="reference internal" href="../../../programs/car_tracker.html">Car Tracker - Objects Detection and Kalman Filter</a></li>
@@ -492,7 +492,7 @@ the <a class="reference internal" href="../../filters.kalman.html#c4dynamics.fil
 (update in steady-state mode
 where the measurement covariance matrix remains
 and is provided once during filter initialization):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">kf</span> <span class="o">=</span> <span class="n">kalman</span><span class="p">({</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span> <span class="n">P0</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">F</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">H</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Q</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">R</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span> <span class="n">steadystate</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">kf</span> <span class="o">=</span> <span class="n">kalman</span><span class="p">({</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mf">0.</span><span class="p">},</span> <span class="n">P0</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">F</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">H</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Q</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">R</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span> <span class="n">steadystate</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">kf</span><span class="p">)</span>
 <span class="go">[ x ]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">kf</span><span class="o">.</span><span class="n">X</span>   
@@ -508,7 +508,7 @@ and is provided once during filter initialization):</p>
 </pre></div>
 </div>
 <p>Update with modified measurement noise covariance matrix:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">kf</span> <span class="o">=</span> <span class="n">kalman</span><span class="p">({</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span> <span class="n">P0</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">F</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">G</span> <span class="o">=</span> <span class="mi">150</span><span class="p">,</span> <span class="n">H</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">R</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span> <span class="n">Q</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">kf</span> <span class="o">=</span> <span class="n">kalman</span><span class="p">({</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mf">0.</span><span class="p">},</span> <span class="n">P0</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">F</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">G</span> <span class="o">=</span> <span class="mi">150</span><span class="p">,</span> <span class="n">H</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">R</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span> <span class="n">Q</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">kf</span><span class="o">.</span><span class="n">X</span>   
 <span class="go">[0]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">kf</span><span class="o">.</span><span class="n">P</span>   
@@ -605,7 +605,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Oct 26, 2025.
+  Last updated on Nov 19, 2025.
   <br/>
 </p>
   </div>
