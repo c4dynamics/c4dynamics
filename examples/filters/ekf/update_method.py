@@ -61,7 +61,7 @@ def plain_correct():
 
   c4d.cprint('plain correct', 'y')
 
-  ekf = c4d.filters.ekf({'x': 0}, P0 = .5**2, F = 1, H = 1, Q = 0.05, R = 200)
+  ekf = c4d.filters.ekf({'x': 0.}, P0 = .5**2, F = 1, H = 1, Q = 0.05, R = 200)
   print(ekf)
   print(ekf.X)
   print(ekf.P)
@@ -76,7 +76,7 @@ def varying_R():
 
   c4d.cprint('varying R', 'y')
   
-  ekf = c4d.filters.ekf({'x': 0}, P0 = .5**2, F = 1, G = 150, H = 1, Q = 0.05, R = 200)
+  ekf = c4d.filters.ekf({'x': 0.}, P0 = .5**2, F = 1, G = 150, H = 1, Q = 0.05, R = 200)
 
   print(ekf.X)
   print(ekf.P)

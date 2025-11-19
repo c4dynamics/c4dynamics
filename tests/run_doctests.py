@@ -14,11 +14,14 @@ packagefol = 'c4dynamics'
 skip_datasets = False # True # (default = false)
 skip_videos = False # True   # (default = false)
 
+skipto = None # 'rotmat' # 
+
 for dirpath, _, filenames in os.walk(packagefol):
   if '__pycache__' in dirpath: continue
   c4d.cprint(f'dir: {dirpath}', 'c')
   
   for file_name in filenames:
+    if skipto is not None and file_name != skipto + '.py': continue
     if file_name == 'registery.py':     continue
     if file_name == 'kalman_v0.py':     continue 
     if file_name == 'kalman_v1.py':     continue 
@@ -48,6 +51,7 @@ for dirpath, _, filenames in os.walk(packagefol):
     #   subprocess.run([sys.executable, '-m', 'c4dynamics'])
     # else:       
     #   subprocess.run([sys.executable, testfile])
+    # print(file_name)
     subprocess.run([sys.executable, os.path.join(dirpath, file_name)])
 
 

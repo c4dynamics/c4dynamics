@@ -133,13 +133,25 @@ class state:
     self._prmdata = {} # for user additional variables 
 
     self._didx = {'t': 0}
+    
+    # if any of the input vars is floating point, then it casts the entire state type (no partial types array)
+    # if all of them are integer, it casts the staet type. 
+    # i think maybe the best way to achieve it is by generating a numpy array and check its dtype: 
+    self._X = np.array(list(kwargs.values()))
+    # self._X = np.zeros(len(kwargs)) #, dtype = np.float64)
+    # TODO: now the type is determined by the initial values. 
+    #       if any is floating point then the entire state is float.
+    #       otherwise, integer.
+    #       however, there cannot be partial types such as some variables. 
+    #       this must be covered in the documentation.
 
     for i, (k, v) in enumerate(kwargs.items()):
       if k in self._reserved_keys:
         raise ValueError(f"{k} is a reserved key. Keys {self._reserved_keys} cannot use as variable names.")
-      setattr(self, k, v)
+      # setattr(self, k, v)
       setattr(self, k + '0', v)
       self._didx[k] = 1 + i
+      self._X[i] = v
 
 
   def __str__(self):
@@ -170,48 +182,7 @@ class state:
             f"Current State Vector (X): {self.X}\n"
             f"Parameters: {param_names if param_names else 'None'}")
 
-  # def __setattr__(self, param, value):
-  #   if param in self._reserved_keys:
-  #     raise AttributeError(f"{param} is a reserved key. Keys {self._reserved_keys} cannot use as parameter names.")
-  #   else:
-  #     super().__setattr__(param, value)
-
-  # @property 
-  # def dtype(self) -> np.dtype:
-  #   '''
-  #   Gets and sets the data type of the state variables. 
-
-  #   The data type is used to determine the type of the state variables. 
-  #   The default data type is :code:`np.float64`. 
-
-  #   Parameters
-  #   ----------
-  #   dtype : numpy.dtype 
-  #       Data type to set the state variables. 
-
-  #   Returns
-  #   -------
-  #   out : numpy.dtype 
-  #       Data type of the state variables. 
-
-  #   Examples
-  #   --------
-
-  #   .. code:: 
-
-  #     >>> s = c4d.state(x = 1, y = 0)
-  #     >>> s.dtype
-  #     dtype('float64')
-  #     >>> s.dtype = np.float32
-  #     >>> s.dtype
-  #     dtype('float32')
-
-  #   '''
-  #   return self._dtype
-
-  # @dtype.setter
-  # def dtype(self, dtype):
-  #   self._dtype = np.dtype(dtype)
+  
 
 
 
@@ -219,6 +190,32 @@ class state:
   #
   # state operations
   ## 
+
+
+  def __getattr__(self, var):
+    if var in self._didx:
+      return self._X[self._didx[var] - 1]
+    else:
+      # default Python behavior
+      raise AttributeError(f"{var} not found")
+
+
+
+  def __setattr__(self, var, val):
+    # intercept known state variables
+    if "_didx" in self.__dict__ and var in self._didx:
+
+      if np.array(val).dtype != self._X.dtype:
+        warnings.warn(
+              f"Type mismatch! Casting X to {np.array(val).dtype}. (currently: {self._X.dtype})."
+          , c4d.c4warn)
+        self._X = self._X.astype(np.array(val).dtype)      
+        
+      self._X[self._didx[var] - 1] = val
+    else:
+      # regular attribute assignment
+      super().__setattr__(var, val)
+
 
 
   @property
@@ -269,30 +266,31 @@ class state:
       >>> dp.X   # doctest: +NUMPY_FORMAT
       [0  0  0  0  0  0]
       >>> #       x     y    z  vx vy vz 
-      >>> dp.X = [1000, 100, 0, 0, 0, -100] 
+      >>> dp.X = [1000., 100., 0., 0., 0., -100.] 
       >>> dp.X   # doctest: +NUMPY_FORMAT
       [1000  100  0  0  0  -100]
     
 
     '''
 
+    # xout = [] 
 
-    xout = [] 
+    # for k in self._didx.keys():
+    #   if k == 't': continue
+    #   # the alteast_1d() + the flatten() is necessary to 
+    #   # cope with non-homogenuous array 
+    #   # xout.append(np.atleast_1d(eval('self.' + k)))
+    #   xout.append(np.atleast_1d(getattr(self, k)))
 
-    for k in self._didx.keys():
-      if k == 't': continue
-      # the alteast_1d() + the flatten() is necessary to 
-      # cope with non-homogenuous array 
-      # xout.append(np.atleast_1d(eval('self.' + k)))
-      xout.append(np.atleast_1d(getattr(self, k)))
+    # #
+    # # XXX why float64? maybe it's just some default unlsess anything else required. 
+    # # pixelpoint:override the .X property: will distance the devs from a datapoint class. 
+    # #  con: much easier 
+    # #
+    # # return np.array(xout).ravel().astype(self._dtype) 
+    # return np.array(xout).flatten().astype(np.float64) 
+    return self._X
 
-    #
-    # XXX why float64? maybe it's just some default unlsess anything else required. 
-    # pixelpoint:override the .X property: will distance the devs from a datapoint class. 
-    #  con: much easier 
-    #
-    # return np.array(xout).ravel().astype(self._dtype) 
-    return np.array(xout).flatten().astype(np.float64) 
 
   @X.setter
   def X(self, Xin):
@@ -302,20 +300,23 @@ class state:
     # mutable. but lets keep tracking. 
     Xin = np.atleast_1d(Xin).ravel()
 
-    xlen = len(Xin)
-    Xlen = len(self.X)
+    if Xin.dtype != self._X.dtype:
+      warnings.warn(
+            f"Type mismatch! Casting X to {Xin.dtype}. (currently: {self._X.dtype})."
+        , c4d.c4warn)
+      self._X = self._X.astype(Xin.dtype)
 
-    if xlen < Xlen:
-      raise ValueError(f'Partial vector assignment, len(Xin) = {xlen}, len(X) = {Xlen}', 'r')
 
-    elif xlen > Xlen:
-      raise ValueError(f'The length of the input state is bigger than X, len(Xin) = {xlen}, len(X) = {Xlen}')
+    if len(Xin) != len(self._X):
+      raise ValueError("Length mismatch")
 
-    for i, k in enumerate(self._didx.keys()):
-      if k == 't': continue
-      if i > xlen: break 
-      setattr(self, k, Xin[i - 1])
+    # for i, k in enumerate(self._didx.keys()):
+    #   if k == 't': continue
+    #   if i > xlen: break 
+    #   setattr(self, k, Xin[i - 1])
 
+    self._X[:] = Xin
+  
 
   @property
   def X0(self):
@@ -492,7 +493,7 @@ class state:
 
     .. code:: 
 
-      >>> s = c4d.state(x = 1, y = 0, z = 0)
+      >>> s = c4d.state(x = 1., y = 0., z = 0.)
       >>> for t in np.linspace(0, 1, 3):
       ...   s.X = np.random.rand(3)
       ...   s.store(t)
@@ -601,7 +602,7 @@ class state:
       >>> np.random.seed(44)
       >>> for i in range(3): 
       ...   s.X += 1 
-      ...   s.w, s.h = np.random.randint(0, 50, 2)
+      ...   s.w, s.h = np.random.randint(0, 50, 2, dtype = np.int64)
       ...   if s.w > 40 or s.h > 20: 
       ...     s.class_id = 'truck' 
       ...   else:  
@@ -732,7 +733,7 @@ class state:
     .. code:: 
 
       >>> np.random.seed(100) # to reproduce results 
-      >>> s = c4d.state(x = 1, y = 0, z = 0)
+      >>> s = c4d.state(x = 1., y = 0., z = 0.)
       >>> for t in np.linspace(0, 1, 3):
       ...   s.X = np.random.rand(3)
       ...   s.store(t)
@@ -759,7 +760,7 @@ class state:
 
     .. code::
 
-      >>> s = c4d.state(phi = 0)
+      >>> s = c4d.state(phi = 0.)
       >>> for p in np.linspace(0, c4d.pi):
       ...   s.phi = p
       ...   s.store()
@@ -938,7 +939,7 @@ class state:
       >>> s = c4d.state(x = 0, y = 0)
       >>> s.store()
       >>> for _ in range(100):
-      ...   s.x = np.random.randint(0, 100, 1)
+      ...   s.x = np.random.randint(0, 100, 1, dtype = np.int64)
       ...   s.store()
       >>> s.plot('x', filename = 'x.png')   # doctest: +IGNORE_OUTPUT 
       >>> plt.show()
@@ -950,14 +951,14 @@ class state:
 
     .. code:: 
     
-      >>> plt.switch_backend('TkAgg')
+      >>> plt.switch_backend('qtagg')
       >>> s.plot('x')   # doctest: +IGNORE_OUTPUT 
       >>> plt.show(block = True)
 
 
     **Dark mode off:**  
 
-      >>> s = c4d.state(x = 0)
+      >>> s = c4d.state(x = 0.)
       >>> s.xstd = 0.2 
       >>> for t in np.linspace(-2 * c4d.pi, 2 * c4d.pi, 1000):
       ...   s.x = c4d.sin(t) + np.random.randn() * s.xstd 
@@ -973,7 +974,7 @@ class state:
 
     .. code:: 
 
-      >>> s = c4d.state(phi = 0)
+      >>> s = c4d.state(phi = 0.)
       >>> for y in c4d.tan(np.linspace(-c4d.pi, c4d.pi, 500)):
       ...   s.phi = c4d.atan(y)
       ...   s.store()

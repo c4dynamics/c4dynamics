@@ -22,7 +22,7 @@ print(s.X @ R)
 # [0  1  0]
 
 
-c4d.cprint('magnitude \ norm ', 'g') 
+c4d.cprint('magnitude \\ norm ', 'g') 
 print(np.linalg.norm(s.X))
 # 1 
 
@@ -56,7 +56,9 @@ s.store(t = 0.5)
 # -- 
 
 c4d.cprint('get all stored data', 'c') 
+np.random.seed(100)
 s = c4d.state(x = 1, y = 0, z = 0)
+s.x = 0.37
 for t in np.linspace(0, 1, 3):
   s.X = np.random.rand(3)
   s.store(t)
