@@ -121,13 +121,13 @@ def draw_kf(ekf, title, trueobj = None, filename = None, measures = True, std = 
 
 def varying_Q(cont = False): 
 
-  train = c4d.state(x = 0)
+  train = c4d.state(x = 0.)
   
 
   v = 300
   sensor_noise = 20
 
-  ekf = c4d.filters.ekf({'x': 0}, P0 = 500**2, F = 1, G = v, H = 1, Q = 0, R = sensor_noise**2)
+  ekf = c4d.filters.ekf({'x': 0.}, P0 = 500**2, F = 1, G = v, H = 1, Q = 0, R = sensor_noise**2)
   ekf.detect = 0 
   ekf.K = 0
  
@@ -169,13 +169,13 @@ def varying_Q(cont = False):
 
 def varying_R(): 
 
-  train = c4d.state(x = 0)
+  train = c4d.state(x = 0.)
   
 
   v = 150
   # sensor_noise = 20
 
-  ekf = c4d.filters.ekf({'x': 0}, P0 = 0.5**2, F = 1, G = v, H = 1, Q = 0.05)
+  ekf = c4d.filters.ekf({'x': 0.}, P0 = 0.5**2, F = 1, G = v, H = 1, Q = 0.05)
   # ekf = c4d.filters.ekf({'x': 1000}, P0 = 1000**2, F = 1, G = v, H = 1, Q = 0.05)
 
 

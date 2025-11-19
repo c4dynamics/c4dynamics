@@ -26,7 +26,7 @@ def simpleplot():
   s = c4d.state(x = 0)
   s.store()
   for _ in range(100):
-    s.x = np.random.randint(0, 100, 1)
+    s.x = np.random.randint(0, 100, 1, dtype = np.int64)
     s.store()
 
   plt.switch_backend('TkAgg')
@@ -36,7 +36,7 @@ def simpleplot():
 def scaling(): 
   c4d.cprint('with scale', 'c')
 
-  s = c4d.state(phi = 0, y = 0)
+  s = c4d.state(phi = 0., y = 0.)
   for y in c4d.tan(np.linspace(-c4d.pi, c4d.pi, 500)):
     s.y   = y
     s.phi = c4d.atan(y)
@@ -88,7 +88,7 @@ def sideview():
 def darkmode(): 
   c4d.cprint('darkmode', 'c')
 
-  s = c4d.state(x = 0)
+  s = c4d.state(x = 0.)
   s.xstd = 0.2 
 
   for t in np.linspace(-2 * c4d.pi, 2 * c4d.pi, 1000):

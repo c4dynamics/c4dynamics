@@ -131,14 +131,14 @@ def steadystate(cont = False):
   v = 150
   sensor_noise = 200 
   if cont: 
-    kf = kalman({'x': 0}, P0 = 0.5**2, A = 0, B = v, C = 1, Q = 0.05, R = sensor_noise**2, steadystate = True, dt = 1)
+    kf = kalman({'x': 0.}, P0 = 0.5**2, A = 0, B = v, C = 1, Q = 0.05, R = sensor_noise**2, steadystate = True, dt = 1)
   else: 
-    kf = kalman({'x': 0}, P0 = 0.5**2, F = 1, G = v, H = 1, Q = 0.05, R = sensor_noise**2, steadystate = True)
+    kf = kalman({'x': 0.}, P0 = 0.5**2, F = 1, G = v, H = 1, Q = 0.05, R = sensor_noise**2, steadystate = True)
     
 
   
 
-  train = c4d.state(x = 0)
+  train = c4d.state(x = 0.)
 
   
   for t in range(1, 25 + 1): #  seconds. 
@@ -176,13 +176,13 @@ def steadystate(cont = False):
 
 def varying_Q(cont = False): 
 
-  train = c4d.state(x = 0)
+  train = c4d.state(x = 0.)
   
 
   v = 300
   sensor_noise = 20
 
-  kf = kalman({'x': 0}, P0 = 500**2, F = 1, G = v, H = 1, Q = 0, R = sensor_noise**2)
+  kf = kalman({'x': 0.}, P0 = 500**2, F = 1, G = v, H = 1, Q = 0, R = sensor_noise**2)
   kf.detect = 0 
   kf.K = 0
  
@@ -224,13 +224,13 @@ def varying_Q(cont = False):
 
 def varying_R(): 
 
-  train = c4d.state(x = 0)
+  train = c4d.state(x = 0.)
   
 
   v = 150
   # sensor_noise = 20
 
-  kf = kalman({'x': 0}, P0 = 0.5**2, F = 1, G = v, H = 1, Q = 0.05)
+  kf = kalman({'x': 0.}, P0 = 0.5**2, F = 1, G = v, H = 1, Q = 0.05)
   # kf = kalman({'x': 1000}, P0 = 1000**2, F = 1, G = v, H = 1, Q = 0.05)
 
 

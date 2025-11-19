@@ -13,7 +13,7 @@ class TestEKF(unittest.TestCase):
 
 
     def setUp(self):
-        self.X = {'x': 0, 'y': 0}
+        self.X = {'x': 0., 'y': 0.}
         self.P0 = np.array([[1, 0], [0, 1]])
         self.dt = 0.1
         self.G = np.array([1, 1])
@@ -49,7 +49,7 @@ class TestEKF(unittest.TestCase):
         Qk = np.array([[0.1, 0], [0, 0.1]])
         fx = np.array([1, 1])
 
-        expected_X = self.ekf_filter.X 
+        expected_X = self.ekf_filter.X.copy() 
 
         self.ekf_filter.predict(F = F, Q = Qk, fx = fx, dt = self.dt)
         expected_P = F @ self.P0 @ F.T + Qk
@@ -69,8 +69,8 @@ class TestEKF(unittest.TestCase):
 
 
         # self.ekf_filter.predict(F = F, Q = Qk)
-        Xprev = self.ekf_filter.X 
-        Pprev = self.ekf_filter.P 
+        Xprev = self.ekf_filter.X.copy() 
+        Pprev = self.ekf_filter.P.copy()
         kout = self.ekf_filter.update(z, H = H, R = Rk)
 
 
