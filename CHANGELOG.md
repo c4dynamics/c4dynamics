@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [2.2.0] - 2025-11-15
 ### Breaking
 - Fix: Core `State` object assignment behavior corrected — assigning a vector
 	with a mismatched `dtype` to a `State` field now updates the underlying
