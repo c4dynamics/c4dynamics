@@ -38,7 +38,7 @@ def intro():
   
   for p in pts:
 
-    print('{:^10d} | {:^10d} | {:^16} | {:^16} | {:^10} | {:^14}'.format(p.x, p.y, ptup(p.box[0]), ptup(p.box[1]), p.class_id, ptup(p.fsize)))
+    print('{:^10} | {:^10} | {:^16} | {:^16} | {:^10} | {:^14}'.format(p.x, p.y, ptup(p.box[0]), ptup(p.box[1]), p.class_id, ptup(p.fsize)))
     cv2.rectangle(img, p.box[0], p.box[1], [0, 255, 0], 2)
 
     point = (int((p.box[0][0] + p.box[1][0]) / 2 - 75), p.box[1][1] + 22)

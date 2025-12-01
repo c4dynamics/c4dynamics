@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>c4dynamics.detectors.yolo3_opencv &#8212; C4DYNAMICS v2.2</title>
+    <title>c4dynamics.detectors.yolo3_opencv &#8212; C4DYNAMICS v2.3</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=ecfc290d"></script>
+    <script src="../../../_static/documentation_options.js?v=10261ce1"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -49,7 +49,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Nov 19, 2025"/>
+    <meta name="docbuild:last-update" content="Dec 01, 2025"/>
   </head>
   
   
@@ -137,7 +137,7 @@
   
   
   
-    <p class="title logo__title">C4DYNAMICS v2.2</p>
+    <p class="title logo__title">C4DYNAMICS v2.3</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -567,7 +567,7 @@ document.write(`
 <span class="sd">        &gt;&gt;&gt; def ptup(n): return &#39;(&#39; + str(n[0]) + &#39;, &#39; + str(n[1]) + &#39;)&#39;</span>
 <span class="sd">        &gt;&gt;&gt; print(&#39;{:^10} | {:^10} | {:^16} | {:^16} | {:^10} | {:^14}&#39;.format(&#39;center x&#39;, &#39;center y&#39;, &#39;box top-left&#39;, &#39;box bottom-right&#39;, &#39;class&#39;, &#39;frame size&#39;)) # doctest: +IGNORE_OUTPUT</span>
 <span class="sd">        &gt;&gt;&gt; for p in pts:</span>
-<span class="sd">        ...   print(&#39;{:^10d} | {:^10d} | {:^16} | {:^16} | {:^10} | {:^14}&#39;.format(p.x, p.y, ptup(p.box[0]), ptup(p.box[1]), p.class_id, ptup(p.fsize)))     # doctest: +IGNORE_OUTPUT</span>
+<span class="sd">        ...   print(&#39;{:^10} | {:^10} | {:^16} | {:^16} | {:^10} | {:^14}&#39;.format(p.x, p.y, ptup(p.box[0]), ptup(p.box[1]), p.class_id, ptup(p.fsize)))     # doctest: +IGNORE_OUTPUT</span>
 <span class="sd">        ...   cv2.rectangle(img, p.box[0], p.box[1], [0, 0, 0], 2)      # +IGNORE_OUTPUT</span>
 <span class="sd">        ...   point = (int((p.box[0][0] + p.box[1][0]) / 2 - 75), p.box[1][1] + 22)     # doctest: +IGNORE_OUTPUT</span>
 <span class="sd">        ...   cv2.putText(img, p.class_id, point, cv2.FONT_HERSHEY_SIMPLEX, 1, [0, 0, 0], 2)     # doctest: +IGNORE_OUTPUT</span>
@@ -1112,7 +1112,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Nov 19, 2025.
+  Last updated on Dec 01, 2025.
   <br/>
 </p>
   </div>

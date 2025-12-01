@@ -181,8 +181,8 @@ class rigidbody(datapoint):  #
   _iyy = 0
   _izz = 0
 
-  def __init__(self, x = 0., y = 0., z = 0., vx = 0., vy = 0., vz = 0. 
-                      ,  phi = 0., theta = 0., psi = 0., p = 0., q = 0., r = 0.
+  def __init__(self, x = 0, y = 0, z = 0, vx = 0, vy = 0, vz = 0
+                      ,  phi = 0, theta = 0, psi = 0, p = 0, q = 0, r = 0
                           ): 
 
     rbargs = {}

@@ -56,7 +56,7 @@ setup(
     , keywords = ['python', 'dynamics', 'physics'
                     , 'algorithms', 'computer vision'
                         , 'navigation', 'guidance', 'slam' 
-                            , 'vsalm', 'image processing', 'singal processing', 'control']
+                            , 'vslam', 'image processing', 'signal processing', 'control']
     , classifiers = ['Development Status :: 5 - Production/Stable'
                         , 'Intended Audience :: Developers'
                             , 'Programming Language :: Python :: 3'

@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>c4dynamics.filters.ekf &#8212; C4DYNAMICS v2.2</title>
+    <title>c4dynamics.filters.ekf &#8212; C4DYNAMICS v2.3</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=ecfc290d"></script>
+    <script src="../../../_static/documentation_options.js?v=10261ce1"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -49,7 +49,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Nov 19, 2025"/>
+    <meta name="docbuild:last-update" content="Dec 01, 2025"/>
   </head>
   
   
@@ -137,7 +137,7 @@
   
   
   
-    <p class="title logo__title">C4DYNAMICS v2.2</p>
+    <p class="title logo__title">C4DYNAMICS v2.3</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -529,7 +529,7 @@ document.write(`
 
 <span class="sd">      .. code:: </span>
 
-<span class="sd">        &gt;&gt;&gt; _ekf = ekf({&#39;x&#39;: 0.}, P0 = 0.5**2, F = 1, H = 1, Q = 0.05, R = 200)</span>
+<span class="sd">        &gt;&gt;&gt; _ekf = ekf({&#39;x&#39;: 0}, P0 = 0.5**2, F = 1, H = 1, Q = 0.05, R = 200)</span>
 <span class="sd">        &gt;&gt;&gt; print(_ekf)</span>
 <span class="sd">        [ x ]</span>
 <span class="sd">        &gt;&gt;&gt; _ekf.X          # doctest: +NUMPY_FORMAT</span>
@@ -547,7 +547,7 @@ document.write(`
 
 <span class="sd">      .. code:: </span>
 
-<span class="sd">        &gt;&gt;&gt; _ekf = ekf({&#39;x&#39;: 0.}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)</span>
+<span class="sd">        &gt;&gt;&gt; _ekf = ekf({&#39;x&#39;: 0}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)</span>
 <span class="sd">        &gt;&gt;&gt; _ekf.X      # doctest: +NUMPY_FORMAT</span>
 <span class="sd">        [0]</span>
 <span class="sd">        &gt;&gt;&gt; _ekf.P         # doctest: +NUMPY_FORMAT</span>
@@ -564,7 +564,7 @@ document.write(`
 
 <span class="sd">      .. code:: </span>
 
-<span class="sd">        &gt;&gt;&gt; _ekf = ekf({&#39;x&#39;: 0.}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)</span>
+<span class="sd">        &gt;&gt;&gt; _ekf = ekf({&#39;x&#39;: 0}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)</span>
 <span class="sd">        &gt;&gt;&gt; _ekf.X   # doctest: +NUMPY_FORMAT</span>
 <span class="sd">        [0]</span>
 <span class="sd">        &gt;&gt;&gt; _ekf.P  # doctest: +NUMPY_FORMAT</span>
@@ -648,7 +648,7 @@ document.write(`
 
 <span class="sd">      .. code:: </span>
 
-<span class="sd">        &gt;&gt;&gt; _ekf = ekf({&#39;x&#39;: 0.}, P0 = 0.5**2, F = 1, H = 1, Q = 0.05, R = 200)</span>
+<span class="sd">        &gt;&gt;&gt; _ekf = ekf({&#39;x&#39;: 0}, P0 = 0.5**2, F = 1, H = 1, Q = 0.05, R = 200)</span>
 <span class="sd">        &gt;&gt;&gt; print(_ekf)</span>
 <span class="sd">        [ x ]</span>
 <span class="sd">        &gt;&gt;&gt; _ekf.X   # doctest: +NUMPY_FORMAT</span>
@@ -668,7 +668,7 @@ document.write(`
 
 <span class="sd">      .. code:: </span>
 
-<span class="sd">        &gt;&gt;&gt; _ekf = ekf({&#39;x&#39;: 0.}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)</span>
+<span class="sd">        &gt;&gt;&gt; _ekf = ekf({&#39;x&#39;: 0}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)</span>
 <span class="sd">        &gt;&gt;&gt; _ekf.X   # doctest: +NUMPY_FORMAT</span>
 <span class="sd">        [0]</span>
 <span class="sd">        &gt;&gt;&gt; _ekf.P  # doctest: +NUMPY_FORMAT</span>
@@ -753,7 +753,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Nov 19, 2025.
+  Last updated on Dec 01, 2025.
   <br/>
 </p>
   </div>

@@ -51,7 +51,8 @@ for dirpath, _, filenames in os.walk(packagefol):
     #   subprocess.run([sys.executable, '-m', 'c4dynamics'])
     # else:       
     #   subprocess.run([sys.executable, testfile])
-    # print(file_name)
+    
+    c4d.cprint(f'file: {file_name}', 'c')
     subprocess.run([sys.executable, os.path.join(dirpath, file_name)])
 
 

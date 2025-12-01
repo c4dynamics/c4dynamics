@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>State Objects &#8212; C4DYNAMICS v2.2</title>
+    <title>State Objects &#8212; C4DYNAMICS v2.3</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=ecfc290d"></script>
+    <script src="../_static/documentation_options.js?v=10261ce1"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -54,7 +54,7 @@
     <link rel="prev" title="Getting Started" href="../gettingstarted.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Nov 19, 2025"/>
+    <meta name="docbuild:last-update" content="Dec 01, 2025"/>
   </head>
   
   
@@ -140,7 +140,7 @@
   
   
   
-    <p class="title logo__title">C4DYNAMICS v2.2</p>
+    <p class="title logo__title">C4DYNAMICS v2.3</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -446,7 +446,8 @@ document.write(`
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">State Objects</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#state-data-structure">State Data-Structure</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operations">Operations</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#state-construction">State Construction</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#state-construction">State Construction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#state-type">State Type</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
 </ul>
 </li>
@@ -735,6 +736,14 @@ retrieved later by calling <a class="reference internal" href="../api/generated/
 the state object, it’s possible to pass zeros and override them later
 by direct assignment of the state variable with a <cite>0</cite> suffix, <code class="code docutils literal notranslate"><span class="pre">s.var10</span> <span class="pre">=</span> <span class="pre">100</span></code>, <code class="code docutils literal notranslate"><span class="pre">s.var20</span> <span class="pre">=</span> <span class="pre">200</span></code>.
 See more at <a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.X0.html#c4dynamics.states.state.state.X0" title="c4dynamics.states.state.state.X0"><code class="xref py py-attr docutils literal notranslate"><span class="pre">state.X0</span></code></a>.</p>
+<p><strong>Assignment Length Must Match</strong></p>
+<p>Assignments to <cite>X</cite> must match the current state vector length:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">state</span><span class="p">(</span><span class="n">v1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">v2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">v3</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>     <span class="c1"># Initialize s with 3 variables</span>
+<span class="n">s</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>                           <span class="c1"># Assign 3 new values → Ok</span>
+<span class="n">s</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>                              <span class="c1"># Length mismatch → ValueError</span>
+<span class="n">s</span><span class="o">.</span><span class="n">X</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>                          <span class="c1"># Slicing assignment → Ok (updates part of the vector)</span>
+</pre></div>
+</div>
 <p><strong>Adding variables</strong></p>
 <p>Adding state variables outside the
 constructor is possible by using <a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.addvars.html#c4dynamics.states.state.state.addvars" title="c4dynamics.states.state.state.addvars"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addvars(**kwargs)</span></code></a>,
@@ -757,6 +766,24 @@ added to the object outside the constructor (the <cite>__init__</cite> method), 
 <span class="go">[ var1  var2  var3 ]</span>
 </pre></div>
 </div>
+</section>
+<section id="state-type">
+<h2>State Type<a class="headerlink" href="#state-type" title="Link to this heading">#</a></h2>
+<p>The state object always uses a <cite>fixed floating-point type</cite> for the state vector <cite>X</cite>.
+This ensures consistent numerical precision, predictable behavior, and compatibility with scientific computations.</p>
+<p>All state variables are stored internally as <cite>float64</cite> (<cite>np.float64</cite>), regardless of the type used at initialization:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">s1</span> <span class="o">=</span> <span class="n">state</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>  <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">)</span>   <span class="c1"># integers provided</span>
+<span class="n">s2</span> <span class="o">=</span> <span class="n">state</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">)</span>   <span class="c1"># floats provided</span>
+</pre></div>
+</div>
+<p>Both <cite>s1.X</cite> and <cite>s2.X</cite> are stored as <cite>float64</cite>.</p>
+<p>When any value is assigned to the state vector, it is automatically converted to <cite>float64</cite>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">s</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>      <span class="c1"># integers → float64</span>
+<span class="n">s</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>    <span class="c1"># float64 → stays float64</span>
+</pre></div>
+</div>
+<p>This ensures all internal computations operate on a consistent floating-point type,
+preventing silent type mismatches and numerical inconsistencies.</p>
 <section id="see-also">
 <h3>See Also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h3>
 <div class="pst-scrollable-table-container"><table class="table">
@@ -1031,7 +1058,8 @@ returns the bounding box in terms of top-left and bottom-right coordinates.</p>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">State Objects</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#state-data-structure">State Data-Structure</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operations">Operations</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#state-construction">State Construction</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#state-construction">State Construction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#state-type">State Type</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
 </ul>
 </li>
@@ -1093,7 +1121,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Nov 19, 2025.
+  Last updated on Dec 01, 2025.
   <br/>
 </p>
   </div>

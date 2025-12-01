@@ -168,7 +168,7 @@ class yolov3:
         >>> def ptup(n): return '(' + str(n[0]) + ', ' + str(n[1]) + ')'
         >>> print('{:^10} | {:^10} | {:^16} | {:^16} | {:^10} | {:^14}'.format('center x', 'center y', 'box top-left', 'box bottom-right', 'class', 'frame size')) # doctest: +IGNORE_OUTPUT
         >>> for p in pts:
-        ...   print('{:^10d} | {:^10d} | {:^16} | {:^16} | {:^10} | {:^14}'.format(p.x, p.y, ptup(p.box[0]), ptup(p.box[1]), p.class_id, ptup(p.fsize)))     # doctest: +IGNORE_OUTPUT
+        ...   print('{:^10} | {:^10} | {:^16} | {:^16} | {:^10} | {:^14}'.format(p.x, p.y, ptup(p.box[0]), ptup(p.box[1]), p.class_id, ptup(p.fsize)))     # doctest: +IGNORE_OUTPUT
         ...   cv2.rectangle(img, p.box[0], p.box[1], [0, 0, 0], 2)      # +IGNORE_OUTPUT
         ...   point = (int((p.box[0][0] + p.box[1][0]) / 2 - 75), p.box[1][1] + 22)     # doctest: +IGNORE_OUTPUT
         ...   cv2.putText(img, p.class_id, point, cv2.FONT_HERSHEY_SIMPLEX, 1, [0, 0, 0], 2)     # doctest: +IGNORE_OUTPUT

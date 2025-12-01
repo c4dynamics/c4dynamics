@@ -10,7 +10,12 @@ Math functions aliasing.
 
 For convenience, C4dynamics aliases some of 
 NumPy's trigonometric functions 
-with slight variations in some of them:
+with slight variations in some of them.
+
+All c4dynamics math functions reside directly in the c4dynamics namespace.
+For example, if c4dynamics is imported as c4d, then the sin() function is given by c4d.sin(). 
+
+
 
 .. code::
 
