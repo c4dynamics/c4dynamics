@@ -769,14 +769,14 @@ added to the object outside the constructor (the <cite>__init__</cite> method), 
 </section>
 <section id="state-type">
 <h2>State Type<a class="headerlink" href="#state-type" title="Link to this heading">#</a></h2>
-<p>The state object always uses a <cite>fixed floating-point type</cite> for the state vector <cite>X</cite>.
+<p>The state object always uses a <cite>fixed floating-point type</cite> for the state vector <code class="code docutils literal notranslate"><span class="pre">X</span></code>.
 This ensures consistent numerical precision, predictable behavior, and compatibility with scientific computations.</p>
 <p>All state variables are stored internally as <cite>float64</cite> (<cite>np.float64</cite>), regardless of the type used at initialization:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">s1</span> <span class="o">=</span> <span class="n">state</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>  <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">)</span>   <span class="c1"># integers provided</span>
 <span class="n">s2</span> <span class="o">=</span> <span class="n">state</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">)</span>   <span class="c1"># floats provided</span>
 </pre></div>
 </div>
-<p>Both <cite>s1.X</cite> and <cite>s2.X</cite> are stored as <cite>float64</cite>.</p>
+<p>Both <code class="code docutils literal notranslate"><span class="pre">s1.X</span></code> and <code class="code docutils literal notranslate"><span class="pre">s2.X</span></code> are stored as <cite>float64</cite>.</p>
 <p>When any value is assigned to the state vector, it is automatically converted to <cite>float64</cite>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">s</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>      <span class="c1"># integers → float64</span>
 <span class="n">s</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>    <span class="c1"># float64 → stays float64</span>
