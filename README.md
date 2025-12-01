@@ -26,7 +26,7 @@ Tsipor (bird) Dynamics (c4dynamics) is the Python framework for state-space mode
 
 
 
-[Documentation](https://c4dynamics.github.io/C4dynamics/)
+[Documentation](https://c4dynamics.github.io/c4dynamics/)
 
 
 ## Why c4dynamics?

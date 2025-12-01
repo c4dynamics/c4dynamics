@@ -11,7 +11,7 @@ We mainly accept contributions in two areas:
 
 ## 1️⃣ Use Case Notebook
 
-The best way to contribute to c4dynamics is by providing a well-documented use case notebook in the [Use Cases section](https://c4dynamics.github.io/C4dynamics/programs/index.html) of the documentation. 
+The best way to contribute to c4dynamics is by providing a well-documented use case notebook in the [Use Cases section](https://c4dynamics.github.io/c4dynamics/programs/index.html) of the documentation. 
 
 These notebooks help engineers quickly understand how to apply **c4dynamics** in practice.
 
