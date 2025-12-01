@@ -110,6 +110,7 @@ class state:
 
   _reserved_keys = ('X', 'X0', 'P', 'V', 'Position', 'Velocity', 'norm', 'normalize', 'data', '_data', '_prmdata', '_didx')
 
+  _STATETYPE = np.float64
 
   def __init__(self, **kwargs):
     # TODO enable providing type for the setter.X output.      
@@ -137,7 +138,7 @@ class state:
     # if any of the input vars is floating point, then it casts the entire state type (no partial types array)
     # if all of them are integer, it casts the staet type. 
     # i think maybe the best way to achieve it is by generating a numpy array and check its dtype: 
-    self._X = np.array(list(kwargs.values()))
+    self._X = np.array(list(kwargs.values()), dtype = self._STATETYPE)
     # self._X = np.zeros(len(kwargs)) #, dtype = np.float64)
     # TODO: now the type is determined by the initial values. 
     #       if any is floating point then the entire state is float.
@@ -205,13 +206,13 @@ class state:
     # intercept known state variables
     if "_didx" in self.__dict__ and var in self._didx:
 
-      if np.array(val).dtype != self._X.dtype:
-        warnings.warn(
-              f"Type mismatch! Casting X to {np.array(val).dtype}. (currently: {self._X.dtype})."
-          , c4d.c4warn)
-        self._X = self._X.astype(np.array(val).dtype)      
+      # if np.array(val).dtype != self._X.dtype:
+      #   warnings.warn(
+      #         f"Type mismatch! Casting X to {np.array(val).dtype}. (currently: {self._X.dtype})."
+      #     , c4d.c4warn)
+      #   self._X = self._X.astype(np.array(val).dtype)      
         
-      self._X[self._didx[var] - 1] = val
+      self._X[self._didx[var] - 1] = np.array(val).astype(self._STATETYPE)
     else:
       # regular attribute assignment
       super().__setattr__(var, val)
@@ -266,7 +267,7 @@ class state:
       >>> dp.X   # doctest: +NUMPY_FORMAT
       [0  0  0  0  0  0]
       >>> #       x     y    z  vx vy vz 
-      >>> dp.X = [1000., 100., 0., 0., 0., -100.] 
+      >>> dp.X = [1000, 100, 0, 0, 0, -100] 
       >>> dp.X   # doctest: +NUMPY_FORMAT
       [1000  100  0  0  0  -100]
     
@@ -298,13 +299,13 @@ class state:
     # i think to replace flatten() with ravel() is 
     # safe also here because Xin is iterated over its elements which are
     # mutable. but lets keep tracking. 
-    Xin = np.atleast_1d(Xin).ravel()
+    Xin = np.atleast_1d(Xin).ravel().astype(self._STATETYPE)
 
-    if Xin.dtype != self._X.dtype:
-      warnings.warn(
-            f"Type mismatch! Casting X to {Xin.dtype}. (currently: {self._X.dtype})."
-        , c4d.c4warn)
-      self._X = self._X.astype(Xin.dtype)
+    # if Xin.dtype != self._X.dtype:
+    #   warnings.warn(
+    #         f"Type mismatch! Casting X to {Xin.dtype}. (currently: {self._X.dtype})."
+    #     , c4d.c4warn)
+    #   self._X = self._X.astype(Xin.dtype)
 
 
     if len(Xin) != len(self._X):
@@ -421,6 +422,8 @@ class state:
       [0  0  0]
 
     '''
+    # NOTE: maybe useless because user can always create a new state object.
+    
     b0 = len(self._didx)
     
     for i, (k, v) in enumerate(kwargs.items()):
@@ -493,7 +496,7 @@ class state:
 
     .. code:: 
 
-      >>> s = c4d.state(x = 1., y = 0., z = 0.)
+      >>> s = c4d.state(x = 1, y = 0, z = 0)
       >>> for t in np.linspace(0, 1, 3):
       ...   s.X = np.random.rand(3)
       ...   s.store(t)
@@ -602,7 +605,7 @@ class state:
       >>> np.random.seed(44)
       >>> for i in range(3): 
       ...   s.X += 1 
-      ...   s.w, s.h = np.random.randint(0, 50, 2, dtype = np.int64)
+      ...   s.w, s.h = np.random.randint(0, 50, 2)
       ...   if s.w > 40 or s.h > 20: 
       ...     s.class_id = 'truck' 
       ...   else:  
@@ -733,7 +736,7 @@ class state:
     .. code:: 
 
       >>> np.random.seed(100) # to reproduce results 
-      >>> s = c4d.state(x = 1., y = 0., z = 0.)
+      >>> s = c4d.state(x = 1, y = 0, z = 0)
       >>> for t in np.linspace(0, 1, 3):
       ...   s.X = np.random.rand(3)
       ...   s.store(t)
@@ -760,7 +763,7 @@ class state:
 
     .. code::
 
-      >>> s = c4d.state(phi = 0.)
+      >>> s = c4d.state(phi = 0)
       >>> for p in np.linspace(0, c4d.pi):
       ...   s.phi = p
       ...   s.store()
@@ -939,7 +942,7 @@ class state:
       >>> s = c4d.state(x = 0, y = 0)
       >>> s.store()
       >>> for _ in range(100):
-      ...   s.x = np.random.randint(0, 100, 1, dtype = np.int64)
+      ...   s.x = np.random.randint(0, 100, 1)
       ...   s.store()
       >>> s.plot('x', filename = 'x.png')   # doctest: +IGNORE_OUTPUT 
       >>> plt.show()
@@ -958,7 +961,7 @@ class state:
 
     **Dark mode off:**  
 
-      >>> s = c4d.state(x = 0.)
+      >>> s = c4d.state(x = 0)
       >>> s.xstd = 0.2 
       >>> for t in np.linspace(-2 * c4d.pi, 2 * c4d.pi, 1000):
       ...   s.x = c4d.sin(t) + np.random.randn() * s.xstd 
@@ -974,7 +977,7 @@ class state:
 
     .. code:: 
 
-      >>> s = c4d.state(phi = 0.)
+      >>> s = c4d.state(phi = 0)
       >>> for y in c4d.tan(np.linspace(-c4d.pi, c4d.pi, 500)):
       ...   s.phi = c4d.atan(y)
       ...   s.store()

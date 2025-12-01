@@ -249,7 +249,20 @@ the state object, it's possible to pass zeros and override them later
 by direct assignment of the state variable with a `0` suffix, :code:`s.var10 = 100`, :code:`s.var20 = 200`. 
 See more at :attr:`state.X0 <c4dynamics.states.state.state.X0>`. 
 
-  
+
+**Assignment Length Must Match**
+
+Assignments to `X` must match the current state vector length:
+
+.. code:: 
+
+  s = c4d.state(v1 = 0, v2 = 0, v3 = 0)     # Initialize s with 3 variables
+  s.X = [1, 2, 3]                           # Assign 3 new values → Ok 
+  s.X = [1, 2]                              # Length mismatch → ValueError   
+  s.X[:2] = [1, 2]                          # Slicing assignment → Ok (updates part of the vector)  
+
+
+     
 **Adding variables**
 
     
@@ -265,10 +278,8 @@ where `kwargs` represent the pairs of variables and their initial conditions as 
   [ var1  var2  var3 ]
 
 
-
   
 **Parameters**
-
 
  
 All the variables that passed to the :class:`state <c4dynamics.states.state.state>` constructor are considered 
@@ -285,6 +296,37 @@ are considered part of the object attributes, but are not part of the object sta
 
   >>> print(s)
   [ var1  var2  var3 ]
+
+
+
+
+
+State Type 
+----------
+
+The state object always uses a `fixed floating-point type` for the state vector `X`. 
+This ensures consistent numerical precision, predictable behavior, and compatibility with scientific computations.
+
+All state variables are stored internally as `float64` (`np.float64`), regardless of the type used at initialization:
+
+.. code::
+
+  s1 = state(x = 0,  y = 0 )   # integers provided
+  s2 = state(x = 0., y = 0.)   # floats provided
+
+Both `s1.X` and `s2.X` are stored as `float64`.
+
+When any value is assigned to the state vector, it is automatically converted to `float64`:
+
+.. code::
+
+  s.X[0] = 1      # integers → float64
+  s.X[0] = 1.0    # float64 → stays float64
+
+This ensures all internal computations operate on a consistent floating-point type,
+preventing silent type mismatches and numerical inconsistencies.
+
+
 
 
 

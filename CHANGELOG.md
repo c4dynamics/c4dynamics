@@ -2,6 +2,21 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Added
+- Interactive introduction to state objects. 
+- mountain_car.py: predefined environment for the RL mountain car problem 
+
+## [2.3.0] - 2025-12-01
+### Changed
+- This update replaces the behavior from the previous release, where a dtype mismatch triggered a warning.
+- The State object now uses a fixed internal floating-point type (np.float64) regardless of input types during initialization or assignment.
+- No warning is issued for assignments with a different type .
+
+### Breaking
+- Users can no longer preserve custom numeric dtypes inside the State object.
+- All state values are stored as float64 internally.
+- Code that relied on modifying the dtype of the internal state vector will no longer work.
+
 
 ## [2.2.0] - 2025-11-15
 ### Breaking
@@ -37,10 +52,12 @@ All notable changes to this project will be documented in this file.
 - Functionality to fetch datasets for running examples.
 - Comprehensive documentation updates.
 
+
 ## [1.2.0] - 2024-03-05
 ### Added
 - `animate` function to visualize rigid body Euler angles with a model.
 - Utilities: `cprint`, `gen_gif`, `plottools`, and `tictoc`.
+
 
 ## [1.1.0] - 2024-02-17
 ### Added
@@ -53,6 +70,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - Bug in `cprint()` function.
+
 
 ## [1.0.0] - 2023-07-19
 ### Added

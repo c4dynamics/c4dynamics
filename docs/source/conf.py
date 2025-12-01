@@ -50,39 +50,8 @@ https://chatgpt.com/share/671776d9-c600-8002-bf9e-c9345a1fa792
    - **Contributing Guidelines**: Link to guidelines for developers who want to contribute.
    - **Links to Documentation**: Provide a link to the full documentation page.
    - **License**: The open-source license under which your project is distributed.
-
-   readme: 
-    
-  ## Features 
-
-
-
-  ## Architecture
-
-  ## Roadmap 
-
-
-
-  ### 1. **GitHub Page (Repository README)**  
-  **Purpose**: To introduce your project to developers and contributors.  
-
-  **Focus**: Provide a concise overview of the project, its purpose, and how to get started.  
-
-  **What to include**:  
-
-   - **Project Name** and **Brief Description**: 
-   Explain the problem your project solves or the features it offers.
-
-   - **Key Features**: 
-   Highlight what makes your project unique or useful.
-
-   - **Installation Instructions**: 
-   How someone can clone the repository and run the project locally.
-   - **Usage**: Basic examples of how to use the project or API.
-   
-   - **Contributing Guidelines**: Link to guidelines for developers who want to contribute.
-   - **Links to Documentation**: Provide a link to the full documentation page.
-   - **License**: The open-source license under which your project is distributed.
+readme examples:
+  https://github.com/pandas-dev/pandas
 
 
 ### 2. **Website (General Audience)**
@@ -359,8 +328,8 @@ USE CASES
 1. see pretty example for jupyter demo here https://cocalc.com/share/public_paths/7557a5ac1c870f1ec8f01271959b16b49df9d087/07-Kalman-Filter-Math.ipynb
 2. beatuiful user guide session: https://genesis-world.readthedocs.io/en/latest/
 
-README:
-1. put a beatuful cheat sheet. like: https://www.doabledanny.com/static/ab88214c9082dc96bb7d53b90fc6981b/5620d/dark_mode.png
+example cheatsheet:
+https://www.doabledanny.com/static/ab88214c9082dc96bb7d53b90fc6981b/5620d/dark_mode.png
 
 
 

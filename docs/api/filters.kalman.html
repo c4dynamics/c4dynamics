@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Kalman &#8212; C4DYNAMICS v2.2</title>
+    <title>Kalman &#8212; C4DYNAMICS v2.3</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=ecfc290d"></script>
+    <script src="../_static/documentation_options.js?v=10261ce1"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -54,7 +54,7 @@
     <link rel="prev" title="Filters" href="Filters.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Nov 19, 2025"/>
+    <meta name="docbuild:last-update" content="Dec 01, 2025"/>
   </head>
   
   
@@ -140,7 +140,7 @@
   
   
   
-    <p class="title logo__title">C4DYNAMICS v2.2</p>
+    <p class="title logo__title">C4DYNAMICS v2.3</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -543,7 +543,7 @@ constant we can utilize the steady state mode of the filter.
 This requires initalization with the respective flag:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="mi">150</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sensor_noise</span> <span class="o">=</span> <span class="mi">200</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">kf</span> <span class="o">=</span> <span class="n">kalman</span><span class="p">({</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mf">0.</span><span class="p">},</span> <span class="n">P0</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">F</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">G</span> <span class="o">=</span> <span class="n">v</span><span class="p">,</span> <span class="n">H</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kf</span> <span class="o">=</span> <span class="n">kalman</span><span class="p">({</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span> <span class="n">P0</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">F</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">G</span> <span class="o">=</span> <span class="n">v</span><span class="p">,</span> <span class="n">H</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="gp">... </span>                        <span class="p">,</span> <span class="n">Q</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">R</span> <span class="o">=</span> <span class="n">sensor_noise</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">steadystate</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -581,7 +581,7 @@ the sensor measurements degrade.</p>
 <p>The measurement covariance matrix therefore increases accordingly,
 and the steady state mode cannot be used:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="mi">150</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">kf</span> <span class="o">=</span> <span class="n">kalman</span><span class="p">({</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mf">0.</span><span class="p">},</span> <span class="n">P0</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">F</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">G</span> <span class="o">=</span> <span class="n">v</span><span class="p">,</span> <span class="n">H</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Q</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kf</span> <span class="o">=</span> <span class="n">kalman</span><span class="p">({</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span> <span class="n">P0</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">F</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">G</span> <span class="o">=</span> <span class="n">v</span><span class="p">,</span> <span class="n">H</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Q</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">26</span><span class="p">):</span> <span class="c1">#  seconds.</span>
 <span class="gp">... </span>  <span class="n">kf</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
 <span class="gp">... </span>  <span class="n">sensor_noise</span> <span class="o">=</span> <span class="mi">200</span> <span class="o">+</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">t</span>
@@ -692,7 +692,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Nov 19, 2025.
+  Last updated on Dec 01, 2025.
   <br/>
 </p>
   </div>

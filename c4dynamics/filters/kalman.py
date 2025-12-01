@@ -139,7 +139,7 @@ class kalman(c4d.state):
 
       >>> v = 150
       >>> sensor_noise = 200 
-      >>> kf = kalman({'x': 0.}, P0 = 0.5**2, F = 1, G = v, H = 1
+      >>> kf = kalman({'x': 0}, P0 = 0.5**2, F = 1, G = v, H = 1
       ...                         , Q = 0.05, R = sensor_noise**2, steadystate = True)
 
 
@@ -193,7 +193,7 @@ class kalman(c4d.state):
     .. code:: 
 
       >>> v = 150
-      >>> kf = kalman({'x': 0.}, P0 = 0.5*2, F = 1, G = v, H = 1, Q = 0.05)
+      >>> kf = kalman({'x': 0}, P0 = 0.5*2, F = 1, G = v, H = 1, Q = 0.05)
       >>> for t in range(1, 26): #  seconds. 
       ...   kf.store(t)
       ...   sensor_noise = 200 + 8 * t 
@@ -352,7 +352,7 @@ class kalman(c4d.state):
 
       .. code:: 
 
-        >>> kf = kalman({'x': 0.}, P0 = 0.5**2, F = 1, H = 1, Q = 0.05, R = 200, steadystate = True)
+        >>> kf = kalman({'x': 0}, P0 = 0.5**2, F = 1, H = 1, Q = 0.05, R = 200, steadystate = True)
         >>> print(kf)
         [ x ]
         >>> kf.X          # doctest: +NUMPY_FORMAT
@@ -370,7 +370,7 @@ class kalman(c4d.state):
 
       .. code:: 
 
-        >>> kf = kalman({'x': 0.}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)
+        >>> kf = kalman({'x': 0}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)
         >>> kf.X  # doctest: +NUMPY_FORMAT
         [0]
         >>> kf.P          # doctest: +NUMPY_FORMAT
@@ -387,7 +387,7 @@ class kalman(c4d.state):
 
       .. code:: 
 
-        >>> kf = kalman({'x': 0.}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)
+        >>> kf = kalman({'x': 0}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)
         >>> kf.X  # doctest: +NUMPY_FORMAT
         [0]
         >>> kf.P # doctest: +NUMPY_FORMAT
@@ -477,7 +477,7 @@ class kalman(c4d.state):
 
       .. code:: 
 
-        >>> kf = kalman({'x': 0.}, P0 = 0.5**2, F = 1, H = 1, Q = 0.05, R = 200, steadystate = True)
+        >>> kf = kalman({'x': 0}, P0 = 0.5**2, F = 1, H = 1, Q = 0.05, R = 200, steadystate = True)
         >>> print(kf)
         [ x ]
         >>> kf.X   # doctest: +NUMPY_FORMAT
@@ -497,7 +497,7 @@ class kalman(c4d.state):
 
       .. code:: 
 
-        >>> kf = kalman({'x': 0.}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)
+        >>> kf = kalman({'x': 0}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)
         >>> kf.X   # doctest: +NUMPY_FORMAT
         [0]
         >>> kf.P   # doctest: +NUMPY_FORMAT
@@ -591,7 +591,7 @@ class kalman(c4d.state):
       
       .. code:: 
 
-        >>> kf = kalman({'x': 0.}, P0 = 0.5**2, F = 1, H = 1, Q = 0.05, R = 200)
+        >>> kf = kalman({'x': 0}, P0 = 0.5**2, F = 1, H = 1, Q = 0.05, R = 200)
         >>> # store initial conditions
         >>> kf.store() 
         >>> kf.predict()
@@ -668,7 +668,7 @@ class kalman(c4d.state):
     Q = np.eye(6) * process_noise**2
     R = np.eye(4) * measure_noise**2
 
-    kf = kalman({'x': 0., 'y': 0., 'w': 0., 'h': 0., 'vx': 0., 'vy': 0.}
+    kf = kalman({'x': 0, 'y': 0, 'w': 0, 'h': 0, 'vx': 0, 'vy': 0}
                           , steadystate = True, F = F, H = H, Q = Q, R = R)
     return kf 
 

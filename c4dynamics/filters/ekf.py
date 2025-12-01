@@ -128,7 +128,7 @@ class ekf(kalman):
 
       .. code:: 
 
-        >>> _ekf = ekf({'x': 0.}, P0 = 0.5**2, F = 1, H = 1, Q = 0.05, R = 200)
+        >>> _ekf = ekf({'x': 0}, P0 = 0.5**2, F = 1, H = 1, Q = 0.05, R = 200)
         >>> print(_ekf)
         [ x ]
         >>> _ekf.X          # doctest: +NUMPY_FORMAT
@@ -146,7 +146,7 @@ class ekf(kalman):
 
       .. code:: 
 
-        >>> _ekf = ekf({'x': 0.}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)
+        >>> _ekf = ekf({'x': 0}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)
         >>> _ekf.X      # doctest: +NUMPY_FORMAT
         [0]
         >>> _ekf.P         # doctest: +NUMPY_FORMAT
@@ -163,7 +163,7 @@ class ekf(kalman):
 
       .. code:: 
 
-        >>> _ekf = ekf({'x': 0.}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)
+        >>> _ekf = ekf({'x': 0}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)
         >>> _ekf.X   # doctest: +NUMPY_FORMAT
         [0]
         >>> _ekf.P  # doctest: +NUMPY_FORMAT
@@ -244,7 +244,7 @@ class ekf(kalman):
 
       .. code:: 
 
-        >>> _ekf = ekf({'x': 0.}, P0 = 0.5**2, F = 1, H = 1, Q = 0.05, R = 200)
+        >>> _ekf = ekf({'x': 0}, P0 = 0.5**2, F = 1, H = 1, Q = 0.05, R = 200)
         >>> print(_ekf)
         [ x ]
         >>> _ekf.X   # doctest: +NUMPY_FORMAT
@@ -264,7 +264,7 @@ class ekf(kalman):
 
       .. code:: 
 
-        >>> _ekf = ekf({'x': 0.}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)
+        >>> _ekf = ekf({'x': 0}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)
         >>> _ekf.X   # doctest: +NUMPY_FORMAT
         [0]
         >>> _ekf.P  # doctest: +NUMPY_FORMAT

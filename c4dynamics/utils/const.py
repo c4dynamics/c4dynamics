@@ -5,7 +5,10 @@ Globals and conversion constants.
 
 
 C4dynamics includes several constants as global quantities 
-and conversion units:
+and conversion units.  
+All c4dynamics constants reside directly in the c4dynamics namespace.
+For example, if c4dynamics is imported as c4d, then the value of pi is given by c4d.pi. 
+
 
 
 Global Constants

@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>c4dynamics.filters.kalman &#8212; C4DYNAMICS v2.2</title>
+    <title>c4dynamics.filters.kalman &#8212; C4DYNAMICS v2.3</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=ecfc290d"></script>
+    <script src="../../../_static/documentation_options.js?v=10261ce1"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -49,7 +49,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Nov 19, 2025"/>
+    <meta name="docbuild:last-update" content="Dec 01, 2025"/>
   </head>
   
   
@@ -137,7 +137,7 @@
   
   
   
-    <p class="title logo__title">C4DYNAMICS v2.2</p>
+    <p class="title logo__title">C4DYNAMICS v2.3</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -538,7 +538,7 @@ document.write(`
 
 <span class="sd">      &gt;&gt;&gt; v = 150</span>
 <span class="sd">      &gt;&gt;&gt; sensor_noise = 200 </span>
-<span class="sd">      &gt;&gt;&gt; kf = kalman({&#39;x&#39;: 0.}, P0 = 0.5**2, F = 1, G = v, H = 1</span>
+<span class="sd">      &gt;&gt;&gt; kf = kalman({&#39;x&#39;: 0}, P0 = 0.5**2, F = 1, G = v, H = 1</span>
 <span class="sd">      ...                         , Q = 0.05, R = sensor_noise**2, steadystate = True)</span>
 
 
@@ -592,7 +592,7 @@ document.write(`
 <span class="sd">    .. code:: </span>
 
 <span class="sd">      &gt;&gt;&gt; v = 150</span>
-<span class="sd">      &gt;&gt;&gt; kf = kalman({&#39;x&#39;: 0.}, P0 = 0.5*2, F = 1, G = v, H = 1, Q = 0.05)</span>
+<span class="sd">      &gt;&gt;&gt; kf = kalman({&#39;x&#39;: 0}, P0 = 0.5*2, F = 1, G = v, H = 1, Q = 0.05)</span>
 <span class="sd">      &gt;&gt;&gt; for t in range(1, 26): #  seconds. </span>
 <span class="sd">      ...   kf.store(t)</span>
 <span class="sd">      ...   sensor_noise = 200 + 8 * t </span>
@@ -753,7 +753,7 @@ document.write(`
 
 <span class="sd">      .. code:: </span>
 
-<span class="sd">        &gt;&gt;&gt; kf = kalman({&#39;x&#39;: 0.}, P0 = 0.5**2, F = 1, H = 1, Q = 0.05, R = 200, steadystate = True)</span>
+<span class="sd">        &gt;&gt;&gt; kf = kalman({&#39;x&#39;: 0}, P0 = 0.5**2, F = 1, H = 1, Q = 0.05, R = 200, steadystate = True)</span>
 <span class="sd">        &gt;&gt;&gt; print(kf)</span>
 <span class="sd">        [ x ]</span>
 <span class="sd">        &gt;&gt;&gt; kf.X          # doctest: +NUMPY_FORMAT</span>
@@ -771,7 +771,7 @@ document.write(`
 
 <span class="sd">      .. code:: </span>
 
-<span class="sd">        &gt;&gt;&gt; kf = kalman({&#39;x&#39;: 0.}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)</span>
+<span class="sd">        &gt;&gt;&gt; kf = kalman({&#39;x&#39;: 0}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)</span>
 <span class="sd">        &gt;&gt;&gt; kf.X  # doctest: +NUMPY_FORMAT</span>
 <span class="sd">        [0]</span>
 <span class="sd">        &gt;&gt;&gt; kf.P          # doctest: +NUMPY_FORMAT</span>
@@ -788,7 +788,7 @@ document.write(`
 
 <span class="sd">      .. code:: </span>
 
-<span class="sd">        &gt;&gt;&gt; kf = kalman({&#39;x&#39;: 0.}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)</span>
+<span class="sd">        &gt;&gt;&gt; kf = kalman({&#39;x&#39;: 0}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)</span>
 <span class="sd">        &gt;&gt;&gt; kf.X  # doctest: +NUMPY_FORMAT</span>
 <span class="sd">        [0]</span>
 <span class="sd">        &gt;&gt;&gt; kf.P # doctest: +NUMPY_FORMAT</span>
@@ -881,7 +881,7 @@ document.write(`
 
 <span class="sd">      .. code:: </span>
 
-<span class="sd">        &gt;&gt;&gt; kf = kalman({&#39;x&#39;: 0.}, P0 = 0.5**2, F = 1, H = 1, Q = 0.05, R = 200, steadystate = True)</span>
+<span class="sd">        &gt;&gt;&gt; kf = kalman({&#39;x&#39;: 0}, P0 = 0.5**2, F = 1, H = 1, Q = 0.05, R = 200, steadystate = True)</span>
 <span class="sd">        &gt;&gt;&gt; print(kf)</span>
 <span class="sd">        [ x ]</span>
 <span class="sd">        &gt;&gt;&gt; kf.X   # doctest: +NUMPY_FORMAT</span>
@@ -901,7 +901,7 @@ document.write(`
 
 <span class="sd">      .. code:: </span>
 
-<span class="sd">        &gt;&gt;&gt; kf = kalman({&#39;x&#39;: 0.}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)</span>
+<span class="sd">        &gt;&gt;&gt; kf = kalman({&#39;x&#39;: 0}, P0 = 0.5**2, F = 1, G = 150, H = 1, R = 200, Q = 0.05)</span>
 <span class="sd">        &gt;&gt;&gt; kf.X   # doctest: +NUMPY_FORMAT</span>
 <span class="sd">        [0]</span>
 <span class="sd">        &gt;&gt;&gt; kf.P   # doctest: +NUMPY_FORMAT</span>
@@ -998,7 +998,7 @@ document.write(`
 <span class="sd">      </span>
 <span class="sd">      .. code:: </span>
 
-<span class="sd">        &gt;&gt;&gt; kf = kalman({&#39;x&#39;: 0.}, P0 = 0.5**2, F = 1, H = 1, Q = 0.05, R = 200)</span>
+<span class="sd">        &gt;&gt;&gt; kf = kalman({&#39;x&#39;: 0}, P0 = 0.5**2, F = 1, H = 1, Q = 0.05, R = 200)</span>
 <span class="sd">        &gt;&gt;&gt; # store initial conditions</span>
 <span class="sd">        &gt;&gt;&gt; kf.store() </span>
 <span class="sd">        &gt;&gt;&gt; kf.predict()</span>
@@ -1076,7 +1076,7 @@ document.write(`
     <span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="o">*</span> <span class="n">process_noise</span><span class="o">**</span><span class="mi">2</span>
     <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">*</span> <span class="n">measure_noise</span><span class="o">**</span><span class="mi">2</span>
 
-    <span class="n">kf</span> <span class="o">=</span> <span class="n">kalman</span><span class="p">({</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mf">0.</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mf">0.</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">:</span> <span class="mf">0.</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="mf">0.</span><span class="p">,</span> <span class="s1">&#39;vx&#39;</span><span class="p">:</span> <span class="mf">0.</span><span class="p">,</span> <span class="s1">&#39;vy&#39;</span><span class="p">:</span> <span class="mf">0.</span><span class="p">}</span>
+    <span class="n">kf</span> <span class="o">=</span> <span class="n">kalman</span><span class="p">({</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;vx&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;vy&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
                           <span class="p">,</span> <span class="n">steadystate</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">F</span> <span class="o">=</span> <span class="n">F</span><span class="p">,</span> <span class="n">H</span> <span class="o">=</span> <span class="n">H</span><span class="p">,</span> <span class="n">Q</span> <span class="o">=</span> <span class="n">Q</span><span class="p">,</span> <span class="n">R</span> <span class="o">=</span> <span class="n">R</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">kf</span> 
 
@@ -1163,7 +1163,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Nov 19, 2025.
+  Last updated on Dec 01, 2025.
   <br/>
 </p>
   </div>
