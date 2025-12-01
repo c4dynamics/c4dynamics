@@ -304,7 +304,7 @@ are considered part of the object attributes, but are not part of the object sta
 State Type 
 ----------
 
-The state object always uses a `fixed floating-point type` for the state vector `X`. 
+The state object always uses a `fixed floating-point type` for the state vector :code:`X`. 
 This ensures consistent numerical precision, predictable behavior, and compatibility with scientific computations.
 
 All state variables are stored internally as `float64` (`np.float64`), regardless of the type used at initialization:
@@ -314,7 +314,7 @@ All state variables are stored internally as `float64` (`np.float64`), regardles
   s1 = state(x = 0,  y = 0 )   # integers provided
   s2 = state(x = 0., y = 0.)   # floats provided
 
-Both `s1.X` and `s2.X` are stored as `float64`.
+Both :code:`s1.X` and :code:`s2.X` are stored as `float64`.
 
 When any value is assigned to the state vector, it is automatically converted to `float64`:
 
