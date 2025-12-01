@@ -496,8 +496,8 @@ document.write(`
 <section id="Priliminary-Remarks">
 <h2>Priliminary Remarks<a class="headerlink" href="#Priliminary-Remarks" title="Link to this heading">#</a></h2>
 <ol class="arabic simple">
-<li><p>The mathematical background required for understanding the Extended Kalman Filter and the form of implementation used by <code class="docutils literal notranslate"><span class="pre">c4dynamics</span></code> is found in <a class="reference external" href="https://c4dynamics.github.io/C4dynamics/api/Filters.html#extended-kalman-filter-ekf">the introduction page to the filters module documentary</a>.</p></li>
-<li><p>The <code class="docutils literal notranslate"><span class="pre">ekf</span></code> class API is found <a class="reference external" href="https://c4dynamics.github.io/C4dynamics/api/filters.ekf.html#c4dynamics.filters.ekf.ekf">here</a>.</p></li>
+<li><p>The mathematical background required for understanding the Extended Kalman Filter and the form of implementation used by <code class="docutils literal notranslate"><span class="pre">c4dynamics</span></code> is found in <a class="reference external" href="https://c4dynamics.github.io/c4dynamics/api/Filters.html#extended-kalman-filter-ekf">the introduction page to the filters module documentary</a>.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">ekf</span></code> class API is found <a class="reference external" href="https://c4dynamics.github.io/c4dynamics/api/filters.ekf.html#c4dynamics.filters.ekf.ekf">here</a>.</p></li>
 <li><p>Zarchan <code class="docutils literal notranslate"><span class="pre">[1]</span></code> provides a great deal of detail about this example. Additional sources can be found in <code class="docutils literal notranslate"><span class="pre">[2]</span></code>.</p></li>
 </ol>
 <div style="text-align: center;"><p><img alt="alt text" src="../_images/ekf.drawio.png" /></p>
@@ -505,9 +505,9 @@ document.write(`
 </figcaption></div></section>
 <section id="Extended-Kalman-Filter-(EKF)">
 <h2>Extended Kalman Filter (EKF)<a class="headerlink" href="#Extended-Kalman-Filter-(EKF)" title="Link to this heading">#</a></h2>
-<p>The basics of EKF were covered in <a class="reference external" href="https://c4dynamics.github.io/C4dynamics/api/Filters.html#extended-kalman-filter-ekf">the filters introduction</a> to provide the background material required for the understanding and developing state estimation for nonlinear systems. Here is a brief recap:</p>
+<p>The basics of EKF were covered in <a class="reference external" href="https://c4dynamics.github.io/c4dynamics/api/Filters.html#extended-kalman-filter-ekf">the filters introduction</a> to provide the background material required for the understanding and developing state estimation for nonlinear systems. Here is a brief recap:</p>
 <ul class="simple">
-<li><p>A linear Kalman filter (<a class="reference external" href="https://c4dynamics.github.io/C4dynamics/api/filters.kalman.html">kalman</a>) should be the first choice when designing a state observer. However, when a nominal trajectory cannot be found, the solution is to linearize the system at each cycle about the current estimated state (that is what the EKF does).</p></li>
+<li><p>A linear Kalman filter (<a class="reference external" href="https://c4dynamics.github.io/c4dynamics/api/filters.kalman.html">kalman</a>) should be the first choice when designing a state observer. However, when a nominal trajectory cannot be found, the solution is to linearize the system at each cycle about the current estimated state (that is what the EKF does).</p></li>
 <li><p>The linearization is required for the iterative solution to the algebraic Riccati equation. The Riccati equation is using to calculate Kalman gain and the optimal covariance matrix.</p></li>
 <li><p>Similarly to the linear Kalman filter, a good approach to design an extended Kalman filter is to separate it to two steps: predict and update (correct).</p></li>
 <li><p>The calculation of the state vector both in the predict step (projection in time using the process equations) and in the update step (correction using the measure equations) does not have to use the approximated linear expressions and can use the exact nonlinear equations.</p></li>
@@ -598,7 +598,7 @@ v_z \\
 </pre></div>
 </div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">g_fts2</span></code> is the <a class="reference external" href="https://c4dynamics.github.io/C4dynamics/api/utils.const.html">gravity constant</a> in foot per seconds squared.</p>
+<p><code class="docutils literal notranslate"><span class="pre">g_fts2</span></code> is the <a class="reference external" href="https://c4dynamics.github.io/c4dynamics/api/utils.const.html">gravity constant</a> in foot per seconds squared.</p>
 </section>
 <section id="1^{st}-Case:-Ideal-Radar">
 <h2><span class="math notranslate nohighlight">\(1^{st}\)</span> Case: Ideal Radar<a class="headerlink" href="#1^{st}-Case:-Ideal-Radar" title="Link to this heading">#</a></h2>
@@ -615,8 +615,8 @@ v_z \\
 </div>
 </div>
 <div class="line-block">
-<div class="line">The target is implemented by a <a class="reference external" href="https://c4dynamics.github.io/C4dynamics/api/states.state.html">state object</a> with three variables: altitude, vertical velocity, and ballistic coefficient.</div>
-<div class="line">The <a class="reference external" href="https://c4dynamics.github.io/C4dynamics/api/sensors.radar.html">radar</a> is taken from the scientific library of c4dynamics, particularly, the seekers module. The introudced parameters indicate the required errors model (<em>ideal case</em>) and the samples rate (<span class="math notranslate nohighlight">\(10ms\)</span>).</div>
+<div class="line">The target is implemented by a <a class="reference external" href="https://c4dynamics.github.io/c4dynamics/api/states.state.html">state object</a> with three variables: altitude, vertical velocity, and ballistic coefficient.</div>
+<div class="line">The <a class="reference external" href="https://c4dynamics.github.io/c4dynamics/api/sensors.radar.html">radar</a> is taken from the scientific library of c4dynamics, particularly, the seekers module. The introudced parameters indicate the required errors model (<em>ideal case</em>) and the samples rate (<span class="math notranslate nohighlight">\(10ms\)</span>).</div>
 </div>
 </section>
 <section id="Main-Loop">
@@ -649,7 +649,7 @@ v_z \\
 <li><p><code class="docutils literal notranslate"><span class="pre">measure</span></code>: the raw samples of the sensor</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">std</span></code>: the square root of the covariance matrix <span class="math notranslate nohighlight">\(P\)</span>, representing one standard deviation of the estimation error</p></li>
 </ul>
-<p>Each subplot calls <code class="docutils literal notranslate"><span class="pre">plotdefaults()</span></code> from c4dynamics <a class="reference external" href="https://c4dynamics.github.io/C4dynamics/api/generated/utils/c4dynamics.utils.plottools.plotdefaults.html">utils</a> to set default properties for an axis.</p>
+<p>Each subplot calls <code class="docutils literal notranslate"><span class="pre">plotdefaults()</span></code> from c4dynamics <a class="reference external" href="https://c4dynamics.github.io/c4dynamics/api/generated/utils/c4dynamics.utils.plottools.plotdefaults.html">utils</a> to set default properties for an axis.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>

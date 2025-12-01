@@ -509,7 +509,7 @@ document.write(`
 <section id="1.-Introduction">
 <h2>1. Introduction<a class="headerlink" href="#1.-Introduction" title="Link to this heading">#</a></h2>
 <p>This notebook presents a six degrees of freedom (6DOF) simulation of a guided aircraft, capturing the dynamics, aerodynamics, control system, and seeker behavior. The guided aircraft in this case is a missile pursuing a target using a proportional navigation guidance law. The simulation includes both translational and rotational dynamics, accounts for aerodynamic forces, and models control surface deflections in response to seeker feedback.</p>
-<p>By walking through the setup, implementation, and results, the notebook provides a complete view of how 6DOF guidance algorithms operate in practice. The missile, target, and seeker are modeled using the c4dynamics — an open-source framework for algorithm engineering that provides <a class="reference external" href="https://c4dynamics.github.io/C4dynamics/api/States.html">state objects</a> to represent dynamic entities in space and time. The details of the missile model and the guidance system are based on the example in Chapter
+<p>By walking through the setup, implementation, and results, the notebook provides a complete view of how 6DOF guidance algorithms operate in practice. The missile, target, and seeker are modeled using the c4dynamics — an open-source framework for algorithm engineering that provides <a class="reference external" href="https://c4dynamics.github.io/c4dynamics/api/States.html">state objects</a> to represent dynamic entities in space and time. The details of the missile model and the guidance system are based on the example in Chapter
 12 of the Military Handbook of Missile Flight Simulation [1].</p>
 </section>
 <section id="2.-Simulation-Overview">
@@ -541,27 +541,27 @@ document.write(`
 </thead>
 <tbody>
 <tr class="row-even"><td><p>missile</p></td>
-<td><p><a class="reference external" href="https://c4dynamics.github.io/C4dynamics/api/states.lib.rigidbody.html">rigidbody</a></p></td>
+<td><p><a class="reference external" href="https://c4dynamics.github.io/c4dynamics/api/states.lib.rigidbody.html">rigidbody</a></p></td>
 <td><p>The missile is modeled as a rigid body, representing a mass in space with defined length and orientation</p></td>
 </tr>
 <tr class="row-odd"><td><p>target</p></td>
-<td><p><a class="reference external" href="https://c4dynamics.github.io/C4dynamics/api/states.lib.datapoint.html">datapoint</a></p></td>
+<td><p><a class="reference external" href="https://c4dynamics.github.io/c4dynamics/api/states.lib.datapoint.html">datapoint</a></p></td>
 <td><p>The target is represented as a datapoint object, modeling a point mass in space</p></td>
 </tr>
 <tr class="row-even"><td><p>seeker</p></td>
-<td><p><a class="reference external" href="https://c4dynamics.github.io/C4dynamics/api/Sensors.html">sensors</a></p></td>
+<td><p><a class="reference external" href="https://c4dynamics.github.io/c4dynamics/api/Sensors.html">sensors</a></p></td>
 <td><p>line-of-sight seeker</p></td>
 </tr>
 <tr class="row-odd"><td><p>g_ms2</p></td>
-<td><p><a class="reference external" href="https://c4dynamics.github.io/C4dynamics/api/utils.const.html">const</a></p></td>
+<td><p><a class="reference external" href="https://c4dynamics.github.io/c4dynamics/api/utils.const.html">const</a></p></td>
 <td><p>Gravity constant in meters per second</p></td>
 </tr>
 <tr class="row-even"><td><p>r2d</p></td>
-<td><p><a class="reference external" href="https://c4dynamics.github.io/C4dynamics/api/utils.const.html">const</a></p></td>
+<td><p><a class="reference external" href="https://c4dynamics.github.io/c4dynamics/api/utils.const.html">const</a></p></td>
 <td><p>Radians to degrees conversion constant</p></td>
 </tr>
 <tr class="row-odd"><td><p>plotdefaults</p></td>
-<td><p><a class="reference external" href="https://c4dynamics.github.io/C4dynamics/api/generated/utils/c4dynamics.utils.plottools.plotdefaults.html">utils</a></p></td>
+<td><p><a class="reference external" href="https://c4dynamics.github.io/c4dynamics/api/generated/utils/c4dynamics.utils.plottools.plotdefaults.html">utils</a></p></td>
 <td><p>Setting default properties on a matplotlib axis</p></td>
 </tr>
 </tbody>
@@ -840,7 +840,7 @@ document.write(`
 <div class="line"><code class="docutils literal notranslate"><span class="pre">missile.inteqm()</span></code></div>
 <div class="line"><code class="docutils literal notranslate"><span class="pre">target.inteqm()</span></code></div>
 </div>
-<p>The target, as a datapoint, runs the <code class="docutils literal notranslate"><span class="pre">int3</span></code> method which integrates the translational equations as given. The missile, as a rigidbody object, runs <code class="docutils literal notranslate"><span class="pre">int6</span></code> and integrates the translation and rotational equations as given by eqm6. For a detailed explanation of the integration and differential equations, see the <a class="reference external" href="https://c4dynamics.github.io/C4dynamics/api/routines.eqm.html#">introduction to the equations of motion solvers module</a>.</p>
+<p>The target, as a datapoint, runs the <code class="docutils literal notranslate"><span class="pre">int3</span></code> method which integrates the translational equations as given. The missile, as a rigidbody object, runs <code class="docutils literal notranslate"><span class="pre">int6</span></code> and integrates the translation and rotational equations as given by eqm6. For a detailed explanation of the integration and differential equations, see the <a class="reference external" href="https://c4dynamics.github.io/c4dynamics/api/routines.eqm.html#">introduction to the equations of motion solvers module</a>.</p>
 <p>The simulation runs until one of the following conditions is satisfied:</p>
 <ul class="simple">
 <li><p>The range rate changes sign</p></li>
