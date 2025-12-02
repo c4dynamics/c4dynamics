@@ -6,6 +6,12 @@ All notable changes to this project will be documented in this file.
 - Interactive introduction to state objects. 
 - mountain_car.py: predefined environment for the RL mountain car problem 
 
+
+## [2.3.1] - 2025-12-02
+### Changed
+- Fix the compatible Python versions to include 3.12 (<3.13).
+
+
 ## [2.3.0] - 2025-12-01
 ### Changed
 - This update replaces the behavior from the previous release, where a dtype mismatch triggered a warning.

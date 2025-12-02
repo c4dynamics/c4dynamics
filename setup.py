@@ -1,4 +1,3 @@
-
 from setuptools import setup, find_packages
 import codecs
 import os # , sys
@@ -52,7 +51,7 @@ setup(
     # , exclude_package_data          = {package: ['resources/detectors/yolo/v3/*.*']}
     # , exclude_package_data          = {package: ['src/main/resources/*.*']}
     , install_requires              = required_packages
-    , python_requires = ">=3.8,<=3.12" # update also in run-tests.yml, readme.md, pyproject.yaml, c4dynamics_setup.ipynb 
+    , python_requires = ">=3.8,<3.13" # update also in run-tests.yml, readme.md, pyproject.yaml, setup_guide.ipynb 
     , keywords = ['python', 'dynamics', 'physics'
                     , 'algorithms', 'computer vision'
                         , 'navigation', 'guidance', 'slam' 

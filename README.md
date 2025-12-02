@@ -66,7 +66,7 @@ while maintaining flexibility and scalability.
 
 
 ## Requirements 
-- 3.8 <= Python <= 3.12
+- 3.8 <= Python < 3.13
 - Required packages are listed in [requirements.txt](requirements.txt)
 
 

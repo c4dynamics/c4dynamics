@@ -83,7 +83,7 @@ from . import envs
 #
 # version
 ##
-__version__ = '2.3.0' # update also in pyproject.toml
+__version__ = '2.3.1' # update also in pyproject.toml
 
 
 #
