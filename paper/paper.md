@@ -24,7 +24,7 @@ The framework's modular architecture, with "state objects" at its core, simplifi
 
 # Statement of Need
 Modeling and simulation of dynamical systems are essential across robotics, aerospace, and control engineering. 
-In these fields, engineers design state-space–level algorithms - algorithms that operate directly on the mathematical representation of system states (e.g., position, velocity, or attitude).
+In these fields, engineers design state-space level algorithms, algorithms that operate directly on the mathematical representation of system states (e.g., position, velocity, or attitude).
 While Python provides powerful numerical libraries (e.g., NumPy [@numpy2020], SciPy [@SciPy2020]) and several domain-specific frameworks (for example, robot simulators and control toolboxes), none directly support low-level algorithm development, where the state vector is explicitly modeled and manipulated.
 
 *c4dynamics* is designed for engineers who prefer code-based modeling and want to explicitly define the variables encapsulated in the system’s state vector. It streamlines mathematical operations (e.g. scalar multiplication or dot products), and data operations (state storage, history retrieval, plotting).
@@ -42,7 +42,7 @@ Both operate at higher abstraction levels, concealing the underlying state-space
 In block-diagram frameworks, users connect functional blocks, while individual state variables remain implicit.
 In high-level simulators, states are often predefined by the environment (e.g., robot position, velocity) rather than exposed to the user.
 
-In contrast, c4dynamics brings the state-space representation back into focus, allowing engineers to define, manipulate, and analyze the system’s state vector directly — bridging the gap between physical modeling and algorithm design.
+In contrast, *c4dynamics* brings the state-space representation back into focus, allowing engineers to define, manipulate, and analyze the system’s state vector directly — bridging the gap between physical modeling and algorithm design.
 
 For illustration, consider the modeling and simulation of a pendulum:  
 
@@ -57,29 +57,29 @@ Built around explicit state representations and complemented by a scientific lib
 # Example 
 The following example demonstrates how to model a simple pendulum using *c4dynamics*.
 The state of the pendulum consists of two variables:
-`X = [θ, q]`, where `θ` is the angular displacement (rod angle), and `q` is the angular rate.  
+$X = [θ, q]$, where $θ$ is the angular displacement (rod angle), and $q$ is the angular rate.  
 
-Initial conditions: `X0 = [50, 0]` (degrees, degrees per second, respectively). 
+Initial conditions: $X0 = [50, 0]$ (degrees, degrees per second, respectively). 
 
 ![Simplified pendulum configuration.](rod_and_bob.png){#fig-pendulum}  
 
 
-The pendulum dynamics in state space form is given by: 
+The pendulum dynamics in state-space form is given by: 
 
 $$ \dot{\theta} = q $$
 $$ \dot{q} = \frac{g}{L}\sin\theta $$
 
 [Figure 1](#fig-pendulum) shows a schematic of the simple pendulum, and the system parameters are listed below:  
-- Rod length: `L = 1[m]` (rigid, massless)  
-- Gravity: `g = 9.8[m/s²]`  
+- Rod length: $L = 1[m]$ (rigid, massless)  
+- Gravity: $g = 9.8[m/s²]$  
 - Integration function: `solve_ivp` (SciPy)  
-- Time step: `0.01[s]`  
-- Simulation duration: `5[s]`  
+- Time step: $0.01[s]$  
+- Simulation duration: $5[s]$  
 
-The expected result is an oscillatory motion of the angle `θ(t)` in [Figure 2](#fig-theta), representing the pendulum swinging back and forth.
+The expected result is an oscillatory motion of the angle $θ(t)$ in [Figure 2](#fig-theta), representing the pendulum swinging back and forth.
 
 Import required packages:
-```
+```python
 from scipy.integrate import solve_ivp
 from matplotlib import pyplot as plt 
 import c4dynamics as c4d
@@ -87,20 +87,21 @@ import numpy as np
 ```
 
 Define the state object and initial conditions:
-```
+```python
 pend  = c4d.state(theta = 50 * c4d.d2r, q = 0)
 ```
 
 Run the simulation loop and store the state at each step:
-```
+```python
 dt = 0.01 
 for ti in np.arange(0, 5, dt): 
   pend.store(ti)
-  pend.X = solve_ivp(lambda t, y: [y[1], -9.8 * c4d.sin(y[0])], [ti, ti + dt], pend.X).y[:, -1]
+  pend.X = solve_ivp(lambda t, y: [y[1], -9.8 * c4d.sin(y[0])]
+            , [ti, ti + dt], pend.X).y[:, -1]
 ```
 
 Plot the angular displacement history:
-```
+```python
 pend.plot('theta', scale = c4d.r2d, darkmode = False)
 plt.show()
 ```
@@ -108,6 +109,6 @@ plt.show()
 ![Pendulum angle θ(t) over time.](pendulum.png){#fig-theta}  
 
 
-Through this example, we see how `c4dynamics` lets users describe a system’s physics directly, run the simulation, and visualize results—all within a consistent, state-based framework. The same workflow applies seamlessly to more advanced dynamic models.
+Through this example, we see how *c4dynamics* lets users describe a system’s physics directly, run the simulation, and visualize results — all within a consistent, state-based framework. The same workflow applies seamlessly to more advanced dynamic models.
 
 # References

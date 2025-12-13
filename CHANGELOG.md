@@ -3,7 +3,6 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 ### Added
-- Interactive introduction to state objects. 
 - mountain_car.py: predefined environment for the RL mountain car problem 
 
 
