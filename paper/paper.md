@@ -19,7 +19,7 @@ bibliography: paper.bib
 ---
 
 # Summary
-Dynamic systems play a central role across robotics, aerospace, and guidance, navigation, and control (GNC). The state-space representation, introduced by Kalman and formalized by Luenberger, remains the most widely used modeling approach for dynamic systems in the time domain [@Kalman1104873; @Luenberger3830260412]. While Python provides robust numerical tools, it lacks a dedicated framework specifically designed for state-space modeling. **C4DYNAMICS** bridges this gap by introducing a Python-based platform designed for state-space modeling and analysis. 
+Dynamic systems play a central role across robotics, aerospace, and guidance, navigation, and control (GNC). The state-space model, introduced by Kalman in the mid-20th century, is the most common way to describe dynamic systems over time using internal variables [@Kalman1104873]. While Python provides robust numerical tools, it lacks a dedicated framework specifically designed for state-space modeling. **C4DYNAMICS** bridges this gap by introducing a Python-based platform designed for state-space modeling and analysis. 
 The framework's modular architecture, with "state objects" at its core, simplifies the development of algorithms for sensors, filters, and detectors. This allows researchers, engineers, and students to effectively design, simulate, and analyze dynamic systems. By integrating state objects with a scientific library, *c4dynamics* provides a scalable and efficient foundation for modeling dynamic systems.
 
 # Statement of Need
