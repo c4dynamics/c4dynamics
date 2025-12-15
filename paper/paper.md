@@ -59,7 +59,7 @@ The following example demonstrates how to model a simple pendulum using *c4dynam
 The state of the pendulum consists of two variables:
 $X = [θ, q]$, where $θ$ is the angular displacement (rod angle), and $q$ is the angular rate.  
 
-Initial conditions: $X0 = [50, 0]$ (degrees, degrees per second, respectively). 
+Initial conditions: $X_0 = [50, 0]$ (degrees, degrees per second, respectively). 
 
 ![Simplified pendulum configuration.](rod_and_bob.png){#fig-pendulum}  
 
@@ -70,11 +70,11 @@ $$ \dot{\theta} = q $$
 $$ \dot{q} = \frac{g}{L}\sin\theta $$
 
 [Figure 1](#fig-pendulum) shows a schematic of the simple pendulum, and the system parameters are listed below:  
-- Rod length: $L = 1[m]$ (rigid, massless)  
-- Gravity: $g = 9.8[m/s²]$  
+- Rod length: $L = 1 [m]$ (rigid, massless)  
+- Gravity: $g = 9.8 [m/s²]$  
 - Integration function: `solve_ivp` (SciPy)  
-- Time step: $0.01[s]$  
-- Simulation duration: $5[s]$  
+- Time step: $0.01 [s]$  
+- Simulation duration: $5 [s]$  
 
 The expected result is an oscillatory motion of the angle $θ(t)$ in [Figure 2](#fig-theta), representing the pendulum swinging back and forth.
 
@@ -106,7 +106,7 @@ pend.plot('theta', scale = c4d.r2d, darkmode = False)
 plt.show()
 ```
 
-![Pendulum angle θ(t) over time.](pendulum.png){#fig-theta}  
+![Pendulum angle $\theta(t)$ over time.](pendulum.png){#fig-theta}  
 
 
 Through this example, we see how *c4dynamics* lets users describe a system’s physics directly, run the simulation, and visualize results — all within a consistent, state-based framework. The same workflow applies seamlessly to more advanced dynamic models.
