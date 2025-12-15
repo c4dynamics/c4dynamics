@@ -70,10 +70,10 @@ $$ \dot{\theta} = q $$
 $$ \dot{q} = \frac{g}{L}\sin\theta $$
 
 [Figure 1](#fig-pendulum) shows a schematic of the simple pendulum, and the system parameters are listed below:  
-- Rod length: $L = 1$ $[m]$ (rigid, massless)  
-- Gravity: $g = 9.8$ $[m/s²]$  
-- Time step: $0.01$ $[s]$  
-- Simulation duration: $5$ $[s]$  
+- Rod length: $L = 1$ [m] (rigid, massless)  
+- Gravity: $g = 9.8$ [m/s²]  
+- Time step: $0.01$ [s]  
+- Simulation duration: $5$ [s]  
 - Integration function: `solve_ivp` (SciPy)  
 
 The expected result is an oscillatory motion of the angle $θ(t)$ in [Figure 2](#fig-theta), representing the pendulum swinging back and forth.
