@@ -10,22 +10,23 @@ with codecs.open(os.path.join(here, 'README.md'), encoding = 'utf-8') as fh:
     long_description = '\n' + fh.read()
 
 
-import c4dynamics
+# import c4dynamics
 
-VERSION = c4dynamics.__version__
+# VERSION = c4dynamics.__version__ 
+VERSION = "2.3.2" # change also in __init__.py and pyproject.toml
 print(VERSION)
 print('did u remember to upgrade the version number??') 
 
-DESCRIPTION = 'The framework for algorithms engineering with Python.'
-LONG_DESCRIPTION = 'Tsipor (bird) Dynamics (c4dynamics) is the open-source framework of algorithms development for objects in space and time.'
+DESCRIPTION = 'Python framework for state-space modeling.'
+LONG_DESCRIPTION = 'Tsipor (bird) Dynamics (c4dynamics) is The Python framework for state-space modeling and algorithm development.'
 
 required_packages = []
 
-with open(os.path.join(here, 'requirements.txt'), 'r') as file:
-    for line in file:
-        line = line.strip()  # Remove leading and trailing whitespaces
-        if not line.startswith('#'):
-            required_packages.append(line)
+# with open(os.path.join(here, 'requirements.txt'), 'r') as file:
+    # for line in file:
+        # line = line.strip()  # Remove leading and trailing whitespaces
+        # if not line.startswith('#'):
+            # required_packages.append(line)
 
 
 # Now, lines_to_append contains all lines from the file that don't start with a hash
@@ -52,16 +53,6 @@ setup(
     # , exclude_package_data          = {package: ['src/main/resources/*.*']}
     , install_requires              = required_packages
     , python_requires = ">=3.8,<3.13" # update also in run-tests.yml, readme.md, pyproject.yaml, setup_guide.ipynb 
-    , keywords = ['python', 'dynamics', 'physics'
-                    , 'algorithms', 'computer vision'
-                        , 'navigation', 'guidance', 'slam' 
-                            , 'vslam', 'image processing', 'signal processing', 'control']
-    , classifiers = ['Development Status :: 5 - Production/Stable'
-                        , 'Intended Audience :: Developers'
-                            , 'Programming Language :: Python :: 3'
-                                , 'Operating System :: Unix'
-                                    , 'Operating System :: MacOS :: MacOS X'
-                                        , 'Operating System :: Microsoft :: Windows']
         )
 
 
