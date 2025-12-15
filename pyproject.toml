@@ -6,27 +6,31 @@ build-backend = "setuptools.build_meta"
 name = "c4dynamics"
 version = "2.3.2"
 description = "Python framework for state-space modeling and algorithm development"
-authors = [
-    {name = "Ziv Meri", email="zivmeri@gmail.com"}
-]
+authors = [{name = "Ziv Meri", email="zivmeri@gmail.com"}]
 readme = "README.md"
 requires-python = ">=3.8, <3.13"
-license = {text="MIT"}
-
+license = "MIT"
+license-files = ["LICENSE"]
 dependencies = [
   "imageio>=2.37.0", 
-  "matplotlib>=3.10.3", 
-  "natsort>=8.4.0", 
-  "numpy>=2.3.1", 
+  "matplotlib>=3.9.2", 
+  "natsort>=8.3.1", 
+  "numpy>=1.26.0", 
   "opencv-python>=4.11.0.86",
-  "pooch>=1.8.2",
-  "scipy>=1.16.0"
+  "pooch>=1.8.0",
+  "scipy>=1.13.0"
 ]
+keywords = ['python', 'state-space', 'dynamics', 'physics', 'algorithms', 'computer vision', 'navigation', 'guidance', 'slam', 'vslam', 'image processing', 'signal processing', 'control']
+dynamic = ["classifiers"]
+
+[tool.setuptools.dynamic]
+classifiers = { file = "CLASSIFIERS.txt" }
+
 
 # Optional / development dependencies
 [project.optional-dependencies]
 dev = [
-    "nbsphinx>=0.9.7",
+    "nbsphinx>=0.9.3",
     "Sphinx>=8.1.3",
     "sphinx-book-theme>=1.1.4",
     "sphinx_design>=0.6.1"
