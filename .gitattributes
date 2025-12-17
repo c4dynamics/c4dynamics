@@ -10,7 +10,11 @@
 *.ipynb       linguist-vendored
 *.bat         linguist-vendored 
 *.tex         linguist-vendored
+
 build/**      linguist-vendored
 docs/**       linguist-vendored
+examples/**   linguist-vendored
 htmlcov/**    linguist-vendored
+paper/**      linguist-vendored
+tests/**      linguist-vendored
 .untracked/** linguist-vendored
