@@ -170,6 +170,8 @@ The documentation is organized as follows:
 
 - **Concepts**: Detailed explanations of the underlying theories and state-space modeling principles used in c4dynamics, ideal for users who want to deepen their understanding.
 
+- **Tutorials**: Interactive step-by-step guides and to help users implement c4dynamics in practical scenarios.
+
 - **Use Cases**: Real-world use cases showcasing how c4dynamics can be applied in fields such as robotics, aerospace, and computer vision.
 
 - **API Reference**: Comprehensive documentation for technical users, covering all the classes, functions, and modules available in c4dynamics.
@@ -181,6 +183,7 @@ The documentation is organized as follows:
 
   Installation <installation>
   Getting Started <gettingstarted>
+
 
 .. toctree::
   :maxdepth: 0
@@ -194,14 +197,24 @@ The documentation is organized as follows:
   Filters <concepts/filters> 
   Reinforcement Learning Enviroenment <concepts/rl_env>
 
+
+.. toctree::
+  :maxdepth: 0
+  :caption: Toturials 
+  :hidden:
+
+  tutorials/setup_guide.ipynb
+  tutorials/introduction_guide.ipynb
+
+
 .. toctree::
   :maxdepth: 0
   :caption: Use Cases
   :hidden:
 
-  Proportional Navigation Guidance - 6 Degrees of Freedom <programs/dof6sim.ipynb>
-  Ballistic Coefficient Estimation - Extended Kalman Filter <programs/ballistic_coefficient.ipynb>
-  Car Tracker - Objects Detection and Kalman Filter <programs/car_tracker.ipynb>
+  programs/dof6sim.ipynb
+  programs/ballistic_coefficient.ipynb
+  programs/car_tracker.ipynb
 
 .. toctree::
   :maxdepth: 2

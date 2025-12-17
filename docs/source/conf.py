@@ -103,8 +103,10 @@ author    = 'c4dynamics'
 #     print('\033[91m' + 'reimport c4dynamics' + '\033[0m')
 #     del sys.modules['c4dynamics']
 
-sys.path.append('.')
-sys.path.append(os.path.join('..', '..'))
+# sys.path.append('.')
+# sys.path.append(os.path.join('..', '..'))
+sys.path.insert(0, os.path.abspath('..'))  # adjust '..' if conf.py is in docs/
+
 # sys.path.append('./c4dynamics')
 # sys.path.append(os.path.join(os.getcwd(), 'c4dynamics'))
 # print('\033[91m' + os.getcwd() + '\033[0m')
@@ -247,7 +249,19 @@ add_function_parentheses = False
 
 
 
+suppress_warnings = [
+    "misc.highlighting_failure",
+]
 
+
+
+# nbsphinx_allow_errors = True
+# nbsphinx_execute = 'always'  # or 'auto' if you only want to execute if outputs are missing
+# nbsphinx_execute_arguments = [
+#     '--TagRemovePreprocessor.enabled=True',
+#     '--TagRemovePreprocessor.remove_cell_tags=noexec'
+# ]
+# nbsphinx_execute = 'never'
 
 
 
