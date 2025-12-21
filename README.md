@@ -9,7 +9,7 @@
 <div align="center">
   <strong>📄 Published in the Journal of Open Source Software (JOSS)</strong><br>
   <em>A peer-reviewed open-source framework for state-space modeling and algorithm development</em>
-
+  <br>
   <a href="https://doi.org/10.21105/joss.08776">
     <img src="https://joss.theoj.org/papers/10.21105/joss.08776/status.svg">
   </a>
