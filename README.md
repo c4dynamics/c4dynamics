@@ -4,6 +4,23 @@
 
 
 
+
+
+<div align="center">
+  <strong>📄 Published in the Journal of Open Source Software (JOSS)</strong><br>
+  <em>A peer-reviewed open-source framework for state-space modeling and algorithm development</em>
+
+  <a href="https://doi.org/10.21105/joss.08776">
+    <img src="https://joss.theoj.org/papers/10.21105/joss.08776/status.svg">
+  </a>
+</div>
+
+<br>
+
+
+
+
+
 # Tsipor Dynamics
 
 ## Algorithms Engineering and Development
@@ -24,9 +41,17 @@ Tsipor (bird) Dynamics (c4dynamics) is the Python framework for state-space mode
 ![Pepy Total Downloads](https://img.shields.io/pepy/dt/c4dynamics?style=for-the-badge&color=blue%20&link=https%3A%2F%2Fpepy.tech%2Fprojects%2Fc4dynamics%3FtimeRange%3DthreeMonths%26category%3Dversion%26includeCIDownloads%3Dtrue%26granularity%3Ddaily%26viewType%3Dline%26versions%3D2.0.3%252C2.0.1%252C2.0.0)
 
 
+## Documentation
+
+📘 **Full documentation:**  
+https://c4dynamics.github.io/c4dynamics/
+
+- Installation and setup guides  
+- Core concepts and state-space modeling philosophy  
+- API reference and examples  
+- Tutorials for filtering, sensing, and simulation workflows
 
 
-[Documentation](https://c4dynamics.github.io/c4dynamics/)
 
 
 ## Why c4dynamics?
