@@ -1000,10 +1000,10 @@ The lineariztion of the process matrix for the `predict` step:
 .. math::
 
   F = \begin{bmatrix}
-        0 & 1 & 0 \
+        0 & 1 & 0                                                   \\
           -\rho \cdot g \cdot v_z^2 / (44000 \cdot \beta) 
           & \rho \cdot g \cdot v_z / \beta
-          & -\rho \cdot g \cdot v_z^2 \cdot / (2 \cdot \beta^2) \ 
+          & -\rho \cdot g \cdot v_z^2 \cdot / (2 \cdot \beta^2)     \\
             0 & 0 & 0
       \end{bmatrix}  
 

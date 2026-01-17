@@ -1161,13 +1161,13 @@ in a free fall where a noisy radar is tracking it.</p>
 \[\rho = \rho_0 \cdot e^{-z / k}\]</div>
 <p>The lineariztion of the process matrix for the <cite>predict</cite> step:</p>
 <div class="math notranslate nohighlight">
-\[F = \begin{bmatrix}
-      0 &amp; 1 &amp; 0 \
+\[\begin{split}F = \begin{bmatrix}
+      0 &amp; 1 &amp; 0                                                   \\
         -\rho \cdot g \cdot v_z^2 / (44000 \cdot \beta)
         &amp; \rho \cdot g \cdot v_z / \beta
-        &amp; -\rho \cdot g \cdot v_z^2 \cdot / (2 \cdot \beta^2) \
+        &amp; -\rho \cdot g \cdot v_z^2 \cdot / (2 \cdot \beta^2)     \\
           0 &amp; 0 &amp; 0
-    \end{bmatrix}\]</div>
+    \end{bmatrix}\end{split}\]</div>
 <p>The measurement is a direct sample of the altitude of the target
 so these equations are already a linear function of the state.</p>
 <div class="math notranslate nohighlight">
