@@ -45,34 +45,6 @@ Tsipor (bird) Dynamics (c4dynamics) is the Python framework for state-space mode
 ![Pepy Total Downloads](https://img.shields.io/pepy/dt/c4dynamics?style=for-the-badge&color=blue%20&link=https%3A%2F%2Fpepy.tech%2Fprojects%2Fc4dynamics%3FtimeRange%3DthreeMonths%26category%3Dversion%26includeCIDownloads%3Dtrue%26granularity%3Ddaily%26viewType%3Dline%26versions%3D2.0.3%252C2.0.1%252C2.0.0)
 
 
-## Documentation
-
-📘 **Full documentation:**  
-https://c4dynamics.github.io/c4dynamics/
-
-- Installation and setup guides  
-- Core concepts and state-space modeling philosophy  
-- API reference and examples  
-- Tutorials for filtering, sensing, and simulation workflows
-
-
-
-
-## Why c4dynamics?
-
-✅ State objects for easy modeling
-
-✅ Built-in functions for Kalman filters
-
-✅ Integrated sensors and object detection models
-
-✅ Out-of-the-box environments for reinforcement learning 
-
-✅ Seamless integration with OpenCV & Open3D 
-
-✅ Optimization for Monte Carlo simulations
-
-
 ## About c4dynamics
 
 **c4dynamics** is designed to 
@@ -92,6 +64,32 @@ detectors, and filters,
 c4dynamics accelerates algorithm development 
 while maintaining flexibility and scalability.
 
+
+## Why c4dynamics?
+
+✅ State objects for easy modeling
+
+✅ Built-in functions for Kalman filters
+
+✅ Integrated sensors and object detection models
+
+✅ Out-of-the-box environments for reinforcement learning 
+
+✅ Seamless integration with OpenCV & Open3D 
+
+✅ Optimization for Monte Carlo simulations
+
+
+
+## Documentation
+
+📘 **Full documentation:**  
+https://c4dynamics.github.io/c4dynamics/
+
+- Installation and setup guides  
+- Core concepts and state-space modeling philosophy  
+- API reference and examples  
+- Tutorials for filtering, sensing, and simulation workflows
 
 
 ## Requirements 
