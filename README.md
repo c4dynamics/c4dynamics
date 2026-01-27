@@ -93,7 +93,7 @@ https://c4dynamics.github.io/c4dynamics/
 
 
 ## Requirements 
-- 3.8 <= Python < 3.13
+- 3.10 <= Python < 3.13
 - Required packages are listed in [requirements.txt](requirements.txt)
 
 
