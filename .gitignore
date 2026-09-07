@@ -80,6 +80,10 @@ paper/~$dynamics - paper.docx
 # docs/objects.inv
 docs/source/programs/car_detected.mp4
 docs/doctrees
+
+# YOLO model weights (downloaded on demand by ultralytics)
+*.pt
+yolo11n.pt
 # docs/_images
 # docs/_modules
 # docs/_sources
