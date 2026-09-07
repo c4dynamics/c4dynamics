@@ -314,13 +314,15 @@ html_favicon = "_static/c4dlogo.svg"
 html_last_updated_fmt = "%b %d, %Y"
 # html_copy_source = True
 # CSS files are relative to the static path
-html_css_files = ["style.css"]
+html_css_files = [
+    # "style.css",
+    "c4dynamics-chat.css",
+]
 html_extra_path = []
 html_show_sourcelink = False
 html_show_sphinx = True
 html_show_copyright = True
 # html_logo = "_static/c4dlogo.svg"
-
 
 html_theme = "sphinx_book_theme"
 html_theme_options = {
@@ -342,6 +344,7 @@ html_theme_options = {
 }
 html_js_files = [
     "custom.js",
+    "c4dynamics-chat.js",
 ]
 
 """
