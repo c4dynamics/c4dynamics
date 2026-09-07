@@ -54,7 +54,7 @@ def plotdefaults(ax, title, xlabel="", ylabel="", fontsize=8, ilines=None):
         The label for the y-axis.
 
     fontsize : int, optional
-        The font size for the title, x-axis label, y-axis label, and tick labels. Default is 14.
+        The font size for the title, x-axis label, y-axis label, and tick labels. Default is 8.
 
 
     Example
