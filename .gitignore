@@ -40,8 +40,6 @@ c4dynamics-*/**
 # files in the base
 # =================
 Thumbs.db
-.gitignore
-.gitattributes
 x.png
 pyrightconfig.json
 gitstatus.txt
@@ -151,10 +149,8 @@ optimize_gains.py
 theoretical_gains.py
 docs/source/programs/pid_cascade/quad_frame - Copy.png
 docs/source/programs/ekf_estimation/architecture.docx
-.gitignore
 docs/source/programs/ekf_estimation/ekf_architecture.drawio
 c4dynamics/controllers/quad_pid.py
-.gitignore
 docs/source/programs/ekf_estimation/Book1.xlsx
 docs/source/programs/ekf_estimation/~$Book1.xlsx
 docs/source/programs/ekf_estimation/quad_ekf_2.ipynb
@@ -164,3 +160,4 @@ docs/source/programs/ekf_estimation/.quarto
 docs/source/programs/ekf_estimation/quad_ekf_files/
 docs/source/programs/car_tracker_yolo11/architecture.docx
 docs/source/programs/car_tracker_yolo11/~$chitecture.docx
+out.txt
