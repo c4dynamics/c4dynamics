@@ -147,10 +147,8 @@ optimize_gains.py
 theoretical_gains.py
 docs/source/programs/pid_cascade/quad_frame - Copy.png
 docs/source/programs/ekf_estimation/architecture.docx
-.gitignore
 docs/source/programs/ekf_estimation/ekf_architecture.drawio
 c4dynamics/controllers/quad_pid.py
-.gitignore
 docs/source/programs/ekf_estimation/Book1.xlsx
 docs/source/programs/ekf_estimation/~$Book1.xlsx
 docs/source/programs/ekf_estimation/quad_ekf_2.ipynb
@@ -159,8 +157,6 @@ docs/source/programs/ekf_estimation/quad_ekf.pdf
 docs/source/programs/ekf_estimation/.quarto
 docs/source/programs/ekf_estimation/quad_ekf_files/
 docs/source/programs/car_tracker_yolo11/architecture.docx
-.gitignore
 docs/source/programs/car_tracker_yolo11/yolo11n.pt
-.gitignore
 yolo11n.pt
 docs/source/programs/car_tracker_yolo11/~$chitecture.docx
