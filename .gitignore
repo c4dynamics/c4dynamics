@@ -40,8 +40,6 @@ c4dynamics-*/**
 # files in the base
 # =================
 Thumbs.db
-.gitignore
-.gitattributes
 x.png
 pyrightconfig.json
 gitstatus.txt
@@ -164,3 +162,4 @@ docs/source/programs/car_tracker_yolo11/architecture.docx
 docs/source/programs/car_tracker_yolo11/yolo11n.pt
 yolo11n.pt
 docs/source/programs/car_tracker_yolo11/~$chitecture.docx
+out.txt
