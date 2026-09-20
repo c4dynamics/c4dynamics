@@ -10,7 +10,6 @@ import cv2
 
 from matplotlib import pyplot as plt
 
-plt.rcParams["font.family"] = "Times New Roman"
 plt.style.use("dark_background")
 
 
