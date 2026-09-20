@@ -40,8 +40,6 @@ c4dynamics-*/**
 # files in the base
 # =================
 Thumbs.db
-.gitignore
-.gitattributes
 x.png
 pyrightconfig.json
 gitstatus.txt
@@ -80,6 +78,10 @@ paper/~$dynamics - paper.docx
 # docs/objects.inv
 docs/source/programs/car_detected.mp4
 docs/doctrees
+
+# YOLO model weights (downloaded on demand by ultralytics)
+*.pt
+yolo11n.pt
 # docs/_images
 # docs/_modules
 # docs/_sources
@@ -147,10 +149,8 @@ optimize_gains.py
 theoretical_gains.py
 docs/source/programs/pid_cascade/quad_frame - Copy.png
 docs/source/programs/ekf_estimation/architecture.docx
-.gitignore
 docs/source/programs/ekf_estimation/ekf_architecture.drawio
 c4dynamics/controllers/quad_pid.py
-.gitignore
 docs/source/programs/ekf_estimation/Book1.xlsx
 docs/source/programs/ekf_estimation/~$Book1.xlsx
 docs/source/programs/ekf_estimation/quad_ekf_2.ipynb
@@ -158,6 +158,22 @@ make_file.txt
 docs/source/programs/ekf_estimation/quad_ekf.pdf
 docs/source/programs/ekf_estimation/.quarto
 docs/source/programs/ekf_estimation/quad_ekf_files/
-yolo11n.pt
 docs/source/programs/car_tracker_yolo11/architecture.docx
+docs/source/programs/car_tracker_yolo11/yolo11n.pt
+yolo11n.pt
 docs/source/programs/car_tracker_yolo11/~$chitecture.docx
+out.txt
+docs/source/programs/car_tracker_yolo11/car_tracker_yolo11.ipynb
+.gitignore
+docs/source/programs/car_tracker_yolo11/.quarto/typst/available-fonts.json
+docs/source/programs/car_tracker_yolo11/_metadata.yml
+docs/source/tsipor/tsipor.rst
+docs/source/programs/car_tracker_yolo11/c4dlogo.svg
+docs/source/programs/car_tracker_yolo11/car_tracker_yolo11.pdf
+docs/source/programs/car_tracker_yolo11/car_tracker_yolo11.typ
+docs/source/programs/car_tracker_yolo11/car_tracker_yolo11_files/figure-typst/cell-5-output-1.png
+docs/source/programs/car_tracker_yolo11/car_tracker_yolo11_files/figure-typst/cell-18-output-1.png
+docs/source/programs/car_tracker_yolo11/car_tracker_yolo11_files/figure-typst/cell-20-output-1.png
+docs/source/programs/car_tracker_yolo11/car_tracker_yolo11_files/figure-typst/cell-22-output-1.png
+docs/source/programs/car_tracker_yolo11/car_tracker_yolo11_files/figure-typst/cell-25-output-1.png
+docs/source/programs/car_tracker_yolo11/car_tracker_yolo11_files/mediabag/colab-badge.svg

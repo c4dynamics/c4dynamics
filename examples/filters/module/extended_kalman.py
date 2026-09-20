@@ -48,7 +48,7 @@ def drawekf(ekf=None, trueobj=None, measures=None, title="", filename=None, std=
         },
     )
 
-    fig.suptitle("                " + title, fontsize=14, fontname="Times New Roman")
+    fig.suptitle("                " + title, fontsize=14)
     plt.subplots_adjust(top=0.95)  # Adjust for suptitle space
 
     """ altitude """
@@ -223,9 +223,9 @@ def filtered():
 
         tgt.X = odeint(ballistics, tgt.X, [t, t + dt])[-1]
 
-        """ 
-    the necessary linear parameters for the predict stage: the 
-    state transition matrix Phi (or its first order approximation F - the discreteized system matrix) 
+        """
+    the necessary linear parameters for the predict stage: the
+    state transition matrix Phi (or its first order approximation F - the discreteized system matrix)
     """
         rhoexp = rho0 * np.exp(-ekf.z / k) * c4d.g_fts2 * ekf.vz / ekf.beta
         fx = [ekf.vz, rhoexp * ekf.vz / 2 - c4d.g_fts2, 0]

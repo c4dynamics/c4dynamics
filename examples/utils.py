@@ -75,9 +75,6 @@ if socket.gethostname() != "ZivMeri-PC":
 
     plt.rcParams["font.size"] = 14
     plt.rcParams["image.interpolation"] = "nearest"
-    plt.rcParams["font.family"] = (
-        "Times New Roman"  # "Britannic Bold" # "Modern Love"#  "Corbel Bold"#
-    )
     plt.style.use(
         "dark_background"
     )  # 'default' # 'seaborn' # 'fivethirtyeight' # 'classic' # 'bmh'
@@ -137,7 +134,6 @@ from matplotlib import pyplot as plt
 
 plt.rcParams["font.size"] = 14
 plt.rcParams["image.interpolation"] = "nearest"
-plt.rcParams["font.family"] = "Times New Roman"  # "Britannic Bold" # "Modern Love"#  "Corbel Bold"#
 plt.style.use("dark_background")  # 'default' # 'seaborn' # 'fivethirtyeight' # 'classic' # 'bmh'
 
 import c4dynamics as c4d

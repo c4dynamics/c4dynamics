@@ -2,6 +2,18 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Fixed
+- `car_tracker` notebook: the Colab install cell now runs
+  `pip install "c4dynamics[vision]"` ("Darknet importer has been
+  removed" when initializing `yolov3`).
+- `car_tracker` notebook: `cv2.destroyAllWindows()` in both main loops is
+  now skipped on Colab (unconditional call raised
+  `error: ... The function is not implemented)
+
+### Changed
+- Removed the hardcoded `font.family` / `fontname = 'Times New Roman'`
+  plot styling from the example modules. plots now use matplotlib's default font everywhere.
+- Updated the 'hit-ground' warning in quad_pid.py to follow height criteria rather than times. 
 
 
 ## [2.4.3] - 2026-09-04

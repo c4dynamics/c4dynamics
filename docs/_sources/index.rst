@@ -243,6 +243,7 @@ The documentation is organized as follows:
   programs/ballistic_ekf/ballistic_coefficient.ipynb
   programs/mpc_steering/mpc_steering.ipynb
   programs/car_tracker/car_tracker.ipynb
+  programs/car_tracker_yolo11/car_tracker_yolo11.ipynb
   programs/learning_controller/learning_controller.ipynb
 
 

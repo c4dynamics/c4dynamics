@@ -84,7 +84,7 @@ def drawkf(kf=None, trueobj=None, measures=None, title="", filename=None, std=Fa
             "wspace": 0.3,
         },
     )
-    fig.suptitle("        " + title, fontsize=14, fontname="Times New Roman")
+    fig.suptitle("        " + title, fontsize=14)
     plt.subplots_adjust(top=0.95)  # Adjust for suptitle space
 
     if trueobj:
