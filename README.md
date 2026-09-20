@@ -101,7 +101,7 @@ Across:
 | Ballistic coefficient estimation | Vehicle steering | Vehicle tracking |
 | [**Neural Network based Controller**](https://c4dynamics.github.io/c4dynamics/programs/learning_controller/learning_controller.html) | [**YOLO11 + Kalman Filter**](https://c4dynamics.github.io/c4dynamics/programs/car_tracker_yolo11/car_tracker_yolo11.html) | |
 | <img src="https://raw.githubusercontent.com/c4dynamics/c4dynamics/main/docs/source/_static/helicopter.png" width="100"> | <img src="https://raw.githubusercontent.com/c4dynamics/c4dynamics/main/docs/source/_static/drifting_car_yolo11_snapshot.png" width="100"> | |
-| Helicopter Learning Controller | Vehicle tracking (modern detector) | |
+| Helicopter Learning Controller | Vehicle tracking (newer detector) | |
 
 
 

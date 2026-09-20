@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Removed the hardcoded `font.family` / `fontname = 'Times New Roman'`
   plot styling from the example modules. plots now use matplotlib's default font everywhere.
+- Updated the 'hit-ground' warning in quad_pid.py to follow height criteria rather than times. 
 
 
 ## [2.4.3] - 2026-09-04
