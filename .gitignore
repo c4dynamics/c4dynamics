@@ -40,8 +40,6 @@ c4dynamics-*/**
 # files in the base
 # =================
 Thumbs.db
-.gitignore
-.gitattributes
 x.png
 pyrightconfig.json
 gitstatus.txt
@@ -80,6 +78,10 @@ paper/~$dynamics - paper.docx
 # docs/objects.inv
 docs/source/programs/car_detected.mp4
 docs/doctrees
+
+# YOLO model weights (downloaded on demand by ultralytics)
+*.pt
+yolo11n.pt
 # docs/_images
 # docs/_modules
 # docs/_sources
@@ -160,3 +162,12 @@ docs/source/programs/car_tracker_yolo11/architecture.docx
 docs/source/programs/car_tracker_yolo11/yolo11n.pt
 yolo11n.pt
 docs/source/programs/car_tracker_yolo11/~$chitecture.docx
+out.txt
+docs/source/programs/car_tracker_yolo11/car_tracker_yolo11.ipynb
+.gitignore
+docs/source/programs/car_tracker_yolo11/.quarto/typst/available-fonts.json
+.gitignore
+docs/source/programs/car_tracker_yolo11/_metadata.yml
+docs/source/tsipor/tsipor.rst
+docs/source/programs/car_tracker_yolo11/c4dlogo.svg
+docs/source/programs/car_tracker_yolo11/car_tracker_yolo11.pdf
