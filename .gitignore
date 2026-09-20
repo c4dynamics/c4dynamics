@@ -163,3 +163,11 @@ docs/source/programs/car_tracker_yolo11/yolo11n.pt
 yolo11n.pt
 docs/source/programs/car_tracker_yolo11/~$chitecture.docx
 out.txt
+docs/source/programs/car_tracker_yolo11/car_tracker_yolo11.ipynb
+.gitignore
+docs/source/programs/car_tracker_yolo11/.quarto/typst/available-fonts.json
+.gitignore
+docs/source/programs/car_tracker_yolo11/_metadata.yml
+docs/source/tsipor/tsipor.rst
+docs/source/programs/car_tracker_yolo11/c4dlogo.svg
+docs/source/programs/car_tracker_yolo11/car_tracker_yolo11.pdf

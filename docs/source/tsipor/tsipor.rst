@@ -319,8 +319,16 @@ Real implementations of **guidance, estimation, and control algorithms**
     <a href="../programs/car_tracker/car_tracker.html" target="_blank" rel="noopener" class="sim-card">
         <img src="../_static/drifting_car_snapshot.png" class="sim-img">
         <div class="sim-text">
-            <h3>YOLO Detector & Kalman Filter</h3>
+            <h3>YOLO3 Detector & Kalman Filter</h3>
             <p>Car tracker</p>
+        </div>
+    </a>
+
+    <a href="../programs/car_tracker_yolo11/car_tracker_yolo11.html" target="_blank" rel="noopener" class="sim-card">
+        <img src="../_static/drifting_car_yolo11_snapshot.png" class="sim-img">
+        <div class="sim-text">
+            <h3>YOLO11 Detector & Kalman Filter</h3>
+            <p>Car tracker, modern detector refresh</p>
         </div>
     </a>
 
