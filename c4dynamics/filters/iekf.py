@@ -220,6 +220,20 @@ class iekf(kalman):
         is treated by the parent as per-component standard deviations
         (squared into a diagonal covariance); a full (n, n) matrix is
         used as-is.
+
+        CAVEAT: a single scalar gives the attitude block (rad^2) and the
+        bias block (rad^2/s^2) the *same* numerical variance, even
+        though they are different physical quantities on very different
+        natural scales -- a scalar generous enough for the attitude
+        (e.g. a large initial attitude error) is typically wildly too
+        generous for the bias, and produces a large, unphysical initial
+        correction on `self.b`. When `estimate_bias` is `True` and the
+        two blocks need different initial uncertainty (the usual case),
+        build a block-diagonal matrix instead, e.g.::
+
+            P0 = np.zeros((6, 6))
+            P0[0:3, 0:3] = np.deg2rad(sigma_att_deg)**2 * np.eye(3)
+            P0[3:6, 3:6] = np.deg2rad(sigma_bias_deg_s)**2 * np.eye(3)
     sigmaGyro : float, optional
         Gyro white noise std [rad/s]. Default ``deg2rad(0.5)``.
     sigmaBias : float, optional
