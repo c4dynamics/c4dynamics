@@ -70,7 +70,8 @@ exclude = [
     "*.png",
     "c4dynamics/utils/video_gen.py",
     "c4dynamics/utils/use_cases",
-    "c4dynamics/envs/mountain_car.py"
+    "c4dynamics/envs/mountain_car.py", 
+    "test_chatbot.py",
 ]
 
 [tool.ruff.lint]

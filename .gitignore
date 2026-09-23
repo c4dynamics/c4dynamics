@@ -177,3 +177,13 @@ docs/source/programs/car_tracker_yolo11/car_tracker_yolo11_files/figure-typst/ce
 docs/source/programs/car_tracker_yolo11/car_tracker_yolo11_files/figure-typst/cell-22-output-1.png
 docs/source/programs/car_tracker_yolo11/car_tracker_yolo11_files/figure-typst/cell-25-output-1.png
 docs/source/programs/car_tracker_yolo11/car_tracker_yolo11_files/mediabag/colab-badge.svg
+chatbot_test_plan.md
+.gitignore
+convert_notebooks.py
+.gitignore
+make_debug.bat
+prune_empty_stubs.ps1
+upload_corpus.ps1
+test_chatbot.py
+.gitignore
+generate_api_reference.py
