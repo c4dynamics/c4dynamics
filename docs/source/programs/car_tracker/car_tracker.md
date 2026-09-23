@@ -1,9 +1,9 @@
-- [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/c4dynamics/c4dynamics/blob/main/docs/source/programs/car_tracker.ipynb) ← Click to open in Google Colab
+- [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/c4dynamics/c4dynamics/blob/main/docs/source/programs/car_tracker/car_tracker.ipynb) ← Click to open in Google Colab
 - To download this notebook, click the download icon in the toolbar above and select the .ipynb format.  
 - For any questions or comments, please open an issue on the [c4dynamics issues page](https://github.com/c4dynamics/c4dynamics/issues).  
 
 
-# Car Tracker – YOLO Detector and Kalman Filter 
+# Car Tracker – YOLO3 Detector and Kalman Filter 
 
 This notebook demonstrates how to enhance object tracking by integrating a Kalman filter with an object detection model. 
 
@@ -22,10 +22,9 @@ This notebook provides two tracking modes:
 - Adaptive covariance tracking – Dynamically adjusts the measurement covariance to account for variations in object movement.
 
 
-<div style='text-align: center;'>
-  <img src='car_tracker.drawio.png' alt='alt text'>
-  <figcaption>Figure 1: Program flowchart: 1. Read an image. 2. Run the detector. 3. Update the object state. 4. Draw a bounding box </figcaption>
-</div>
+![Car tracker flowchart: read an image, run the detector, update the object state, draw a bounding box.](car_tracker.drawio.png)
+
+*Figure 1: Program flowchart: 1. Read an image. 2. Run the detector. 3. Update the object state. 4. Draw a bounding box.*
 
  - Object tracking starts with a source of images, such as a video stream or an image loader. 
  - Each frame is sent to the object detection model, and the returned data is used to filter undesired objects and update the vehicle state. 
@@ -35,6 +34,8 @@ This notebook provides two tracking modes:
 Let's now break it down step by step.  
 First, import the necessary packages: 
 
+Installing with the `[vision]` extra pins a compatible `opencv-python` version (OpenCV 5 removed the Darknet importer that `yolov3` relies on to load the `.cfg`/`.weights` model). 
+
 ```python
 
 
@@ -42,7 +43,7 @@ First, import the necessary packages:
 import sys
 IN_COLAB = "google.colab" in sys.modules
 if IN_COLAB:
-	!pip install c4dynamics
+	!pip install "c4dynamics[vision]"
 	from google.colab.patches import cv2_imshow
 
 
@@ -137,10 +138,9 @@ The following 80 classes are available using COCO’s pre-trained weights:
 
 `person`, `bicycle`, `car`, `motorcycle`, `airplane`, `bus`, `train`, `truck`, `boat`, `traffic light`, `fire hydrant`, `stop sign`, `parking meter`, `bench`, `bird`, `cat`, `dog`, `horse`, `sheep`, `cow`, `elephant`, `bear`, `zebra`, `giraffe`, `backpack`, `umbrella`, `handbag`, `tie`, `suitcase`, `frisbee`, `skis,snowboard`, `sports ball`, `kite`, `baseball bat`, `baseball glove`, `skateboard`, `surfboard`, `tennis` `racket`, `bottle`, `wine glass`, `cup`, `fork`, `knife`, `spoon`, `bowl`, `banana`, `apple`, `sandwich`, `orange`, `broccoli`, `carrot`, `hot dog`, `pizza`, `donut`, `cake`, `chair`, `couch`, `potted plant`, `bed`, `dining table`, `toilet`, `tv`, `laptop`, `mouse`, `remote`, `keyboard`, `cell phone`, `microwave`, `oven`, `toaster`, `sink`, `refrigerator`, `book`, `clock`, `vase`, `scissors`, `teddy bear`, `hair drier`, `toothbrush`
 
-<div style='text-align: center;'>
-  <img src='../../_architecture/yolo-object-detection.jpg' alt='alt text'>
-  <figcaption>Figure 2: Object Detection with YOLO using COCO pre-trained classes 'dog', 'bicycle', 'truck'. </figcaption>
-</div>
+![Object detection with YOLO using COCO pre-trained classes 'dog', 'bicycle', 'truck'.](../../_architecture/yolo-object-detection.jpg)
+
+*Figure 2: Object Detection with YOLO using COCO pre-trained classes 'dog', 'bicycle', 'truck'.*
 
 Read more at: [darknet-yolo](https://pjreddie.com/darknet/yolo). 
 
@@ -386,8 +386,41 @@ def br(X): return int(X[0] + X[2] / 2), int(X[1] + X[3] / 2)
 ```
 
 
-Main loop:  
-The prediction step occurs in every cycle, while the update (correction) step is performed when a car is detected.
+t = 0
+
+while video_cap.isOpened():
+  kf.store(t)
+  # predict
+  kf.predict()
+  ret, frame = video_cap.read()
+  if not ret: break
+
+  dtcts = yolo3.detect(frame)
+
+  # take only the first 'car' classified object:
+  d = next(iter([di for di in dtcts if di.class_id == 'car']), None)
+  if d:
+    # correct
+    kf.update(d.X)
+    # store the raw measurement:
+    kf.detect = d
+    kf.storeparams('detect', t)
+
+  _ = cv2.rectangle(frame, tl(kf.X), br(kf.X), [0, 255, 0], 2)
+
+  if IN_COLAB:
+      cv2_imshow(frame)
+  else:
+      cv2.imshow('', frame)
+      cv2.waitKey(10)
+
+  vidout.write(frame)
+  t += dt
+
+video_cap.release()
+vidout.release()
+if not IN_COLAB:
+  cv2.destroyAllWindows()
 
 ```python
 
@@ -587,7 +620,47 @@ Where:
 
 Near `t = 4s, t = 7.5s`, the measurement error is low, so the filter should give less weight to the process model.
 
-The main loop is only modified to include changes in $R$: 
+kf = kalman({'x': 0, 'y': 0, 'w': 0, 'h': 0, 'vx': 0, 'vy': 0}, P0 = Q, F = F, H = H, Q = Q, R = R)
+video_cap = cv2.VideoCapture(video)
+t = 0
+
+# main loop
+while video_cap.isOpened():
+  kf.store(t)
+  kf.predict()
+
+  ret, frame = video_cap.read()
+  if not ret: break
+
+  dtcts = yolo3.detect(frame)
+
+  # take only the first 'car' classified object:
+  d = next(iter([di for di in dtcts if di.class_id == 'car']), None)
+  if d:
+    # adjust R:
+    if np.isclose(t, t_transitions, atol = 0.2).any():
+      measure_std = width / 100000
+    else:
+      measure_std = width / 10000
+    R = np.eye(4) * measure_std**2
+    kf.update(d.X, R = R)
+    # store the raw measurement:
+    kf.detect = d
+    kf.storeparams('detect', t)
+
+  cv2.rectangle(frame, tl(kf.X), br(kf.X), [0, 255, 0], 2)
+
+  if IN_COLAB:
+      cv2_imshow(frame)
+  else:
+      cv2.imshow('', frame)
+      cv2.waitKey(10)
+
+  t += dt
+
+video_cap.release()
+if not IN_COLAB:
+  cv2.destroyAllWindows()
 
 ```python
 
@@ -631,7 +704,8 @@ while video_cap.isOpened():
   t += dt
 
 video_cap.release()
-cv2.destroyAllWindows()
+if not IN_COLAB:
+    cv2.destroyAllWindows()
 
 
 ```

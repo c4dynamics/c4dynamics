@@ -224,6 +224,43 @@
 }
 
 /* =========================================================
+   Suggestion chips
+   ========================================================= */
+
+.c4d-chat-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    margin: 0 0 4px;
+}
+
+.c4d-suggestion-chip {
+    padding: 7px 12px;
+
+    border: 1px solid #d0d7de;
+    border-radius: 999px;
+
+    background: #ffffff;
+    color: #1f6feb;
+
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.c4d-suggestion-chip:hover {
+    background: #eff6ff;
+    border-color: #1f6feb;
+}
+
+/* =========================================================
    Markdown
    ========================================================= */
 
@@ -235,7 +272,8 @@
     margin-bottom: 0;
 }
 
-.c4d-message-content ul {
+.c4d-message-content ul,
+.c4d-message-content ol {
     margin: 8px 0 10px;
     padding-left: 20px;
 }
@@ -467,6 +505,17 @@
 [data-theme="dark"] .c4d-inline-code {
     background: #21262d;
     color: #e6edf3;
+}
+
+[data-theme="dark"] .c4d-suggestion-chip {
+    background: #161b22;
+    color: #58a6ff;
+    border-color: #30363d;
+}
+
+[data-theme="dark"] .c4d-suggestion-chip:hover {
+    background: #1c2733;
+    border-color: #58a6ff;
 }
 
 [data-theme="dark"] .c4d-message-content a {

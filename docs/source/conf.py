@@ -317,6 +317,7 @@ html_last_updated_fmt = "%b %d, %Y"
 html_css_files = [
     # "style.css",
     "c4dynamics-chat.css",
+    "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css",
 ]
 html_extra_path = []
 html_show_sourcelink = False
@@ -344,6 +345,7 @@ html_theme_options = {
 }
 html_js_files = [
     "custom.js",
+    ("https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js", {"defer": "defer"}),
     "c4dynamics-chat.js",
 ]
 

@@ -1,4 +1,4 @@
-- [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/c4dynamics/c4dynamics/blob/main/docs/source/programs/ballistic_coefficient.ipynb) ← Click to open in Google Colab
+- [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/c4dynamics/c4dynamics/blob/main/docs/source/programs/ballistic_ekf/ballistic_coefficient.ipynb) ← Click to open in Google Colab
 - To download this notebook, click the download icon in the toolbar above and select the .ipynb format.  
 - For any questions or comments, please open an issue on the [c4dynamics issues page](https://github.com/c4dynamics/c4dynamics/issues).  
 
@@ -230,12 +230,16 @@ plt.style.use('dark_background')
 
 def drawekf(ekf = None, trueobj = None, measures = None, std = False, title = '', txtcaption = None):
 
-  fig, ax = plt.subplots(1, 3, dpi = 200, figsize = (9, 3)
-                              , gridspec_kw = {'left': .15, 'right': .95
-                                                , 'top': .80, 'bottom': .15
-                                                  , 'hspace': 0.5, 'wspace': 0.4})
+  fig, ax = plt.subplots(
+    1, 3, dpi = 200, figsize = (9, 3),
+    gridspec_kw = {
+        'left': .15, 'right': .95,
+        'top': .80, 'bottom': .15,
+        'hspace': 0.5, 'wspace': 0.4
+    }
+  )
 
-  fig.suptitle('                ' + title, fontsize = 14, fontname = 'Times New Roman')
+  fig.suptitle('                ' + title, fontsize = 14)
   plt.subplots_adjust(top = 0.95)
 
 

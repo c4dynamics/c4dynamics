@@ -1,4 +1,4 @@
-- [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/c4dynamics/c4dynamics/blob/main/docs/source/programs/dof6sim.ipynb) ← Click to open in Google Colab
+- [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/c4dynamics/c4dynamics/blob/main/docs/source/programs/pn_guidance/dof6sim.ipynb) ← Click to open in Google Colab
 - To download this notebook, click the download icon in the toolbar above and select the .ipynb format.  
 - For any questions or comments, please open an issue on the [c4dynamics issues page](https://github.com/c4dynamics/c4dynamics/issues).  
 
@@ -632,7 +632,6 @@ fontsize = 5
 linewidth = 1
 asp = 1080 / 1920
 plt.rcParams['figure.dpi'] = 300
-plt.rcParams["font.family"] = 'Times New Roman'
 plt.rcParams['figure.figsize'] = (fcsize, fcsize * asp)
 plt.rcParams['figure.subplot.top'] = 0.9
 plt.rcParams['figure.subplot.left'] = 0.15
