@@ -51,6 +51,23 @@ def extract_system_prompt(js_path: str) -> str:
         out.append(ch)
         i += 1
 
+    # A stray unescaped backtick inside the template literal (e.g. someone
+    # wrote `lineofsight` instead of \`lineofsight\`) terminates it early --
+    # this silently truncates extraction with no error, which is exactly what
+    # happened for real on 2026-09-23 and also breaks the actual widget in
+    # the browser (same bug, worse consequence there: the whole script fails
+    # to parse and nothing on the page works at all). The real closing
+    # backtick is always immediately followed by ";" -- if it isn't, we
+    # stopped at a bogus one.
+    if not text[i + 1 : i + 2] == ";":
+        raise ValueError(
+            f"SYSTEM_PROMPT extraction likely truncated: terminating backtick at "
+            f"char {i} (line {text.count(chr(10), 0, i) + 1}) is not followed by ';'. "
+            f"There is probably an unescaped backtick inside the template literal "
+            f"before this point -- check for a stray `word` that should be \\`word\\`. "
+            f"Extracted {len(out)} chars before stopping."
+        )
+
     return "".join(out)
 
 
