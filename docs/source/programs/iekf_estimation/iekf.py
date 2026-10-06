@@ -245,9 +245,9 @@ class iekf(kalman):
       >>> gRef = np.array([0.0, 0.0, -1.0])
       >>> for _ in range(50):
       ...     filt.predict(gyro = np.zeros(3), dt = 0.01)
-      ...     _ = filt.update(y = filt.R.T @ gRef, ref = gRef, Rmeas = 0.01 * np.eye(3))
-      >>> float(np.linalg.norm(logSO3(filt.Rot)))  # doctest: +SKIP
-      0.0...
+      ...     _ = filt.update(y = gRef, ref = gRef, Rmeas = 0.01 * np.eye(3))
+      >>> bool(np.linalg.norm(logSO3(filt.Rot)) < 0.01)   # error below 0.6 deg
+      True
 
     See Also
     --------
