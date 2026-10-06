@@ -136,17 +136,6 @@ class iekf(kalman):
       ``self.P``, then does ``self.X += K @ innov``, and returns `K`
       (or `None` if `gate` rejects the update or `S` is singular, in
       which case `X` and `P` are left untouched).
-    * **Covariance update form**: the parent uses the textbook form
-      ``P = P - K @ H @ P``, *not* the Joseph form
-      (``P = (I-KH) P (I-KH).T + K R K.T``) this project's MATLAB code
-      uses. The two are mathematically equivalent for an exact `K`, but
-      Joseph form stays positive-semidefinite under roundoff while the
-      textbook form does not necessarily. Attitude recovery from a
-      large initial error (see `runSyntheticBenchmark.m` Experiment B)
-      is exactly the regime with large transient corrections where this
-      matters most -- **set `P_jitter` when using this class for that
-      kind of scenario**, or subclass and override the covariance step
-      if strict Joseph form is required.
     * A bare scalar `P0` is **not** auto-expanded to ``scalar * eye(n)``
       by the parent for `n` > 1 (see `P0` below) -- this class expands
       it before construction so the convenience default still works.
