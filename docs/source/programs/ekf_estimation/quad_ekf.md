@@ -1,6 +1,6 @@
 - [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/c4dynamics/c4dynamics/blob/main/docs/source/programs/ekf_estimation/quad_ekf.ipynb) ← Click to open in Google Colab
-- To download this notebook, click the download icon in the toolbar above and select the .ipynb format.  
-- For any questions or comments, please open an issue on the [c4dynamics issues page](https://github.com/c4dynamics/c4dynamics/issues).  
+- To download this notebook, click the download icon in the toolbar above and select the .ipynb format.
+- For any questions or comments, please open an issue on the [c4dynamics issues page](https://github.com/c4dynamics/c4dynamics/issues).
 
 # Quadcopter EKF - State Estimation for Figure-8 Trajectory Tracking
 
@@ -20,7 +20,7 @@ This notebook was developed by Usama Khan ([\@usama-k-mech](https://github.com/u
 ## Goal
 
 1. Build an $EKF$ that predicts with the same dynamics the truth model uses, corrects with noisy $GPS$, $IMU$, and magnetometer, and feed its estimate to the
-cascade controller in place of truth. 
+cascade controller in place of truth.
 
 2. Investigate whether a faster $IMU$ update rate slows the position drift during a $GPS$ dropout.
 
@@ -64,13 +64,13 @@ from c4dynamics.utils.use_cases import quad_ekf
 ```
 
 
-- The main loop, an $EKF$ layer, and plots generators live in [c4dynamics.utils.use_cases.quad_ekf](https://github.com/c4dynamics/c4dynamics/blob/main/c4dynamics/utils/use_cases/quad_ekf.py).  
+- The main loop, an $EKF$ layer, and plots generators live in [c4dynamics.utils.use_cases.quad_ekf](https://github.com/c4dynamics/c4dynamics/blob/main/c4dynamics/utils/use_cases/quad_ekf.py).
 - The estimation config block is shown as an editable dictionary in the notebook and is defined canonically in [ekf_config.py](https://github.com/c4dynamics/c4dynamics/blob/main/c4dynamics/utils/use_cases/ekf_config.py).
 
 
-Core models live in c4dynamics: 
+Core models live in c4dynamics:
 - The plant and cascade-$PID$ controller in [c4dynamics.controllers.quad_pid](https://github.com/c4dynamics/c4dynamics/blob/main/c4dynamics/controllers/quad_pid.py)
-- The navigation sensors ($GPS$, $IMU$, magnetometer) in [c4dynamics.sensors.navigation](https://github.com/c4dynamics/c4dynamics/blob/main/c4dynamics/sensors/navigation.py) 
+- The navigation sensors ($GPS$, $IMU$, magnetometer) in [c4dynamics.sensors.navigation](https://github.com/c4dynamics/c4dynamics/blob/main/c4dynamics/sensors/navigation.py)
 
 This notebook only configures them and shows the results.
 
@@ -85,32 +85,32 @@ New to Kalman filtering?
 
 In the Cascade-$PID$ example the controller read the vehicle's **true** state directly. A real autopilot never sees truth, it only sees noisy sensors. The job of the $EKF$ is to fuse those measurements with a dynamics model into a best estimate $\hat{x}$, which the controller then uses in place of truth.
 
-The $EKF$ algorithm operates as two sequential steps:  
-Predict (process model) $\rightarrow$ Update (measurement model).  
+The $EKF$ algorithm operates as two sequential steps:
+Predict (process model) $\rightarrow$ Update (measurement model).
 
-**Predict**  
-The predict stage needs a process model $f(\mathbf x, \mathbf u)$ — the equations of motion mapping the current state and the commanded rotor speeds to the next state. **Section** $3$ derives exactly this model, the same one that drives the truth vehicle. 
+**Predict**
+The predict stage needs a process model $f(\mathbf x, \mathbf u)$ — the equations of motion mapping the current state and the commanded rotor speeds to the next state. **Section** $3$ derives exactly this model, the same one that drives the truth vehicle.
 
-**Update**  
+**Update**
 The update (correct) stage needs a measurement model $h(\mathbf x)$ for every sensor feeding the filter, together with its Jacobian $H=\partial h/\partial \mathbf x$ for computing the update. **Section** $4$ introduces the $GPS$, $IMU$, and magnetometer models on these terms, one sensor at a time, before **Section** $5$ assembles $f$, $h$, and $H$ into the full predict/update cycle.
 
 
-**EKF vs. Strapdown INS**  
+**EKF vs. Strapdown INS**
 It's worth noting that the design of choice here differs from what most real flight controllers like PX4 and ArduPilot do:
 
 - A typical strapdown $INS$-based $EKF$ carries $15+$ state variables and represents attitude using a quaternion rather than Euler angles.
 - These systems commonly use an error-state (indirect) $EKF$: rather than estimating the complete navigation state directly, the filter only estimates small errors relative to the state propagated by the inertial mechanism.
 - In the predict stage, strapdown integrates the $IMU$ readings — pure kinematics with no vehicle model and no knowledge of commanded inputs.
-- In the correct stage, strapdown uses only the aiding sensors — $GPS$, magnetometer, baro, sometimes vision — to bound the drift the $IMU$ mechanization accumulates in the predict stage. 
+- In the correct stage, strapdown uses only the aiding sensors — $GPS$, magnetometer, baro, sometimes vision — to bound the drift the $IMU$ mechanization accumulates in the predict stage.
 
-In contrast, the EKF in this example uses the full nonlinear quadrotor dynamics as its process model. 
+In contrast, the EKF in this example uses the full nonlinear quadrotor dynamics as its process model.
 The commanded rotor speeds drive the prediction, while the $GPS$, $IMU$, and magnetometer measurements are used as measurement updates.
 
 This architectural difference becomes particularly relevant in Section $9$, where we investigate what happens when GPS is temporarily unavailable and examine the effect of increasing the IMU update rate.
 
 ## 3. Dynamics
 
-The quadrotor dynamics is identical to this presented in the [parent example](https://c4dynamics.github.io/c4dynamics/programs/pid_cascade/quadcopter_pid.html).  
+The quadrotor dynamics is identical to this presented in the [parent example](https://c4dynamics.github.io/c4dynamics/programs/pid_cascade/quadcopter_pid.html).
 This section summarizes the governing equations, which form the process model
 used by both the simulation and the Extended Kalman Filter ($EKF$).
 
@@ -182,19 +182,19 @@ $$
 $$
 
 Where:
-- $\left[BI\right]$ is the Body from Inertial $DCM$ (direction cosine matrix, generated by Euler angles in $3$-$2$-$1$ order).  
-- $\left[BI\right]^T$ is the transpose of $\left[BI\right]$ and used to rotate vectors to the inertial frame from the body frame.  
+- $\left[BI\right]$ is the Body from Inertial $DCM$ (direction cosine matrix, generated by Euler angles in $3$-$2$-$1$ order).
+- $\left[BI\right]^T$ is the transpose of $\left[BI\right]$ and used to rotate vectors to the inertial frame from the body frame.
 
 
 
-![Reference systems. Inertial system: ENU (east, north, up). Body frame: (forward, right, down). Positive rotation about an axis is given by curling the right-hand fingers. Propellers rotation: 1: CCW (counter-clockwise) , 2: CCW, 3: CW, 4: CW.](quad_frame.png)
+![Reference systems. Inertial system: ENU (east, north, up). Body frame: (forward, left, up). Positive rotation about an axis is given by curling the right-hand fingers. Propellers rotation: 1: CCW (counter-clockwise) , 2: CCW, 3: CW, 4: CW.](quad_frame_enu_flu.png)
 
 Recall the convention for our examples:
 
 Body frame:
 - $x$ forward (between motors $1$ and $3$)
-- $y$ right
-- $z$ down
+- $y$ left
+- $z$ up
 
 Inertial frame ($ENU$):
 - $x$ east
@@ -216,7 +216,7 @@ T-A_z \cdot w
 \end{bmatrix}
 $$
 
-where $Ax, Ay, Az$ are the aerodynamic drags in the $x,y,z$ body directions, and $u,v,w$ are the velocities of the drone in the body frame $v_b=\begin{bmatrix}u&v&w\end{bmatrix}^T$, and $T$ is the total thrust generated by the rotors.  
+where $Ax, Ay, Az$ are the aerodynamic drags in the $x,y,z$ body directions, and $u,v,w$ are the velocities of the drone in the body frame $v_b=\begin{bmatrix}u&v&w\end{bmatrix}^T$, and $T$ is the total thrust generated by the rotors.
 
 The body-frame velocity $v_b$ is obtained by rotating the inertial velocity by the rotation matrix that used to transform the vector force:
 
@@ -229,7 +229,7 @@ where $\mathbf v_i$ is the vector of inertial velocities: $\mathbf v_i=\begin{bm
 
 The rotors produce the total thrust vector $T$, which generates translational force, and thrust moments, $\tau_x, \tau_y, \tau_z$, that generate rotational motion.
 
-The rotational dynamics consist of Euler-angle kinematics and Euler's rigid-body rotational equations.  
+The rotational dynamics consist of Euler-angle kinematics and Euler's rigid-body rotational equations.
 
 The Euler-angle kinematics:
 
@@ -310,33 +310,33 @@ L \cdot (-F_1 + F_2 + F_3 - F_4)
 $$
 
 $$
-\tau_y = L \cdot (F_1-F_2+F_3-F_4)
+\tau_y = L \cdot (-F_1+F_2-F_3+F_4)
 $$
 
 $$
-\tau_z = \frac{k_Q}{k_T} \cdot (F_1+F_2-F_3-F_4)
+\tau_z = \frac{k_Q}{k_T} \cdot (-F_1-F_2+F_3+F_4)
 $$
 
 Where:
-- $k_T$ is the thrust coefficient $[N/(rad/s)^2]$ 
+- $k_T$ is the thrust coefficient $[N/(rad/s)^2]$
 - $k_Q$ is the torque coefficient $[N \cdot m/(rad/s)^2]$
-- $L$ is the distance of the rotor from the center of mass 
+- $L$ is the distance of the rotor from the center of mass
 
 
 The thrust and torque mappings assume the following $X$-configuration:
 
 - $\Omega_1: \qquad \text{CCW}$ (+) front
-- $\Omega_2: \qquad \text{CCW}$ (+) rear  
-- $\Omega_3: \qquad \text{CW}$  (-) left  
+- $\Omega_2: \qquad \text{CCW}$ (+) rear
+- $\Omega_3: \qquad \text{CW}$  (-) left
 - $\Omega_4: \qquad \text{CW}$  (-) right
 
-Torque mapping:  
-- roll $(\varphi): \qquad L \cdot (-F_1 + F_2 + F_3 - F_4)$  
-- pitch $(\theta): \qquad L \cdot (F_1 - F_2 + F_3 - F_4)$  
-- yaw $(\psi): \qquad \frac{k_Q}{k_T} \cdot (F_1 + F_2 - F_3 - F_4)$  
+Torque mapping:
+- roll $(\varphi): \qquad L \cdot (-F_1 + F_2 + F_3 - F_4)$
+- pitch $(\theta): \qquad L \cdot (F_1 - F_2 + F_3 - F_4)$
+- yaw $(\psi): \qquad \frac{k_Q}{k_T} \cdot (F_1 + F_2 - F_3 - F_4)$
 
 
-The simulation and the $EKF$ use the same non-linear process model.  
+The simulation and the $EKF$ use the same non-linear process model.
 The difference is that the simulator propagates the true state, whereas the $EKF$ predicts the state from the previous estimate and corrects it using only noisy measurements from the $GPS$, $IMU$, and magnetometer.
 
 Because the process model is non-linear, it cannot be represented by a single constant state-transition matrix.
@@ -351,33 +351,33 @@ introduce the sensor models used in this example.
 
 ## 4. Sensors - The Measurements
 
-Unlike the simulator, which has access to the true state, the $EKF$ receives information only through noisy sensor measurements. 
+Unlike the simulator, which has access to the true state, the $EKF$ receives information only through noisy sensor measurements.
 This example models three onboard sensors  $GPS$, $IMU$ (gyroscope + accelerometer), and a magnetometer implemented in [c4dynamics.sensors.navigation](https://github.com/c4dynamics/c4dynamics/blob/main/c4dynamics/sensors/navigation.py).
 
-Each sensor maps the **true** state to a noisy, biased measurement, the only path by which truth reaches the estimator and is described below by four things: 
-the physical quantity it measures, 
-its error model, 
-its measurement equation $h(\mathbf x)$, 
-and how it enters the $EKF$'s *update* stage. 
+Each sensor maps the **true** state to a noisy, biased measurement, the only path by which truth reaches the estimator and is described below by four things:
+the physical quantity it measures,
+its error model,
+its measurement equation $h(\mathbf x)$,
+and how it enters the $EKF$'s *update* stage.
 
-Section $5.2$ covers the update mechanics shared by every sensor innovation, gating, gain once; 
+Section $5.2$ covers the update mechanics shared by every sensor innovation, gating, gain once;
 here we note only what's sensor-specific.
 
 The appendix demonstrates each sensor's actual simulated measurement against its true state, visually.
 
 ### 4.1. $GPS$
 
-**Measures**  
+**Measures**
 Inertial position $x,y,z$.
 
-**Error model**  
+**Error model**
 White noise, $\sigma_{gps}=0.5\,m\,(1\sigma)$ per axis, plus
-an optional constant bias (off by default). 
+an optional constant bias (off by default).
 
-**Sample rate**  
+**Sample rate**
 $10\,Hz$.
 
-**Measurement equation**  
+**Measurement equation**
 $GPS$ reads out three of the twelve states directly:
 
 $$
@@ -390,26 +390,26 @@ H_{gps} =
 \end{bmatrix}
 $$
 
-The equation is linear and therefore can be used to calculate the Kalman gain $K$ and correct the state estimation $\mathbf x$ at the update stage. 
+The equation is linear and therefore can be used to calculate the Kalman gain $K$ and correct the state estimation $\mathbf x$ at the update stage.
 
-**Correction**  
-In the correction (update) stage, the $GPS$ innovation is $3$-dimensional and is gated at the $\chi^2_3$ 99.9% threshold. That is, the filter rejects the measurement if its $NIS$, a normalized measure of the discrepancy between the measurement and its prediction, is larger than this threshold.  
+**Correction**
+In the correction (update) stage, the $GPS$ innovation is $3$-dimensional and is gated at the $\chi^2_3$ 99.9% threshold. That is, the filter rejects the measurement if its $NIS$, a normalized measure of the discrepancy between the measurement and its prediction, is larger than this threshold.
 $GPS$ has an adaptive $R$: its assumed noise, $R_{gps}=\operatorname{diag}(0.5^2,0.5^2,0.5^2)$, is inflated online (Mehra-style) whenever recent innovations run larger than expected, e.g. during a $GPS$-quality dip, so the filter automatically trusts it less rather than being pulled off course.
 
 ### 4.2. $IMU$ - Gyroscope
 
-**Measures**  
+**Measures**
 Body rates $p,q,r$ (a rate gyro).
 
-**Error model**  
+**Error model**
 White noise, $\sigma_{gyro}=0.01\,rad/s$ per axis, plus an
-optional constant bias. 
+optional constant bias.
 
-**Sample rate**  
-$200\,Hz$.  
+**Sample rate**
+$200\,Hz$.
 Section $9$ explores what happens at other rates.
 
-**Measurement equation**  
+**Measurement equation**
 Another direct read-out, this time of the
 last three states:
 
@@ -419,37 +419,37 @@ H_{gyro} =
 \begin{bmatrix}
   0 & \cdots & 0 & 1 & 0 & 0 \\
   0 & \cdots & 0 & 0 & 1 & 0 \\
-  0 & \cdots & 0 & 0 & 0 & 1  
+  0 & \cdots & 0 & 0 & 0 & 1
 \end{bmatrix}
 $$
-Here too the equation is linear and can be used to calculate the Kalman gain $K$ and correct the state estimation $\mathbf x$. 
+Here too the equation is linear and can be used to calculate the Kalman gain $K$ and correct the state estimation $\mathbf x$.
 
-**Correction**  
-A $3$-dimensional innovation, gated at the $\chi^2_3$ threshold.  
+**Correction**
+A $3$-dimensional innovation, gated at the $\chi^2_3$ threshold.
 $R_{gyro}=\operatorname{diag}(0.015^2,0.015^2,0.015^2)$ is set a little above the raw
 noise variance ($0.01^2$) as a margin, since the gyro's own bias isn't
 estimated in this example.
 
 ### 4.3. $IMU$ - Accelerometer
 
-**Measures**  
-Specific force in the body frame. The accelerometer senses the gravity and the vehicle's own coordinate acceleration combined.  
+**Measures**
+Specific force in the body frame. The accelerometer senses the gravity and the vehicle's own coordinate acceleration combined.
 The measurement model in this example doesn't use the $z$ component of the accelerometer. Since the model can observe the attitude tilt signal from its projection on the $x,y$ plane, and the filter already has knowledge of the $z$ specific force by the commanded rotor speeds, $a_z$ adds little new information over what predict already encodes.
 
-**Error model**  
+**Error model**
 White noise, $\sigma_{acc}=0.05\,m/s^2$ per axis, plus an
 optional constant bias.
 
-**Measurement equation**  
+**Measurement equation**
 $h(\mathbf x)$ predicts the body-frame specific force through the derivatives of the state velocities and the body angles incorporated in the rotation matrix:
 
 $$
 h(\mathbf x) = \left( \left[BI\right] \cdot \left( \mathbf a_{\text{inertial}} + \begin{bmatrix}0&0&g\end{bmatrix}^T \right) \right)_{x,y}
 $$
 
-Where $\mathbf a_{\text{inertial}} = \dot{\mathbf v}$ is the inertial acceleration used to propagate the equations of motion at the process stage (see Section $4$, and note $\dot{\mathbf v}$ there already includes $g$ in the negative direction, 
-hence adding it back makes $\left[BI\right]$ act on pure specific force).  
-$\left[BI\right]$ is the same body-from-inertial rotation used throughout Section $3$.  
+Where $\mathbf a_{\text{inertial}} = \dot{\mathbf v}$ is the inertial acceleration used to propagate the equations of motion at the process stage (see Section $4$, and note $\dot{\mathbf v}$ there already includes $g$ in the negative direction,
+hence adding it back makes $\left[BI\right]$ act on pure specific force).
+$\left[BI\right]$ is the same body-from-inertial rotation used throughout Section $3$.
 
 
 The accelerometer model is highly non-linear. It can be used directly to compute the innovation and correct the state estimate. However, computing the Kalman gain requires a local linearization of the measurement model:
@@ -458,33 +458,33 @@ $$
 H_{acc}=\partial h/\partial x
 $$
 
-Because the $DCM$-coupled measurement model makes the analytical Jacobian cumbersome, the derivatives are computed numerically. 
+Because the $DCM$-coupled measurement model makes the analytical Jacobian cumbersome, the derivatives are computed numerically.
 
 
-**Sample rate**  
-$200\,Hz$.  
+**Sample rate**
+$200\,Hz$.
 Section $9$ explores what happens at other rates.
 
-**Update**  
-A $2$-dimensional innovation, gated at the $\chi^2_2$ threshold.  
+**Update**
+A $2$-dimensional innovation, gated at the $\chi^2_2$ threshold.
 $R_{acc}=\operatorname{diag}(0.10^2,0.10^2)$ approximately $4$ times the raw noise variance ($0.05^2$), a margin for the residual model error that remains even with the full specific-force model (Euler discretization, the truth's own finite-difference approximation of its own acceleration, etc.).
 
 ### 4.4. Magnetometer
 
-**Measures**  
+**Measures**
 The local geomagnetic field vector expressed in the body frame, $\mathbf m_b \in \mathbb R^3$. This is a full 3-axis magnetometer: it does **not** hand the filter a heading, it hands it three field components, and the heading falls out of the update through the attitude that appears in $h(\mathbf x)$.
 
-**Error model**  
+**Error model**
 White noise, $\sigma_{mag}=0.02$ per axis (normalized-field units, reference total intensity $F=1$), plus optional hard-iron (a constant 3-vector offset) and soft-iron (a $3\times3$ mixing matrix) distortion — both off by default.
 
-**Sample rate**  
+**Sample rate**
 $50\,Hz$.
 
-**Measurement equation**  
+**Measurement equation**
 The reference field is fixed in the navigation frame by its total intensity $F$, inclination $I$ and declination $D$ (here $F=1$, $I=60^\circ$, $D=0$):
 
 $$
-\mathbf m_{ref} = F\,[\cos I \cdot \cos D,\ \cos I \cdot \sin D,\ \sin I]^\top
+\mathbf m_{ref} = F\,[\cos I \cdot \sin D,\ \cos I \cdot \cos D,\ -\sin I]^\top
 $$
 
 and the measurement is that vector rotated into the body frame by the attitude:
@@ -495,12 +495,12 @@ $$
 
 — the same body-from-inertial rotation used for the accelerometer and throughout Section $3$. Like the accelerometer, this is non-linear in the attitude, so $H_{mag}=\partial h/\partial\mathbf x$ (a $3\times12$ matrix, non-zero only in the $\varphi,\theta,\psi$ columns) is computed numerically.
 
-**Update**  
+**Update**
 A $3$-dimensional innovation, gated at the $\chi^2_3$ 95% threshold.
 $R_{mag}=\operatorname{diag}(0.025^2,0.025^2,0.025^2)$, just above the injected per-axis noise variance ($0.02^2$).
 Because the residual $\mathbf z-h(\hat{\mathbf x})$ lives in field space rather than angle space, the old yaw-wrapping wrinkle disappears: a yaw estimate near $\pm\pi$ is corrected the short way round automatically.
 
-### 4.5. Summary 
+### 4.5. Summary
 
 | Sensor | Measures | Rate ($Hz$) | $1\sigma$ |
 |---|---|---|---|
@@ -584,24 +584,24 @@ All of this is encapsulated in `ekf.ekf_quad`; the controllers and the loop neve
 
 ## 6. C4DYNAMICS
 
-Sections $3-5$ defined the estimator on paper; [c4dynamics](https://c4dynamics.github.io/c4dynamics/index.html) supplies the machinery to run it.   
+Sections $3-5$ defined the estimator on paper; [c4dynamics](https://c4dynamics.github.io/c4dynamics/index.html) supplies the machinery to run it.
 
 The truth
 vehicle is a [rigidbody](https://c4dynamics.github.io/c4dynamics/api/states.lib.rigidbody.html) and the estimate is an [ekf](https://c4dynamics.github.io/c4dynamics/api/filters.ekf.html) - both [state](https://c4dynamics.github.io/c4dynamics/concepts/states.html) objects, so they
-share the 12-state layout, expose named components (e.g. `est.phi`), and record themselves via `store`/`data`.  
+share the 12-state layout, expose named components (e.g. `est.phi`), and record themselves via `store`/`data`.
 
-The framework's `ekf.predict`/`ekf.update` own the Kalman algebra (2nd-order propagation, $\chi^2$ gate, gain, covariance step); 
-`ekf_quad` only adds the problem-specific pieces - the shared `quad_pid.dynamics` as process model $f$, the per-sensor $h$/$H$, and the adaptive $Q$/$R$ tweaks. 
-The `sensors.navigation` GPS/IMU/magnetometer follow the `.measure(truth)` pattern. 
-Because the estimate is a `state` object like the truth, the Cascade-$PID$ controllers read it with no adapter - closing the loop on the estimate is just passing `est` instead of the truth object.  
+The framework's `ekf.predict`/`ekf.update` own the Kalman algebra (2nd-order propagation, $\chi^2$ gate, gain, covariance step);
+`ekf_quad` only adds the problem-specific pieces - the shared `quad_pid.dynamics` as process model $f$, the per-sensor $h$/$H$, and the adaptive $Q$/$R$ tweaks.
+The `sensors.navigation` GPS/IMU/magnetometer follow the `.measure(truth)` pattern.
+Because the estimate is a `state` object like the truth, the Cascade-$PID$ controllers read it with no adapter - closing the loop on the estimate is just passing `est` instead of the truth object.
 
-Section $7$ wires this together through one call, `quad_ekf.run_fig8_ekf(config, ekf_cfg)`: 
+Section $7$ wires this together through one call, `quad_ekf.run_fig8_ekf(config, ekf_cfg)`:
 one time loop, two `state` objects, coupled only through the sensors and the controller.
 
 ## 7. Simulation
 
-The estimation configuration block — process noise $Q$, measurement noise $R$, initial covariance $P_0$, the initial-estimate offset, the injected sensor noise, and the sensor rates — is provided as data, the estimation analogue of the controller-gain block. 
-Start from the reference block and tune as needed.  
+The estimation configuration block — process noise $Q$, measurement noise $R$, initial covariance $P_0$, the initial-estimate offset, the injected sensor noise, and the sensor rates — is provided as data, the estimation analogue of the controller-gain block.
+Start from the reference block and tune as needed.
 
 The config lives in `ekf_config.py`. It's rewritten here for convenience, for anyone who wants to experiment with or edit the params — values are $1$-sigma, squared into the variances above, so they read directly against the sensor $\sigma$'s in Section $4$'s table.
 
@@ -660,9 +660,9 @@ ekf_cfg = {
 ```
 
 
-The configuration for the quadcopter model and the $PID$ controllers is loaded from the configuration files.  
-The configuration parameters are displayed in edit mode in the Cascade PID example, where they can be copied and pasted here for editing. Alternatively, they can be copied directly from the configuration files ([quadcopter model](https://raw.githubusercontent.com/c4dynamics/c4dynamics/refs/heads/main/c4dynamics/models/quad.py), [cascade PID](https://raw.githubusercontent.com/c4dynamics/c4dynamics/refs/heads/main/c4dynamics/controllers/cascade_pid_config.py)).  
-All paramters are used as provided, except for two: $K_{p_z}, K_{i_z}$ the proprotional and integral gains of the $z$ coordinate in the outer (position) loop. These were reduced from $10$ to $8$ to produce a softer response to the noisier actual estimated signal. 
+The configuration for the quadcopter model and the $PID$ controllers is loaded from the configuration files.
+The configuration parameters are displayed in edit mode in the Cascade PID example, where they can be copied and pasted here for editing. Alternatively, they can be copied directly from the configuration files ([quadcopter model](https://raw.githubusercontent.com/c4dynamics/c4dynamics/refs/heads/main/c4dynamics/models/quad.py), [cascade PID](https://raw.githubusercontent.com/c4dynamics/c4dynamics/refs/heads/main/c4dynamics/controllers/cascade_pid_config.py)).
+All paramters are used as provided, except for two: $K_{p_z}, K_{i_z}$ the proprotional and integral gains of the $z$ coordinate in the outer (position) loop. These were reduced from $10$ to $8$ to produce a softer response to the noisier actual estimated signal.
 
 ```python
 
@@ -785,7 +785,7 @@ quad_ekf.plot_estimation(truth, est, diag, states=('phi', 'theta', 'psi'), show_
 ```
 
 
-Roll/pitch are observed by the accelerometer at $200 Hz$ and stay within a couple of degrees.  
+Roll/pitch are observed by the accelerometer at $200 Hz$ and stay within a couple of degrees.
 Yaw relies on the $50 Hz$ magnetometer.
 
 {{< pagebreak >}}
@@ -835,7 +835,7 @@ quad_ekf.plot_nees(diag);
 ```
 
 
-NEES is *ideally* around $n=12$; 
+NEES is *ideally* around $n=12$;
 with the accelerometer's dynamic term now properly modeled (rather than absorbed as noise), don't be surprised to see it run somewhat below $12$ - that means the filter is a little conservative (it reports more uncertainty than it turns out to need), which is a safer direction to be in than the reverse.
 
 - **Metrics**
@@ -856,8 +856,8 @@ metrics = quad_ekf.compute_metrics(truth, est, diag)
 
 - **Control performance**
 
-The estimator numbers above are the filter's own report card.  
-But the controller never sees truth — it acts on that noisy estimate, so the figure-8 it actually flies is looser than the truth-fed run. 
+The estimator numbers above are the filter's own report card.
+But the controller never sees truth — it acts on that noisy estimate, so the figure-8 it actually flies is looser than the truth-fed run.
 Feeding the **true** trajectory back into `quad_pid.compute_metrics` scores that directly, against the same reference and the same figure-8 window as the parent notebook:
 
 ```python
@@ -883,13 +883,13 @@ print('=' * 50)
 ```
 
 
-Compare with the loop closed on truth state samples: 
+Compare with the loop closed on truth state samples:
 
 ![cascade-PID (truth-fed) tracking performance](https://raw.githubusercontent.com/c4dynamics/c4dynamics/main/docs/source/programs/ekf_estimation/quad_ekf_truth_tracking.png)
 
-Fed perfect state, the Cascade-PID example scored roughly $5\%$ / $19\%$ / $0.1\%$ RMSE on $x$ / $y$ / $z$. Closing the same loop on the $EKF$ estimate:
+Fed perfect state, the Cascade-PID example scored roughly $5\%$ / $9\%$ / $0.1\%$ RMSE on $x$ / $y$ / $z$. Closing the same loop on the $EKF$ estimate:
 
-- **Horizontal** ($x, y$) barely moves — still $\approx 5\%$ / $19\%$ normalized RMSE. $GPS$ pins the absolute position at $10\,Hz$ and the estimate stays tight enough that the outer loop hardly notices it isn't truth.
+- **Horizontal** ($x, y$) barely moves — still $\approx 5\%$ / $10\%$ normalized RMSE. $GPS$ pins the absolute position at $10\,Hz$ and the estimate stays tight enough that the outer loop hardly notices it isn't truth.
 - **Altitude** ($z$) is where estimation costs something real: RMSE grows from millimetres to $\approx 0.36\,m$ and the worst-case excursion from a few centimetres to $\approx 1.4\,m$. Unlike roll/pitch and horizontal velocity, the $z$ channel gets no accelerometer aiding — height rides on $10\,Hz$ $GPS$ alone (there is no barometer) — and the softened $K_{p_z}, K_{i_z}$ (Section $7$) further trade altitude stiffness for calm against that noise. This is the main price of output-feedback control in this example.
 
 ## 9. GPS Dropout Experiment
@@ -942,30 +942,30 @@ fig = quad_ekf.plot_gps_dropout(dropout_sweep)
 ```
 
 
-**The reliable result** is the left panel: 
-with $GPS$ gone, the position estimate slowly walks away from the truth and keeps walking until $GPS$ returns.  
+**The reliable result** is the left panel:
+with $GPS$ gone, the position estimate slowly walks away from the truth and keeps walking until $GPS$ returns.
 Take away the only sensor that measures absolute position and the estimate drifts — plainly and measurably, in a way the always-aided run in Section $8$ never shows.
 
-**Turning the IMU rate up did not slow that drift** — and that is what the Section $2$ comparison predicts. 
+**Turning the IMU rate up did not slow that drift** — and that is what the Section $2$ comparison predicts.
 There are two ways a filter can use an $IMU$:
 
-- *Strapdown* (what most aerospace systems do): the $IMU$ **is** the prediction. 
-The estimate is carried forward in time by integrating the accelerometer and gyro directly, so sampling them twice as often means integrating on a finer grid and the dead-reckoned path is genuinely more accurate. 
+- *Strapdown* (what most aerospace systems do): the $IMU$ **is** the prediction.
+The estimate is carried forward in time by integrating the accelerometer and gyro directly, so sampling them twice as often means integrating on a finer grid and the dead-reckoned path is genuinely more accurate.
 Rate matters.
-- *Model-based filter*: the estimate here is carried forward by the physics model, driven by the known motor commands (Section $5.1$). 
-The $IMU$ is just one more correcting sensor, alongside $GPS$ and the magnetometer. 
-It nudges the prediction; 
+- *Model-based filter*: the estimate here is carried forward by the physics model, driven by the known motor commands (Section $5.1$).
+The $IMU$ is just one more correcting sensor, alongside $GPS$ and the magnetometer.
+It nudges the prediction;
 it never carries it.
 
-**Why the extra nudges barely register.** 
-A real $IMU$'s noise is a fixed amount *per second*, not per sample — take readings twice as fast and each one is about $\sqrt{2}$ noisier (see the noise-rescaling note above). 
-So doubling the rate hands the filter twice as many readings that are each noisier, and the two effects cancel: 
-two noisy half-looks tell you what one cleaner look would. 
+**Why the extra nudges barely register.**
+A real $IMU$'s noise is a fixed amount *per second*, not per sample — take readings twice as fast and each one is about $\sqrt{2}$ noisier (see the noise-rescaling note above).
+So doubling the rate hands the filter twice as many readings that are each noisier, and the two effects cancel:
+two noisy half-looks tell you what one cleaner look would.
 
 
 On top of that, because the physics prediction is already good, the filter leans on the $IMU$ only lightly to begin with (a small Kalman gain) — small corrections, applied more often, on noisier data, land right back where they started.
 
-So the flat sweep is the expected outcome. 
+So the flat sweep is the expected outcome.
 **IMU rate is a performance knob only when the IMU drives the prediction. Here it only aids it, so the rate does not move the needle**
 
 
@@ -975,7 +975,7 @@ The same figure-8 that the Cascade-$PID$ example flew on perfect state is now fl
 
 **Estimation.** $GPS$ at $10\,Hz$ bounds the absolute position while the dynamics model bridges the gaps between fixes: position tracks truth to $≈ 0.1\,m$ and horizontal velocity to a few $cm/s$ — with no velocity sensor at all. Roll and pitch, observed through the accelerometer's specific-force model at $200\,Hz$, hold to about half a degree; yaw, from the $50\,Hz$ 3-axis magnetometer, to $≈ 0.8°$. The filter runs conservative (mean $NEES ≈ 3$ against an ideal of $12$): it reports more uncertainty than it turns out to need, which is the safe direction to err.
 
-**Control on the estimate.** Feeding that estimate to the cascade controller in place of truth costs almost nothing horizontally — figure-8 tracking $RMSE$ stays around $≈ 5\%/19\%$ of amplitude. Altitude is the exception: with no barometer and no accelerometer aiding on the $z$ channel, the hold degrades from millimetres to $≈ 0.35\,m$ $RMSE$, and the $z$ gains had to be softened (Section $7$) to keep the loop calm against the noisier signal.
+**Control on the estimate.** Feeding that estimate to the cascade controller in place of truth costs almost nothing horizontally — figure-8 tracking $RMSE$ stays around $≈ 5\%/10\%$ of amplitude. Altitude is the exception: with no barometer and no accelerometer aiding on the $z$ channel, the hold degrades from millimetres to $≈ 0.35\,m$ $RMSE$, and the $z$ gains had to be softened (Section $7$) to keep the loop calm against the noisier signal.
 
 **IMU rate.** Because this filter uses the $IMU$ to *correct* a model-based prediction rather than to *drive* it, its update rate is not a performance knob — raising it does not help the estimate ride out a $GPS$ dropout (Section $9$). A strapdown $INS$, where the $IMU$ rate *is* the prediction rate, would answer differently.
 
@@ -991,7 +991,7 @@ The same figure-8 that the Cascade-$PID$ example flew on perfect state is now fl
 
 # Appendix: Sensor Model Demonstrations
 
-Section $4$ gave each sensor's error model and measurement equation on paper.  
+Section $4$ gave each sensor's error model and measurement equation on paper.
 This appendix runs the sensor objects on their own, outside the filter: each demo() drives its sensor with a known reference signal and plots the noisy, biased output against that ground truth — so the raw measurement behaviour the $EKF$'s update stage has to cope with is visible in isolation, before it's buried inside the closed loop.
 
 ```python
@@ -1025,7 +1025,7 @@ gps.demo();
 ```
 
 
-## Magnetometer 
+## Magnetometer
 
 ```python
 

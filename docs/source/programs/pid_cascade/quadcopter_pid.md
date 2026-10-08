@@ -1,6 +1,6 @@
 - [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/c4dynamics/c4dynamics/blob/main/docs/source/programs/pid_cascade/quadcopter_pid.ipynb) ← Click to open in Google Colab
-- To download this notebook, click the download icon in the toolbar above and select the .ipynb format.  
-- For any questions or comments, please open an issue on the [c4dynamics issues page](https://github.com/c4dynamics/c4dynamics/issues).  
+- To download this notebook, click the download icon in the toolbar above and select the .ipynb format.
+- For any questions or comments, please open an issue on the [c4dynamics issues page](https://github.com/c4dynamics/c4dynamics/issues).
 
 # Quadcopter Cascade *PID* — Figure-8 Trajectory Tracking
 
@@ -27,8 +27,8 @@ Understand the following example and adjust it to simulate your drone parameters
 
 ## Notebook Overview
 
-1. Quadcopter initialization  
-2. Figure-8 dimensions setting  
+1. Quadcopter initialization
+2. Figure-8 dimensions setting
 3. Cascade *PID* overview and architecture
 4. Simulation
 5. Results
@@ -37,8 +37,8 @@ Understand the following example and adjust it to simulate your drone parameters
 - After running the example, change the quadcopter and the *figure-8* configurations to support your own system.
 
 
-**To keep the notebook focused on tuning and results, the implementation details live in** [c4dynamics.controllers.quad_pid](https://github.com/c4dynamics/c4dynamics/blob/main/c4dynamics/controllers/quad_pid.py).  
-Please refer to this module for the implementations of the quadcopter dynamics, the cascade $PID$'s, the mixer (control allocator), and the reference trajectories. 
+**To keep the notebook focused on tuning and results, the implementation details live in** [c4dynamics.controllers.quad_pid](https://github.com/c4dynamics/c4dynamics/blob/main/c4dynamics/controllers/quad_pid.py).
+Please refer to this module for the implementations of the quadcopter dynamics, the cascade $PID$'s, the mixer (control allocator), and the reference trajectories.
 
 ## 1. Setup
 
@@ -97,28 +97,28 @@ Where:
 
 In this example, we assume ideal measurements (i.e., zero noise) and focus mainly on the PID logic. In practical applications, various sensors (e.g., IMU, GPS, camera) and/or a Kalman filter would be used to measure or estimate the position and attitude of the vehicle.
 
---- 
+---
 
 The quadcopter starts on the ground stationary level. A `quad` [object](https://c4dynamics.github.io/c4dynamics/api/states.lib.rigidbody.html) initializes the state, stores every sample during the simulation, and provides history retrieval for plotting and metrics via `quad.data()`.
 
 
 
-### Reference Frame 
+### Reference Frame
 
-In this work we adopt the *FRD* (front-right-down) for the body referece frame and *ENU* (east-north-up) for the inertial frame (see figure 1).  
-In this body frame convention, the thurst acts along the negative body z-axis ($-z_b$).  
-Positive rates about an axis is given by curling the right-hand fingers.  
-Propellers rotation:   
-Rotor 1: *CCW* (counter-clockwise)  
-Rotor 2: *CCW*  
-Rotor 3: *CW*  
-Rotor 4: *CW*  
+In this work we adopt the *FLU* (front-left-up) for the body referece frame and *ENU* (east-north-up) for the inertial frame (see figure 1).
+In this body frame convention, the thrust acts along the positive body z-axis ($+z_b$).
+Positive rates about an axis is given by curling the right-hand fingers.
+Propellers rotation:
+Rotor 1: *CCW* (counter-clockwise)
+Rotor 2: *CCW*
+Rotor 3: *CW*
+Rotor 4: *CW*
 Yaw torque arises from the reaction torques of the rotors, with clockwise propeller causes a counter-clockwise moment on the quadcopter.
 
 
 <div style="text-align: center;">
-  <img src="quad_frame.png" alt="alt text">
-  <figcaption> Figure 1: Reference systems. Inertial system: ENU (east, north, up). Body frame: (forward, right, down). Positive rotation about an axis is given by curling the right-hand fingers. Propellers rotation: 1: CCW (counter-clockwise) , 2: CCW, 3: CW, 4: CW. 
+  <img src="quad_frame_enu_flu.png" alt="alt text">
+  <figcaption> Figure 1: Reference systems. Inertial system: ENU (east, north, up). Body frame: (forward, left, up). Positive rotation about an axis is given by curling the right-hand fingers. Propellers rotation: 1: CCW (counter-clockwise) , 2: CCW, 3: CW, 4: CW.
    </figcaption>
 </div>
 
@@ -139,7 +139,7 @@ Where:
 - $\mathbf{F}_{gravity}$: gravitational force acting downward on the quadcopter [N]
 
 
-The thrust $T$ acts along $-Z_b$ and is projected to the inertial frame via the $ZYX$ rotation matrix.
+The thrust $T$ acts along $+Z_b$ and is projected to the inertial frame via the $ZYX$ rotation matrix.
 
 **Rotational dynamics** (Euler's equations in body frame):
 
@@ -152,7 +152,7 @@ Where:
 - $\boldsymbol{\omega} \times \mathbf{I}\boldsymbol{\omega}$: gyroscopic (Coriolis) term arising from the rotating body frame — couples the three rotation axes
 - $\boldsymbol{\tau} = [\tau_x,\ \tau_y,\ \tau_z]^T$: torque vector produced by differential rotor thrust [N·m]. A gyroscopic coupling term from rotor angular momentum is also included.
 
-The `dynamics(t, y, quad, rotor_speeds)` function computes the 12 state derivatives.  
+The `dynamics(t, y, quad, rotor_speeds)` function computes the 12 state derivatives.
 Integration is carried out by using scipy's `solve_ivp`.
 
 For the full theoretical background on rigid-body kinematics and the state representation used by c4dynamics, see the [c4dynamics kinematics page](https://c4dynamics.github.io/c4dynamics/concepts/kinematics.html).
@@ -312,18 +312,18 @@ Where:
 - $T$: total desired thrust [N]
 - $\tau_x, \tau_y, \tau_z$: desired roll, pitch, and yaw torques [N·m]
 
-The normalized (geometric factors are handled separately) mixer matrix $\mathbf{\Gamma}^{-1}$ for an x configuration with prepellents 1, 2 *CCW* and 3, 4 *CW* is given by: 
+The normalized (geometric factors are handled separately) mixer matrix $\mathbf{\Gamma}^{-1}$ for an x configuration with prepellents 1, 2 *CCW* and 3, 4 *CW* is given by:
 
 $$
-\begin{bmatrix} 
-1 & -1 &  \ \ \ 1 & \ \ \  1 \\ 
-1 & \ \ \ 1 & -1 &  \ \ \ 1 \\ 
-1 & \ \ \ 1 & \ \ \ 1 & -1 \\ 
-1 & -1 & -1 & -1 
+\begin{bmatrix}
+1 & -1 & -1 & -1 \\
+1 & \ \ \ 1 & \ \ \ 1 & -1 \\
+1 & \ \ \ 1 & -1 &  \ \ \ 1 \\
+1 & -1 &  \ \ \ 1 & \ \ \  1
 \end{bmatrix}
 $$
 
-This matrix is the inverse of the force–torque mapping derived from rotor positions and spin directions.  
+This matrix is the inverse of the force–torque mapping derived from rotor positions and spin directions.
 Each row corresponds to one motor, and each column represents the contribution of thrust, roll, pitch, and yaw.
 
 The method `allocate` of `ControlAllocator` clamps $\Omega_i^2 \geq 0$ (rotors cannot pull) and $\Omega_i \leq \Omega_{max}$ before taking the square root.
@@ -380,9 +380,9 @@ At each timestep the three cascade loops fire at their respective rates:
 - the middle attitude loop every $2$ steps ($100 Hz$)
 - the inner rate loop every step ($200 Hz$).
 
-`quad.store(t)` logs the full state vector.  
-`quad.storeparams(...)` logs the control inputs.  
-After the loop, all histories are available via `quad.data()`.  
+`quad.store(t)` logs the full state vector.
+`quad.storeparams(...)` logs the control inputs.
+After the loop, all histories are available via `quad.data()`.
 
 
 ### Config
@@ -454,7 +454,7 @@ plot_results(quad, config['trajectory'])
 
 ### Tracking Metrics
 
-`compute_metrics()` computes *RMSE* for $x, y, z$ tracking over the *figure-8* phase only.  
+`compute_metrics()` computes *RMSE* for $x, y, z$ tracking over the *figure-8* phase only.
 Normalized *RMSE* expresses tracking error as a percentage of trajectory amplitude.
 
 | Normalized *RMSE* | Interpretation |
