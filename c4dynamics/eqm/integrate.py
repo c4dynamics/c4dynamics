@@ -4,10 +4,10 @@ from typing import Tuple, Union
 import numpy as np
 from numpy.typing import NDArray
 
-from c4dynamics import datapoint, rigidbody
+from c4dynamics import datapoint, rigidbody, quatbody
 
 # sys.path.append(".")
-from c4dynamics.eqm.derivs import eqm3, eqm6
+from c4dynamics.eqm.derivs import eqm3, eqm6, _derivs6q
 
 
 def int3(
@@ -339,6 +339,154 @@ def int6(
     #                0   1   2   3    4    5    6     7       8     9   10  11
     # h4 = np.array([dx, dy, dz, dvx, dvy, dvz, dphi, dtheta, dpsi, dp, dq, dr])
     return X, np.concatenate([h4[3:6], h4[9:12]])  # X, [dvx, dvy, dvz, dp, dq, dr]
+
+    ##
+
+
+def int6q(
+    qb: "quatbody",
+    forces: Union[np.ndarray, list],
+    moments: Union[np.ndarray, list],
+    dt: float,
+    derivs_out: bool = False,
+) -> Union[NDArray[np.float64], Tuple[NDArray[np.float64], NDArray[np.float64]]]:
+    """
+    A step integration of the equations of motion, quaternion attitude.
+
+    This method makes a numerical integration using the
+    fourth-order Runge-Kutta method.
+
+    The integrated derivatives are of six dimensional motion
+    with quaternion attitude kinematics as given by
+    :func:`eqm6q <c4dynamics.eqm.derivs.eqm6q>`.
+
+    The result is an integrated state in a single interval of time where the
+    size of the step is determined by the parameter `dt`.
+    At the end of the step, the quaternion is normalized
+    to a unit quaternion to prevent numerical drift.
+
+
+    Parameters
+    ----------
+    qb : :class:`quatbody <c4dynamics.states.lib.quatbody.quatbody>`
+        The quatbody which state vector is to be integrated.
+    forces : numpy.array or list
+        An external forces array acting on the body.
+    moments : numpy.array or list
+        An external moments array acting on the body.
+    dt : float
+        Time step for integration.
+    derivs_out : bool, optional
+        If true, returns the translational and angular accelerations
+        of the last step.
+
+
+    Returns
+    -------
+    X : numpy.float64
+        An integrated state.
+    dxdt4 : numpy.float64, optional
+        The translational and angular accelerations
+        :math:`[dv_x, dv_y, dv_z, dp, dq, dr]` of the last step.
+        Returned if `derivs_out` is set to `True`.
+
+
+    **Algorithm**
+
+
+    The integration steps follow the Runge-Kutta method:
+
+    1. Compute k1 = f(ti, yi)
+
+    2. Compute k2 = f(ti + dt / 2, yi + dt * k1 / 2)
+
+    3. Compute k3 = f(ti + dt / 2, yi + dt * k2 / 2)
+
+    4. Compute k4 = f(ti + dt, yi + dt * k3)
+
+    5. Update yi = yi + dt / 6 * (k1 + 2 * k2 + 2 * k3 + k4)
+
+    6. Normalize the quaternion.
+
+
+    Examples
+    --------
+
+    The equations of motion of a
+    cylinderical body are integrated by using
+    :func:`int6q <c4dynamics.eqm.integrate.int6q>`.
+
+
+    Import required packages
+
+    .. code::
+
+      >>> import c4dynamics as c4d
+      >>> import numpy as np
+
+
+    Settings and initial conditions
+
+    .. code::
+
+      >>> dt = 0.5e-3
+      >>> t  = np.arange(0, 10, dt)
+      >>> theta0 =  80 * c4d.d2r       # deg
+      >>> Iyy    =  .4                 # kg * m^2
+      >>> length =  1                  # meter
+      >>> mass   =  0.5                # kg
+
+
+    Define the cylinderical-quatbody object
+
+    .. code::
+
+      >>> qb = c4d.quatbody(theta = theta0)
+      >>> qb.I = [0, Iyy, 0]
+      >>> qb.mass = mass
+
+
+    Main loop:
+
+    .. code::
+
+      >>> for ti in t:
+      ...   qb.store(ti)
+      ...   tau_g = -qb.mass * c4d.g_ms2 * length / 2 * c4d.cos(qb.theta)
+      ...   qb.X = c4d.eqm.int6q(qb, np.zeros(3), [0, tau_g, 0], dt)
+
+
+    .. code::
+
+      >>> qb.plot('theta')
+
+    .. figure:: /_examples/eqm/int6q.png
+
+    """
+
+    # x, y, z, vx, vy, vz, qw, qx, qy, qz, p, q, r
+    x0 = qb.X
+    mass, inertia = qb.mass, qb.I
+
+    # step 1
+    h1 = _derivs6q(x0, mass, inertia, forces, moments)
+    # step 2
+    h2 = _derivs6q(x0 + dt / 2 * h1, mass, inertia, forces, moments)
+    # step 3
+    h3 = _derivs6q(x0 + dt / 2 * h2, mass, inertia, forces, moments)
+    # step 4
+    h4 = _derivs6q(x0 + dt * h3, mass, inertia, forces, moments)
+
+    X = x0 + dt / 6 * (h1 + 2 * h2 + 2 * h3 + h4)
+    X[6:10] /= np.linalg.norm(X[6:10])
+
+    if not derivs_out:
+        return X
+
+    # return also the derivatives.
+    #                0   1   2   3    4    5    6    7    8    9    10  11  12
+    # h4 = np.array([dx, dy, dz, dvx, dvy, dvz, dqw, dqx, dqy, dqz, dp, dq, dr])
+    return X, np.concatenate([h4[3:6], h4[10:13]])  # X, [dvx, dvy, dvz, dp, dq, dr]
 
     ##
 

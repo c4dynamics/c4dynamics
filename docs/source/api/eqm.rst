@@ -17,8 +17,10 @@ Equations of Motion Solvers
 
     derivs.eqm3
     derivs.eqm6 
+    derivs.eqm6q
     integrate.int3 
     integrate.int6 
+    integrate.int6q
 
 
    
