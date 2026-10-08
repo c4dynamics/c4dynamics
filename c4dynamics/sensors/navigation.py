@@ -43,7 +43,9 @@ See Also
 """
 
 import sys
+
 import numpy as np
+
 import c4dynamics as c4d
 
 
