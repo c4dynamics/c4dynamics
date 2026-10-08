@@ -1943,7 +1943,7 @@ class ArduCopter:
         self.attitude_control = AC_AttitudeControl_Multi(P, self.ahrs, self.motors, self.dt)
         self.pos_control = AC_PosControl(P, self.ahrs, self.motors, self.attitude_control, self.dt)
 
-        self.mode = 'STABILIZE'
+        self.mode = 'STABILIZE' # boot mode
         self.armed = False
         self.land_complete = True
         self._land_detector_count = 0
