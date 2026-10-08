@@ -187,3 +187,6 @@ upload_corpus.ps1
 test_chatbot.py
 .gitignore
 generate_api_reference.py
+docs/source/programs/ardupilot_sim/architecture.pdn
+docs/source/programs/ardupilot_sim/Untitled.png
+.gitignore
