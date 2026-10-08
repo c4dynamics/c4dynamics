@@ -697,7 +697,12 @@ class imu(c4d.state):
         BI = c4d.rotmat.dcm321(phi, theta, psi)
 
         # gravity in the inertial frame: down is +z in NED, -z in ENU
-        g_inertial = np.array([0.0, 0.0, self.g if self.frame == 'NED' else -self.g])
+        if self.frame == 'NED':
+            g_inertial = np.array([0.0, 0.0, self.g])
+        elif self.frame == 'ENU':
+            g_inertial = np.array([0.0, 0.0, -self.g])
+        else:
+            raise ValueError(f"frame must be 'NED' or 'ENU', got {self.frame!r}")
         dv_inertial = np.zeros(3)  # inertial acceleration vector
 
         if self._x_prev is not None:  # inertial term, needs a previous sample
@@ -1107,17 +1112,33 @@ class magnetometer:
         self.inclination = inclination
         self.declination = declination
 
-        cI, sI = np.cos(inclination), np.sin(inclination)
-        cD, sD = np.cos(declination), np.sin(declination)
-        if frame == 'NED':
-            self.mref = field_intensity * np.array([cI * cD, cI * sD, sI])
-        else:
-            self.mref = field_intensity * np.array([cI * sD, cI * cD, -sI])
-
         if isideal:
             self.noise_std = np.zeros(3)
             self.hard_iron = np.zeros(3)
             self.soft_iron = np.eye(3)
+
+    @property
+    def mref(self):
+        """
+        Reference geomagnetic field in the inertial frame.
+
+        Computed from ``field_intensity``, ``inclination``, ``declination``
+        and ``frame`` at every access, so changing any of them after
+        construction takes effect.
+
+        Returns
+        -------
+        numpy.ndarray
+            ``[N, E, D]`` components for ``frame = 'NED'``, ``[E, N, U]``
+            for ``frame = 'ENU'``, in the units of ``field_intensity``.
+        """
+        cI, sI = np.cos(self.inclination), np.sin(self.inclination)
+        cD, sD = np.cos(self.declination), np.sin(self.declination)
+        if self.frame == 'NED':
+            return self.field_intensity * np.array([cI * cD, cI * sD, sI])
+        if self.frame == 'ENU':
+            return self.field_intensity * np.array([cI * sD, cI * cD, -sI])
+        raise ValueError(f"frame must be 'NED' or 'ENU', got {self.frame!r}")
 
     def measure(self, x_true):
         """

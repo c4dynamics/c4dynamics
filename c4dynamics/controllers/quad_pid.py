@@ -34,8 +34,9 @@ Frame and motor convention
 Body frame (right handed): x forward, y left, z up (FLU).
 Inertial frame (ENU): x east, y north, z up. Rotation: 3-2-1 (yaw-pitch-roll),
 body from inertial = ``dcm321(phi, theta, psi)``.
-Motor layout: X configuration (w1 front CCW, w2 rear CCW, w3 left CW, w4 right
-CW) — see :func:`dynamics` for the full torque mapping.
+Motor layout: X configuration (w1 front-right CCW, w2 rear-left CCW, w3
+front-left CW, w4 rear-right CW) — see :func:`dynamics` for the full torque
+mapping.
 
 
 See Also
@@ -100,10 +101,10 @@ def dynamics(t, y, quad, rotor_speeds):
     positive yaw turns the nose left (counterclockwise seen from above).
 
     Motor layout: x configuration
-    w1: front CCW   (+)
-    w2: rear  CCW   (+)
-    w3: left  CW    (-)
-    w4: right CW    (-)
+    w1: front-right CCW   (+)
+    w2: rear-left   CCW   (+)
+    w3: front-left  CW    (-)
+    w4: rear-right  CW    (-)
 
     Torque mapping:
     roll (phi):       L * (-F1 + F2 + F3 - F4)
@@ -390,7 +391,6 @@ class OuterPositionPID:
 
         # reference trajectory is given in inertial frame (ENU).
         # compute errors in inertial frame and rotate them to body for the PID calculations.
-        BI = dcm321(phi, theta, psi)    # body (FLU) from inertial (ENU)
         HE = dcm321(psi = psi)          # heading frame from inertial, for the horizontal errors
 
         # position error in inertial frame.
@@ -403,11 +403,13 @@ class OuterPositionPID:
         self.int_Z = np.clip(self.int_Z + Ts * e_Z, -self.AW_Z, self.AW_Z)
         az_cmd = self.KP_Z * e_Z + self.KI_Z * self.int_Z + self.KD_Z * (-vz)
 
-        # project the force on the body frame to account for thrust limit
-        Tcmd_b = BI @ [0, 0, self.m * (self.g + az_cmd)] # add g to compensate for gravity
-
+        # tilt compensation: the thrust acts along body z, so only
+        # cos(phi) * cos(theta) of it is vertical. Dividing by that keeps the
+        # vertical force at m * (g + az_cmd) when tilted. Floored at
+        # cos(60 deg) so the command stays bounded near large tilts.
+        cos_tilt = max(np.cos(phi) * np.cos(theta), 0.5)
         T_cmd = np.clip(
-            Tcmd_b[2],
+            self.m * (self.g + az_cmd) / cos_tilt,  # add g to compensate for gravity
             self.T_min,
             self.T_max,
         )
@@ -639,10 +641,10 @@ class ControlAllocator:
 
     Motor layout: x configuration:
 
-      w1: front CCW
-      w2: rear  CCW
-      w3: left  CW
-      w4: right CW
+      w1: front-right CCW
+      w2: rear-left   CCW
+      w3: front-left  CW
+      w4: rear-right  CW
 
     """
 

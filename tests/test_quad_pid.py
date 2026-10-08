@@ -57,7 +57,7 @@ class TestQuadPid(unittest.TestCase):
         np.testing.assert_array_almost_equal(dx[6:12], np.zeros(6))
 
     def test_dynamics_asymmetric_thrust_produces_roll(self):
-        # X config: w3 = left CW, w4 = right CW -- a right-heavy imbalance
+        # X config: w3 = front-left CW, w4 = rear-right CW -- an imbalance
         # must produce a nonzero roll angular acceleration.
         w_hover = np.sqrt(self.quad.m * self.quad.g / (4 * self.quad.kT))
         rotor_speeds = np.array([w_hover, w_hover, w_hover * 1.1, w_hover * 0.9])
@@ -135,6 +135,19 @@ class TestQuadPid(unittest.TestCase):
         self.assertEqual(outer.m, self.quad.m)
         self.assertEqual(outer.g, self.quad.g)
         self.assertEqual(allocator.kT, self.quad.kT)
+
+    def test_outer_loop_tilt_compensates_thrust(self):
+        # zero errors, tilted: the vertical part of the thrust, T cos(phi)
+        # cos(theta), must still carry the weight.
+        phi, theta = np.deg2rad(15.0), np.deg2rad(-10.0)
+        outer, _, _, _ = InitializeControllers(self.controller_params, self.quad)
+        tilted = c4d.state(x=0.0, y=0.0, z=1.5, vx=0.0, vy=0.0, vz=0.0,
+                           phi=phi, theta=theta, psi=0.0)
+        T_cmd, _, _, _ = outer.compute(
+            Xd=0.0, Yd=0.0, Zd=1.5, Vxd=0.0, Vyd=0.0, Psi_sp=0.0,
+            quad=tilted, Ts=1.0 / 50.0)
+        self.assertAlmostEqual(T_cmd * np.cos(phi) * np.cos(theta),
+                               self.quad.m * self.quad.g, places=9)
 
     def test_outer_loop_near_zero_error_gives_near_hover_thrust(self):
         outer, _, _, _ = InitializeControllers(self.controller_params, self.quad)

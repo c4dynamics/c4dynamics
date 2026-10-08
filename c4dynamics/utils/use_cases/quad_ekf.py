@@ -249,7 +249,7 @@ def accel_h(x, quad=None, rotor_speeds=None):
         return np.array([-g * np.sin(theta), g * np.sin(phi) * np.cos(theta)])
 
     a_inertial = dynamics(0.0, x, quad, rotor_speeds)[3:6].copy()
-    a_inertial[2] += g   # cancel dynamics()'s built-in "-g" so BI acts on pure specific force
+    a_inertial[2] += quad.g   # cancel dynamics()'s built-in "-quad.g" so BI acts on pure specific force
     psi = x[8]
     BI = dcm321(phi, theta, psi)
     f_body = BI @ a_inertial
@@ -662,13 +662,14 @@ def run_fig8_ekf(
         isideal=ekf_cfg['ideal_imu'],
         gyro_std=ekf_cfg['gyro_std'] * imu_noise_scale,
         acc_std=ekf_cfg['acc_std'] * imu_noise_scale,
-        frame = 'ENU'
+        g=quad_true.g,
+        frame='ENU',
     )
     mag_sensor = magnetometer(
         noise_std=ekf_cfg['mag_std'],
         inclination=mag_incl, declination=mag_decl,
         isideal=ekf_cfg.get('ideal_magnetometer', False),
-        frame = 'ENU'
+        frame='ENU',
     )
 
     est = ekf_quad(x0, ekf_cfg['P0'], ekf_cfg['Q'],

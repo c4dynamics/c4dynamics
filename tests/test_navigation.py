@@ -176,6 +176,14 @@ class TestIMU(unittest.TestCase):
         with self.assertRaises(ValueError):
             imu(frame='xyz')
 
+    def test_frame_changed_after_construction(self):
+        sensor = imu(isideal=True)
+        sensor.frame = 'ENU'
+        self.assertAlmostEqual(sensor.measure(make_rigidbody())[2], 9.81)
+        sensor.frame = 'xyz'
+        with self.assertRaises(ValueError):
+            sensor.measure(make_rigidbody())
+
 
 class TestMagnetometer(unittest.TestCase):
 
@@ -277,6 +285,21 @@ class TestMagnetometer(unittest.TestCase):
     def test_invalid_frame_raises(self):
         with self.assertRaises(ValueError):
             magnetometer(frame='xyz')
+
+    def test_reference_field_follows_attributes_changed_after_construction(self):
+        sensor = magnetometer(isideal=True)
+        sensor.frame = 'ENU'
+        sensor.inclination = np.deg2rad(45.0)
+        sensor.declination = np.deg2rad(10.0)
+        expected = magnetometer(isideal=True, frame='ENU',
+                                inclination=np.deg2rad(45.0),
+                                declination=np.deg2rad(10.0)).mref
+        np.testing.assert_array_almost_equal(sensor.mref, expected)
+        np.testing.assert_array_almost_equal(
+            sensor.measure(make_state()), expected)
+        sensor.frame = 'xyz'
+        with self.assertRaises(ValueError):
+            sensor.mref
 
 
 if __name__ == "__main__":
