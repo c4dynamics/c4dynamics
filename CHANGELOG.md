@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [2.5.0] - 2026-10-08
 ### Added
 - `c4dynamics.sensors.navigation.imu` and `magnetometer` take a
   `frame='NED' | 'ENU'` argument (default `'NED'`) for the convention of the

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>IMU &#8212; C4DYNAMICS v2.4</title>
+    <title>IMU &#8212; C4DYNAMICS v2.5</title>
   
   
   
@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=9cc71fc0"></script>
+    <script src="../_static/documentation_options.js?v=7769aa4a"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -71,7 +71,7 @@
     <link rel="prev" title="c4dynamics.sensors.navigation.gps.measure" href="generated/gps/c4dynamics.sensors.navigation.gps.measure.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Sep 23, 2026"/>
+    <meta name="docbuild:last-update" content="Oct 08, 2026"/>
   </head>
   
   
@@ -157,7 +157,7 @@
   
   
   
-    <p class="title logo__title">C4DYNAMICS v2.4</p>
+    <p class="title logo__title">C4DYNAMICS v2.5</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -539,7 +539,7 @@ document.write(`
 <h1>IMU<a class="headerlink" href="#imu" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="c4dynamics.sensors.navigation.imu">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">c4dynamics.sensors.navigation.</span></span><span class="sig-name descname"><span class="pre">imu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gyro_std</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acc_std</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gyro_bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acc_bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">9.81</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isideal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.005</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/c4dynamics/sensors/navigation.html#imu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#c4dynamics.sensors.navigation.imu" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">c4dynamics.sensors.navigation.</span></span><span class="sig-name descname"><span class="pre">imu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gyro_std</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acc_std</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gyro_bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acc_bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">9.81</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isideal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.005</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'NED'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/c4dynamics/sensors/navigation.html#imu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#c4dynamics.sensors.navigation.imu" title="Link to this definition">#</a></dt>
 <dd><p>Inertial measurement unit — gyroscope and accelerometer.</p>
 <p>The <cite>imu</cite> class models a strapdown gyroscope and accelerometer pair.
 The gyroscope measures body rates <code class="docutils literal notranslate"><span class="pre">[p,</span> <span class="pre">q,</span> <span class="pre">r]</span></code>.
@@ -563,6 +563,9 @@ and <a class="reference internal" href="generated/state/c4dynamics.states.state.
 <li><p><strong>dt</strong> (<em>float</em><em>, </em><em>optional</em>) – Fallback timestep, [s], used for the accelerometer’s finite-difference
 inertial term when consecutive calls to <a class="reference internal" href="generated/imu/c4dynamics.sensors.navigation.imu.measure.html#c4dynamics.sensors.navigation.imu.measure" title="c4dynamics.sensors.navigation.imu.measure"><code class="xref py py-meth docutils literal notranslate"><span class="pre">measure</span></code></a> don’t carry
 increasing <cite>t</cite> values. Defaults <code class="docutils literal notranslate"><span class="pre">0.005</span></code> (<span class="math notranslate nohighlight">\(200Hz\)</span>).</p></li>
+<li><p><strong>frame</strong> (<em>{'NED'</em><em>, </em><em>'ENU'}</em><em>, </em><em>optional</em>) – Convention of the inertial frame the true state is expressed in:
+<code class="docutils literal notranslate"><span class="pre">'NED'</span></code> (x north, y east, z down) or <code class="docutils literal notranslate"><span class="pre">'ENU'</span></code> (x east, y north,
+z up). It sets the direction of gravity. Defaults <code class="docutils literal notranslate"><span class="pre">'NED'</span></code>.</p></li>
 </ul>
 </dd>
 </dl>
@@ -588,9 +591,13 @@ on the true state of a rigid body. Let the true state be:</p>
 <p>The accelerometer measures the full body-frame specific force, i.e.
 gravity reaction plus the vehicle’s own coordinate acceleration:</p>
 <div class="math notranslate nohighlight">
-\[[a_x, a_y, a_z]_{ideal} = [BI] \cdot \big(\dot{v} + [0,\ 0,\ g]^T\big)\]</div>
-<p>where <span class="math notranslate nohighlight">\([BI]\)</span> is the body-from-inertial DCM and <span class="math notranslate nohighlight">\(\dot{v}\)</span> is
-the inertial-velocity derivative. Since <cite>measure</cite> is given only the
+\[[a_x, a_y, a_z]_{ideal} = [BI] \cdot \big(\dot{v} - g_I\big)\]</div>
+<p>where <span class="math notranslate nohighlight">\([BI]\)</span> is the body-from-inertial DCM, <span class="math notranslate nohighlight">\(\dot{v}\)</span> is
+the inertial-velocity derivative, and <span class="math notranslate nohighlight">\(g_I\)</span> is the gravity vector
+in the inertial frame: <span class="math notranslate nohighlight">\([0,\ 0,\ g]^T\)</span> for <code class="docutils literal notranslate"><span class="pre">frame</span> <span class="pre">=</span> <span class="pre">'NED'</span></code>
+(z down), <span class="math notranslate nohighlight">\([0,\ 0,\ -g]^T\)</span> for <code class="docutils literal notranslate"><span class="pre">frame</span> <span class="pre">=</span> <span class="pre">'ENU'</span></code> (z up).
+A vehicle at rest and level therefore reads <span class="math notranslate nohighlight">\(a_z = -g\)</span> in
+<span class="math notranslate nohighlight">\(NED\)</span> and <span class="math notranslate nohighlight">\(a_z = +g\)</span> in <span class="math notranslate nohighlight">\(ENU\)</span>. Since <cite>measure</cite> is given only the
 current true state, <span class="math notranslate nohighlight">\(\dot{v}\)</span> is approximated by a finite
 difference against the <em>previous</em> call’s true state:</p>
 <div class="math notranslate nohighlight">
@@ -634,6 +641,18 @@ and <a class="reference internal" href="generated/imu/c4dynamics.sensors.navigat
 <span class="go">-0.979...</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">az</span> 
 <span class="go">-9.760...</span>
+</pre></div>
+</div>
+<p><strong>Frame convention</strong></p>
+<p>The default inertial frame is <span class="math notranslate nohighlight">\(NED\)</span> (z down). For a state in
+<span class="math notranslate nohighlight">\(ENU\)</span> (z up), set <code class="docutils literal notranslate"><span class="pre">frame</span> <span class="pre">=</span> <span class="pre">'ENU'</span></code>. At rest and level, the
+accelerometer reads <span class="math notranslate nohighlight">\(-g\)</span> on z in <span class="math notranslate nohighlight">\(NED\)</span> and <span class="math notranslate nohighlight">\(+g\)</span> in
+<span class="math notranslate nohighlight">\(ENU\)</span>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rb</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">rigidbody</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c4d</span><span class="o">.</span><span class="n">sensors</span><span class="o">.</span><span class="n">imu</span><span class="p">(</span><span class="n">isideal</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">rb</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">-9.81</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c4d</span><span class="o">.</span><span class="n">sensors</span><span class="o">.</span><span class="n">imu</span><span class="p">(</span><span class="n">isideal</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">frame</span> <span class="o">=</span> <span class="s1">&#39;ENU&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">rb</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">9.81</span>
 </pre></div>
 </div>
 <p><strong>Non-ideal imu</strong></p>
@@ -761,7 +780,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Sep 23, 2026.
+  Last updated on Oct 08, 2026.
   <br/>
 </p>
   </div>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Quadcopter EKF - State Estimation for Figure-8 Trajectory Tracking &#8212; C4DYNAMICS v2.4</title>
+    <title>Quadcopter EKF - State Estimation for Figure-8 Trajectory Tracking &#8212; C4DYNAMICS v2.5</title>
   
   
   
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=9cc71fc0"></script>
+    <script src="../../_static/documentation_options.js?v=7769aa4a"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -72,7 +72,7 @@
     <link rel="prev" title="Quadcopter Cascade PID — Figure-8 Trajectory Tracking" href="../pid_cascade/quadcopter_pid.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Sep 23, 2026"/>
+    <meta name="docbuild:last-update" content="Oct 08, 2026"/>
   </head>
   
   
@@ -158,7 +158,7 @@
   
   
   
-    <p class="title logo__title">C4DYNAMICS v2.4</p>
+    <p class="title logo__title">C4DYNAMICS v2.5</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -614,15 +614,20 @@ document.write(`
 <section id="1.-Setup">
 <h2>1. Setup<a class="headerlink" href="#1.-Setup" title="Link to this heading">#</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 <span class="c1"># On Google Colab, install c4dynamics -- it ships this example&#39;s own module too.</span>
-<span class="c1"># Pin &gt;=2.4.3: this notebook expects the 3-axis magnetometer introduced in that</span>
-<span class="c1"># release; older versions return a scalar heading and the EKF update fails.</span>
+<span class="c1"># Pin &gt;=2.5.0: this notebook uses the FLU (forward-left-up) body frame and the</span>
+<span class="c1"># frame=&#39;ENU&#39; sensors introduced in that release; older versions simulate the</span>
+<span class="c1"># vehicle in a different body frame and the EKF diverges.</span>
 <span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
-    <span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-q<span class="w"> </span><span class="s2">&quot;c4dynamics&gt;=2.4.3&quot;</span>
+    <span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-q<span class="w"> </span><span class="s2">&quot;c4dynamics&gt;=2.5.0&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">c4d</span>
+<span class="k">assert</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">c4d</span><span class="o">.</span><span class="n">__version__</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[:</span><span class="mi">2</span><span class="p">]))</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span>
+    <span class="sa">f</span><span class="s1">&#39;this notebook needs c4dynamics &gt;= 2.5.0, found </span><span class="si">{</span><span class="n">c4d</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics.utils.use_cases</span><span class="w"> </span><span class="kn">import</span> <span class="n">quad_ekf</span>
 </pre></div>
@@ -731,13 +736,13 @@ p &amp; q &amp; r
 <li><p><span class="math notranslate nohighlight">\(\left[BI\right]\)</span> is the Body from Inertial <span class="math notranslate nohighlight">\(DCM\)</span> (direction cosine matrix, generated by Euler angles in <span class="math notranslate nohighlight">\(3\)</span>-<span class="math notranslate nohighlight">\(2\)</span>-<span class="math notranslate nohighlight">\(1\)</span> order).</p></li>
 <li><p><span class="math notranslate nohighlight">\(\left[BI\right]^T\)</span> is the transpose of <span class="math notranslate nohighlight">\(\left[BI\right]\)</span> and used to rotate vectors to the inertial frame from the body frame.</p></li>
 </ul>
-<p><img alt="Reference systems. Inertial system: ENU (east, north, up). Body frame: (forward, right, down). Positive rotation about an axis is given by curling the right-hand fingers. Propellers rotation: 1: CCW (counter-clockwise) , 2: CCW, 3: CW, 4: CW." src="../../_images/quad_frame.png" /></p>
+<p><img alt="Reference systems. Inertial system: ENU (east, north, up). Body frame: (forward, left, up). Positive rotation about an axis is given by curling the right-hand fingers. Propellers rotation: 1: CCW (counter-clockwise) , 2: CCW, 3: CW, 4: CW." src="../../_images/quad_frame_enu_flu.png" /></p>
 <p>Recall the convention for our examples:</p>
 <p>Body frame:</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(x\)</span> forward (between motors <span class="math notranslate nohighlight">\(1\)</span> and <span class="math notranslate nohighlight">\(3\)</span>)</p></li>
-<li><p><span class="math notranslate nohighlight">\(y\)</span> right</p></li>
-<li><p><span class="math notranslate nohighlight">\(z\)</span> down</p></li>
+<li><p><span class="math notranslate nohighlight">\(y\)</span> left</p></li>
+<li><p><span class="math notranslate nohighlight">\(z\)</span> up</p></li>
 </ul>
 <p>Inertial frame (<span class="math notranslate nohighlight">\(ENU\)</span>):</p>
 <ul class="simple">
@@ -806,9 +811,9 @@ T-A_z \cdot w
 =
 L \cdot (-F_1 + F_2 + F_3 - F_4)\]</div>
 <div class="math notranslate nohighlight">
-\[\tau_y = L \cdot (F_1-F_2+F_3-F_4)\]</div>
+\[\tau_y = L \cdot (-F_1+F_2-F_3+F_4)\]</div>
 <div class="math notranslate nohighlight">
-\[\tau_z = \frac{k_Q}{k_T} \cdot (F_1+F_2-F_3-F_4)\]</div>
+\[\tau_z = \frac{k_Q}{k_T} \cdot (-F_1-F_2+F_3+F_4)\]</div>
 <p>Where:</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(k_T\)</span> is the thrust coefficient <span class="math notranslate nohighlight">\([N/(rad/s)^2]\)</span></p></li>
@@ -964,7 +969,7 @@ H_{gyro} =
 <div class="line">The reference field is fixed in the navigation frame by its total intensity <span class="math notranslate nohighlight">\(F\)</span>, inclination <span class="math notranslate nohighlight">\(I\)</span> and declination <span class="math notranslate nohighlight">\(D\)</span> (here <span class="math notranslate nohighlight">\(F=1\)</span>, <span class="math notranslate nohighlight">\(I=60^\circ\)</span>, <span class="math notranslate nohighlight">\(D=0\)</span>):</div>
 </div>
 <div class="math notranslate nohighlight">
-\[\mathbf m_{ref} = F\,[\cos I \cdot \cos D,\ \cos I \cdot \sin D,\ \sin I]^\top\]</div>
+\[\mathbf m_{ref} = F\,[\cos I \cdot \sin D,\ \cos I \cdot \cos D,\ -\sin I]^\top\]</div>
 <p>and the measurement is that vector rotated into the body frame by the attitude:</p>
 <div class="math notranslate nohighlight">
 \[h(\mathbf x) = [BI](\varphi,\theta,\psi)\cdot \mathbf m_{ref}\]</div>
@@ -1063,7 +1068,7 @@ Cascade-<span class="math notranslate nohighlight">\(PID\)</span> controllers re
 <p>The estimation configuration block — process noise <span class="math notranslate nohighlight">\(Q\)</span>, measurement noise <span class="math notranslate nohighlight">\(R\)</span>, initial covariance <span class="math notranslate nohighlight">\(P_0\)</span>, the initial-estimate offset, the injected sensor noise, and the sensor rates — is provided as data, the estimation analogue of the controller-gain block. Start from the reference block and tune as needed.</p>
 <p>The config lives in <code class="docutils literal notranslate"><span class="pre">ekf_config.py</span></code>. It’s rewritten here for convenience, for anyone who wants to experiment with or edit the params — values are <span class="math notranslate nohighlight">\(1\)</span>-sigma, squared into the variances above, so they read directly against the sensor <span class="math notranslate nohighlight">\(\sigma\)</span>’s in Section <span class="math notranslate nohighlight">\(4\)</span>’s table.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -1121,7 +1126,7 @@ Cascade-<span class="math notranslate nohighlight">\(PID\)</span> controllers re
 <div class="line">All paramters are used as provided, except for two: <span class="math notranslate nohighlight">\(K_{p_z}, K_{i_z}\)</span> the proprotional and integral gains of the <span class="math notranslate nohighlight">\(z\)</span> coordinate in the outer (position) loop. These were reduced from <span class="math notranslate nohighlight">\(10\)</span> to <span class="math notranslate nohighlight">\(8\)</span> to produce a softer response to the noisier actual estimated signal.</div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics.models.quad</span><span class="w"> </span><span class="kn">import</span> <span class="n">default_quad_config</span>
@@ -1155,7 +1160,7 @@ Cascade-<span class="math notranslate nohighlight">\(PID\)</span> controllers re
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plug all the config files for the simulation entry:</span>
@@ -1169,7 +1174,7 @@ Cascade-<span class="math notranslate nohighlight">\(PID\)</span> controllers re
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># One closed loop: truth flies on the EKF estimate; the EKF runs on GPS/IMU.</span>
@@ -1191,7 +1196,7 @@ EKF closed-loop complete.
 <section id="8.-Results">
 <h2>8. Results<a class="headerlink" href="#8.-Results" title="Link to this heading">#</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The whole flight, viewed edge-on against the x-z plane.</span>
@@ -1211,7 +1216,7 @@ EKF closed-loop complete.
 <li><p><strong>Position</strong> (<span class="math notranslate nohighlight">\(x,y,z\)</span>)</p></li>
 </ul>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Position channel: inertial coordinates vs. time, true vs. estimated (+-2 sigma).</span>
@@ -1232,7 +1237,7 @@ EKF closed-loop complete.
 <li><p><strong>Velocity</strong> (<span class="math notranslate nohighlight">\(v_x,v_y,v_z\)</span>)</p></li>
 </ul>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Velocity channel — no direct velocity sensor; reconstructed by the filter.</span>
@@ -1253,7 +1258,7 @@ EKF closed-loop complete.
 <li><p><strong>Attitude</strong> (<span class="math notranslate nohighlight">\(\varphi,\theta,\psi\)</span>)</p></li>
 </ul>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Attitude channel: roll/pitch from the accelerometer, yaw from the magnetometer.</span>
@@ -1277,7 +1282,7 @@ EKF closed-loop complete.
 <li><p><strong>Errors</strong> (<span class="math notranslate nohighlight">\(x, v_x, \varphi, \psi\)</span>)</p></li>
 </ul>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Consistency: estimation error (true - est) against the filter&#39;s own +-2 sigma envelope.</span>
@@ -1312,7 +1317,7 @@ EKF closed-loop complete.
 <li><p>much below means over-conservative</p></li>
 </ul>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Consistency: NEES vs. time (ideal ~ 12).</span>
@@ -1337,7 +1342,7 @@ EKF closed-loop complete.
 <li><p><strong>Tracking error</strong> — how well does the <em>controller</em> fly the reference figure-8 now that it closes the loop on that estimate rather than on truth? This is the very same <code class="docutils literal notranslate"><span class="pre">compute_metrics</span></code> the <a class="reference external" href="https://c4dynamics.github.io/c4dynamics/programs/pid_cascade/quadcopter_pid.html">Cascade-PID example</a> reports (RMSE of the <strong>true</strong> path against the analytic reference), so the two runs line up directly and the difference is the cost of running on an estimate.</p></li>
 </ol>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metrics</span> <span class="o">=</span> <span class="n">quad_ekf</span><span class="o">.</span><span class="n">compute_metrics</span><span class="p">(</span><span class="n">truth</span><span class="p">,</span> <span class="n">est</span><span class="p">,</span> <span class="n">diag</span><span class="p">)</span>
@@ -1351,20 +1356,20 @@ EKF closed-loop complete.
 <div class="highlight"><pre>
 state           RMSE   unit
 ---------------------------
-x             0.0678   m
-y             0.0636   m
-z             0.1814   m
-vx            0.0245   m/s
-vy            0.0253   m/s
-vz            0.1304   m/s
-phi           0.0105   rad
-theta         0.0109   rad
-psi           0.0141   rad
+x             0.0699   m
+y             0.0652   m
+z             0.1825   m
+vx            0.0261   m/s
+vy            0.0236   m/s
+vz            0.1315   m/s
+phi           0.0111   rad
+theta         0.0101   rad
+psi           0.0139   rad
 p             0.0055   rad/s
 q             0.0054   rad/s
 r             0.0058   rad/s
 ---------------------------
-NEES            3.25   (ideal ~ 12)
+NEES            3.28   (ideal ~ 12)
 </pre></div></div>
 </div>
 <ul class="simple">
@@ -1375,7 +1380,7 @@ NEES            3.25   (ideal ~ 12)
 <div class="line">But the controller never sees truth — it acts on that noisy estimate, so the figure-8 it actually flies is looser than the truth-fed run. Feeding the <strong>true</strong> trajectory back into <code class="docutils literal notranslate"><span class="pre">quad_pid.compute_metrics</span></code> scores that directly, against the same reference and the same figure-8 window as the parent notebook:</div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Controller tracking performance -- the SAME metric as the Cascade-PID</span>
@@ -1404,18 +1409,18 @@ NEES            3.25   (ideal ~ 12)
 ==================================================
    TRACKING PERFORMANCE  (loop closed on estimate)
 ==================================================
-  RMSE x : 0.2154 m   (5.4% of x amplitude)
-  RMSE y : 0.3737 m   (18.7% of y amplitude)
-  RMSE z : 0.3625 m   (7.3% of altitude)
-  Max altitude deviation : 135.3 cm
+  RMSE x : 0.2151 m   (5.4% of x amplitude)
+  RMSE y : 0.2100 m   (10.5% of y amplitude)
+  RMSE z : 0.3599 m   (7.2% of altitude)
+  Max altitude deviation : 134.4 cm
 ==================================================
 </pre></div></div>
 </div>
 <p>Compare with the loop closed on truth state samples:</p>
-<p><img alt="cascade-PID (truth-fed) tracking performance" src="https://raw.githubusercontent.com/c4dynamics/c4dynamics/main/docs/source/programs/ekf_estimation/quad_ekf_truth_tracking.png" /></p>
-<p>Fed perfect state, the Cascade-PID example scored roughly <span class="math notranslate nohighlight">\(5\%\)</span> / <span class="math notranslate nohighlight">\(19\%\)</span> / <span class="math notranslate nohighlight">\(0.1\%\)</span> RMSE on <span class="math notranslate nohighlight">\(x\)</span> / <span class="math notranslate nohighlight">\(y\)</span> / <span class="math notranslate nohighlight">\(z\)</span>. Closing the same loop on the <span class="math notranslate nohighlight">\(EKF\)</span> estimate:</p>
+<p><img alt="cascade-PID (truth-fed) tracking performance" src="../../_images/quad_ekf_truth_tracking.png" /></p>
+<p>Fed perfect state, the Cascade-PID example scored roughly <span class="math notranslate nohighlight">\(5\%\)</span> / <span class="math notranslate nohighlight">\(9\%\)</span> / <span class="math notranslate nohighlight">\(0.1\%\)</span> RMSE on <span class="math notranslate nohighlight">\(x\)</span> / <span class="math notranslate nohighlight">\(y\)</span> / <span class="math notranslate nohighlight">\(z\)</span>. Closing the same loop on the <span class="math notranslate nohighlight">\(EKF\)</span> estimate:</p>
 <ul class="simple">
-<li><p><strong>Horizontal</strong> (<span class="math notranslate nohighlight">\(x, y\)</span>) barely moves — still <span class="math notranslate nohighlight">\(\approx 5\%\)</span> / <span class="math notranslate nohighlight">\(19\%\)</span> normalized RMSE. <span class="math notranslate nohighlight">\(GPS\)</span> pins the absolute position at <span class="math notranslate nohighlight">\(10\,Hz\)</span> and the estimate stays tight enough that the outer loop hardly notices it isn’t truth.</p></li>
+<li><p><strong>Horizontal</strong> (<span class="math notranslate nohighlight">\(x, y\)</span>) barely moves — still <span class="math notranslate nohighlight">\(\approx 5\%\)</span> / <span class="math notranslate nohighlight">\(10\%\)</span> normalized RMSE. <span class="math notranslate nohighlight">\(GPS\)</span> pins the absolute position at <span class="math notranslate nohighlight">\(10\,Hz\)</span> and the estimate stays tight enough that the outer loop hardly notices it isn’t truth.</p></li>
 <li><p><strong>Altitude</strong> (<span class="math notranslate nohighlight">\(z\)</span>) is where estimation costs something real: RMSE grows from millimetres to <span class="math notranslate nohighlight">\(\approx 0.36\,m\)</span> and the worst-case excursion from a few centimetres to <span class="math notranslate nohighlight">\(\approx 1.4\,m\)</span>. Unlike roll/pitch and horizontal velocity, the <span class="math notranslate nohighlight">\(z\)</span> channel gets no accelerometer aiding — height rides on <span class="math notranslate nohighlight">\(10\,Hz\)</span> <span class="math notranslate nohighlight">\(GPS\)</span> alone (there is no barometer) — and the softened <span class="math notranslate nohighlight">\(K_{p_z}, K_{i_z}\)</span> (Section <span class="math notranslate nohighlight">\(7\)</span>) further trade altitude stiffness for calm against that noise.
 This is the main price of output-feedback control in this example.</p></li>
 </ul>
@@ -1427,7 +1432,7 @@ This is the main price of output-feedback control in this example.</p></li>
 <p>This section disables <span class="math notranslate nohighlight">\(GPS\)</span> for a short window mid-flight — magnetometer and <span class="math notranslate nohighlight">\(IMU\)</span> keep updating — and measures how far the position estimate drifts during that window, across several <span class="math notranslate nohighlight">\(IMU\)</span> rates.</p>
 <p>The control loop stays at a fixed <span class="math notranslate nohighlight">\(200\,Hz\)</span> regardless of <span class="math notranslate nohighlight">\(IMU\)</span> rate, and the accelerometer/gyro noise is rescaled with rate so a faster <span class="math notranslate nohighlight">\(IMU\)</span> isn’t an unrealistic free precision win. <code class="docutils literal notranslate"><span class="pre">jacobian_stride=4</span></code> keeps the sweep under two minutes.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># suppress ground hit warnings in the notebook; they are expected and not relevant to the EKF.</span>
@@ -1461,15 +1466,15 @@ This is the main price of output-feedback control in this example.</p></li>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-IMU rate =     10 Hz  -&gt;  RMS position error during 1.5s GPS dropout = 0.2046 m  (n=15/20)
-IMU rate =     50 Hz  -&gt;  RMS position error during 1.5s GPS dropout = 0.3197 m  (n=14/20)
-IMU rate =    100 Hz  -&gt;  RMS position error during 1.5s GPS dropout = 0.2453 m  (n=13/20)
-IMU rate =    150 Hz  -&gt;  RMS position error during 1.5s GPS dropout = 0.2835 m  (n=15/20)
-IMU rate =    200 Hz  -&gt;  RMS position error during 1.5s GPS dropout = 0.2835 m  (n=15/20)
+IMU rate =     10 Hz  -&gt;  RMS position error during 1.5s GPS dropout = 0.1986 m  (n=15/20)
+IMU rate =     50 Hz  -&gt;  RMS position error during 1.5s GPS dropout = 0.3026 m  (n=15/20)
+IMU rate =    100 Hz  -&gt;  RMS position error during 1.5s GPS dropout = 0.2631 m  (n=14/20)
+IMU rate =    150 Hz  -&gt;  RMS position error during 1.5s GPS dropout = 0.2717 m  (n=15/20)
+IMU rate =    200 Hz  -&gt;  RMS position error during 1.5s GPS dropout = 0.2719 m  (n=15/20)
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">quad_ekf</span><span class="o">.</span><span class="n">plot_gps_dropout</span><span class="p">(</span><span class="n">dropout_sweep</span><span class="p">)</span>
@@ -1501,7 +1506,7 @@ IMU rate =    200 Hz  -&gt;  RMS position error during 1.5s GPS dropout = 0.2835
 <p>The same figure-8 that the Cascade-<span class="math notranslate nohighlight">\(PID\)</span> example flew on perfect state is now flown on a state <strong>estimated</strong> from realistic <span class="math notranslate nohighlight">\(GPS\)</span> and <span class="math notranslate nohighlight">\(IMU\)</span> — a complete estimation-control pipeline, built entirely on c4dynamics abstractions (<code class="docutils literal notranslate"><span class="pre">c4d.rigidbody</span></code>, <code class="docutils literal notranslate"><span class="pre">c4d.filters.ekf</span></code>, and the <code class="docutils literal notranslate"><span class="pre">sensors.navigation</span></code> models).</p>
 <p><strong>Estimation.</strong> <span class="math notranslate nohighlight">\(GPS\)</span> at <span class="math notranslate nohighlight">\(10\,Hz\)</span> bounds the absolute position while the dynamics model bridges the gaps between fixes: position tracks truth to <span class="math notranslate nohighlight">\(≈ 0.1\,m\)</span> and horizontal velocity to a few <span class="math notranslate nohighlight">\(cm/s\)</span> — with no velocity sensor at all. Roll and pitch, observed through the accelerometer’s specific-force model at <span class="math notranslate nohighlight">\(200\,Hz\)</span>, hold to about half a degree; yaw, from the <span class="math notranslate nohighlight">\(50\,Hz\)</span> 3-axis magnetometer, to <span class="math notranslate nohighlight">\(≈ 0.8°\)</span>. The filter runs conservative (mean <span class="math notranslate nohighlight">\(NEES ≈ 3\)</span>
 against an ideal of <span class="math notranslate nohighlight">\(12\)</span>): it reports more uncertainty than it turns out to need, which is the safe direction to err.</p>
-<p><strong>Control on the estimate.</strong> Feeding that estimate to the cascade controller in place of truth costs almost nothing horizontally — figure-8 tracking <span class="math notranslate nohighlight">\(RMSE\)</span> stays around <span class="math notranslate nohighlight">\(≈ 5\%/19\%\)</span> of amplitude. Altitude is the exception: with no barometer and no accelerometer aiding on the <span class="math notranslate nohighlight">\(z\)</span> channel, the hold degrades from millimetres to <span class="math notranslate nohighlight">\(≈ 0.35\,m\)</span> <span class="math notranslate nohighlight">\(RMSE\)</span>, and the <span class="math notranslate nohighlight">\(z\)</span> gains had to be softened (Section <span class="math notranslate nohighlight">\(7\)</span>) to keep the loop calm against the noisier signal.</p>
+<p><strong>Control on the estimate.</strong> Feeding that estimate to the cascade controller in place of truth costs almost nothing horizontally — figure-8 tracking <span class="math notranslate nohighlight">\(RMSE\)</span> stays around <span class="math notranslate nohighlight">\(≈ 5\%/10\%\)</span> of amplitude. Altitude is the exception: with no barometer and no accelerometer aiding on the <span class="math notranslate nohighlight">\(z\)</span> channel, the hold degrades from millimetres to <span class="math notranslate nohighlight">\(≈ 0.35\,m\)</span> <span class="math notranslate nohighlight">\(RMSE\)</span>, and the <span class="math notranslate nohighlight">\(z\)</span> gains had to be softened (Section <span class="math notranslate nohighlight">\(7\)</span>) to keep the loop calm against the noisier signal.</p>
 <p><strong>IMU rate.</strong> Because this filter uses the <span class="math notranslate nohighlight">\(IMU\)</span> to <em>correct</em> a model-based prediction rather than to <em>drive</em> it, its update rate is not a performance knob — raising it does not help the estimate ride out a <span class="math notranslate nohighlight">\(GPS\)</span> dropout (Section <span class="math notranslate nohighlight">\(9\)</span>). A strapdown <span class="math notranslate nohighlight">\(INS\)</span>, where the <span class="math notranslate nohighlight">\(IMU\)</span> rate <em>is</em> the prediction rate, would answer differently.</p>
 <p><strong>Natural next steps</strong> — small extensions to this example:</p>
 <ul class="simple">
@@ -1521,7 +1526,7 @@ against an ideal of <span class="math notranslate nohighlight">\(12\)</span>): i
 <div class="line">This appendix runs the sensor objects on their own, outside the filter: each demo() drives its sensor with a known reference signal and plots the noisy, biased output against that ground truth — so the raw measurement behaviour the <span class="math notranslate nohighlight">\(EKF\)</span>’s update stage has to cope with is visible in isolation, before it’s buried inside the closed loop.</div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics.sensors.navigation</span><span class="w"> </span><span class="kn">import</span> <span class="n">imu</span><span class="p">,</span> <span class="n">gps</span><span class="p">,</span> <span class="n">magnetometer</span>
@@ -1531,7 +1536,7 @@ against an ideal of <span class="math notranslate nohighlight">\(12\)</span>): i
 <section id="IMU">
 <h2>IMU<a class="headerlink" href="#IMU" title="Link to this heading">#</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">imu</span><span class="o">.</span><span class="n">demo</span><span class="p">();</span>
@@ -1549,7 +1554,7 @@ against an ideal of <span class="math notranslate nohighlight">\(12\)</span>): i
 <section id="GPS">
 <h2>GPS<a class="headerlink" href="#GPS" title="Link to this heading">#</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gps</span><span class="o">.</span><span class="n">demo</span><span class="p">();</span>
@@ -1567,7 +1572,7 @@ against an ideal of <span class="math notranslate nohighlight">\(12\)</span>): i
 <section id="Magnetometer">
 <h2>Magnetometer<a class="headerlink" href="#Magnetometer" title="Link to this heading">#</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">magnetometer</span><span class="o">.</span><span class="n">demo</span><span class="p">();</span>
@@ -1697,7 +1702,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Sep 23, 2026.
+  Last updated on Oct 08, 2026.
   <br/>
 </p>
   </div>

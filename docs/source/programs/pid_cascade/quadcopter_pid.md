@@ -46,8 +46,14 @@ Please refer to this module for the implementations of the quadcopter dynamics, 
 
 
 import sys
+# On Google Colab, install c4dynamics. Pin >=2.5.0: this notebook uses the
+# FLU (forward-left-up) body frame introduced in that release.
 if 'google.colab' in sys.modules:
-    !pip install c4dynamics
+    !pip install -q "c4dynamics>=2.5.0"
+
+import c4dynamics as c4d
+assert tuple(map(int, c4d.__version__.split('.')[:2])) >= (2, 5), (
+    f'this notebook needs c4dynamics >= 2.5.0, found {c4d.__version__}')
 
 from c4dynamics.controllers.quad_pid import (run_fig8_pid,
                                               plot_results,

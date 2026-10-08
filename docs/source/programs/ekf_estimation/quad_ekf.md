@@ -53,10 +53,15 @@ cascade controller in place of truth.
 
 import sys
 # On Google Colab, install c4dynamics -- it ships this example's own module too.
-# Pin >=2.4.3: this notebook expects the 3-axis magnetometer introduced in that
-# release; older versions return a scalar heading and the EKF update fails.
+# Pin >=2.5.0: this notebook uses the FLU (forward-left-up) body frame and the
+# frame='ENU' sensors introduced in that release; older versions simulate the
+# vehicle in a different body frame and the EKF diverges.
 if 'google.colab' in sys.modules:
-    !pip install -q "c4dynamics>=2.4.3"
+    !pip install -q "c4dynamics>=2.5.0"
+
+import c4dynamics as c4d
+assert tuple(map(int, c4d.__version__.split('.')[:2])) >= (2, 5), (
+    f'this notebook needs c4dynamics >= 2.5.0, found {c4d.__version__}')
 
 from c4dynamics.utils.use_cases import quad_ekf
 
