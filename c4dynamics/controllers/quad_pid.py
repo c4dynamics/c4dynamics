@@ -31,10 +31,12 @@ vehicle from noisy GPS/IMU measurements rather than truth).
 
 Frame and motor convention
 ---------------------------
-Body frame (right handed): x forward, y right, z down (FRD).
-Inertial frame (ENU): x east, y north, z up. Rotation: 3-2-1 (yaw-pitch-roll).
-Motor layout: X configuration (w1 front CCW, w2 rear CCW, w3 left CW, w4 right
-CW) — see :func:`dynamics` for the full torque mapping.
+Body frame (right handed): x forward, y left, z up (FLU).
+Inertial frame (ENU): x east, y north, z up. Rotation: 3-2-1 (yaw-pitch-roll),
+body from inertial = ``dcm321(phi, theta, psi)``.
+Motor layout: X configuration (w1 front-right CCW, w2 rear-left CCW, w3
+front-left CW, w4 rear-right CW) — see :func:`dynamics` for the full torque
+mapping.
 
 
 See Also
@@ -83,10 +85,10 @@ def dynamics(t, y, quad, rotor_speeds):
 
     Frame and motor convention:
 
-    Body frame (right handed):
+    Body frame (right handed, FLU):
     x forward (between motors 1 and 3)
-    y right
-    z down
+    y left
+    z up
 
     Inertial frame (ENU):
     x east
@@ -94,18 +96,20 @@ def dynamics(t, y, quad, rotor_speeds):
     z up
 
     Rotation:
-    ZYX (yaw-pitch-roll)
+    ZYX (yaw-pitch-roll), body from inertial = dcm321(phi, theta, psi).
+    Positive roll lowers the right side, positive pitch lowers the nose,
+    positive yaw turns the nose left (counterclockwise seen from above).
 
     Motor layout: x configuration
-    w1: front CCW   (+)
-    w2: rear  CCW   (+)
-    w3: left  CW    (-)
-    w4: right CW    (-)
+    w1: front-right CCW   (+)
+    w2: rear-left   CCW   (+)
+    w3: front-left  CW    (-)
+    w4: rear-right  CW    (-)
 
     Torque mapping:
     roll (phi):       L * (-F1 + F2 + F3 - F4)
-    pitch (theta):    L * (F1 - F2 + F3 - F4)
-    yaw (psi):        kQ / kT * (F1 + F2 - F3 - F4)
+    pitch (theta):    L * (-F1 + F2 - F3 + F4)
+    yaw (psi):        kQ / kT * (-F1 - F2 + F3 + F4)
 
     Parameters
     ----------
@@ -144,10 +148,10 @@ def dynamics(t, y, quad, rotor_speeds):
 
     T     =          F1 + F2 + F3 + F4
     tau_x =    L * (-F1 + F2 + F3 - F4)
-    tau_y =     L * (F1 - F2 + F3 - F4)
-    tau_z = gamma * (F1 + F2 - F3 - F4)
+    tau_y =    L * (-F1 + F2 - F3 + F4)
+    tau_z = gamma * (-F1 - F2 + F3 + F4)
 
-    Omega = w1 + w2 - w3 - w4  # net rotor speed for gyro coupling
+    Omega = w1 + w2 - w3 - w4  # net rotor speed about body +z (CCW rotors spin up) for gyro coupling
 
 
     # ====================
@@ -174,8 +178,7 @@ def dynamics(t, y, quad, rotor_speeds):
     # =======================
 
     # Compute body from inertial rotation matrix for velocity and force transformations
-    BI = dcm321(phi, theta, psi) @ dcm321(phi = np.pi) # for z up in body frame, remove flip of pi in phi
-    T = -T  # when z is up in body frame, T should be positive.
+    BI = dcm321(phi, theta, psi)
 
     # Velocity in body frame
     u, v, w = BI @ np.array([vx, vy, vz])
@@ -388,16 +391,7 @@ class OuterPositionPID:
 
         # reference trajectory is given in inertial frame (ENU).
         # compute errors in inertial frame and rotate them to body for the PID calculations.
-
-        # when z is up in body frame, phi isn't rotated by pi and T min max are flipped.
-        # also, the sign of the pitch and roll commands are flipped because the body frame is rotated by pi around x from the ENU convention.
-        BI = dcm321(phi, theta, psi) @ dcm321(phi = np.pi)
-        HE = dcm321(psi = psi) @ dcm321(phi = np.pi) # body from inertial for horizontal error rotation
-        Tmin = -self.T_max
-        Tmax = self.T_min
-        Tfactor = -1
-        pitch_factor = -1
-        phi_factor = 1
+        HE = dcm321(psi = psi)          # heading frame from inertial, for the horizontal errors
 
         # position error in inertial frame.
         e_X = Xd - x
@@ -409,13 +403,15 @@ class OuterPositionPID:
         self.int_Z = np.clip(self.int_Z + Ts * e_Z, -self.AW_Z, self.AW_Z)
         az_cmd = self.KP_Z * e_Z + self.KI_Z * self.int_Z + self.KD_Z * (-vz)
 
-        # project the force on the body frame to account for thrust limit
-        Tcmd_b = BI @ [0, 0, self.m * (self.g + az_cmd)] # add g to compensate for gravity
-
-        T_cmd = Tfactor * np.clip(
-            Tcmd_b[2],
-            Tmin,
-            Tmax,
+        # tilt compensation: the thrust acts along body z, so only
+        # cos(phi) * cos(theta) of it is vertical. Dividing by that keeps the
+        # vertical force at m * (g + az_cmd) when tilted. Floored at
+        # cos(60 deg) so the command stays bounded near large tilts.
+        cos_tilt = max(np.cos(phi) * np.cos(theta), 0.5)
+        T_cmd = np.clip(
+            self.m * (self.g + az_cmd) / cos_tilt,  # add g to compensate for gravity
+            self.T_min,
+            self.T_max,
         )
 
         # Horizontal PID — errors rotated to body frame
@@ -433,29 +429,28 @@ class OuterPositionPID:
         Vff = [Vxd, Vyd, 0]
         Vff_b = HE @ Vff
         ff_theta = self.FF_X * Vff_b[0]
-        ff_phi = -self.FF_Y * Vff_b[1]
+        ff_phi = self.FF_Y * Vff_b[1]
 
 
-        # theta_d → forward accel
+        # theta_d → forward accel (positive pitch lowers the nose)
         theta_d = np.clip(
-            pitch_factor * (self.KP_X * Xerr_b[0] -
-                            self.KP_X * Vb[0] +
-                            self.KI_X * self.int_X +
-                            self.KD_X * (Vff_b[0] - Vb[0]) +
-                            ff_theta
-                            ),
+            self.KP_X * Xerr_b[0] -
+            self.KP_X * Vb[0] +
+            self.KI_X * self.int_X +
+            self.KD_X * (Vff_b[0] - Vb[0]) +
+            ff_theta,
             -self.att_cmd_limit,
             self.att_cmd_limit,
         )
 
-        # phi_d → lateral accel
+        # phi_d → lateral accel (positive roll lowers the right side, i.e.
+        # accelerates toward -y, so the left-positive error enters negated)
         phi_d = np.clip(
-            phi_factor * (self.KP_Y * Xerr_b[1] -
-                          self.KP_Y * Vb[1] +
-                          self.KI_Y * self.int_Y +
-                          self.KD_Y * (Vff_b[1] - Vb[1]) +
-                          ff_phi
-                          ),
+            -(self.KP_Y * Xerr_b[1] -
+              self.KP_Y * Vb[1] +
+              self.KI_Y * self.int_Y +
+              self.KD_Y * (Vff_b[1] - Vb[1]) +
+              ff_phi),
             -self.att_cmd_limit,
             self.att_cmd_limit,
         )
@@ -646,10 +641,10 @@ class ControlAllocator:
 
     Motor layout: x configuration:
 
-      w1: front CCW
-      w2: rear  CCW
-      w3: left  CW
-      w4: right CW
+      w1: front-right CCW
+      w2: rear-left   CCW
+      w3: front-left  CW
+      w4: rear-right  CW
 
     """
 
@@ -676,10 +671,10 @@ class ControlAllocator:
         """
 
         gamma = self.kQ / self.kT
-        A1 = np.array([[1, -1, 1, 1],
-                        [1, 1, -1, 1],
+        A1 = np.array([[1, -1, -1, -1],
                         [1, 1, 1, -1],
-                        [1, -1, -1, -1]]
+                        [1, 1, -1, 1],
+                        [1, -1, 1, 1]]
             ) / 4
         A2 = np.array([[1, 0, 0, 0],
                         [0, 1 / self.L, 0, 0],

@@ -36,7 +36,7 @@ State vector (shared with the truth rigidbody and the cascade-PID model)::
     [x, y, z, vx, vy, vz, phi, theta, psi, p, q, r]
      0  1  2   3   4   5   6     7     8   9  10 11
 
-Frames: body = forward-right-down (FRD), inertial = ENU, 3-2-1 Euler angles —
+Frames: body = forward-left-up (FLU), inertial = ENU, 3-2-1 Euler angles —
 identical to ``c4dynamics.controllers.quad_pid`` (X motor configuration, dcm321-based
 rotations). jacobian_F's translational blocks are computed numerically
 against dynamics() directly (see jacobian_F docstring) so this
@@ -246,12 +246,12 @@ def accel_h(x, quad=None, rotor_speeds=None):
     """
     phi, theta = x[6], x[7]
     if quad is None or rotor_speeds is None:
-        return np.array([g * np.sin(theta), -g * np.sin(phi) * np.cos(theta)])
+        return np.array([-g * np.sin(theta), g * np.sin(phi) * np.cos(theta)])
 
     a_inertial = dynamics(0.0, x, quad, rotor_speeds)[3:6].copy()
-    a_inertial[2] += g   # cancel dynamics()'s built-in "-g" so BI acts on pure specific force
+    a_inertial[2] += quad.g   # cancel dynamics()'s built-in "-quad.g" so BI acts on pure specific force
     psi = x[8]
-    BI = dcm321(phi, theta, psi) @ dcm321(phi=np.pi)
+    BI = dcm321(phi, theta, psi)
     f_body = BI @ a_inertial
     return f_body[:2]
 
@@ -272,9 +272,9 @@ def accel_H(x, quad=None, rotor_speeds=None):
         st = np.sin(theta)
         ct = np.cos(theta)
         H = np.zeros((2, 12))
-        H[0, 7] =  g * ct
-        H[1, 6] = -g * cp * ct
-        H[1, 7] =  g * sp * st
+        H[0, 7] = -g * ct
+        H[1, 6] =  g * cp * ct
+        H[1, 7] = -g * sp * st
         return H
 
     H = np.zeros((2, 12))
@@ -372,9 +372,9 @@ class ekf_quad(c4d.filters.ekf):
         # the body frame by mag_h/mag_H. Defaults to a 60 deg-inclination,
         # zero-declination, unit-intensity field if the caller doesn't supply
         # the sensor's own mref.
-        if mag_mref is None:
+        if mag_mref is None:   # ENU: [east, north, up], dip pointing down
             _incl = np.deg2rad(60.0)
-            mag_mref = np.array([np.cos(_incl), 0.0, np.sin(_incl)])
+            mag_mref = np.array([0.0, np.cos(_incl), -np.sin(_incl)])
         self.mag_mref = np.asarray(mag_mref, float)
 
         # Attach physical parameters so this estimate can serve as the ``quad``
@@ -658,11 +658,19 @@ def run_fig8_ekf(
     mag_incl = ekf_cfg.get('mag_inclination', np.deg2rad(60.0))
     mag_decl = ekf_cfg.get('mag_declination', 0.0)
     gps_sensor = gps(noise_std=ekf_cfg['gps_std'], isideal=ekf_cfg.get('ideal_gps', False))
-    imu_sensor = imu(isideal=ekf_cfg['ideal_imu'], gyro_std=ekf_cfg['gyro_std'] * imu_noise_scale,
-                      acc_std=ekf_cfg['acc_std'] * imu_noise_scale)
-    mag_sensor = magnetometer(noise_std=ekf_cfg['mag_std'],
-                              inclination=mag_incl, declination=mag_decl,
-                              isideal=ekf_cfg.get('ideal_magnetometer', False))
+    imu_sensor = imu(
+        isideal=ekf_cfg['ideal_imu'],
+        gyro_std=ekf_cfg['gyro_std'] * imu_noise_scale,
+        acc_std=ekf_cfg['acc_std'] * imu_noise_scale,
+        g=quad_true.g,
+        frame='ENU',
+    )
+    mag_sensor = magnetometer(
+        noise_std=ekf_cfg['mag_std'],
+        inclination=mag_incl, declination=mag_decl,
+        isideal=ekf_cfg.get('ideal_magnetometer', False),
+        frame='ENU',
+    )
 
     est = ekf_quad(x0, ekf_cfg['P0'], ekf_cfg['Q'],
                 ekf_cfg['R_gps'], R_gyro_eff,

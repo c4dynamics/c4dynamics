@@ -57,7 +57,7 @@ class TestQuadPid(unittest.TestCase):
         np.testing.assert_array_almost_equal(dx[6:12], np.zeros(6))
 
     def test_dynamics_asymmetric_thrust_produces_roll(self):
-        # X config: w3 = left CW, w4 = right CW -- a right-heavy imbalance
+        # X config: w3 = front-left CW, w4 = rear-right CW -- an imbalance
         # must produce a nonzero roll angular acceleration.
         w_hover = np.sqrt(self.quad.m * self.quad.g / (4 * self.quad.kT))
         rotor_speeds = np.array([w_hover, w_hover, w_hover * 1.1, w_hover * 0.9])
@@ -111,8 +111,8 @@ class TestQuadPid(unittest.TestCase):
 
         T_out = F1 + F2 + F3 + F4
         tau_phi_out = self.quad.l * (-F1 + F2 + F3 - F4)
-        tau_theta_out = self.quad.l * (F1 - F2 + F3 - F4)
-        tau_psi_out = gamma * (F1 + F2 - F3 - F4)
+        tau_theta_out = self.quad.l * (-F1 + F2 - F3 + F4)
+        tau_psi_out = gamma * (-F1 - F2 + F3 + F4)
 
         self.assertAlmostEqual(T_out, T_cmd, places=5)
         self.assertAlmostEqual(tau_phi_out, tau_phi_cmd, places=3)
@@ -136,6 +136,19 @@ class TestQuadPid(unittest.TestCase):
         self.assertEqual(outer.g, self.quad.g)
         self.assertEqual(allocator.kT, self.quad.kT)
 
+    def test_outer_loop_tilt_compensates_thrust(self):
+        # zero errors, tilted: the vertical part of the thrust, T cos(phi)
+        # cos(theta), must still carry the weight.
+        phi, theta = np.deg2rad(15.0), np.deg2rad(-10.0)
+        outer, _, _, _ = InitializeControllers(self.controller_params, self.quad)
+        tilted = c4d.state(x=0.0, y=0.0, z=1.5, vx=0.0, vy=0.0, vz=0.0,
+                           phi=phi, theta=theta, psi=0.0)
+        T_cmd, _, _, _ = outer.compute(
+            Xd=0.0, Yd=0.0, Zd=1.5, Vxd=0.0, Vyd=0.0, Psi_sp=0.0,
+            quad=tilted, Ts=1.0 / 50.0)
+        self.assertAlmostEqual(T_cmd * np.cos(phi) * np.cos(theta),
+                               self.quad.m * self.quad.g, places=9)
+
     def test_outer_loop_near_zero_error_gives_near_hover_thrust(self):
         outer, _, _, _ = InitializeControllers(self.controller_params, self.quad)
         hover_state = c4d.state(x=0.0, y=0.0, z=1.5, vx=0.0, vy=0.0, vz=0.0,
@@ -148,6 +161,83 @@ class TestQuadPid(unittest.TestCase):
                                delta=0.05 * self.quad.m * self.quad.g)
         self.assertLess(abs(phi_d), 1e-6)
         self.assertLess(abs(theta_d), 1e-6)
+
+    #
+    # FLU body frame sign conventions
+    #
+
+    def _rates_dot(self, rotor_speeds):
+        dx = dynamics(0.0, np.zeros(12), self.quad, rotor_speeds)
+        return dx[9:12]
+
+    def test_flu_rear_heavy_thrust_pitches_nose_down(self):
+        # rear motors (2, 4) stronger -> nose down -> positive pitch in FLU
+        w = np.sqrt(self.quad.m * self.quad.g / (4 * self.quad.kT))
+        dp, dq, dr = self._rates_dot(np.array([w, 1.05 * w, w, 1.05 * w]))
+        self.assertGreater(dq, 1e-3)
+
+    def test_flu_left_heavy_thrust_rolls_right_side_down(self):
+        # left motors (2, 3) stronger -> right side down -> positive roll
+        w = np.sqrt(self.quad.m * self.quad.g / (4 * self.quad.kT))
+        dp, dq, dr = self._rates_dot(np.array([w, 1.05 * w, 1.05 * w, w]))
+        self.assertGreater(dp, 1e-3)
+
+    def test_flu_cw_rotors_faster_yaws_left(self):
+        # CW rotors (3, 4) faster -> reaction torque CCW seen from above ->
+        # positive yaw (nose left) in FLU
+        w = np.sqrt(self.quad.m * self.quad.g / (4 * self.quad.kT))
+        dp, dq, dr = self._rates_dot(np.array([w, w, 1.05 * w, 1.05 * w]))
+        self.assertGreater(dr, 1e-6)
+
+    def test_flu_nose_down_accelerates_forward(self):
+        # facing east (psi = 0), pitched nose down at hover thrust -> +x accel
+        w = np.sqrt(self.quad.m * self.quad.g / (4 * self.quad.kT))
+        x = np.zeros(12); x[7] = 0.1
+        dx = dynamics(0.0, x, self.quad, np.full(4, w))
+        self.assertGreater(dx[3], 0.1)
+
+    def test_flu_hover_thrust_balances_gravity(self):
+        w = np.sqrt(self.quad.m * self.quad.g / (4 * self.quad.kT))
+        dx = dynamics(0.0, np.zeros(12), self.quad, np.full(4, w))
+        self.assertAlmostEqual(dx[5], 0.0, places=9)
+
+    def test_outer_loop_commands_follow_flu_signs(self):
+        # facing east (psi = 0): body x = east, body y = north.
+        outer, _, _, _ = InitializeControllers(self.controller_params, self.quad)
+        hover = dict(x=0.0, y=0.0, z=1.5, vx=0.0, vy=0.0, vz=0.0,
+                     phi=0.0, theta=0.0, psi=0.0)
+        # target ahead (east) -> nose down -> theta_d > 0
+        _, phi_d, theta_d, _ = outer.compute(
+            Xd=1.0, Yd=0.0, Zd=1.5, Vxd=0.0, Vyd=0.0, Psi_sp=0.0,
+            quad=c4d.state(**hover), Ts=1.0 / 50.0)
+        self.assertGreater(theta_d, 0.0)
+        # target to the right (south) -> right side down -> phi_d > 0
+        outer, _, _, _ = InitializeControllers(self.controller_params, self.quad)
+        _, phi_d, theta_d, _ = outer.compute(
+            Xd=0.0, Yd=-1.0, Zd=1.5, Vxd=0.0, Vyd=0.0, Psi_sp=0.0,
+            quad=c4d.state(**hover), Ts=1.0 / 50.0)
+        self.assertGreater(phi_d, 0.0)
+
+    def test_velocity_feedforward_tilts_toward_commanded_velocity(self):
+        # zero position error, hovering, facing east. A commanded velocity
+        # must tilt the thrust toward it on both axes, the same way the
+        # position feedback does.
+        # Kd also acts on (Vff - V); zero it so only the feedforward term is tested
+        params = dict(self.controller_params, Kd_x=0.0, Kd_y=0.0)
+        hover = dict(x=0.0, y=0.0, z=1.5, vx=0.0, vy=0.0, vz=0.0,
+                     phi=0.0, theta=0.0, psi=0.0)
+        # forward (east) -> nose down -> theta_d > 0
+        outer, _, _, _ = InitializeControllers(params, self.quad)
+        _, phi_d, theta_d, _ = outer.compute(
+            Xd=0.0, Yd=0.0, Zd=1.5, Vxd=1.0, Vyd=0.0, Psi_sp=0.0,
+            quad=c4d.state(**hover), Ts=1.0 / 50.0)
+        self.assertGreater(theta_d, 0.0)
+        # left (north) -> left side down -> phi_d < 0
+        outer, _, _, _ = InitializeControllers(params, self.quad)
+        _, phi_d, theta_d, _ = outer.compute(
+            Xd=0.0, Yd=0.0, Zd=1.5, Vxd=0.0, Vyd=1.0, Psi_sp=0.0,
+            quad=c4d.state(**hover), Ts=1.0 / 50.0)
+        self.assertLess(phi_d, 0.0)
 
 
 if __name__ == "__main__":

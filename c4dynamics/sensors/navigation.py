@@ -436,6 +436,10 @@ class imu(c4d.state):
         Fallback timestep, [s], used for the accelerometer's finite-difference
         inertial term when consecutive calls to :meth:`measure` don't carry
         increasing `t` values. Defaults ``0.005`` (:math:`200Hz`).
+    frame : {'NED', 'ENU'}, optional
+        Convention of the inertial frame the true state is expressed in:
+        ``'NED'`` (x north, y east, z down) or ``'ENU'`` (x east, y north,
+        z up). It sets the direction of gravity. Defaults ``'NED'``.
 
 
     See Also
@@ -472,10 +476,14 @@ class imu(c4d.state):
 
     .. math::
 
-        [a_x, a_y, a_z]_{ideal} = [BI] \\cdot \\big(\\dot{v} + [0,\\ 0,\\ g]^T\\big)
+        [a_x, a_y, a_z]_{ideal} = [BI] \\cdot \\big(\\dot{v} - g_I\\big)
 
-    where :math:`[BI]` is the body-from-inertial DCM and :math:`\\dot{v}` is
-    the inertial-velocity derivative. Since `measure` is given only the
+    where :math:`[BI]` is the body-from-inertial DCM, :math:`\\dot{v}` is
+    the inertial-velocity derivative, and :math:`g_I` is the gravity vector
+    in the inertial frame: :math:`[0,\\ 0,\\ g]^T` for ``frame = 'NED'``
+    (z down), :math:`[0,\\ 0,\\ -g]^T` for ``frame = 'ENU'`` (z up).
+    A vehicle at rest and level therefore reads :math:`a_z = -g` in
+    :math:`NED` and :math:`a_z = +g` in :math:`ENU`. Since `measure` is given only the
     current true state, :math:`\\dot{v}` is approximated by a finite
     difference against the *previous* call's true state:
 
@@ -541,6 +549,21 @@ class imu(c4d.state):
         >>> az # doctest: +ELLIPSIS
         -9.760...
 
+    **Frame convention**
+
+    The default inertial frame is :math:`NED` (z down). For a state in
+    :math:`ENU` (z up), set ``frame = 'ENU'``. At rest and level, the
+    accelerometer reads :math:`-g` on z in :math:`NED` and :math:`+g` in
+    :math:`ENU`:
+
+    .. code::
+
+        >>> rb = c4d.rigidbody()
+        >>> c4d.sensors.imu(isideal = True).measure(rb)[2]
+        -9.81
+        >>> c4d.sensors.imu(isideal = True, frame = 'ENU').measure(rb)[2]
+        9.81
+
     **Non-ideal imu**
 
     .. code::
@@ -585,8 +608,12 @@ class imu(c4d.state):
     """
 
     def __init__(self, gyro_std=0.01, acc_std=0.05, gyro_bias=None,
-                 acc_bias=None, g=9.81, isideal=False, dt=0.005):
+                 acc_bias=None, g=9.81, isideal=False, dt=0.005, frame='NED'):
         super().__init__(ax=0.0, ay=0.0, az=0.0, p=0.0, q=0.0, r=0.0)
+
+        if frame not in ('NED', 'ENU'):
+            raise ValueError(f"frame must be 'NED' or 'ENU', got {frame!r}")
+        self.frame = frame
 
         self.gyro_std = gyro_std
         self.acc_std  = acc_std
@@ -669,27 +696,26 @@ class imu(c4d.state):
 
         # ---- accelerometer: body-frame specific force -------------------
         phi, theta, psi = x_true[6], x_true[7], x_true[8]
-        sp, cp = np.sin(phi), np.cos(phi)
-        st, ct = np.sin(theta), np.cos(theta)
+        BI = c4d.rotmat.dcm321(phi, theta, psi)
 
-        ax = self.g * st            # gravity projection
-        ay = -self.g * sp * ct
-        az = -self.g * cp * ct
+        # gravity in the inertial frame: down is +z in NED, -z in ENU
+        if self.frame == 'NED':
+            g_inertial = np.array([0.0, 0.0, self.g])
+        elif self.frame == 'ENU':
+            g_inertial = np.array([0.0, 0.0, -self.g])
+        else:
+            raise ValueError(f"frame must be 'NED' or 'ENU', got {self.frame!r}")
+        dv_inertial = np.zeros(3)  # inertial acceleration vector
 
         if self._x_prev is not None:  # inertial term, needs a previous sample
             dtc = self.dt
             if t != -1 and self._t_prev is not None and self._t_prev != -1 and t > self._t_prev:
                 dtc = t - self._t_prev
+            dv_inertial = (x_true[3:6] - self._x_prev[3:6]) / dtc
 
-            ss, cs = np.sin(psi), np.cos(psi)
-            dvx = (x_true[3] - self._x_prev[3]) / dtc
-            dvy = (x_true[4] - self._x_prev[4]) / dtc
-            dvz = (x_true[5] - self._x_prev[5]) / dtc
-            ax += (ct*cs)*dvx - (ct*ss)*dvy + st*dvz
-            ay += (sp*st*cs - cp*ss)*dvx - (sp*st*ss + cp*cs)*dvy - (sp*ct)*dvz
-            az += (sp*ss + st*cp*cs)*dvx + (sp*cs - ss*st*cp)*dvy - (cp*ct)*dvz
+        a_specific_body = BI @ (dv_inertial - g_inertial)
 
-        ax, ay, az = np.array([ax, ay, az]) + self.acc_bias + np.random.randn(3) * self.acc_std
+        ax, ay, az = a_specific_body + self.acc_bias + np.random.randn(3) * self.acc_std
 
         self.ax, self.ay, self.az, self.p, self.q, self.r = ax, ay, az, p, q, r
 
@@ -840,6 +866,11 @@ class magnetometer:
         If ``True``, overrides ``noise_std`` / ``hard_iron`` / ``soft_iron``
         to produce an ideal (noise-free, distortion-free) magnetometer.  The
         reference field itself is unaffected.  Defaults to ``False``.
+    frame : {'NED', 'ENU'}, optional
+        Convention of the inertial frame the true state is expressed in:
+        ``'NED'`` (x north, y east, z down) or ``'ENU'`` (x east, y north,
+        z up). It sets the components of the reference field
+        :math:`m_{ref}`. Defaults to ``'NED'``.
 
 
     See Also
@@ -852,14 +883,23 @@ class magnetometer:
     **Functionality**
 
     The reference field is built from its total intensity, inclination and
-    declination and held fixed in the navigation frame associated with the
-    state's 3-2-1 Euler angles (``x`` forward/north, ``y`` right/east, ``z``
-    down):
+    declination and held fixed in the inertial frame associated with the
+    state's 3-2-1 Euler angles. For ``frame = 'NED'`` (``x`` north, ``y``
+    east, ``z`` down):
 
     .. math::
 
         m_{ref} = F \\cdot
             [\\cos I \\cos D,\\ \\cos I \\sin D,\\ \\sin I]^T
+
+    For ``frame = 'ENU'`` (``x`` east, ``y`` north, ``z`` up), the same
+    field has its north and east components swapped and its vertical
+    component negated:
+
+    .. math::
+
+        m_{ref} = F \\cdot
+            [\\cos I \\sin D,\\ \\cos I \\cos D,\\ -\\sin I]^T
 
     At each sample, given the 12-state vector
 
@@ -969,6 +1009,20 @@ class magnetometer:
         [0.439  -0.24  0.866]
 
 
+    **Frame convention**
+
+    The default inertial frame is :math:`NED` (z down). For a state in
+    :math:`ENU` (z up), set ``frame = 'ENU'``. Level with zero Euler angles,
+    the body ``x`` axis points east and ``z`` points up, so the horizontal
+    field appears on ``y`` (north) and the dip points along ``-z``:
+
+    .. code::
+
+        >>> mag_enu = c4d.sensors.magnetometer(isideal=True, frame='ENU')
+        >>> mag_enu.measure(np.zeros(12))   # doctest: +NUMPY_FORMAT
+        [0.  0.5  -0.866]
+
+
     **Non-ideal magnetometer**
 
     A non-ideal magnetometer adds white measurement noise (and, optionally,
@@ -1046,7 +1100,10 @@ class magnetometer:
 
     def __init__(self, noise_std=0.02, hard_iron=None, soft_iron=None,
                  field_intensity=1.0, inclination=np.pi / 3, declination=0.0,
-                 isideal=False):
+                 isideal=False, frame='NED'):
+        if frame not in ('NED', 'ENU'):
+            raise ValueError(f"frame must be 'NED' or 'ENU', got {frame!r}")
+        self.frame = frame
         self.noise_std = np.broadcast_to(
             np.asarray(noise_std, float), (3,)).astype(float)
         self.hard_iron = (np.zeros(3) if hard_iron is None
@@ -1057,14 +1114,33 @@ class magnetometer:
         self.inclination = inclination
         self.declination = declination
 
-        cI, sI = np.cos(inclination), np.sin(inclination)
-        cD, sD = np.cos(declination), np.sin(declination)
-        self.mref = field_intensity * np.array([cI * cD, cI * sD, sI])
-
         if isideal:
             self.noise_std = np.zeros(3)
             self.hard_iron = np.zeros(3)
             self.soft_iron = np.eye(3)
+
+    @property
+    def mref(self):
+        """
+        Reference geomagnetic field in the inertial frame.
+
+        Computed from ``field_intensity``, ``inclination``, ``declination``
+        and ``frame`` at every access, so changing any of them after
+        construction takes effect.
+
+        Returns
+        -------
+        numpy.ndarray
+            ``[N, E, D]`` components for ``frame = 'NED'``, ``[E, N, U]``
+            for ``frame = 'ENU'``, in the units of ``field_intensity``.
+        """
+        cI, sI = np.cos(self.inclination), np.sin(self.inclination)
+        cD, sD = np.cos(self.declination), np.sin(self.declination)
+        if self.frame == 'NED':
+            return self.field_intensity * np.array([cI * cD, cI * sD, sI])
+        if self.frame == 'ENU':
+            return self.field_intensity * np.array([cI * sD, cI * cD, -sI])
+        raise ValueError(f"frame must be 'NED' or 'ENU', got {self.frame!r}")
 
     def measure(self, x_true):
         """

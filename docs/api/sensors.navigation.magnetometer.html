@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Magnetometer &#8212; C4DYNAMICS v2.4</title>
+    <title>Magnetometer &#8212; C4DYNAMICS v2.5</title>
   
   
   
@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=9cc71fc0"></script>
+    <script src="../_static/documentation_options.js?v=7769aa4a"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -71,7 +71,7 @@
     <link rel="prev" title="c4dynamics.sensors.navigation.imu.measure" href="generated/imu/c4dynamics.sensors.navigation.imu.measure.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Sep 23, 2026"/>
+    <meta name="docbuild:last-update" content="Oct 08, 2026"/>
   </head>
   
   
@@ -157,7 +157,7 @@
   
   
   
-    <p class="title logo__title">C4DYNAMICS v2.4</p>
+    <p class="title logo__title">C4DYNAMICS v2.5</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -539,7 +539,7 @@ document.write(`
 <h1>Magnetometer<a class="headerlink" href="#magnetometer" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="c4dynamics.sensors.navigation.magnetometer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">c4dynamics.sensors.navigation.</span></span><span class="sig-name descname"><span class="pre">magnetometer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">noise_std</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.02</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hard_iron</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soft_iron</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_intensity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inclination</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0471975511965976</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">declination</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isideal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/c4dynamics/sensors/navigation.html#magnetometer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#c4dynamics.sensors.navigation.magnetometer" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">c4dynamics.sensors.navigation.</span></span><span class="sig-name descname"><span class="pre">magnetometer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">noise_std</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.02</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hard_iron</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soft_iron</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_intensity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inclination</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0471975511965976</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">declination</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isideal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'NED'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/c4dynamics/sensors/navigation.html#magnetometer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#c4dynamics.sensors.navigation.magnetometer" title="Link to this definition">#</a></dt>
 <dd><p>Magnetometer — 3-axis geomagnetic field sensor.</p>
 <p>The <a class="reference internal" href="#c4dynamics.sensors.navigation.magnetometer" title="c4dynamics.sensors.navigation.magnetometer"><code class="xref py py-class docutils literal notranslate"><span class="pre">magnetometer</span></code></a> class models a strapdown 3-axis magnetometer.
 It measures the local geomagnetic field vector expressed in the vehicle
@@ -569,6 +569,10 @@ east of north.  Defaults to <code class="docutils literal notranslate"><span cla
 <li><p><strong>isideal</strong> (<em>bool</em><em>, </em><em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, overrides <code class="docutils literal notranslate"><span class="pre">noise_std</span></code> / <code class="docutils literal notranslate"><span class="pre">hard_iron</span></code> / <code class="docutils literal notranslate"><span class="pre">soft_iron</span></code>
 to produce an ideal (noise-free, distortion-free) magnetometer.  The
 reference field itself is unaffected.  Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+<li><p><strong>frame</strong> (<em>{'NED'</em><em>, </em><em>'ENU'}</em><em>, </em><em>optional</em>) – Convention of the inertial frame the true state is expressed in:
+<code class="docutils literal notranslate"><span class="pre">'NED'</span></code> (x north, y east, z down) or <code class="docutils literal notranslate"><span class="pre">'ENU'</span></code> (x east, y north,
+z up). It sets the components of the reference field
+<span class="math notranslate nohighlight">\(m_{ref}\)</span>. Defaults to <code class="docutils literal notranslate"><span class="pre">'NED'</span></code>.</p></li>
 </ul>
 </dd>
 </dl>
@@ -578,12 +582,18 @@ reference field itself is unaffected.  Defaults to <code class="docutils literal
 </div>
 <p><strong>Functionality</strong></p>
 <p>The reference field is built from its total intensity, inclination and
-declination and held fixed in the navigation frame associated with the
-state’s 3-2-1 Euler angles (<code class="docutils literal notranslate"><span class="pre">x</span></code> forward/north, <code class="docutils literal notranslate"><span class="pre">y</span></code> right/east, <code class="docutils literal notranslate"><span class="pre">z</span></code>
-down):</p>
+declination and held fixed in the inertial frame associated with the
+state’s 3-2-1 Euler angles. For <code class="docutils literal notranslate"><span class="pre">frame</span> <span class="pre">=</span> <span class="pre">'NED'</span></code> (<code class="docutils literal notranslate"><span class="pre">x</span></code> north, <code class="docutils literal notranslate"><span class="pre">y</span></code>
+east, <code class="docutils literal notranslate"><span class="pre">z</span></code> down):</p>
 <div class="math notranslate nohighlight">
 \[m_{ref} = F \cdot
     [\cos I \cos D,\ \cos I \sin D,\ \sin I]^T\]</div>
+<p>For <code class="docutils literal notranslate"><span class="pre">frame</span> <span class="pre">=</span> <span class="pre">'ENU'</span></code> (<code class="docutils literal notranslate"><span class="pre">x</span></code> east, <code class="docutils literal notranslate"><span class="pre">y</span></code> north, <code class="docutils literal notranslate"><span class="pre">z</span></code> up), the same
+field has its north and east components swapped and its vertical
+component negated:</p>
+<div class="math notranslate nohighlight">
+\[m_{ref} = F \cdot
+    [\cos I \sin D,\ \cos I \cos D,\ -\sin I]^T\]</div>
 <p>At each sample, given the 12-state vector</p>
 <div class="math notranslate nohighlight">
 \[X = [x, y, z, v_x, v_y, v_z, \varphi, \theta, \psi, p, q, r]^T\]</div>
@@ -658,6 +668,16 @@ body <code class="docutils literal notranslate"><span class="pre">y</span></code
 preserved:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mag_ideal</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">x_true</span><span class="p">)</span>   
 <span class="go">[0.439  -0.24  0.866]</span>
+</pre></div>
+</div>
+<p><strong>Frame convention</strong></p>
+<p>The default inertial frame is <span class="math notranslate nohighlight">\(NED\)</span> (z down). For a state in
+<span class="math notranslate nohighlight">\(ENU\)</span> (z up), set <code class="docutils literal notranslate"><span class="pre">frame</span> <span class="pre">=</span> <span class="pre">'ENU'</span></code>. Level with zero Euler angles,
+the body <code class="docutils literal notranslate"><span class="pre">x</span></code> axis points east and <code class="docutils literal notranslate"><span class="pre">z</span></code> points up, so the horizontal
+field appears on <code class="docutils literal notranslate"><span class="pre">y</span></code> (north) and the dip points along <code class="docutils literal notranslate"><span class="pre">-z</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mag_enu</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">sensors</span><span class="o">.</span><span class="n">magnetometer</span><span class="p">(</span><span class="n">isideal</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="s1">&#39;ENU&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mag_enu</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">12</span><span class="p">))</span>   
+<span class="go">[0.  0.5  -0.866]</span>
 </pre></div>
 </div>
 <p><strong>Non-ideal magnetometer</strong></p>
@@ -806,7 +826,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Sep 23, 2026.
+  Last updated on Oct 08, 2026.
   <br/>
 </p>
   </div>

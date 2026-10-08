@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Quadcopter Cascade PID — Figure-8 Trajectory Tracking &#8212; C4DYNAMICS v2.4</title>
+    <title>Quadcopter Cascade PID — Figure-8 Trajectory Tracking &#8212; C4DYNAMICS v2.5</title>
   
   
   
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=9cc71fc0"></script>
+    <script src="../../_static/documentation_options.js?v=7769aa4a"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -72,7 +72,7 @@
     <link rel="prev" title="Interactive Guide to State Space and State Objects Modeling" href="../../tutorials/introduction_guide.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Sep 23, 2026"/>
+    <meta name="docbuild:last-update" content="Oct 08, 2026"/>
   </head>
   
   
@@ -158,7 +158,7 @@
   
   
   
-    <p class="title logo__title">C4DYNAMICS v2.4</p>
+    <p class="title logo__title">C4DYNAMICS v2.5</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -617,8 +617,14 @@ document.write(`
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="c1"># On Google Colab, install c4dynamics. Pin &gt;=2.5.0: this notebook uses the</span>
+<span class="c1"># FLU (forward-left-up) body frame introduced in that release.</span>
 <span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
-    <span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>c4dynamics
+    <span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-q<span class="w"> </span><span class="s2">&quot;c4dynamics&gt;=2.5.0&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">c4d</span>
+<span class="k">assert</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">c4d</span><span class="o">.</span><span class="n">__version__</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[:</span><span class="mi">2</span><span class="p">]))</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span>
+    <span class="sa">f</span><span class="s1">&#39;this notebook needs c4dynamics &gt;= 2.5.0, found </span><span class="si">{</span><span class="n">c4d</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics.controllers.quad_pid</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">run_fig8_pid</span><span class="p">,</span>
                                               <span class="n">plot_results</span><span class="p">,</span>
@@ -672,8 +678,8 @@ p &amp; q &amp; r
 <section id="Reference-Frame">
 <h3>Reference Frame<a class="headerlink" href="#Reference-Frame" title="Link to this heading">#</a></h3>
 <div class="line-block">
-<div class="line">In this work we adopt the <em>FRD</em> (front-right-down) for the body referece frame and <em>ENU</em> (east-north-up) for the inertial frame (see figure 1).</div>
-<div class="line">In this body frame convention, the thurst acts along the negative body z-axis (<span class="math notranslate nohighlight">\(-z_b\)</span>).</div>
+<div class="line">In this work we adopt the <em>FLU</em> (front-left-up) for the body referece frame and <em>ENU</em> (east-north-up) for the inertial frame (see figure 1).</div>
+<div class="line">In this body frame convention, the thrust acts along the positive body z-axis (<span class="math notranslate nohighlight">\(+z_b\)</span>).</div>
 <div class="line">Positive rates about an axis is given by curling the right-hand fingers.</div>
 <div class="line">Propellers rotation:</div>
 <div class="line">Rotor 1: <em>CCW</em> (counter-clockwise)</div>
@@ -682,8 +688,8 @@ p &amp; q &amp; r
 <div class="line">Rotor 4: <em>CW</em></div>
 <div class="line">Yaw torque arises from the reaction torques of the rotors, with clockwise propeller causes a counter-clockwise moment on the quadcopter.</div>
 </div>
-<div style="text-align: center;"><p><img alt="alt text" src="../../_images/quad_frame1.png" /></p>
-<figcaption><p>Figure 1: Reference systems. Inertial system: ENU (east, north, up). Body frame: (forward, right, down). Positive rotation about an axis is given by curling the right-hand fingers. Propellers rotation: 1: CCW (counter-clockwise) , 2: CCW, 3: CW, 4: CW.</p>
+<div style="text-align: center;"><p><img alt="alt text" src="../../_images/quad_frame_enu_flu1.png" /></p>
+<figcaption><p>Figure 1: Reference systems. Inertial system: ENU (east, north, up). Body frame: (forward, left, up). Positive rotation about an axis is given by curling the right-hand fingers. Propellers rotation: 1: CCW (counter-clockwise) , 2: CCW, 3: CW, 4: CW.</p>
 </figcaption></div></section>
 <section id="Dynamics">
 <h3>Dynamics<a class="headerlink" href="#Dynamics" title="Link to this heading">#</a></h3>
@@ -699,7 +705,7 @@ p &amp; q &amp; r
 <li><p><span class="math notranslate nohighlight">\(\mathbf{F}_{drag}\)</span>: aerodynamic drag force, proportional to velocity [N]</p></li>
 <li><p><span class="math notranslate nohighlight">\(\mathbf{F}_{gravity}\)</span>: gravitational force acting downward on the quadcopter [N]</p></li>
 </ul>
-<p>The thrust <span class="math notranslate nohighlight">\(T\)</span> acts along <span class="math notranslate nohighlight">\(-Z_b\)</span> and is projected to the inertial frame via the <span class="math notranslate nohighlight">\(ZYX\)</span> rotation matrix.</p>
+<p>The thrust <span class="math notranslate nohighlight">\(T\)</span> acts along <span class="math notranslate nohighlight">\(+Z_b\)</span> and is projected to the inertial frame via the <span class="math notranslate nohighlight">\(ZYX\)</span> rotation matrix.</p>
 <p><strong>Rotational dynamics</strong> (Euler’s equations in body frame):</p>
 <div class="math notranslate nohighlight">
 \[\mathbf{I}\dot{\boldsymbol{\omega}} + \boldsymbol{\omega} \times \mathbf{I}\boldsymbol{\omega} = \boldsymbol{\tau}\]</div>
@@ -906,10 +912,10 @@ p &amp; q &amp; r
 <p>The normalized (geometric factors are handled separately) mixer matrix <span class="math notranslate nohighlight">\(\mathbf{\Gamma}^{-1}\)</span> for an x configuration with prepellents 1, 2 <em>CCW</em> and 3, 4 <em>CW</em> is given by:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{bmatrix}
-1 &amp; -1 &amp;  \ \ \ 1 &amp; \ \ \  1 \\
-1 &amp; \ \ \ 1 &amp; -1 &amp;  \ \ \ 1 \\
+1 &amp; -1 &amp; -1 &amp; -1 \\
 1 &amp; \ \ \ 1 &amp; \ \ \ 1 &amp; -1 \\
-1 &amp; -1 &amp; -1 &amp; -1
+1 &amp; \ \ \ 1 &amp; -1 &amp;  \ \ \ 1 \\
+1 &amp; -1 &amp;  \ \ \ 1 &amp; \ \ \  1
 \end{bmatrix}\end{split}\]</div>
 <div class="line-block">
 <div class="line">This matrix is the inverse of the force–torque mapping derived from rotor positions and spin directions.</div>
@@ -1107,8 +1113,8 @@ Simulation complete.
    TRACKING PERFORMANCE METRICS
 =============================================
   RMSE x : 0.1991 m  (5.0% of x amplitude)
-  RMSE y : 0.3830 m  (19.2% of y amplitude)
-  RMSE z : 0.007003 m  (0.140% of altitude)
+  RMSE y : 0.1861 m  (9.3% of y amplitude)
+  RMSE z : 0.007064 m  (0.141% of altitude)
   Max altitude deviation : 8.42 cm
 =============================================
 </pre></div></div>
@@ -1233,7 +1239,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Sep 23, 2026.
+  Last updated on Oct 08, 2026.
   <br/>
 </p>
   </div>

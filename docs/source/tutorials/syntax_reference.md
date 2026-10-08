@@ -198,12 +198,12 @@ c4d.sensors.gps(noise_std=0.5, bias=None, isideal=False)
 `.measure(x_true)`
 
 ```python
-c4d.sensors.imu(gyro_std=0.01, acc_std=0.05, gyro_bias=None, ...)
+c4d.sensors.imu(gyro_std=0.01, acc_std=0.05, gyro_bias=None, ..., frame='NED')  # frame: 'NED' | 'ENU'
 ```
 `.measure(rb: rigidbody, t=-1, store=False)`
 
 ```python
-c4d.sensors.magnetometer(noise_std=0.02, hard_iron=None, soft_iron=None, ...)
+c4d.sensors.magnetometer(noise_std=0.02, hard_iron=None, soft_iron=None, ..., frame='NED')  # frame: 'NED' | 'ENU'
 ```
 `.measure(x_true)`
 

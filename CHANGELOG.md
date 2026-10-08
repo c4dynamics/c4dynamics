@@ -1,8 +1,33 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [2.5.0] - 2026-10-08
+### Added
+- `c4dynamics.sensors.navigation.imu` and `magnetometer` take a
+  `frame='NED' | 'ENU'` argument (default `'NED'`) for the convention of the
+  inertial frame the true state is expressed in. It sets the direction of
+  gravity (`imu`) and the components of the reference field `mref`
+  (`magnetometer`). The body frame follows from the Euler angles through
+  `dcm321`: FRD with `'NED'`, FLU with `'ENU'`.
+
 ### Fixed
+- `imu`: the accelerometer's motion term had the wrong sign on the y and z
+  velocity derivatives, so readings during acceleration were wrong for a
+  NED state (static readings were correct). The accelerometer is now
+  `[BI] @ (dv/dt - g_I)`.
+  **Behavior change**: `imu.measure()` returns different accelerations for
+  an accelerating body.
+- `quad_pid`: the lateral velocity feedforward (`Kff_y`) tilted the vehicle
+  away from the commanded velocity. Figure-8 y-tracking RMSE drops from
+  ~19% to ~9% of amplitude.
+- `quad_pid`: the outer loop now divides the thrust command by
+  `cos(phi) cos(theta)` (tilt compensation). It previously multiplied by
+  it, leaving the vehicle ~10% short of thrust at the 18 deg attitude limit.
+- `quad_pid`: the rotor gyroscopic coupling term now has the physically
+  correct sign.
+- `magnetometer.mref` is computed from `frame`, `inclination`,
+  `declination` and `field_intensity` at every access, so changing them
+  after construction takes effect.
 - `car_tracker` notebook: the Colab install cell now runs
   `pip install "c4dynamics[vision]"` ("Darknet importer has been
   removed" when initializing `yolov3`).
@@ -14,6 +39,15 @@ All notable changes to this project will be documented in this file.
 - Removed the hardcoded `font.family` / `fontname = 'Times New Roman'`
   plot styling from the example modules. plots now use matplotlib's default font everywhere.
 - Updated the 'hit-ground' warning in quad_pid.py to follow height criteria rather than times. 
+- `c4dynamics.controllers.quad_pid`: the body frame is now FLU
+  (forward-left-up) instead of FRD, so body-from-inertial (ENU) is
+  `dcm321(phi, theta, psi)` with no extra flip.
+  **Breaking**: `theta`, `psi`, `q`, `r`, `tau_y` and `tau_z` change sign
+  (positive pitch now lowers the nose, positive yaw turns the nose left).
+  Positions, velocities, roll, `p` and `tau_x` are unchanged.
+- `quad_ekf` use case: follows the FLU body frame; the accelerometer model
+  and the simulated IMU / magnetometer use `frame='ENU'` and the vehicle's
+  own `g`.
 
 
 ## [2.4.3] - 2026-09-04
