@@ -190,3 +190,4 @@ generate_api_reference.py
 docs/source/programs/ardupilot_sim/architecture.pdn
 docs/source/programs/ardupilot_sim/Untitled.png
 .gitignore
+docs/source/programs/pid_cascade/quad_frames.docx
