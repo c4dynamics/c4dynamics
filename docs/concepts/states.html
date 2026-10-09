@@ -570,11 +570,17 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Functionality</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pixel-point">3. Pixel Point</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quaternion-body">3. Quaternion Body</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Data Attributes</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Construction</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Functionality</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">See Also</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pixel-point">4. Pixel Point</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Data Attributes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Construction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Functionality</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">See Also</a></li>
 </ul>
 </li>
 </ul>
@@ -679,8 +685,8 @@ on a state vector.</p>
 <span class="go">[1  0  0]</span>
 </pre></div>
 </div>
-<div class="pst-scrollable-table-container"><table class="table" id="id8">
-<caption><span class="caption-text">Mathematical Operations</span><a class="headerlink" href="#id8" title="Link to this table">#</a></caption>
+<div class="pst-scrollable-table-container"><table class="table" id="id11">
+<caption><span class="caption-text">Mathematical Operations</span><a class="headerlink" href="#id11" title="Link to this table">#</a></caption>
 <colgroup>
 <col style="width: 30.0%" />
 <col style="width: 70.0%" />
@@ -737,8 +743,8 @@ on a state vector.</p>
 </tbody>
 </table>
 </div>
-<div class="pst-scrollable-table-container"><table class="table" id="id9">
-<caption><span class="caption-text">Data Management Operations</span><a class="headerlink" href="#id9" title="Link to this table">#</a></caption>
+<div class="pst-scrollable-table-container"><table class="table" id="id12">
+<caption><span class="caption-text">Data Management Operations</span><a class="headerlink" href="#id12" title="Link to this table">#</a></caption>
 <colgroup>
 <col style="width: 30.0%" />
 <col style="width: 70.0%" />
@@ -921,15 +927,17 @@ a class defining a point in space: position, velocity, and mass.</p>
 <p><a class="reference internal" href="../api/states.lib.rigidbody.html#c4dynamics.states.lib.rigidbody.rigidbody" title="c4dynamics.states.lib.rigidbody.rigidbody"><code class="xref py py-class docutils literal notranslate"><span class="pre">rigidbody</span></code></a>:
 a class rigidbody a class defining a rigid body in space, i.e.
 an object with length and angular position.</p>
-<figure class="align-default" id="id10">
-<a class="reference internal image-reference" href="../_images/body_states.svg"><img alt="../_images/body_states.svg" src="../_images/body_states.svg" style="width: 482px; height: 534px;" />
-</a>
+<p><a class="reference internal" href="../api/states.lib.quatbody.html#c4dynamics.states.lib.quatbody.quatbody" title="c4dynamics.states.lib.quatbody.quatbody"><code class="xref py py-class docutils literal notranslate"><span class="pre">quatbody</span></code></a>:
+a rigid body whose angular position is a unit quaternion
+rather than Euler angles.</p>
+<figure class="align-default" id="id13">
+<img alt="../_images/body_states.png" src="../_images/body_states.png" />
 <figcaption>
 <p><span class="caption-text"><strong>Figure:</strong>
 Conceptual diagram showing the relationship between the two
 fundamental objects used to describe bodies in space: 1) the
 datapoint, 2) the rigidbody. A rigidbody object extends the
-datapoint by adding on it body rotational motion.</span><a class="headerlink" href="#id10" title="Link to this image">#</a></p>
+datapoint by adding on it body rotational motion.</span><a class="headerlink" href="#id13" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>The <a class="reference internal" href="../api/states.lib.datapoint.html#c4dynamics.states.lib.datapoint.datapoint" title="c4dynamics.states.lib.datapoint.datapoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">datapoint</span></code></a>
@@ -1044,15 +1052,97 @@ the rigidbody attitude.</p>
 </section>
 </section>
 <hr class="docutils" />
+<section id="quaternion-body">
+<h2>3. Quaternion Body<a class="headerlink" href="#quaternion-body" title="Link to this heading">#</a></h2>
+<p>The <a class="reference internal" href="../api/states.lib.quatbody.html#c4dynamics.states.lib.quatbody.quatbody" title="c4dynamics.states.lib.quatbody.quatbody"><code class="xref py py-class docutils literal notranslate"><span class="pre">quatbody</span></code></a>
+is the quaternion counterpart of the <a class="reference internal" href="../api/states.lib.rigidbody.html#c4dynamics.states.lib.rigidbody.rigidbody" title="c4dynamics.states.lib.rigidbody.rigidbody"><code class="xref py py-class docutils literal notranslate"><span class="pre">rigidbody</span></code></a>.
+It models the same rigid body dynamics,
+but represents the attitude by a unit quaternion
+instead of the three Euler angles.</p>
+<p>The Euler angles kinematics are singular at a pitch of <span class="math notranslate nohighlight">\(\theta = \pm 90°\)</span>
+(gimbal lock), while the quaternion kinematics are not.
+This makes the <cite>quatbody</cite> suitable for agile vehicles,
+such as drones performing flips, aerobatic aircraft, or tumbling spacecraft,
+that may reach any attitude.
+For the background, see <a class="reference internal" href="kinematics.html#kinematics-quaternion"><span class="std std-ref">the quaternion kinematics</span></a>.</p>
+<section id="id4">
+<h3>Data Attributes<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<p>State variables:</p>
+<div class="math notranslate nohighlight">
+\[X = [x, y, z, v_x, v_y, v_z, q_w, q_x, q_y, q_z, p, q, r]^T\]</div>
+<ul class="simple">
+<li><p>Position, velocity, attitude quaternion (scalar first), angle rates.</p></li>
+</ul>
+<p>The quaternion components are named <cite>qw</cite>, <cite>qx</cite>, <cite>qy</cite>, <cite>qz</cite>
+rather than <cite>q0</cite>, …, <cite>q3</cite>, since the <cite>0</cite> suffix of a state variable
+is reserved for its initial value (e.g. <cite>q0</cite> is the initial pitch rate).</p>
+<p>Parameters:</p>
+<ul class="simple">
+<li><p><cite>mass</cite>: point mass.</p></li>
+<li><p><cite>I</cite>: vector of moments of inertia about 3 axes.</p></li>
+</ul>
+</section>
+<section id="id5">
+<h3>Construction<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<p>A <cite>quatbody</cite> instance is created by making a direct call to the quatbody constructor:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="kn">import</span> <span class="n">quatbody</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qb</span> <span class="o">=</span> <span class="n">quatbody</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">qb</span><span class="p">)</span>
+<span class="go">[ x  y  z  vx  vy  vz  qw  qx  qy  qz  p  q  r ]</span>
+</pre></div>
+</div>
+<p>The initial attitude is given either by Euler angles,
+as in the rigidbody, or directly by a quaternion with the <cite>quat</cite> argument:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="kn">import</span> <span class="n">d2r</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qb</span> <span class="o">=</span> <span class="n">quatbody</span><span class="p">(</span><span class="n">theta</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">d2r</span><span class="p">,</span> <span class="n">q</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">d2r</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qb</span><span class="o">.</span><span class="n">quat</span>   
+<span class="go">[0.996  0  0.087  0]</span>
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h3>Functionality<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<p>The <a class="reference internal" href="../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.inteqm.html#c4dynamics.states.lib.quatbody.quatbody.inteqm" title="c4dynamics.states.lib.quatbody.quatbody.inteqm"><code class="xref py py-meth docutils literal notranslate"><span class="pre">inteqm()</span></code></a> method uses
+the Runge-Kutta integration technique
+to evolve the state in response to external forces and moments,
+and normalizes the quaternion at the end of each step.
+The equations of motion are
+<a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm6q.html#c4dynamics.eqm.derivs.eqm6q" title="c4dynamics.eqm.derivs.eqm6q"><code class="xref py py-func docutils literal notranslate"><span class="pre">eqm6q</span></code></a> and
+<a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.integrate.int6q.html#c4dynamics.eqm.integrate.int6q" title="c4dynamics.eqm.integrate.int6q"><code class="xref py py-func docutils literal notranslate"><span class="pre">int6q</span></code></a>.</p>
+<p>The Euler angles
+<a class="reference internal" href="../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.phi.html#c4dynamics.states.lib.quatbody.quatbody.phi" title="c4dynamics.states.lib.quatbody.quatbody.phi"><code class="xref py py-attr docutils literal notranslate"><span class="pre">phi</span></code></a>,
+<a class="reference internal" href="../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.theta.html#c4dynamics.states.lib.quatbody.quatbody.theta" title="c4dynamics.states.lib.quatbody.quatbody.theta"><code class="xref py py-attr docutils literal notranslate"><span class="pre">theta</span></code></a>, and
+<a class="reference internal" href="../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.psi.html#c4dynamics.states.lib.quatbody.quatbody.psi" title="c4dynamics.states.lib.quatbody.quatbody.psi"><code class="xref py py-attr docutils literal notranslate"><span class="pre">psi</span></code></a>
+are properties derived from the quaternion,
+so code written for the rigidbody reads the attitude the same way.
+<a class="reference internal" href="../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.data.html#c4dynamics.states.lib.quatbody.quatbody.data" title="c4dynamics.states.lib.quatbody.quatbody.data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">data()</span></code></a> and
+<a class="reference internal" href="../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.plot.html#c4dynamics.states.lib.quatbody.quatbody.plot" title="c4dynamics.states.lib.quatbody.quatbody.plot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">plot()</span></code></a>
+accept them too.</p>
+<p><a class="reference internal" href="../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.BR.html#c4dynamics.states.lib.quatbody.quatbody.BR" title="c4dynamics.states.lib.quatbody.quatbody.BR"><code class="xref py py-attr docutils literal notranslate"><span class="pre">BR</span></code></a> and
+<a class="reference internal" href="../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.RB.html#c4dynamics.states.lib.quatbody.quatbody.RB" title="c4dynamics.states.lib.quatbody.quatbody.RB"><code class="xref py py-attr docutils literal notranslate"><span class="pre">RB</span></code></a> return
+the Direction Cosine Matrices, Body from Reference (<cite>[BR]</cite>)
+and Reference from Body (<cite>[RB]</cite>), computed from the quaternion.
+When a 3D model is provided, the method
+<a class="reference internal" href="../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.animate.html#c4dynamics.states.lib.quatbody.quatbody.animate" title="c4dynamics.states.lib.quatbody.quatbody.animate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">animate()</span></code></a>
+animates the object with respect to the histories of its attitude.</p>
+<p>The quadcopter equations of motion
+<a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.quadcopter.quadeqm.html#c4dynamics.eqm.quadcopter.quadeqm" title="c4dynamics.eqm.quadcopter.quadeqm"><code class="xref py py-func docutils literal notranslate"><span class="pre">quadeqm</span></code></a>
+accept the 13-state vector of the quatbody
+as well as the 12-state vector of the rigidbody.</p>
+</section>
+</section>
+<hr class="docutils" />
 <section id="pixel-point">
-<h2>3. Pixel Point<a class="headerlink" href="#pixel-point" title="Link to this heading">#</a></h2>
+<h2>4. Pixel Point<a class="headerlink" href="#pixel-point" title="Link to this heading">#</a></h2>
 <p>The <a class="reference internal" href="../api/states.lib.pixelpoint.html#c4dynamics.states.lib.pixelpoint.pixelpoint" title="c4dynamics.states.lib.pixelpoint.pixelpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">pixelpoint</span></code></a>
 class representing a data point in a video frame with a
 bounding box.</p>
 <p>This class is particularly useful for applications in computer vision,
 such as object detection and tracking.</p>
-<section id="id4">
-<h3>Data Attributes<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<section id="id7">
+<h3>Data Attributes<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
 <p>State variables:</p>
 <div class="math notranslate nohighlight">
 \[X = [x, y, w, h]^T\]</div>
@@ -1065,8 +1155,8 @@ such as object detection and tracking.</p>
 <li><p><cite>class_id</cite>: object classification.</p></li>
 </ul>
 </section>
-<section id="id5">
-<h3>Construction<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<section id="id8">
+<h3>Construction<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
 <p>Usually, the <cite>pixelpoint</cite> instance is created immediately after an object
 detection:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="kn">import</span> <span class="n">pixelpoint</span>
@@ -1080,13 +1170,13 @@ detection:</p>
 </pre></div>
 </div>
 </section>
-<section id="id6">
-<h3>Functionality<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<section id="id9">
+<h3>Functionality<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
 <p><a class="reference internal" href="../api/generated/fdp/c4dynamics.states.lib.pixelpoint.pixelpoint.box.html#c4dynamics.states.lib.pixelpoint.pixelpoint.box" title="c4dynamics.states.lib.pixelpoint.pixelpoint.box"><code class="xref py py-attr docutils literal notranslate"><span class="pre">box</span></code></a>
 returns the bounding box in terms of top-left and bottom-right coordinates.</p>
 </section>
-<section id="id7">
-<h3>See Also<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<section id="id10">
+<h3>See Also<a class="headerlink" href="#id10" title="Link to this heading">#</a></h3>
 <div class="pst-scrollable-table-container"><table class="table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="../api/states.state.html#c4dynamics.states.state.state" title="c4dynamics.states.state.state"><code class="xref py py-class docutils literal notranslate"><span class="pre">State</span></code></a></p></td>
@@ -1104,7 +1194,10 @@ returns the bounding box in terms of top-left and bottom-right coordinates.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="../api/states.lib.rigidbody.html#c4dynamics.states.lib.rigidbody.rigidbody" title="c4dynamics.states.lib.rigidbody.rigidbody"><code class="xref py py-class docutils literal notranslate"><span class="pre">rigidbody</span></code></a></p></td>
 <td><p>Rigid body object</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../api/states.lib.pixelpoint.html#c4dynamics.states.lib.pixelpoint.pixelpoint" title="c4dynamics.states.lib.pixelpoint.pixelpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">pixelpoint</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/states.lib.quatbody.html#c4dynamics.states.lib.quatbody.quatbody" title="c4dynamics.states.lib.quatbody.quatbody"><code class="xref py py-class docutils literal notranslate"><span class="pre">quatbody</span></code></a></p></td>
+<td><p>Rigid body object with a quaternion attitude</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/states.lib.pixelpoint.html#c4dynamics.states.lib.pixelpoint.pixelpoint" title="c4dynamics.states.lib.pixelpoint.pixelpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">pixelpoint</span></code></a></p></td>
 <td><p>A pixel point in an image</p></td>
 </tr>
 </tbody>
@@ -1182,11 +1275,17 @@ returns the bounding box in terms of top-left and bottom-right coordinates.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Functionality</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pixel-point">3. Pixel Point</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quaternion-body">3. Quaternion Body</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Data Attributes</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Construction</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Functionality</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">See Also</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pixel-point">4. Pixel Point</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Data Attributes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Construction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Functionality</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">See Also</a></li>
 </ul>
 </li>
 </ul>

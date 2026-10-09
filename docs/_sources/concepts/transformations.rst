@@ -69,8 +69,46 @@ in Fig-1.
 
 
 .. figure:: /_architecture/frame_conventions.svg
-   
-   Fig-1: Coordinate System Conventions 
+
+   Fig-1: Coordinate System Conventions
+
+
+Quaternions
+^^^^^^^^^^^
+
+A rotation can also be represented by a unit quaternion.
+According to Euler's rotation theorem, any orientation is reached from the
+reference frame by a single rotation through an angle :math:`\alpha`
+about a unit axis :math:`n`. The attitude quaternion stores this rotation,
+scalar first:
+
+.. math::
+
+  q = [q_w, q_x, q_y, q_z] = [cos(\alpha / 2), \; n \cdot sin(\alpha / 2)], \qquad \|q\| = 1
+
+Unlike the three Euler angles, the quaternion has no singular attitude,
+which makes it the representation of choice for vehicles that may reach any attitude.
+:math:`q` and :math:`-q` describe the same rotation.
+
+In c4dynamics, a quaternion describes the same attitude as the 3-2-1 Euler angles
+:math:`(\varphi, \theta, \psi)` of the convention above,
+and the Body from Reference DCM computed from the quaternion is identical to
+:func:`dcm321 <c4dynamics.rotmat.rotmat.dcm321>` of those angles:
+
+.. code::
+
+  >>> import c4dynamics as c4d
+  >>> import numpy as np
+  >>> phi, theta, psi = 0.2, -0.3, 1.0
+  >>> quat = c4d.rotmat.euler2quat(phi, theta, psi)
+  >>> np.allclose(c4d.rotmat.quat2dcm(quat), c4d.rotmat.dcm321(phi, theta, psi))
+  True
+  >>> np.allclose(c4d.rotmat.quat2euler(quat), [phi, theta, psi])
+  True
+
+The :class:`quatbody <c4dynamics.states.lib.quatbody.quatbody>` state object
+carries its attitude as such a quaternion. For the quaternion kinematics, see the
+:ref:`Kinematics <kinematics-quaternion>` concept page.
 
 
 References
@@ -105,6 +143,14 @@ See Also
     - Direction Cosine Matrix for a for a sequence of rotations in following order: :math:`z`, then :math:`y`, then :math:`x`
   * - :func:`dcm321euler <c4dynamics.rotmat.rotmat.dcm321euler>`
     - Extract Euler angles (roll, pitch, yaw) from a Direction Cosine Matrix (DCM) of 3-2-1 order
+  * - :func:`euler2quat <c4dynamics.rotmat.rotmat.euler2quat>`
+    - Attitude quaternion of 3-2-1 Euler angles
+  * - :func:`quat2euler <c4dynamics.rotmat.rotmat.quat2euler>`
+    - 3-2-1 Euler angles of an attitude quaternion (radians)
+  * - :func:`quat2dcm <c4dynamics.rotmat.rotmat.quat2dcm>`
+    - Body from Reference Direction Cosine Matrix of an attitude quaternion
+  * - :class:`quatbody <c4dynamics.states.lib.quatbody.quatbody>`
+    - Rigid body object with a quaternion attitude
   * - :func:`animate <c4dynamics.rotmat.animate.animate>`
     - Animates the rigid body's motion using a 3D model according to the 3-2-1 Euler angles histories.
 
