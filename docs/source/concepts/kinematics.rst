@@ -692,6 +692,8 @@ See Also
     - Translational and rotational motion derivatives of a rigid body with a quaternion attitude
   * - :func:`int6q <c4dynamics.eqm.integrate.int6q>`
     - A step integration of the equations of translational and rotational motion with a quaternion attitude
+  * - :func:`quadeqm <c4dynamics.eqm.quadcopter.quadeqm>`, :func:`quadforces <c4dynamics.eqm.quadcopter.quadforces>`
+    - Quadcopter equations of motion (rotor forces and moments through ``eqm6`` / ``eqm6q``), shaped for ``scipy.integrate.solve_ivp``
   * - :class:`quatbody <c4dynamics.states.lib.quatbody.quatbody>`
     - A rigid body state object with a quaternion attitude
   * - :func:`euler2quat <c4dynamics.rotmat.rotmat.euler2quat>`, :func:`quat2euler <c4dynamics.rotmat.rotmat.quat2euler>`, :func:`quat2dcm <c4dynamics.rotmat.rotmat.quat2dcm>`

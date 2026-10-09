@@ -21,6 +21,8 @@ Equations of Motion Solvers
     integrate.int3 
     integrate.int6 
     integrate.int6q
+    quadcopter.quadforces
+    quadcopter.quadeqm
 
 
    

@@ -1,6 +1,30 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Added
+- `c4dynamics.eqm.quadeqm(t, X, quad, rotor_speeds, frame)`: quadcopter
+  equations of motion in the `scipy.integrate.solve_ivp` signature. It
+  computes the rotor, drag and gyroscopic forces and moments, adds gravity,
+  and integrates them through `eqm6` (12-state euler body) or `eqm6q`
+  (13-state quaternion body). `frame='NED'` (FRD body) or `'ENU'` (FLU
+  body). Rotor geometry from `rotor_pos` / `rotor_dir` or an x
+  configuration from `l`; optional `wind` (drag on the air-relative
+  velocity).
+- `c4dynamics.eqm.quadforces`: the body-frame force and moment behind
+  `quadeqm`. `F_b / m` is the specific force an accelerometer reads.
+- `c4dynamics.quatbody`: a rigid body with a quaternion attitude
+  (13-state `[x, y, z, vx, vy, vz, qw, qx, qy, qz, p, q, r]`), with
+  `c4dynamics.eqm.eqm6q` / `int6q` and the `rotmat` helpers `euler2quat`,
+  `quat2euler` and `quat2dcm`. The kinematics concept page covers
+  quaternion kinematics and the rotation conventions.
+
+### Changed
+- The Cascade-PID and EKF quadcopter examples fly the same model,
+  `c4d.eqm.quadeqm`, through `solve_ivp`. `quad_pid.dynamics` is kept as a
+  wrapper (`frame='ENU'`) for backward compatibility.
+- `quad_ekf.accel_h` is the specific force of `quadforces`.
+
 ## [2.5.0] - 2026-10-08
 ### Added
 - `c4dynamics.sensors.navigation.imu` and `magnetometer` take a

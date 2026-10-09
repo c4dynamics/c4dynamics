@@ -15,7 +15,7 @@ a single call to :func:`run_fig8_ekf`.
 Design
 ------
 * The truth vehicle is a :class:`c4dynamics.rigidbody`, propagated with the
-  shared :func:`c4dynamics.controllers.quad_pid.dynamics <c4dynamics.controllers.quad_pid.dynamics>` (the *same* model the EKF uses as its
+  shared :func:`c4dynamics.eqm.quadeqm <c4dynamics.eqm.quadcopter.quadeqm>` (the *same* model the EKF uses as its
   process model).
 * The estimate is an :class:`ekf <c4dynamics.filters.ekf>` whose 12 state
   variables carry the *same names and order* as the truth.  Because the
@@ -39,7 +39,7 @@ State vector (shared with the truth rigidbody and the cascade-PID model)::
 Frames: body = forward-left-up (FLU), inertial = ENU, 3-2-1 Euler angles —
 identical to ``c4dynamics.controllers.quad_pid`` (X motor configuration, dcm321-based
 rotations). jacobian_F's translational blocks are computed numerically
-against dynamics() directly (see jacobian_F docstring) so this
+against quadeqm() directly (see jacobian_F docstring) so this
 consistency is enforced by construction rather than by hand-derivation.
 
 Contents
@@ -72,9 +72,10 @@ from scipy.integrate import solve_ivp
 
 import c4dynamics as c4d
 from c4dynamics.rotmat import dcm321
-from c4dynamics.controllers.quad_pid import (dynamics, position_reference,
+from c4dynamics.controllers.quad_pid import (position_reference,
                                              velocity_reference, InitializeControllers,
                                              ground_contact)
+from c4dynamics.eqm import quadeqm, quadforces
 from c4dynamics.sensors.navigation import gps, imu, magnetometer
 from c4dynamics import g_ms2 as g
 from c4dynamics.utils.use_cases.ekf_config import default_ekf_config
@@ -92,7 +93,7 @@ STATE_NAMES = ['x', 'y', 'z', 'vx', 'vy', 'vz',
 def _numeric_translational_jacobian(x, quad, rotor_speeds):
     """
     Numerically differentiate the translational rows of
-    :func:`c4dynamics.controllers.quad_pid.dynamics <c4dynamics.controllers.quad_pid.dynamics>` (indices 3,4,5 = dvx,dvy,dvz) with respect
+    :func:`c4dynamics.eqm.quadeqm <c4dynamics.eqm.quadcopter.quadeqm>` (indices 3,4,5 = dvx,dvy,dvz) with respect
     to [vx,vy,vz,phi,theta,psi] (state indices 3..8), via central differences.
 
     c4dynamics.controllers.quad_pid's translational model rotates velocity into the body
@@ -100,7 +101,7 @@ def _numeric_translational_jacobian(x, quad, rotor_speeds):
     inertial (``BI``/``dcm321``-based) — this couples drag to attitude and
     is no longer a simple closed-form block, so it is differentiated
     numerically here instead of hand-derived. This keeps the Jacobian
-    correct automatically if dynamics() changes again.
+    correct automatically if quadeqm() changes again.
 
     Returns
     -------
@@ -111,8 +112,8 @@ def _numeric_translational_jacobian(x, quad, rotor_speeds):
     for j, si in enumerate(idx):
         xp = x.copy(); xp[si] += EPS
         xm = x.copy(); xm[si] -= EPS
-        fp = dynamics(0.0, xp, quad, rotor_speeds)[3:6]
-        fm = dynamics(0.0, xm, quad, rotor_speeds)[3:6]
+        fp = quadeqm(0.0, xp, quad, rotor_speeds, 'ENU')[3:6]
+        fm = quadeqm(0.0, xm, quad, rotor_speeds, 'ENU')[3:6]
         block[:, j] = (fp - fm) / (2.0 * EPS)
     return block
 
@@ -122,7 +123,7 @@ def jacobian_F(x, Omega, quad, rotor_speeds, params):
     Jacobian of the rigid-body dynamics ``f(x, u)`` evaluated at the current
     state estimate.
 
-    The process model ``f`` is :func:`c4dynamics.controllers.quad_pid.dynamics <c4dynamics.controllers.quad_pid.dynamics>`. This is a
+    The process model ``f`` is :func:`c4dynamics.eqm.quadeqm <c4dynamics.eqm.quadcopter.quadeqm>`. This is a
     hybrid Jacobian:
       - Blocks 1, 4, 5, 6 (position kinematics, Euler-angle kinematics,
         Euler's rotational equations + gyroscopic coupling) are closed-form.
@@ -140,14 +141,14 @@ def jacobian_F(x, Omega, quad, rotor_speeds, params):
         Current state estimate ``[x,y,z, vx,vy,vz, phi,theta,psi, p,q,r]``.
     Omega : float
         Net rotor speed ``w1 + w2 - w3 - w4`` [rad/s] for gyroscopic coupling
-        (X-configuration convention, matching dynamics()).
+        (X-configuration convention, matching quadeqm()).
     quad : object
         Quad-like object exposing the physical parameters as attributes
         (m, g, l, kT, kQ, Ixx, Iyy, Izz, Ar, IR, Ax, Ay, Az) — passed straight
-        through to dynamics() for the numeric block.
+        through to quadeqm() for the numeric block.
     rotor_speeds : np.ndarray (4,)
         Current actual rotor speeds [w1,w2,w3,w4], needed to re-evaluate
-        dynamics() for the numeric block.
+        quadeqm() for the numeric block.
     params : dict
         Quadcopter physical parameters (mass, inertia, drag, rotor inertia).
 
@@ -231,12 +232,11 @@ H_GYRO = np.zeros((3, 12)); H_GYRO[0, 9] = H_GYRO[1, 10] = H_GYRO[2, 11] = 1.0  
 def accel_h(x, quad=None, rotor_speeds=None):
     """ Accelerometer model: body-frame specific force.
 
-    Full model: ``f_body = BI @ (a_inertial + [0,0,g])``, where
-    ``a_inertial = dynamics(x)[3:6]`` is the actual (gravity-inclusive)
-    translational acceleration and ``BI`` is dynamics()'s own
-    body-from-inertial matrix — i.e. this predicts exactly what
-    ``imu.measure`` simulates on its accelerometer channel (gravity reaction
-    + the vehicle's own drag/thrust-induced acceleration).
+    Full model: ``f_body = F_b / m``, the thrust-plus-drag body force of
+    :func:`quadforces <c4dynamics.eqm.quadcopter.quadforces>` over the mass.
+    This equals ``[BI] @ (a_inertial - g_I)`` with the acceleration of
+    :func:`quadeqm <c4dynamics.eqm.quadcopter.quadeqm>`, i.e. it predicts
+    exactly what ``imu.measure`` simulates on its accelerometer channel.
 
     That match is what lets the accelerometer update carry real information about velocity
     instead of being mostly-discarded, R_acc-inflated noise.
@@ -248,19 +248,15 @@ def accel_h(x, quad=None, rotor_speeds=None):
     if quad is None or rotor_speeds is None:
         return np.array([-g * np.sin(theta), g * np.sin(phi) * np.cos(theta)])
 
-    a_inertial = dynamics(0.0, x, quad, rotor_speeds)[3:6].copy()
-    a_inertial[2] += quad.g   # cancel dynamics()'s built-in "-quad.g" so BI acts on pure specific force
-    psi = x[8]
-    BI = dcm321(phi, theta, psi)
-    f_body = BI @ a_inertial
-    return f_body[:2]
+    F_b, _ = quadforces(x, quad, rotor_speeds, 'ENU')
+    return F_b[:2] / quad.m
 
 
 def accel_H(x, quad=None, rotor_speeds=None):
     """ Jacobian ``dh/dx`` of :func:`accel_h` at the current estimate (2 x 12).
 
     Numeric (central differences) when ``quad``/``rotor_speeds`` are given,
-    since the full model routes through dynamics()
+    since the full model routes through quadeqm()
     (DCM/body-frame-drag) and isn't practical to hand-differentiate reliably.
 
     Falls back to the closed-form gravity-only Jacobian otherwise.
@@ -408,7 +404,7 @@ class ekf_quad(c4d.filters.ekf):
         # translational block, accel_H) only every `jacobian_stride` calls,
         # reusing the last value in between. Neither Jacobian affects the
         # state estimate (that's propagated directly from the nonlinear
-        # dynamics()); they only shape the covariance P, which evolves far
+        # quadeqm()); they only shape the covariance P, which evolves far
         # more smoothly than the state does, so a slightly stale F_d/H_acc is
         # a standard, well-understood EKF approximation — not a correctness
         # risk of the kind a hand-derived-and-possibly-wrong closed form
@@ -448,7 +444,7 @@ class ekf_quad(c4d.filters.ekf):
         than the same amount per call.
         """
         x_now = np.asarray(self.X).ravel().copy()
-        x_dot = dynamics(0.0, x_now, self, rotor_speeds)   # self carries params
+        x_dot = quadeqm(0.0, x_now, self, rotor_speeds, 'ENU')   # self carries params
         self._last_rotor_speeds = np.asarray(rotor_speeds).copy()
 
         # Rescale the reference (dt_ref-tuned) Q to this step's actual dt.
@@ -464,13 +460,13 @@ class ekf_quad(c4d.filters.ekf):
         self.Q[5, 5] = self._Q_vel_base[2] * q_dt_scale * scale
 
         # Jacobian at the predicted, yaw-wrapped state. The numeric block
-        # inside jacobian_F (6 extra dynamics() calls) is the expensive part;
+        # inside jacobian_F (6 extra quadeqm() calls) is the expensive part;
         # cache it across `jacobian_stride` calls (default 1 = every call,
         # unchanged) since only P uses it, not the state estimate above.
         x_pred = x_now + dt * x_dot
         x_pred[8] = self._wrap(x_pred[8])
         # X-configuration gyro-coupling term (w1+w2-w3-w4), matching
-        # dynamics()'s motor layout.
+        # quadeqm()'s motor layout.
         Omega = rotor_speeds[0] + rotor_speeds[1] - rotor_speeds[2] - rotor_speeds[3]
         if self._F_d_cached is None or self._jac_ctr % self.jacobian_stride == 0:
             self._Fc_cached = jacobian_F(x_pred, Omega, self, rotor_speeds, self._params)
@@ -494,7 +490,7 @@ class ekf_quad(c4d.filters.ekf):
         x = np.asarray(self.X).ravel()
         rs = getattr(self, '_last_rotor_speeds', None)
         innov = np.asarray(z_acc).ravel() - accel_h(x, self, rs)   # always fresh
-        # accel_H (the expensive part -- 12 extra dynamics() calls via central
+        # accel_H (the expensive part -- 12 extra quadeqm() calls via central
         # differences) is cached across `jacobian_stride` calls, same
         # rationale as jacobian_F's numeric block in predict().
         if self._accel_H_cached is None or self._accelH_ctr % self.jacobian_stride == 0:
@@ -729,7 +725,7 @@ def run_fig8_ekf(
         # Ground-contact guard (shared with the plain cascade-PID example):
         # stop as soon as the real (quad_true) vehicle comes back down to z <= 0
         # while the reference still commands meaningful altitude -- there's no
-        # ground-collision model in dynamics(), so continuing past this point
+        # ground-collision model in quadeqm(), so continuing past this point
         # would just integrate an unphysical, below-ground trajectory. A dip to
         # z <= 0 while the reference altitude is below GROUND_REF_EPS (at rest
         # before takeoff, or the tail of a scripted landing) is expected and
@@ -814,8 +810,8 @@ def run_fig8_ekf(
             inner_time = 0.0
 
         # 5. propagate the quad_true one sim step
-        sol = solve_ivp(dynamics, [t, t + dt_sim], quad_true.X,
-                        args=(quad_true, rotor_speeds), method='RK45')
+        sol = solve_ivp(quadeqm, [t, t + dt_sim], quad_true.X,
+                        args=(quad_true, rotor_speeds, 'ENU'), method='RK45')
         quad_true.X = sol.y[:, -1]
 
     if verbose:

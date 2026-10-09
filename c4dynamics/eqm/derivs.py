@@ -156,32 +156,39 @@ def eqm6(rb: "rigidbody", F: Union[np.ndarray, list], M: Union[np.ndarray, list]
 
     """
 
-    ixx, iyy, izz = rb.I
+    return _derivs6(rb.X, rb.mass, rb.I, F, M)
+
+
+def _derivs6(X, mass, I, F, M) -> np.ndarray:
+    # euler angles six dof derivatives as a function of an explicit state vector.
+    # x, y, z, vx, vy, vz, phi, theta, psi, p, q, r
+    _, _, _, vx, vy, vz, phi, theta, _, p, q, r = X
+    ixx, iyy, izz = I
+
     #
     # translational motion derivatives
     ##
-    dx = rb.vx
-    dy = rb.vy
-    dz = rb.vz
+    dx = vx
+    dy = vy
+    dz = vz
 
-    dvx = F[0] / rb.mass
-    dvy = F[1] / rb.mass
-    dvz = F[2] / rb.mass
+    dvx = F[0] / mass
+    dvy = F[1] / mass
+    dvz = F[2] / mass
 
     #
     # euler angles derivatives
     ##
-    dphi = (rb.q * sin(rb.phi) + rb.r * cos(rb.phi)) * tan(rb.theta) + rb.p
-    dtheta = rb.q * cos(rb.phi) - rb.r * sin(rb.phi)
-    dpsi = (rb.q * sin(rb.phi) + rb.r * cos(rb.phi)) / cos(rb.theta)
+    dphi = (q * sin(phi) + r * cos(phi)) * tan(theta) + p
+    dtheta = q * cos(phi) - r * sin(phi)
+    dpsi = (q * sin(phi) + r * cos(phi)) / cos(theta)
 
     #
     # angular motion derivatives
     ##
-    # dp     = (lA - q * r * (izz - iyy)) / ixx
-    dp = 0 if ixx == 0 else (M[0] - rb.q * rb.r * (izz - iyy)) / ixx
-    dq = 0 if iyy == 0 else (M[1] - rb.p * rb.r * (ixx - izz)) / iyy
-    dr = 0 if izz == 0 else (M[2] - rb.p * rb.q * (iyy - ixx)) / izz
+    dp = 0 if ixx == 0 else (M[0] - q * r * (izz - iyy)) / ixx
+    dq = 0 if iyy == 0 else (M[1] - p * r * (ixx - izz)) / iyy
+    dr = 0 if izz == 0 else (M[2] - p * q * (iyy - ixx)) / izz
 
     #       0   1   2   3    4    5    6     7       8     9   10  11
     return np.array([dx, dy, dz, dvx, dvy, dvz, dphi, dtheta, dpsi, dp, dq, dr])

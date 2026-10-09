@@ -9,6 +9,8 @@ from c4dynamics.eqm.derivs import eqm6q as eqm6q
 from c4dynamics.eqm.integrate import int3 as int3
 from c4dynamics.eqm.integrate import int6 as int6
 from c4dynamics.eqm.integrate import int6q as int6q
+from c4dynamics.eqm.quadcopter import quadforces as quadforces
+from c4dynamics.eqm.quadcopter import quadeqm as quadeqm
 
 if __name__ == "__main__":
 
