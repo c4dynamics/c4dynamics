@@ -357,6 +357,8 @@ motion of the body they form the six-dimensional motion in space (**6DOF**).
 
 
 
+.. _kinematics-quaternion:
+
 Quaternion Kinematics
 ~~~~~~~~~~~~~~~~~~~~~
 

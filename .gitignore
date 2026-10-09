@@ -191,3 +191,4 @@ docs/source/programs/ardupilot_sim/architecture.pdn
 docs/source/programs/ardupilot_sim/Untitled.png
 .gitignore
 docs/source/programs/pid_cascade/quad_frames.docx
+docs/source/_architecture/body_states2.svg

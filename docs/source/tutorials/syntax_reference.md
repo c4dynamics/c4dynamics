@@ -83,6 +83,28 @@ rb.RB                            # reference-from-body direction cosine matrix
   `AttributeError: can't set attribute`). `rb.I` (moments of inertia) is the exception among the
   vector-valued properties — it IS settable as a 3-element list: `rb.I = [Ixx, Iyy, Izz]`.
 
+### `quatbody` — 6-DOF rigid body with a quaternion attitude (extends `datapoint`)
+
+```python
+quatbody(x=0, y=0, z=0, vx=0, vy=0, vz=0, phi=0, theta=0, psi=0, p=0, q=0, r=0, quat=None)
+```
+
+```python
+qb = c4d.quatbody(z=1000, theta=10 * c4d.d2r)   # or quat=[qw, qx, qy, qz]
+qb.X                               # [x, y, z, vx, vy, vz, qw, qx, qy, qz, p, q, r]
+qb.inteqm(forces, moments, dt)     # one RK4 step; the quaternion is normalized after the step
+qb.quat                            # [qw, qx, qy, qz], scalar first
+qb.phi, qb.theta, qb.psi           # 3-2-1 Euler angles derived from the quaternion
+```
+
+- The same dynamics as `rigidbody`, without the Euler-angle singularity at `theta = ±90°`;
+  backed by `c4dynamics.eqm.integrate.int6q`. Use it for vehicles that may reach any attitude.
+- The quaternion components are named `qw, qx, qy, qz` (not `q0..q3`: the `0` suffix is reserved
+  for initial values, e.g. `q0` is the initial pitch rate).
+- `quat` overrides `phi`/`theta`/`psi` in the constructor and is normalized. `qb.quat`, `qb.phi`,
+  `qb.theta`, `qb.psi` and `qb.I` are settable; `qb.angles` and `qb.ang_rates` are read-only, as in
+  `rigidbody`. `qb.BR`, `qb.RB`, `qb.data()`, `qb.plot()` and `qb.animate()` work as in `rigidbody`.
+
 ### `pixelpoint` — image-space bounding-box state (extends `state`)
 
 ```python
@@ -253,7 +275,10 @@ c4d.rotmat.rotx(phi)                          # elementary rotation about x
 c4d.rotmat.roty(theta)                        # elementary rotation about y
 c4d.rotmat.rotz(psi)                          # elementary rotation about z
 c4d.rotmat.dcm321(phi=0.0, theta=0.0, psi=0.0)   # 3-2-1 Euler-angle direction cosine matrix
-c4d.rotmat.dcm321euler(dcm)                      # recover 3-2-1 Euler angles from a DCM
+c4d.rotmat.dcm321euler(dcm)                      # recover 3-2-1 Euler angles (degrees) from a DCM
+c4d.rotmat.euler2quat(phi=0.0, theta=0.0, psi=0.0)  # attitude quaternion [qw, qx, qy, qz] of 3-2-1 Euler angles
+c4d.rotmat.quat2euler(quat)                      # 3-2-1 Euler angles (radians) of a quaternion
+c4d.rotmat.quat2dcm(quat)                        # body-from-reference DCM of a quaternion (= dcm321 of its angles)
 ```
 
 ## Equations of motion (`c4d.eqm`)
@@ -262,12 +287,33 @@ c4d.rotmat.dcm321euler(dcm)                      # recover 3-2-1 Euler angles fr
 c4d.eqm.eqm3(dp: datapoint, F) -> np.ndarray        # 3-DOF translational derivatives
 c4d.eqm.eqm6(rb: rigidbody, F, M) -> np.ndarray     # 6-DOF translational + rotational derivatives
 
+c4d.eqm.eqm6q(qb: quatbody, F, M) -> np.ndarray    # 6-DOF derivatives, quaternion attitude
+
 c4d.eqm.int3(dp: datapoint, forces, dt, derivs_out=False)        # one RK4 step, 3-DOF
 c4d.eqm.int6(rb: rigidbody, forces, moments, dt, derivs_out=False)  # one RK4 step, 6-DOF
+c4d.eqm.int6q(qb: quatbody, forces, moments, dt, derivs_out=False)  # one RK4 step, 6-DOF, quaternion
 ```
 
-These are the lower-level functions behind `datapoint.inteqm` / `rigidbody.inteqm` — most use
-cases call `.inteqm(...)` on the state object directly rather than these functions.
+These are the lower-level functions behind `datapoint.inteqm` / `rigidbody.inteqm` /
+`quatbody.inteqm` — most use cases call `.inteqm(...)` on the state object directly rather than
+these functions.
+
+```python
+c4d.eqm.quadeqm(t, X, quad, rotor_speeds, frame='NED') -> np.ndarray   # quadcopter derivatives, solve_ivp signature
+c4d.eqm.quadforces(X, quad, rotor_speeds, frame='NED') -> (F_b, M_b)  # body force (thrust + drag) and moment
+```
+
+`quadeqm` computes the rotor, drag and gyroscopic forces and moments, adds gravity, and returns
+the `eqm6` derivatives for a 12-state `rigidbody` vector or the `eqm6q` derivatives for a 13-state
+`quatbody` vector. `frame='NED'` (FRD body) or `'ENU'` (FLU body). The vehicle parameters are
+attributes of `quad`: `m, g, Ixx, Iyy, Izz, kT, kQ, Ax, Ay, Az, Ar`, optional `IR` and `wind`, and
+either `l` (x configuration) or `rotor_pos` / `rotor_dir`.
+
+```python
+from scipy.integrate import solve_ivp
+sol = solve_ivp(c4d.eqm.quadeqm, [t, t + dt], quad.X, args=(quad, rotor_speeds, 'ENU'))
+quad.X = sol.y[:, -1]
+```
 
 ## Utilities (`c4dynamics.utils`)
 

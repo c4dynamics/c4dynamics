@@ -550,6 +550,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#background-material">Background Material</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#euler-angles-order">Euler Angles Order</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#right-hand-frame">Right Hand Frame</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quaternions">Quaternions</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
@@ -625,6 +626,36 @@ in Fig-1.</p>
 </figcaption>
 </figure>
 </section>
+<section id="quaternions">
+<h3>Quaternions<a class="headerlink" href="#quaternions" title="Link to this heading">#</a></h3>
+<p>A rotation can also be represented by a unit quaternion.
+According to Euler’s rotation theorem, any orientation is reached from the
+reference frame by a single rotation through an angle <span class="math notranslate nohighlight">\(\alpha\)</span>
+about a unit axis <span class="math notranslate nohighlight">\(n\)</span>. The attitude quaternion stores this rotation,
+scalar first:</p>
+<div class="math notranslate nohighlight">
+\[q = [q_w, q_x, q_y, q_z] = [cos(\alpha / 2), \; n \cdot sin(\alpha / 2)], \qquad \|q\| = 1\]</div>
+<p>Unlike the three Euler angles, the quaternion has no singular attitude,
+which makes it the representation of choice for vehicles that may reach any attitude.
+<span class="math notranslate nohighlight">\(q\)</span> and <span class="math notranslate nohighlight">\(-q\)</span> describe the same rotation.</p>
+<p>In c4dynamics, a quaternion describes the same attitude as the 3-2-1 Euler angles
+<span class="math notranslate nohighlight">\((\varphi, \theta, \psi)\)</span> of the convention above,
+and the Body from Reference DCM computed from the quaternion is identical to
+<a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.rotmat.dcm321.html#c4dynamics.rotmat.rotmat.dcm321" title="c4dynamics.rotmat.rotmat.dcm321"><code class="xref py py-func docutils literal notranslate"><span class="pre">dcm321</span></code></a> of those angles:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">c4d</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">psi</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">1.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">quat</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">rotmat</span><span class="o">.</span><span class="n">euler2quat</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">psi</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">c4d</span><span class="o">.</span><span class="n">rotmat</span><span class="o">.</span><span class="n">quat2dcm</span><span class="p">(</span><span class="n">quat</span><span class="p">),</span> <span class="n">c4d</span><span class="o">.</span><span class="n">rotmat</span><span class="o">.</span><span class="n">dcm321</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">psi</span><span class="p">))</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">c4d</span><span class="o">.</span><span class="n">rotmat</span><span class="o">.</span><span class="n">quat2euler</span><span class="p">(</span><span class="n">quat</span><span class="p">),</span> <span class="p">[</span><span class="n">phi</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">psi</span><span class="p">])</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="../api/states.lib.quatbody.html#c4dynamics.states.lib.quatbody.quatbody" title="c4dynamics.states.lib.quatbody.quatbody"><code class="xref py py-class docutils literal notranslate"><span class="pre">quatbody</span></code></a> state object
+carries its attitude as such a quaternion. For the quaternion kinematics, see the
+<a class="reference internal" href="kinematics.html#kinematics-quaternion"><span class="std std-ref">Kinematics</span></a> concept page.</p>
+</section>
 </section>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
@@ -660,6 +691,18 @@ in Fig-1.</p>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.rotmat.dcm321euler.html#c4dynamics.rotmat.rotmat.dcm321euler" title="c4dynamics.rotmat.rotmat.dcm321euler"><code class="xref py py-func docutils literal notranslate"><span class="pre">dcm321euler</span></code></a></p></td>
 <td><p>Extract Euler angles (roll, pitch, yaw) from a Direction Cosine Matrix (DCM) of 3-2-1 order</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.rotmat.euler2quat.html#c4dynamics.rotmat.rotmat.euler2quat" title="c4dynamics.rotmat.rotmat.euler2quat"><code class="xref py py-func docutils literal notranslate"><span class="pre">euler2quat</span></code></a></p></td>
+<td><p>Attitude quaternion of 3-2-1 Euler angles</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.rotmat.quat2euler.html#c4dynamics.rotmat.rotmat.quat2euler" title="c4dynamics.rotmat.rotmat.quat2euler"><code class="xref py py-func docutils literal notranslate"><span class="pre">quat2euler</span></code></a></p></td>
+<td><p>3-2-1 Euler angles of an attitude quaternion (radians)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.rotmat.quat2dcm.html#c4dynamics.rotmat.rotmat.quat2dcm" title="c4dynamics.rotmat.rotmat.quat2dcm"><code class="xref py py-func docutils literal notranslate"><span class="pre">quat2dcm</span></code></a></p></td>
+<td><p>Body from Reference Direction Cosine Matrix of an attitude quaternion</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/states.lib.quatbody.html#c4dynamics.states.lib.quatbody.quatbody" title="c4dynamics.states.lib.quatbody.quatbody"><code class="xref py py-class docutils literal notranslate"><span class="pre">quatbody</span></code></a></p></td>
+<td><p>Rigid body object with a quaternion attitude</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.animate.animate.html#c4dynamics.rotmat.animate.animate" title="c4dynamics.rotmat.animate.animate"><code class="xref py py-func docutils literal notranslate"><span class="pre">animate</span></code></a></p></td>
 <td><p>Animates the rigid body’s motion using a 3D model according to the 3-2-1 Euler angles histories.</p></td>
@@ -719,6 +762,7 @@ in Fig-1.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#background-material">Background Material</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#euler-angles-order">Euler Angles Order</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#right-hand-frame">Right Hand Frame</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quaternions">Quaternions</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
