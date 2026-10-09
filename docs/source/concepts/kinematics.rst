@@ -552,6 +552,142 @@ Away from the singularity, both models produce the same motion.
 
 
 
+.. _kinematics-quadcopter:
+
+Quadcopter Equations of Motion
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The 6DOF equations above take the forces and the moments as inputs.
+For a quadcopter, these come from four rotors, aerodynamic drag, and gravity.
+:func:`quadforces <c4dynamics.eqm.quadcopter.quadforces>` computes them, and
+:func:`quadeqm <c4dynamics.eqm.quadcopter.quadeqm>` passes them through the
+rigid body equations: the Euler angles model of
+:func:`eqm6 <c4dynamics.eqm.derivs.eqm6>` for a 12-state vector,
+or the quaternion model of :func:`eqm6q <c4dynamics.eqm.derivs.eqm6q>`
+for a 13-state vector.
+
+
+**Frames**
+
+The model supports the two common pairs of an inertial frame and a body frame.
+Both use the 3-2-1 rotation of the convention above,
+so the body-from-inertial matrix is :math:`[BI]` with no extra rotation:
+
+.. list-table::
+   :widths: 15 30 30 25
+   :header-rows: 1
+
+   * - ``frame``
+     - Inertial frame
+     - Body frame
+     - :math:`s`
+   * - ``'NED'``
+     - :math:`x` north, :math:`y` east, :math:`z` down
+     - :math:`x` forward, :math:`y` right, :math:`z` down (FRD)
+     - :math:`-1`
+   * - ``'ENU'``
+     - :math:`x` east, :math:`y` north, :math:`z` up
+     - :math:`x` forward, :math:`y` left, :math:`z` up (FLU)
+     - :math:`+1`
+
+The sign :math:`s` is the direction of *up* along the body :math:`z` axis.
+It appears wherever the model depends on the frame:
+the rotors thrust along :math:`s \cdot z_b`, and gravity acts along :math:`-s \cdot z`.
+
+
+**Rotors**
+
+Rotor :math:`i` at the body position :math:`(x_i, y_i)` spins at :math:`\Omega_i`
+in the direction :math:`d_i` (:math:`+1` counterclockwise seen from above,
+:math:`-1` clockwise). It produces a thrust and a reaction torque:
+
+.. math::
+
+  F_i = k_T \cdot \Omega_i^2, \qquad Q_i = k_Q \cdot \Omega_i^2
+
+The default rotor layout is an :math:`X` configuration with the moment arm :math:`l`,
+in the motor order front-right, rear-left, front-left, rear-right,
+and :math:`d = [1, 1, -1, -1]`.
+Any other layout is given by explicit rotor positions and directions.
+
+
+**Forces**
+
+The body force is the total thrust along the body *up* axis
+and a linear drag that opposes the body velocity relative to the air:
+
+.. math::
+
+  F_b = \begin{bmatrix} -A_x \cdot u \\ -A_y \cdot v \\ s \cdot \sum F_i - A_z \cdot w \end{bmatrix},
+  \qquad
+  \begin{bmatrix} u \\ v \\ w \end{bmatrix} = [BI] \cdot (V - V_{wind})
+
+The force in the inertial frame, which enters the translational equations of motion, adds gravity:
+
+.. math::
+
+  F = [BI]^T \cdot F_b + \begin{bmatrix} 0 \\ 0 \\ -s \cdot m \cdot g \end{bmatrix}
+
+:math:`F_b / m` is the specific force, i.e. what an accelerometer at the center of mass measures.
+
+
+**Moments**
+
+The thrust of each rotor acts at its position and produces roll and pitch moments.
+The reaction torques produce the yaw moment: a counterclockwise rotor
+turns the body clockwise seen from above.
+A rotational drag opposes the angular rates, and the angular momentum of the rotors,
+:math:`h = s \cdot I_R \cdot \sum d_i \cdot \Omega_i` along the body :math:`z` axis,
+adds a gyroscopic coupling :math:`-\omega \times h`:
+
+.. math::
+
+  M[0] = s \cdot \sum y_i \cdot F_i - A_r \cdot p - q \cdot h
+
+  M[1] = -s \cdot \sum x_i \cdot F_i - A_r \cdot q + p \cdot h
+
+  M[2] = -s \cdot \sum d_i \cdot Q_i - A_r \cdot r
+
+Where:
+
+- :math:`k_T, k_Q` are the rotor thrust and torque coefficients
+- :math:`A_x, A_y, A_z` are the linear drag coefficients along the body axes
+- :math:`A_r` is the rotational drag coefficient
+- :math:`I_R` is the rotor moment of inertia
+- :math:`V, V_{wind}` are the inertial velocity of the body and the wind velocity
+- :math:`m, g` are the mass and the gravity acceleration
+- the rest of the variables are as defined above.
+
+:math:`F` and :math:`M` are the inputs of the translational and the rotational
+equations of motion of the previous sections.
+
+
+**Integration**
+
+:func:`quadeqm <c4dynamics.eqm.quadcopter.quadeqm>` has the signature of
+``scipy.integrate.solve_ivp``. The vehicle parameters are attributes of the
+state object, and the rotor speeds are held constant over a step:
+
+.. code::
+
+  from scipy.integrate import solve_ivp
+  from c4dynamics.models.quad import default_quad_config
+
+  quad = c4d.rigidbody()
+  for k, v in default_quad_config().items():
+      setattr(quad, k, v)
+
+  sol = solve_ivp(c4d.eqm.quadeqm, [t, t + dt], quad.X, args = (quad, rotor_speeds, 'ENU'))
+  quad.X = sol.y[:, -1]
+
+A :class:`quatbody <c4dynamics.states.lib.quatbody.quatbody>` instead of a
+:class:`rigidbody <c4dynamics.states.lib.rigidbody.rigidbody>` selects the quaternion model.
+The `Cascade-PID <https://c4dynamics.github.io/c4dynamics/programs/pid_cascade/quadcopter_pid.html>`_
+and the `EKF <https://c4dynamics.github.io/c4dynamics/programs/ekf_estimation/quad_ekf.html>`_
+quadcopter examples fly this model.
+
+
+
 .. _kinematics-rotmat:
 
 The rotmat Module
