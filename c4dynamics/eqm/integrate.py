@@ -4,10 +4,10 @@ from typing import Tuple, Union
 import numpy as np
 from numpy.typing import NDArray
 
-from c4dynamics import datapoint, rigidbody, quatbody
+from c4dynamics import datapoint, quatbody, rigidbody
 
 # sys.path.append(".")
-from c4dynamics.eqm.derivs import eqm3, eqm6, _derivs6q
+from c4dynamics.eqm.derivs import _derivs6q, eqm3, eqm6
 
 
 def int3(

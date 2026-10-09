@@ -3,7 +3,7 @@ from typing import Union
 
 import numpy as np
 
-from c4dynamics import datapoint, rigidbody, quatbody
+from c4dynamics import datapoint, quatbody, rigidbody
 
 # sys.path.append(".")
 from c4dynamics.utils.math import cos, sin, tan
