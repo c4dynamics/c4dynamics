@@ -207,6 +207,18 @@ class TestQuatbody(unittest.TestCase):
         for var in ["x", "vz", "top", "side", "qw", "qy", "phi", "theta", "psi", "p", "r"]:
             self.qb.plot(var)
 
+    def test_plot_light_style_untimed_to_file(self):
+        """Light style, samples stored without time, and save to a file."""
+        import tempfile
+        for _ in range(5):
+            self.qb.inteqm(np.zeros(3), np.zeros(3), 0.01)
+            self.qb.store()
+        with tempfile.TemporaryDirectory() as tmp:
+            filename = os.path.join(tmp, "theta.png")
+            self.qb.plot("theta", darkmode=False, filename=filename)
+            self.assertTrue(os.path.isfile(filename))
+        plt.close("all")
+
     def test_plot_invalid(self):
         """Test plotting of a non state variable or with no history."""
         with warnings.catch_warnings():

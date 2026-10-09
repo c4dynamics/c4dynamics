@@ -75,5 +75,28 @@ class TestAccelModelMatchesSensor(unittest.TestCase):
                 H[:, i], (accel_h(xp) - accel_h(xm)) / (2 * eps), atol=1e-6)
 
 
+class TestRunFig8Ekf(unittest.TestCase):
+
+    def test_short_closed_loop_run(self):
+        # truth propagated with solve_ivp(c4d.eqm.quadeqm), the estimate with
+        # ekf_quad.predict / update: a short run stays finite and tracks truth
+        from c4dynamics.controllers.cascade_pid_config import default_controller_config
+        from c4dynamics.utils.use_cases.ekf_config import default_ekf_config
+        from c4dynamics.utils.use_cases.quad_ekf import run_fig8_ekf
+        config = {
+            'quad': default_quad_config(),
+            'trajectory': {'A': 4.0, 'B': 2.0, 'omega': 0.1, 'z_ref': 5.0, 't_end': 90.0},
+            'controller': default_controller_config(),
+            'sim': {'dt': 0.005, 'tf': 2.0},
+        }
+        truth, est, diag = run_fig8_ekf(config, default_ekf_config(), verbose=False)
+        self.assertEqual(len(diag['t']), 400)
+        X_true = np.asarray(truth.data())
+        X_est = np.array([est.data(n)[1] for n in ('x', 'y', 'z')]).T
+        self.assertTrue(np.all(np.isfinite(X_true)) and np.all(np.isfinite(X_est)))
+        pos_err = X_est[-1] - np.array([truth.x, truth.y, truth.z])
+        self.assertLess(np.linalg.norm(pos_err), 1.0)
+
+
 if __name__ == "__main__":
     unittest.main()
