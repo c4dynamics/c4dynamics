@@ -20,6 +20,9 @@ Rotational Matrix Operations
       rotmat.rotz 
       rotmat.dcm321 
       rotmat.dcm321euler 
+      rotmat.euler2quat
+      rotmat.quat2dcm
+      rotmat.quat2euler
       animate.animate 
 
 

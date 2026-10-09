@@ -1,0 +1,1556 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>c4dynamics.states.lib.quatbody &#8212; C4DYNAMICS v2.5</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/c4dynamics-chat.css?v=e4dcb7d2" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../../../_static/documentation_options.js?v=7769aa4a"></script>
+    <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-LKRZFXZKQP"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-LKRZFXZKQP');
+            </script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-LKRZFXZKQP');
+            </script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/c4dynamics/states/lib/quatbody';</script>
+    <script src="../../../../_static/custom.js?v=53f4f99c"></script>
+    <script defer="defer" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="../../../../_static/c4dynamics-chat.js?v=97e05790"></script>
+    <link rel="icon" href="../../../../_static/c4dlogo.svg"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="Oct 09, 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">C4DYNAMICS v2.5</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../../../index.html">
+                    Home
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../gettingstarted.html">Getting Started</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../concepts/states.html">State Objects</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../../../../concepts/kinematics.html">Kinematics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../concepts/transformations.html">Rigid Body Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../concepts/sensors.html">Sensors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../concepts/filters.html">Filters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../concepts/rl_env.html">Reinforcement Learning Environment</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/setup_guide.html">Setup Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/introduction_guide.html">Interactive Guide to State Space and State Objects Modeling</a></li>
+
+
+
+
+
+
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Use Cases</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../programs/pid_cascade/quadcopter_pid.html">Quadcopter Cascade <em>PID</em> — Figure-8 Trajectory Tracking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../programs/ekf_estimation/quad_ekf.html">Quadcopter EKF - State Estimation for Figure-8 Trajectory Tracking</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../../../../programs/pn_guidance/dof6sim.html">Proportional Navigation Guidance - 6 Degrees of Freedom Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../programs/ballistic_ekf/ballistic_coefficient.html">Ballistic Coefficient Estimation - Extended Kalman Filter</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../../../../programs/mpc_steering/mpc_steering.html">Vehicle Steering - Model Predictive Control</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../../../../programs/car_tracker/car_tracker.html">Car Tracker – YOLO3 Detector and Kalman Filter</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../../../../programs/car_tracker_yolo11/car_tracker_yolo11.html">Car Tracker – YOLO11 Detector and Kalman Filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../programs/learning_controller/learning_controller.html">Neural Learning Control for Online Uncertain Dynamics Estimation</a></li>
+
+
+
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/introduction.html">Introduction</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../api/States.html">State Objects</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../api/states.state.html">The State Class</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/state/c4dynamics.states.state.state.X.html">c4dynamics.states.state.state.X</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/state/c4dynamics.states.state.state.X0.html">c4dynamics.states.state.state.X0</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/state/c4dynamics.states.state.state.norm.html">c4dynamics.states.state.state.norm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/state/c4dynamics.states.state.state.normalize.html">c4dynamics.states.state.state.normalize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/state/c4dynamics.states.state.state.Position.html">c4dynamics.states.state.state.Position</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/state/c4dynamics.states.state.state.Velocity.html">c4dynamics.states.state.state.Velocity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/state/c4dynamics.states.state.state.addvars.html">c4dynamics.states.state.state.addvars</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/state/c4dynamics.states.state.state.dist.html">c4dynamics.states.state.state.dist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/state/c4dynamics.states.state.state.vel_mag.html">c4dynamics.states.state.state.vel_mag</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/state/c4dynamics.states.state.state.store.html">c4dynamics.states.state.state.store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/state/c4dynamics.states.state.state.storeparams.html">c4dynamics.states.state.state.storeparams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/state/c4dynamics.states.state.state.data.html">c4dynamics.states.state.state.data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/state/c4dynamics.states.state.state.timestate.html">c4dynamics.states.state.state.timestate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/state/c4dynamics.states.state.state.plot.html">c4dynamics.states.state.state.plot</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../api/states.lib.html">States Library</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../api/states.lib.datapoint.html">Datapoint</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/dp/c4dynamics.states.lib.datapoint.datapoint.mass.html">c4dynamics.states.lib.datapoint.datapoint.mass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/dp/c4dynamics.states.lib.datapoint.datapoint.inteqm.html">c4dynamics.states.lib.datapoint.datapoint.inteqm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/dp/c4dynamics.states.lib.datapoint.datapoint.plot.html">c4dynamics.states.lib.datapoint.datapoint.plot</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../api/states.lib.rigidbody.html">Rigidbody</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.mass.html">c4dynamics.states.lib.rigidbody.rigidbody.mass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.I.html">c4dynamics.states.lib.rigidbody.rigidbody.I</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.angles.html">c4dynamics.states.lib.rigidbody.rigidbody.angles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.ang_rates.html">c4dynamics.states.lib.rigidbody.rigidbody.ang_rates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.BR.html">c4dynamics.states.lib.rigidbody.rigidbody.BR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.RB.html">c4dynamics.states.lib.rigidbody.rigidbody.RB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.inteqm.html">c4dynamics.states.lib.rigidbody.rigidbody.inteqm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.plot.html">c4dynamics.states.lib.rigidbody.rigidbody.plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.animate.html">c4dynamics.states.lib.rigidbody.rigidbody.animate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../api/states.lib.quatbody.html">Quatbody</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.mass.html">c4dynamics.states.lib.quatbody.quatbody.mass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.I.html">c4dynamics.states.lib.quatbody.quatbody.I</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.quat.html">c4dynamics.states.lib.quatbody.quatbody.quat</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.angles.html">c4dynamics.states.lib.quatbody.quatbody.angles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.phi.html">c4dynamics.states.lib.quatbody.quatbody.phi</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.theta.html">c4dynamics.states.lib.quatbody.quatbody.theta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.psi.html">c4dynamics.states.lib.quatbody.quatbody.psi</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.ang_rates.html">c4dynamics.states.lib.quatbody.quatbody.ang_rates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.BR.html">c4dynamics.states.lib.quatbody.quatbody.BR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.RB.html">c4dynamics.states.lib.quatbody.quatbody.RB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.inteqm.html">c4dynamics.states.lib.quatbody.quatbody.inteqm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.data.html">c4dynamics.states.lib.quatbody.quatbody.data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.plot.html">c4dynamics.states.lib.quatbody.quatbody.plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.animate.html">c4dynamics.states.lib.quatbody.quatbody.animate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../api/states.lib.pixelpoint.html">Pixelpoint</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/fdp/c4dynamics.states.lib.pixelpoint.pixelpoint.fsize.html">c4dynamics.states.lib.pixelpoint.pixelpoint.fsize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/fdp/c4dynamics.states.lib.pixelpoint.pixelpoint.class_id.html">c4dynamics.states.lib.pixelpoint.pixelpoint.class_id</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/generated/fdp/c4dynamics.states.lib.pixelpoint.pixelpoint.box.html">c4dynamics.states.lib.pixelpoint.pixelpoint.box</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../api/Sensors.html">Sensors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../api/sensors.seeker.html">Seeker</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/seeker/c4dynamics.sensors.seeker.seeker.bias.html">c4dynamics.sensors.seeker.seeker.bias</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/seeker/c4dynamics.sensors.seeker.seeker.scale_factor.html">c4dynamics.sensors.seeker.seeker.scale_factor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/seeker/c4dynamics.sensors.seeker.seeker.measure.html">c4dynamics.sensors.seeker.seeker.measure</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../api/sensors.radar.html">Radar</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/radar/c4dynamics.sensors.radar.radar.bias.html">c4dynamics.sensors.radar.radar.bias</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/radar/c4dynamics.sensors.radar.radar.scale_factor.html">c4dynamics.sensors.radar.radar.scale_factor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/radar/c4dynamics.sensors.radar.radar.measure.html">c4dynamics.sensors.radar.radar.measure</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../api/sensors.navigation.gps.html">GPS</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/gps/c4dynamics.sensors.navigation.gps.measure.html">c4dynamics.sensors.navigation.gps.measure</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../api/sensors.navigation.imu.html">IMU</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/imu/c4dynamics.sensors.navigation.imu.measure.html">c4dynamics.sensors.navigation.imu.measure</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../api/sensors.navigation.magnetometer.html">Magnetometer</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/magnetometer/c4dynamics.sensors.navigation.magnetometer.measure.html">c4dynamics.sensors.navigation.magnetometer.measure</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../api/Detectors.html">Detectors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../api/detectors.yolov3.html">YOLOv3</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/yolov3/c4dynamics.detectors.yolo3_opencv.yolov3.nms_th.html">c4dynamics.detectors.yolo3_opencv.yolov3.nms_th</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/yolov3/c4dynamics.detectors.yolo3_opencv.yolov3.confidence_th.html">c4dynamics.detectors.yolo3_opencv.yolov3.confidence_th</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/yolov3/c4dynamics.detectors.yolo3_opencv.yolov3.detect.html">c4dynamics.detectors.yolo3_opencv.yolov3.detect</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../api/Filters.html">Filters</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../api/filters.kalman.html">Kalman filter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/kalman/c4dynamics.filters.kalman.kalman.predict.html">c4dynamics.filters.kalman.kalman.predict</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/kalman/c4dynamics.filters.kalman.kalman.update.html">c4dynamics.filters.kalman.kalman.update</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/kalman/c4dynamics.filters.kalman.kalman.store.html">c4dynamics.filters.kalman.kalman.store</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../api/filters.ekf.html">Extended Kalman filter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/ekf/c4dynamics.filters.ekf.ekf.predict.html">c4dynamics.filters.ekf.ekf.predict</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/ekf/c4dynamics.filters.ekf.ekf.update.html">c4dynamics.filters.ekf.ekf.update</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/ekf/c4dynamics.filters.ekf.ekf.store.html">c4dynamics.filters.ekf.ekf.store</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../api/filters.lpf.html">Lowpass filter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/generated/lpf/c4dynamics.filters.lowpass.lowpass.sample.html">c4dynamics.filters.lowpass.lowpass.sample</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../api/eqm.html">Kinematics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/generated/eqm/c4dynamics.eqm.derivs.eqm3.html">c4dynamics.eqm.derivs.eqm3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/generated/eqm/c4dynamics.eqm.derivs.eqm6.html">c4dynamics.eqm.derivs.eqm6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/generated/eqm/c4dynamics.eqm.derivs.eqm6q.html">c4dynamics.eqm.derivs.eqm6q</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/generated/eqm/c4dynamics.eqm.integrate.int3.html">c4dynamics.eqm.integrate.int3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/generated/eqm/c4dynamics.eqm.integrate.int6.html">c4dynamics.eqm.integrate.int6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/generated/eqm/c4dynamics.eqm.integrate.int6q.html">c4dynamics.eqm.integrate.int6q</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/generated/eqm/c4dynamics.eqm.quadcopter.quadforces.html">c4dynamics.eqm.quadcopter.quadforces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/generated/eqm/c4dynamics.eqm.quadcopter.quadeqm.html">c4dynamics.eqm.quadcopter.quadeqm</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../api/rotmat.html">Rotations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.rotx.html">c4dynamics.rotmat.rotmat.rotx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.roty.html">c4dynamics.rotmat.rotmat.roty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.rotz.html">c4dynamics.rotmat.rotmat.rotz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.dcm321.html">c4dynamics.rotmat.rotmat.dcm321</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.dcm321euler.html">c4dynamics.rotmat.rotmat.dcm321euler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.euler2quat.html">c4dynamics.rotmat.rotmat.euler2quat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.quat2dcm.html">c4dynamics.rotmat.rotmat.quat2dcm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.quat2euler.html">c4dynamics.rotmat.rotmat.quat2euler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/generated/rotmat/c4dynamics.rotmat.animate.animate.html">c4dynamics.rotmat.animate.animate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../api/Utils.html">Utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/generated/utils/c4dynamics.utils.tictoc.tic.html">c4dynamics.utils.tictoc.tic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/generated/utils/c4dynamics.utils.tictoc.toc.html">c4dynamics.utils.tictoc.toc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/generated/utils/c4dynamics.utils.cprint.cprint.html">c4dynamics.utils.cprint.cprint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/generated/utils/c4dynamics.utils.gen_gif.gif.html">c4dynamics.utils.gen_gif.gif</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/generated/utils/c4dynamics.utils.plottools.plotdefaults.html">c4dynamics.utils.plottools.plotdefaults</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/utils.math.html">Math Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/utils.const.html">Constants</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../api/Datasets.html">Datasets</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/generated/datasets/c4dynamics.datasets.image.html">c4dynamics.datasets.image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/generated/datasets/c4dynamics.datasets.video.html">c4dynamics.datasets.video</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/generated/datasets/c4dynamics.datasets.nn_model.html">c4dynamics.datasets.nn_model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/generated/datasets/c4dynamics.datasets.d3_model.html">c4dynamics.datasets.d3_model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/generated/datasets/c4dynamics.datasets.download_all.html">c4dynamics.datasets.download_all</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/generated/datasets/c4dynamics.datasets.clear_cache.html">c4dynamics.datasets.clear_cache</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for c4dynamics.states.lib.quatbody</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="c1"># sys.path.append(&quot;.&quot;)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">c4d</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics.states.lib.datapoint</span><span class="w"> </span><span class="kn">import</span> <span class="n">datapoint</span>
+
+
+<div class="viewcode-block" id="quatbody">
+<a class="viewcode-back" href="../../../../api/states.lib.quatbody.html#c4dynamics.states.lib.quatbody.quatbody">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">quatbody</span><span class="p">(</span><span class="n">datapoint</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A rigid-body object with a quaternion attitude</span>
+
+
+<span class="sd">    The :class:`quatbody` is the quaternion replicate of the</span>
+<span class="sd">    :class:`rigidbody &lt;c4dynamics.states.lib.rigidbody.rigidbody&gt;`.</span>
+<span class="sd">    It extends the</span>
+<span class="sd">    :class:`datapoint &lt;c4dynamics.states.lib.datapoint.datapoint&gt;`</span>
+<span class="sd">    class to form an elementary rigidbody object in space, i.e.</span>
+<span class="sd">    an object with length and attitude,</span>
+<span class="sd">    where the attitude is represented by a unit quaternion</span>
+<span class="sd">    rather than by Euler angles.</span>
+
+<span class="sd">    The dynamics model is the same model of the</span>
+<span class="sd">    :class:`rigidbody &lt;c4dynamics.states.lib.rigidbody.rigidbody&gt;`.</span>
+<span class="sd">    However, the Euler angles kinematics are singular at</span>
+<span class="sd">    :math:`\\theta = \\pm 90°` (gimbal lock), while the quaternion</span>
+<span class="sd">    kinematics are not. This makes the `quatbody` suitable</span>
+<span class="sd">    for agile vehicles, such as drones, that may</span>
+<span class="sd">    reach any attitude (e.g. flips).</span>
+
+<span class="sd">    Its state vector consists of the following variables:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">      X = [x, y, z, v_x, v_y, v_z, q_w, q_x, q_y, q_z, p, q, r]^T</span>
+
+<span class="sd">    - Position coordinates, velocity coordinates.</span>
+<span class="sd">    - Attitude quaternion (scalar first), angular rates.</span>
+
+<span class="sd">    The quaternion :math:`[q_w, q_x, q_y, q_z]` represents</span>
+<span class="sd">    the same attitude as the 3-2-1 Euler angles</span>
+<span class="sd">    :math:`[\\varphi, \\theta, \\psi]` of the</span>
+<span class="sd">    :class:`rigidbody &lt;c4dynamics.states.lib.rigidbody.rigidbody&gt;`</span>
+<span class="sd">    (see :func:`euler2quat &lt;c4dynamics.rotmat.rotmat.euler2quat&gt;`).</span>
+<span class="sd">    The Euler angles :attr:`phi`, :attr:`theta`, :attr:`psi`</span>
+<span class="sd">    are available as properties that are derived from the quaternion.</span>
+
+
+
+<span class="sd">    **Arguments**</span>
+
+<span class="sd">    x : float or int, optional</span>
+<span class="sd">        The x-position of the datapoint. Default value :math:`x = 0`.</span>
+<span class="sd">    y : float or int, optional</span>
+<span class="sd">        The y-position of the datapoint. Default value :math:`y = 0`.</span>
+<span class="sd">    z : float or int, optional</span>
+<span class="sd">        The z-position of the datapoint. Default value :math:`z = 0`.</span>
+<span class="sd">    vx : float or int, optional</span>
+<span class="sd">        Component of velocity along the x-axis. Default value :math:`v_x = 0`.</span>
+<span class="sd">    vy : float or int, optional</span>
+<span class="sd">        Component of velocity along the y-axis. Default value :math:`v_y = 0`.</span>
+<span class="sd">    vz : float or int, optional</span>
+<span class="sd">        Component of velocity along the z-axis. Default value :math:`v_z = 0`.</span>
+<span class="sd">    phi : float or int, optional</span>
+<span class="sd">        Initial Euler angle representing rotation around the x-axis (rad). Default value</span>
+<span class="sd">        :math:`\\varphi = 0`.</span>
+<span class="sd">    theta : float or int, optional</span>
+<span class="sd">        Initial Euler angle representing rotation around the y-axis (rad). Default value</span>
+<span class="sd">        :math:`\\theta = 0`.</span>
+<span class="sd">    psi : float or int, optional</span>
+<span class="sd">        Initial Euler angle representing rotation around the z-axis (rad). Default value</span>
+<span class="sd">        :math:`\\psi = 0`.</span>
+<span class="sd">    p : float or int, optional</span>
+<span class="sd">        Angular rate around the x-axis (roll). (rad/sec). Default value :math:`p = 0`.</span>
+<span class="sd">    q : float or int, optional</span>
+<span class="sd">        Angular rate around the y-axis (pitch). (rad/sec). Default value :math:`q = 0`.</span>
+<span class="sd">    r : float or int, optional</span>
+<span class="sd">        Angular rate around the z-axis (yaw). (rad/sec). Default value :math:`r = 0`.</span>
+<span class="sd">    quat : array_like, optional</span>
+<span class="sd">        Initial attitude quaternion :math:`[q_w, q_x, q_y, q_z]`.</span>
+<span class="sd">        If provided, it overrides `phi`, `theta`, and `psi`. The</span>
+<span class="sd">        quaternion is normalized. Default value: `None`.</span>
+
+
+<span class="sd">    The initial attitude is provided either by Euler angles,</span>
+<span class="sd">    as in the :class:`rigidbody &lt;c4dynamics.states.lib.rigidbody.rigidbody&gt;`,</span>
+<span class="sd">    or directly by a quaternion.</span>
+<span class="sd">    The vector of initial conditions can be retrieved by calling</span>
+<span class="sd">    :attr:`quatbody.X0 &lt;c4dynamics.states.state.state.X0&gt;`:</span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">      &gt;&gt;&gt; from c4dynamics import quatbody</span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">      &gt;&gt;&gt; qb = quatbody(z = 10, psi = 90 * c4d.d2r, r = 0.5)</span>
+<span class="sd">      &gt;&gt;&gt; qb.X0 # doctest: +NUMPY_FORMAT</span>
+<span class="sd">      [0  0  10  0  0  0  0.707  0  0  0.707  0  0  0.5]</span>
+
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    The quaternion components are named :math:`q_w, q_x, q_y, q_z`</span>
+<span class="sd">    (`qw`, `qx`, `qy`, `qz`) rather than :math:`q_0, ..., q_3`,</span>
+<span class="sd">    since the `0` suffix of a state variable is reserved for its</span>
+<span class="sd">    initial value (e.g. `q0` is the initial pitch rate,</span>
+<span class="sd">    see :attr:`state.X0 &lt;c4dynamics.states.state.state.X0&gt;`).</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+
+<span class="sd">    mass : float</span>
+<span class="sd">        The mass of the datapoint</span>
+<span class="sd">    I : [float, float, float]</span>
+<span class="sd">        An array of moments of inertia</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    ========</span>
+<span class="sd">    .lib</span>
+<span class="sd">    .rigidbody</span>
+<span class="sd">    .rotmat</span>
+<span class="sd">    .state</span>
+<span class="sd">    .eqm</span>
+
+
+<span class="sd">    Example</span>
+<span class="sd">    =======</span>
+
+<span class="sd">    A quadcopter performs a back flip: it starts at a level attitude</span>
+<span class="sd">    with a pitch rate of one revolution per second, and</span>
+<span class="sd">    rotates freely (no external forces nor moments) for one second.</span>
+
+<span class="sd">    The Euler angles kinematics of a</span>
+<span class="sd">    :class:`rigidbody &lt;c4dynamics.states.lib.rigidbody.rigidbody&gt;`</span>
+<span class="sd">    cross the singularity at :math:`\\theta = 90°`.</span>
+<span class="sd">    The quaternion kinematics of the `quatbody` remain regular</span>
+<span class="sd">    along the entire maneuver.</span>
+
+
+<span class="sd">    import required packages:</span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">      &gt;&gt;&gt; import c4dynamics as c4d</span>
+<span class="sd">      &gt;&gt;&gt; from matplotlib import pyplot as plt</span>
+<span class="sd">      &gt;&gt;&gt; import numpy as np</span>
+
+
+<span class="sd">    Settings and initial conditions:</span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">      &gt;&gt;&gt; dt = 0.001</span>
+<span class="sd">      &gt;&gt;&gt; drone = c4d.quatbody(z = 10, q = 2 * np.pi)</span>
+<span class="sd">      &gt;&gt;&gt; drone.I = [0.0082, 0.0082, 0.0149]</span>
+<span class="sd">      &gt;&gt;&gt; drone.mass = 1.2</span>
+
+
+<span class="sd">    Main loop:</span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">      &gt;&gt;&gt; for t in np.arange(0, 1, dt):</span>
+<span class="sd">      ...   drone.store(t)</span>
+<span class="sd">      ...   drone.inteqm(np.zeros(3), np.zeros(3), dt)  # doctest: +IGNORE_OUTPUT</span>
+
+
+<span class="sd">    After a full revolution the quaternion returns to</span>
+<span class="sd">    the level attitude (up to the sign):</span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">      &gt;&gt;&gt; drone.store(1)</span>
+<span class="sd">      &gt;&gt;&gt; np.abs(drone.quat)  # doctest: +NUMPY_FORMAT</span>
+<span class="sd">      [1  0  0  0]</span>
+
+
+<span class="sd">    The pitch component of the quaternion,</span>
+<span class="sd">    :math:`q_y = sin(q \\cdot t / 2)`, goes smoothly through the</span>
+<span class="sd">    entire revolution:</span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">      &gt;&gt;&gt; _, ax = plt.subplots(2, 1)</span>
+<span class="sd">      &gt;&gt;&gt; drone.plot(&#39;qw&#39;, ax = ax[0])</span>
+<span class="sd">      &gt;&gt;&gt; ax[0].set(xlabel = &#39;&#39;)  # doctest: +IGNORE_OUTPUT</span>
+<span class="sd">      &gt;&gt;&gt; drone.plot(&#39;qy&#39;, ax = ax[1])</span>
+
+<span class="sd">    .. figure:: /_examples/quatbody/intro_backflip.png</span>
+
+<span class="sd">    The :meth:`animate` method allows the user to play the attitude</span>
+<span class="sd">    histories given a 3D model (requires installation of `open3D`),</span>
+<span class="sd">    exactly as with the</span>
+<span class="sd">    :meth:`rigidbody.animate &lt;c4dynamics.states.lib.rigidbody.rigidbody.animate&gt;`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">qw</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">qx</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">qy</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">qz</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">p</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">q</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">r</span><span class="p">:</span> <span class="nb">float</span>
+
+    <span class="n">_ixx</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">_iyy</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">_izz</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">_angles_names</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;phi&quot;</span><span class="p">,</span> <span class="s2">&quot;theta&quot;</span><span class="p">,</span> <span class="s2">&quot;psi&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">z</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">vx</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">vy</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">vz</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">phi</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">theta</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">psi</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">p</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">q</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">r</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">quat</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">quat</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">quat</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">rotmat</span><span class="o">.</span><span class="n">euler2quat</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">psi</span><span class="p">)</span>
+        <span class="n">quat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unitquat</span><span class="p">(</span><span class="n">quat</span><span class="p">)</span>
+
+        <span class="n">qbargs</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">qbargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+        <span class="n">qbargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">qbargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+        <span class="n">qbargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;vx&quot;</span><span class="p">,</span> <span class="n">vx</span><span class="p">)</span>
+        <span class="n">qbargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;vy&quot;</span><span class="p">,</span> <span class="n">vy</span><span class="p">)</span>
+        <span class="n">qbargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;vz&quot;</span><span class="p">,</span> <span class="n">vz</span><span class="p">)</span>
+
+        <span class="n">qbargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;qw&quot;</span><span class="p">,</span> <span class="n">quat</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">qbargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;qx&quot;</span><span class="p">,</span> <span class="n">quat</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">qbargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;qy&quot;</span><span class="p">,</span> <span class="n">quat</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">qbargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;qz&quot;</span><span class="p">,</span> <span class="n">quat</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+        <span class="n">qbargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="n">qbargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;q&quot;</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+        <span class="n">qbargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+
+        <span class="n">c4d</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">qbargs</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_unitquat</span><span class="p">(</span><span class="n">quat</span><span class="p">):</span>
+        <span class="n">quat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">quat</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">quat</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;quat must be an array of four elements [qw, qx, qy, qz].&quot;</span><span class="p">)</span>
+        <span class="n">qnorm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">quat</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">qnorm</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;quat must be a non-zero quaternion.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">quat</span> <span class="o">/</span> <span class="n">qnorm</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">I</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets and sets the array of moments of inertia.</span>
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">          I = [I_{xx}, I_{yy}, I_{zz}]</span>
+
+
+<span class="sd">        Default: :math:`I = [0, 0, 0]`</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        I : numpy.array or list</span>
+<span class="sd">            An array of three moments of inertia about each</span>
+<span class="sd">            one of the axes :math:`([I_{xx}, I_{yy}, I_{zz}])`.</span>
+
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : numpy.array</span>
+<span class="sd">            An array of the three moments of inertia :math:`[I_{xx}, I_{yy}, I_{zz}]`.</span>
+
+
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        The moments of inertia determine how much torque is</span>
+<span class="sd">        required for a desired angular acceleration about a rotational axis.</span>
+
+<span class="sd">        In this example, two drones with the same yaw torque</span>
+<span class="sd">        and different moments of inertia about the z axis</span>
+<span class="sd">        are compared.</span>
+<span class="sd">        The drone with the larger moment of inertia accelerates slower:</span>
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">          \\dot{r} = {M_z \\over I_{zz}}</span>
+
+
+<span class="sd">        Import required packages:</span>
+
+<span class="sd">        .. code::</span>
+
+<span class="sd">          &gt;&gt;&gt; import c4dynamics as c4d</span>
+<span class="sd">          &gt;&gt;&gt; from matplotlib import pyplot as plt</span>
+<span class="sd">          &gt;&gt;&gt; import numpy as np</span>
+
+
+<span class="sd">        Settings and initial condtions:</span>
+
+<span class="sd">        .. code::</span>
+
+<span class="sd">          &gt;&gt;&gt; dt = 0.01</span>
+<span class="sd">          &gt;&gt;&gt; torque = [0, 0, 0.01]</span>
+<span class="sd">          &gt;&gt;&gt; light = c4d.quatbody()</span>
+<span class="sd">          &gt;&gt;&gt; light.I = [0.0082, 0.0082, 0.0149]</span>
+<span class="sd">          &gt;&gt;&gt; heavy = c4d.quatbody()</span>
+<span class="sd">          &gt;&gt;&gt; heavy.I = [0.0164, 0.0164, 0.0298]</span>
+
+
+<span class="sd">        Main loop</span>
+
+<span class="sd">        .. code::</span>
+
+<span class="sd">          &gt;&gt;&gt; for ti in np.arange(0, 2, dt):</span>
+<span class="sd">          ...   light.inteqm(np.zeros(3), torque, dt)  # doctest: +IGNORE_OUTPUT</span>
+<span class="sd">          ...   light.store(ti)</span>
+<span class="sd">          ...   heavy.inteqm(np.zeros(3), torque, dt)  # doctest: +IGNORE_OUTPUT</span>
+<span class="sd">          ...   heavy.store(ti)</span>
+
+
+<span class="sd">        Plot results:</span>
+
+<span class="sd">        .. code::</span>
+
+<span class="sd">          &gt;&gt;&gt; light.plot(&#39;psi&#39;)</span>
+<span class="sd">          &gt;&gt;&gt; heavy.plot(&#39;psi&#39;, ax = plt.gca(), color = &#39;c&#39;)</span>
+
+<span class="sd">        .. figure:: /_examples/quatbody/Izz_yaw.png</span>
+
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_ixx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iyy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_izz</span><span class="p">])</span>
+
+    <span class="nd">@I</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">I</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">I</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ixx</span> <span class="o">=</span> <span class="n">I</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_iyy</span> <span class="o">=</span> <span class="n">I</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_izz</span> <span class="o">=</span> <span class="n">I</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">quat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets and sets the attitude quaternion.</span>
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">          quat = [q_w, q_x, q_y, q_z]</span>
+
+<span class="sd">        The quaternion is scalar first (Hamilton convention).</span>
+<span class="sd">        A set quaternion is normalized to a unit quaternion.</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        quat : numpy.array or list</span>
+<span class="sd">            A quaternion :math:`[q_w, q_x, q_y, q_z]`.</span>
+
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : numpy.array</span>
+<span class="sd">            The attitude quaternion :math:`[q_w, q_x, q_y, q_z]`.</span>
+
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        .. code::</span>
+
+<span class="sd">          &gt;&gt;&gt; qb = c4d.quatbody(phi = 90 * c4d.d2r)</span>
+<span class="sd">          &gt;&gt;&gt; qb.quat  # doctest: +NUMPY_FORMAT</span>
+<span class="sd">          [0.707  0.707  0  0]</span>
+
+<span class="sd">        .. code::</span>
+
+<span class="sd">          &gt;&gt;&gt; qb.quat = [1, 0, 0, 1]</span>
+<span class="sd">          &gt;&gt;&gt; qb.quat  # doctest: +NUMPY_FORMAT</span>
+<span class="sd">          [0.707  0  0  0.707]</span>
+<span class="sd">          &gt;&gt;&gt; qb.angles * c4d.r2d  # doctest: +NUMPY_FORMAT</span>
+<span class="sd">          [0  0  90]</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">qw</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">qx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">qy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">qz</span><span class="p">])</span>
+
+    <span class="nd">@quat</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">quat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">quat</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qw</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">qx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">qy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">qz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unitquat</span><span class="p">(</span><span class="n">quat</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">angles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns an array of Euler angles.</span>
+
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">          angles = [\\varphi, \\theta, \\psi]</span>
+
+
+<span class="sd">        The 3-2-1 Euler angles are derived from the attitude quaternion</span>
+<span class="sd">        (see :func:`quat2euler &lt;c4dynamics.rotmat.rotmat.quat2euler&gt;`).</span>
+
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : numpy.array</span>
+<span class="sd">            An array of three Euler angles, about each one of the axes</span>
+<span class="sd">            :math:`([\\varphi, \\theta, \\psi])`</span>
+
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        .. code::</span>
+
+<span class="sd">          &gt;&gt;&gt; qb = c4d.quatbody(phi = 135 * c4d.d2r)</span>
+<span class="sd">          &gt;&gt;&gt; qb.angles * c4d.r2d # doctest: +NUMPY_FORMAT</span>
+<span class="sd">          [135  0  0]</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">c4d</span><span class="o">.</span><span class="n">rotmat</span><span class="o">.</span><span class="n">quat2euler</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">quat</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">phi</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets and sets the Euler roll angle, :math:`\\varphi` (rad).</span>
+
+<span class="sd">        The angle is derived from the attitude quaternion.</span>
+<span class="sd">        Setting the angle updates the quaternion while</span>
+<span class="sd">        the other two Euler angles are kept.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        .. code::</span>
+
+<span class="sd">          &gt;&gt;&gt; qb = c4d.quatbody(theta = 10 * c4d.d2r)</span>
+<span class="sd">          &gt;&gt;&gt; qb.phi = 20 * c4d.d2r</span>
+<span class="sd">          &gt;&gt;&gt; qb.angles * c4d.r2d  # doctest: +NUMPY_FORMAT</span>
+<span class="sd">          [20  10  0]</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">angles</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="nd">@phi</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">phi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phi</span><span class="p">):</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">psi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">angles</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">quat</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">rotmat</span><span class="o">.</span><span class="n">euler2quat</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">psi</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">theta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets and sets the Euler pitch angle, :math:`\\theta` (rad).</span>
+
+<span class="sd">        The angle is derived from the attitude quaternion.</span>
+<span class="sd">        Setting the angle updates the quaternion while</span>
+<span class="sd">        the other two Euler angles are kept.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        .. code::</span>
+
+<span class="sd">          &gt;&gt;&gt; qb = c4d.quatbody()</span>
+<span class="sd">          &gt;&gt;&gt; qb.theta = 30 * c4d.d2r</span>
+<span class="sd">          &gt;&gt;&gt; qb.theta * c4d.r2d  # doctest: +NUMPY_FORMAT</span>
+<span class="sd">          30</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">angles</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="nd">@theta</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">theta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
+        <span class="n">phi</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">psi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">angles</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">quat</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">rotmat</span><span class="o">.</span><span class="n">euler2quat</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">psi</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">psi</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets and sets the Euler yaw angle, :math:`\\psi` (rad).</span>
+
+<span class="sd">        The angle is derived from the attitude quaternion.</span>
+<span class="sd">        Setting the angle updates the quaternion while</span>
+<span class="sd">        the other two Euler angles are kept.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        .. code::</span>
+
+<span class="sd">          &gt;&gt;&gt; qb = c4d.quatbody()</span>
+<span class="sd">          &gt;&gt;&gt; qb.psi = 45 * c4d.d2r</span>
+<span class="sd">          &gt;&gt;&gt; qb.quat  # doctest: +NUMPY_FORMAT</span>
+<span class="sd">          [0.924  0  0  0.383]</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">angles</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+    <span class="nd">@psi</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">psi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">psi</span><span class="p">):</span>
+        <span class="n">phi</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">angles</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">quat</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">rotmat</span><span class="o">.</span><span class="n">euler2quat</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">psi</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ang_rates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns an array of angular rates.</span>
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">          angular rates = [p, q, r]</span>
+
+
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : numpy.array</span>
+<span class="sd">            An array of three angular rates of the body axes</span>
+<span class="sd">            :math:`([p, q, r])`</span>
+
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        .. code::</span>
+
+<span class="sd">          &gt;&gt;&gt; q0 = 30</span>
+<span class="sd">          &gt;&gt;&gt; qb = c4d.quatbody(q = q0)</span>
+<span class="sd">          &gt;&gt;&gt; qb.ang_rates # doctest: +NUMPY_FORMAT</span>
+<span class="sd">          [0  30  0]</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="p">])</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">BR</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a Body-from-Reference Direction Cosine Matrix (DCM).</span>
+
+
+<span class="sd">    Based on the current attitude quaternion :math:`[q_w, q_x, q_y, q_z]`,</span>
+<span class="sd">    `BR` returns the DCM that is calculated by the</span>
+<span class="sd">    :func:`quat2dcm &lt;c4dynamics.rotmat.rotmat.quat2dcm&gt;` function</span>
+<span class="sd">    and is given by:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">      R = \\begin{bmatrix}</span>
+<span class="sd">            1 - 2(q_y^2 + q_z^2)</span>
+<span class="sd">          &amp; 2(q_x q_y + q_w q_z)</span>
+<span class="sd">          &amp; 2(q_x q_z - q_w q_y) \\\\</span>
+<span class="sd">                2(q_x q_y - q_w q_z)</span>
+<span class="sd">              &amp; 1 - 2(q_x^2 + q_z^2)</span>
+<span class="sd">              &amp; 2(q_y q_z + q_w q_x) \\\\</span>
+<span class="sd">                    2(q_x q_z + q_w q_y)</span>
+<span class="sd">                  &amp; 2(q_y q_z - q_w q_x)</span>
+<span class="sd">                  &amp; 1 - 2(q_x^2 + q_y^2)</span>
+<span class="sd">          \\end{bmatrix}</span>
+
+<span class="sd">    The matrix is identical to the DCM in a 3-2-1 order</span>
+<span class="sd">    (:func:`dcm321 &lt;c4dynamics.rotmat.rotmat.dcm321&gt;`) of the same attitude.</span>
+
+<span class="sd">    For the background material regarding the rotational matrix operations,</span>
+<span class="sd">    see :mod:`rotmat &lt;c4dynamics.rotmat&gt;`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    out : numpy.ndarray</span>
+<span class="sd">        A 3x3 DCM matrix uses to rotate a vector</span>
+<span class="sd">        to the body frame</span>
+<span class="sd">        from a reference frame of coordinates.</span>
+
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">      &gt;&gt;&gt; v_inertial = [1, 0, 0]</span>
+<span class="sd">      &gt;&gt;&gt; qb = c4d.quatbody(psi = 45 * c4d.d2r)</span>
+<span class="sd">      &gt;&gt;&gt; v_body = qb.BR @ v_inertial</span>
+<span class="sd">      &gt;&gt;&gt; v_body  # doctest: +NUMPY_FORMAT</span>
+<span class="sd">      [0.707  -0.707  0.0]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">c4d</span><span class="o">.</span><span class="n">rotmat</span><span class="o">.</span><span class="n">quat2dcm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">quat</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">RB</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a Reference-from-Body Direction Cosine Matrix (DCM).</span>
+
+
+<span class="sd">    Based on the current attitude quaternion, `RB` returns the</span>
+<span class="sd">    transpose matrix of :attr:`BR &lt;c4dynamics.states.lib.quatbody.quatbody.BR&gt;`,</span>
+<span class="sd">    where :attr:`BR &lt;c4dynamics.states.lib.quatbody.quatbody.BR&gt;`</span>
+<span class="sd">    is the Body from Reference DCM:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">      R = \\begin{bmatrix}</span>
+<span class="sd">            1 - 2(q_y^2 + q_z^2)</span>
+<span class="sd">          &amp; 2(q_x q_y - q_w q_z)</span>
+<span class="sd">          &amp; 2(q_x q_z + q_w q_y) \\\\</span>
+<span class="sd">                2(q_x q_y + q_w q_z)</span>
+<span class="sd">              &amp; 1 - 2(q_x^2 + q_z^2)</span>
+<span class="sd">              &amp; 2(q_y q_z - q_w q_x) \\\\</span>
+<span class="sd">                    2(q_x q_z - q_w q_y)</span>
+<span class="sd">                  &amp; 2(q_y q_z + q_w q_x)</span>
+<span class="sd">                  &amp; 1 - 2(q_x^2 + q_y^2)</span>
+<span class="sd">          \\end{bmatrix}</span>
+
+
+<span class="sd">    For the background material regarding the rotational matrix operations,</span>
+<span class="sd">    see :mod:`rotmat &lt;c4dynamics.rotmat&gt;`.</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    out : numpy.ndarray</span>
+<span class="sd">        A 3x3 DCM matrix uses to rotate a vector from a body frame</span>
+<span class="sd">        to a reference frame of coordinates.</span>
+
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">      &gt;&gt;&gt; v_body = [np.sqrt(3), 0, 1]</span>
+<span class="sd">      &gt;&gt;&gt; qb = c4d.quatbody(theta = 30 * c4d.d2r)</span>
+<span class="sd">      &gt;&gt;&gt; v_inertial = qb.RB @ v_body</span>
+<span class="sd">      &gt;&gt;&gt; v_inertial   # doctest: +NUMPY_FORMAT</span>
+<span class="sd">      [2.0  0.0  0.0]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">BR</span><span class="p">)</span>
+
+<div class="viewcode-block" id="quatbody.inteqm">
+<a class="viewcode-back" href="../../../../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.inteqm.html#c4dynamics.states.lib.quatbody.quatbody.inteqm">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inteqm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">forces</span><span class="p">,</span> <span class="n">moments</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Advances the state vector, :attr:`quatbody.X &lt;c4dynamics.states.state.state.X&gt;`,</span>
+<span class="sd">        with respect to the input</span>
+<span class="sd">        forces and moments on a single step of time, `dt`.</span>
+
+<span class="sd">        Integrates equations of six degrees motion using the Runge-Kutta method.</span>
+
+<span class="sd">        This method numerically integrates the equations of motion for a dynamic system</span>
+<span class="sd">        using the fourth-order Runge-Kutta method as given by</span>
+<span class="sd">        :func:`eqm.int6q &lt;c4dynamics.eqm.integrate.int6q&gt;`.</span>
+
+<span class="sd">        The derivatives of the equations are of six dimensional motion</span>
+<span class="sd">        with quaternion attitude kinematics as given by</span>
+<span class="sd">        :py:func:`eqm.eqm6q &lt;c4dynamics.eqm.derivs.eqm6q&gt;`.</span>
+<span class="sd">        The quaternion is normalized at the end of each step.</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        forces : numpy.array or list</span>
+<span class="sd">            An external forces vector acting on the body, `forces = [Fx, Fy, Fz]`</span>
+<span class="sd">        moments : numpy.array or list</span>
+<span class="sd">            An external moments vector acting on the body, `moments = [Mx, My, Mz]`</span>
+<span class="sd">        dt : float or int</span>
+<span class="sd">            Interval time step for integration.</span>
+
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : numpy.float64</span>
+<span class="sd">            An acceleration array at the final time step,</span>
+<span class="sd">            :math:`[dv_x, dv_y, dv_z, dp, dq, dr]`.</span>
+
+
+<span class="sd">        Warning</span>
+<span class="sd">        -------</span>
+<span class="sd">        This method is not recommanded when the vectors</span>
+<span class="sd">        of forces or moments depend on the state variables.</span>
+<span class="sd">        Since the vectors of forces and moments are provided once at the</span>
+<span class="sd">        entrance to the integration, they remain constant</span>
+<span class="sd">        for the entire steps.</span>
+<span class="sd">        Therefore, when the forces or moments depend on the state variables</span>
+<span class="sd">        the results of this method are not accurate and may lead to instability.</span>
+
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        A drone applies a roll torque to perform a half roll</span>
+<span class="sd">        and then stops the rotation by an opposite torque,</span>
+<span class="sd">        ending up inverted (:math:`q_x \\approx 1`, i.e. :math:`\\varphi \\approx 180°`).</span>
+
+<span class="sd">        Import required packages:</span>
+
+<span class="sd">        .. code::</span>
+
+<span class="sd">          &gt;&gt;&gt; import c4dynamics as c4d</span>
+<span class="sd">          &gt;&gt;&gt; from matplotlib import pyplot as plt</span>
+<span class="sd">          &gt;&gt;&gt; import numpy as np</span>
+
+
+<span class="sd">        Settings and initial conditions:</span>
+
+<span class="sd">        .. code::</span>
+
+<span class="sd">          &gt;&gt;&gt; dt = 0.001</span>
+<span class="sd">          &gt;&gt;&gt; drone = c4d.quatbody()</span>
+<span class="sd">          &gt;&gt;&gt; drone.I = [0.0082, 0.0082, 0.0149]</span>
+
+
+<span class="sd">        Main loop:</span>
+
+<span class="sd">        .. code::</span>
+
+<span class="sd">          &gt;&gt;&gt; for ti in np.arange(0, 1, dt):</span>
+<span class="sd">          ...   torque = [0.1, 0, 0] if ti &lt; 0.5 else [-0.1, 0, 0]</span>
+<span class="sd">          ...   drone.inteqm(np.zeros(3), torque, dt)  # doctest: +IGNORE_OUTPUT</span>
+<span class="sd">          ...   drone.store(ti)</span>
+
+
+<span class="sd">        Plot results:</span>
+
+<span class="sd">        .. code::</span>
+
+<span class="sd">          &gt;&gt;&gt; _, ax = plt.subplots(2, 1, gridspec_kw = {&#39;hspace&#39;: 0.5})</span>
+<span class="sd">          &gt;&gt;&gt; drone.plot(&#39;p&#39;, ax = ax[0])</span>
+<span class="sd">          &gt;&gt;&gt; ax[0].set(xlabel = &#39;&#39;)  # doctest: +IGNORE_OUTPUT</span>
+<span class="sd">          &gt;&gt;&gt; drone.plot(&#39;qx&#39;, ax = ax[1])</span>
+
+<span class="sd">        .. figure:: /_examples/quatbody/inteqm_halfroll.png</span>
+
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">acc</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">eqm</span><span class="o">.</span><span class="n">int6q</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">forces</span><span class="p">,</span> <span class="n">moments</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">derivs_out</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">acc</span></div>
+
+
+<div class="viewcode-block" id="quatbody.data">
+<a class="viewcode-back" href="../../../../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.data.html#c4dynamics.states.lib.quatbody.quatbody.data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns arrays of stored time and data.</span>
+
+<span class="sd">        Extends :meth:`state.data() &lt;c4dynamics.states.state.state.data&gt;`</span>
+<span class="sd">        with the Euler angles `phi`, `theta`, `psi`, which are</span>
+<span class="sd">        derived from the stored quaternion histories</span>
+<span class="sd">        (see :func:`quat2euler &lt;c4dynamics.rotmat.rotmat.quat2euler&gt;`).</span>
+<span class="sd">        For every other variable, the behavior is identical to</span>
+<span class="sd">        :meth:`state.data() &lt;c4dynamics.states.state.state.data&gt;`.</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        var : str, optional</span>
+<span class="sd">            The name of the variable or parameter of the required histories.</span>
+<span class="sd">            In addition to the state variables and the parameters,</span>
+<span class="sd">            `phi`, `theta`, `psi` are supported.</span>
+<span class="sd">        scale : float or int, optional</span>
+<span class="sd">            A scaling factor to apply to the variable values. Defaults to `1`.</span>
+
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : tuple of numpy.array or numpy.array</span>
+<span class="sd">            A tuple of the time and the variable histories,</span>
+<span class="sd">            or the entire state histories if `var` is not provided.</span>
+
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        .. code::</span>
+
+<span class="sd">          &gt;&gt;&gt; qb = c4d.quatbody()</span>
+<span class="sd">          &gt;&gt;&gt; for t in [0, 1, 2]:</span>
+<span class="sd">          ...   qb.psi = t * 10 * c4d.d2r</span>
+<span class="sd">          ...   qb.store(t)</span>
+<span class="sd">          &gt;&gt;&gt; qb.data(&#39;psi&#39;, c4d.r2d)  # doctest: +NUMPY_FORMAT</span>
+<span class="sd">          (array([0, 1, 2]), array([0, 10, 20]))</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_angles_names</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;No history of state samples.&quot;&quot;&quot;</span><span class="p">,</span> <span class="n">c4d</span><span class="o">.</span><span class="n">c4warn</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+
+            <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span>
+            <span class="n">iqw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_didx</span><span class="p">[</span><span class="s2">&quot;qw&quot;</span><span class="p">]</span>
+            <span class="n">angles</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">rotmat</span><span class="o">.</span><span class="n">quat2euler</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span> <span class="n">iqw</span> <span class="p">:</span> <span class="n">iqw</span> <span class="o">+</span> <span class="mi">4</span><span class="p">])</span>
+
+            <span class="k">return</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">angles</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_angles_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">var</span><span class="p">)]</span> <span class="o">*</span> <span class="n">scale</span>
+
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="quatbody.plot">
+<a class="viewcode-back" href="../../../../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.plot.html#c4dynamics.states.lib.quatbody.quatbody.plot">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">darkmode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Draws plots of trajectories or variable evolution over time.</span>
+
+<span class="sd">        `var` can be each one of the state variables, the Euler angles</span>
+<span class="sd">        `phi`, `theta`, `psi`, or `top`, `side`, for trajectories.</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        var : str</span>
+<span class="sd">            The variable to be plotted.</span>
+<span class="sd">            Possible variables for trajectories: `top`, `side`.</span>
+<span class="sd">            For time evolution, any one of the state variables is possible:</span>
+<span class="sd">            `x`, `y`, `z`, `vx`, `vy`, `vz`, `qw`, `qx`, `qy`, `qz`, `p`, `q`, `r`,</span>
+<span class="sd">            and the Euler angles `phi`, `theta`, `psi`</span>
+<span class="sd">            (derived from the quaternion histories).</span>
+
+<span class="sd">        scale : float or int, optional</span>
+<span class="sd">            A scaling factor to apply to the variable values. Defaults to `1`.</span>
+
+<span class="sd">        ax : matplotlib.axes.Axes, optional</span>
+<span class="sd">            An existing Matplotlib axis to plot on.</span>
+<span class="sd">            If None, a new figure and axis will be created. By default None.</span>
+
+<span class="sd">        filename : str, optional</span>
+<span class="sd">            Full file name to save the plot image.</span>
+<span class="sd">            If None, the plot will not be saved, by default None.</span>
+
+<span class="sd">        darkmode : bool, optional</span>
+<span class="sd">            Plot in a dark background style. By default True.</span>
+
+<span class="sd">        **kwargs : dict, optional</span>
+<span class="sd">            Additional key-value arguments passed to `matplotlib.pyplot.plot`.</span>
+<span class="sd">            These can include any keyword arguments accepted by `plot`,</span>
+<span class="sd">            such as `color`, `linestyle`, `marker`, etc.</span>
+
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        - The method overrides the</span>
+<span class="sd">          :meth:`datapoint.plot &lt;c4dynamics.states.lib.datapoint.datapoint.plot&gt;`.</span>
+<span class="sd">        - As in the :class:`rigidbody &lt;c4dynamics.states.lib.rigidbody.rigidbody&gt;`,</span>
+<span class="sd">          Euler angles and angular rates are plotted in degrees</span>
+<span class="sd">          and degrees per second, respectively.</span>
+<span class="sd">        - The quaternion components are plotted unitless.</span>
+
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        .. code::</span>
+
+<span class="sd">          &gt;&gt;&gt; import c4dynamics as c4d</span>
+<span class="sd">          &gt;&gt;&gt; import numpy as np</span>
+
+<span class="sd">        .. code::</span>
+
+<span class="sd">          &gt;&gt;&gt; dt = 0.01</span>
+<span class="sd">          &gt;&gt;&gt; drone = c4d.quatbody(r = 90 * c4d.d2r)</span>
+<span class="sd">          &gt;&gt;&gt; drone.I = [0.0082, 0.0082, 0.0149]</span>
+<span class="sd">          &gt;&gt;&gt; for ti in np.arange(0, 1, dt):</span>
+<span class="sd">          ...   drone.inteqm(np.zeros(3), np.zeros(3), dt)  # doctest: +IGNORE_OUTPUT</span>
+<span class="sd">          ...   drone.store(ti)</span>
+<span class="sd">          &gt;&gt;&gt; drone.plot(&#39;psi&#39;)</span>
+
+<span class="sd">        .. figure:: /_examples/quatbody/plot_yaw.png</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;top&quot;</span><span class="p">,</span> <span class="s2">&quot;side&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_didx</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">6</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">darkmode</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">var</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_didx</span> <span class="ow">and</span> <span class="n">var</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_angles_names</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> is not a state variable.&quot;&quot;&quot;</span><span class="p">,</span> <span class="n">c4d</span><span class="o">.</span><span class="n">c4warn</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;No stored data for </span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2">.&quot;&quot;&quot;</span><span class="p">,</span> <span class="n">c4d</span><span class="o">.</span><span class="n">c4warn</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">darkmode</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;dark_background&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;default&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_angles_names</span><span class="p">:</span>
+            <span class="c1"># phi, theta, psi</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">c4d</span><span class="o">.</span><span class="n">r2d</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">var</span> <span class="o">+</span> <span class="s2">&quot;$&quot;</span>
+            <span class="n">ylabel</span> <span class="o">=</span> <span class="n">title</span> <span class="o">+</span> <span class="s2">&quot; (deg)&quot;</span>
+        <span class="k">elif</span> <span class="n">var</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;qw&quot;</span><span class="p">,</span> <span class="s2">&quot;qx&quot;</span><span class="p">,</span> <span class="s2">&quot;qy&quot;</span><span class="p">,</span> <span class="s2">&quot;qz&quot;</span><span class="p">):</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_didx</span><span class="p">[</span><span class="n">var</span><span class="p">]]</span> <span class="o">*</span> <span class="n">scale</span>
+            <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;$q_&quot;</span> <span class="o">+</span> <span class="n">var</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;$&quot;</span>
+            <span class="n">ylabel</span> <span class="o">=</span> <span class="n">title</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># p, q, r</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_didx</span><span class="p">[</span><span class="n">var</span><span class="p">]]</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">r2d</span>
+            <span class="n">title</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+            <span class="n">ylabel</span> <span class="o">=</span> <span class="n">var</span> <span class="o">+</span> <span class="s2">&quot; (deg/sec)&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">flatnonzero</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)):</span>  <span class="c1"># values for t weren&#39;t stored</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)))</span>  <span class="c1"># t is just indices</span>
+            <span class="n">xlabel</span> <span class="o">=</span> <span class="s2">&quot;Sample&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)</span>
+            <span class="n">xlabel</span> <span class="o">=</span> <span class="s2">&quot;Time&quot;</span>
+
+        <span class="c1"># Set default values in kwargs only if the user hasn&#39;t provided them</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;color&quot;</span><span class="p">,</span> <span class="s2">&quot;m&quot;</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;linewidth&quot;</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">factorsize</span> <span class="o">=</span> <span class="mi">4</span>
+            <span class="n">aspectratio</span> <span class="o">=</span> <span class="mi">1080</span> <span class="o">/</span> <span class="mi">1920</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
+                <span class="mi">1</span><span class="p">,</span>
+                <span class="mi">1</span><span class="p">,</span>
+                <span class="n">dpi</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+                <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">factorsize</span><span class="p">,</span> <span class="n">factorsize</span> <span class="o">*</span> <span class="n">aspectratio</span><span class="p">),</span>
+                <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">:</span> <span class="mf">0.85</span><span class="p">,</span> <span class="s2">&quot;top&quot;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">,</span> <span class="s2">&quot;bottom&quot;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">},</span>
+            <span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">c4d</span><span class="o">.</span><span class="n">plotdefaults</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">xlabel</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">filename</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">,</span> <span class="n">pad_inches</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="quatbody.animate">
+<a class="viewcode-back" href="../../../../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.animate.html#c4dynamics.states.lib.quatbody.quatbody.animate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">animate</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">modelpath</span><span class="p">,</span>
+        <span class="n">angle0</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="n">modelcolor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">dt</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span>
+        <span class="n">savedir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">cbackground</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="p">):</span>
+
+        <span class="n">c4d</span><span class="o">.</span><span class="n">rotmat</span><span class="o">.</span><span class="n">animate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modelpath</span><span class="p">,</span> <span class="n">angle0</span><span class="p">,</span> <span class="n">modelcolor</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">savedir</span><span class="p">,</span> <span class="n">cbackground</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="n">quatbody</span><span class="o">.</span><span class="n">animate</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">rotmat</span><span class="o">.</span><span class="n">animate</span><span class="o">.</span><span class="vm">__doc__</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="kn">import</span> <span class="n">rundoctests</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">open3d</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">o3d</span>  <span class="c1"># noqa: F401</span>
+
+        <span class="n">rundoctests</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">])</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="n">rundoctests</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;__main__.quatbody.animate&quot;</span><span class="p">])</span>
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By c4dynamics
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, c4dynamics.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on Oct 09, 2026.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
