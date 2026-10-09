@@ -15,6 +15,8 @@
 #   quad_ekf          - ekf_estimation / quad_ekf: EKF loop, sweeps, plots
 #   ekf_config        - ekf_estimation / quad_ekf: reference EKF noise block
 #   iris_quadcopter   - ekf_estimation: 3DR Iris parameter datasheet
+#   ardupilot         - ardupilot_sim / ardupilot_fig8: ArduCopter control stack port
+#   pixhawk           - ardupilot_sim / ardupilot_fig8: flight-controller board, sensors
 #
 # Submodules are imported explicitly (not here) - several pull scipy and
 # other heavy dependencies that the rest of c4dynamics.utils does not need.
