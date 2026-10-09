@@ -368,9 +368,13 @@ and analyzing algorithms of objects in space and time:
 :class:`datapoint <c4dynamics.states.lib.datapoint.datapoint>`: 
 a class defining a point in space: position, velocity, and mass.
 
-:class:`rigidbody <c4dynamics.states.lib.rigidbody.rigidbody>`: 
-a class rigidbody a class defining a rigid body in space, i.e. 
+:class:`rigidbody <c4dynamics.states.lib.rigidbody.rigidbody>`:
+a class rigidbody a class defining a rigid body in space, i.e.
 an object with length and angular position.
+
+:class:`quatbody <c4dynamics.states.lib.quatbody.quatbody>`:
+a rigid body whose angular position is a unit quaternion
+rather than Euler angles.
 
 
 .. figure:: /_architecture/body_states.svg
@@ -543,7 +547,111 @@ the rigidbody attitude.
 
 -----------------
 
-3. Pixel Point
+3. Quaternion Body
+------------------
+
+The :class:`quatbody <c4dynamics.states.lib.quatbody.quatbody>`
+is the quaternion counterpart of the :class:`rigidbody <c4dynamics.states.lib.rigidbody.rigidbody>`.
+It models the same rigid body dynamics,
+but represents the attitude by a unit quaternion
+instead of the three Euler angles.
+
+The Euler angles kinematics are singular at a pitch of :math:`\theta = \pm 90°`
+(gimbal lock), while the quaternion kinematics are not.
+This makes the `quatbody` suitable for agile vehicles,
+such as drones performing flips, aerobatic aircraft, or tumbling spacecraft,
+that may reach any attitude.
+For the background, see :ref:`the quaternion kinematics <kinematics-quaternion>`.
+
+
+Data Attributes
+^^^^^^^^^^^^^^^
+
+State variables:
+
+.. math::
+
+  X = [x, y, z, v_x, v_y, v_z, q_w, q_x, q_y, q_z, p, q, r]^T
+
+- Position, velocity, attitude quaternion (scalar first), angle rates.
+
+The quaternion components are named `qw`, `qx`, `qy`, `qz`
+rather than `q0`, ..., `q3`, since the `0` suffix of a state variable
+is reserved for its initial value (e.g. `q0` is the initial pitch rate).
+
+Parameters:
+
+- `mass`: point mass.
+- `I`: vector of moments of inertia about 3 axes.
+
+
+Construction
+^^^^^^^^^^^^
+
+A `quatbody` instance is created by making a direct call to the quatbody constructor:
+
+.. code::
+
+  >>> from c4dynamics import quatbody
+  >>> qb = quatbody()
+
+
+.. code::
+
+  >>> print(qb)
+  [ x  y  z  vx  vy  vz  qw  qx  qy  qz  p  q  r ]
+
+
+The initial attitude is given either by Euler angles,
+as in the rigidbody, or directly by a quaternion with the `quat` argument:
+
+.. code::
+
+  >>> from c4dynamics import d2r
+  >>> qb = quatbody(theta = 10 * d2r, q = -1 * d2r)
+  >>> qb.quat   # doctest: +NUMPY_FORMAT
+  [0.996  0  0.087  0]
+
+
+Functionality
+^^^^^^^^^^^^^
+
+The :meth:`inteqm() <c4dynamics.states.lib.quatbody.quatbody.inteqm>` method uses
+the Runge-Kutta integration technique
+to evolve the state in response to external forces and moments,
+and normalizes the quaternion at the end of each step.
+The equations of motion are
+:func:`eqm6q <c4dynamics.eqm.derivs.eqm6q>` and
+:func:`int6q <c4dynamics.eqm.integrate.int6q>`.
+
+The Euler angles
+:attr:`phi <c4dynamics.states.lib.quatbody.quatbody.phi>`,
+:attr:`theta <c4dynamics.states.lib.quatbody.quatbody.theta>`, and
+:attr:`psi <c4dynamics.states.lib.quatbody.quatbody.psi>`
+are properties derived from the quaternion,
+so code written for the rigidbody reads the attitude the same way.
+:meth:`data() <c4dynamics.states.lib.quatbody.quatbody.data>` and
+:meth:`plot() <c4dynamics.states.lib.quatbody.quatbody.plot>`
+accept them too.
+
+:attr:`BR <c4dynamics.states.lib.quatbody.quatbody.BR>` and
+:attr:`RB <c4dynamics.states.lib.quatbody.quatbody.RB>` return
+the Direction Cosine Matrices, Body from Reference (`[BR]`)
+and Reference from Body (`[RB]`), computed from the quaternion.
+When a 3D model is provided, the method
+:meth:`animate() <c4dynamics.states.lib.quatbody.quatbody.animate>`
+animates the object with respect to the histories of its attitude.
+
+The quadcopter equations of motion
+:func:`quadeqm <c4dynamics.eqm.quadcopter.quadeqm>`
+accept the 13-state vector of the quatbody
+as well as the 12-state vector of the rigidbody.
+
+
+
+-----------------
+
+4. Pixel Point
 -------------- 
 
 The :class:`pixelpoint <c4dynamics.states.lib.pixelpoint.pixelpoint>` 
@@ -621,6 +729,8 @@ See Also
     - A point in space
   * - :class:`rigidbody <c4dynamics.states.lib.rigidbody.rigidbody>`
     - Rigid body object
+  * - :class:`quatbody <c4dynamics.states.lib.quatbody.quatbody>`
+    - Rigid body object with a quaternion attitude
   * - :class:`pixelpoint <c4dynamics.states.lib.pixelpoint.pixelpoint>`
     - A pixel point in an image
 
