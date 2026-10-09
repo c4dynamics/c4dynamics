@@ -47,6 +47,7 @@ from .states.state import state as state
 
 # rotmat is required to importing rigidbody:
 from .states.lib.rigidbody import rigidbody as rigidbody  # rotmat is required to import rigidbody.
+from .states.lib.quatbody import quatbody as quatbody  # rotmat is required to import quatbody.
 
 #
 # routines

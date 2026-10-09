@@ -158,7 +158,7 @@ Where:
 - $\boldsymbol{\omega} \times \mathbf{I}\boldsymbol{\omega}$: gyroscopic (Coriolis) term arising from the rotating body frame — couples the three rotation axes
 - $\boldsymbol{\tau} = [\tau_x,\ \tau_y,\ \tau_z]^T$: torque vector produced by differential rotor thrust [N·m]. A gyroscopic coupling term from rotor angular momentum is also included.
 
-The `dynamics(t, y, quad, rotor_speeds)` function computes the 12 state derivatives.
+The 12 state derivatives are computed by `c4d.eqm.quadeqm(t, y, quad, rotor_speeds, frame='ENU')`, c4dynamics' quadcopter model, shared with the EKF example.
 Integration is carried out by using scipy's `solve_ivp`.
 
 For the full theoretical background on rigid-body kinematics and the state representation used by c4dynamics, see the [c4dynamics kinematics page](https://c4dynamics.github.io/c4dynamics/concepts/kinematics.html).

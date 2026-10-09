@@ -1,0 +1,818 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>c4dynamics.eqm.quadcopter &#8212; C4DYNAMICS v2.5</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/c4dynamics-chat.css?v=e4dcb7d2" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../../_static/documentation_options.js?v=7769aa4a"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-LKRZFXZKQP"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-LKRZFXZKQP');
+            </script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-LKRZFXZKQP');
+            </script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/c4dynamics/eqm/quadcopter';</script>
+    <script src="../../../_static/custom.js?v=53f4f99c"></script>
+    <script defer="defer" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="../../../_static/c4dynamics-chat.js?v=97e05790"></script>
+    <link rel="icon" href="../../../_static/c4dlogo.svg"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="Oct 09, 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">C4DYNAMICS v2.5</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../../index.html">
+                    Home
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../gettingstarted.html">Getting Started</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../concepts/states.html">State Objects</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../../../concepts/kinematics.html">Kinematics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../concepts/transformations.html">Rigid Body Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../concepts/sensors.html">Sensors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../concepts/filters.html">Filters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../concepts/rl_env.html">Reinforcement Learning Environment</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/setup_guide.html">Setup Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/introduction_guide.html">Interactive Guide to State Space and State Objects Modeling</a></li>
+
+
+
+
+
+
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Use Cases</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../programs/pid_cascade/quadcopter_pid.html">Quadcopter Cascade <em>PID</em> — Figure-8 Trajectory Tracking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../programs/ekf_estimation/quad_ekf.html">Quadcopter EKF - State Estimation for Figure-8 Trajectory Tracking</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../../../programs/pn_guidance/dof6sim.html">Proportional Navigation Guidance - 6 Degrees of Freedom Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../programs/ballistic_ekf/ballistic_coefficient.html">Ballistic Coefficient Estimation - Extended Kalman Filter</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../../../programs/mpc_steering/mpc_steering.html">Vehicle Steering - Model Predictive Control</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../../../programs/car_tracker/car_tracker.html">Car Tracker – YOLO3 Detector and Kalman Filter</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../../../programs/car_tracker_yolo11/car_tracker_yolo11.html">Car Tracker – YOLO11 Detector and Kalman Filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../programs/learning_controller/learning_controller.html">Neural Learning Control for Online Uncertain Dynamics Estimation</a></li>
+
+
+
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../api/introduction.html">Introduction</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/States.html">State Objects</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/states.state.html">The State Class</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.X.html">c4dynamics.states.state.state.X</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.X0.html">c4dynamics.states.state.state.X0</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.norm.html">c4dynamics.states.state.state.norm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.normalize.html">c4dynamics.states.state.state.normalize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.Position.html">c4dynamics.states.state.state.Position</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.Velocity.html">c4dynamics.states.state.state.Velocity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.addvars.html">c4dynamics.states.state.state.addvars</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.dist.html">c4dynamics.states.state.state.dist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.vel_mag.html">c4dynamics.states.state.state.vel_mag</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.store.html">c4dynamics.states.state.state.store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.storeparams.html">c4dynamics.states.state.state.storeparams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.data.html">c4dynamics.states.state.state.data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.timestate.html">c4dynamics.states.state.state.timestate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/state/c4dynamics.states.state.state.plot.html">c4dynamics.states.state.state.plot</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/states.lib.html">States Library</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/states.lib.datapoint.html">Datapoint</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/dp/c4dynamics.states.lib.datapoint.datapoint.mass.html">c4dynamics.states.lib.datapoint.datapoint.mass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/dp/c4dynamics.states.lib.datapoint.datapoint.inteqm.html">c4dynamics.states.lib.datapoint.datapoint.inteqm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/dp/c4dynamics.states.lib.datapoint.datapoint.plot.html">c4dynamics.states.lib.datapoint.datapoint.plot</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/states.lib.rigidbody.html">Rigidbody</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.mass.html">c4dynamics.states.lib.rigidbody.rigidbody.mass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.I.html">c4dynamics.states.lib.rigidbody.rigidbody.I</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.angles.html">c4dynamics.states.lib.rigidbody.rigidbody.angles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.ang_rates.html">c4dynamics.states.lib.rigidbody.rigidbody.ang_rates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.BR.html">c4dynamics.states.lib.rigidbody.rigidbody.BR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.RB.html">c4dynamics.states.lib.rigidbody.rigidbody.RB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.inteqm.html">c4dynamics.states.lib.rigidbody.rigidbody.inteqm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.plot.html">c4dynamics.states.lib.rigidbody.rigidbody.plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.animate.html">c4dynamics.states.lib.rigidbody.rigidbody.animate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/states.lib.quatbody.html">Quatbody</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.mass.html">c4dynamics.states.lib.quatbody.quatbody.mass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.I.html">c4dynamics.states.lib.quatbody.quatbody.I</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.quat.html">c4dynamics.states.lib.quatbody.quatbody.quat</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.angles.html">c4dynamics.states.lib.quatbody.quatbody.angles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.phi.html">c4dynamics.states.lib.quatbody.quatbody.phi</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.theta.html">c4dynamics.states.lib.quatbody.quatbody.theta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.psi.html">c4dynamics.states.lib.quatbody.quatbody.psi</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.ang_rates.html">c4dynamics.states.lib.quatbody.quatbody.ang_rates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.BR.html">c4dynamics.states.lib.quatbody.quatbody.BR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.RB.html">c4dynamics.states.lib.quatbody.quatbody.RB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.inteqm.html">c4dynamics.states.lib.quatbody.quatbody.inteqm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.data.html">c4dynamics.states.lib.quatbody.quatbody.data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.plot.html">c4dynamics.states.lib.quatbody.quatbody.plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.animate.html">c4dynamics.states.lib.quatbody.quatbody.animate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../api/states.lib.pixelpoint.html">Pixelpoint</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fdp/c4dynamics.states.lib.pixelpoint.pixelpoint.fsize.html">c4dynamics.states.lib.pixelpoint.pixelpoint.fsize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fdp/c4dynamics.states.lib.pixelpoint.pixelpoint.class_id.html">c4dynamics.states.lib.pixelpoint.pixelpoint.class_id</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fdp/c4dynamics.states.lib.pixelpoint.pixelpoint.box.html">c4dynamics.states.lib.pixelpoint.pixelpoint.box</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/Sensors.html">Sensors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/sensors.seeker.html">Seeker</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/seeker/c4dynamics.sensors.seeker.seeker.bias.html">c4dynamics.sensors.seeker.seeker.bias</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/seeker/c4dynamics.sensors.seeker.seeker.scale_factor.html">c4dynamics.sensors.seeker.seeker.scale_factor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/seeker/c4dynamics.sensors.seeker.seeker.measure.html">c4dynamics.sensors.seeker.seeker.measure</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/sensors.radar.html">Radar</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/radar/c4dynamics.sensors.radar.radar.bias.html">c4dynamics.sensors.radar.radar.bias</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/radar/c4dynamics.sensors.radar.radar.scale_factor.html">c4dynamics.sensors.radar.radar.scale_factor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/radar/c4dynamics.sensors.radar.radar.measure.html">c4dynamics.sensors.radar.radar.measure</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/sensors.navigation.gps.html">GPS</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/gps/c4dynamics.sensors.navigation.gps.measure.html">c4dynamics.sensors.navigation.gps.measure</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/sensors.navigation.imu.html">IMU</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/imu/c4dynamics.sensors.navigation.imu.measure.html">c4dynamics.sensors.navigation.imu.measure</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/sensors.navigation.magnetometer.html">Magnetometer</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/magnetometer/c4dynamics.sensors.navigation.magnetometer.measure.html">c4dynamics.sensors.navigation.magnetometer.measure</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/Detectors.html">Detectors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/detectors.yolov3.html">YOLOv3</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/yolov3/c4dynamics.detectors.yolo3_opencv.yolov3.nms_th.html">c4dynamics.detectors.yolo3_opencv.yolov3.nms_th</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/yolov3/c4dynamics.detectors.yolo3_opencv.yolov3.confidence_th.html">c4dynamics.detectors.yolo3_opencv.yolov3.confidence_th</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/yolov3/c4dynamics.detectors.yolo3_opencv.yolov3.detect.html">c4dynamics.detectors.yolo3_opencv.yolov3.detect</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/Filters.html">Filters</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/filters.kalman.html">Kalman filter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/kalman/c4dynamics.filters.kalman.kalman.predict.html">c4dynamics.filters.kalman.kalman.predict</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/kalman/c4dynamics.filters.kalman.kalman.update.html">c4dynamics.filters.kalman.kalman.update</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/kalman/c4dynamics.filters.kalman.kalman.store.html">c4dynamics.filters.kalman.kalman.store</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/filters.ekf.html">Extended Kalman filter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/ekf/c4dynamics.filters.ekf.ekf.predict.html">c4dynamics.filters.ekf.ekf.predict</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/ekf/c4dynamics.filters.ekf.ekf.update.html">c4dynamics.filters.ekf.ekf.update</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/ekf/c4dynamics.filters.ekf.ekf.store.html">c4dynamics.filters.ekf.ekf.store</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/filters.lpf.html">Lowpass filter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/lpf/c4dynamics.filters.lowpass.lowpass.sample.html">c4dynamics.filters.lowpass.lowpass.sample</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/eqm.html">Kinematics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/eqm/c4dynamics.eqm.derivs.eqm3.html">c4dynamics.eqm.derivs.eqm3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/eqm/c4dynamics.eqm.derivs.eqm6.html">c4dynamics.eqm.derivs.eqm6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/eqm/c4dynamics.eqm.derivs.eqm6q.html">c4dynamics.eqm.derivs.eqm6q</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/eqm/c4dynamics.eqm.integrate.int3.html">c4dynamics.eqm.integrate.int3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/eqm/c4dynamics.eqm.integrate.int6.html">c4dynamics.eqm.integrate.int6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/eqm/c4dynamics.eqm.integrate.int6q.html">c4dynamics.eqm.integrate.int6q</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/eqm/c4dynamics.eqm.quadcopter.quadforces.html">c4dynamics.eqm.quadcopter.quadforces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/eqm/c4dynamics.eqm.quadcopter.quadeqm.html">c4dynamics.eqm.quadcopter.quadeqm</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/rotmat.html">Rotations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.rotx.html">c4dynamics.rotmat.rotmat.rotx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.roty.html">c4dynamics.rotmat.rotmat.roty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.rotz.html">c4dynamics.rotmat.rotmat.rotz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.dcm321.html">c4dynamics.rotmat.rotmat.dcm321</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.dcm321euler.html">c4dynamics.rotmat.rotmat.dcm321euler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.euler2quat.html">c4dynamics.rotmat.rotmat.euler2quat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.quat2dcm.html">c4dynamics.rotmat.rotmat.quat2dcm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/rotmat/c4dynamics.rotmat.rotmat.quat2euler.html">c4dynamics.rotmat.rotmat.quat2euler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/rotmat/c4dynamics.rotmat.animate.animate.html">c4dynamics.rotmat.animate.animate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/Utils.html">Utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/utils/c4dynamics.utils.tictoc.tic.html">c4dynamics.utils.tictoc.tic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/utils/c4dynamics.utils.tictoc.toc.html">c4dynamics.utils.tictoc.toc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/utils/c4dynamics.utils.cprint.cprint.html">c4dynamics.utils.cprint.cprint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/utils/c4dynamics.utils.gen_gif.gif.html">c4dynamics.utils.gen_gif.gif</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/utils/c4dynamics.utils.plottools.plotdefaults.html">c4dynamics.utils.plottools.plotdefaults</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.math.html">Math Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.const.html">Constants</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/Datasets.html">Datasets</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/datasets/c4dynamics.datasets.image.html">c4dynamics.datasets.image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/datasets/c4dynamics.datasets.video.html">c4dynamics.datasets.video</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/datasets/c4dynamics.datasets.nn_model.html">c4dynamics.datasets.nn_model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/datasets/c4dynamics.datasets.d3_model.html">c4dynamics.datasets.d3_model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/datasets/c4dynamics.datasets.download_all.html">c4dynamics.datasets.download_all</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/datasets/c4dynamics.datasets.clear_cache.html">c4dynamics.datasets.clear_cache</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for c4dynamics.eqm.quadcopter</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics.eqm.derivs</span><span class="w"> </span><span class="kn">import</span> <span class="n">_derivs6</span><span class="p">,</span> <span class="n">_derivs6q</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics.rotmat</span><span class="w"> </span><span class="kn">import</span> <span class="n">dcm321</span><span class="p">,</span> <span class="n">quat2dcm</span>
+
+<span class="c1"># x configuration, ardupilot motor order: front-right, rear-left, front-left, rear-right.</span>
+<span class="c1"># +1: counterclockwise seen from above, -1: clockwise.</span>
+<span class="n">_ROTOR_DIR_X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">])</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_up</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>
+    <span class="c1"># direction of &#39;up&#39; along the body z axis: +1 for FLU (ENU), -1 for FRD (NED).</span>
+    <span class="k">if</span> <span class="n">frame</span> <span class="o">==</span> <span class="s2">&quot;NED&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mf">1.0</span>
+    <span class="k">if</span> <span class="n">frame</span> <span class="o">==</span> <span class="s2">&quot;ENU&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">1.0</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;frame must be &#39;NED&#39; or &#39;ENU&#39;, got </span><span class="si">{</span><span class="n">frame</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_bi</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="c1"># body from inertial DCM of a 12-state (euler) or a 13-state (quaternion) vector.</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">==</span> <span class="mi">12</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">dcm321</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="mi">8</span><span class="p">])</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">==</span> <span class="mi">13</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">quat2dcm</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">6</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;X must have 12 (euler) or 13 (quaternion) entries, got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_rotor_geometry</span><span class="p">(</span><span class="n">quad</span><span class="p">,</span> <span class="n">up</span><span class="p">):</span>
+    <span class="c1"># rotor positions (body x, y) and spin directions. without explicit rotor_pos,</span>
+    <span class="c1"># an x configuration with moment arm l, in the body frame of the given frame.</span>
+    <span class="n">rotor_pos</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">quad</span><span class="p">,</span> <span class="s2">&quot;rotor_pos&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">rotor_pos</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="n">quad</span><span class="o">.</span><span class="n">l</span>
+        <span class="n">y_right</span> <span class="o">=</span> <span class="o">-</span><span class="n">up</span> <span class="o">*</span> <span class="n">l</span>
+        <span class="n">rotor_pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="n">l</span><span class="p">,</span>  <span class="n">y_right</span><span class="p">],</span>    <span class="c1"># front-right</span>
+                              <span class="p">[</span><span class="o">-</span><span class="n">l</span><span class="p">,</span> <span class="o">-</span><span class="n">y_right</span><span class="p">],</span>    <span class="c1"># rear-left</span>
+                              <span class="p">[</span> <span class="n">l</span><span class="p">,</span> <span class="o">-</span><span class="n">y_right</span><span class="p">],</span>    <span class="c1"># front-left</span>
+                              <span class="p">[</span><span class="o">-</span><span class="n">l</span><span class="p">,</span>  <span class="n">y_right</span><span class="p">]])</span>   <span class="c1"># rear-right</span>
+    <span class="n">rotor_dir</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">quad</span><span class="p">,</span> <span class="s2">&quot;rotor_dir&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">rotor_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">rotor_dir</span> <span class="o">=</span> <span class="n">_ROTOR_DIR_X</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">rotor_pos</span><span class="p">,</span> <span class="nb">float</span><span class="p">)[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">rotor_dir</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="quadforces">
+<a class="viewcode-back" href="../../../api/generated/eqm/c4dynamics.eqm.quadcopter.quadforces.html#c4dynamics.eqm.quadcopter.quadforces">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">quadforces</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">quad</span><span class="p">,</span> <span class="n">rotor_speeds</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="s2">&quot;NED&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Body-frame force and moment acting on a quadcopter.</span>
+
+<span class="sd">    The force is the rotor thrust plus the linear aerodynamic drag, without</span>
+<span class="sd">    gravity. The moment is the rotor thrust and reaction torques, the</span>
+<span class="sd">    rotational drag and the rotor gyroscopic coupling.</span>
+<span class="sd">    :func:`quadeqm &lt;c4dynamics.eqm.quadcopter.quadeqm&gt;` adds gravity and</span>
+<span class="sd">    integrates both through the rigid-body equations of motion.</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X : array_like</span>
+<span class="sd">        State vector. 12 entries for an euler-angles body</span>
+<span class="sd">        (:class:`rigidbody &lt;c4dynamics.states.lib.rigidbody.rigidbody&gt;`):</span>
+<span class="sd">        ``[x, y, z, vx, vy, vz, phi, theta, psi, p, q, r]``,</span>
+<span class="sd">        or 13 entries for a quaternion body</span>
+<span class="sd">        (:class:`quatbody &lt;c4dynamics.states.lib.quatbody.quatbody&gt;`):</span>
+<span class="sd">        ``[x, y, z, vx, vy, vz, qw, qx, qy, qz, p, q, r]``.</span>
+<span class="sd">    quad : object</span>
+<span class="sd">        The vehicle parameters as attributes:</span>
+<span class="sd">        ``kT`` thrust coefficient [N/(rad/s)^2],</span>
+<span class="sd">        ``kQ`` torque coefficient [N.m/(rad/s)^2],</span>
+<span class="sd">        ``Ax, Ay, Az`` linear drag along the body axes [N/(m/s)],</span>
+<span class="sd">        ``Ar`` rotational drag [N.m/(rad/s)],</span>
+<span class="sd">        ``IR`` rotor inertia [kg.m^2] (optional, default 0),</span>
+<span class="sd">        ``wind`` wind velocity in the inertial frame [m/s] (optional,</span>
+<span class="sd">        default still air; the drag acts on the air-relative velocity),</span>
+<span class="sd">        and the rotor geometry: either ``rotor_pos`` (4 x 2, body x, y of</span>
+<span class="sd">        each rotor [m], in the body frame of `frame`) with ``rotor_dir``</span>
+<span class="sd">        (4, +1 counterclockwise seen from above, -1 clockwise, default</span>
+<span class="sd">        ``[1, 1, -1, -1]``), or ``l`` [m] for an x configuration in the motor</span>
+<span class="sd">        order front-right, rear-left, front-left, rear-right.</span>
+<span class="sd">    rotor_speeds : array_like</span>
+<span class="sd">        The four rotor speeds [rad/s].</span>
+<span class="sd">    frame : {&#39;NED&#39;, &#39;ENU&#39;}, optional</span>
+<span class="sd">        Inertial frame convention. ``&#39;NED&#39;`` with a forward-right-down body</span>
+<span class="sd">        frame, ``&#39;ENU&#39;`` with a forward-left-up body frame. Defaults ``&#39;NED&#39;``.</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    F_b : numpy.ndarray</span>
+<span class="sd">        Body-frame force, thrust plus drag [N].</span>
+<span class="sd">    M_b : numpy.ndarray</span>
+<span class="sd">        Body-frame moment [N.m].</span>
+
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    ``F_b / m`` is the specific force an accelerometer at the center of</span>
+<span class="sd">    mass measures.</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">        &gt;&gt;&gt; import c4dynamics as c4d</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; quad = c4d.struct(kT=3e-6, kQ=1e-7, l=0.2, Ax=0.3, Ay=0.3, Az=0.25, Ar=0.2)</span>
+<span class="sd">        &gt;&gt;&gt; X = np.zeros(12)</span>
+<span class="sd">        &gt;&gt;&gt; F_b, M_b = c4d.eqm.quadforces(X, quad, [600, 600, 600, 600])</span>
+<span class="sd">        &gt;&gt;&gt; F_b   # doctest: +NUMPY_FORMAT</span>
+<span class="sd">        [0  0  -4.32]</span>
+<span class="sd">        &gt;&gt;&gt; M_b   # doctest: +NUMPY_FORMAT</span>
+<span class="sd">        [0  0  0]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+    <span class="n">up</span> <span class="o">=</span> <span class="n">_up</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_forces</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">quad</span><span class="p">,</span> <span class="n">rotor_speeds</span><span class="p">,</span> <span class="n">up</span><span class="p">,</span> <span class="n">_bi</span><span class="p">(</span><span class="n">X</span><span class="p">))</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_forces</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">quad</span><span class="p">,</span> <span class="n">rotor_speeds</span><span class="p">,</span> <span class="n">up</span><span class="p">,</span> <span class="n">BI</span><span class="p">):</span>
+    <span class="c1"># quadforces() for a validated state vector, &#39;up&#39; sign and body-from-inertial DCM.</span>
+    <span class="n">omega</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">rotor_speeds</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+    <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:]</span>
+
+    <span class="n">pos</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">_rotor_geometry</span><span class="p">(</span><span class="n">quad</span><span class="p">,</span> <span class="n">up</span><span class="p">)</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">quad</span><span class="o">.</span><span class="n">kT</span> <span class="o">*</span> <span class="n">omega</span><span class="o">**</span><span class="mi">2</span>
+
+    <span class="c1"># thrust along body &#39;up&#39; and linear drag on the air-relative body velocity</span>
+    <span class="n">wind</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">quad</span><span class="p">,</span> <span class="s2">&quot;wind&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">v_air</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span> <span class="k">if</span> <span class="n">wind</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">X</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">wind</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+    <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">wb</span> <span class="o">=</span> <span class="n">BI</span> <span class="o">@</span> <span class="n">v_air</span>
+    <span class="n">F_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="n">quad</span><span class="o">.</span><span class="n">Ax</span> <span class="o">*</span> <span class="n">u</span><span class="p">,</span> <span class="o">-</span><span class="n">quad</span><span class="o">.</span><span class="n">Ay</span> <span class="o">*</span> <span class="n">v</span><span class="p">,</span> <span class="n">up</span> <span class="o">*</span> <span class="n">F</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">-</span> <span class="n">quad</span><span class="o">.</span><span class="n">Az</span> <span class="o">*</span> <span class="n">wb</span><span class="p">])</span>
+
+    <span class="c1"># thrust moments r x (0, 0, up * F), and the rotor reaction torques: a</span>
+    <span class="c1"># counterclockwise rotor turns the body clockwise seen from above.</span>
+    <span class="c1"># rotational drag, and the rotor gyroscopic coupling -w x h, where the</span>
+    <span class="c1"># rotors&#39; angular momentum h = IR * sum(d * omega) points along body &#39;up&#39;.</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">up</span> <span class="o">*</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">quad</span><span class="p">,</span> <span class="s2">&quot;IR&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">d</span> <span class="o">@</span> <span class="n">omega</span><span class="p">)</span>
+    <span class="n">M_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">up</span> <span class="o">*</span> <span class="p">(</span><span class="n">pos</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">@</span> <span class="n">F</span><span class="p">)</span> <span class="o">-</span> <span class="n">quad</span><span class="o">.</span><span class="n">Ar</span> <span class="o">*</span> <span class="n">p</span> <span class="o">-</span> <span class="n">q</span> <span class="o">*</span> <span class="n">h</span><span class="p">,</span>
+                    <span class="o">-</span><span class="n">up</span> <span class="o">*</span> <span class="p">(</span><span class="n">pos</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">@</span> <span class="n">F</span><span class="p">)</span> <span class="o">-</span> <span class="n">quad</span><span class="o">.</span><span class="n">Ar</span> <span class="o">*</span> <span class="n">q</span> <span class="o">+</span> <span class="n">p</span> <span class="o">*</span> <span class="n">h</span><span class="p">,</span>
+                    <span class="o">-</span><span class="n">up</span> <span class="o">*</span> <span class="n">quad</span><span class="o">.</span><span class="n">kQ</span> <span class="o">*</span> <span class="p">(</span><span class="n">d</span> <span class="o">@</span> <span class="n">omega</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">quad</span><span class="o">.</span><span class="n">Ar</span> <span class="o">*</span> <span class="n">r</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">F_b</span><span class="p">,</span> <span class="n">M_b</span>
+
+
+<div class="viewcode-block" id="quadeqm">
+<a class="viewcode-back" href="../../../api/generated/eqm/c4dynamics.eqm.quadcopter.quadeqm.html#c4dynamics.eqm.quadcopter.quadeqm">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">quadeqm</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">quad</span><span class="p">,</span> <span class="n">rotor_speeds</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="s2">&quot;NED&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Quadcopter equations of motion.</span>
+
+<span class="sd">    Computes the force and the moment of</span>
+<span class="sd">    :func:`quadforces &lt;c4dynamics.eqm.quadcopter.quadforces&gt;`, adds gravity,</span>
+<span class="sd">    and returns the state derivatives of</span>
+<span class="sd">    :func:`eqm6 &lt;c4dynamics.eqm.derivs.eqm6&gt;` for a 12-state (euler angles)</span>
+<span class="sd">    vector or of :func:`eqm6q &lt;c4dynamics.eqm.derivs.eqm6q&gt;` for a 13-state</span>
+<span class="sd">    (quaternion) vector. The signature fits</span>
+<span class="sd">    :func:`scipy.integrate.solve_ivp`:</span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">        sol = solve_ivp(c4d.eqm.quadeqm, [t, t + dt], quad.X, args = (quad, rotor_speeds, &#39;ENU&#39;))</span>
+<span class="sd">        quad.X = sol.y[:, -1]</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    t : float</span>
+<span class="sd">        Time [s]. Unused (the model is time invariant), kept for</span>
+<span class="sd">        :func:`scipy.integrate.solve_ivp`.</span>
+<span class="sd">    X : array_like</span>
+<span class="sd">        State vector, 12 entries (euler angles) or 13 (quaternion). See</span>
+<span class="sd">        :func:`quadforces &lt;c4dynamics.eqm.quadcopter.quadforces&gt;`.</span>
+<span class="sd">    quad : object</span>
+<span class="sd">        The vehicle parameters as attributes: ``m`` mass [kg], ``g``</span>
+<span class="sd">        gravity [m/s^2], ``Ixx, Iyy, Izz`` principal moments of inertia</span>
+<span class="sd">        [kg.m^2], and the parameters of</span>
+<span class="sd">        :func:`quadforces &lt;c4dynamics.eqm.quadcopter.quadforces&gt;`.</span>
+<span class="sd">    rotor_speeds : array_like</span>
+<span class="sd">        The four rotor speeds [rad/s], held constant over the call.</span>
+<span class="sd">    frame : {&#39;NED&#39;, &#39;ENU&#39;}, optional</span>
+<span class="sd">        Inertial frame convention: ``&#39;NED&#39;`` with a forward-right-down body</span>
+<span class="sd">        frame (gravity along +z), ``&#39;ENU&#39;`` with a forward-left-up body frame</span>
+<span class="sd">        (gravity along -z). Defaults ``&#39;NED&#39;``.</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dX : numpy.ndarray</span>
+<span class="sd">        State derivatives, the same length as `X`.</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    At hover, the thrust carries the weight and the vehicle stays put:</span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">        &gt;&gt;&gt; import c4dynamics as c4d</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; quad = c4d.struct(m=0.468, g=9.81, Ixx=4.856e-3, Iyy=4.856e-3, Izz=8.801e-3,</span>
+<span class="sd">        ...                   kT=2.98e-6, kQ=1.14e-7, l=0.225, Ax=0.3, Ay=0.3, Az=0.25, Ar=0.2)</span>
+<span class="sd">        &gt;&gt;&gt; w_hover = np.sqrt(quad.m * quad.g / 4 / quad.kT)</span>
+<span class="sd">        &gt;&gt;&gt; dX = c4d.eqm.quadeqm(0, np.zeros(12), quad, [w_hover] * 4, &#39;ENU&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; np.allclose(dX, 0)</span>
+<span class="sd">        True</span>
+
+<span class="sd">    The same vehicle with a quaternion attitude:</span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">        &gt;&gt;&gt; X = np.zeros(13)</span>
+<span class="sd">        &gt;&gt;&gt; X[6] = 1   # identity quaternion</span>
+<span class="sd">        &gt;&gt;&gt; np.allclose(c4d.eqm.quadeqm(0, X, quad, [w_hover] * 4, &#39;ENU&#39;), 0)</span>
+<span class="sd">        True</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+    <span class="n">up</span> <span class="o">=</span> <span class="n">_up</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+    <span class="n">BI</span> <span class="o">=</span> <span class="n">_bi</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">F_b</span><span class="p">,</span> <span class="n">M_b</span> <span class="o">=</span> <span class="n">_forces</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">quad</span><span class="p">,</span> <span class="n">rotor_speeds</span><span class="p">,</span> <span class="n">up</span><span class="p">,</span> <span class="n">BI</span><span class="p">)</span>
+
+    <span class="c1"># body force to the inertial frame, plus gravity (along -up)</span>
+    <span class="n">F_i</span> <span class="o">=</span> <span class="n">BI</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">F_b</span>
+    <span class="n">F_i</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-=</span> <span class="n">up</span> <span class="o">*</span> <span class="n">quad</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">quad</span><span class="o">.</span><span class="n">g</span>
+    <span class="n">I</span> <span class="o">=</span> <span class="p">(</span><span class="n">quad</span><span class="o">.</span><span class="n">Ixx</span><span class="p">,</span> <span class="n">quad</span><span class="o">.</span><span class="n">Iyy</span><span class="p">,</span> <span class="n">quad</span><span class="o">.</span><span class="n">Izz</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">==</span> <span class="mi">12</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_derivs6</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">quad</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">F_i</span><span class="p">,</span> <span class="n">M_b</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_derivs6q</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">quad</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">F_i</span><span class="p">,</span> <span class="n">M_b</span><span class="p">)</span></div>
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="kn">import</span> <span class="n">rundoctests</span>
+    <span class="n">rundoctests</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">])</span>
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By c4dynamics
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, c4dynamics.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on Oct 09, 2026.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

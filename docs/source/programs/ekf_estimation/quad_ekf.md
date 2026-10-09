@@ -541,7 +541,7 @@ The Jacobian $F$, `ekf.jacobian_F`, is a **hybrid**: the kinematics and Euler's
 rotational-equations blocks (including the rotor gyroscopic coupling) are closed
 form, since they depend only on body rates and inertia. The translational block
 (drag + thrust-to-attitude coupling) is instead differentiated **numerically**
-against `dynamics()` itself - the DCM/body-frame-drag model couples drag to
+against `c4d.eqm.quadeqm()` itself - the DCM/body-frame-drag model couples drag to
 attitude in a way that isn't practical to hand-differentiate reliably, and computing
 it numerically keeps the Jacobian correct automatically if the dynamics model ever
 changes. The process noise $Q$ is increased on the velocity channel during

@@ -13,6 +13,7 @@ from c4dynamics.controllers.quad_pid import (
     velocity_reference,
     InitializeControllers,
     ControlAllocator,
+    run_fig8_pid,
 )
 from c4dynamics.models.quad import default_quad_config
 from c4dynamics.controllers.cascade_pid_config import default_controller_config
@@ -238,6 +239,28 @@ class TestQuadPid(unittest.TestCase):
             Xd=0.0, Yd=0.0, Zd=1.5, Vxd=0.0, Vyd=1.0, Psi_sp=0.0,
             quad=c4d.state(**hover), Ts=1.0 / 50.0)
         self.assertLess(phi_d, 0.0)
+
+
+class TestRunFig8Pid(unittest.TestCase):
+
+    def test_short_closed_loop_run(self):
+        # a short closed loop through solve_ivp(c4d.eqm.quadeqm): the vehicle
+        # starts climbing toward the takeoff reference and stays level
+        import contextlib
+        import io
+        config = {
+            'quad': default_quad_config(),
+            'trajectory': {'A': 4.0, 'B': 2.0, 'omega': 0.1, 'z_ref': 5.0, 't_end': 90.0},
+            'controller': default_controller_config(),
+            'sim': {'dt': 0.005, 'tf': 2.0},
+        }
+        with contextlib.redirect_stdout(io.StringIO()):
+            quad = run_fig8_pid(config)
+        t, z = quad.data('z')
+        self.assertEqual(len(t), 400)
+        self.assertTrue(np.all(np.isfinite(quad.data())))
+        self.assertGreater(z[-1], 0.0)
+        self.assertLess(np.abs(quad.data('phi')[1]).max(), 0.1)
 
 
 if __name__ == "__main__":

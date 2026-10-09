@@ -119,88 +119,15 @@ def dynamics(t, y, quad, rotor_speeds):
     Returns
     -------
     dX : array (12,) — state derivatives
+
+    Note
+    ----
+    The model is :func:`c4dynamics.eqm.quadeqm` with ``frame = 'ENU'``;
+    this function is kept for backward compatibility. New code can pass
+    ``c4d.eqm.quadeqm`` to ``solve_ivp`` directly.
     """
 
-    x, y, z, vx, vy, vz, phi, theta, psi, p, q, r = y
-    w1, w2, w3, w4 = rotor_speeds
-
-    m   = quad.m    # mass [kg]
-    g   = quad.g    # gravity [m/s^2]
-    L   = quad.l    # arm length [m]
-    kT  = quad.kT   # thrust coefficient [N/(rad/s)^2]
-    kQ  = quad.kQ   # torque coefficient [N.m/(rad/s)^2]
-    IR  = quad.IR   # rotor inertia [kg.m^2]
-    Ixx = quad.Ixx  # roll inertia [kg.m^2]
-    Iyy = quad.Iyy  # pitch inertia [kg.m^2]
-    Izz = quad.Izz  # yaw inertia [kg.m^2]
-    Ax  = quad.Ax   # drag coefficient (x)
-    Ay  = quad.Ay   # drag coefficient (y)
-    Az  = quad.Az   # drag coefficient (z)
-    Ar  = quad.Ar   # angular drag coefficient
-
-    gamma = kQ / kT
-
-    F1 = kT * w1**2
-    F2 = kT * w2**2
-    F3 = kT * w3**2
-    F4 = kT * w4**2
-
-
-    T     =          F1 + F2 + F3 + F4
-    tau_x =    L * (-F1 + F2 + F3 - F4)
-    tau_y =    L * (-F1 + F2 - F3 + F4)
-    tau_z = gamma * (-F1 - F2 + F3 + F4)
-
-    Omega = w1 + w2 - w3 - w4  # net rotor speed about body +z (CCW rotors spin up) for gyro coupling
-
-
-    # ====================
-    #  ROTATIONAL DYNAMICS
-    # ====================
-
-    # Euler angle kinematics
-    dphi    = p + np.sin(phi) * np.tan(theta) * q + np.cos(phi) * np.tan(theta) * r
-    dtheta  =                     np.cos(phi) * q -                 np.sin(phi) * r
-    dpsi    =     np.sin(phi) / np.cos(theta) * q + np.cos(phi) / np.cos(theta) * r
-
-    # Angular accelerations  (Euler's equations + aero drag + gyro)
-    Mx = tau_x - Ar * p - IR * q * Omega
-    My = tau_y - Ar * q + IR * p * Omega
-    Mz = tau_z - Ar * r
-
-    dp = (Mx - (Izz - Iyy) * q * r) / Ixx
-    dq = (My - (Ixx - Izz) * p * r) / Iyy
-    dr = (Mz - (Iyy - Ixx) * p * q) / Izz
-
-
-    # =======================
-    #  TRANSLATIONAL DYNAMICS
-    # =======================
-
-    # Compute body from inertial rotation matrix for velocity and force transformations
-    BI = dcm321(phi, theta, psi)
-
-    # Velocity in body frame
-    u, v, w = BI @ np.array([vx, vy, vz])
-
-    # Thrust and aerodynamic drag in body frame
-    Fb = np.array([-Ax * u, -Ay * v, T - Az * w])
-
-    # Forces back to inertial frame
-    Fi = BI.T @ Fb
-
-    # Position kinematics
-    dx = vx
-    dy = vy
-    dz = vz
-
-    dvx, dvy, dvz = Fi / m
-
-    # add gravity in the inertial frame (downward)
-    dvz -= g # -g -> inertial z points upward.
-
-    # Return in rigidbody order: [x,y,z, vx,vy,vz, phi,theta,psi, p,q,r]
-    return np.array([dx, dy, dz, dvx, dvy, dvz, dphi, dtheta, dpsi, dp, dq, dr])
+    return c4d.eqm.quadeqm(t, y, quad, rotor_speeds, "ENU")
 
 
 # ============================================================
@@ -799,7 +726,7 @@ def run_fig8_pid(config):
             allocator.allocate(quad.T, quad.tau_x, quad.tau_y, quad.tau_z)
         )
 
-        sol = solve_ivp(dynamics, [t, t + dt], quad.X, args=(quad, rotor_speeds))
+        sol = solve_ivp(c4d.eqm.quadeqm, [t, t + dt], quad.X, args=(quad, rotor_speeds, 'ENU'))
         quad.X = sol.y[:, -1]
 
         t += dt
