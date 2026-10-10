@@ -1910,8 +1910,8 @@ class AP_AHRS:
 
     def update(self, nav):
         """AP_AHRS::update -- take the navigation solution (EKF3 stand-in)."""
-        self.roll, self.pitch, self.yaw = nav['euler']
-        self.quat = q_from_euler(self.roll, self.pitch, self.yaw)
+        self.quat = q_normalize(np.asarray(nav['quat'], dtype=float))
+        self.roll, self.pitch, self.yaw = q_to_euler(self.quat)
         self.pos_ned = np.asarray(nav['pos_ned'], dtype=float)
         self.vel_ned = np.asarray(nav['vel_ned'], dtype=float)
         self.accel_ef = q_rotate(self.quat, self.accel)
@@ -2038,7 +2038,7 @@ class ArduCopter:
         imu : dict
             ``gyro`` [rad/s] and ``accel`` (specific force) [m/s^2], body FRD.
         nav : dict
-            ``euler`` (roll, pitch, yaw) [rad], ``pos_ned`` [m], ``vel_ned`` [m/s].
+            ``quat`` body->NED ``[qw, qx, qy, qz]``, ``pos_ned`` [m], ``vel_ned`` [m/s].
 
         Returns
         -------

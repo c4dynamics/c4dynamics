@@ -26,6 +26,8 @@ Like the rest of ``use_cases`` this is example scaffolding, not public API.
 
 import numpy as np
 
+from c4dynamics.rotmat import euler2quat
+
 
 class Pixhawk:
     """
@@ -49,7 +51,8 @@ class Pixhawk:
     ``rigidbody`` or a ``quatbody``, in NED / FRD. The board reads its true:
 
     - ``vehicle.X[0:6]``: NED position and velocity.
-    - ``vehicle.angles``: 3-2-1 Euler angles ``[phi, theta, psi]``.
+    - ``vehicle.quat``: body->NED attitude quaternion ``[qw, qx, qy, qz]``
+      (a ``rigidbody``: from its 3-2-1 Euler angles ``vehicle.angles``).
     - ``vehicle.ang_rates``: FRD body rates ``[p, q, r]``.
     - ``vehicle.specific_force``: the specific force at the center of mass,
       body FRD [m/s^2], i.e. the non-gravitational force over the mass.
@@ -98,16 +101,38 @@ class Pixhawk:
         into this solution. EKF3 is not ported yet: the solution is the true
         state with optional white noise.
 
+        The attitude is a quaternion, as EKF3 keeps it. Its noise is a small
+        body-frame rotation ``dtheta`` (1 sigma ``att_std`` per axis):
+        ``q_nav = q * [1, dtheta / 2]``, renormalized.
+
         Returns
         -------
         nav : dict
-            ``euler`` (roll, pitch, yaw) [rad], ``pos_ned`` [m],
+            ``quat`` body->NED ``[qw, qx, qy, qz]``, ``pos_ned`` [m],
             ``vel_ned`` [m/s] -- the input of ``ArduCopter.update``.
         """
         X = vehicle.X
-        return {'euler'  : np.asarray(vehicle.angles) + self.att_std * np.random.randn(3),
+        return {'quat'   : self._noisy_quat(self._quat(vehicle)),
                 'pos_ned': X[0:3] + self.pos_std * np.random.randn(3),
                 'vel_ned': X[3:6] + self.vel_std * np.random.randn(3)}
+
+    @staticmethod
+    def _quat(vehicle):
+        # a quatbody carries its quaternion; a rigidbody only its Euler angles
+        if hasattr(vehicle, 'quat'):
+            return np.asarray(vehicle.quat, dtype=float)
+        return np.asarray(euler2quat(*vehicle.angles), dtype=float)
+
+    def _noisy_quat(self, q):
+        if self.att_std == 0:
+            return q
+        dx, dy, dz = 0.5 * self.att_std * np.random.randn(3)
+        w, x, y, z = q
+        dq = np.array([w - x*dx - y*dy - z*dz,      # q * [1, dx, dy, dz]
+                       x + w*dx + y*dz - z*dy,
+                       y - x*dz + w*dy + z*dx,
+                       z + x*dy - y*dx + w*dz])
+        return dq / np.linalg.norm(dq)
 
     # ======================================================================
     #  BOTH
