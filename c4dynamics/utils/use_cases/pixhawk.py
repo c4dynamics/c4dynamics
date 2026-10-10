@@ -36,15 +36,26 @@ class Pixhawk:
     Parameters
     ----------
     gyro_std : float, optional
-        Gyroscope white noise, 1 sigma [rad/s]. Defaults ``0.005``.
+        Gyroscope white noise, 1 sigma [rad/s]. Defaults ``0.003``.
+    gyro_bias : float, optional
+        Gyroscope initial bias, 1 sigma per axis [rad/s]. Defaults ``0.01``.
+    gyro_rw : float, optional
+        Gyroscope bias random walk [rad/s/sqrt(s)]. Defaults ``0.0002``.
     accel_std : float, optional
         Accelerometer white noise, 1 sigma [m/s^2]. Defaults ``0.05``.
+    accel_bias : float, optional
+        Accelerometer initial bias, 1 sigma per axis [m/s^2]. Defaults ``0.15``.
+    accel_rw : float, optional
+        Accelerometer bias random walk [m/s^2/sqrt(s)]. Defaults ``0.005``.
     att_std : float, optional
         Navigation-solution attitude noise, 1 sigma [rad]. Defaults ``0``.
     pos_std : float, optional
         Navigation-solution position noise, 1 sigma [m]. Defaults ``0``.
     vel_std : float, optional
         Navigation-solution velocity noise, 1 sigma [m/s]. Defaults ``0``.
+    dt : float, optional
+        IMU sample period [s], one :meth:`read_imu` call per sample.
+        Defaults ``1 / 400`` (``SCHED_LOOP_RATE``).
 
 
     The vehicle the board is mounted on is a c4dynamics rigid body, a
@@ -57,16 +68,30 @@ class Pixhawk:
     - ``vehicle.specific_force``: the specific force at the center of mass,
       body FRD [m/s^2], i.e. the non-gravitational force over the mass.
 
+    The IMU error model is white noise on top of a bias. The bias of each
+    axis is drawn once, when the board is created, and then walks:
+    ``b[k+1] = b[k] + rw * sqrt(dt) * n``. ArduPilot calibrates most of the
+    initial bias away (gyro offsets at boot, ``INS_ACCOFFS``); set
+    ``gyro_bias`` / ``accel_bias`` to the residual to model a calibrated board.
+
     The noise is drawn from ``numpy.random``, so ``numpy.random.seed`` makes
     a run reproducible.
     """
 
-    def __init__(self, gyro_std=0.005, accel_std=0.05, att_std=0.0, pos_std=0.0, vel_std=0.0):
+    def __init__(self, gyro_std=0.003, gyro_bias=0.01, gyro_rw=0.0002,
+                 accel_std=0.05, accel_bias=0.15, accel_rw=0.005,
+                 att_std=0.0, pos_std=0.0, vel_std=0.0, dt=1.0 / 400):
         self.gyro_std = gyro_std
+        self.gyro_rw = gyro_rw
         self.accel_std = accel_std
+        self.accel_rw = accel_rw
         self.att_std = att_std
         self.pos_std = pos_std
         self.vel_std = vel_std
+        self.dt = dt
+        # the biases the board powers up with
+        self.gyro_b = gyro_bias * np.random.randn(3)
+        self.accel_b = accel_bias * np.random.randn(3)
 
     # ======================================================================
     #  IMU
@@ -77,8 +102,9 @@ class Pixhawk:
         One IMU sample: gyroscope and accelerometer.
 
         The gyroscope measures the body rates, the accelerometer the specific
-        force, each with white noise:
-        ``z_gyro = w + n_g``, ``z_acc = f + n_a``.
+        force, each with a bias and white noise:
+        ``z_gyro = w + b_g + n_g``, ``z_acc = f + b_a + n_a``.
+        The biases then take one random-walk step of ``dt``.
 
         Returns
         -------
@@ -86,8 +112,11 @@ class Pixhawk:
             ``gyro`` [rad/s] and ``accel`` [m/s^2], body FRD -- the input of
             ``ArduCopter.update``.
         """
-        return {'gyro' : np.asarray(vehicle.ang_rates) + self.gyro_std * np.random.randn(3),
-                'accel': vehicle.specific_force + self.accel_std * np.random.randn(3)}
+        imu = {'gyro' : np.asarray(vehicle.ang_rates) + self.gyro_b + self.gyro_std * np.random.randn(3),
+               'accel': vehicle.specific_force + self.accel_b + self.accel_std * np.random.randn(3)}
+        self.gyro_b = self.gyro_b + self.gyro_rw * np.sqrt(self.dt) * np.random.randn(3)
+        self.accel_b = self.accel_b + self.accel_rw * np.sqrt(self.dt) * np.random.randn(3)
+        return imu
 
     # ======================================================================
     #  NAVIGATION SOLUTION
