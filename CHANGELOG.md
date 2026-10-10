@@ -60,6 +60,14 @@ All notable changes to this project will be documented in this file.
   `error: ... The function is not implemented)
 
 ### Changed
+- `kalman.update()` (and therefore `ekf.update()`) now updates the
+  covariance in the Joseph form, `P = (I - KH) P (I - KH)' + K R K'`,
+  instead of the short form `P = P - KHP`. The two agree in exact
+  arithmetic, but the Joseph form keeps `P` symmetric and positive
+  semidefinite under floating-point roundoff. Ill-conditioned cases
+  (large `P0`, precise measurements) could previously leave `P`
+  asymmetric or collapse it to zero. Results of well-conditioned filters
+  change only at roundoff level.
 - Removed the hardcoded `font.family` / `fontname = 'Times New Roman'`
   plot styling from the example modules. plots now use matplotlib's default font everywhere.
 - Updated the 'hit-ground' warning in quad_pid.py to follow height criteria rather than times. 
