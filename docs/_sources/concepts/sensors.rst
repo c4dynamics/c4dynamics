@@ -34,7 +34,7 @@ sensors are written against the plain 12-state vector
   X = [x, y, z, v_x, v_y, v_z, \varphi, \theta, \psi, p, q, r]^T
 
 (the same ordering used by `rigidbody` and by
-:mod:`c4dynamics.controllers.quad_pid`), so they drop directly into an
+`c4dynamics.controllers.quad_pid <https://github.com/c4dynamics/c4dynamics/blob/main/c4dynamics/controllers/quad_pid.py>`_), so they drop directly into an
 EKF/UKF ``predict``/``update`` loop without an intermediate adapter. The
 :class:`imu <c4dynamics.sensors.navigation.imu>` measures rates and inertial
 acceleration — both derivatives of the state — so it takes the truth

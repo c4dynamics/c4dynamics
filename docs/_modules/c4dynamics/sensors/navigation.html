@@ -634,7 +634,7 @@ document.write(`
 <span class="sd">    The errors model can be disabled by setting ``noise_std = 0`` and</span>
 <span class="sd">    ``bias = [0, 0, 0]``.  This produces an ideal position measurement.</span>
 
-<span class="sd">    Unlike the :class:`seeker` model, the GPS implementation does not generate</span>
+<span class="sd">    Unlike the :class:`seeker &lt;c4dynamics.sensors.seeker.seeker&gt;` model, the GPS implementation does not generate</span>
 <span class="sd">    a random bias during construction and does not include a scale-factor</span>
 <span class="sd">    error.  The supplied ``bias`` is deterministic for a given GPS instance.</span>
 
@@ -759,7 +759,7 @@ document.write(`
 
 <span class="sd">    **Demo**</span>
 
-<span class="sd">    The built-in :meth:`demo` method provides a compact demonstration of the</span>
+<span class="sd">    The built-in ``demo()`` method provides a compact demonstration of the</span>
 <span class="sd">    GPS errors model and plots the true and measured positions:</span>
 
 <span class="sd">    .. code::</span>
@@ -1113,7 +1113,7 @@ document.write(`
 
 <span class="sd">    **Demo**</span>
 
-<span class="sd">    The built-in :meth:`demo` method provides a compact demonstration of the</span>
+<span class="sd">    The built-in ``demo()`` method provides a compact demonstration of the</span>
 <span class="sd">    imu errors model and plots the true and measured rates and accelerations:</span>
 
 <span class="sd">    .. code::</span>
@@ -1449,7 +1449,7 @@ document.write(`
 <span class="sd">    ``measure`` returns the full 3-axis body-frame field vector.  A consumer</span>
 <span class="sd">    that needs a heading derives it from the horizontal components after</span>
 <span class="sd">    de-rotating roll and pitch (tilt compensation); a filter that consumes</span>
-<span class="sd">    the vector directly (see :class:`ekf`) needs no yaw-wrapping, because the</span>
+<span class="sd">    the vector directly (see :class:`ekf &lt;c4dynamics.filters.ekf.ekf&gt;`) needs no yaw-wrapping, because the</span>
 <span class="sd">    measurement is linear in the rotated field rather than in the angle</span>
 <span class="sd">    itself.  In a typical setup the magnetometer is sampled at a lower rate</span>
 <span class="sd">    than the IMU, e.g. :math:`50\\,Hz`.</span>
@@ -1474,7 +1474,7 @@ document.write(`
 <span class="sd">    The errors model can be disabled by passing ``isideal = True`` at</span>
 <span class="sd">    construction, which forces ``noise_std = 0``, ``hard_iron = [0, 0, 0]``</span>
 <span class="sd">    and ``soft_iron = I`` regardless of the arguments.  Unlike the</span>
-<span class="sd">    :class:`seeker` model, the magnetometer does not generate a random bias</span>
+<span class="sd">    :class:`seeker &lt;c4dynamics.sensors.seeker.seeker&gt;` model, the magnetometer does not generate a random bias</span>
 <span class="sd">    during construction; the supplied distortion is deterministic for a given</span>
 <span class="sd">    instance.</span>
 
@@ -1609,7 +1609,7 @@ document.write(`
 
 <span class="sd">    **Demo**</span>
 
-<span class="sd">    The built-in :meth:`demo` method provides a compact demonstration of the</span>
+<span class="sd">    The built-in ``demo()`` method provides a compact demonstration of the</span>
 <span class="sd">    magnetometer errors model and plots the true and measured body-frame</span>
 <span class="sd">    field components through an attitude sweep:</span>
 

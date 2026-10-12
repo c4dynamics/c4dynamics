@@ -1474,7 +1474,7 @@ This is the main price of output-feedback control in this example.</p></li>
 <span class="kn">import</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">c4d</span>
 <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">c4d</span><span class="o">.</span><span class="n">c4warn</span><span class="p">)</span>
 
-<span class="c1"># Same vehicle &amp; gains as Section 8, a shorter flight so the sweep is fast,</span>
+<span class="c1"># Same vehicle &amp; gains as Section 7, a shorter flight so the sweep is fast,</span>
 <span class="c1"># and GPS disabled for 1.5 s once the figure-8 is well underway.</span>
 <span class="n">trajectory_dropout</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">trajectory</span><span class="p">,</span> <span class="n">t_takeoff</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">t_land</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span> <span class="c1">#trajectory #</span>
 <span class="n">simulation_dropout</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;dt&#39;</span><span class="p">:</span> <span class="mf">0.005</span><span class="p">,</span> <span class="s1">&#39;tf&#39;</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">}</span> <span class="c1">#simulation #</span>

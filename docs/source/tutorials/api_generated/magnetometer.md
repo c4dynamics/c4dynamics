@@ -37,6 +37,11 @@ isideal : bool, optional
     If ``True``, overrides ``noise_std`` / ``hard_iron`` / ``soft_iron``
     to produce an ideal (noise-free, distortion-free) magnetometer.  The
     reference field itself is unaffected.  Defaults to ``False``.
+frame : {'NED', 'ENU'}, optional
+    Convention of the inertial frame the true state is expressed in:
+    ``'NED'`` (x north, y east, z down) or ``'ENU'`` (x east, y north,
+    z up). It sets the components of the reference field
+    $m_{ref}$. Defaults to ``'NED'``.
 
 See Also
 ========
@@ -47,13 +52,21 @@ See Also
 **Functionality**
 
 The reference field is built from its total intensity, inclination and
-declination and held fixed in the navigation frame associated with the
-state's 3-2-1 Euler angles (``x`` forward/north, ``y`` right/east, ``z``
-down):
+declination and held fixed in the inertial frame associated with the
+state's 3-2-1 Euler angles. For ``frame = 'NED'`` (``x`` north, ``y``
+east, ``z`` down):
 
 $$
 m_{ref} = F \cdot
 [\cos I \cos D,\ \cos I \sin D,\ \sin I]^T
+$$
+For ``frame = 'ENU'`` (``x`` east, ``y`` north, ``z`` up), the same
+field has its north and east components swapped and its vertical
+component negated:
+
+$$
+m_{ref} = F \cdot
+[\cos I \sin D,\ \cos I \cos D,\ -\sin I]^T
 $$
 At each sample, given the 12-state vector
 
@@ -150,6 +163,18 @@ preserved:
 >>> mag_ideal.measure(x_true)   # doctest: +NUMPY_FORMAT
 [0.439  -0.24  0.866]
 ```
+**Frame convention**
+
+The default inertial frame is $NED$ (z down). For a state in
+$ENU$ (z up), set ``frame = 'ENU'``. Level with zero Euler angles,
+the body ``x`` axis points east and ``z`` points up, so the horizontal
+field appears on ``y`` (north) and the dip points along ``-z``:
+
+```python
+>>> mag_enu = c4d.sensors.magnetometer(isideal=True, frame='ENU')
+>>> mag_enu.measure(np.zeros(12))   # doctest: +NUMPY_FORMAT
+[0.  0.5  -0.866]
+```
 **Non-ideal magnetometer**
 
 A non-ideal magnetometer adds white measurement noise (and, optionally,
@@ -203,7 +228,7 @@ the random per-axis noise generated at every call to `measure`:
 ```
 **Demo**
 
-The built-in `demo` method provides a compact demonstration of the
+The built-in ``demo()`` method provides a compact demonstration of the
 magnetometer errors model and plots the true and measured body-frame
 field components through an attitude sweep:
 
@@ -284,4 +309,21 @@ regenerated at every call.
 >>> mag_sensor.measure(x)   # doctest: +NUMPY_FORMAT
 ```
     [0.439  -0.24  0.866]
+
+### `mref`
+
+```python
+mref(self)
+```
+
+Reference geomagnetic field in the inertial frame.
+
+Computed from ``field_intensity``, ``inclination``, ``declination``
+and ``frame`` at every access, so changing any of them after
+construction takes effect.
+
+### Returns
+numpy.ndarray
+    ``[N, E, D]`` components for ``frame = 'NED'``, ``[E, N, U]``
+    for ``frame = 'ENU'``, in the units of ``field_intensity``.
 

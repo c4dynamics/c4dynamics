@@ -586,7 +586,7 @@ coordinates, and filters results using Non-Maximum Suppression (NMS).</p></li>
 <dd class="field-odd"><p><strong>frame</strong> (<em>numpy.array</em>) – An input frame for object detection.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>out</strong> (<em>list[pixelpoint]</em>) – A list of <code class="xref py py-class docutils literal notranslate"><span class="pre">pixelpoint</span></code> objects
+<dd class="field-even"><p><strong>out</strong> (<em>list[pixelpoint]</em>) – A list of <a class="reference internal" href="../../states.lib.pixelpoint.html#c4dynamics.states.lib.pixelpoint.pixelpoint" title="c4dynamics.states.lib.pixelpoint.pixelpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">pixelpoint</span></code></a> objects
 representing detected objects,
 each containing bounding box coordinates and class label.</p>
 </dd>
@@ -647,8 +647,8 @@ module (see <a class="reference internal" href="../../Datasets.html#module-c4dyn
 <img alt="../../../_images/aerobatics1.gif" src="../../../_images/aerobatics1.gif" />
 </figure>
 <p><strong>The output structure</strong></p>
-<p>The output of the detect() function is a list of <code class="xref py py-class docutils literal notranslate"><span class="pre">pixelpoint</span></code> object.
-The <code class="xref py py-class docutils literal notranslate"><span class="pre">pixelpoint</span></code> has unique attributes to manipulate the detected object class and
+<p>The output of the detect() function is a list of <a class="reference internal" href="../../states.lib.pixelpoint.html#c4dynamics.states.lib.pixelpoint.pixelpoint" title="c4dynamics.states.lib.pixelpoint.pixelpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">pixelpoint</span></code></a> object.
+The <a class="reference internal" href="../../states.lib.pixelpoint.html#c4dynamics.states.lib.pixelpoint.pixelpoint" title="c4dynamics.states.lib.pixelpoint.pixelpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">pixelpoint</span></code></a> has unique attributes to manipulate the detected object class and
 bounding box.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{:^10}</span><span class="s1"> | </span><span class="si">{:^10}</span><span class="s1"> | </span><span class="si">{:^10}</span><span class="s1"> | </span><span class="si">{:^16}</span><span class="s1"> | </span><span class="si">{:^16}</span><span class="s1"> | </span><span class="si">{:^10}</span><span class="s1"> | </span><span class="si">{:^14}</span><span class="s1">&#39;</span> 
 <span class="gp">... </span>            <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;# object&#39;</span><span class="p">,</span> <span class="s1">&#39;center x&#39;</span><span class="p">,</span> <span class="s1">&#39;center y&#39;</span><span class="p">,</span> <span class="s1">&#39;box top-left&#39;</span><span class="p">,</span> <span class="s1">&#39;box bottom-right&#39;</span><span class="p">,</span> <span class="s1">&#39;class&#39;</span><span class="p">,</span> <span class="s1">&#39;frame size&#39;</span><span class="p">))</span>

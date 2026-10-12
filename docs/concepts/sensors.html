@@ -596,7 +596,7 @@ sensors are written against the plain 12-state vector</p>
 <div class="math notranslate nohighlight">
 \[X = [x, y, z, v_x, v_y, v_z, \varphi, \theta, \psi, p, q, r]^T\]</div>
 <p>(the same ordering used by <cite>rigidbody</cite> and by
-<code class="xref py py-mod docutils literal notranslate"><span class="pre">c4dynamics.controllers.quad_pid</span></code>), so they drop directly into an
+<a class="reference external" href="https://github.com/c4dynamics/c4dynamics/blob/main/c4dynamics/controllers/quad_pid.py">c4dynamics.controllers.quad_pid</a>), so they drop directly into an
 EKF/UKF <code class="docutils literal notranslate"><span class="pre">predict</span></code>/<code class="docutils literal notranslate"><span class="pre">update</span></code> loop without an intermediate adapter. The
 <a class="reference internal" href="../api/sensors.navigation.imu.html#c4dynamics.sensors.navigation.imu" title="c4dynamics.sensors.navigation.imu"><code class="xref py py-class docutils literal notranslate"><span class="pre">imu</span></code></a> measures rates and inertial
 acceleration — both derivatives of the state — so it takes the truth
