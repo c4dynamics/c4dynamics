@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [2.6.0] - 2026-10-12
 ### Added
 - `c4dynamics.eqm.quadeqm(t, X, quad, rotor_speeds, frame)`: quadcopter
   equations of motion in the `scipy.integrate.solve_ivp` signature. It
@@ -30,6 +30,17 @@ All notable changes to this project will be documented in this file.
   `c4d.eqm.quadeqm`, through `solve_ivp`. `quad_pid.dynamics` is kept as a
   wrapper (`frame='ENU'`) for backward compatibility.
 - `quad_ekf.accel_h` is the specific force of `quadforces`.
+- Rigid Body Transformations concept page: reference frames (including
+  NED / ENU), the `[BR]` rotation matrix notation, elementary rotations,
+  conversions between Euler angles, DCM and quaternion, and tested
+  examples of rotating vectors between frames. The Kinematics page links
+  to it instead of repeating the rotation material.
+- The ArduPilot use case is listed in the README and on the landing page.
+
+### Fixed
+- `rotmat` docstrings: the `dcm321euler` matrix now matches `dcm321`, its
+  return order is documented as (roll, pitch, yaw), and `rotz` says it
+  rotates about `z`.
 
 ## [2.5.0] - 2026-10-08
 ### Added
