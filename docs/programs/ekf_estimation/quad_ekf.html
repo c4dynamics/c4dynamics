@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Quadcopter EKF - State Estimation for Figure-8 Trajectory Tracking &#8212; C4DYNAMICS v2.5</title>
+    <title>Quadcopter EKF - State Estimation for Figure-8 Trajectory Tracking &#8212; C4DYNAMICS v2.6</title>
   
   
   
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=7769aa4a"></script>
+    <script src="../../_static/documentation_options.js?v=a976f23f"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -68,11 +68,11 @@
     <link rel="icon" href="../../_static/c4dlogo.svg"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Proportional Navigation Guidance - 6 Degrees of Freedom Simulation" href="../pn_guidance/dof6sim.html" />
+    <link rel="next" title="Figure-8 Tracking with ArduCopter-4.7.1 and 3DR IRIS in Python" href="../ardupilot_sim/ardupilot_fig8.html" />
     <link rel="prev" title="Quadcopter Cascade PID — Figure-8 Trajectory Tracking" href="../pid_cascade/quadcopter_pid.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Oct 09, 2026"/>
+    <meta name="docbuild:last-update" content="Oct 12, 2026"/>
   </head>
   
   
@@ -158,7 +158,7 @@
   
   
   
-    <p class="title logo__title">C4DYNAMICS v2.5</p>
+    <p class="title logo__title">C4DYNAMICS v2.6</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -216,6 +216,16 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../pid_cascade/quadcopter_pid.html">Quadcopter Cascade <em>PID</em> — Figure-8 Trajectory Tracking</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Quadcopter EKF - State Estimation for Figure-8 Trajectory Tracking</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../ardupilot_sim/ardupilot_fig8.html">Figure-8 Tracking with ArduCopter-4.7.1 and 3DR IRIS in Python</a></li>
+
+
+
+
+
+
+
+
 
 <li class="toctree-l1"><a class="reference internal" href="../pn_guidance/dof6sim.html">Proportional Navigation Guidance - 6 Degrees of Freedom Simulation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ballistic_ekf/ballistic_coefficient.html">Ballistic Coefficient Estimation - Extended Kalman Filter</a></li>
@@ -616,7 +626,7 @@ document.write(`
 </section>
 <section id="Overview">
 <h2>Overview<a class="headerlink" href="#Overview" title="Link to this heading">#</a></h2>
-<p><img alt="The EKF receives the same control inputs that drive the plant to predict the system state and incorporates GPS, IMU, and magnetometer measurements to correct the prediction. The resulting state estimate replaces the true state in the feedback loop, enabling output-feedback control based solely on sensor information." src="../../_images/architecture.png" /></p>
+<p><img alt="The EKF receives the same control inputs that drive the plant to predict the system state and incorporates GPS, IMU, and magnetometer measurements to correct the prediction. The resulting state estimate replaces the true state in the feedback loop, enabling output-feedback control based solely on sensor information." src="../../_images/architecture1.png" /></p>
 <p>{{&lt; pagebreak &gt;}}</p>
 </section>
 <section id="Table-of-Contents">
@@ -1634,11 +1644,11 @@ against an ideal of <span class="math notranslate nohighlight">\(12\)</span>): i
       </div>
     </a>
     <a class="right-next"
-       href="../pn_guidance/dof6sim.html"
+       href="../ardupilot_sim/ardupilot_fig8.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Proportional Navigation Guidance - 6 Degrees of Freedom Simulation</p>
+        <p class="prev-next-title">Figure-8 Tracking with ArduCopter-4.7.1 and 3DR IRIS in Python</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1726,7 +1736,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Oct 09, 2026.
+  Last updated on Oct 12, 2026.
   <br/>
 </p>
   </div>

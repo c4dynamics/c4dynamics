@@ -1,0 +1,60 @@
+# Quarto folder-level metadata (ignored by Sphinx/nbsphinx).
+# Tunes the Typst/PDF render of the notebooks here.
+filters:
+  - jupyter-anchors.lua
+format:
+  typst:
+    fontsize: 14pt          # body text (Quarto default is 11pt)
+    shift-heading-level-by: 0   # keep the notebook levels: the HTML <h1> title is level 1, ## sections level 2
+    tbl-colwidths: false    # size table columns to their content, not to the |---| widths in the markdown
+    include-in-header:
+      text: |
+        #show heading.where(level: 1): set text(size: 1.8em)
+
+        // sections (##) start on a new page at 1.8em; the first level-2 heading
+        // is the subtitle under the title, so it keeps its size and its place
+        #show heading.where(level: 2): it => context {
+          if query(heading.where(level: 2).before(here())).len() > 1 {
+            pagebreak(weak: true)
+            set text(size: 1.8em)
+            it
+          } else { it }
+        }
+
+        // tables: ragged-right cells and a smaller font, so automatic column widths fit the page
+        #show table.cell: set par(justify: false)
+        #show table: set text(size: 0.85em)
+
+        // header and footer
+        #set page(
+          header: [
+            #align(right)[
+            #grid(
+                columns: (auto, auto),
+                column-gutter: 4pt,
+                align: (right, horizon),
+                image("c4dlogo.svg", height: 16pt),
+                text(size: 9pt, weight: "bold")[C4DYNAMICS],
+              )
+            ]
+          ],
+          footer: [
+
+            #line(length: 100%, stroke: 0.5pt)
+            #grid(
+              columns: (auto, 1fr),
+              column-gutter: 10pt,
+              context [
+                #text(size: 9pt)[#counter(page).display()]
+              ],
+              [
+                #align(right)[
+                  #text(size: 8pt)[The Python framework for state-space]
+                  #linebreak()
+                  #text(size: 8pt)[modeling and algorithm development]
+                ]
+              ],
+            )
+          ]
+        )
+        

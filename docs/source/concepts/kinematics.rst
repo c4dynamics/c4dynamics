@@ -106,53 +106,20 @@ Rotation Matrix Convention
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The relation between the body frame and the reference frame is described by a
-Direction Cosine Matrix (DCM), a 3x3 rotation matrix.
-c4dynamics names rotation matrices by two letters, which state the
-direction of the transformation:
-
-.. math::
-
-  [BR] \quad \text{- a rotation matrix from the frame } R \text{ to the frame } B
-
-Where :math:`R` stands for the reference (inertial, e.g. earth) frame and
-:math:`B` stands for the body frame.
-Read from right to left, :math:`[BR]` takes a vector that is expressed
-in :math:`R` and returns the same vector expressed in :math:`B`:
-
-.. math::
-
-  v_B = [BR] \cdot v_R
-
-The matrix is orthonormal, hence its inverse is its transpose,
-and the opposite direction is given by:
-
-.. math::
-
-  [RB] = [BR]^{-1} = [BR]^T
-
-  v_R = [RB] \cdot v_B
-
-The rotation matrices are *passive*, i.e. they rotate the frame of
-coordinates rather than the vector. The vector itself is unchanged;
-only the frame in which its components are expressed changes.
-
-With this naming, a chain of transformations is composed by cancelling
-adjacent letters. For example, for three frames :math:`A, B, C`:
-
-.. math::
-
-  [CA] = [CB] \cdot [BA]
-
-For the 3-2-1 Euler rotations defined above, the matrix from the reference
-frame to the body frame is a product of three elementary rotations, where the
-first rotation (:math:`\psi` about :math:`z`) is the rightmost:
+Direction Cosine Matrix (DCM). c4dynamics names a DCM by two letters, read from
+right to left: :math:`[BR]` is the rotation matrix from the reference frame :math:`R`
+to the body frame :math:`B`, i.e. :math:`v_B = [BR] \cdot v_R`, and
+:math:`[RB] = [BR]^T` is the opposite direction.
+For the 3-2-1 Euler rotations defined above:
 
 .. math::
 
   [BR] = R_x(\varphi) \cdot R_y(\theta) \cdot R_z(\psi)
 
-Where :math:`R_x, R_y, R_z` are the elementary rotation matrices about :math:`x, y, z`,
-respectively (see :ref:`the rotmat module <kinematics-rotmat>` below).
+For the reference frames, the rotation matrix notation, the elementary rotations,
+the conversions between Euler angles, rotation matrices, and quaternions,
+and examples of rotating vectors between frames, see the
+:doc:`Rigid Body Transformations </concepts/transformations>` concept page.
 
 In the equations of motion, these matrices are used to move forces, moments,
 and velocities between the frames.
@@ -443,7 +410,7 @@ The quaternion itself is not. It is therefore common to propagate the quaternion
 and to compute the Euler angles only for presentation.
 
 The rotation matrix from the reference frame to the body frame, :math:`[BR]`
-(see Rotation Matrix Convention),
+(see :doc:`Rigid Body Transformations </concepts/transformations>`),
 is given in terms of the quaternion by the following matrix,
 which is identical to the matrix of the 3-2-1 Euler angles of the same attitude:
 
@@ -696,100 +663,14 @@ The rotmat Module
 ~~~~~~~~~~~~~~~~~
 
 The :mod:`rotmat <c4dynamics.rotmat>` module implements the rotation operations
-described on this page, following the convention above.
-All the angles are in radians, unless stated otherwise.
-
-.. list-table::
-   :widths: 30 70
-   :header-rows: 1
-
-   * - Function
-     - Description
-   * - :func:`rotx <c4dynamics.rotmat.rotmat.rotx>`,
-       :func:`roty <c4dynamics.rotmat.rotmat.roty>`,
-       :func:`rotz <c4dynamics.rotmat.rotmat.rotz>`
-     - Elementary rotation matrices :math:`R_x, R_y, R_z`: a frame rotation
-       through an angle about the :math:`x, y`, or :math:`z` axis
-   * - :func:`dcm321 <c4dynamics.rotmat.rotmat.dcm321>`
-     - :math:`[BR]` of the 3-2-1 Euler angles,
-       :math:`R_x(\varphi) \cdot R_y(\theta) \cdot R_z(\psi)`
-   * - :func:`dcm321euler <c4dynamics.rotmat.rotmat.dcm321euler>`
-     - The 3-2-1 Euler angles of a :math:`[BR]` matrix (returned in degrees)
-   * - :func:`euler2quat <c4dynamics.rotmat.rotmat.euler2quat>`
-     - The attitude quaternion of the 3-2-1 Euler angles
-   * - :func:`quat2euler <c4dynamics.rotmat.rotmat.quat2euler>`
-     - The 3-2-1 Euler angles of an attitude quaternion (also for an array of quaternions)
-   * - :func:`quat2dcm <c4dynamics.rotmat.rotmat.quat2dcm>`
-     - :math:`[BR]` of an attitude quaternion
-   * - :func:`animate <c4dynamics.rotmat.animate.animate>`
-     - Animates the attitude histories of a rigid body with a 3D model
-
-To get :math:`[RB]` from any of the functions above, transpose the result.
-
-
-**Examples**
-
-Import c4dynamics:
-
-.. code::
-
-  >>> import c4dynamics as c4d
-
-A frame that is rotated by :math:`90°` about :math:`z`. The :math:`x` axis of the
-reference frame is the :math:`-y` axis of the rotated frame:
-
-.. code::
-
-  >>> c4d.rotmat.rotz(90 * c4d.d2r) @ [1, 0, 0]  # doctest: +NUMPY_FORMAT
-  [0  -1  0]
-
-A body with heading :math:`\psi = 90°` and pitch :math:`\theta = 30°`.
-:math:`[BR]` expresses the reference :math:`x` axis in body coordinates,
-and :math:`[RB] = [BR]^T` expresses the body :math:`x` axis (the nose)
-in reference coordinates:
-
-.. code::
-
-  >>> BR = c4d.rotmat.dcm321(phi = 0, theta = 30 * c4d.d2r, psi = 90 * c4d.d2r)
-  >>> BR @ [1, 0, 0]  # doctest: +NUMPY_FORMAT
-  [0  -1  0]
-  >>> BR.T @ [1, 0, 0]  # doctest: +NUMPY_FORMAT
-  [0  0.866  -0.5]
-
-Going back from the matrix to the Euler angles (in degrees):
-
-.. code::
-
-  >>> c4d.rotmat.dcm321euler(BR)  # doctest: +NUMPY_FORMAT
-  (0  30  90)
-
-The same attitude as a quaternion. Its rotation matrix is identical to
-the one of the Euler angles, and the Euler angles are recovered from it:
-
-.. code::
-
-  >>> q = c4d.rotmat.euler2quat(phi = 0, theta = 30 * c4d.d2r, psi = 90 * c4d.d2r)
-  >>> q  # doctest: +NUMPY_FORMAT
-  [0.683  -0.183  0.183  0.683]
-  >>> c4d.rotmat.quat2dcm(q) @ [1, 0, 0]  # doctest: +NUMPY_FORMAT
-  [0  -1  0]
-  >>> c4d.rotmat.quat2euler(q) * c4d.r2d  # doctest: +NUMPY_FORMAT
-  [0  30  90]
-
-The state objects use these functions to provide their rotation matrices.
+used on this page: the elementary rotations, the 3-2-1 DCM, and the conversions
+between Euler angles, rotation matrices, and quaternions.
 :class:`rigidbody <c4dynamics.states.lib.rigidbody.rigidbody>` computes
 :math:`[BR]` by :func:`dcm321 <c4dynamics.rotmat.rotmat.dcm321>`, and
 :class:`quatbody <c4dynamics.states.lib.quatbody.quatbody>` by
-:func:`quat2dcm <c4dynamics.rotmat.rotmat.quat2dcm>`:
+:func:`quat2dcm <c4dynamics.rotmat.rotmat.quat2dcm>`.
 
-.. code::
-
-  >>> rb = c4d.rigidbody(theta = 30 * c4d.d2r, psi = 90 * c4d.d2r)
-  >>> rb.RB @ [1, 0, 0]  # doctest: +NUMPY_FORMAT
-  [0  0.866  -0.5]
-
-For the background material on rotation matrices, Euler angles orders,
-and the right hand frame convention, see the
+For the functions and examples, see the
 :doc:`Rigid Body Transformations </concepts/transformations>` concept page.
 
 

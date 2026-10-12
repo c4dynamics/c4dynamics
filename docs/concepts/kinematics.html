@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Kinematics &#8212; C4DYNAMICS v2.5</title>
+    <title>Kinematics &#8212; C4DYNAMICS v2.6</title>
   
   
   
@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=7769aa4a"></script>
+    <script src="../_static/documentation_options.js?v=a976f23f"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -71,7 +71,7 @@
     <link rel="prev" title="State Objects" href="states.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Oct 09, 2026"/>
+    <meta name="docbuild:last-update" content="Oct 12, 2026"/>
   </head>
   
   
@@ -157,7 +157,7 @@
   
   
   
-    <p class="title logo__title">C4DYNAMICS v2.5</p>
+    <p class="title logo__title">C4DYNAMICS v2.6</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -215,6 +215,16 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../programs/pid_cascade/quadcopter_pid.html">Quadcopter Cascade <em>PID</em> — Figure-8 Trajectory Tracking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../programs/ekf_estimation/quad_ekf.html">Quadcopter EKF - State Estimation for Figure-8 Trajectory Tracking</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../programs/ardupilot_sim/ardupilot_fig8.html">Figure-8 Tracking with ArduCopter-4.7.1 and 3DR IRIS in Python</a></li>
+
+
+
+
+
+
+
+
 
 <li class="toctree-l1"><a class="reference internal" href="../programs/pn_guidance/dof6sim.html">Proportional Navigation Guidance - 6 Degrees of Freedom Simulation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../programs/ballistic_ekf/ballistic_coefficient.html">Ballistic Coefficient Estimation - Extended Kalman Filter</a></li>
@@ -680,35 +690,17 @@ and <span class="math notranslate nohighlight">\((v_x, v_y, v_z)\)</span> on the
 <section id="rotation-matrix-convention">
 <h3>Rotation Matrix Convention<a class="headerlink" href="#rotation-matrix-convention" title="Link to this heading">#</a></h3>
 <p>The relation between the body frame and the reference frame is described by a
-Direction Cosine Matrix (DCM), a 3x3 rotation matrix.
-c4dynamics names rotation matrices by two letters, which state the
-direction of the transformation:</p>
-<div class="math notranslate nohighlight">
-\[[BR] \quad \text{- a rotation matrix from the frame } R \text{ to the frame } B\]</div>
-<p>Where <span class="math notranslate nohighlight">\(R\)</span> stands for the reference (inertial, e.g. earth) frame and
-<span class="math notranslate nohighlight">\(B\)</span> stands for the body frame.
-Read from right to left, <span class="math notranslate nohighlight">\([BR]\)</span> takes a vector that is expressed
-in <span class="math notranslate nohighlight">\(R\)</span> and returns the same vector expressed in <span class="math notranslate nohighlight">\(B\)</span>:</p>
-<div class="math notranslate nohighlight">
-\[v_B = [BR] \cdot v_R\]</div>
-<p>The matrix is orthonormal, hence its inverse is its transpose,
-and the opposite direction is given by:</p>
-<div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}[RB] = [BR]^{-1} = [BR]^T\\v_R = [RB] \cdot v_B\end{aligned}\end{align} \]</div>
-<p>The rotation matrices are <em>passive</em>, i.e. they rotate the frame of
-coordinates rather than the vector. The vector itself is unchanged;
-only the frame in which its components are expressed changes.</p>
-<p>With this naming, a chain of transformations is composed by cancelling
-adjacent letters. For example, for three frames <span class="math notranslate nohighlight">\(A, B, C\)</span>:</p>
-<div class="math notranslate nohighlight">
-\[[CA] = [CB] \cdot [BA]\]</div>
-<p>For the 3-2-1 Euler rotations defined above, the matrix from the reference
-frame to the body frame is a product of three elementary rotations, where the
-first rotation (<span class="math notranslate nohighlight">\(\psi\)</span> about <span class="math notranslate nohighlight">\(z\)</span>) is the rightmost:</p>
+Direction Cosine Matrix (DCM). c4dynamics names a DCM by two letters, read from
+right to left: <span class="math notranslate nohighlight">\([BR]\)</span> is the rotation matrix from the reference frame <span class="math notranslate nohighlight">\(R\)</span>
+to the body frame <span class="math notranslate nohighlight">\(B\)</span>, i.e. <span class="math notranslate nohighlight">\(v_B = [BR] \cdot v_R\)</span>, and
+<span class="math notranslate nohighlight">\([RB] = [BR]^T\)</span> is the opposite direction.
+For the 3-2-1 Euler rotations defined above:</p>
 <div class="math notranslate nohighlight">
 \[[BR] = R_x(\varphi) \cdot R_y(\theta) \cdot R_z(\psi)\]</div>
-<p>Where <span class="math notranslate nohighlight">\(R_x, R_y, R_z\)</span> are the elementary rotation matrices about <span class="math notranslate nohighlight">\(x, y, z\)</span>,
-respectively (see <a class="reference internal" href="#kinematics-rotmat"><span class="std std-ref">the rotmat module</span></a> below).</p>
+<p>For the reference frames, the rotation matrix notation, the elementary rotations,
+the conversions between Euler angles, rotation matrices, and quaternions,
+and examples of rotating vectors between frames, see the
+<a class="reference internal" href="transformations.html"><span class="doc">Rigid Body Transformations</span></a> concept page.</p>
 <p>In the equations of motion, these matrices are used to move forces, moments,
 and velocities between the frames.
 For example, the translational equations below take the forces in the
@@ -894,7 +886,7 @@ Euler angles <span class="math notranslate nohighlight">\((\psi, \theta, \varphi
 The quaternion itself is not. It is therefore common to propagate the quaternion
 and to compute the Euler angles only for presentation.</p>
 <p>The rotation matrix from the reference frame to the body frame, <span class="math notranslate nohighlight">\([BR]\)</span>
-(see Rotation Matrix Convention),
+(see <a class="reference internal" href="transformations.html"><span class="doc">Rigid Body Transformations</span></a>),
 is given in terms of the quaternion by the following matrix,
 which is identical to the matrix of the 3-2-1 Euler angles of the same attitude:</p>
 <div class="math notranslate nohighlight">
@@ -1079,98 +1071,13 @@ quadcopter examples fly this model.</p>
 <section id="the-rotmat-module">
 <span id="kinematics-rotmat"></span><h3>The rotmat Module<a class="headerlink" href="#the-rotmat-module" title="Link to this heading">#</a></h3>
 <p>The <a class="reference internal" href="../api/rotmat.html#module-c4dynamics.rotmat" title="c4dynamics.rotmat"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rotmat</span></code></a> module implements the rotation operations
-described on this page, following the convention above.
-All the angles are in radians, unless stated otherwise.</p>
-<div class="pst-scrollable-table-container"><table class="table">
-<colgroup>
-<col style="width: 30.0%" />
-<col style="width: 70.0%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>Function</p></th>
-<th class="head"><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.rotmat.rotx.html#c4dynamics.rotmat.rotmat.rotx" title="c4dynamics.rotmat.rotmat.rotx"><code class="xref py py-func docutils literal notranslate"><span class="pre">rotx</span></code></a>,
-<a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.rotmat.roty.html#c4dynamics.rotmat.rotmat.roty" title="c4dynamics.rotmat.rotmat.roty"><code class="xref py py-func docutils literal notranslate"><span class="pre">roty</span></code></a>,
-<a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.rotmat.rotz.html#c4dynamics.rotmat.rotmat.rotz" title="c4dynamics.rotmat.rotmat.rotz"><code class="xref py py-func docutils literal notranslate"><span class="pre">rotz</span></code></a></p></td>
-<td><p>Elementary rotation matrices <span class="math notranslate nohighlight">\(R_x, R_y, R_z\)</span>: a frame rotation
-through an angle about the <span class="math notranslate nohighlight">\(x, y\)</span>, or <span class="math notranslate nohighlight">\(z\)</span> axis</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.rotmat.dcm321.html#c4dynamics.rotmat.rotmat.dcm321" title="c4dynamics.rotmat.rotmat.dcm321"><code class="xref py py-func docutils literal notranslate"><span class="pre">dcm321</span></code></a></p></td>
-<td><p><span class="math notranslate nohighlight">\([BR]\)</span> of the 3-2-1 Euler angles,
-<span class="math notranslate nohighlight">\(R_x(\varphi) \cdot R_y(\theta) \cdot R_z(\psi)\)</span></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.rotmat.dcm321euler.html#c4dynamics.rotmat.rotmat.dcm321euler" title="c4dynamics.rotmat.rotmat.dcm321euler"><code class="xref py py-func docutils literal notranslate"><span class="pre">dcm321euler</span></code></a></p></td>
-<td><p>The 3-2-1 Euler angles of a <span class="math notranslate nohighlight">\([BR]\)</span> matrix (returned in degrees)</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.rotmat.euler2quat.html#c4dynamics.rotmat.rotmat.euler2quat" title="c4dynamics.rotmat.rotmat.euler2quat"><code class="xref py py-func docutils literal notranslate"><span class="pre">euler2quat</span></code></a></p></td>
-<td><p>The attitude quaternion of the 3-2-1 Euler angles</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.rotmat.quat2euler.html#c4dynamics.rotmat.rotmat.quat2euler" title="c4dynamics.rotmat.rotmat.quat2euler"><code class="xref py py-func docutils literal notranslate"><span class="pre">quat2euler</span></code></a></p></td>
-<td><p>The 3-2-1 Euler angles of an attitude quaternion (also for an array of quaternions)</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.rotmat.quat2dcm.html#c4dynamics.rotmat.rotmat.quat2dcm" title="c4dynamics.rotmat.rotmat.quat2dcm"><code class="xref py py-func docutils literal notranslate"><span class="pre">quat2dcm</span></code></a></p></td>
-<td><p><span class="math notranslate nohighlight">\([BR]\)</span> of an attitude quaternion</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.animate.animate.html#c4dynamics.rotmat.animate.animate" title="c4dynamics.rotmat.animate.animate"><code class="xref py py-func docutils literal notranslate"><span class="pre">animate</span></code></a></p></td>
-<td><p>Animates the attitude histories of a rigid body with a 3D model</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>To get <span class="math notranslate nohighlight">\([RB]\)</span> from any of the functions above, transpose the result.</p>
-<p><strong>Examples</strong></p>
-<p>Import c4dynamics:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">c4d</span>
-</pre></div>
-</div>
-<p>A frame that is rotated by <span class="math notranslate nohighlight">\(90°\)</span> about <span class="math notranslate nohighlight">\(z\)</span>. The <span class="math notranslate nohighlight">\(x\)</span> axis of the
-reference frame is the <span class="math notranslate nohighlight">\(-y\)</span> axis of the rotated frame:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c4d</span><span class="o">.</span><span class="n">rotmat</span><span class="o">.</span><span class="n">rotz</span><span class="p">(</span><span class="mi">90</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">d2r</span><span class="p">)</span> <span class="o">@</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>  
-<span class="go">[0  -1  0]</span>
-</pre></div>
-</div>
-<p>A body with heading <span class="math notranslate nohighlight">\(\psi = 90°\)</span> and pitch <span class="math notranslate nohighlight">\(\theta = 30°\)</span>.
-<span class="math notranslate nohighlight">\([BR]\)</span> expresses the reference <span class="math notranslate nohighlight">\(x\)</span> axis in body coordinates,
-and <span class="math notranslate nohighlight">\([RB] = [BR]^T\)</span> expresses the body <span class="math notranslate nohighlight">\(x\)</span> axis (the nose)
-in reference coordinates:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">BR</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">rotmat</span><span class="o">.</span><span class="n">dcm321</span><span class="p">(</span><span class="n">phi</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="mi">30</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">d2r</span><span class="p">,</span> <span class="n">psi</span> <span class="o">=</span> <span class="mi">90</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">d2r</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">BR</span> <span class="o">@</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>  
-<span class="go">[0  -1  0]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">BR</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>  
-<span class="go">[0  0.866  -0.5]</span>
-</pre></div>
-</div>
-<p>Going back from the matrix to the Euler angles (in degrees):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c4d</span><span class="o">.</span><span class="n">rotmat</span><span class="o">.</span><span class="n">dcm321euler</span><span class="p">(</span><span class="n">BR</span><span class="p">)</span>  
-<span class="go">(0  30  90)</span>
-</pre></div>
-</div>
-<p>The same attitude as a quaternion. Its rotation matrix is identical to
-the one of the Euler angles, and the Euler angles are recovered from it:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">rotmat</span><span class="o">.</span><span class="n">euler2quat</span><span class="p">(</span><span class="n">phi</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="mi">30</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">d2r</span><span class="p">,</span> <span class="n">psi</span> <span class="o">=</span> <span class="mi">90</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">d2r</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">q</span>  
-<span class="go">[0.683  -0.183  0.183  0.683]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">c4d</span><span class="o">.</span><span class="n">rotmat</span><span class="o">.</span><span class="n">quat2dcm</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">@</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>  
-<span class="go">[0  -1  0]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">c4d</span><span class="o">.</span><span class="n">rotmat</span><span class="o">.</span><span class="n">quat2euler</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">r2d</span>  
-<span class="go">[0  30  90]</span>
-</pre></div>
-</div>
-<p>The state objects use these functions to provide their rotation matrices.
+used on this page: the elementary rotations, the 3-2-1 DCM, and the conversions
+between Euler angles, rotation matrices, and quaternions.
 <a class="reference internal" href="../api/states.lib.rigidbody.html#c4dynamics.states.lib.rigidbody.rigidbody" title="c4dynamics.states.lib.rigidbody.rigidbody"><code class="xref py py-class docutils literal notranslate"><span class="pre">rigidbody</span></code></a> computes
 <span class="math notranslate nohighlight">\([BR]\)</span> by <a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.rotmat.dcm321.html#c4dynamics.rotmat.rotmat.dcm321" title="c4dynamics.rotmat.rotmat.dcm321"><code class="xref py py-func docutils literal notranslate"><span class="pre">dcm321</span></code></a>, and
 <a class="reference internal" href="../api/states.lib.quatbody.html#c4dynamics.states.lib.quatbody.quatbody" title="c4dynamics.states.lib.quatbody.quatbody"><code class="xref py py-class docutils literal notranslate"><span class="pre">quatbody</span></code></a> by
-<a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.rotmat.quat2dcm.html#c4dynamics.rotmat.rotmat.quat2dcm" title="c4dynamics.rotmat.rotmat.quat2dcm"><code class="xref py py-func docutils literal notranslate"><span class="pre">quat2dcm</span></code></a>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rb</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">rigidbody</span><span class="p">(</span><span class="n">theta</span> <span class="o">=</span> <span class="mi">30</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">d2r</span><span class="p">,</span> <span class="n">psi</span> <span class="o">=</span> <span class="mi">90</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">d2r</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">rb</span><span class="o">.</span><span class="n">RB</span> <span class="o">@</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>  
-<span class="go">[0  0.866  -0.5]</span>
-</pre></div>
-</div>
-<p>For the background material on rotation matrices, Euler angles orders,
-and the right hand frame convention, see the
+<a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.rotmat.quat2dcm.html#c4dynamics.rotmat.rotmat.quat2dcm" title="c4dynamics.rotmat.rotmat.quat2dcm"><code class="xref py py-func docutils literal notranslate"><span class="pre">quat2dcm</span></code></a>.</p>
+<p>For the functions and examples, see the
 <a class="reference internal" href="transformations.html"><span class="doc">Rigid Body Transformations</span></a> concept page.</p>
 </section>
 <section id="references">
@@ -1329,7 +1236,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Oct 09, 2026.
+  Last updated on Oct 12, 2026.
   <br/>
 </p>
   </div>

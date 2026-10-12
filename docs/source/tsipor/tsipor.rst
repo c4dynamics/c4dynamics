@@ -292,6 +292,14 @@ Real implementations of **guidance, estimation, and control algorithms**
         </div>
     </a>
 
+    <a href="../programs/ardupilot_sim/ardupilot_fig8.html" target="_blank" rel="noopener" class="sim-card">
+        <img src="../_static/ardupilot_architecture.png" class="sim-img">
+        <div class="sim-text">
+            <h3>ArduPilot Simulation</h3>
+            <p>Quadcopter figure-8 under ArduCopter control</p>
+        </div>
+    </a>
+
     <a href="../programs/pn_guidance/dof6sim.html" target="_blank" rel="noopener" class="sim-card">
         <img src="../_static/missdistance.png" class="sim-img">
         <div class="sim-text">

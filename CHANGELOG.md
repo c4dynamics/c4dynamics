@@ -18,6 +18,12 @@ All notable changes to this project will be documented in this file.
   `c4dynamics.eqm.eqm6q` / `int6q` and the `rotmat` helpers `euler2quat`,
   `quat2euler` and `quat2dcm`. The kinematics concept page covers
   quaternion kinematics and the rotation conventions.
+- ArduPilot use case (`ardupilot_sim / ardupilot_fig8`): a Python port of
+  the ArduCopter 4.7.1 `GUIDED`-mode control stack,
+  `c4dynamics.utils.use_cases.ardupilot`, and a Pixhawk flight-controller
+  board with an IMU error model, `c4dynamics.utils.use_cases.pixhawk`,
+  fly the 3DR Iris through a figure-8. The notebook includes a wind
+  sweep that runs its flights in parallel (`joblib`, one process per core).
 
 ### Changed
 - The Cascade-PID and EKF quadcopter examples fly the same model,

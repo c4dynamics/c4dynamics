@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1536" height="1024" viewBox="0 0 1536 1024" role="img" aria-labelledby="title desc">
+<title id="title">Hierarchy of State Objects in c4dynamics</title>
+<desc id="desc">The base state class branches to datapoint, rigidbody, and quatbody.</desc>
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#f8fafc"/></linearGradient>
+  <linearGradient id="baseFill" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#edf3f8"/><stop offset="1" stop-color="#f7fafc"/></linearGradient>
+  <linearGradient id="blueFill" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eaf5ff"/><stop offset="1" stop-color="#fff"/></linearGradient>
+  <linearGradient id="orangeFill" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff0e2"/><stop offset="1" stop-color="#fff"/></linearGradient>
+  <linearGradient id="greenFill" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e8f5e9"/><stop offset="1" stop-color="#fff"/></linearGradient>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#0b1832"/></marker>
+  <style>
+    .title{font:700 42px Arial,Helvetica,sans-serif;fill:#0b1832}.head{font:700 31px Arial,Helvetica,sans-serif;fill:#0b1832}.sub{font:24px Arial,Helvetica,sans-serif;fill:#0b1832}.body{font:20px Arial,Helvetica,sans-serif;fill:#101827}.small{font:18px Arial,Helvetica,sans-serif;fill:#101827}.math{font:italic 23px Georgia,'Times New Roman',serif;fill:#0b1832}.bold{font-weight:700}.panel{stroke-width:2;rx:11}.line{stroke:#0b1832;stroke-width:3;fill:none}
+  </style>
+</defs>
+<rect width="1536" height="1024" fill="url(#bg)"/>
+<text x="768" y="47" text-anchor="middle" class="title">Hierarchy of State Objects in c4dynamics</text>
+<!-- base class -->
+<rect x="452" y="77" width="632" height="271" rx="11" fill="url(#baseFill)" stroke="#7b9abb" stroke-width="2.2"/>
+<text x="768" y="120" text-anchor="middle" class="head">state</text>
+<text x="768" y="150" text-anchor="middle" class="sub">(base class)</text>
+<g fill="#dce5ed">
+ <rect x="472" y="167" width="359" height="36" rx="7"/><rect x="472" y="210" width="359" height="36" rx="7"/><rect x="472" y="252" width="359" height="36" rx="7"/><rect x="472" y="294" width="359" height="35" rx="7"/>
+</g>
+<g class="body">
+ <text x="485" y="192">State vector X, initial conditions X₀</text>
+ <text x="485" y="235">Time-history storage</text>
+ <text x="485" y="277">Integration and equations of motion</text>
+ <text x="485" y="318">Plotting and visualization utilities</text>
+</g>
+<rect x="849" y="145" width="222" height="193" rx="9" fill="#e2eee6"/>
+<text x="865" y="177" class="small"><tspan x="865" dy="0">Common functionality</tspan><tspan x="865" dy="25">for all state objects</tspan><tspan x="865" dy="25">(e.g., storage, plotting,</tspan><tspan x="865" dy="25">integration, etc.).</tspan><tspan x="865" dy="31">Does not define a</tspan><tspan x="865" dy="23">specific physical model.</tspan></text>
+<!-- inheritance connectors -->
+<path d="M768 349 V382 H260 V420" class="line" marker-end="url(#arrow)"/>
+<path d="M768 349 V420" class="line" marker-end="url(#arrow)"/>
+<path d="M768 382 H1275 V420" class="line" marker-end="url(#arrow)"/>
+<!-- datapoint card -->
+<rect x="30" y="423" width="462" height="578" rx="11" fill="url(#blueFill)" stroke="#2994ef" class="panel"/>
+<path d="M31 434 Q31 424 41 424 H481 Q491 424 491 434 V510 H31 Z" fill="#e5f2ff"/>
+<text x="261" y="463" text-anchor="middle" class="head">datapoint</text>
+<text x="261" y="494" text-anchor="middle" class="sub">(translational dynamics)</text>
+<rect x="61" y="519" width="399" height="35" rx="7" fill="#dcedfb"/>
+<text x="261" y="544" text-anchor="middle" class="body bold">State vector (6 states)</text>
+<text x="261" y="587" text-anchor="middle" class="math">X = [x, y, z, vₓ, vᵧ, v𝓏]ᵀ</text>
+<!-- point / trajectory icon -->
+<g stroke="#65758a" stroke-width="2" fill="none"><path d="M178 744 L123 788 M178 744 L274 764 M178 744 L178 640"/><path d="M123 788 l11 -1 M123 788 l3 -10 M274 764 l-10 -5 M274 764 l-8 5 M178 640 l-5 10 M178 640 l5 10"/><path d="M208 701 C244 684 294 694 329 719" stroke-dasharray="7 7"/></g>
+<g class="math"><text x="111" y="807">x</text><text x="278" y="772">y</text><text x="188" y="644">z</text><text x="299" y="679" font-weight="bold">v</text></g>
+<circle cx="286" cy="694" r="9" fill="#d94835" stroke="#9d2b20" stroke-width="1.5"/><path d="M294 689 L357 660" stroke="#0b1832" stroke-width="3"/><path d="M357 660 l-12 1 l5 10 Z" fill="#0b1832"/>
+<rect x="46" y="826" width="430" height="144" rx="8" fill="#e0effd"/>
+<g class="body"><text x="67" y="858">•  Position and velocity in 3D space</text><text x="67" y="889">•  Point mass (no attitude)</text><text x="67" y="920">•  6 degrees of freedom (3 translational)</text></g>
+<!-- rigidbody card -->
+<rect x="527" y="423" width="482" height="578" rx="11" fill="url(#orangeFill)" stroke="#ff6b00" class="panel"/>
+<path d="M528 434 Q528 424 538 424 H998 Q1008 424 1008 434 V510 H528 Z" fill="#fff0e1"/>
+<text x="768" y="463" text-anchor="middle" class="head">rigidbody</text>
+<text x="768" y="494" text-anchor="middle" class="sub">(Euler angles attitude)</text>
+<rect x="561" y="519" width="414" height="35" rx="7" fill="#ffe4cd"/>
+<text x="768" y="544" text-anchor="middle" class="body">State vector (12 states)</text>
+<text x="768" y="587" text-anchor="middle" class="math">X = [x, y, z, vₓ, vᵧ, v𝓏, φ, θ, ψ, p, q, r]ᵀ</text>
+<!-- stylized aircraft -->
+<g transform="translate(770 688) rotate(-8)">
+ <path d="M-145 6 L-61 -8 L-33 -55 L-11 -57 L-18 -9 L58 -3 L100 8 L60 17 L-18 12 L-34 48 L-54 46 L-64 12 Z" fill="#9aa7b0" stroke="#4e5c67" stroke-width="2"/>
+ <path d="M-18 -8 L5 -30 L30 -29 L19 -4 Z" fill="#c4cdd2" stroke="#65727a"/>
+ <path d="M-62 6 L-101 31 L-75 32 L-37 13 Z" fill="#687780"/>
+ <path d="M60 7 L91 6 L105 10 L91 14 L60 13 Z" fill="#414d55"/>
+ <ellipse cx="38" cy="3" rx="28" ry="10" fill="#d1d8dc" stroke="#65727a"/>
+</g>
+<g stroke-width="4" fill="none"><path d="M848 702 L931 716" stroke="#e21e1e"/><path d="M931 716 l-15 -10 l-3 14 Z" fill="#e21e1e"/><path d="M743 707 L692 735" stroke="#168b27"/><path d="M692 735 l8 -15 l7 12 Z" fill="#168b27"/><path d="M768 710 V778" stroke="#1682dc"/><path d="M768 778 l-8 -16 h16 Z" fill="#1682dc"/></g>
+<g font-family="Georgia,serif" font-style="italic" font-size="23" font-weight="bold"><text x="935" y="711" fill="#d81d1d">xᵦ</text><text x="654" y="746" fill="#168b27">yᵦ</text><text x="784" y="779" fill="#1682dc">zᵦ</text></g>
+<rect x="542" y="798" width="452" height="184" rx="8" fill="#ffead9"/>
+<g class="body"><text x="562" y="828">•  Position and velocity in 3D space</text><text x="562" y="856">•  Attitude represented by Euler angles</text><text x="583" y="882" class="small">(φ, θ, ψ)</text><text x="562" y="910">•  Angular rates (p, q, r)</text><text x="562" y="938">•  6 degrees of freedom (3 translational +</text><text x="583" y="963">3 rotational)</text></g>
+<!-- quatbody card -->
+<rect x="1040" y="423" width="470" height="578" rx="11" fill="url(#greenFill)" stroke="#17994b" class="panel"/>
+<path d="M1041 434 Q1041 424 1051 424 H1499 Q1509 424 1509 434 V510 H1041 Z" fill="#e5f3e8"/>
+<text x="1275" y="463" text-anchor="middle" class="head">quatbody</text>
+<text x="1275" y="494" text-anchor="middle" class="sub">(quaternion attitude)</text>
+<rect x="1061" y="519" width="428" height="35" rx="7" fill="#dcefe0"/>
+<text x="1275" y="544" text-anchor="middle" class="body">State vector (13 states)</text>
+<text x="1275" y="587" text-anchor="middle" class="math">X = [x, y, z, vₓ, vᵧ, v𝓏, qᵥ, qₓ, qᵧ, q𝓏, p, q, r]ᵀ</text>
+<!-- drone icon -->
+<g transform="translate(1275 686)">
+ <path d="M-42 -10 L-93 -34 L-108 -31 L-56 -1 L-113 24 L-99 29 L-39 8 L40 8 L99 29 L113 24 L56 -1 L108 -31 L93 -34 L42 -10 Z" fill="#b5bec3" stroke="#65717a" stroke-width="2"/>
+ <rect x="-40" y="-19" width="80" height="38" rx="13" fill="#d8dddf" stroke="#69757d" stroke-width="2"/>
+ <rect x="-17" y="-11" width="34" height="22" rx="7" fill="#8c989f"/>
+ <g fill="#3f484e"><ellipse cx="-102" cy="-34" rx="34" ry="4"/><ellipse cx="102" cy="-34" rx="34" ry="4"/><ellipse cx="-106" cy="26" rx="31" ry="4"/><ellipse cx="106" cy="26" rx="31" ry="4"/></g>
+ <g fill="#59646a"><rect x="-107" y="-31" width="10" height="18" rx="3"/><rect x="97" y="-31" width="10" height="18" rx="3"/><rect x="-111" y="19" width="10" height="18" rx="3"/><rect x="101" y="19" width="10" height="18" rx="3"/></g>
+</g>
+<g stroke-width="4" fill="none"><path d="M1310 688 L1404 711" stroke="#e21e1e"/><path d="M1404 711 l-15 -10 l-3 14 Z" fill="#e21e1e"/><path d="M1241 691 L1192 720" stroke="#168b27"/><path d="M1192 720 l8 -15 l7 12 Z" fill="#168b27"/><path d="M1275 706 V778" stroke="#1682dc"/><path d="M1275 778 l-8 -16 h16 Z" fill="#1682dc"/></g>
+<g font-family="Georgia,serif" font-style="italic" font-size="23" font-weight="bold"><text x="1408" y="709" fill="#d81d1d">xᵦ</text><text x="1155" y="732" fill="#168b27">yᵦ</text><text x="1291" y="779" fill="#1682dc">zᵦ</text></g>
+<rect x="1057" y="798" width="436" height="184" rx="8" fill="#e0f0e3"/>
+<g class="body"><text x="1076" y="828">•  Position and velocity in 3D space</text><text x="1076" y="856">•  Attitude represented by quaternion</text><text x="1097" y="882" class="small">(qᵥ, qₓ, qᵧ, q𝓏)</text><text x="1076" y="910">•  Angular rates (p, q, r)</text><text x="1076" y="938">•  6 degrees of freedom (3 translational +</text><text x="1097" y="963">3 rotational)</text><text x="1076" y="987" class="small">•  No Euler-angle kinematic singularity</text></g>
+</svg>

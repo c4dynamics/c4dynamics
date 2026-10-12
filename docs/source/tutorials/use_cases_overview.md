@@ -16,14 +16,14 @@ The c4dynamics documentation is organized into five sections:
   Modeling).
 - **Use Cases**: complete, runnable example notebooks that apply c4dynamics to a real problem
   end-to-end. This is a specific, distinguished term in this documentation — it refers to exactly
-  the 8 notebooks listed below, not to API pages, not to concepts pages, and not to generic
+  the 9 notebooks listed below, not to API pages, not to concepts pages, and not to generic
   "usage examples" inside a class's docstring.
 - **API Reference**: per-class and per-method technical documentation (signatures, parameters,
   return values) for every public class and function in c4dynamics.
 - **Installation** and **Getting Started**: setup instructions and a first overview of the
   framework.
 
-## The 8 Use Cases
+## The 9 Use Cases
 
 When a user asks to "explore a use case", "see an example", "show me a notebook", or similar,
 answer with one or more of these — never substitute an unrelated API reference page.
@@ -41,38 +41,47 @@ answer with one or more of these — never substitute an unrelated API reference
    vector from noisy GPS and IMU measurements, closing the control loop on that estimate.
    https://c4dynamics.github.io/c4dynamics/programs/ekf_estimation/quad_ekf.html
 
-3. **Proportional Navigation Guidance — 6 Degrees of Freedom Simulation**
+3. **ArduPilot Simulation — Figure-8 Tracking with ArduCopter**
+   (`programs/ardupilot_sim/ardupilot_fig8`)
+   A 3DR Iris quadcopter flies a figure-8 under the control of ArduCopter Copter-4.7.1, whose
+   position, attitude and rate controllers and motor mixer are ported to Python and fly in
+   `GUIDED` mode. A companion-computer script streams MAVLink position targets, and c4dynamics
+   provides the true drone dynamics and the Pixhawk sensors. A wind sweep repeats the mission in
+   24 wind conditions. ArduPilot's EKF3 is not ported: the controller flies on the true state.
+   https://c4dynamics.github.io/c4dynamics/programs/ardupilot_sim/ardupilot_fig8.html
+
+4. **Proportional Navigation Guidance — 6 Degrees of Freedom Simulation**
    (`programs/pn_guidance/dof6sim`)
    A 6-DOF simulation of a guided aircraft, modeling its dynamics, aerodynamics, and control
    system under proportional navigation guidance.
    https://c4dynamics.github.io/c4dynamics/programs/pn_guidance/dof6sim.html
 
-4. **Ballistic Coefficient Estimation — Extended Kalman Filter**
+5. **Ballistic Coefficient Estimation — Extended Kalman Filter**
    (`programs/ballistic_ekf/ballistic_coefficient`)
    Estimates the ballistic coefficient of a target in free fall, tracked by a noisy altimeter
    radar, using an Extended Kalman Filter.
    https://c4dynamics.github.io/c4dynamics/programs/ballistic_ekf/ballistic_coefficient.html
 
-5. **Vehicle Steering — Model Predictive Control**
+6. **Vehicle Steering — Model Predictive Control**
    (`programs/mpc_steering/mpc_steering`)
    Implements a Model Predictive Controller for vehicle steering: a simplified model tracks a
    straight reference line by solving a constrained finite-horizon quadratic program at every
    time step, simulated in closed loop with c4dynamics.
    https://c4dynamics.github.io/c4dynamics/programs/mpc_steering/mpc_steering.html
 
-6. **Car Tracker — YOLOv3 Detector and Kalman Filter**
+7. **Car Tracker — YOLOv3 Detector and Kalman Filter**
    (`programs/car_tracker/car_tracker`)
    Enhances object tracking by pairing a YOLOv3 object detector with a Kalman filter, smoothing
    jittery bounding boxes and bridging momentary occlusions or missed detections.
    https://c4dynamics.github.io/c4dynamics/programs/car_tracker/car_tracker.html
 
-7. **Car Tracker — YOLO11 Detector and Kalman Filter**
+8. **Car Tracker — YOLO11 Detector and Kalman Filter**
    (`programs/car_tracker_yolo11/car_tracker_yolo11`)
    A modern-detector refresh of the YOLOv3 Car Tracker use case: the same estimation problem,
    dynamic model, and Kalman filtering strategy, but with the detector swapped for YOLO11.
    https://c4dynamics.github.io/c4dynamics/programs/car_tracker_yolo11/car_tracker_yolo11.html
 
-8. **Neural Learning Control for Online Uncertain Dynamics Estimation**
+9. **Neural Learning Control for Online Uncertain Dynamics Estimation**
    (`programs/learning_controller/learning_controller`)
    A reusable framework for prototyping neural learning controllers that estimate model
    uncertainty online, built around an environment abstraction (a 2-DOF helicopter in the
@@ -81,10 +90,10 @@ answer with one or more of these — never substitute an unrelated API reference
 
 ## Answering "show me a use case" style questions
 
-- If the user hasn't specified a topic, briefly list several (or all) of the 8 use cases above by
+- If the user hasn't specified a topic, briefly list several (or all) of the 9 use cases above by
   name so they can pick one — do not jump into an unrelated API page.
 - If the user's interest suggests a specific domain (e.g. "computer vision" → car trackers,
-  "control" → PID/MPC/learning controller, "estimation"/"filtering" → EKF use cases, "guidance" →
+  "control" → PID/MPC/learning controller, "ArduPilot"/"autopilot"/"flight controller" → ArduPilot simulation, "estimation"/"filtering" → EKF use cases, "guidance" →
   proportional navigation), recommend the matching use case(s) from the list above.
 - Once a use case is chosen, ground further answers in that notebook's actual content (state
   objects, sensors, filters, and controller logic it defines) rather than inventing steps.

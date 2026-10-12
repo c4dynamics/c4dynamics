@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>c4dynamics.rotmat.rotmat.dcm321 &#8212; C4DYNAMICS v2.5</title>
+    <title>c4dynamics.rotmat.rotmat.dcm321 &#8212; C4DYNAMICS v2.6</title>
   
   
   
@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=7769aa4a"></script>
+    <script src="../../../_static/documentation_options.js?v=a976f23f"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -71,7 +71,7 @@
     <link rel="prev" title="c4dynamics.rotmat.rotmat.rotz" href="c4dynamics.rotmat.rotmat.rotz.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Oct 09, 2026"/>
+    <meta name="docbuild:last-update" content="Oct 12, 2026"/>
   </head>
   
   
@@ -157,7 +157,7 @@
   
   
   
-    <p class="title logo__title">C4DYNAMICS v2.5</p>
+    <p class="title logo__title">C4DYNAMICS v2.6</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -215,6 +215,16 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../../programs/pid_cascade/quadcopter_pid.html">Quadcopter Cascade <em>PID</em> — Figure-8 Trajectory Tracking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../programs/ekf_estimation/quad_ekf.html">Quadcopter EKF - State Estimation for Figure-8 Trajectory Tracking</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../../../programs/ardupilot_sim/ardupilot_fig8.html">Figure-8 Tracking with ArduCopter-4.7.1 and 3DR IRIS in Python</a></li>
+
+
+
+
+
+
+
+
 
 <li class="toctree-l1"><a class="reference internal" href="../../../programs/pn_guidance/dof6sim.html">Proportional Navigation Guidance - 6 Degrees of Freedom Simulation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../programs/ballistic_ekf/ballistic_coefficient.html">Ballistic Coefficient Estimation - Extended Kalman Filter</a></li>
@@ -592,7 +602,7 @@ positive rotations around the axes in the following order:
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>phi</strong> (<em>float</em><em> or </em><em>int</em>) – The angle in radian of rotation about <cite>x</cite>, default <span class="math notranslate nohighlight">\(\phi = 0\)</span>.</p></li>
+<li><p><strong>phi</strong> (<em>float</em><em> or </em><em>int</em>) – The angle in radian of rotation about <cite>x</cite>, default <span class="math notranslate nohighlight">\(\varphi = 0\)</span>.</p></li>
 <li><p><strong>theta</strong> (<em>float</em><em> or </em><em>int</em>) – The angle in radian of rotation about <cite>y</cite>, default <span class="math notranslate nohighlight">\(\theta = 0\)</span>.</p></li>
 <li><p><strong>psi</strong> (<em>float</em><em> or </em><em>int</em>) – The angle in radian of rotation about <cite>z</cite>, default <span class="math notranslate nohighlight">\(\psi = 0\)</span>.</p></li>
 </ul>
@@ -610,7 +620,7 @@ positive rotations around the axes in the following order:
 given by the 3 Euler angles:</p>
 <div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}\phi = 0\\\theta = 30 \cdot {\pi \over 180}\\\psi = 0\end{aligned}\end{align} \]</div>
-<p>The velcoty expressed in body frame:</p>
+<p>The velocity expressed in body frame:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dcm321</span><span class="p">(</span><span class="n">phi</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="mi">30</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">d2r</span><span class="p">,</span> <span class="n">psi</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">@</span> <span class="n">v</span>  
 <span class="go">[129.9  0  75]</span>
 </pre></div>
@@ -698,7 +708,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Oct 09, 2026.
+  Last updated on Oct 12, 2026.
   <br/>
 </p>
   </div>
