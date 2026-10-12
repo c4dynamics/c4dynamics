@@ -63,7 +63,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/sensors.navigation.magnetometer';</script>
     <script src="../_static/custom.js?v=53f4f99c"></script>
     <script defer="defer" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <script src="../_static/c4dynamics-chat.js?v=97e05790"></script>
+    <script src="../_static/c4dynamics-chat.js?v=bf103eeb"></script>
     <link rel="icon" href="../_static/c4dlogo.svg"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -642,7 +642,7 @@ zero-mean Gaussian vector with per-axis standard deviation <code class="docutils
 <p><code class="docutils literal notranslate"><span class="pre">measure</span></code> returns the full 3-axis body-frame field vector.  A consumer
 that needs a heading derives it from the horizontal components after
 de-rotating roll and pitch (tilt compensation); a filter that consumes
-the vector directly (see <code class="xref py py-class docutils literal notranslate"><span class="pre">ekf</span></code>) needs no yaw-wrapping, because the
+the vector directly (see <a class="reference internal" href="filters.ekf.html#c4dynamics.filters.ekf.ekf" title="c4dynamics.filters.ekf.ekf"><code class="xref py py-class docutils literal notranslate"><span class="pre">ekf</span></code></a>) needs no yaw-wrapping, because the
 measurement is linear in the rotated field rather than in the angle
 itself.  In a typical setup the magnetometer is sampled at a lower rate
 than the IMU, e.g. <span class="math notranslate nohighlight">\(50\,Hz\)</span>.</p>
@@ -664,7 +664,7 @@ to <a class="reference internal" href="generated/magnetometer/c4dynamics.sensors
 <p>The errors model can be disabled by passing <code class="docutils literal notranslate"><span class="pre">isideal</span> <span class="pre">=</span> <span class="pre">True</span></code> at
 construction, which forces <code class="docutils literal notranslate"><span class="pre">noise_std</span> <span class="pre">=</span> <span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">hard_iron</span> <span class="pre">=</span> <span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0]</span></code>
 and <code class="docutils literal notranslate"><span class="pre">soft_iron</span> <span class="pre">=</span> <span class="pre">I</span></code> regardless of the arguments.  Unlike the
-<code class="xref py py-class docutils literal notranslate"><span class="pre">seeker</span></code> model, the magnetometer does not generate a random bias
+<a class="reference internal" href="sensors.seeker.html#c4dynamics.sensors.seeker.seeker" title="c4dynamics.sensors.seeker.seeker"><code class="xref py py-class docutils literal notranslate"><span class="pre">seeker</span></code></a> model, the magnetometer does not generate a random bias
 during construction; the supplied distortion is deterministic for a given
 instance.</p>
 <p><strong>Construction</strong></p>
@@ -757,7 +757,7 @@ the random per-axis noise generated at every call to <a class="reference interna
 </pre></div>
 </div>
 <p><strong>Demo</strong></p>
-<p>The built-in <code class="xref py py-meth docutils literal notranslate"><span class="pre">demo</span></code> method provides a compact demonstration of the
+<p>The built-in <code class="docutils literal notranslate"><span class="pre">demo()</span></code> method provides a compact demonstration of the
 magnetometer errors model and plots the true and measured body-frame
 field components through an attitude sweep:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">sensors</span><span class="o">.</span><span class="n">magnetometer</span><span class="o">.</span><span class="n">demo</span><span class="p">(</span><span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>

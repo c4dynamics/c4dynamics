@@ -64,7 +64,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'programs/ardupilot_sim/ardupilot_fig8';</script>
     <script src="../../_static/custom.js?v=53f4f99c"></script>
     <script defer="defer" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <script src="../../_static/c4dynamics-chat.js?v=97e05790"></script>
+    <script src="../../_static/c4dynamics-chat.js?v=bf103eeb"></script>
     <link rel="icon" href="../../_static/c4dlogo.svg"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -626,7 +626,7 @@ document.write(`
 <blockquote>
 <div><p>⚠️ <strong>Disclaimer: no :math:`EKF3`.</strong> ArduPilot’s state estimator, <span class="math notranslate nohighlight">\(EKF3\)</span>, is <strong>not</strong> ported. The flight controller flies on the vehicle’s <em>true</em> attitude, position and velocity (with optional white noise), not on a solution fused from <span class="math notranslate nohighlight">\(IMU\)</span>, <span class="math notranslate nohighlight">\(GPS\)</span>, compass and barometer. Estimation errors, filter lag, <span class="math notranslate nohighlight">\(GPS\)</span> glitches and innovation-gate behaviour are therefore absent, and the tracking results in Section 5 are a best case: on a real vehicle, expect larger position errors.</p>
 </div></blockquote>
-<p>For a hand-written 3-loop cascade PID flies a <em>figure-8</em> (<span class="math notranslate nohighlight">\(\infty\)</span>) see <a class="reference external" href="https://c4dynamics.github.io/c4dynamics/programs/pid_cascade/quadcopter_pid.html">Quadcopter Cascade-PID example</a>,</p>
+<p>For a hand-written 3-loop cascade PID that flies the same <em>figure-8</em> (<span class="math notranslate nohighlight">\(\infty\)</span>), see the <a class="reference external" href="https://c4dynamics.github.io/c4dynamics/programs/pid_cascade/quadcopter_pid.html">Quadcopter Cascade-PID example</a>.</p>
 </section>
 <section id="Goal">
 <h1>Goal<a class="headerlink" href="#Goal" title="Link to this heading">#</a></h1>
@@ -711,7 +711,7 @@ document.write(`
 <td><p><span class="math notranslate nohighlight">\(50\,Hz\)</span></p></td>
 </tr>
 <tr class="row-odd"><td><p>Flight controller</p></td>
-<td><p>▸ <a class="reference external" href="https://c4dynamics.github.io/c4dynamics/api/states.lib.quatbody.html">pixhawk</a>: the board and its sensors. ▸
+<td><p>▸ <a class="reference external" href="https://github.com/c4dynamics/c4dynamics/blob/main/c4dynamics/utils/use_cases/pixhawk.py">pixhawk</a>: the board and its sensors. ▸
 <a class="reference external" href="https://github.com/c4dynamics/c4dynamics/blob/main/c4dynamics/utils/use_cases/ardupilot.py">ardupilot</a>: the firmware. ▸ reads an <span class="math notranslate nohighlight">\(IMU\)</span> sample and a
 navigation solution and returns four <span class="math notranslate nohighlight">\(PWM\)</span> values.</p></td>
 <td><p><span class="math notranslate nohighlight">\(400\,Hz\)</span></p></td>
@@ -759,7 +759,7 @@ navigation solution and returns four <span class="math notranslate nohighlight">
 </pre></div>
 </div>
 <p>so the rate PIDs act on the body-rate target computed one tick earlier, as on the real vehicle.</p>
-<p><strong>State estimation is not ported.</strong> instead of running <span class="math notranslate nohighlight">\(EKF3\)</span>, the <span class="math notranslate nohighlight">\(AHRS\)</span> takes the navigation solution from the simulator (Section 3). Spool-up ramps, notch filters, battery compensation and terrain following are also left out. Takeoff and landing are simplified versions of ArduCopter’s.</p>
+<p><strong>State estimation is not ported.</strong> Instead of running <span class="math notranslate nohighlight">\(EKF3\)</span>, the <span class="math notranslate nohighlight">\(AHRS\)</span> takes the navigation solution from the simulator (Section 3). Spool-up ramps, notch filters, battery compensation and terrain following are also left out. Takeoff and landing are simplified versions of ArduCopter’s.</p>
 <p>The flight controller is created with its default parameters. Any ArduPilot parameter can be overridden by name, exactly as in a <code class="docutils literal notranslate"><span class="pre">.param</span></code> file:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
@@ -815,7 +815,7 @@ navigation solution and returns four <span class="math notranslate nohighlight">
 <li><p>Earth frame <span class="math notranslate nohighlight">\(NED\)</span>: <span class="math notranslate nohighlight">\(x\)</span> north, <span class="math notranslate nohighlight">\(y\)</span> east, <span class="math notranslate nohighlight">\(z\)</span> down.</p></li>
 <li><p>Body frame <span class="math notranslate nohighlight">\(FRD\)</span>: <span class="math notranslate nohighlight">\(x\)</span> forward, <span class="math notranslate nohighlight">\(y\)</span> right, <span class="math notranslate nohighlight">\(z\)</span> down.</p></li>
 </ul>
-<p>The companion computer keeps the figure-8 in <span class="math notranslate nohighlight">\(ENU\)</span> (<span class="math notranslate nohighlight">\(x\)</span> east, <span class="math notranslate nohighlight">\(y\)</span> north, <span class="math notranslate nohighlight">\(z\)</span> up), as in the Cascade-PID example, and converts to <span class="math notranslate nohighlight">\(NED\)</span> when it sends a target (Section 4) — the same place MAVROS or a companion script does it.</p>
+<p>The companion computer keeps the figure-8 in <span class="math notranslate nohighlight">\(ENU\)</span> (<span class="math notranslate nohighlight">\(x\)</span> east, <span class="math notranslate nohighlight">\(y\)</span> north, <span class="math notranslate nohighlight">\(z\)</span> up), as in the Cascade-PID example, and converts to <span class="math notranslate nohighlight">\(NED\)</span> when it sends a target (Section 4.2) — the same place MAVROS or a companion script does it.</p>
 </section>
 <section id="2.2.-Rigid-Body">
 <h2>2.2. Rigid Body<a class="headerlink" href="#2.2.-Rigid-Body" title="Link to this heading">#</a></h2>
@@ -841,7 +841,7 @@ A_x u \\ A_y v \\ A_z w
 \qquad
 \dot{\mathbf v} &amp;= \frac{[BI]^{T\,} \cdot \mathbf F_b}{m} + \begin{bmatrix} 0 &amp;&amp; 0 &amp;&amp; g \end{bmatrix}^T
 \end{aligned}\end{split}\]</div>
-<p>where <span class="math notranslate nohighlight">\([BI]\)</span> is the body-from-inertial <span class="math notranslate nohighlight">\(DCM\)</span> of the quaternion (<a class="reference external" href="https://c4dynamics.github.io/c4dynamics/api/rotmat.html">quat2dcm</a>).</p>
+<p>where <span class="math notranslate nohighlight">\([BI]\)</span> is the body-from-inertial <span class="math notranslate nohighlight">\(DCM\)</span> of the quaternion (<a class="reference external" href="https://c4dynamics.github.io/c4dynamics/api/generated/rotmat/c4dynamics.rotmat.rotmat.quat2dcm.html">quat2dcm</a>).</p>
 <div class="line-block">
 <div class="line"><strong>Rotational dynamics.</strong></div>
 <div class="line">Euler’s equations with rotor moments <span class="math notranslate nohighlight">\(\boldsymbol\tau\)</span> and rotational damping <span class="math notranslate nohighlight">\(A_r\)</span>:</div>
@@ -860,7 +860,7 @@ A_x u \\ A_y v \\ A_z w
 <p>The quaternion is renormalized to unit length after every step.</p>
 <p><strong>Ground.</strong> The vehicle cannot go below <span class="math notranslate nohighlight">\(z = 0\)</span>: while it rests on the ground, the ground carries its weight.</p>
 <div class="line-block">
-<div class="line">These equations, with the rotor model of Section 2.3, are c4dynamics’ quadcopter model <a class="reference external" href="https://c4dynamics.github.io/c4dynamics/api/eqm.html">quadeqm</a>, the same model the <a class="reference external" href="https://c4dynamics.github.io/c4dynamics/programs/pid_cascade/quadcopter_pid.html">Cascade-PID</a> and <a class="reference external" href="https://c4dynamics.github.io/c4dynamics/programs/ekf_estimation/quad_ekf.html">EKF</a> examples fly.</div>
+<div class="line">These equations, with the rotor model of Section 2.3, are c4dynamics’ quadcopter model <a class="reference external" href="https://c4dynamics.github.io/c4dynamics/api/generated/eqm/c4dynamics.eqm.quadcopter.quadeqm.html">quadeqm</a>, the same model the <a class="reference external" href="https://c4dynamics.github.io/c4dynamics/programs/pid_cascade/quadcopter_pid.html">Cascade-PID</a> and <a class="reference external" href="https://c4dynamics.github.io/c4dynamics/programs/ekf_estimation/quad_ekf.html">EKF</a> examples fly.</div>
 <div class="line"><code class="docutils literal notranslate"><span class="pre">frame='NED'</span></code> selects the <span class="math notranslate nohighlight">\(NED\)</span> / <span class="math notranslate nohighlight">\(FRD\)</span> convention used here, and the 13-state vector selects the quaternion form.</div>
 </div>
 </section>
@@ -928,7 +928,7 @@ A_x u \\ A_y v \\ A_z w
 max thrust per motor 6.00 N | thrust-to-weight 1.63 | hover thrust fraction 0.613
 </pre></div></div>
 </div>
-<p>The Iris hovers at about <span class="math notranslate nohighlight">\(61\%\)</span> of its maximum thrust — a heavy, low-margin vehicle. ArduCopter’s default <code class="docutils literal notranslate"><span class="pre">MOT_THST_HOVER</span></code> is <span class="math notranslate nohighlight">\(0.35\)</span>; the autopilot learns the true value in flight (Section 5).</p>
+<p>The Iris hovers at about <span class="math notranslate nohighlight">\(61\%\)</span> of its maximum thrust — a heavy, low-margin vehicle. ArduCopter’s default <code class="docutils literal notranslate"><span class="pre">MOT_THST_HOVER</span></code> is <span class="math notranslate nohighlight">\(0.35\)</span>; the autopilot learns the true value in flight (Section 5.4).</p>
 </section>
 <section id="2.5.-The-Vehicle-Model">
 <h2>2.5. The Vehicle Model<a class="headerlink" href="#2.5.-The-Vehicle-Model" title="Link to this heading">#</a></h2>
@@ -994,7 +994,7 @@ up).</p>
 <p>Inside the autopilot both pass through the 2-pole low-pass filters <code class="docutils literal notranslate"><span class="pre">INS_GYRO_FILTER</span></code> and <code class="docutils literal notranslate"><span class="pre">INS_ACCEL_FILTER</span></code> (<span class="math notranslate nohighlight">\(20\,Hz\)</span>) before the controllers use them.</p>
 <div class="line-block">
 <div class="line"><strong>Navigation solution.</strong></div>
-<div class="line">On a real vehicle <span class="math notranslate nohighlight">\(EKF3\)</span> fuses the <span class="math notranslate nohighlight">\(IMU\)</span> with <span class="math notranslate nohighlight">\(GPS\)</span>, compass and barometer into attitude (a quaternion), position and velocity. This draft does not port <span class="math notranslate nohighlight">\(EKF3\)</span>: the navigation solution is the true state, with optional noise. This is the simulation’s main simplification.</div>
+<div class="line">On a real vehicle <span class="math notranslate nohighlight">\(EKF3\)</span> fuses the <span class="math notranslate nohighlight">\(IMU\)</span> with <span class="math notranslate nohighlight">\(GPS\)</span>, compass and barometer into attitude (a quaternion), position and velocity. This simulation does not port <span class="math notranslate nohighlight">\(EKF3\)</span>: the navigation solution is the true state, with optional noise. This is the simulation’s main simplification.</div>
 </div>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>

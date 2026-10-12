@@ -121,6 +121,83 @@ Main loop:
 >>> rb.plot('theta')
 ```
 
+## `eqm6q`
+
+```python
+eqm6q(qb: 'quatbody', F: Union[numpy.ndarray, list], M: Union[numpy.ndarray, list]) -> numpy.ndarray
+```
+
+Translational and angular motion derivatives, quaternion attitude.
+
+The same six degrees of freedom model as
+`eqm6`,
+where the attitude kinematics are given by the
+quaternion $q = [q_w, q_x, q_y, q_z]$
+rather than by Euler angles:
+
+$$
+\dot{q} = {1 \over 2} \cdot q \otimes [0, p, q, r]
+$$
+i.e.:
+
+$$
+\dot{q}_w = -{1 \over 2} (q_x p + q_y q + q_z r)
+\dot{q}_x = {1 \over 2} (q_w p + q_y r - q_z q)
+\dot{q}_y = {1 \over 2} (q_w q - q_x r + q_z p)
+\dot{q}_z = {1 \over 2} (q_w r + q_x q - q_y p)
+$$
+Unlike the Euler angles derivatives, the quaternion
+derivatives are free of singularities (e.g. at $\theta = \pm 90°$).
+
+### Parameters
+qb : `quatbody`
+    C4dynamics' quatbody object for which the
+    equations of motion are calculated on.
+F : array_like
+    Force vector $[F_x, F_y, F_z]$
+M : array_like
+    Moments vector $[M_x, M_y, M_z]$
+
+### Returns
+out : numpy.array
+    $[dx, dy, dz, dv_x, dv_y, dv_z, dq_w, dq_x, dq_y, dq_z, dp, dq, dr]$
+
+    13 total derivatives; 6 of translational motion, 7 of rotational motion.
+
+### Examples
+Euler integration on the equations of motion of
+a stick fixed at one edge:
+
+(mass: 0.5 kg, moment of inertia about y: 0.4 kg*m^2,
+Length: 1m, initial pitch angle: 80° (converted to radians))
+
+Import required packages:
+
+```python
+>>> import c4dynamics as c4d
+>>> import numpy as np
+```
+Settings and initial conditions
+
+```python
+>>> dt = 0.5e-3
+>>> t = np.arange(0, 10, dt)
+>>> length =  1  # metter
+>>> qb = c4d.quatbody(theta = 80 * c4d.d2r)
+>>> qb.mass = 0.5 # kg
+>>> qb.I = [0, 0.4, 0]
+```
+Main loop:
+
+```python
+>>> for ti in t:
+...    qb.store(ti)
+...    tau_g = -qb.mass * c4d.g_ms2 * length / 2 * c4d.cos(qb.theta)
+...    dx = c4d.eqm.eqm6q(qb, np.zeros(3), [0, tau_g, 0])
+...    qb.X += dx * dt
+>>> qb.plot('theta')
+```
+
 ## `int3`
 
 ```python
@@ -337,4 +414,232 @@ When external factors may vary quickly over time and a high level of
 accuracy is required, using other methods, like scipy.odeint, is recommanded.
 If computational resources are available, a decrement of the step-size
 may be a workaround to achieve high accuracy results.
+
+## `int6q`
+
+```python
+int6q(qb: 'quatbody', forces: Union[numpy.ndarray, list], moments: Union[numpy.ndarray, list], dt: float, derivs_out: bool = False) -> Union[NDArray[numpy.float64], Tuple[NDArray[numpy.float64], NDArray[numpy.float64]]]
+```
+
+A step integration of the equations of motion, quaternion attitude.
+
+This method makes a numerical integration using the
+fourth-order Runge-Kutta method.
+
+The integrated derivatives are of six dimensional motion
+with quaternion attitude kinematics as given by
+`eqm6q`.
+
+The result is an integrated state in a single interval of time where the
+size of the step is determined by the parameter `dt`.
+At the end of the step, the quaternion is normalized
+to a unit quaternion to prevent numerical drift.
+
+### Parameters
+qb : `quatbody`
+    The quatbody which state vector is to be integrated.
+forces : numpy.array or list
+    An external forces array acting on the body.
+moments : numpy.array or list
+    An external moments array acting on the body.
+dt : float
+    Time step for integration.
+derivs_out : bool, optional
+    If true, returns the translational and angular accelerations
+    of the last step.
+
+### Returns
+X : numpy.float64
+    An integrated state.
+dxdt4 : numpy.float64, optional
+    The translational and angular accelerations
+    $[dv_x, dv_y, dv_z, dp, dq, dr]$ of the last step.
+    Returned if `derivs_out` is set to `True`.
+
+**Algorithm**
+
+The integration steps follow the Runge-Kutta method:
+
+1. Compute k1 = f(ti, yi)
+
+2. Compute k2 = f(ti + dt / 2, yi + dt * k1 / 2)
+
+3. Compute k3 = f(ti + dt / 2, yi + dt * k2 / 2)
+
+4. Compute k4 = f(ti + dt, yi + dt * k3)
+
+5. Update yi = yi + dt / 6 * (k1 + 2 * k2 + 2 * k3 + k4)
+
+6. Normalize the quaternion.
+
+### Examples
+The equations of motion of a
+cylinderical body are integrated by using
+`int6q`.
+
+Import required packages
+
+```python
+>>> import c4dynamics as c4d
+>>> import numpy as np
+```
+Settings and initial conditions
+
+```python
+>>> dt = 0.5e-3
+>>> t  = np.arange(0, 10, dt)
+>>> theta0 =  80 * c4d.d2r       # deg
+>>> Iyy    =  .4                 # kg * m^2
+>>> length =  1                  # meter
+>>> mass   =  0.5                # kg
+```
+Define the cylinderical-quatbody object
+
+```python
+>>> qb = c4d.quatbody(theta = theta0)
+>>> qb.I = [0, Iyy, 0]
+>>> qb.mass = mass
+```
+Main loop:
+
+```python
+>>> for ti in t:
+...   qb.store(ti)
+...   tau_g = -qb.mass * c4d.g_ms2 * length / 2 * c4d.cos(qb.theta)
+...   qb.X = c4d.eqm.int6q(qb, np.zeros(3), [0, tau_g, 0], dt)
+```
+
+```python
+>>> qb.plot('theta')
+```
+
+## `quadeqm`
+
+```python
+quadeqm(t, X, quad, rotor_speeds, frame='NED')
+```
+
+Quadcopter equations of motion.
+
+Computes the force and the moment of
+`quadforces`, adds gravity,
+and returns the state derivatives of
+`eqm6` for a 12-state (euler angles)
+vector or of `eqm6q` for a 13-state
+(quaternion) vector. The signature fits
+`scipy.integrate.solve_ivp`:
+
+```python
+sol = solve_ivp(c4d.eqm.quadeqm, [t, t + dt], quad.X, args = (quad, rotor_speeds, 'ENU'))
+quad.X = sol.y[:, -1]
+```
+### Parameters
+t : float
+    Time [s]. Unused (the model is time invariant), kept for
+    `scipy.integrate.solve_ivp`.
+X : array_like
+    State vector, 12 entries (euler angles) or 13 (quaternion). See
+    `quadforces`.
+quad : object
+    The vehicle parameters as attributes: ``m`` mass [kg], ``g``
+    gravity [m/s^2], ``Ixx, Iyy, Izz`` principal moments of inertia
+    [kg.m^2], and the parameters of
+    `quadforces`.
+rotor_speeds : array_like
+    The four rotor speeds [rad/s], held constant over the call.
+frame : {'NED', 'ENU'}, optional
+    Inertial frame convention: ``'NED'`` with a forward-right-down body
+    frame (gravity along +z), ``'ENU'`` with a forward-left-up body frame
+    (gravity along -z). Defaults ``'NED'``.
+
+### Returns
+dX : numpy.ndarray
+    State derivatives, the same length as `X`.
+
+### Examples
+At hover, the thrust carries the weight and the vehicle stays put:
+
+```python
+>>> import c4dynamics as c4d
+>>> import numpy as np
+>>> quad = c4d.struct(m=0.468, g=9.81, Ixx=4.856e-3, Iyy=4.856e-3, Izz=8.801e-3,
+...                   kT=2.98e-6, kQ=1.14e-7, l=0.225, Ax=0.3, Ay=0.3, Az=0.25, Ar=0.2)
+>>> w_hover = np.sqrt(quad.m * quad.g / 4 / quad.kT)
+>>> dX = c4d.eqm.quadeqm(0, np.zeros(12), quad, [w_hover] * 4, 'ENU')
+>>> np.allclose(dX, 0)
+True
+```
+The same vehicle with a quaternion attitude:
+
+```python
+>>> X = np.zeros(13)
+>>> X[6] = 1   # identity quaternion
+>>> np.allclose(c4d.eqm.quadeqm(0, X, quad, [w_hover] * 4, 'ENU'), 0)
+```
+    True
+
+## `quadforces`
+
+```python
+quadforces(X, quad, rotor_speeds, frame='NED')
+```
+
+Body-frame force and moment acting on a quadcopter.
+
+The force is the rotor thrust plus the linear aerodynamic drag, without
+gravity. The moment is the rotor thrust and reaction torques, the
+rotational drag and the rotor gyroscopic coupling.
+`quadeqm` adds gravity and
+integrates both through the rigid-body equations of motion.
+
+### Parameters
+X : array_like
+    State vector. 12 entries for an euler-angles body
+    (`rigidbody`):
+    ``[x, y, z, vx, vy, vz, phi, theta, psi, p, q, r]``,
+    or 13 entries for a quaternion body
+    (`quatbody`):
+    ``[x, y, z, vx, vy, vz, qw, qx, qy, qz, p, q, r]``.
+quad : object
+    The vehicle parameters as attributes:
+    ``kT`` thrust coefficient [N/(rad/s)^2],
+    ``kQ`` torque coefficient [N.m/(rad/s)^2],
+    ``Ax, Ay, Az`` linear drag along the body axes [N/(m/s)],
+    ``Ar`` rotational drag [N.m/(rad/s)],
+    ``IR`` rotor inertia [kg.m^2] (optional, default 0),
+    ``wind`` wind velocity in the inertial frame [m/s] (optional,
+    default still air; the drag acts on the air-relative velocity),
+    and the rotor geometry: either ``rotor_pos`` (4 x 2, body x, y of
+    each rotor [m], in the body frame of `frame`) with ``rotor_dir``
+    (4, +1 counterclockwise seen from above, -1 clockwise, default
+    ``[1, 1, -1, -1]``), or ``l`` [m] for an x configuration in the motor
+    order front-right, rear-left, front-left, rear-right.
+rotor_speeds : array_like
+    The four rotor speeds [rad/s].
+frame : {'NED', 'ENU'}, optional
+    Inertial frame convention. ``'NED'`` with a forward-right-down body
+    frame, ``'ENU'`` with a forward-left-up body frame. Defaults ``'NED'``.
+
+### Returns
+F_b : numpy.ndarray
+    Body-frame force, thrust plus drag [N].
+M_b : numpy.ndarray
+    Body-frame moment [N.m].
+
+### Note
+``F_b / m`` is the specific force an accelerometer at the center of
+mass measures.
+
+### Examples
+```python
+>>> import c4dynamics as c4d
+>>> import numpy as np
+>>> quad = c4d.struct(kT=3e-6, kQ=1e-7, l=0.2, Ax=0.3, Ay=0.3, Az=0.25, Ar=0.2)
+>>> X = np.zeros(12)
+>>> F_b, M_b = c4d.eqm.quadforces(X, quad, [600, 600, 600, 600])
+>>> F_b   # doctest: +NUMPY_FORMAT
+[0  0  -4.32]
+>>> M_b   # doctest: +NUMPY_FORMAT
+```
+    [0  0  0]
 

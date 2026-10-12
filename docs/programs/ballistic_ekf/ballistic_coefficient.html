@@ -64,7 +64,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'programs/ballistic_ekf/ballistic_coefficient';</script>
     <script src="../../_static/custom.js?v=53f4f99c"></script>
     <script defer="defer" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <script src="../../_static/c4dynamics-chat.js?v=97e05790"></script>
+    <script src="../../_static/c4dynamics-chat.js?v=bf103eeb"></script>
     <link rel="icon" href="../../_static/c4dlogo.svg"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -611,7 +611,7 @@ document.write(`
 <section id="Priliminary-Remarks">
 <h2>Priliminary Remarks<a class="headerlink" href="#Priliminary-Remarks" title="Link to this heading">#</a></h2>
 <ol class="arabic simple">
-<li><p>The mathematical background required for understanding the Extended Kalman Filter and the form of implementation used by <code class="docutils literal notranslate"><span class="pre">c4dynamics</span></code> is found in <a class="reference external" href="https://c4dynamics.github.io/c4dynamics/api/Filters.html#extended-kalman-filter-ekf">the introduction page to the filters module documentary</a>.</p></li>
+<li><p>The mathematical background required for understanding the Extended Kalman Filter and the form of implementation used by <code class="docutils literal notranslate"><span class="pre">c4dynamics</span></code> is found in <a class="reference external" href="https://c4dynamics.github.io/c4dynamics/concepts/filters.html#extended-kalman-filter-ekf">the introduction page to the filters module documentary</a>.</p></li>
 <li><p>The <code class="docutils literal notranslate"><span class="pre">ekf</span></code> class API is found <a class="reference external" href="https://c4dynamics.github.io/c4dynamics/api/filters.ekf.html#c4dynamics.filters.ekf.ekf">here</a>.</p></li>
 <li><p>Zarchan <code class="docutils literal notranslate"><span class="pre">[1]</span></code> provides a great deal of detail about this example. Additional sources can be found in <code class="docutils literal notranslate"><span class="pre">[2]</span></code>.</p></li>
 </ol>
@@ -620,7 +620,7 @@ document.write(`
 </figcaption></div></section>
 <section id="Extended-Kalman-Filter-(EKF)">
 <h2>Extended Kalman Filter (EKF)<a class="headerlink" href="#Extended-Kalman-Filter-(EKF)" title="Link to this heading">#</a></h2>
-<p>The basics of EKF were covered in <a class="reference external" href="https://c4dynamics.github.io/c4dynamics/api/Filters.html#extended-kalman-filter-ekf">the filters introduction</a> to provide the background material required for the understanding and developing state estimation for nonlinear systems. Here is a brief recap:</p>
+<p>The basics of EKF were covered in <a class="reference external" href="https://c4dynamics.github.io/c4dynamics/concepts/filters.html#extended-kalman-filter-ekf">the filters introduction</a> to provide the background material required for the understanding and developing state estimation for nonlinear systems. Here is a brief recap:</p>
 <ul class="simple">
 <li><p>A linear Kalman filter (<a class="reference external" href="https://c4dynamics.github.io/c4dynamics/api/filters.kalman.html">kalman</a>) should be the first choice when designing a state observer. However, when a nominal trajectory cannot be found, the solution is to linearize the system at each cycle about the current estimated state (that is what the EKF does).</p></li>
 <li><p>The linearization is required for the iterative solution to the algebraic Riccati equation. The Riccati equation is using to calculate Kalman gain and the optimal covariance matrix.</p></li>

@@ -172,7 +172,7 @@ random noise generated at every call to `measure`:
 ```
 **Demo**
 
-The built-in `demo` method provides a compact demonstration of the
+The built-in ``demo()`` method provides a compact demonstration of the
 GPS errors model and plots the true and measured positions:
 
 ```python

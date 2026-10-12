@@ -121,7 +121,7 @@ class gps:
     The errors model can be disabled by setting ``noise_std = 0`` and
     ``bias = [0, 0, 0]``.  This produces an ideal position measurement.
 
-    Unlike the :class:`seeker` model, the GPS implementation does not generate
+    Unlike the :class:`seeker <c4dynamics.sensors.seeker.seeker>` model, the GPS implementation does not generate
     a random bias during construction and does not include a scale-factor
     error.  The supplied ``bias`` is deterministic for a given GPS instance.
 
@@ -246,7 +246,7 @@ class gps:
 
     **Demo**
 
-    The built-in :meth:`demo` method provides a compact demonstration of the
+    The built-in ``demo()`` method provides a compact demonstration of the
     GPS errors model and plots the true and measured positions:
 
     .. code::
@@ -594,7 +594,7 @@ class imu(c4d.state):
 
     **Demo**
 
-    The built-in :meth:`demo` method provides a compact demonstration of the
+    The built-in ``demo()`` method provides a compact demonstration of the
     imu errors model and plots the true and measured rates and accelerations:
 
     .. code::
@@ -924,7 +924,7 @@ class magnetometer:
     ``measure`` returns the full 3-axis body-frame field vector.  A consumer
     that needs a heading derives it from the horizontal components after
     de-rotating roll and pitch (tilt compensation); a filter that consumes
-    the vector directly (see :class:`ekf`) needs no yaw-wrapping, because the
+    the vector directly (see :class:`ekf <c4dynamics.filters.ekf.ekf>`) needs no yaw-wrapping, because the
     measurement is linear in the rotated field rather than in the angle
     itself.  In a typical setup the magnetometer is sampled at a lower rate
     than the IMU, e.g. :math:`50\\,Hz`.
@@ -949,7 +949,7 @@ class magnetometer:
     The errors model can be disabled by passing ``isideal = True`` at
     construction, which forces ``noise_std = 0``, ``hard_iron = [0, 0, 0]``
     and ``soft_iron = I`` regardless of the arguments.  Unlike the
-    :class:`seeker` model, the magnetometer does not generate a random bias
+    :class:`seeker <c4dynamics.sensors.seeker.seeker>` model, the magnetometer does not generate a random bias
     during construction; the supplied distortion is deterministic for a given
     instance.
 
@@ -1084,7 +1084,7 @@ class magnetometer:
 
     **Demo**
 
-    The built-in :meth:`demo` method provides a compact demonstration of the
+    The built-in ``demo()`` method provides a compact demonstration of the
     magnetometer errors model and plots the true and measured body-frame
     field components through an attitude sweep:
 

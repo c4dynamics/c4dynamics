@@ -215,7 +215,7 @@ $$
 J = x_N^T Q x_N + \overset{N-1}{\underset{k=0}{\sum}}{x_k^T Q x_k + u_k^T R u_k}
 $$
 
-Subject to the [Prediction Model](#2.1-prediction-model) and the steering constraint: 
+Subject to the [Prediction Model](#2.1-Prediction-Model) and the steering constraint: 
 
 $$
 |\delta_k| \le \delta_{max}
@@ -481,7 +481,7 @@ Possible extensions of this work include:
 # Appendix 
 ## Complete Linearization of a Planar Kinematic Model
 
-In [System Model](#1.-system-model) we presented the final form of the linear simplified representation of the system.  
+In [System Model](#1.-System-Model) we presented the final form of the linear simplified representation of the system.  
 
 
 The steps for a formal linearization:  

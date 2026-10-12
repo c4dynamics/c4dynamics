@@ -434,7 +434,7 @@ quad = run_fig8_pid(config)
 
 
 ---
-## 8. Results
+## 6. Results
 
 ### What to Expect
 

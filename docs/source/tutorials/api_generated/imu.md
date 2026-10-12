@@ -32,6 +32,10 @@ dt : float, optional
     Fallback timestep, [s], used for the accelerometer's finite-difference
     inertial term when consecutive calls to `measure` don't carry
     increasing `t` values. Defaults ``0.005`` ($200Hz$).
+frame : {'NED', 'ENU'}, optional
+    Convention of the inertial frame the true state is expressed in:
+    ``'NED'`` (x north, y east, z down) or ``'ENU'`` (x east, y north,
+    z up). It sets the direction of gravity. Defaults ``'NED'``.
 
 See Also
 ========
@@ -63,10 +67,14 @@ The accelerometer measures the full body-frame specific force, i.e.
 gravity reaction plus the vehicle's own coordinate acceleration:
 
 $$
-[a_x, a_y, a_z]_{ideal} = [BI] \cdot \big(\dot{v} + [0,\ 0,\ g]^T\big)
+[a_x, a_y, a_z]_{ideal} = [BI] \cdot \big(\dot{v} - g_I\big)
 $$
-where $[BI]$ is the body-from-inertial DCM and $\dot{v}$ is
-the inertial-velocity derivative. Since `measure` is given only the
+where $[BI]$ is the body-from-inertial DCM, $\dot{v}$ is
+the inertial-velocity derivative, and $g_I$ is the gravity vector
+in the inertial frame: $[0,\ 0,\ g]^T$ for ``frame = 'NED'``
+(z down), $[0,\ 0,\ -g]^T$ for ``frame = 'ENU'`` (z up).
+A vehicle at rest and level therefore reads $a_z = -g$ in
+$NED$ and $a_z = +g$ in $ENU$. Since `measure` is given only the
 current true state, $\dot{v}$ is approximated by a finite
 difference against the *previous* call's true state:
 
@@ -124,6 +132,20 @@ An ideal imu can be created by muting the errors model:
 >>> az # doctest: +ELLIPSIS
 -9.760...
 ```
+**Frame convention**
+
+The default inertial frame is $NED$ (z down). For a state in
+$ENU$ (z up), set ``frame = 'ENU'``. At rest and level, the
+accelerometer reads $-g$ on z in $NED$ and $+g$ in
+$ENU$:
+
+```python
+>>> rb = c4d.rigidbody()
+>>> c4d.sensors.imu(isideal = True).measure(rb)[2]
+-9.81
+>>> c4d.sensors.imu(isideal = True, frame = 'ENU').measure(rb)[2]
+9.81
+```
 **Non-ideal imu**
 
 ```python
@@ -151,7 +173,7 @@ with the given timestamp; the histories are then available through
 ```
 **Demo**
 
-The built-in `demo` method provides a compact demonstration of the
+The built-in ``demo()`` method provides a compact demonstration of the
 imu errors model and plots the true and measured rates and accelerations:
 
 ```python
