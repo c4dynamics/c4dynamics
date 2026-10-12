@@ -402,7 +402,7 @@ The implementation of the kinematic differential equations is part of the `eqm` 
 
 The target, as a datapoint, runs the `int3` method which integrates the translational equations as given.
 The missile, as a rigidbody object, runs `int6` and integrates the translation and rotational equations as given by eqm6.
-For a detailed explanation of the integration and differential equations, see the [introduction to the equations of motion solvers module](https://c4dynamics.github.io/c4dynamics/api/routines.eqm.html#). 
+For a detailed explanation of the integration and differential equations, see the [introduction to the equations of motion solvers module](https://c4dynamics.github.io/c4dynamics/api/eqm.html). 
 
 
 

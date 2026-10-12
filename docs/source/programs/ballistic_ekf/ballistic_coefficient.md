@@ -9,7 +9,7 @@ An estimatation of the ballistic coefficient of a target in a free fall tracked 
 
 ## Priliminary Remarks 
 
-1. The mathematical background required for understanding the Extended Kalman Filter and the form of implementation used by `c4dynamics` is found in [the introduction page to the filters module documentary](https://c4dynamics.github.io/c4dynamics/api/Filters.html#extended-kalman-filter-ekf). 
+1. The mathematical background required for understanding the Extended Kalman Filter and the form of implementation used by `c4dynamics` is found in [the introduction page to the filters module documentary](https://c4dynamics.github.io/c4dynamics/concepts/filters.html#extended-kalman-filter-ekf). 
 
 2. The `ekf` class API is found [here](https://c4dynamics.github.io/c4dynamics/api/filters.ekf.html#c4dynamics.filters.ekf.ekf). 
 
@@ -24,7 +24,7 @@ An estimatation of the ballistic coefficient of a target in a free fall tracked 
 
 ## Extended Kalman Filter (EKF)
 
-The basics of EKF were covered in [the filters introduction](https://c4dynamics.github.io/c4dynamics/api/Filters.html#extended-kalman-filter-ekf) to provide the background material required for the understanding and developing state estimation for nonlinear systems. Here is a brief recap:
+The basics of EKF were covered in [the filters introduction](https://c4dynamics.github.io/c4dynamics/concepts/filters.html#extended-kalman-filter-ekf) to provide the background material required for the understanding and developing state estimation for nonlinear systems. Here is a brief recap:
 
 - A linear Kalman filter ([kalman](https://c4dynamics.github.io/c4dynamics/api/filters.kalman.html)) should be the first choice when designing a state observer. However, when a nominal trajectory cannot be found, the solution is to linearize the system at each cycle about the current estimated state (that is what the EKF does).
 

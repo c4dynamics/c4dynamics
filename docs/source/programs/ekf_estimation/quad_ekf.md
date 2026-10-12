@@ -915,7 +915,7 @@ import warnings
 import c4dynamics as c4d
 warnings.simplefilter('ignore', c4d.c4warn)
 
-# Same vehicle & gains as Section 8, a shorter flight so the sweep is fast,
+# Same vehicle & gains as Section 7, a shorter flight so the sweep is fast,
 # and GPS disabled for 1.5 s once the figure-8 is well underway.
 trajectory_dropout = dict(trajectory, t_takeoff=1.5, t_land=1.5) #trajectory #
 simulation_dropout = {'dt': 0.005, 'tf': 10.0} #simulation #
