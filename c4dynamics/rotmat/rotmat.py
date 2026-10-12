@@ -11,7 +11,7 @@ from c4dynamics.utils.math import asin, atan2, cos, sin
 def rotx(phi):
     """
     Generate a 3x3 Direction Cosine Matrix for
-    a positive rotation about the x-axis by an angle :math:`\\phi` in radians.
+    a positive rotation about the x-axis by an angle :math:`\\varphi` in radians.
 
     A right-hand rotation matrix about `x` is given by:
 
@@ -127,7 +127,7 @@ def rotz(psi):
     Generate a 3x3 Direction Cosine Matrix for
     a positive rotation about the z-axis by an angle :math:`\\psi` in radians.
 
-    A right-hand rotation matrix about `y` is given by:
+    A right-hand rotation matrix about `z` is given by:
 
 
     .. math::
@@ -214,7 +214,7 @@ def dcm321(phi=0.0, theta=0.0, psi=0.0):
     Parameters
     ----------
     phi : float or int
-        The angle in radian of rotation about `x`, default :math:`\\phi = 0`.
+        The angle in radian of rotation about `x`, default :math:`\\varphi = 0`.
     theta : float or int
         The angle in radian of rotation about `y`, default :math:`\\theta = 0`.
     psi : float or int
@@ -244,7 +244,7 @@ def dcm321(phi=0.0, theta=0.0, psi=0.0):
 
         \\psi = 0
 
-    The velcoty expressed in body frame:
+    The velocity expressed in body frame:
 
     >>> dcm321(phi = 0, theta = 30 * c4d.d2r, psi = 0) @ v  # doctest: +NUMPY_FORMAT
     [129.9  0  75]
@@ -266,10 +266,10 @@ def dcm321euler(dcm):
             & c\\theta \\cdot s\\psi
             & -s\\theta \\\\
                 s\\varphi \\cdot s\\theta \\cdot c\\psi - c\\varphi \\cdot s\\psi
-                & s\\varphi \\cdot s\\theta \\cdot s\\psi - c\\varphi \\cdot c\\psi
+                & s\\varphi \\cdot s\\theta \\cdot s\\psi + c\\varphi \\cdot c\\psi
                 & s\\varphi \\cdot c\\theta \\\\
-                    s\\varphi \\cdot s\\theta \\cdot s\\psi + s\\varphi \\cdot s\\psi
-                    & s\\varphi \\cdot s\\theta \\cdot s\\psi - s\\varphi \\cdot c\\psi
+                    c\\varphi \\cdot s\\theta \\cdot c\\psi + s\\varphi \\cdot s\\psi
+                    & c\\varphi \\cdot s\\theta \\cdot s\\psi - s\\varphi \\cdot c\\psi
                     & c\\varphi \\cdot c\\theta
             \\end{bmatrix}
 
@@ -291,7 +291,7 @@ def dcm321euler(dcm):
     Returns
     -------
     out : tuple
-        A tuple containing Euler angles (yaw, pitch, roll) in degrees.
+        A tuple containing Euler angles (roll, pitch, yaw) in degrees.
 
     Notes
     -----
@@ -433,7 +433,7 @@ def quat2dcm(quat):
     Returns
     -------
     out : numpy.ndarray
-        A 3x3 DCM matrix uses to rotate a vector
+        A 3x3 DCM matrix used to rotate a vector
         to the body frame from a reference frame of coordinates.
 
     Examples

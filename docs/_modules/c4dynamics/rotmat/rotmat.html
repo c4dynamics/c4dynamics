@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>c4dynamics.rotmat.rotmat &#8212; C4DYNAMICS v2.5</title>
+    <title>c4dynamics.rotmat.rotmat &#8212; C4DYNAMICS v2.6</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=7769aa4a"></script>
+    <script src="../../../_static/documentation_options.js?v=a976f23f"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -66,7 +66,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Oct 09, 2026"/>
+    <meta name="docbuild:last-update" content="Oct 12, 2026"/>
   </head>
   
   
@@ -154,7 +154,7 @@
   
   
   
-    <p class="title logo__title">C4DYNAMICS v2.5</p>
+    <p class="title logo__title">C4DYNAMICS v2.6</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -212,6 +212,16 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../../programs/pid_cascade/quadcopter_pid.html">Quadcopter Cascade <em>PID</em> — Figure-8 Trajectory Tracking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../programs/ekf_estimation/quad_ekf.html">Quadcopter EKF - State Estimation for Figure-8 Trajectory Tracking</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../../../programs/ardupilot_sim/ardupilot_fig8.html">Figure-8 Tracking with ArduCopter-4.7.1 and 3DR IRIS in Python</a></li>
+
+
+
+
+
+
+
+
 
 <li class="toctree-l1"><a class="reference internal" href="../../../programs/pn_guidance/dof6sim.html">Proportional Navigation Guidance - 6 Degrees of Freedom Simulation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../programs/ballistic_ekf/ballistic_coefficient.html">Ballistic Coefficient Estimation - Extended Kalman Filter</a></li>
@@ -514,7 +524,7 @@ document.write(`
 <span class="k">def</span><span class="w"> </span><span class="nf">rotx</span><span class="p">(</span><span class="n">phi</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate a 3x3 Direction Cosine Matrix for</span>
-<span class="sd">    a positive rotation about the x-axis by an angle :math:`\\phi` in radians.</span>
+<span class="sd">    a positive rotation about the x-axis by an angle :math:`\\varphi` in radians.</span>
 
 <span class="sd">    A right-hand rotation matrix about `x` is given by:</span>
 
@@ -636,7 +646,7 @@ document.write(`
 <span class="sd">    Generate a 3x3 Direction Cosine Matrix for</span>
 <span class="sd">    a positive rotation about the z-axis by an angle :math:`\\psi` in radians.</span>
 
-<span class="sd">    A right-hand rotation matrix about `y` is given by:</span>
+<span class="sd">    A right-hand rotation matrix about `z` is given by:</span>
 
 
 <span class="sd">    .. math::</span>
@@ -726,7 +736,7 @@ document.write(`
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    phi : float or int</span>
-<span class="sd">        The angle in radian of rotation about `x`, default :math:`\\phi = 0`.</span>
+<span class="sd">        The angle in radian of rotation about `x`, default :math:`\\varphi = 0`.</span>
 <span class="sd">    theta : float or int</span>
 <span class="sd">        The angle in radian of rotation about `y`, default :math:`\\theta = 0`.</span>
 <span class="sd">    psi : float or int</span>
@@ -756,7 +766,7 @@ document.write(`
 
 <span class="sd">        \\psi = 0</span>
 
-<span class="sd">    The velcoty expressed in body frame:</span>
+<span class="sd">    The velocity expressed in body frame:</span>
 
 <span class="sd">    &gt;&gt;&gt; dcm321(phi = 0, theta = 30 * c4d.d2r, psi = 0) @ v  # doctest: +NUMPY_FORMAT</span>
 <span class="sd">    [129.9  0  75]</span>
@@ -781,10 +791,10 @@ document.write(`
 <span class="sd">            &amp; c\\theta \\cdot s\\psi</span>
 <span class="sd">            &amp; -s\\theta \\\\</span>
 <span class="sd">                s\\varphi \\cdot s\\theta \\cdot c\\psi - c\\varphi \\cdot s\\psi</span>
-<span class="sd">                &amp; s\\varphi \\cdot s\\theta \\cdot s\\psi - c\\varphi \\cdot c\\psi</span>
+<span class="sd">                &amp; s\\varphi \\cdot s\\theta \\cdot s\\psi + c\\varphi \\cdot c\\psi</span>
 <span class="sd">                &amp; s\\varphi \\cdot c\\theta \\\\</span>
-<span class="sd">                    s\\varphi \\cdot s\\theta \\cdot s\\psi + s\\varphi \\cdot s\\psi</span>
-<span class="sd">                    &amp; s\\varphi \\cdot s\\theta \\cdot s\\psi - s\\varphi \\cdot c\\psi</span>
+<span class="sd">                    c\\varphi \\cdot s\\theta \\cdot c\\psi + s\\varphi \\cdot s\\psi</span>
+<span class="sd">                    &amp; c\\varphi \\cdot s\\theta \\cdot s\\psi - s\\varphi \\cdot c\\psi</span>
 <span class="sd">                    &amp; c\\varphi \\cdot c\\theta</span>
 <span class="sd">            \\end{bmatrix}</span>
 
@@ -806,7 +816,7 @@ document.write(`
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    out : tuple</span>
-<span class="sd">        A tuple containing Euler angles (yaw, pitch, roll) in degrees.</span>
+<span class="sd">        A tuple containing Euler angles (roll, pitch, yaw) in degrees.</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
@@ -954,7 +964,7 @@ document.write(`
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    out : numpy.ndarray</span>
-<span class="sd">        A 3x3 DCM matrix uses to rotate a vector</span>
+<span class="sd">        A 3x3 DCM matrix used to rotate a vector</span>
 <span class="sd">        to the body frame from a reference frame of coordinates.</span>
 
 <span class="sd">    Examples</span>
@@ -1095,7 +1105,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Oct 09, 2026.
+  Last updated on Oct 12, 2026.
   <br/>
 </p>
   </div>
