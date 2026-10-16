@@ -2,6 +2,51 @@ document.addEventListener("DOMContentLoaded", () => {
     const ENDPOINT =
         "https://f2593d8b-bdf2-4eaa-b996-45e4292e2c8d.search.ai.cloudflare.com/chat/completions";
 
+    const ANALYTICS_ENDPOINT =
+        "https://c4dynamics-chat-analytics.zivmeri.workers.dev";
+
+    // =========================================================
+    // Analytics
+    // =========================================================
+
+    // One id per browser tab, kept across page navigations
+    function getSessionId() {
+        try {
+            let id = sessionStorage.getItem("c4d-chat-session");
+            if (!id) {
+                id = crypto.randomUUID();
+                sessionStorage.setItem("c4d-chat-session", id);
+            }
+            return id;
+        } catch (error) {
+            return "unknown";
+        }
+    }
+
+    const SESSION_ID = getSessionId();
+
+    // Fire-and-forget: analytics must never affect the chat itself
+    function trackEvent(event, fields) {
+        try {
+            fetch(ANALYTICS_ENDPOINT, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    event: event,
+                    session_id: SESSION_ID,
+                    page_url: window.location.href,
+                    page_title: document.title,
+                    ...fields
+                }),
+                keepalive: true
+            }).catch(() => {});
+        } catch (error) {
+            // ignore
+        }
+    }
+
     // =========================================================
     // Conversation history
     // =========================================================
@@ -424,6 +469,9 @@ If the documentation does not contain the answer, say plainly that you cannot fi
         send.disabled = true;
         input.disabled = true;
 
+        const startTime = performance.now();
+        let success = false;
+
         try {
             const response = await fetch(ENDPOINT, {
                 method: "POST",
@@ -440,6 +488,8 @@ If the documentation does not contain the answer, say plainly that you cannot fi
             }
 
             const data = await response.json();
+
+            success = true;
 
             const answer =
                 data.choices?.[0]?.message?.content ||
@@ -477,6 +527,12 @@ If the documentation does not contain the answer, say plainly that you cannot fi
             content.textContent =
                 "Sorry, the documentation assistant is currently unavailable.";
         }
+
+        trackEvent("ask", {
+            question: question,
+            success: success,
+            response_time_ms: Math.round(performance.now() - startTime)
+        });
 
         send.disabled = false;
         input.disabled = false;

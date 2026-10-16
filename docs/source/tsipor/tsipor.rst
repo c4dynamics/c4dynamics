@@ -87,7 +87,7 @@
         align-items:center;
         gap:18px;
         width:100%;
-        max-height:80px;
+        max-height:120px;
         background:white;
         border-radius:12px;
         padding:14px 18px;
