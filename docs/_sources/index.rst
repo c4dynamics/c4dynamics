@@ -217,6 +217,7 @@ The documentation is organized as follows:
 
   State Objects <concepts/states>
   Kinematics <concepts/kinematics>
+  Dynamics <concepts/dynamics>
   Rigid Body Transformations <concepts/transformations>
   Sensors <concepts/sensors>
   Filters <concepts/filters>
