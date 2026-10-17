@@ -317,6 +317,7 @@ html_last_updated_fmt = "%b %d, %Y"
 html_css_files = [
     # "style.css",
     "c4dynamics-chat.css",
+    "custom.css",
     "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css",
 ]
 html_extra_path = []

@@ -3,6 +3,33 @@ document.addEventListener("DOMContentLoaded", function () {
     link.target = "_blank";
     link.rel = "noopener noreferrer";
   });
+
+  // Links in the page content open in a new tab. Anchors within the same
+  // page (headings, equations, footnotes) and the sidebar navigation keep
+  // the current tab.
+  document.querySelectorAll(".bd-article a[href]").forEach(link => {
+    const href = link.getAttribute("href");
+    if (href.startsWith("#") || link.classList.contains("headerlink")) return;
+    const url = new URL(link.href, window.location.href);
+    if (url.pathname === window.location.pathname && url.hash) return;
+    link.target = "_blank";
+    link.rel = "noopener";
+  });
+
+  // Use Cases sidebar: close the section with a "More…" entry that opens
+  // the overview page, like its "Introduction" entry. Added here rather
+  // than in the toctree, which doesn't allow the same page twice.
+  document.querySelectorAll(".bd-sidebar-primary li.toctree-l1 > a").forEach(intro => {
+    if (!intro.href.endsWith("/programs/index.html")) return;
+    const more = document.createElement("li");
+    more.className = "toctree-l1";
+    const a = document.createElement("a");
+    a.className = "reference internal";
+    a.href = intro.href;
+    a.textContent = "More…";
+    more.appendChild(a);
+    intro.parentElement.parentElement.appendChild(more);
+  });
 });
 
 // Google Analytics (GA4) events for use-case buttons.
