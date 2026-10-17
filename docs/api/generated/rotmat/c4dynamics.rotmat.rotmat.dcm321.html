@@ -32,6 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../../_static/c4dynamics-chat.css?v=e4dcb7d2" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=770ac8d8" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -61,7 +62,7 @@
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/generated/rotmat/c4dynamics.rotmat.rotmat.dcm321';</script>
-    <script src="../../../_static/custom.js?v=9c51d2a8"></script>
+    <script src="../../../_static/custom.js?v=72de6cf7"></script>
     <script defer="defer" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="../../../_static/c4dynamics-chat.js?v=eed3e69f"></script>
     <link rel="icon" href="../../../_static/c4dlogo.svg"/>
@@ -213,12 +214,10 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Use Cases</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../../../programs/pid_cascade/quadcopter_pid.html">Quadcopter Cascade <em>PID</em> — Figure-8 Trajectory Tracking</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../programs/ekf_estimation/quad_ekf.html">Quadcopter EKF - State Estimation for Figure-8 Trajectory Tracking</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../programs/index.html">Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../programs/ekf_estimation/quad_ekf.html">Quadcopter EKF - State Estimation for Figure-8 Trajectory Tracking</a></li>
 
-<li class="toctree-l1"><a class="reference internal" href="../../../programs/ardupilot_sim/ardupilot_fig8.html">Figure-8 Tracking with ArduCopter-4.7.1 and 3DR IRIS in Python</a></li>
-
-
+<li class="toctree-l2"><a class="reference internal" href="../../../programs/ardupilot_sim/ardupilot_fig8.html">Figure-8 Tracking with ArduCopter-4.7.1 and 3DR IRIS in Python</a></li>
 
 
 
@@ -226,8 +225,8 @@
 
 
 
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../programs/index.html">…</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../programs/pn_guidance/dof6sim.html">Proportional Navigation Guidance - 6 Degrees of Freedom Simulation</a></li>
+
+
 <li class="toctree-l2"><a class="reference internal" href="../../../programs/ballistic_ekf/ballistic_coefficient.html">Ballistic Coefficient Estimation - Extended Kalman Filter</a></li>
 
 
@@ -236,17 +235,19 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../programs/car_tracker/car_tracker.html">Car Tracker – YOLO3 Detector and Kalman Filter</a></li>
 
 <li class="toctree-l2"><a class="reference internal" href="../../../programs/car_tracker_yolo11/car_tracker_yolo11.html">Car Tracker – YOLO11 Detector and Kalman Filter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../programs/learning_controller/learning_controller.html">Neural Learning Control for Online Uncertain Dynamics Estimation</a></li>
-
-
-
-
-
-
-
-
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../programs/pid_cascade/quadcopter_pid.html">Quadcopter Cascade <em>PID</em> — Figure-8 Trajectory Tracking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../programs/pn_guidance/dof6sim.html">Proportional Navigation Guidance - 6 Degrees of Freedom Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../programs/learning_controller/learning_controller.html">Neural Learning Control for Online Uncertain Dynamics Estimation</a></li>
+
+
+
+
+
+
+
+
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">API</span></p>
 <ul class="current nav bd-sidenav">

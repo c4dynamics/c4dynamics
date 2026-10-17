@@ -138,7 +138,7 @@ Pick a use case below, and look for what stays the same.
 
     <div class="uc-grid">
 
-    <a href="pid_cascade/quadcopter_pid.html" class="uc-card">
+    <a href="pid_cascade/quadcopter_pid.html" target="_blank" rel="noopener" class="uc-card">
         <img src="../_static/fig8_quad.png" class="uc-img" alt="">
         <div class="uc-text">
             <h3>Cascade PID</h3>
@@ -147,7 +147,7 @@ Pick a use case below, and look for what stays the same.
         </div>
     </a>
 
-    <a href="ekf_estimation/quad_ekf.html" class="uc-card">
+    <a href="ekf_estimation/quad_ekf.html" target="_blank" rel="noopener" class="uc-card">
         <img src="../_static/quad_ekf_flightpath.png" class="uc-img" alt="">
         <div class="uc-text">
             <h3>EKF State Estimation</h3>
@@ -156,7 +156,7 @@ Pick a use case below, and look for what stays the same.
         </div>
     </a>
 
-    <a href="ardupilot_sim/ardupilot_fig8.html" class="uc-card">
+    <a href="ardupilot_sim/ardupilot_fig8.html" target="_blank" rel="noopener" class="uc-card">
         <img src="../_static/ardupilot_architecture.png" class="uc-img" alt="">
         <div class="uc-text">
             <h3>ArduPilot Simulation</h3>
@@ -165,7 +165,7 @@ Pick a use case below, and look for what stays the same.
         </div>
     </a>
 
-    <a href="pn_guidance/dof6sim.html" class="uc-card">
+    <a href="pn_guidance/dof6sim.html" target="_blank" rel="noopener" class="uc-card">
         <img src="../_static/missdistance.png" class="uc-img" alt="">
         <div class="uc-text">
             <h3>6-DOF</h3>
@@ -174,7 +174,7 @@ Pick a use case below, and look for what stays the same.
         </div>
     </a>
 
-    <a href="ballistic_ekf/ballistic_coefficient.html" class="uc-card">
+    <a href="ballistic_ekf/ballistic_coefficient.html" target="_blank" rel="noopener" class="uc-card">
         <img src="../_static/ballistic_trajectory.png" class="uc-img" alt="">
         <div class="uc-text">
             <h3>Extended Kalman Filter</h3>
@@ -183,7 +183,7 @@ Pick a use case below, and look for what stays the same.
         </div>
     </a>
 
-    <a href="mpc_steering/mpc_steering.html" class="uc-card">
+    <a href="mpc_steering/mpc_steering.html" target="_blank" rel="noopener" class="uc-card">
         <img src="../_static/mpc_diagram_thumbnail.png" class="uc-img" alt="">
         <div class="uc-text">
             <h3>Model Predictive Control</h3>
@@ -192,7 +192,7 @@ Pick a use case below, and look for what stays the same.
         </div>
     </a>
 
-    <a href="car_tracker/car_tracker.html" class="uc-card">
+    <a href="car_tracker/car_tracker.html" target="_blank" rel="noopener" class="uc-card">
         <img src="../_static/drifting_car_snapshot.png" class="uc-img" alt="">
         <div class="uc-text">
             <h3>YOLO3 Detector & Kalman Filter</h3>
@@ -201,7 +201,7 @@ Pick a use case below, and look for what stays the same.
         </div>
     </a>
 
-    <a href="car_tracker_yolo11/car_tracker_yolo11.html" class="uc-card">
+    <a href="car_tracker_yolo11/car_tracker_yolo11.html" target="_blank" rel="noopener" class="uc-card">
         <img src="../_static/drifting_car_yolo11_snapshot.png" class="uc-img" alt="">
         <div class="uc-text">
             <h3>YOLO11 Detector & Kalman Filter</h3>
@@ -210,7 +210,7 @@ Pick a use case below, and look for what stays the same.
         </div>
     </a>
 
-    <a href="learning_controller/learning_controller.html" class="uc-card">
+    <a href="learning_controller/learning_controller.html" target="_blank" rel="noopener" class="uc-card">
         <img src="../_static/helicopter.png" class="uc-img" alt="">
         <div class="uc-text">
             <h3>Neural Network Based Controller</h3>
@@ -226,9 +226,9 @@ Pick a use case below, and look for what stays the same.
   :hidden:
   :maxdepth: 0
 
-  pn_guidance/dof6sim.ipynb
+  ekf_estimation/quad_ekf.ipynb
+  ardupilot_sim/ardupilot_fig8.ipynb
   ballistic_ekf/ballistic_coefficient.ipynb
   mpc_steering/mpc_steering.ipynb
   car_tracker/car_tracker.ipynb
   car_tracker_yolo11/car_tracker_yolo11.ipynb
-  learning_controller/learning_controller.ipynb
