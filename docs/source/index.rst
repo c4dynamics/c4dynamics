@@ -240,12 +240,7 @@ The documentation is organized as follows:
   programs/pid_cascade/quadcopter_pid.ipynb
   programs/ekf_estimation/quad_ekf.ipynb
   programs/ardupilot_sim/ardupilot_fig8.ipynb
-  programs/pn_guidance/dof6sim.ipynb
-  programs/ballistic_ekf/ballistic_coefficient.ipynb
-  programs/mpc_steering/mpc_steering.ipynb
-  programs/car_tracker/car_tracker.ipynb
-  programs/car_tracker_yolo11/car_tracker_yolo11.ipynb
-  programs/learning_controller/learning_controller.ipynb
+  … <programs/index>
 
 
 .. toctree::
