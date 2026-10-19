@@ -130,6 +130,11 @@
 
 .c4d-chat-title-sub {
     margin-top: 1px;
+    max-width: 240px;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 
     font-size: 11px;
     opacity: 0.78;

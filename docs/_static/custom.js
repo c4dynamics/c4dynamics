@@ -19,8 +19,11 @@ document.addEventListener("DOMContentLoaded", function () {
   // Use Cases sidebar: close the section with a "More…" entry that opens
   // the overview page, like its "Introduction" entry. Added here rather
   // than in the toctree, which doesn't allow the same page twice.
+  // On the overview page itself Sphinx renders its link as href="#", so
+  // the check is on the resolved path, not on the raw href.
   document.querySelectorAll(".bd-sidebar-primary li.toctree-l1 > a").forEach(intro => {
-    if (!intro.href.endsWith("/programs/index.html")) return;
+    const path = new URL(intro.href).pathname;
+    if (!path.endsWith("/programs/index.html") && !path.endsWith("/programs/")) return;
     const more = document.createElement("li");
     more.className = "toctree-l1";
     const a = document.createElement("a");

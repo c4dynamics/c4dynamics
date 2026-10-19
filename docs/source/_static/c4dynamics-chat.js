@@ -1,4 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // Pages that get no chat widget at all
+    const EXCLUDED_PAGES = [
+        "tsipor/tsipor.html"
+    ];
+
+    const path = window.location.pathname;
+
+    if (EXCLUDED_PAGES.some(page => path.endsWith(page))) {
+        return;
+    }
+
     const ENDPOINT =
         "https://f2593d8b-bdf2-4eaa-b996-45e4292e2c8d.search.ai.cloudflare.com/chat/completions";
 
@@ -45,6 +56,345 @@ document.addEventListener("DOMContentLoaded", () => {
         } catch (error) {
             // ignore
         }
+    }
+
+    // =========================================================
+    // Page context
+    // =========================================================
+
+    // What the reader has open, so questions like "what are the units
+    // of omega?" are answered for THIS page rather than generically.
+
+    // The endpoint rejects any single message over 16 KiB (UTF-8) and
+    // allows only one system message, which SYSTEM_PROMPT already fills
+    // most of. So the page travels as its own message, kept under this:
+    const PAGE_MESSAGE_MAX_BYTES = 15000;
+    const PAGE_CHAR_BUDGET = 12000;
+    const OUTLINE_MAX_HEADINGS = 60;
+
+    const CONTENT_SELECTORS = [
+        "article.bd-article",
+        "main#main-content",
+        "[role='main']",
+        "main",
+        ".body"
+    ];
+
+    const SKIP_TAGS = new Set([
+        "STYLE", "NOSCRIPT", "BUTTON", "SVG", "IMG", "TEMPLATE",
+        "CANVAS", "VIDEO", "IFRAME", "MJX-ASSISTIVE-MML"
+    ]);
+
+    // Permalink markers, notebook "[1]:" prompts, MathJax 2 rendered output
+    const SKIP_SELECTOR =
+        ".headerlink, .prompt, .MathJax, .MathJax_Display, .MathJax_Preview";
+
+    const BLOCK_TAGS = new Set([
+        "P", "DIV", "SECTION", "LI", "UL", "OL", "DL", "DT", "DD",
+        "TABLE", "TR", "BLOCKQUOTE", "FIGURE", "FIGCAPTION"
+    ]);
+
+    function getContentRoot() {
+        for (const selector of CONTENT_SELECTORS) {
+            const element = document.querySelector(selector);
+            if (element) {
+                return element;
+            }
+        }
+        return null;
+    }
+
+    // Rendered MathJax 3 nodes -> their TeX source
+    function getMathSources(root) {
+        const sources = new Map();
+
+        try {
+            const mathDocument = window.MathJax?.startup?.document;
+
+            if (mathDocument && mathDocument.getMathItemsWithin) {
+                for (const item of mathDocument.getMathItemsWithin(root)) {
+                    if (item.typesetRoot) {
+                        sources.set(
+                            item.typesetRoot,
+                            item.display ? `$$${item.math}$$` : `$${item.math}$`
+                        );
+                    }
+                }
+            }
+        } catch (error) {
+            // ignore: math falls back to whatever text is in the DOM
+        }
+
+        return sources;
+    }
+
+    function cleanText(text) {
+        return text
+            .replace(/[ \t]+\n/g, "\n")
+            // List items whose text sits in a <p> start on their own line
+            .replace(/^([ \t]*)- *\n\s*/gm, "$1- ")
+            .replace(/\n{3,}/g, "\n\n")
+            .trim();
+    }
+
+    // Split the page into sections at its headings, as plain text
+    // with math kept as TeX and code kept as fenced blocks.
+    function extractSections(root) {
+        const mathSources = getMathSources(root);
+        const sections = [{ level: 0, title: "", element: null, parts: [] }];
+        let parts = sections[0].parts;
+
+        function walk(node) {
+            if (node.nodeType === Node.TEXT_NODE) {
+                parts.push(node.nodeValue.replace(/\s+/g, " "));
+                return;
+            }
+
+            if (node.nodeType !== Node.ELEMENT_NODE) {
+                return;
+            }
+
+            if (mathSources.has(node)) {
+                parts.push(mathSources.get(node));
+                return;
+            }
+
+            const tag = node.nodeName.toUpperCase();
+
+            // MathJax 2 keeps the TeX source in a script tag
+            if (tag === "SCRIPT") {
+                const type = node.getAttribute("type") || "";
+                if (type.startsWith("math/tex")) {
+                    const delimiter = type.includes("mode=display") ? "$$" : "$";
+                    parts.push(`${delimiter}${node.textContent}${delimiter}`);
+                }
+                return;
+            }
+
+            if (
+                SKIP_TAGS.has(tag) ||
+                node.matches(SKIP_SELECTOR) ||
+                (tag === "MJX-CONTAINER")
+            ) {
+                return;
+            }
+
+            const heading = /^H([1-6])$/.exec(tag);
+
+            if (heading) {
+                const titleParts = [];
+                parts = titleParts;
+                node.childNodes.forEach(walk);
+
+                const section = {
+                    level: Number(heading[1]),
+                    title: cleanText(titleParts.join("")),
+                    element: node,
+                    parts: []
+                };
+
+                sections.push(section);
+                parts = section.parts;
+                return;
+            }
+
+            if (tag === "PRE") {
+                parts.push(
+                    "\n```\n" + node.textContent.replace(/\s+$/, "") + "\n```\n"
+                );
+                return;
+            }
+
+            const block = BLOCK_TAGS.has(tag);
+
+            if (block) {
+                parts.push("\n");
+            }
+            if (tag === "LI") {
+                parts.push("- ");
+            }
+            if (tag === "TD" || tag === "TH") {
+                parts.push(" | ");
+            }
+
+            node.childNodes.forEach(walk);
+
+            if (block) {
+                parts.push("\n");
+            }
+        }
+
+        walk(root);
+
+        return sections
+            .map(section => ({ ...section, text: cleanText(section.parts.join("")) }))
+            .filter(section => section.title || section.text);
+    }
+
+    // The section whose heading was passed last while scrolling
+    function findCurrentSection(sections) {
+        const threshold = window.innerHeight * 0.33;
+        let current = 0;
+
+        sections.forEach((section, index) => {
+            if (
+                section.element &&
+                section.element.getBoundingClientRect().top <= threshold
+            ) {
+                current = index;
+            }
+        });
+
+        return current;
+    }
+
+    function getPageTitle(sections) {
+        const h1 = sections.find(section => section.level === 1);
+        return h1 ? h1.title : document.title;
+    }
+
+    // A snapshot of the page, read fresh on every question
+    // since the reader scrolls between questions.
+    function readPage() {
+        try {
+            const root = getContentRoot();
+
+            if (!root) {
+                return null;
+            }
+
+            const sections = extractSections(root);
+
+            if (!sections.length) {
+                return null;
+            }
+
+            const currentIndex = findCurrentSection(sections);
+
+            return {
+                sections: sections,
+                currentIndex: currentIndex,
+                title: getPageTitle(sections),
+                sectionTitle: sections[currentIndex].title
+            };
+        } catch (error) {
+            console.error("c4dynamics chatbot page context error:", error);
+            return null;
+        }
+    }
+
+    function renderSection(section, isCurrent) {
+        const heading = section.title
+            ? `${"#".repeat(Math.max(section.level, 1))} ${section.title}` +
+              (isCurrent ? "   <-- THE READER IS HERE" : "")
+            : "";
+
+        return [heading, section.text].filter(Boolean).join("\n");
+    }
+
+    function buildPageContext(page, selectedText, budget) {
+        const { sections, currentIndex } = page;
+
+        // The current section first, then its neighbours outward
+        // (before and after alternately) while the budget allows.
+        const chosen = new Set([currentIndex]);
+        let used = renderSection(sections[currentIndex], true).length;
+        let before = currentIndex - 1;
+        let after = currentIndex + 1;
+
+        while (before >= 0 || after < sections.length) {
+            for (const index of [before, after]) {
+                if (index < 0 || index >= sections.length) {
+                    continue;
+                }
+
+                const size = renderSection(sections[index], false).length;
+
+                if (used + size <= budget) {
+                    chosen.add(index);
+                    used += size;
+                }
+            }
+
+            before--;
+            after++;
+        }
+
+        const excerpt = [];
+        let previous = -1;
+
+        sections.forEach((section, index) => {
+            if (!chosen.has(index)) {
+                return;
+            }
+            if (index !== previous + 1) {
+                excerpt.push("[…]");
+            }
+            excerpt.push(renderSection(section, index === currentIndex));
+            previous = index;
+        });
+
+        if (previous !== sections.length - 1) {
+            excerpt.push("[…]");
+        }
+
+        let content = excerpt.join("\n\n");
+
+        if (content.length > budget) {
+            content = content.slice(0, budget) + "\n[…]";
+        }
+
+        const outline = sections
+            .filter(section => section.title)
+            .slice(0, OUTLINE_MAX_HEADINGS)
+            .map(section =>
+                `${"  ".repeat(Math.max(section.level - 1, 0))}- ${section.title}`
+            )
+            .join("\n");
+
+        const location = [
+            `- Page: ${page.title}`,
+            `- URL: ${window.location.origin}${window.location.pathname}`,
+            page.sectionTitle ? `- Section in view: ${page.sectionTitle}` : "",
+            selectedText ? `- Text the reader highlighted on the page: "${selectedText}"` : ""
+        ].filter(Boolean).join("\n");
+
+        return `CURRENT PAGE — the reader has this documentation page open in front of them while chatting with you:
+${location}
+
+Page outline:
+${outline}
+
+Page content (excerpt centred on where the reader is; "[…]" marks omitted parts):
+<<<PAGE
+${content}
+PAGE>>>
+
+HOW TO USE THE CURRENT PAGE:
+- Questions are about this page by default. Resolve "this", "here", "the example", a symbol (e.g. $\\omega$), a variable or parameter name, etc. against this page first. Never give a generic answer to a question that this page answers specifically.
+- If the reader highlighted text, the question is most likely about that text.
+- The page content above is real c4dynamics documentation, on equal footing with retrieved content: facts stated in it satisfy the grounding rules.
+- If neither the page excerpt nor the retrieved content has the answer, say so; you may name the section of this page where it is likely to be. Do not guess.
+- If the question is clearly about something else, answer it normally — the page is context, not a restriction.
+- Talk as someone looking at the same page ("in the Dynamics section above..."). Don't describe this context mechanism.`;
+    }
+
+    // The page context, shrunk until it fits in one message
+    function pageContextMessage(page, selectedText) {
+        const encoder = new TextEncoder();
+        let budget = PAGE_CHAR_BUDGET;
+
+        while (budget > 500) {
+            const text = buildPageContext(page, selectedText, budget);
+
+            if (encoder.encode(text).length <= PAGE_MESSAGE_MAX_BYTES) {
+                return text;
+            }
+
+            budget = Math.floor(budget * 0.8);
+        }
+
+        return null;
     }
 
     // =========================================================
@@ -337,11 +687,12 @@ If the documentation does not contain the answer, say plainly that you cannot fi
             <div class="c4d-message c4d-assistant">
                 <div class="c4d-message-label">c4dynamics</div>
                 <div class="c4d-message-content">
-                    Hi! Ask me anything about c4dynamics.
+                    Hi! Ask me anything about c4dynamics, including the page you're reading.
                 </div>
             </div>
 
             <div id="c4d-chat-suggestions" class="c4d-chat-suggestions">
+                <button type="button" class="c4d-suggestion-chip">Explain the section I'm reading</button>
                 <button type="button" class="c4d-suggestion-chip">What's c4dynamics?</button>
                 <button type="button" class="c4d-suggestion-chip">Show me a use case</button>
                 <button type="button" class="c4d-suggestion-chip">How do I create a state object?</button>
@@ -381,6 +732,45 @@ If the documentation does not contain the answer, say plainly that you cannot fi
     const send = document.getElementById("c4d-chat-send");
     const close = document.getElementById("c4d-chat-close");
     const suggestions = document.getElementById("c4d-chat-suggestions");
+    const subtitle = widget.querySelector(".c4d-chat-title-sub");
+
+    // =========================================================
+    // Page awareness
+    // =========================================================
+
+    // Show the reader that the assistant sees their page
+    function refreshSubtitle() {
+        const page = readPage();
+        subtitle.textContent = page ? `Reading: ${page.title}` : "Documentation assistant";
+        subtitle.title = subtitle.textContent;
+    }
+
+    // Text the reader highlights on the page. Focusing the chat input
+    // clears the page selection, so it is remembered here.
+    let selectedText = "";
+
+    document.addEventListener("mousedown", event => {
+        if (!widget.contains(event.target) && event.target !== button) {
+            selectedText = "";
+        }
+    });
+
+    document.addEventListener("selectionchange", () => {
+        const selection = window.getSelection();
+
+        if (!selection || selection.isCollapsed) {
+            return;
+        }
+        if (selection.anchorNode && widget.contains(selection.anchorNode)) {
+            return;
+        }
+
+        const text = selection.toString().replace(/\s+/g, " ").trim();
+
+        if (text) {
+            selectedText = text.slice(0, 2000);
+        }
+    });
 
     // =========================================================
     // Suggestion chips
@@ -399,6 +789,7 @@ If the documentation does not contain the answer, say plainly that you cannot fi
 
     button.addEventListener("click", () => {
         widget.classList.add("open");
+        refreshSubtitle();
         input.focus();
     });
 
@@ -472,6 +863,40 @@ If the documentation does not contain the answer, say plainly that you cannot fi
         const startTime = performance.now();
         let success = false;
 
+        // The page is read now, not at load: the reader may have
+        // scrolled to another section since the last question.
+        const page = readPage();
+        const pageContext = page ? pageContextMessage(page, selectedText) : null;
+        let requestMessages = conversationHistory;
+
+        if (pageContext) {
+            // Only one system message is allowed, so the page goes in
+            // as an opening exchange right after it.
+            requestMessages = [
+                conversationHistory[0],
+                { role: "user", content: pageContext },
+                {
+                    role: "assistant",
+                    content: "Understood. I can see this page and will answer with it in mind."
+                },
+                ...conversationHistory.slice(1)
+            ];
+
+            // Name the page in the question itself as well, so that
+            // retrieval pulls this page's chunks, not just the model.
+            const where = page.sectionTitle && page.sectionTitle !== page.title
+                ? `"${page.title}", section "${page.sectionTitle}"`
+                : `"${page.title}"`;
+
+            requestMessages[requestMessages.length - 1] = {
+                role: "user",
+                content: `${question}\n\n(Asked while reading the page ${where}.)`
+            };
+        }
+
+        // A highlight answers one question; later ones need a new highlight
+        selectedText = "";
+
         try {
             const response = await fetch(ENDPOINT, {
                 method: "POST",
@@ -479,7 +904,7 @@ If the documentation does not contain the answer, say plainly that you cannot fi
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    messages: conversationHistory
+                    messages: requestMessages
                 })
             });
 

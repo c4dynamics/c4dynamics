@@ -18,6 +18,10 @@ The c4dynamics documentation is organized into five sections:
   end-to-end. This is a specific, distinguished term in this documentation — it refers to exactly
   the 9 notebooks listed below, not to API pages, not to concepts pages, and not to generic
   "usage examples" inside a class's docstring.
+  The section opens with an Introduction page
+  (https://c4dynamics.github.io/c4dynamics/programs/index.html) that explains what all use cases
+  share — one state-space representation, one State → Dynamics → Algorithm → Action loop — and
+  links to each of them.
 - **API Reference**: per-class and per-method technical documentation (signatures, parameters,
   return values) for every public class and function in c4dynamics.
 - **Installation** and **Getting Started**: setup instructions and a first overview of the
