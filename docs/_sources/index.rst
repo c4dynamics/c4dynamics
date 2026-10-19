@@ -189,17 +189,17 @@ typical workflow with c4dynamics:
 
 The documentation is organized as follows:
 
-- **Installation**: Simple instructions for setting up c4dynamics.
+- :doc:`Installation <installation>`: Simple instructions for setting up c4dynamics.
 
-- **Getting Started**: An overview of the core concepts and features of c4dynamics, with beginner-friendly examples to help you get started quickly.
+- :doc:`Getting Started <gettingstarted>`: An overview of the core concepts and features of c4dynamics, with beginner-friendly examples to help you get started quickly.
 
 - **Concepts**: Detailed explanations of the underlying theories and state-space modeling principles used in c4dynamics, ideal for users who want to deepen their understanding.
 
 - **Tutorials**: Interactive step-by-step guides and to help users implement c4dynamics in practical scenarios.
 
-- **Use Cases**: Real-world use cases showcasing how c4dynamics can be applied in fields such as robotics, aerospace, and computer vision.
+- :doc:`Use Cases <programs/index>`: Real-world use cases showcasing how c4dynamics can be applied in fields such as robotics, aerospace, and computer vision.
 
-- **API Reference**: Comprehensive documentation for technical users, covering all the classes, functions, and modules available in c4dynamics.
+- :doc:`API Reference <api/introduction>`: Comprehensive documentation for technical users, covering all the classes, functions, and modules available in c4dynamics.
 
 
 .. toctree::
@@ -237,16 +237,10 @@ The documentation is organized as follows:
   :caption: Use Cases
   :hidden:
 
+  Introduction <programs/index>
   programs/pid_cascade/quadcopter_pid.ipynb
-  programs/ekf_estimation/quad_ekf.ipynb
-  programs/ardupilot_sim/ardupilot_fig8.ipynb
   programs/pn_guidance/dof6sim.ipynb
-  programs/ballistic_ekf/ballistic_coefficient.ipynb
-  programs/mpc_steering/mpc_steering.ipynb
-  programs/car_tracker/car_tracker.ipynb
-  programs/car_tracker_yolo11/car_tracker_yolo11.ipynb
   programs/learning_controller/learning_controller.ipynb
-
 
 .. toctree::
   :hidden:
