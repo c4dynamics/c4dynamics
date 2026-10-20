@@ -292,27 +292,217 @@ document.addEventListener("DOMContentLoaded", () => {
         return [heading, section.text].filter(Boolean).join("\n");
     }
 
-    function buildPageContext(page, selectedText, budget) {
+    // ---------------------------------------------------------
+    // Relevance: which sections the question is about
+    // ---------------------------------------------------------
+
+    // Distance from the reader alone is not enough: a question about
+    // rotor torques asked from the Results section needs the Dynamics
+    // section, wherever it is. So sections are also scored against the
+    // question (and the reader's previous questions), TF-IDF style.
+
+    const MAX_RELEVANT_SECTIONS = 3;
+    const MIN_TRIMMED_SECTION_CHARS = 800;
+
+    const STOPWORDS = new Set([
+        "the", "and", "for", "are", "but", "not", "you", "your", "all", "any",
+        "can", "has", "have", "had", "was", "were", "will", "would", "should",
+        "could", "this", "that", "these", "those", "there", "here", "what",
+        "which", "who", "whom", "why", "how", "when", "where", "with", "from",
+        "into", "onto", "about", "than", "then", "them", "they", "their", "its",
+        "our", "out", "use", "used", "using", "does", "did", "doing", "done",
+        "also", "just", "only", "very", "more", "most", "such", "some", "each",
+        "other", "same", "one", "two", "get", "got", "let", "may", "might",
+        "must", "shall", "show", "tell", "explain", "please", "really", "try",
+        "again", "see", "page", "section", "example", "notebook", "asked",
+        "reading", "question", "answer", "make", "making", "way", "like"
+    ]);
+
+    function stem(word) {
+        if (word.length > 4 && word.endsWith("ies")) {
+            return word.slice(0, -3) + "y";
+        }
+        if (word.length > 3 && word.endsWith("s") && !word.endsWith("ss")) {
+            return word.slice(0, -1);
+        }
+        return word;
+    }
+
+    // TeX names count as words, so "omega" matches $\Omega_i$
+    function tokenize(text) {
+        return (text.toLowerCase().match(/[a-z]+/g) || [])
+            .filter(word => word.length >= 3 && !STOPWORDS.has(word))
+            .map(stem);
+    }
+
+    function termCounts(text) {
+        const counts = new Map();
+        for (const token of tokenize(text)) {
+            counts.set(token, (counts.get(token) || 0) + 1);
+        }
+        return counts;
+    }
+
+    // Inverse document frequency of each query term across the sections
+    function termWeights(sections, terms) {
+        const weights = new Map();
+
+        for (const term of terms) {
+            const df = sections.filter(section => section.counts.has(term)).length;
+            if (df) {
+                weights.set(term, Math.log(1 + sections.length / df));
+            }
+        }
+
+        return weights;
+    }
+
+    function relevance(counts, weights) {
+        let score = 0;
+        weights.forEach((weight, term) => {
+            score += weight * Math.log(1 + (counts.get(term) || 0));
+        });
+        return score;
+    }
+
+    // Paragraphs of a section's text; fenced code blocks stay whole
+    function splitParagraphs(text) {
+        const paragraphs = [];
+        let current = [];
+        let inFence = false;
+
+        for (const line of text.split("\n")) {
+            if (line.trim().startsWith("```")) {
+                inFence = !inFence;
+            }
+            if (!inFence && !line.trim() && current.length) {
+                paragraphs.push(current.join("\n"));
+                current = [];
+                continue;
+            }
+            current.push(line);
+        }
+
+        if (current.length) {
+            paragraphs.push(current.join("\n"));
+        }
+
+        return paragraphs.filter(paragraph => paragraph.trim());
+    }
+
+    // The section as it fits in `room` characters: whole if it fits,
+    // otherwise its most relevant paragraphs (in page order, "[…]" for
+    // the gaps). With no relevant terms that is simply its beginning.
+    function fitSection(section, isCurrent, room, weights) {
+        const whole = renderSection(section, isCurrent);
+
+        if (whole.length <= room) {
+            return whole;
+        }
+
+        const heading = renderSection({ ...section, text: "" }, isCurrent);
+        const paragraphs = splitParagraphs(section.text);
+
+        // A paragraph's own score plus half its neighbours': the
+        // "Where: k_T is ... [N/(rad/s)^2]" list after an equation
+        // belongs with it.
+        const own = paragraphs.map(paragraph => relevance(termCounts(paragraph), weights));
+        const ranked = paragraphs
+            .map((_, index) => ({
+                index: index,
+                score: own[index] + 0.5 * ((own[index - 1] || 0) + (own[index + 1] || 0))
+            }))
+            .sort((a, b) => b.score - a.score || a.index - b.index);
+
+        const kept = new Set();
+        let used = heading.length + "\n[…]".length;
+
+        for (const { index } of ranked) {
+            const size = paragraphs[index].length + "\n\n[…]\n\n".length;
+            if (used + size <= room) {
+                kept.add(index);
+                used += size;
+            }
+        }
+
+        const parts = heading ? [heading] : [];
+        let previous = -1;
+
+        paragraphs.forEach((paragraph, index) => {
+            if (!kept.has(index)) {
+                return;
+            }
+            if (index !== previous + 1) {
+                parts.push("[…]");
+            }
+            parts.push(paragraph);
+            previous = index;
+        });
+
+        if (previous !== paragraphs.length - 1) {
+            parts.push("[…]");
+        }
+
+        return parts.join("\n\n");
+    }
+
+    function buildPageContext(page, selectedText, query, budget) {
         const { sections, currentIndex } = page;
 
-        // The current section first, then its neighbours outward
-        // (before and after alternately) while the budget allows.
-        const chosen = new Set([currentIndex]);
-        let used = renderSection(sections[currentIndex], true).length;
+        const indexed = sections.map(section => ({
+            ...section,
+            counts: termCounts(`${section.title}\n${section.text}`)
+        }));
+        const weights = termWeights(indexed, new Set(tokenize(query)));
+        const scores = indexed.map(section => relevance(section.counts, weights));
+        const best = Math.max(0, ...scores);
+
+        // The sections the question is most about, besides the current one
+        const relevant = scores
+            .map((score, index) => ({ score, index }))
+            .filter(({ score, index }) =>
+                index !== currentIndex && score > 0 && score >= 0.35 * best
+            )
+            .sort((a, b) => b.score - a.score)
+            .slice(0, MAX_RELEVANT_SECTIONS)
+            .map(({ index }) => index);
+
+        const rendered = new Map();
+        let used = 0;
+
+        function add(index, room) {
+            const text = fitSection(sections[index], index === currentIndex, room, weights);
+            rendered.set(index, text);
+            used += text.length;
+        }
+
+        // 1. The current section, leaving room for the relevant ones
+        add(currentIndex, relevant.length ? Math.floor(budget * 0.5) : budget);
+
+        // 2. The relevant sections, trimmed rather than dropped
+        for (const index of relevant) {
+            const room = budget - used;
+            if (room >= MIN_TRIMMED_SECTION_CHARS) {
+                add(index, room);
+            }
+        }
+
+        // 3. Whole neighbours outward (before and after alternately)
+        // while the budget allows.
         let before = currentIndex - 1;
         let after = currentIndex + 1;
 
         while (before >= 0 || after < sections.length) {
             for (const index of [before, after]) {
-                if (index < 0 || index >= sections.length) {
+                if (index < 0 || index >= sections.length || rendered.has(index)) {
                     continue;
                 }
 
-                const size = renderSection(sections[index], false).length;
+                const text = renderSection(sections[index], false);
 
-                if (used + size <= budget) {
-                    chosen.add(index);
-                    used += size;
+                if (used + text.length <= budget) {
+                    rendered.set(index, text);
+                    used += text.length;
                 }
             }
 
@@ -324,13 +514,13 @@ document.addEventListener("DOMContentLoaded", () => {
         let previous = -1;
 
         sections.forEach((section, index) => {
-            if (!chosen.has(index)) {
+            if (!rendered.has(index)) {
                 return;
             }
             if (index !== previous + 1) {
                 excerpt.push("[…]");
             }
-            excerpt.push(renderSection(section, index === currentIndex));
+            excerpt.push(rendered.get(index));
             previous = index;
         });
 
@@ -365,7 +555,7 @@ ${location}
 Page outline:
 ${outline}
 
-Page content (excerpt centred on where the reader is; "[…]" marks omitted parts):
+Page content (excerpt: the reader's section, the sections most relevant to the question, and nearby sections; "[…]" marks omitted parts):
 <<<PAGE
 ${content}
 PAGE>>>
@@ -375,17 +565,20 @@ HOW TO USE THE CURRENT PAGE:
 - If the reader highlighted text, the question is most likely about that text.
 - The page content above is real c4dynamics documentation, on equal footing with retrieved content: facts stated in it satisfy the grounding rules.
 - If neither the page excerpt nor the retrieved content has the answer, say so; you may name the section of this page where it is likely to be. Do not guess.
+- When asked to show, quote, prove or check equations, expressions or units, copy them exactly as the page writes them (same symbols, same signs, same units) and name their section. Do any unit or algebra check on those quoted expressions only. Never write your own or an "equivalent" form and present it as the page's.
+- If the expressions asked about are not in the excerpt above (they fall in a "[…]" gap), say you can't see them and name the section of the outline they are likely in. Do not reconstruct them.
+- If an earlier answer of yours in this conversation contradicts the page, say so and correct it; the page wins.
 - If the question is clearly about something else, answer it normally — the page is context, not a restriction.
 - Talk as someone looking at the same page ("in the Dynamics section above..."). Don't describe this context mechanism.`;
     }
 
     // The page context, shrunk until it fits in one message
-    function pageContextMessage(page, selectedText) {
+    function pageContextMessage(page, selectedText, query) {
         const encoder = new TextEncoder();
         let budget = PAGE_CHAR_BUDGET;
 
         while (budget > 500) {
-            const text = buildPageContext(page, selectedText, budget);
+            const text = buildPageContext(page, selectedText, query, budget);
 
             if (encoder.encode(text).length <= PAGE_MESSAGE_MAX_BYTES) {
                 return text;
@@ -866,7 +1059,19 @@ If the documentation does not contain the answer, say plainly that you cannot fi
         // The page is read now, not at load: the reader may have
         // scrolled to another section since the last question.
         const page = readPage();
-        const pageContext = page ? pageContextMessage(page, selectedText) : null;
+
+        // Follow-ups ("so try again") carry no terms of their own, so the
+        // reader's recent questions pick the relevant sections too.
+        // The assistant's answers are left out: they may be the problem.
+        const query = [
+            selectedText,
+            ...conversationHistory
+                .filter(message => message.role === "user")
+                .slice(-3)
+                .map(message => message.content)
+        ].join("\n");
+
+        const pageContext = page ? pageContextMessage(page, selectedText, query) : null;
         let requestMessages = conversationHistory;
 
         if (pageContext) {
@@ -955,6 +1160,7 @@ If the documentation does not contain the answer, say plainly that you cannot fi
 
         trackEvent("ask", {
             question: question,
+            page_section: page ? page.sectionTitle : "",
             success: success,
             response_time_ms: Math.round(performance.now() - startTime)
         });

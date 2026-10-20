@@ -27,7 +27,8 @@ cascade controller in place of truth.
 
 ## Overview
 
-![The EKF receives the same control inputs that drive the plant to predict the system state and incorporates GPS, IMU, and magnetometer measurements to correct the prediction. The resulting state estimate replaces the true state in the feedback loop, enabling output-feedback control based solely on sensor information.](architecture.png)
+![EKF estimation-control architecture](architecture.png)  
+*Figure 1: Estimation-control architecture. The EKF receives the same control inputs that drive the plant to predict the system state and incorporates GPS, IMU, and magnetometer measurements to correct the prediction. The resulting state estimate replaces the true state in the feedback loop, enabling output-feedback control based solely on sensor information.*
 
 {{< pagebreak >}}
 
@@ -192,7 +193,8 @@ Where:
 
 
 
-![Reference systems. Inertial system: ENU (east, north, up). Body frame: (forward, left, up). Positive rotation about an axis is given by curling the right-hand fingers. Propellers rotation: 1: CCW (counter-clockwise) , 2: CCW, 3: CW, 4: CW.](quad_frame_enu_flu.png)
+![Reference frames and rotor layout](quad_frame_enu_flu.png)  
+*Figure 2: Reference systems and rotor layout. Inertial system: ENU (east, north, up). Body frame: FLU (forward, left, up). Positive rotation about an axis is given by curling the right-hand fingers. Propeller rotation: 1: CCW (counterclockwise), 2: CCW, 3: CW, 4: CW.*
 
 Recall the convention for our examples:
 
@@ -328,17 +330,19 @@ Where:
 - $L$ is the distance of the rotor from the center of mass
 
 
-The thrust and torque mappings assume the following $X$-configuration:
+The thrust and torque mappings assume the $X$-configuration shown in Figure 2:
 
-- $\Omega_1: \qquad \text{CCW}$ (+) front
-- $\Omega_2: \qquad \text{CCW}$ (+) rear
-- $\Omega_3: \qquad \text{CW}$  (-) left
-- $\Omega_4: \qquad \text{CW}$  (-) right
+- $\Omega_1: \qquad \text{CCW}$ (+) front-right
+- $\Omega_2: \qquad \text{CCW}$ (+) rear-left
+- $\Omega_3: \qquad \text{CW}$  (-) front-left
+- $\Omega_4: \qquad \text{CW}$  (-) rear-right
 
 Torque mapping:
 - roll $(\varphi): \qquad L \cdot (-F_1 + F_2 + F_3 - F_4)$
-- pitch $(\theta): \qquad L \cdot (F_1 - F_2 + F_3 - F_4)$
-- yaw $(\psi): \qquad \frac{k_Q}{k_T} \cdot (F_1 + F_2 - F_3 - F_4)$
+- pitch $(\theta): \qquad L \cdot (-F_1 + F_2 - F_3 + F_4)$
+- yaw $(\psi): \qquad \frac{k_Q}{k_T} \cdot (-F_1 - F_2 + F_3 + F_4)$
+
+The signs of the torque mapping follow from the positive direction of the body rates. Positive roll is a rotation about $x$ that moves rotors $1$ and $4$ down, so it is driven by extra thrust on rotors $2$ and $3$. Positive pitch is a rotation about $y$ that moves rotors $1$ and $3$ down, so it is driven by extra thrust on rotors $2$ and $4$. Positive yaw is a counterclockwise rotation about $z$ when looking from above. Each rotor's reaction torque turns the body against the rotor's spin, so positive yaw is driven by the clockwise rotors $3$ and $4$.
 
 
 The simulation and the $EKF$ use the same non-linear process model.
