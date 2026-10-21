@@ -340,9 +340,8 @@ html_theme_options = {
     # "use_repository_button": True,
     # "use_download_button": True,
     "home_page_in_toc": True,
-    "analytics": {
-        "google_analytics_id": "G-LKRZFXZKQP",
-    }
+    # Google Analytics is loaded in _templates/layout.html; the theme's
+    # "analytics" option injects the snippet twice.
 }
 html_js_files = [
     "custom.js",
