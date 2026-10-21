@@ -1,0 +1,14 @@
+{% extends "!layout.html" %}
+{#- Google Analytics (GA4). Loaded here once instead of through the theme's
+    analytics.google_analytics_id option, which injects the config snippet
+    twice and double-counts page views. -#}
+{% block extrahead %}
+  {{ super() }}
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LKRZFXZKQP"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-LKRZFXZKQP');
+  </script>
+{% endblock %}
