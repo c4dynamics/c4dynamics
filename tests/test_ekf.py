@@ -69,7 +69,8 @@ class TestEKF(unittest.TestCase):
         K = Pprev @ H.T @ np.linalg.inv(H @ Pprev @ H.T + Rk)
 
         expected_X = Xprev + K @ (z - H @ Xprev)
-        expected_P = (np.eye(2) - K @ H) @ Pprev
+        IKH = np.eye(2) - K @ H
+        expected_P = IKH @ Pprev @ IKH.T + K @ Rk @ K.T  # Joseph form
 
         np.testing.assert_array_almost_equal(self.ekf_filter.X, expected_X)
         np.testing.assert_array_almost_equal(self.ekf_filter.P, expected_P)
