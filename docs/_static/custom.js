@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Google Analytics (GA4) events for use-case buttons.
-// gtag is injected by sphinx_book_theme (analytics.google_analytics_id in conf.py).
+// gtag is loaded in _templates/layout.html.
 (function () {
   function track(eventName, params) {
     try {

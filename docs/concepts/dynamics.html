@@ -31,7 +31,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/c4dynamics-chat.css?v=e4dcb7d2" />
+    <link rel="stylesheet" type="text/css" href="../_static/c4dynamics-chat.css?v=1f9b6ce7" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=770ac8d8" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -45,33 +46,29 @@
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-LKRZFXZKQP"></script>
-    <script>
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){ dataLayer.push(arguments); }
-                gtag('js', new Date());
-                gtag('config', 'G-LKRZFXZKQP');
-            </script>
-    <script>
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){ dataLayer.push(arguments); }
-                gtag('js', new Date());
-                gtag('config', 'G-LKRZFXZKQP');
-            </script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'concepts/dynamics';</script>
-    <script src="../_static/custom.js?v=9c51d2a8"></script>
+    <script src="../_static/custom.js?v=739483a8"></script>
     <script defer="defer" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <script src="../_static/c4dynamics-chat.js?v=eed3e69f"></script>
+    <script src="../_static/c4dynamics-chat.js?v=a769aac7"></script>
     <link rel="icon" href="../_static/c4dlogo.svg"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Rigid Body Transformations" href="transformations.html" />
     <link rel="prev" title="Kinematics" href="kinematics.html" />
+  
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Oct 17, 2026"/>
+    <meta name="docbuild:last-update" content="Oct 22, 2026"/>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LKRZFXZKQP"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-LKRZFXZKQP');
+  </script>
+
   </head>
   
   
@@ -214,28 +211,31 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Use Cases</span></p>
 <ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../programs/index.html">Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../programs/ekf_estimation/quad_ekf.html">Quadcopter EKF - State Estimation for Figure-8 Trajectory Tracking</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../programs/ardupilot_sim/ardupilot_fig8.html">Figure-8 Tracking with ArduCopter-4.7.1 and 3DR IRIS in Python</a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../programs/ballistic_ekf/ballistic_coefficient.html">Ballistic Coefficient Estimation - Extended Kalman Filter</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../programs/mpc_steering/mpc_steering.html">Vehicle Steering - Model Predictive Control</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../programs/car_tracker/car_tracker.html">Car Tracker – YOLO3 Detector and Kalman Filter</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../programs/car_tracker_yolo11/car_tracker_yolo11.html">Car Tracker – YOLO11 Detector and Kalman Filter</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1"><a class="reference internal" href="../programs/pid_cascade/quadcopter_pid.html">Quadcopter Cascade <em>PID</em> — Figure-8 Trajectory Tracking</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../programs/ekf_estimation/quad_ekf.html">Quadcopter EKF - State Estimation for Figure-8 Trajectory Tracking</a></li>
-
-<li class="toctree-l1"><a class="reference internal" href="../programs/ardupilot_sim/ardupilot_fig8.html">Figure-8 Tracking with ArduCopter-4.7.1 and 3DR IRIS in Python</a></li>
-
-
-
-
-
-
-
-
-
 <li class="toctree-l1"><a class="reference internal" href="../programs/pn_guidance/dof6sim.html">Proportional Navigation Guidance - 6 Degrees of Freedom Simulation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../programs/ballistic_ekf/ballistic_coefficient.html">Ballistic Coefficient Estimation - Extended Kalman Filter</a></li>
-
-
-<li class="toctree-l1"><a class="reference internal" href="../programs/mpc_steering/mpc_steering.html">Vehicle Steering - Model Predictive Control</a></li>
-
-<li class="toctree-l1"><a class="reference internal" href="../programs/car_tracker/car_tracker.html">Car Tracker – YOLO3 Detector and Kalman Filter</a></li>
-
-<li class="toctree-l1"><a class="reference internal" href="../programs/car_tracker_yolo11/car_tracker_yolo11.html">Car Tracker – YOLO11 Detector and Kalman Filter</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../programs/learning_controller/learning_controller.html">Neural Learning Control for Online Uncertain Dynamics Estimation</a></li>
 
 
@@ -617,9 +617,11 @@ while the rest of the program remains intact.</p>
 <p>For a rigid body of mass <span class="math notranslate nohighlight">\(m\)</span> and inertia matrix <span class="math notranslate nohighlight">\(I\)</span>,
 the Newton-Euler equations are:</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}\dot{r} &amp;= v \\
+\[\begin{split}\begin{aligned}
+\dot{r} &amp;= v \\
 m \cdot \dot{v} &amp;= F \\
-I \cdot \dot{\omega} &amp;= M - \omega \times I \cdot \omega\end{split}\]</div>
+I \cdot \dot{\omega} &amp;= M - \omega \times I \cdot \omega
+\end{aligned}\end{split}\]</div>
 <p>Where:</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(r, v\)</span> are the position and the velocity in the inertial frame</p></li>
@@ -703,38 +705,166 @@ with the aerodynamics of the use case</p></td>
 <p>A quadcopter has no control surfaces.
 Every force and moment, other than gravity and drag, comes from four fixed rotors
 that all point along the body <em>up</em> axis.
-The inputs are the four rotor speeds <span class="math notranslate nohighlight">\(\Omega_i\)</span>.
-Each rotor produces a thrust and a reaction torque,
+The control input is the vector of the four rotor speeds:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{u} = [\Omega_1, \Omega_2, \Omega_3, \Omega_4]^T\]</div>
+<p>A controller that commands the total thrust and the three torques,
+<span class="math notranslate nohighlight">\([T, \tau_x, \tau_y, \tau_z]\)</span>, maps them to the rotor speeds
+by the inverse of the thrust-torque mixing matrix below.</p>
+<p>The equations of this section are written in the <code class="docutils literal notranslate"><span class="pre">'ENU'</span></code> convention:</p>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="../_images/quad_frame_enu_flu.png"><img alt="../_images/quad_frame_enu_flu.png" src="../_images/quad_frame_enu_flu.png" style="width: 60%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Reference systems and rotor layout. Inertial frame: ENU (east, north, up).
+Body frame: FLU (forward, left, up).
+Positive rotation about an axis is given by curling the right-hand fingers.
+Rotors rotation: 1: CCW (counterclockwise), 2: CCW, 3: CW (clockwise), 4: CW.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<ul class="simple">
+<li><p>Body frame: <span class="math notranslate nohighlight">\(x\)</span> forward (between rotors 1 and 3), <span class="math notranslate nohighlight">\(y\)</span> left, <span class="math notranslate nohighlight">\(z\)</span> up.</p></li>
+<li><p>Inertial frame: <span class="math notranslate nohighlight">\(x\)</span> east, <span class="math notranslate nohighlight">\(y\)</span> north, <span class="math notranslate nohighlight">\(z\)</span> up.</p></li>
+<li><p>Rotation: 3-2-1 (<span class="math notranslate nohighlight">\(ZYX\)</span>), yaw <span class="math notranslate nohighlight">\(\rightarrow\)</span> pitch <span class="math notranslate nohighlight">\(\rightarrow\)</span> roll.</p></li>
+</ul>
+<p>In the <code class="docutils literal notranslate"><span class="pre">'NED'</span></code> convention (body frame forward-right-down),
+the <em>up</em> direction flips the sign of the thrust, the gravity,
+and the moment terms,
+as detailed in <a class="reference internal" href="kinematics.html#kinematics-quadcopter"><span class="std std-ref">Quadcopter Equations of Motion</span></a>.</p>
+<p><strong>Rotors</strong></p>
+<p>The rotors are arranged in an <span class="math notranslate nohighlight">\(X\)</span> configuration,
+at a distance <span class="math notranslate nohighlight">\(L\)</span> from the center of mass:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 40.0%" />
+<col style="width: 40.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Rotor</p></th>
+<th class="head"><p>Position</p></th>
+<th class="head"><p>Direction</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\Omega_1\)</span></p></td>
+<td><p>front-right</p></td>
+<td><p>CCW</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\Omega_2\)</span></p></td>
+<td><p>rear-left</p></td>
+<td><p>CCW</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\Omega_3\)</span></p></td>
+<td><p>front-left</p></td>
+<td><p>CW</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\Omega_4\)</span></p></td>
+<td><p>rear-right</p></td>
+<td><p>CW</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Each rotor produces a thrust and a reaction torque,
 both proportional to the square of its speed:</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}T_i &amp;= k_T \cdot \Omega_i^2 \\
-Q_i &amp;= k_Q \cdot \Omega_i^2\end{split}\]</div>
-<p>The rotors are arranged in an <em>x</em> configuration, at a distance <span class="math notranslate nohighlight">\(l\)</span> from the center,
-with two rotors turning clockwise and two counterclockwise.
-The four speeds map into one force and three moments:</p>
+\[\begin{split}\begin{aligned}
+F_i &amp;= k_T \cdot \Omega_i^2 \\
+Q_i &amp;= k_Q \cdot \Omega_i^2
+\end{aligned}\end{split}\]</div>
+<p>The four speeds map into one force and three control moments:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+T &amp;= F_1 + F_2 + F_3 + F_4 \\
+\tau_x &amp;= L \cdot (-F_1 + F_2 + F_3 - F_4) \\
+\tau_y &amp;= L \cdot (-F_1 + F_2 - F_3 + F_4) \\
+\tau_z &amp;= {k_Q \over k_T} \cdot (-F_1 - F_2 + F_3 + F_4)
+\end{aligned}\end{split}\]</div>
+<p>Where:</p>
 <ul class="simple">
-<li><p><strong>Collective thrust</strong>: the sum <span class="math notranslate nohighlight">\(\sum T_i\)</span> acts along the body <em>up</em> axis.
+<li><p><span class="math notranslate nohighlight">\(k_T\)</span> is the thrust coefficient <span class="math notranslate nohighlight">\([N / (rad/s)^2]\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(k_Q\)</span> is the torque coefficient <span class="math notranslate nohighlight">\([N \cdot m / (rad/s)^2]\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(L\)</span> is the distance of the rotors from the center of mass <span class="math notranslate nohighlight">\([m]\)</span></p></li>
+</ul>
+<p>The signs of the torque mapping follow from the positive direction of the body rates.
+Positive roll is a rotation about <span class="math notranslate nohighlight">\(x\)</span> that moves rotors 1 and 4 down,
+so it is driven by extra thrust on rotors 2 and 3.
+Positive pitch is a rotation about <span class="math notranslate nohighlight">\(y\)</span> that moves rotors 1 and 3 down,
+so it is driven by extra thrust on rotors 2 and 4.
+Positive yaw is a counterclockwise rotation about <span class="math notranslate nohighlight">\(z\)</span> when looking from above.
+Each rotor’s reaction torque turns the body against the rotor’s spin,
+so positive yaw is driven by the clockwise rotors 3 and 4.</p>
+<p>Each of the four outputs has a physical meaning:</p>
+<ul class="simple">
+<li><p><strong>Collective thrust</strong> <span class="math notranslate nohighlight">\(T\)</span> acts along the body <em>up</em> axis.
 It is the only control force. To accelerate sideways, the vehicle must first tilt.</p></li>
-<li><p><strong>Roll and pitch moments</strong>: a thrust difference between the left and the right rotors,
-or between the front and the rear rotors, acting on the arm <span class="math notranslate nohighlight">\(l\)</span>.</p></li>
-<li><p><strong>Yaw moment</strong>: the reaction torques <span class="math notranslate nohighlight">\(Q_i\)</span>.
+<li><p><strong>Roll and pitch moments</strong> <span class="math notranslate nohighlight">\(\tau_x, \tau_y\)</span>: a thrust difference between the left and the right rotors,
+or between the front and the rear rotors, acting on the arm <span class="math notranslate nohighlight">\(L\)</span>.</p></li>
+<li><p><strong>Yaw moment</strong> <span class="math notranslate nohighlight">\(\tau_z\)</span>: the reaction torques <span class="math notranslate nohighlight">\(Q_i\)</span>.
 A rotor turning counterclockwise pushes the body clockwise.
 When the counterclockwise pair spins faster than the clockwise pair,
 the torques do not cancel, and the vehicle yaws,
 with little change in the total thrust.</p></li>
 </ul>
-<p>Further terms complete the model:
-a linear drag on the air-relative velocity (with an optional wind),
-a rotational drag on the body rates,
-and the gyroscopic coupling of the spinning rotors.
-<a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.quadcopter.quadforces.html#c4dynamics.eqm.quadcopter.quadforces" title="c4dynamics.eqm.quadcopter.quadforces"><code class="xref py py-func docutils literal notranslate"><span class="pre">quadforces</span></code></a> returns the
+<p><strong>Forces</strong></p>
+<p>The body force is the total thrust along the body <em>up</em> axis
+and a linear aerodynamic drag that opposes the body velocity:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mathbf{F_b} = \begin{bmatrix} -A_x \cdot u \\ -A_y \cdot v \\ T - A_z \cdot w \end{bmatrix}\end{split}\]</div>
+<p>Where <span class="math notranslate nohighlight">\(A_x, A_y, A_z\)</span> are the aerodynamic drag coefficients
+along the body <span class="math notranslate nohighlight">\(x, y, z\)</span> axes,
+and <span class="math notranslate nohighlight">\(\mathbf{v_b} = [u, v, w]^T\)</span> is the velocity in the body frame.
+The body velocity is obtained by rotating the inertial velocity
+<span class="math notranslate nohighlight">\(\mathbf{v_i} = [v_x, v_y, v_z]^T\)</span> to the body frame:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{v_b} = [BI] \cdot \mathbf{v_i}\]</div>
+<p>Where <span class="math notranslate nohighlight">\([BI]\)</span> is the body from inertial DCM (direction cosine matrix),
+generated by the Euler angles in a 3-2-1 order.
+With a wind, the drag acts on the air-relative velocity,
+<span class="math notranslate nohighlight">\(\mathbf{v_i} - \mathbf{v_{wind}}\)</span>.</p>
+<p>The body force is rotated to the inertial frame
+and combined with gravity <span class="math notranslate nohighlight">\(g\)</span> in the negative <span class="math notranslate nohighlight">\(z\)</span> direction:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mathbf{F_i} = [BI]^T \cdot \mathbf{F_b} + \begin{bmatrix} 0 \\ 0 \\ -m \cdot g \end{bmatrix}\end{split}\]</div>
+<p>Where <span class="math notranslate nohighlight">\([BI]^T\)</span>, the transpose of <span class="math notranslate nohighlight">\([BI]\)</span>,
+rotates vectors to the inertial frame from the body frame,
+and <span class="math notranslate nohighlight">\(m\)</span> is the mass of the quadcopter <span class="math notranslate nohighlight">\([kg]\)</span>.
+<span class="math notranslate nohighlight">\(\mathbf{F_i}\)</span> is the force <span class="math notranslate nohighlight">\(F\)</span> of the translational equations of the common core.
+<span class="math notranslate nohighlight">\(\mathbf{F_b} / m\)</span> is the specific force,
+i.e. what an accelerometer at the center of mass measures.</p>
+<p><strong>Moments</strong></p>
+<p>The net moments consist of the control torques, an aerodynamic damping,
+and a gyroscopic coupling:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+M_x &amp;= \tau_x - A_r \cdot p - I_R \cdot q \cdot \Omega \\
+M_y &amp;= \tau_y - A_r \cdot q + I_R \cdot p \cdot \Omega \\
+M_z &amp;= \tau_z - A_r \cdot r
+\end{aligned}\end{split}\]</div>
+<p>Where the net rotor angular speed is:</p>
+<div class="math notranslate nohighlight">
+\[\Omega = \Omega_1 + \Omega_2 - \Omega_3 - \Omega_4\]</div>
+<p>And:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\tau_x, \tau_y, \tau_z\)</span> are the roll, pitch, and yaw control torques generated by the rotors.</p></li>
+<li><p><span class="math notranslate nohighlight">\(A_r\)</span> is the aerodynamic rotational drag coefficient.
+The terms <span class="math notranslate nohighlight">\(A_r \cdot p, A_r \cdot q, A_r \cdot r\)</span> are damping moments
+that oppose the corresponding angular rates.</p></li>
+<li><p><span class="math notranslate nohighlight">\(I_R\)</span> is the rotor moment of inertia.
+The terms <span class="math notranslate nohighlight">\(I_R \cdot q \cdot \Omega\)</span> and <span class="math notranslate nohighlight">\(I_R \cdot p \cdot \Omega\)</span>
+are gyroscopic moments produced by the angular momentum of the spinning rotors.
+They couple the roll and the pitch dynamics:
+a pitch rate generates a roll moment, and a roll rate generates a pitch moment.</p></li>
+</ul>
+<p><span class="math notranslate nohighlight">\([M_x, M_y, M_z]\)</span> is the moment <span class="math notranslate nohighlight">\(M\)</span> of the rotational equations of the common core.</p>
+<p><strong>Implementation</strong></p>
+<p><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.quadcopter.quadforces.html#c4dynamics.eqm.quadcopter.quadforces" title="c4dynamics.eqm.quadcopter.quadforces"><code class="xref py py-func docutils literal notranslate"><span class="pre">quadforces</span></code></a> returns the
 body force (thrust and drag) and the body moment.
 <a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.quadcopter.quadeqm.html#c4dynamics.eqm.quadcopter.quadeqm" title="c4dynamics.eqm.quadcopter.quadeqm"><code class="xref py py-func docutils literal notranslate"><span class="pre">quadeqm</span></code></a> rotates the force to the inertial frame,
 adds gravity, and evaluates the Newton-Euler equations,
 for the <code class="docutils literal notranslate"><span class="pre">'NED'</span></code> and <code class="docutils literal notranslate"><span class="pre">'ENU'</span></code> frame conventions,
 with the signature of <code class="docutils literal notranslate"><span class="pre">scipy.integrate.solve_ivp</span></code>.
-The rotor model, the drag terms, and the frames are detailed in
-<a class="reference internal" href="kinematics.html#kinematics-quadcopter"><span class="std std-ref">Quadcopter Equations of Motion</span></a>.
 The physical parameters of the reference vehicle are given by
 <code class="docutils literal notranslate"><span class="pre">c4dynamics.models.quad.default_quad_config()</span></code>.</p>
 <p><strong>Quaternion attitude</strong></p>
@@ -852,17 +982,21 @@ The aerodynamic moments are computed in the body frame from the angles of attack
 and the fins deflections.</p>
 <p>The translational equations are Newton’s second law in the inertial frame:</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}\dot{r} &amp;= v \\
-\dot{v} &amp;= {F \over m}\end{split}\]</div>
+\[\begin{split}\begin{aligned}
+\dot{r} &amp;= v \\
+\dot{v} &amp;= {F \over m}
+\end{aligned}\end{split}\]</div>
 <p>The rotational equations relate the moments to the body rates,
 and the body rates to the Euler angles rates:</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}\dot{\varphi} &amp;= p + (q \cdot sin(\varphi) + r \cdot cos(\varphi)) \cdot tan(\theta) \\
+\[\begin{split}\begin{aligned}
+\dot{\varphi} &amp;= p + (q \cdot sin(\varphi) + r \cdot cos(\varphi)) \cdot tan(\theta) \\
 \dot{\theta} &amp;= q \cdot cos(\varphi) - r \cdot sin(\varphi) \\
 \dot{\psi} &amp;= {q \cdot sin(\varphi) + r \cdot cos(\varphi) \over cos(\theta)} \\
 \dot{p} &amp;= {M[0] - q \cdot r \cdot (I_{zz} - I_{yy}) \over I_{xx}} \\
 \dot{q} &amp;= {M[1] - p \cdot r \cdot (I_{xx} - I_{zz}) \over I_{yy}} \\
-\dot{r} &amp;= {M[2] - p \cdot q \cdot (I_{yy} - I_{xx}) \over I_{zz}}\end{split}\]</div>
+\dot{r} &amp;= {M[2] - p \cdot q \cdot (I_{yy} - I_{xx}) \over I_{zz}}
+\end{aligned}\end{split}\]</div>
 <p>The derivatives are given by <a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm6.html#c4dynamics.eqm.derivs.eqm6" title="c4dynamics.eqm.derivs.eqm6"><code class="xref py py-func docutils literal notranslate"><span class="pre">eqm6</span></code></a>.
 <a class="reference internal" href="../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.inteqm.html#c4dynamics.states.lib.rigidbody.rigidbody.inteqm" title="c4dynamics.states.lib.rigidbody.rigidbody.inteqm"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rigidbody.inteqm</span></code></a>
 integrates them by a fourth-order Runge-Kutta step,
@@ -919,9 +1053,11 @@ with the state variables:</p>
 <p><strong>Dynamics</strong></p>
 <p>At a constant speed <span class="math notranslate nohighlight">\(V\)</span>, the kinematic (unicycle) model of the car is given by:</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}\dot{x} &amp;= V \cdot cos(\psi) \\
+\[\begin{split}\begin{aligned}
+\dot{x} &amp;= V \cdot cos(\psi) \\
 \dot{y} &amp;= V \cdot sin(\psi) \\
-\dot{\psi} &amp;= \delta\end{split}\]</div>
+\dot{\psi} &amp;= \delta
+\end{aligned}\end{split}\]</div>
 <p>Where <span class="math notranslate nohighlight">\(\delta\)</span> is the steering input, the rate of change of the heading.</p>
 <p>For a straight reference line along the <span class="math notranslate nohighlight">\(x\)</span> axis,
 the model is linearized about <span class="math notranslate nohighlight">\(\psi = 0\)</span>.
@@ -991,12 +1127,14 @@ It is represented by the <code class="docutils literal notranslate"><span class=
 <p>Two rotors, driven by the voltages <span class="math notranslate nohighlight">\(V_p\)</span> and <span class="math notranslate nohighlight">\(V_y\)</span>, generate the pitch and the yaw torques.
 The equations of motion, derived by Lagrangian mechanics, are:</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}(J_p + M \cdot L_{cm}^2) \cdot \ddot{\theta} &amp;= K_{pp} \cdot V_p + K_{py} \cdot V_y
-  - M \cdot g \cdot L_{cm} \cdot cos(\theta) - D_p \cdot \dot{\theta} \\
-  &amp;\quad - M \cdot L_{cm}^2 \cdot \dot{\psi}^2 \cdot sin(\theta) \cdot cos(\theta) \\
-(J_y + M \cdot L_{cm}^2 \cdot cos^2(\theta)) \cdot \ddot{\psi} &amp;= K_{yp} \cdot V_p + K_{yy} \cdot V_y
-  - D_y \cdot \dot{\psi} \\
-  &amp;\quad + 2 \cdot M \cdot L_{cm}^2 \cdot \dot{\psi} \cdot \dot{\theta} \cdot sin(\theta) \cdot cos(\theta)\end{split}\]</div>
+\[\begin{split}\begin{aligned}
+(J_p + M \cdot L_{cm}^2) \cdot \ddot{\theta} &amp;= K_{pp} \cdot V_p + K_{py} \cdot V_y \\
+&amp;\quad - M \cdot g \cdot L_{cm} \cdot cos(\theta) - D_p \cdot \dot{\theta} \\
+&amp;\quad - M \cdot L_{cm}^2 \cdot \dot{\psi}^2 \cdot sin(\theta) \cdot cos(\theta) \\
+(J_y + M \cdot L_{cm}^2 \cdot cos^2(\theta)) \cdot \ddot{\psi} &amp;= K_{yp} \cdot V_p + K_{yy} \cdot V_y \\
+&amp;\quad - D_y \cdot \dot{\psi} \\
+&amp;\quad + 2 \cdot M \cdot L_{cm}^2 \cdot \dot{\psi} \cdot \dot{\theta} \cdot sin(\theta) \cdot cos(\theta)
+\end{aligned}\end{split}\]</div>
 <p>Where:</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(J_p, J_y\)</span> are the pitch and yaw moments of inertia</p></li>
@@ -1009,8 +1147,10 @@ The equations of motion, derived by Lagrangian mechanics, are:</p>
 make the system a nonlinear multi-input multi-output plant.
 The equations are written in the control-affine form:</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}\dot{X}_1 &amp;= X_2 \\
-\dot{X}_2 &amp;= F(X) + G(X) \cdot u\end{split}\]</div>
+\[\begin{split}\begin{aligned}
+\dot{X}_1 &amp;= X_2 \\
+\dot{X}_2 &amp;= F(X) + G(X) \cdot u
+\end{aligned}\end{split}\]</div>
 <p>with <span class="math notranslate nohighlight">\(X_1 = [\theta, \psi]^T\)</span>, <span class="math notranslate nohighlight">\(X_2 = [\dot{\theta}, \dot{\psi}]^T\)</span>,
 and <span class="math notranslate nohighlight">\(u = [V_p, V_y]^T\)</span>.
 The <code class="docutils literal notranslate"><span class="pre">helicopter</span></code> object provides <code class="docutils literal notranslate"><span class="pre">F(X)</span></code>, <code class="docutils literal notranslate"><span class="pre">G(X)</span></code>, and <code class="docutils literal notranslate"><span class="pre">dynamics(t,</span> <span class="pre">X,</span> <span class="pre">u)</span></code>,
@@ -1150,7 +1290,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Oct 17, 2026.
+  Last updated on Oct 22, 2026.
   <br/>
 </p>
   </div>

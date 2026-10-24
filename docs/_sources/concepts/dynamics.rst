@@ -50,9 +50,11 @@ the Newton-Euler equations are:
 
 .. math::
 
+  \begin{aligned}
   \dot{r} &= v \\
   m \cdot \dot{v} &= F \\
   I \cdot \dot{\omega} &= M - \omega \times I \cdot \omega
+  \end{aligned}
 
 Where:
 
@@ -129,41 +131,188 @@ Quadcopter
 A quadcopter has no control surfaces.
 Every force and moment, other than gravity and drag, comes from four fixed rotors
 that all point along the body *up* axis.
-The inputs are the four rotor speeds :math:`\Omega_i`.
+The control input is the vector of the four rotor speeds:
+
+.. math::
+
+  \mathbf{u} = [\Omega_1, \Omega_2, \Omega_3, \Omega_4]^T
+
+A controller that commands the total thrust and the three torques,
+:math:`[T, \tau_x, \tau_y, \tau_z]`, maps them to the rotor speeds
+by the inverse of the thrust-torque mixing matrix below.
+
+The equations of this section are written in the ``'ENU'`` convention:
+
+.. figure:: /_architecture/quad_frame_enu_flu.png
+   :width: 60%
+
+   Reference systems and rotor layout. Inertial frame: ENU (east, north, up).
+   Body frame: FLU (forward, left, up).
+   Positive rotation about an axis is given by curling the right-hand fingers.
+   Rotors rotation: 1: CCW (counterclockwise), 2: CCW, 3: CW (clockwise), 4: CW.
+
+- Body frame: :math:`x` forward (between rotors 1 and 3), :math:`y` left, :math:`z` up.
+- Inertial frame: :math:`x` east, :math:`y` north, :math:`z` up.
+- Rotation: 3-2-1 (:math:`ZYX`), yaw :math:`\rightarrow` pitch :math:`\rightarrow` roll.
+
+In the ``'NED'`` convention (body frame forward-right-down),
+the *up* direction flips the sign of the thrust, the gravity,
+and the moment terms,
+as detailed in :ref:`Quadcopter Equations of Motion <kinematics-quadcopter>`.
+
+**Rotors**
+
+The rotors are arranged in an :math:`X` configuration,
+at a distance :math:`L` from the center of mass:
+
+.. list-table::
+   :widths: 15 30 30
+   :header-rows: 1
+
+   * - Rotor
+     - Position
+     - Direction
+   * - :math:`\Omega_1`
+     - front-right
+     - CCW
+   * - :math:`\Omega_2`
+     - rear-left
+     - CCW
+   * - :math:`\Omega_3`
+     - front-left
+     - CW
+   * - :math:`\Omega_4`
+     - rear-right
+     - CW
+
 Each rotor produces a thrust and a reaction torque,
 both proportional to the square of its speed:
 
 .. math::
 
-  T_i &= k_T \cdot \Omega_i^2 \\
+  \begin{aligned}
+  F_i &= k_T \cdot \Omega_i^2 \\
   Q_i &= k_Q \cdot \Omega_i^2
+  \end{aligned}
 
-The rotors are arranged in an *x* configuration, at a distance :math:`l` from the center,
-with two rotors turning clockwise and two counterclockwise.
-The four speeds map into one force and three moments:
 
-- **Collective thrust**: the sum :math:`\sum T_i` acts along the body *up* axis.
+The four speeds map into one force and three control moments:
+
+.. math::
+
+  \begin{aligned}
+  T &= F_1 + F_2 + F_3 + F_4 \\
+  \tau_x &= L \cdot (-F_1 + F_2 + F_3 - F_4) \\
+  \tau_y &= L \cdot (-F_1 + F_2 - F_3 + F_4) \\
+  \tau_z &= {k_Q \over k_T} \cdot (-F_1 - F_2 + F_3 + F_4)
+  \end{aligned}
+
+Where:
+
+- :math:`k_T` is the thrust coefficient :math:`[N / (rad/s)^2]`
+- :math:`k_Q` is the torque coefficient :math:`[N \cdot m / (rad/s)^2]`
+- :math:`L` is the distance of the rotors from the center of mass :math:`[m]`
+
+The signs of the torque mapping follow from the positive direction of the body rates.
+Positive roll is a rotation about :math:`x` that moves rotors 1 and 4 down,
+so it is driven by extra thrust on rotors 2 and 3.
+Positive pitch is a rotation about :math:`y` that moves rotors 1 and 3 down,
+so it is driven by extra thrust on rotors 2 and 4.
+Positive yaw is a counterclockwise rotation about :math:`z` when looking from above.
+Each rotor's reaction torque turns the body against the rotor's spin,
+so positive yaw is driven by the clockwise rotors 3 and 4.
+
+Each of the four outputs has a physical meaning:
+
+- **Collective thrust** :math:`T` acts along the body *up* axis.
   It is the only control force. To accelerate sideways, the vehicle must first tilt.
-- **Roll and pitch moments**: a thrust difference between the left and the right rotors,
-  or between the front and the rear rotors, acting on the arm :math:`l`.
-- **Yaw moment**: the reaction torques :math:`Q_i`.
+- **Roll and pitch moments** :math:`\tau_x, \tau_y`: a thrust difference between the left and the right rotors,
+  or between the front and the rear rotors, acting on the arm :math:`L`.
+- **Yaw moment** :math:`\tau_z`: the reaction torques :math:`Q_i`.
   A rotor turning counterclockwise pushes the body clockwise.
   When the counterclockwise pair spins faster than the clockwise pair,
   the torques do not cancel, and the vehicle yaws,
   with little change in the total thrust.
 
-Further terms complete the model:
-a linear drag on the air-relative velocity (with an optional wind),
-a rotational drag on the body rates,
-and the gyroscopic coupling of the spinning rotors.
+**Forces**
+
+The body force is the total thrust along the body *up* axis
+and a linear aerodynamic drag that opposes the body velocity:
+
+.. math::
+
+  \mathbf{F_b} = \begin{bmatrix} -A_x \cdot u \\ -A_y \cdot v \\ T - A_z \cdot w \end{bmatrix}
+
+Where :math:`A_x, A_y, A_z` are the aerodynamic drag coefficients
+along the body :math:`x, y, z` axes,
+and :math:`\mathbf{v_b} = [u, v, w]^T` is the velocity in the body frame.
+The body velocity is obtained by rotating the inertial velocity
+:math:`\mathbf{v_i} = [v_x, v_y, v_z]^T` to the body frame:
+
+.. math::
+
+  \mathbf{v_b} = [BI] \cdot \mathbf{v_i}
+
+Where :math:`[BI]` is the body from inertial DCM (direction cosine matrix),
+generated by the Euler angles in a 3-2-1 order.
+With a wind, the drag acts on the air-relative velocity,
+:math:`\mathbf{v_i} - \mathbf{v_{wind}}`.
+
+The body force is rotated to the inertial frame
+and combined with gravity :math:`g` in the negative :math:`z` direction:
+
+.. math::
+
+  \mathbf{F_i} = [BI]^T \cdot \mathbf{F_b} + \begin{bmatrix} 0 \\ 0 \\ -m \cdot g \end{bmatrix}
+
+Where :math:`[BI]^T`, the transpose of :math:`[BI]`,
+rotates vectors to the inertial frame from the body frame,
+and :math:`m` is the mass of the quadcopter :math:`[kg]`.
+:math:`\mathbf{F_i}` is the force :math:`F` of the translational equations of the common core.
+:math:`\mathbf{F_b} / m` is the specific force,
+i.e. what an accelerometer at the center of mass measures.
+
+**Moments**
+
+The net moments consist of the control torques, an aerodynamic damping,
+and a gyroscopic coupling:
+
+.. math::
+
+  \begin{aligned}
+  M_x &= \tau_x - A_r \cdot p - I_R \cdot q \cdot \Omega \\
+  M_y &= \tau_y - A_r \cdot q + I_R \cdot p \cdot \Omega \\
+  M_z &= \tau_z - A_r \cdot r
+  \end{aligned}
+
+Where the net rotor angular speed is:
+
+.. math::
+
+  \Omega = \Omega_1 + \Omega_2 - \Omega_3 - \Omega_4
+
+And:
+
+- :math:`\tau_x, \tau_y, \tau_z` are the roll, pitch, and yaw control torques generated by the rotors.
+- :math:`A_r` is the aerodynamic rotational drag coefficient.
+  The terms :math:`A_r \cdot p, A_r \cdot q, A_r \cdot r` are damping moments
+  that oppose the corresponding angular rates.
+- :math:`I_R` is the rotor moment of inertia.
+  The terms :math:`I_R \cdot q \cdot \Omega` and :math:`I_R \cdot p \cdot \Omega`
+  are gyroscopic moments produced by the angular momentum of the spinning rotors.
+  They couple the roll and the pitch dynamics:
+  a pitch rate generates a roll moment, and a roll rate generates a pitch moment.
+
+:math:`[M_x, M_y, M_z]` is the moment :math:`M` of the rotational equations of the common core.
+
+**Implementation**
+
 :func:`quadforces <c4dynamics.eqm.quadcopter.quadforces>` returns the
 body force (thrust and drag) and the body moment.
 :func:`quadeqm <c4dynamics.eqm.quadcopter.quadeqm>` rotates the force to the inertial frame,
 adds gravity, and evaluates the Newton-Euler equations,
 for the ``'NED'`` and ``'ENU'`` frame conventions,
 with the signature of ``scipy.integrate.solve_ivp``.
-The rotor model, the drag terms, and the frames are detailed in
-:ref:`Quadcopter Equations of Motion <kinematics-quadcopter>`.
 The physical parameters of the reference vehicle are given by
 ``c4dynamics.models.quad.default_quad_config()``.
 
@@ -317,20 +466,24 @@ The translational equations are Newton's second law in the inertial frame:
 
 .. math::
 
+  \begin{aligned}
   \dot{r} &= v \\
   \dot{v} &= {F \over m}
+  \end{aligned}
 
 The rotational equations relate the moments to the body rates,
 and the body rates to the Euler angles rates:
 
 .. math::
 
+  \begin{aligned}
   \dot{\varphi} &= p + (q \cdot sin(\varphi) + r \cdot cos(\varphi)) \cdot tan(\theta) \\
   \dot{\theta} &= q \cdot cos(\varphi) - r \cdot sin(\varphi) \\
   \dot{\psi} &= {q \cdot sin(\varphi) + r \cdot cos(\varphi) \over cos(\theta)} \\
   \dot{p} &= {M[0] - q \cdot r \cdot (I_{zz} - I_{yy}) \over I_{xx}} \\
   \dot{q} &= {M[1] - p \cdot r \cdot (I_{xx} - I_{zz}) \over I_{yy}} \\
   \dot{r} &= {M[2] - p \cdot q \cdot (I_{yy} - I_{xx}) \over I_{zz}}
+  \end{aligned}
 
 The derivatives are given by :func:`eqm6 <c4dynamics.eqm.derivs.eqm6>`.
 :meth:`rigidbody.inteqm <c4dynamics.states.lib.rigidbody.rigidbody.inteqm>`
@@ -407,9 +560,11 @@ At a constant speed :math:`V`, the kinematic (unicycle) model of the car is give
 
 .. math::
 
+  \begin{aligned}
   \dot{x} &= V \cdot cos(\psi) \\
   \dot{y} &= V \cdot sin(\psi) \\
   \dot{\psi} &= \delta
+  \end{aligned}
 
 Where :math:`\delta` is the steering input, the rate of change of the heading.
 
@@ -501,12 +656,14 @@ The equations of motion, derived by Lagrangian mechanics, are:
 
 .. math::
 
-  (J_p + M \cdot L_{cm}^2) \cdot \ddot{\theta} &= K_{pp} \cdot V_p + K_{py} \cdot V_y
-    - M \cdot g \cdot L_{cm} \cdot cos(\theta) - D_p \cdot \dot{\theta} \\
-    &\quad - M \cdot L_{cm}^2 \cdot \dot{\psi}^2 \cdot sin(\theta) \cdot cos(\theta) \\
-  (J_y + M \cdot L_{cm}^2 \cdot cos^2(\theta)) \cdot \ddot{\psi} &= K_{yp} \cdot V_p + K_{yy} \cdot V_y
-    - D_y \cdot \dot{\psi} \\
-    &\quad + 2 \cdot M \cdot L_{cm}^2 \cdot \dot{\psi} \cdot \dot{\theta} \cdot sin(\theta) \cdot cos(\theta)
+  \begin{aligned}
+  (J_p + M \cdot L_{cm}^2) \cdot \ddot{\theta} &= K_{pp} \cdot V_p + K_{py} \cdot V_y \\
+  &\quad - M \cdot g \cdot L_{cm} \cdot cos(\theta) - D_p \cdot \dot{\theta} \\
+  &\quad - M \cdot L_{cm}^2 \cdot \dot{\psi}^2 \cdot sin(\theta) \cdot cos(\theta) \\
+  (J_y + M \cdot L_{cm}^2 \cdot cos^2(\theta)) \cdot \ddot{\psi} &= K_{yp} \cdot V_p + K_{yy} \cdot V_y \\
+  &\quad - D_y \cdot \dot{\psi} \\
+  &\quad + 2 \cdot M \cdot L_{cm}^2 \cdot \dot{\psi} \cdot \dot{\theta} \cdot sin(\theta) \cdot cos(\theta)
+  \end{aligned}
 
 Where:
 
@@ -522,8 +679,10 @@ The equations are written in the control-affine form:
 
 .. math::
 
+  \begin{aligned}
   \dot{X}_1 &= X_2 \\
   \dot{X}_2 &= F(X) + G(X) \cdot u
+  \end{aligned}
 
 with :math:`X_1 = [\theta, \psi]^T`, :math:`X_2 = [\dot{\theta}, \dot{\psi}]^T`,
 and :math:`u = [V_p, V_y]^T`.
