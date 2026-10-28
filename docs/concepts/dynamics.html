@@ -55,12 +55,12 @@
     <link rel="icon" href="../_static/c4dlogo.svg"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Rigid Body Transformations" href="transformations.html" />
+    <link rel="next" title="Vehicles" href="vehicles.html" />
     <link rel="prev" title="Kinematics" href="kinematics.html" />
   
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Oct 22, 2026"/>
+    <meta name="docbuild:last-update" content="Oct 28, 2026"/>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LKRZFXZKQP"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -186,9 +186,10 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="states.html">State Objects</a></li>
 
+<li class="toctree-l1"><a class="reference internal" href="transformations.html">Rigid Body Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="kinematics.html">Kinematics</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Dynamics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="transformations.html">Rigid Body Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vehicles.html">Vehicles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sensors.html">Sensors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="filters.html">Filters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rl_env.html">Reinforcement Learning Environment</a></li>
@@ -558,11 +559,16 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-common-core">The Common Core</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quadcopter">Quadcopter</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#missile">Missile</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#car">Car</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#helicopter">Helicopter</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nomenclature">Nomenclature</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-newton-euler-equations">The Newton-Euler Equations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#translational-motion">Translational Motion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rotational-motion">Rotational Motion</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-equations-of-motion">The Equations of Motion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#integration">Integration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
 </ul>
             </nav>
@@ -577,628 +583,402 @@ document.write(`
                   
   <section id="dynamics">
 <h1>Dynamics<a class="headerlink" href="#dynamics" title="Link to this heading">#</a></h1>
-<p>The use cases of c4dynamics fly, drive, and steer different vehicles:
-a quadcopter, a missile, a car, and a helicopter.
-They look different, but the mechanics that move them are the same.
+<p><a class="reference internal" href="kinematics.html"><span class="doc">Kinematics</span></a> propagates the position and the attitude
+of a body, given its velocity and its angular rates.
+Dynamics closes the loop:
+it explains what changes the velocity and the angular rates.
 Newton’s second law translates the forces on a body into its linear acceleration,
-and Euler’s equations translate the moments into its angular acceleration.
-These equations do not depend on the vehicle,
-and c4dynamics implements them once, for all vehicles
-(<a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm6.html#c4dynamics.eqm.derivs.eqm6" title="c4dynamics.eqm.derivs.eqm6"><code class="xref py py-func docutils literal notranslate"><span class="pre">eqm6</span></code></a>, <a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm6q.html#c4dynamics.eqm.derivs.eqm6q" title="c4dynamics.eqm.derivs.eqm6q"><code class="xref py py-func docutils literal notranslate"><span class="pre">eqm6q</span></code></a>,
-<a class="reference internal" href="../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.inteqm.html#c4dynamics.states.lib.rigidbody.rigidbody.inteqm" title="c4dynamics.states.lib.rigidbody.rigidbody.inteqm"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rigidbody.inteqm</span></code></a>).</p>
-<p>What makes a quadcopter different from a missile is not the equations of motion,
-but the physics that generates the forces and the moments:
-rotors that push along one body axis,
-a rocket motor and a body that produces lift as it meets the air at an angle,
-tires that hold the car on its path,
-or a pivot that constrains the helicopter to two rotations.
-The control inputs act on the vehicle only through these forces and moments.
-Therefore, this page focuses on the force and moment model of each vehicle:
-what produces the forces and the moments,
-and how the control inputs shape them.</p>
-<p>The workflow is shared by all the vehicles:</p>
-<ol class="arabic simple">
-<li><p>Define a state object with the state variables of the vehicle.</p></li>
-<li><p>Compute the forces and the moments from the vehicle physics and the control inputs.</p></li>
-<li><p>Integrate the equations of motion over a time step and update the state.</p></li>
-<li><p>Store the state and analyze the results.</p></li>
-</ol>
-<p>The state object is the common interface between the vehicle and the algorithm.
-The vehicle model changes, but the state object keeps the same interface:
-<a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.X.html#c4dynamics.states.state.state.X" title="c4dynamics.states.state.state.X"><code class="xref py py-attr docutils literal notranslate"><span class="pre">X</span></code></a> to get and set the state vector,
-<a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.store.html#c4dynamics.states.state.state.store" title="c4dynamics.states.state.state.store"><code class="xref py py-meth docutils literal notranslate"><span class="pre">store</span></code></a> and
-<a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.data.html#c4dynamics.states.state.state.data" title="c4dynamics.states.state.state.data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">data</span></code></a> to record and retrieve the history,
-and <a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.plot.html#c4dynamics.states.state.state.plot" title="c4dynamics.states.state.state.plot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">plot</span></code></a> to view it.
-Therefore, a guidance law, a controller, or a filter that is developed on one system
-moves to another system smoothly, by replacing the state object and the force model,
-while the rest of the program remains intact.</p>
-<section id="the-common-core">
-<h2>The Common Core<a class="headerlink" href="#the-common-core" title="Link to this heading">#</a></h2>
-<p>For a rigid body of mass <span class="math notranslate nohighlight">\(m\)</span> and inertia matrix <span class="math notranslate nohighlight">\(I\)</span>,
-the Newton-Euler equations are:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\begin{aligned}
-\dot{r} &amp;= v \\
-m \cdot \dot{v} &amp;= F \\
-I \cdot \dot{\omega} &amp;= M - \omega \times I \cdot \omega
-\end{aligned}\end{split}\]</div>
-<p>Where:</p>
-<ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(r, v\)</span> are the position and the velocity in the inertial frame</p></li>
-<li><p><span class="math notranslate nohighlight">\(F\)</span> is the total force, resolved in the inertial frame</p></li>
-<li><p><span class="math notranslate nohighlight">\(\omega = [p, q, r]\)</span> is the angular rate of the body, resolved in the body frame</p></li>
-<li><p><span class="math notranslate nohighlight">\(M\)</span> is the total moment about the center of mass, resolved in the body frame</p></li>
-</ul>
-<p>To close the loop, the attitude is propagated from the body rates <span class="math notranslate nohighlight">\(\omega\)</span>.
-The attitude can be represented in different ways,
-and the representation sets the attitude part of the state vector:</p>
-<ul class="simple">
-<li><p>Euler angles <span class="math notranslate nohighlight">\([\varphi, \theta, \psi]\)</span>: intuitive,
-but singular at <span class="math notranslate nohighlight">\(\theta = \pm 90°\)</span>
-(<a class="reference internal" href="../api/states.lib.rigidbody.html#c4dynamics.states.lib.rigidbody.rigidbody" title="c4dynamics.states.lib.rigidbody.rigidbody"><code class="xref py py-class docutils literal notranslate"><span class="pre">rigidbody</span></code></a>, 12 states).</p></li>
-<li><p>A quaternion <span class="math notranslate nohighlight">\([q_w, q_x, q_y, q_z]\)</span>: free of singularities at any attitude
-(<a class="reference internal" href="../api/states.lib.quatbody.html#c4dynamics.states.lib.quatbody.quatbody" title="c4dynamics.states.lib.quatbody.quatbody"><code class="xref py py-class docutils literal notranslate"><span class="pre">quatbody</span></code></a>, 13 states).</p></li>
-<li><p>A rotation matrix: used to move vectors between the body and the inertial frames
-(<a class="reference internal" href="../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.BR.html#c4dynamics.states.lib.rigidbody.rigidbody.BR" title="c4dynamics.states.lib.rigidbody.rigidbody.BR"><code class="xref py py-attr docutils literal notranslate"><span class="pre">BR</span></code></a>,
-<a class="reference internal" href="../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.RB.html#c4dynamics.states.lib.rigidbody.rigidbody.RB" title="c4dynamics.states.lib.rigidbody.rigidbody.RB"><code class="xref py py-attr docutils literal notranslate"><span class="pre">RB</span></code></a>).</p></li>
-</ul>
-<p>The kinematics of the Euler angles and of the quaternion are derived in
-<a class="reference internal" href="kinematics.html"><span class="doc">Kinematics</span></a>
-(see <a class="reference internal" href="kinematics.html#kinematics-quaternion"><span class="std std-ref">Quaternion Kinematics</span></a>),
-and the conversions between the representations are given in
-<a class="reference internal" href="transformations.html#transformations-conversions"><span class="std std-ref">Rigid Body Transformations</span></a>.
-Below, the quadcopter section shows the quaternion form,
-and the missile section shows the Euler angles form.</p>
-<p>The vehicle physics supplies <span class="math notranslate nohighlight">\(F\)</span> and <span class="math notranslate nohighlight">\(M\)</span>.
-The following table summarizes the force and moment models used across the use cases.
-Each model is described in a dedicated section below.</p>
+and Euler’s equations translate the moments into its angular acceleration.</p>
+<p>These laws do not depend on the vehicle.
+c4dynamics implements them once, in the <a class="reference internal" href="../api/eqm.html#module-c4dynamics.eqm" title="c4dynamics.eqm"><code class="xref py py-mod docutils literal notranslate"><span class="pre">eqm</span></code></a> module,
+and the state objects integrate them for every vehicle.
+What makes a quadcopter different from a missile is the physics that
+generates the forces and the moments.
+These are the subject of the next page, <a class="reference internal" href="vehicles.html"><span class="doc">Vehicles</span></a>.</p>
+<section id="nomenclature">
+<h2>Nomenclature<a class="headerlink" href="#nomenclature" title="Link to this heading">#</a></h2>
+<p>The inputs of the dynamic equations are the total force and the total moment
+acting on the body, and its mass properties (see Fig-1 in
+<a class="reference internal" href="kinematics.html#kinematics-nomenclature"><span class="std std-ref">Kinematics</span></a>):</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <colgroup>
-<col style="width: 13.0%" />
-<col style="width: 17.0%" />
-<col style="width: 35.0%" />
-<col style="width: 17.0%" />
-<col style="width: 18.0%" />
+<col style="width: 25.0%" />
+<col style="width: 45.0%" />
+<col style="width: 30.0%" />
 </colgroup>
 <thead>
-<tr class="row-odd"><th class="head"><p>Vehicle</p></th>
-<th class="head"><p>Control inputs</p></th>
-<th class="head"><p>Force and moment sources</p></th>
-<th class="head"><p>Attitude</p></th>
-<th class="head"><p>Model</p></th>
+<tr class="row-odd"><th class="head"><p>Symbol</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Frame</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>Quadcopter</p></td>
-<td><p>Four rotor speeds</p></td>
-<td><p>Rotor thrust and reaction torque, drag, gravity</p></td>
-<td><p>Quaternion (or Euler angles)</p></td>
-<td><p><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.quadcopter.quadforces.html#c4dynamics.eqm.quadcopter.quadforces" title="c4dynamics.eqm.quadcopter.quadforces"><code class="xref py py-func docutils literal notranslate"><span class="pre">quadforces</span></code></a>,
-<a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.quadcopter.quadeqm.html#c4dynamics.eqm.quadcopter.quadeqm" title="c4dynamics.eqm.quadcopter.quadeqm"><code class="xref py py-func docutils literal notranslate"><span class="pre">quadeqm</span></code></a></p></td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(F = [F_x, F_y, F_z]^T\)</span></p></td>
+<td><p>Total force acting on the body</p></td>
+<td><p>Reference</p></td>
 </tr>
-<tr class="row-odd"><td><p>Missile</p></td>
-<td><p>Fin deflections</p></td>
-<td><p>Rocket thrust, aerodynamic lift and drag, aerodynamic moments, gravity</p></td>
-<td><p>Euler angles</p></td>
-<td><p><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm6.html#c4dynamics.eqm.derivs.eqm6" title="c4dynamics.eqm.derivs.eqm6"><code class="xref py py-func docutils literal notranslate"><span class="pre">eqm6</span></code></a>
-with the aerodynamics of the use case</p></td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(M = [M_x, M_y, M_z]^T\)</span></p></td>
+<td><p>Total moment about the center of mass.
+Also known as the rolling, pitching, and yawing moments <span class="math notranslate nohighlight">\((L, M, N)\)</span></p></td>
+<td><p>Body</p></td>
 </tr>
-<tr class="row-even"><td><p>Car</p></td>
-<td><p>Steering rate</p></td>
-<td><p>Tire forces, assumed to follow the steering (kinematic model)</p></td>
-<td><p>Heading</p></td>
-<td><p>Kinematic (unicycle) model</p></td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(m\)</span></p></td>
+<td><p>Mass</p></td>
+<td><p>-</p></td>
 </tr>
-<tr class="row-odd"><td><p>Helicopter (2-DOF)</p></td>
-<td><p>Two rotor voltages</p></td>
-<td><p>Rotor torques, gravity about the pivot, friction</p></td>
-<td><p>Pitch and yaw angles</p></td>
-<td><p>Lagrangian pitch-yaw model</p></td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(I = \operatorname{diag}(I_{xx}, I_{yy}, I_{zz})\)</span></p></td>
+<td><p>Inertia matrix about the center of mass</p></td>
+<td><p>Body</p></td>
 </tr>
 </tbody>
 </table>
 </div>
+<p>The state variables are those of <a class="reference internal" href="kinematics.html#kinematics-nomenclature"><span class="std std-ref">Kinematics</span></a>:
+the position <span class="math notranslate nohighlight">\(r\)</span>, the inertial velocity <span class="math notranslate nohighlight">\(V = [v_x, v_y, v_z]^T\)</span>,
+the attitude, and the body rates <span class="math notranslate nohighlight">\(\omega = [p, q, r]^T\)</span>.</p>
+<p>c4dynamics takes the body axes as the principal axes of inertia,
+so the inertia matrix is diagonal, and is given by the three moments of inertia
+<a class="reference internal" href="../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.I.html#c4dynamics.states.lib.rigidbody.rigidbody.I" title="c4dynamics.states.lib.rigidbody.rigidbody.I"><code class="xref py py-attr docutils literal notranslate"><span class="pre">I</span></code></a>
+(<span class="math notranslate nohighlight">\(I_{xx}, I_{yy}, I_{zz}\)</span>).</p>
+<p><strong>Moment and torque.</strong> Both words describe the same physical quantity.
+This documentation uses <em>moment</em> for the quantity <span class="math notranslate nohighlight">\(M\)</span> in the equations of motion,
+and <em>torque</em> for what an actuator produces, such as the reaction torque of a rotor
+or the torque of a motor. The torques of the actuators are part of the total moment.</p>
+<p><strong>Frames.</strong> The equations below hold relative to an inertial frame.
+c4dynamics writes them relative to the reference frame,
+which is therefore assumed to be inertial
+(see <a class="reference internal" href="transformations.html#transformations-frames"><span class="std std-ref">Reference Frames</span></a>).</p>
 </section>
-<section id="quadcopter">
-<h2>Quadcopter<a class="headerlink" href="#quadcopter" title="Link to this heading">#</a></h2>
-<p><strong>Forces and moments</strong></p>
-<p>A quadcopter has no control surfaces.
-Every force and moment, other than gravity and drag, comes from four fixed rotors
-that all point along the body <em>up</em> axis.
-The control input is the vector of the four rotor speeds:</p>
+<section id="the-newton-euler-equations">
+<span id="dynamics-newton-euler"></span><h2>The Newton-Euler Equations<a class="headerlink" href="#the-newton-euler-equations" title="Link to this heading">#</a></h2>
+<section id="translational-motion">
+<h3>Translational Motion<a class="headerlink" href="#translational-motion" title="Link to this heading">#</a></h3>
+<p><strong>Vector form</strong></p>
+<p>Newton’s second law states that the total force acting on a body
+equals the rate of change of its linear momentum, <span class="math notranslate nohighlight">\(m \cdot V\)</span>,
+relative to an inertial frame <a class="reference internal" href="#mi" id="id1"><span>[MI]</span></a>.
+For a constant mass:</p>
 <div class="math notranslate nohighlight">
-\[\mathbf{u} = [\Omega_1, \Omega_2, \Omega_3, \Omega_4]^T\]</div>
-<p>A controller that commands the total thrust and the three torques,
-<span class="math notranslate nohighlight">\([T, \tau_x, \tau_y, \tau_z]\)</span>, maps them to the rotor speeds
-by the inverse of the thrust-torque mixing matrix below.</p>
-<p>The equations of this section are written in the <code class="docutils literal notranslate"><span class="pre">'ENU'</span></code> convention:</p>
-<figure class="align-default" id="id1">
-<a class="reference internal image-reference" href="../_images/quad_frame_enu_flu.png"><img alt="../_images/quad_frame_enu_flu.png" src="../_images/quad_frame_enu_flu.png" style="width: 60%;" />
-</a>
-<figcaption>
-<p><span class="caption-text">Reference systems and rotor layout. Inertial frame: ENU (east, north, up).
-Body frame: FLU (forward, left, up).
-Positive rotation about an axis is given by curling the right-hand fingers.
-Rotors rotation: 1: CCW (counterclockwise), 2: CCW, 3: CW (clockwise), 4: CW.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
-</figcaption>
-</figure>
-<ul class="simple">
-<li><p>Body frame: <span class="math notranslate nohighlight">\(x\)</span> forward (between rotors 1 and 3), <span class="math notranslate nohighlight">\(y\)</span> left, <span class="math notranslate nohighlight">\(z\)</span> up.</p></li>
-<li><p>Inertial frame: <span class="math notranslate nohighlight">\(x\)</span> east, <span class="math notranslate nohighlight">\(y\)</span> north, <span class="math notranslate nohighlight">\(z\)</span> up.</p></li>
-<li><p>Rotation: 3-2-1 (<span class="math notranslate nohighlight">\(ZYX\)</span>), yaw <span class="math notranslate nohighlight">\(\rightarrow\)</span> pitch <span class="math notranslate nohighlight">\(\rightarrow\)</span> roll.</p></li>
-</ul>
-<p>In the <code class="docutils literal notranslate"><span class="pre">'NED'</span></code> convention (body frame forward-right-down),
-the <em>up</em> direction flips the sign of the thrust, the gravity,
-and the moment terms,
-as detailed in <a class="reference internal" href="kinematics.html#kinematics-quadcopter"><span class="std std-ref">Quadcopter Equations of Motion</span></a>.</p>
-<p><strong>Rotors</strong></p>
-<p>The rotors are arranged in an <span class="math notranslate nohighlight">\(X\)</span> configuration,
-at a distance <span class="math notranslate nohighlight">\(L\)</span> from the center of mass:</p>
-<div class="pst-scrollable-table-container"><table class="table">
-<colgroup>
-<col style="width: 20.0%" />
-<col style="width: 40.0%" />
-<col style="width: 40.0%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>Rotor</p></th>
-<th class="head"><p>Position</p></th>
-<th class="head"><p>Direction</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\Omega_1\)</span></p></td>
-<td><p>front-right</p></td>
-<td><p>CCW</p></td>
-</tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\Omega_2\)</span></p></td>
-<td><p>rear-left</p></td>
-<td><p>CCW</p></td>
-</tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\Omega_3\)</span></p></td>
-<td><p>front-left</p></td>
-<td><p>CW</p></td>
-</tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\Omega_4\)</span></p></td>
-<td><p>rear-right</p></td>
-<td><p>CW</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>Each rotor produces a thrust and a reaction torque,
-both proportional to the square of its speed:</p>
+\[m \cdot \dot{V} = F\]</div>
+<p>The law involves only the center of mass.
+It holds for a point mass and for a rigid body alike,
+regardless of the rotation of the body.</p>
+<p><strong>Scalar form</strong></p>
+<p>c4dynamics expresses the velocity and the force in the reference frame,
+where the components of the vector equation are independent:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
-F_i &amp;= k_T \cdot \Omega_i^2 \\
-Q_i &amp;= k_Q \cdot \Omega_i^2
+\dot{v}_x &amp;= {F_x \over m} \\
+\dot{v}_y &amp;= {F_y \over m} \\
+\dot{v}_z &amp;= {F_z \over m}
 \end{aligned}\end{split}\]</div>
-<p>The four speeds map into one force and three control moments:</p>
+<p>Each acceleration component is driven by the force component along the same axis only.</p>
+<p><strong>Explanation</strong></p>
+<p>The force <span class="math notranslate nohighlight">\(F\)</span> is the sum of all the external forces:
+propulsion, aerodynamics, gravity, contact forces.
+Many of them are naturally computed in the body frame,
+e.g. the thrust of a motor along the body <span class="math notranslate nohighlight">\(x\)</span> axis.
+Such a force is rotated to the reference frame before it enters the equations
+(see <a class="reference internal" href="transformations.html#transformations-notation"><span class="std std-ref">Rotation Matrices</span></a>):</p>
+<div class="math notranslate nohighlight">
+\[F = [RB] \cdot F_B\]</div>
+<p>The equations could also be written with the body components of the velocity,
+<span class="math notranslate nohighlight">\(V_B = [u, v, w]^T\)</span>, as <span class="math notranslate nohighlight">\(m \cdot (\dot{V}_B + \omega \times V_B) = F_B\)</span>.
+The extra term <span class="math notranslate nohighlight">\(\omega \times V_B\)</span> appears because the body frame rotates,
+and couples the translational motion with the angular rates.
+Writing the translational equations in the reference frame avoids this coupling.</p>
+<p>When the mass changes, as in a rocket that burns its fuel,
+<a class="reference internal" href="../api/generated/dp/c4dynamics.states.lib.datapoint.datapoint.mass.html#c4dynamics.states.lib.datapoint.datapoint.mass" title="c4dynamics.states.lib.datapoint.datapoint.mass"><code class="xref py py-attr docutils literal notranslate"><span class="pre">mass</span></code></a>
+is updated between the integration steps,
+and the effect of the ejected mass is included in the thrust.</p>
+</section>
+<section id="rotational-motion">
+<h3>Rotational Motion<a class="headerlink" href="#rotational-motion" title="Link to this heading">#</a></h3>
+<p><strong>Vector form</strong></p>
+<p>The rotational analog of Newton’s law states that the total moment about the center of mass
+equals the rate of change of the angular momentum, <span class="math notranslate nohighlight">\(h\)</span>,
+relative to an inertial frame.
+For a rigid body, the angular momentum is <span class="math notranslate nohighlight">\(h = I \cdot \omega\)</span>.</p>
+<p>The inertia matrix is constant in the body frame, but not in an inertial frame,
+where it changes as the body rotates.
+Therefore, the law is written in the body frame.
+The rate of change of a vector relative to an inertial frame
+equals its rate of change relative to the rotating body frame,
+plus the cross product of the angular velocity with the vector
+(the transport theorem):</p>
+<div class="math notranslate nohighlight">
+\[M = {dh \over dt} \bigg|_{I} = {dh \over dt} \bigg|_{B} + \omega \times h\]</div>
+<p>Substituting <span class="math notranslate nohighlight">\(h = I \cdot \omega\)</span>, with a constant <span class="math notranslate nohighlight">\(I\)</span>,
+gives Euler’s equations of rotational motion:</p>
+<div class="math notranslate nohighlight">
+\[I \cdot \dot{\omega} + \omega \times (I \cdot \omega) = M\]</div>
+<p>Or, solved for the angular acceleration:</p>
+<div class="math notranslate nohighlight">
+\[\dot{\omega} = I^{-1} \cdot (M - \omega \times (I \cdot \omega))\]</div>
+<p><strong>Scalar form</strong></p>
+<p>With the principal axes of inertia, <span class="math notranslate nohighlight">\(I = \operatorname{diag}(I_{xx}, I_{yy}, I_{zz})\)</span>,
+and <span class="math notranslate nohighlight">\(\omega = [p, q, r]^T\)</span>,
+the three components of Euler’s equations are:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
-T &amp;= F_1 + F_2 + F_3 + F_4 \\
-\tau_x &amp;= L \cdot (-F_1 + F_2 + F_3 - F_4) \\
-\tau_y &amp;= L \cdot (-F_1 + F_2 - F_3 + F_4) \\
-\tau_z &amp;= {k_Q \over k_T} \cdot (-F_1 - F_2 + F_3 + F_4)
+I_{xx} \cdot \dot{p} &amp;= M_x - (I_{zz} - I_{yy}) \cdot q \cdot r \\
+I_{yy} \cdot \dot{q} &amp;= M_y - (I_{xx} - I_{zz}) \cdot p \cdot r \\
+I_{zz} \cdot \dot{r} &amp;= M_z - (I_{yy} - I_{xx}) \cdot p \cdot q
 \end{aligned}\end{split}\]</div>
-<p>Where:</p>
+<p><strong>Explanation</strong></p>
+<p>Each equation has the structure of Newton’s law, inertia times acceleration
+equals moment, with an additional term:</p>
 <ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(k_T\)</span> is the thrust coefficient <span class="math notranslate nohighlight">\([N / (rad/s)^2]\)</span></p></li>
-<li><p><span class="math notranslate nohighlight">\(k_Q\)</span> is the torque coefficient <span class="math notranslate nohighlight">\([N \cdot m / (rad/s)^2]\)</span></p></li>
-<li><p><span class="math notranslate nohighlight">\(L\)</span> is the distance of the rotors from the center of mass <span class="math notranslate nohighlight">\([m]\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(I \cdot \dot{\omega}\)</span> is the rotational analog of <span class="math notranslate nohighlight">\(m \cdot \dot{v}\)</span>.
+A moment about an axis accelerates the rotation about that axis,
+in inverse proportion to the moment of inertia about it.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\omega \times (I \cdot \omega)\)</span> is the gyroscopic (or inertial coupling) term.
+It has no translational analog.
+It appears because the equations are written in the rotating body frame,
+where the angular momentum changes direction as the body rotates.
+In the scalar form, the coupling term of each axis is the product of the rates
+about the two other axes, times the difference of their moments of inertia.</p></li>
 </ul>
-<p>The signs of the torque mapping follow from the positive direction of the body rates.
-Positive roll is a rotation about <span class="math notranslate nohighlight">\(x\)</span> that moves rotors 1 and 4 down,
-so it is driven by extra thrust on rotors 2 and 3.
-Positive pitch is a rotation about <span class="math notranslate nohighlight">\(y\)</span> that moves rotors 1 and 3 down,
-so it is driven by extra thrust on rotors 2 and 4.
-Positive yaw is a counterclockwise rotation about <span class="math notranslate nohighlight">\(z\)</span> when looking from above.
-Each rotor’s reaction torque turns the body against the rotor’s spin,
-so positive yaw is driven by the clockwise rotors 3 and 4.</p>
-<p>Each of the four outputs has a physical meaning:</p>
+<p>The coupling term explains several typical behaviors of rotating bodies:</p>
 <ul class="simple">
-<li><p><strong>Collective thrust</strong> <span class="math notranslate nohighlight">\(T\)</span> acts along the body <em>up</em> axis.
-It is the only control force. To accelerate sideways, the vehicle must first tilt.</p></li>
-<li><p><strong>Roll and pitch moments</strong> <span class="math notranslate nohighlight">\(\tau_x, \tau_y\)</span>: a thrust difference between the left and the right rotors,
-or between the front and the rear rotors, acting on the arm <span class="math notranslate nohighlight">\(L\)</span>.</p></li>
-<li><p><strong>Yaw moment</strong> <span class="math notranslate nohighlight">\(\tau_z\)</span>: the reaction torques <span class="math notranslate nohighlight">\(Q_i\)</span>.
-A rotor turning counterclockwise pushes the body clockwise.
-When the counterclockwise pair spins faster than the clockwise pair,
-the torques do not cancel, and the vehicle yaws,
-with little change in the total thrust.</p></li>
-</ul>
-<p><strong>Forces</strong></p>
-<p>The body force is the total thrust along the body <em>up</em> axis
-and a linear aerodynamic drag that opposes the body velocity:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\mathbf{F_b} = \begin{bmatrix} -A_x \cdot u \\ -A_y \cdot v \\ T - A_z \cdot w \end{bmatrix}\end{split}\]</div>
-<p>Where <span class="math notranslate nohighlight">\(A_x, A_y, A_z\)</span> are the aerodynamic drag coefficients
-along the body <span class="math notranslate nohighlight">\(x, y, z\)</span> axes,
-and <span class="math notranslate nohighlight">\(\mathbf{v_b} = [u, v, w]^T\)</span> is the velocity in the body frame.
-The body velocity is obtained by rotating the inertial velocity
-<span class="math notranslate nohighlight">\(\mathbf{v_i} = [v_x, v_y, v_z]^T\)</span> to the body frame:</p>
-<div class="math notranslate nohighlight">
-\[\mathbf{v_b} = [BI] \cdot \mathbf{v_i}\]</div>
-<p>Where <span class="math notranslate nohighlight">\([BI]\)</span> is the body from inertial DCM (direction cosine matrix),
-generated by the Euler angles in a 3-2-1 order.
-With a wind, the drag acts on the air-relative velocity,
-<span class="math notranslate nohighlight">\(\mathbf{v_i} - \mathbf{v_{wind}}\)</span>.</p>
-<p>The body force is rotated to the inertial frame
-and combined with gravity <span class="math notranslate nohighlight">\(g\)</span> in the negative <span class="math notranslate nohighlight">\(z\)</span> direction:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\mathbf{F_i} = [BI]^T \cdot \mathbf{F_b} + \begin{bmatrix} 0 \\ 0 \\ -m \cdot g \end{bmatrix}\end{split}\]</div>
-<p>Where <span class="math notranslate nohighlight">\([BI]^T\)</span>, the transpose of <span class="math notranslate nohighlight">\([BI]\)</span>,
-rotates vectors to the inertial frame from the body frame,
-and <span class="math notranslate nohighlight">\(m\)</span> is the mass of the quadcopter <span class="math notranslate nohighlight">\([kg]\)</span>.
-<span class="math notranslate nohighlight">\(\mathbf{F_i}\)</span> is the force <span class="math notranslate nohighlight">\(F\)</span> of the translational equations of the common core.
-<span class="math notranslate nohighlight">\(\mathbf{F_b} / m\)</span> is the specific force,
-i.e. what an accelerometer at the center of mass measures.</p>
-<p><strong>Moments</strong></p>
-<p>The net moments consist of the control torques, an aerodynamic damping,
-and a gyroscopic coupling:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\begin{aligned}
-M_x &amp;= \tau_x - A_r \cdot p - I_R \cdot q \cdot \Omega \\
-M_y &amp;= \tau_y - A_r \cdot q + I_R \cdot p \cdot \Omega \\
-M_z &amp;= \tau_z - A_r \cdot r
-\end{aligned}\end{split}\]</div>
-<p>Where the net rotor angular speed is:</p>
-<div class="math notranslate nohighlight">
-\[\Omega = \Omega_1 + \Omega_2 - \Omega_3 - \Omega_4\]</div>
-<p>And:</p>
-<ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(\tau_x, \tau_y, \tau_z\)</span> are the roll, pitch, and yaw control torques generated by the rotors.</p></li>
-<li><p><span class="math notranslate nohighlight">\(A_r\)</span> is the aerodynamic rotational drag coefficient.
-The terms <span class="math notranslate nohighlight">\(A_r \cdot p, A_r \cdot q, A_r \cdot r\)</span> are damping moments
-that oppose the corresponding angular rates.</p></li>
-<li><p><span class="math notranslate nohighlight">\(I_R\)</span> is the rotor moment of inertia.
-The terms <span class="math notranslate nohighlight">\(I_R \cdot q \cdot \Omega\)</span> and <span class="math notranslate nohighlight">\(I_R \cdot p \cdot \Omega\)</span>
-are gyroscopic moments produced by the angular momentum of the spinning rotors.
-They couple the roll and the pitch dynamics:
-a pitch rate generates a roll moment, and a roll rate generates a pitch moment.</p></li>
-</ul>
-<p><span class="math notranslate nohighlight">\([M_x, M_y, M_z]\)</span> is the moment <span class="math notranslate nohighlight">\(M\)</span> of the rotational equations of the common core.</p>
-<p><strong>Implementation</strong></p>
-<p><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.quadcopter.quadforces.html#c4dynamics.eqm.quadcopter.quadforces" title="c4dynamics.eqm.quadcopter.quadforces"><code class="xref py py-func docutils literal notranslate"><span class="pre">quadforces</span></code></a> returns the
-body force (thrust and drag) and the body moment.
-<a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.quadcopter.quadeqm.html#c4dynamics.eqm.quadcopter.quadeqm" title="c4dynamics.eqm.quadcopter.quadeqm"><code class="xref py py-func docutils literal notranslate"><span class="pre">quadeqm</span></code></a> rotates the force to the inertial frame,
-adds gravity, and evaluates the Newton-Euler equations,
-for the <code class="docutils literal notranslate"><span class="pre">'NED'</span></code> and <code class="docutils literal notranslate"><span class="pre">'ENU'</span></code> frame conventions,
-with the signature of <code class="docutils literal notranslate"><span class="pre">scipy.integrate.solve_ivp</span></code>.
-The physical parameters of the reference vehicle are given by
-<code class="docutils literal notranslate"><span class="pre">c4dynamics.models.quad.default_quad_config()</span></code>.</p>
-<p><strong>Quaternion attitude</strong></p>
-<p>A quadcopter can flip, roll, and point its <em>up</em> axis in any direction.
-The Euler angles become singular at <span class="math notranslate nohighlight">\(\theta = \pm 90°\)</span>,
-so the quadcopter is a natural candidate for the quaternion representation.
-A <a class="reference internal" href="../api/states.lib.quatbody.html#c4dynamics.states.lib.quatbody.quatbody" title="c4dynamics.states.lib.quatbody.quatbody"><code class="xref py py-class docutils literal notranslate"><span class="pre">quatbody</span></code></a> object holds 13 state variables:</p>
-<div class="math notranslate nohighlight">
-\[X = [x, y, z, v_x, v_y, v_z, q_w, q_x, q_y, q_z, p, q, r]^T\]</div>
-<p>Where:</p>
-<ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(x, y, z\)</span> are the position coordinates in the inertial frame</p></li>
-<li><p><span class="math notranslate nohighlight">\(v_x, v_y, v_z\)</span> are the velocity components in the inertial frame</p></li>
-<li><p><span class="math notranslate nohighlight">\(q_w, q_x, q_y, q_z\)</span> are the attitude quaternion components (scalar first)</p></li>
-<li><p><span class="math notranslate nohighlight">\(p, q, r\)</span> are the body roll, pitch, and yaw rates</p></li>
-</ul>
-<p>The translational and the angular rates equations are those of the common core.
-The quaternion <span class="math notranslate nohighlight">\(\mathbf{q} = [q_w, q_x, q_y, q_z]\)</span> is propagated by the body rates:</p>
-<div class="math notranslate nohighlight">
-\[\dot{\mathbf{q}} = {1 \over 2} \cdot \mathbf{q} \otimes [0, p, q, r]\]</div>
-<p>These rates contain no trigonometric functions and no division,
-and are regular at any attitude.
-Numerical integration does not preserve the unit norm exactly,
-so the quaternion is normalized after each step.
-The rotation matrices and the Euler angles
-(<a class="reference internal" href="../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.phi.html#c4dynamics.states.lib.quatbody.quatbody.phi" title="c4dynamics.states.lib.quatbody.quatbody.phi"><code class="xref py py-attr docutils literal notranslate"><span class="pre">phi</span></code></a>,
-<a class="reference internal" href="../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.theta.html#c4dynamics.states.lib.quatbody.quatbody.theta" title="c4dynamics.states.lib.quatbody.quatbody.theta"><code class="xref py py-attr docutils literal notranslate"><span class="pre">theta</span></code></a>,
-<a class="reference internal" href="../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.psi.html#c4dynamics.states.lib.quatbody.quatbody.psi" title="c4dynamics.states.lib.quatbody.quatbody.psi"><code class="xref py py-attr docutils literal notranslate"><span class="pre">psi</span></code></a>)
-are computed from the quaternion, for the force model and for presentation.</p>
-<p>The attitude representation is independent of the force model.
-<a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.quadcopter.quadeqm.html#c4dynamics.eqm.quadcopter.quadeqm" title="c4dynamics.eqm.quadcopter.quadeqm"><code class="xref py py-func docutils literal notranslate"><span class="pre">quadeqm</span></code></a> accepts a 12-state
-<a class="reference internal" href="../api/states.lib.rigidbody.html#c4dynamics.states.lib.rigidbody.rigidbody" title="c4dynamics.states.lib.rigidbody.rigidbody"><code class="xref py py-class docutils literal notranslate"><span class="pre">rigidbody</span></code></a> as well,
-with the Euler angles kinematics shown in the missile section below.
-See <a class="reference internal" href="kinematics.html#kinematics-quaternion"><span class="std std-ref">Quaternion Kinematics</span></a> for the derivation and
-<a class="reference internal" href="transformations.html#transformations-conversions"><span class="std std-ref">Rigid Body Transformations</span></a> for the
-conversions between the representations.</p>
-<p><strong>Example</strong></p>
-<p>Define the quadcopter, speed up the counterclockwise rotors by 10%,
-slow down the clockwise rotors by 10%, and integrate the equations of motion:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">c4d</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">solve_ivp</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics.models.quad</span><span class="w"> </span><span class="kn">import</span> <span class="n">default_quad_config</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">quad</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">quatbody</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">default_quad_config</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-<span class="gp">... </span>  <span class="nb">setattr</span><span class="p">(</span><span class="n">quad</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">w_hover</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">quad</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">quad</span><span class="o">.</span><span class="n">g</span> <span class="o">/</span> <span class="mi">4</span> <span class="o">/</span> <span class="n">quad</span><span class="o">.</span><span class="n">kT</span><span class="p">)</span>          <span class="c1"># rotor speed that carries the weight</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">rotor_speeds</span> <span class="o">=</span> <span class="n">w_hover</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">])</span>   <span class="c1"># ccw pair faster, cw pair slower</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">F_b</span><span class="p">,</span> <span class="n">M_b</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">eqm</span><span class="o">.</span><span class="n">quadforces</span><span class="p">(</span><span class="n">quad</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">quad</span><span class="p">,</span> <span class="n">rotor_speeds</span><span class="p">,</span> <span class="s1">&#39;ENU&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">F_b</span>      <span class="c1"># thrust along body up</span>
-<span class="go">array([0, 0, 4.63...])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">M_b</span>      <span class="c1"># a yaw moment only</span>
-<span class="go">array([0, 0, -0.035...])</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span> <span class="o">=</span> <span class="mf">0.01</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
-<span class="gp">... </span>  <span class="n">quad</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-<span class="gp">... </span>  <span class="n">sol</span> <span class="o">=</span> <span class="n">solve_ivp</span><span class="p">(</span><span class="n">c4d</span><span class="o">.</span><span class="n">eqm</span><span class="o">.</span><span class="n">quadeqm</span><span class="p">,</span> <span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">t</span> <span class="o">+</span> <span class="n">dt</span><span class="p">],</span> <span class="n">quad</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">quad</span><span class="p">,</span> <span class="n">rotor_speeds</span><span class="p">,</span> <span class="s1">&#39;ENU&#39;</span><span class="p">))</span>
-<span class="gp">... </span>  <span class="n">quad</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">sol</span><span class="o">.</span><span class="n">y</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="gp">... </span>  <span class="n">quad</span><span class="o">.</span><span class="n">quat</span> <span class="o">=</span> <span class="n">quad</span><span class="o">.</span><span class="n">quat</span>    <span class="c1"># normalize to a unit quaternion</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">quad</span><span class="p">)</span>
-<span class="go">[ x  y  z  vx  vy  vz  qw  qx  qy  qz  p  q  r ]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">quad</span><span class="o">.</span><span class="n">quat</span>
-<span class="go">array([ 0.985...,  0.        ,  0.        , -0.170...])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">quad</span><span class="o">.</span><span class="n">psi</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">r2d</span>     <span class="c1"># turns clockwise seen from above</span>
-<span class="go">-19.6...</span>
-</pre></div>
-</div>
-<p>The reaction torques turn the vehicle about its <em>up</em> axis.
-The quaternion is a rotation of <span class="math notranslate nohighlight">\(\alpha = -19.6°\)</span> about <span class="math notranslate nohighlight">\(z\)</span>:
-<span class="math notranslate nohighlight">\(q_w = cos(\alpha / 2)\)</span>, <span class="math notranslate nohighlight">\(q_z = sin(\alpha / 2)\)</span>.
-The total thrust is slightly above the weight, and the vehicle climbs slowly.
-Replacing <code class="docutils literal notranslate"><span class="pre">c4d.quatbody()</span></code> by <code class="docutils literal notranslate"><span class="pre">c4d.rigidbody()</span></code> selects the Euler angles model
-with no other change in the code.</p>
-<p><strong>Use cases</strong></p>
-<ul class="simple">
-<li><p><a class="reference internal" href="../programs/pid_cascade/quadcopter_pid.html"><span class="doc">Cascade PID Control</span></a>:
-a cascade PID controller flies the quadcopter on a figure-eight trajectory.</p></li>
-<li><p><a class="reference internal" href="../programs/ekf_estimation/quad_ekf.html"><span class="doc">EKF Estimation</span></a>:
-an extended Kalman filter estimates the quadcopter state in closed loop with the controller.</p></li>
-<li><p><a class="reference internal" href="../programs/ardupilot_sim/ardupilot_fig8.html"><span class="doc">ArduPilot Simulation</span></a>:
-the ArduPilot flight controller flies a <a class="reference internal" href="../api/states.lib.quatbody.html#c4dynamics.states.lib.quatbody.quatbody" title="c4dynamics.states.lib.quatbody.quatbody"><code class="xref py py-class docutils literal notranslate"><span class="pre">quatbody</span></code></a>
-quadcopter in a figure-eight.</p></li>
+<li><p><strong>Equal moments of inertia.</strong> A body with <span class="math notranslate nohighlight">\(I_{xx} = I_{yy} = I_{zz}\)</span>,
+such as a sphere or a cube, has no coupling.
+With no moments, its angular rates remain constant.</p></li>
+<li><p><strong>Axial symmetry.</strong> A body with <span class="math notranslate nohighlight">\(I_{yy} = I_{zz}\)</span>, such as a missile or a rocket,
+has no coupling in the roll equation, <span class="math notranslate nohighlight">\(I_{xx} \cdot \dot{p} = M_x\)</span>.
+The pitch and the yaw equations remain coupled through the roll rate <span class="math notranslate nohighlight">\(p\)</span>.
+A rolling airframe turns a pitch rate into a yaw acceleration and vice versa.</p></li>
+<li><p><strong>Spin about a principal axis.</strong> With only one nonzero rate, the coupling terms vanish,
+and with no moments the spin continues.
+The spin is stable about the axes of the maximum and the minimum moments of inertia,
+and unstable about the intermediate axis, where a small disturbance grows
+until the body tumbles (see the example below).</p></li>
+<li><p><strong>Spinning parts.</strong> The same term, applied to the angular momentum of the rotors,
+produces the gyroscopic moments of a quadcopter
+(see <a class="reference internal" href="vehicles.html#vehicles-quadcopter"><span class="std std-ref">Quadcopter</span></a>).</p></li>
 </ul>
 </section>
-<section id="missile">
-<h2>Missile<a class="headerlink" href="#missile" title="Link to this heading">#</a></h2>
-<p><strong>State vector</strong></p>
-<p>The missile is a rigid body with six degrees of freedom,
-represented by a <a class="reference internal" href="../api/states.lib.rigidbody.html#c4dynamics.states.lib.rigidbody.rigidbody" title="c4dynamics.states.lib.rigidbody.rigidbody"><code class="xref py py-class docutils literal notranslate"><span class="pre">rigidbody</span></code></a> object:</p>
-<div class="math notranslate nohighlight">
-\[X = [x, y, z, v_x, v_y, v_z, \varphi, \theta, \psi, p, q, r]^T\]</div>
-<p>The variables are as defined for the quadcopter.
-The mass and the moments of inertia are attributes of the object,
-<a class="reference internal" href="../api/generated/dp/c4dynamics.states.lib.datapoint.datapoint.mass.html#c4dynamics.states.lib.datapoint.datapoint.mass" title="c4dynamics.states.lib.datapoint.datapoint.mass"><code class="xref py py-attr docutils literal notranslate"><span class="pre">mass</span></code></a> and
-<a class="reference internal" href="../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.I.html#c4dynamics.states.lib.rigidbody.rigidbody.I" title="c4dynamics.states.lib.rigidbody.rigidbody.I"><code class="xref py py-attr docutils literal notranslate"><span class="pre">I</span></code></a>,
-and may be updated during the run, as the rocket motor burns its fuel.</p>
-<p>The target is a point mass with three degrees of freedom, represented by a
-<a class="reference internal" href="../api/states.lib.datapoint.html#c4dynamics.states.lib.datapoint.datapoint" title="c4dynamics.states.lib.datapoint.datapoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">datapoint</span></code></a> object:</p>
+</section>
+<section id="the-equations-of-motion">
+<span id="dynamics-eqm"></span><h2>The Equations of Motion<a class="headerlink" href="#the-equations-of-motion" title="Link to this heading">#</a></h2>
+<p>The kinematic equations of <a class="reference internal" href="kinematics.html"><span class="doc">Kinematics</span></a>
+and the dynamic equations above form the equations of motion,
+a set of first-order differential equations of the state vector,
+<span class="math notranslate nohighlight">\(\dot{X} = f(X, F, M)\)</span>.
+c4dynamics provides three such sets, one for each state object.</p>
+<p><strong>Point mass (3DOF)</strong></p>
+<p>A <a class="reference internal" href="../api/states.lib.datapoint.html#c4dynamics.states.lib.datapoint.datapoint" title="c4dynamics.states.lib.datapoint.datapoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">datapoint</span></code></a> has only
+translational degrees of freedom:</p>
 <div class="math notranslate nohighlight">
 \[X = [x, y, z, v_x, v_y, v_z]^T\]</div>
-<p><strong>Dynamics</strong></p>
-<p>The forces on the missile are the propulsion along the body <span class="math notranslate nohighlight">\(x\)</span> axis,
-the aerodynamic lift and drag, and gravity.
-The propulsion and the aerodynamic forces are computed in the body frame and rotated to the
-inertial frame by <a class="reference internal" href="../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.RB.html#c4dynamics.states.lib.rigidbody.rigidbody.RB" title="c4dynamics.states.lib.rigidbody.rigidbody.RB"><code class="xref py py-attr docutils literal notranslate"><span class="pre">RB</span></code></a>.
-The aerodynamic moments are computed in the body frame from the angles of attack
-and the fins deflections.</p>
-<p>The translational equations are Newton’s second law in the inertial frame:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
-\dot{r} &amp;= v \\
-\dot{v} &amp;= {F \over m}
+\dot{r} &amp;= V \\
+\dot{V} &amp;= {F \over m}
 \end{aligned}\end{split}\]</div>
-<p>The rotational equations relate the moments to the body rates,
-and the body rates to the Euler angles rates:</p>
+<p>Where <span class="math notranslate nohighlight">\(r = [x, y, z]^T\)</span> and <span class="math notranslate nohighlight">\(V = [v_x, v_y, v_z]^T\)</span>.
+The derivatives are given by <a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm3.html#c4dynamics.eqm.derivs.eqm3" title="c4dynamics.eqm.derivs.eqm3"><code class="xref py py-func docutils literal notranslate"><span class="pre">eqm3</span></code></a>.</p>
+<p><strong>Rigid body with Euler angles (6DOF)</strong></p>
+<p>A <a class="reference internal" href="../api/states.lib.rigidbody.html#c4dynamics.states.lib.rigidbody.rigidbody" title="c4dynamics.states.lib.rigidbody.rigidbody"><code class="xref py py-class docutils literal notranslate"><span class="pre">rigidbody</span></code></a> adds the attitude,
+as the 3-2-1 Euler angles, and the body rates:</p>
+<div class="math notranslate nohighlight">
+\[X = [x, y, z, v_x, v_y, v_z, \varphi, \theta, \psi, p, q, r]^T\]</div>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
-\dot{\varphi} &amp;= p + (q \cdot sin(\varphi) + r \cdot cos(\varphi)) \cdot tan(\theta) \\
-\dot{\theta} &amp;= q \cdot cos(\varphi) - r \cdot sin(\varphi) \\
-\dot{\psi} &amp;= {q \cdot sin(\varphi) + r \cdot cos(\varphi) \over cos(\theta)} \\
-\dot{p} &amp;= {M[0] - q \cdot r \cdot (I_{zz} - I_{yy}) \over I_{xx}} \\
-\dot{q} &amp;= {M[1] - p \cdot r \cdot (I_{xx} - I_{zz}) \over I_{yy}} \\
-\dot{r} &amp;= {M[2] - p \cdot q \cdot (I_{yy} - I_{xx}) \over I_{zz}}
+\dot{r} &amp;= V \\
+\dot{V} &amp;= {F \over m} \\
+[\dot{\varphi}, \dot{\theta}, \dot{\psi}]^T &amp;= E(\varphi, \theta) \cdot \omega \\
+\dot{\omega} &amp;= I^{-1} \cdot (M - \omega \times (I \cdot \omega))
 \end{aligned}\end{split}\]</div>
-<p>The derivatives are given by <a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm6.html#c4dynamics.eqm.derivs.eqm6" title="c4dynamics.eqm.derivs.eqm6"><code class="xref py py-func docutils literal notranslate"><span class="pre">eqm6</span></code></a>.
-<a class="reference internal" href="../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.inteqm.html#c4dynamics.states.lib.rigidbody.rigidbody.inteqm" title="c4dynamics.states.lib.rigidbody.rigidbody.inteqm"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rigidbody.inteqm</span></code></a>
-integrates them by a fourth-order Runge-Kutta step,
-and <a class="reference internal" href="../api/generated/dp/c4dynamics.states.lib.datapoint.datapoint.inteqm.html#c4dynamics.states.lib.datapoint.datapoint.inteqm" title="c4dynamics.states.lib.datapoint.datapoint.inteqm"><code class="xref py py-meth docutils literal notranslate"><span class="pre">datapoint.inteqm</span></code></a>
-integrates the translational equations of the target
-(<a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm3.html#c4dynamics.eqm.derivs.eqm3" title="c4dynamics.eqm.derivs.eqm3"><code class="xref py py-func docutils literal notranslate"><span class="pre">eqm3</span></code></a>).
-The full derivation is given in <a class="reference internal" href="kinematics.html"><span class="doc">Kinematics</span></a>.</p>
-<p><strong>Example</strong></p>
-<p>Launch the missile at <span class="math notranslate nohighlight">\(30°\)</span> pitch in a NED frame (<span class="math notranslate nohighlight">\(z\)</span> down)
-with a constant thrust, and propagate a non-maneuvering target:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">missile</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">rigidbody</span><span class="p">(</span><span class="n">vx</span> <span class="o">=</span> <span class="mi">30</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">30</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">d2r</span><span class="p">),</span> <span class="n">vz</span> <span class="o">=</span> <span class="o">-</span><span class="mi">30</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">30</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">d2r</span><span class="p">),</span> <span class="n">theta</span> <span class="o">=</span> <span class="mi">30</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">d2r</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">missile</span><span class="o">.</span><span class="n">mass</span> <span class="o">=</span> <span class="mi">85</span>               <span class="c1"># kg</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">missile</span><span class="o">.</span><span class="n">I</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">61</span><span class="p">,</span> <span class="mi">61</span><span class="p">]</span>       <span class="c1"># kg.m^2</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">target</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">datapoint</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="mi">4000</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1000</span><span class="p">,</span> <span class="n">vx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">250</span><span class="p">)</span>
-</pre></div>
+<p>Where <span class="math notranslate nohighlight">\(E(\varphi, \theta)\)</span> is the matrix of the
+<a class="reference internal" href="kinematics.html#kinematics-euler"><span class="std std-ref">Euler angles rates</span></a>.
+The derivatives are given by <a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm6.html#c4dynamics.eqm.derivs.eqm6" title="c4dynamics.eqm.derivs.eqm6"><code class="xref py py-func docutils literal notranslate"><span class="pre">eqm6</span></code></a>.</p>
+<p><strong>Rigid body with a quaternion (6DOF)</strong></p>
+<p>A <a class="reference internal" href="../api/states.lib.quatbody.html#c4dynamics.states.lib.quatbody.quatbody" title="c4dynamics.states.lib.quatbody.quatbody"><code class="xref py py-class docutils literal notranslate"><span class="pre">quatbody</span></code></a> replaces the
+Euler angles with the attitude quaternion:</p>
+<div class="math notranslate nohighlight">
+\[X = [x, y, z, v_x, v_y, v_z, q_w, q_x, q_y, q_z, p, q, r]^T\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\dot{r} &amp;= V \\
+\dot{V} &amp;= {F \over m} \\
+\dot{q} &amp;= {1 \over 2} \cdot q \otimes [0, p, q, r] \\
+\dot{\omega} &amp;= I^{-1} \cdot (M - \omega \times (I \cdot \omega))
+\end{aligned}\end{split}\]</div>
+<p>The quaternion rates are derived in <a class="reference internal" href="kinematics.html#kinematics-quaternion"><span class="std std-ref">Kinematics</span></a>.
+The derivatives are given by <a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm6q.html#c4dynamics.eqm.derivs.eqm6q" title="c4dynamics.eqm.derivs.eqm6q"><code class="xref py py-func docutils literal notranslate"><span class="pre">eqm6q</span></code></a>.</p>
+<p><strong>Summary</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 22.0%" />
+<col style="width: 14.0%" />
+<col style="width: 32.0%" />
+<col style="width: 32.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>State object</p></th>
+<th class="head"><p>States</p></th>
+<th class="head"><p>Derivatives</p></th>
+<th class="head"><p>Integration step</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/states.lib.datapoint.html#c4dynamics.states.lib.datapoint.datapoint" title="c4dynamics.states.lib.datapoint.datapoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">datapoint</span></code></a></p></td>
+<td><p>6</p></td>
+<td><p><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm3.html#c4dynamics.eqm.derivs.eqm3" title="c4dynamics.eqm.derivs.eqm3"><code class="xref py py-func docutils literal notranslate"><span class="pre">eqm3</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.integrate.int3.html#c4dynamics.eqm.integrate.int3" title="c4dynamics.eqm.integrate.int3"><code class="xref py py-func docutils literal notranslate"><span class="pre">int3</span></code></a>,
+<a class="reference internal" href="../api/generated/dp/c4dynamics.states.lib.datapoint.datapoint.inteqm.html#c4dynamics.states.lib.datapoint.datapoint.inteqm" title="c4dynamics.states.lib.datapoint.datapoint.inteqm"><code class="xref py py-meth docutils literal notranslate"><span class="pre">datapoint.inteqm</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/states.lib.rigidbody.html#c4dynamics.states.lib.rigidbody.rigidbody" title="c4dynamics.states.lib.rigidbody.rigidbody"><code class="xref py py-class docutils literal notranslate"><span class="pre">rigidbody</span></code></a></p></td>
+<td><p>12</p></td>
+<td><p><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm6.html#c4dynamics.eqm.derivs.eqm6" title="c4dynamics.eqm.derivs.eqm6"><code class="xref py py-func docutils literal notranslate"><span class="pre">eqm6</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.integrate.int6.html#c4dynamics.eqm.integrate.int6" title="c4dynamics.eqm.integrate.int6"><code class="xref py py-func docutils literal notranslate"><span class="pre">int6</span></code></a>,
+<a class="reference internal" href="../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.inteqm.html#c4dynamics.states.lib.rigidbody.rigidbody.inteqm" title="c4dynamics.states.lib.rigidbody.rigidbody.inteqm"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rigidbody.inteqm</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/states.lib.quatbody.html#c4dynamics.states.lib.quatbody.quatbody" title="c4dynamics.states.lib.quatbody.quatbody"><code class="xref py py-class docutils literal notranslate"><span class="pre">quatbody</span></code></a></p></td>
+<td><p>13</p></td>
+<td><p><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm6q.html#c4dynamics.eqm.derivs.eqm6q" title="c4dynamics.eqm.derivs.eqm6q"><code class="xref py py-func docutils literal notranslate"><span class="pre">eqm6q</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.integrate.int6q.html#c4dynamics.eqm.integrate.int6q" title="c4dynamics.eqm.integrate.int6q"><code class="xref py py-func docutils literal notranslate"><span class="pre">int6q</span></code></a>,
+<a class="reference internal" href="../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.inteqm.html#c4dynamics.states.lib.quatbody.quatbody.inteqm" title="c4dynamics.states.lib.quatbody.quatbody.inteqm"><code class="xref py py-meth docutils literal notranslate"><span class="pre">quatbody.inteqm</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span> <span class="o">=</span> <span class="mf">0.01</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
-<span class="gp">... </span>  <span class="n">missile</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-<span class="gp">... </span>  <span class="n">target</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-<span class="gp">... </span>  <span class="n">thrust</span>  <span class="o">=</span> <span class="n">missile</span><span class="o">.</span><span class="n">RB</span> <span class="o">@</span> <span class="p">[</span><span class="mi">3000</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>               <span class="c1"># body x to inertial</span>
-<span class="gp">... </span>  <span class="n">gravity</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">missile</span><span class="o">.</span><span class="n">mass</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">g_ms2</span><span class="p">]</span>        <span class="c1"># z down</span>
-<span class="gp">... </span>  <span class="n">missile</span><span class="o">.</span><span class="n">inteqm</span><span class="p">(</span><span class="n">thrust</span> <span class="o">+</span> <span class="n">gravity</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dt</span><span class="p">)</span>   <span class="c1"># forces, moments, dt</span>
-<span class="gp">... </span>  <span class="n">target</span><span class="o">.</span><span class="n">inteqm</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dt</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">missile</span><span class="o">.</span><span class="n">vel_mag</span><span class="p">()</span>
-<span class="go">123.8...</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">target</span><span class="o">.</span><span class="n">x</span>
-<span class="go">3250.0...</span>
-</pre></div>
-</div>
-<p>In the use case, the moments of the aerodynamics and the control fins
-replace the zero moments vector, and the guidance law closes the loop.</p>
-<p><strong>Use cases</strong></p>
-<ul class="simple">
-<li><p><a class="reference internal" href="../programs/pn_guidance/dof6sim.html"><span class="doc">Proportional Navigation Guidance</span></a>:
-a 6DOF missile, guided by proportional navigation, intercepts a target.</p></li>
-</ul>
+<p>In all three sets, the force <span class="math notranslate nohighlight">\(F\)</span> is expressed in the reference frame,
+and the moment <span class="math notranslate nohighlight">\(M\)</span> in the body frame.</p>
 </section>
-<section id="car">
-<h2>Car<a class="headerlink" href="#car" title="Link to this heading">#</a></h2>
-<p><strong>State vector</strong></p>
-<p>The car is modeled in the plane, by its position and its heading.
-It is represented by a <a class="reference internal" href="../api/states.state.html#c4dynamics.states.state.state" title="c4dynamics.states.state.state"><code class="xref py py-class docutils literal notranslate"><span class="pre">state</span></code></a> object
-with the state variables:</p>
-<div class="math notranslate nohighlight">
-\[X = [x, y, \psi]^T\]</div>
-<p>Where:</p>
-<ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(x, y\)</span> are the position coordinates in the plane</p></li>
-<li><p><span class="math notranslate nohighlight">\(\psi\)</span> is the heading angle with respect to the <span class="math notranslate nohighlight">\(x\)</span> axis</p></li>
-</ul>
-<p><strong>Dynamics</strong></p>
-<p>At a constant speed <span class="math notranslate nohighlight">\(V\)</span>, the kinematic (unicycle) model of the car is given by:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\begin{aligned}
-\dot{x} &amp;= V \cdot cos(\psi) \\
-\dot{y} &amp;= V \cdot sin(\psi) \\
-\dot{\psi} &amp;= \delta
-\end{aligned}\end{split}\]</div>
-<p>Where <span class="math notranslate nohighlight">\(\delta\)</span> is the steering input, the rate of change of the heading.</p>
-<p>For a straight reference line along the <span class="math notranslate nohighlight">\(x\)</span> axis,
-the model is linearized about <span class="math notranslate nohighlight">\(\psi = 0\)</span>.
-The longitudinal motion decouples, and the lateral dynamics reduce to two state variables,
-<span class="math notranslate nohighlight">\(X = [\psi, y]^T\)</span>, with <span class="math notranslate nohighlight">\(\dot{\psi} = \delta\)</span> and <span class="math notranslate nohighlight">\(\dot{y} = V \cdot \psi\)</span>.
-This is the prediction model of the MPC use case.</p>
-<p><strong>Example</strong></p>
-<p>Define the car with an initial lateral offset of <span class="math notranslate nohighlight">\(1m\)</span>,
-steer it back to the line with a simple feedback,
-and store the steering input as a parameter of the state:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">V</span> <span class="o">=</span> <span class="mf">22.3</span>   <span class="c1"># m/s</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">car_model</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">delta</span><span class="p">):</span>
-<span class="gp">... </span>  <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">psi</span> <span class="o">=</span> <span class="n">X</span>
-<span class="gp">... </span>  <span class="k">return</span> <span class="p">[</span><span class="n">V</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">psi</span><span class="p">),</span> <span class="n">V</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">psi</span><span class="p">),</span> <span class="n">delta</span><span class="p">]</span>
+<section id="integration">
+<span id="dynamics-integration"></span><h2>Integration<a class="headerlink" href="#integration" title="Link to this heading">#</a></h2>
+<p>The equations of motion are integrated in time by one of three ways:</p>
+<ol class="arabic simple">
+<li><p><strong>The state object method.</strong>
+<a class="reference internal" href="../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.inteqm.html#c4dynamics.states.lib.rigidbody.rigidbody.inteqm" title="c4dynamics.states.lib.rigidbody.rigidbody.inteqm"><code class="xref py py-meth docutils literal notranslate"><span class="pre">inteqm</span></code></a>
+advances the state of the object by one step of
+a fourth-order Runge-Kutta method, with the force and the moment held
+constant over the step.
+<a class="reference internal" href="../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.inteqm.html#c4dynamics.states.lib.quatbody.quatbody.inteqm" title="c4dynamics.states.lib.quatbody.quatbody.inteqm"><code class="xref py py-meth docutils literal notranslate"><span class="pre">quatbody.inteqm</span></code></a>
+normalizes the quaternion at the end of the step.</p></li>
+<li><p><strong>The step functions.</strong>
+<a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.integrate.int3.html#c4dynamics.eqm.integrate.int3" title="c4dynamics.eqm.integrate.int3"><code class="xref py py-func docutils literal notranslate"><span class="pre">int3</span></code></a>,
+<a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.integrate.int6.html#c4dynamics.eqm.integrate.int6" title="c4dynamics.eqm.integrate.int6"><code class="xref py py-func docutils literal notranslate"><span class="pre">int6</span></code></a>, and
+<a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.integrate.int6q.html#c4dynamics.eqm.integrate.int6q" title="c4dynamics.eqm.integrate.int6q"><code class="xref py py-func docutils literal notranslate"><span class="pre">int6q</span></code></a> perform the same step
+and return the integrated state vector, without changing the object.</p></li>
+<li><p><strong>An external integrator.</strong>
+The derivative functions (<a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm3.html#c4dynamics.eqm.derivs.eqm3" title="c4dynamics.eqm.derivs.eqm3"><code class="xref py py-func docutils literal notranslate"><span class="pre">eqm3</span></code></a>,
+<a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm6.html#c4dynamics.eqm.derivs.eqm6" title="c4dynamics.eqm.derivs.eqm6"><code class="xref py py-func docutils literal notranslate"><span class="pre">eqm6</span></code></a>, <a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm6q.html#c4dynamics.eqm.derivs.eqm6q" title="c4dynamics.eqm.derivs.eqm6q"><code class="xref py py-func docutils literal notranslate"><span class="pre">eqm6q</span></code></a>),
+or a vehicle model such as <a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.quadcopter.quadeqm.html#c4dynamics.eqm.quadcopter.quadeqm" title="c4dynamics.eqm.quadcopter.quadeqm"><code class="xref py py-func docutils literal notranslate"><span class="pre">quadeqm</span></code></a>,
+are passed to an integrator such as <code class="docutils literal notranslate"><span class="pre">scipy.integrate.solve_ivp</span></code>,
+and the result is written back to <a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.X.html#c4dynamics.states.state.state.X" title="c4dynamics.states.state.state.X"><code class="xref py py-attr docutils literal notranslate"><span class="pre">X</span></code></a>.
+With a quaternion attitude, setting
+<a class="reference internal" href="../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.quat.html#c4dynamics.states.lib.quatbody.quatbody.quat" title="c4dynamics.states.lib.quatbody.quatbody.quat"><code class="xref py py-attr docutils literal notranslate"><span class="pre">quat</span></code></a> to itself
+normalizes it after the step.</p></li>
+</ol>
+<p>A simulation loop stores the state, computes the forces and the moments
+from the current state, and integrates one step:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">tf</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+  <span class="n">body</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+  <span class="n">F</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="n">forces_and_moments</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>     <span class="c1"># the vehicle physics</span>
+  <span class="n">body</span><span class="o">.</span><span class="n">inteqm</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">car</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">state</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">psi</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">car</span><span class="o">.</span><span class="n">delta</span> <span class="o">=</span> <span class="mi">0</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span> <span class="o">=</span> <span class="mf">0.2</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
-<span class="gp">... </span>  <span class="n">car</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-<span class="gp">... </span>  <span class="n">car</span><span class="o">.</span><span class="n">storeparams</span><span class="p">(</span><span class="s1">&#39;delta&#39;</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="p">)</span>
-<span class="gp">... </span>  <span class="n">car</span><span class="o">.</span><span class="n">delta</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">car</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">car</span><span class="o">.</span><span class="n">psi</span>
-<span class="gp">... </span>  <span class="n">sol</span> <span class="o">=</span> <span class="n">solve_ivp</span><span class="p">(</span><span class="n">car_model</span><span class="p">,</span> <span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">t</span> <span class="o">+</span> <span class="n">dt</span><span class="p">],</span> <span class="n">car</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">car</span><span class="o">.</span><span class="n">delta</span><span class="p">,))</span>
-<span class="gp">... </span>  <span class="n">car</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">sol</span><span class="o">.</span><span class="n">y</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">car</span><span class="p">)</span>
-<span class="go">[ x  y  ψ ]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">car</span><span class="o">.</span><span class="n">y</span>      <span class="c1"># back on the line</span>
-<span class="go">-0.02...</span>
-</pre></div>
-</div>
-<p>The same car seen by a camera is a point in the image plane.
-The car tracker use cases represent it by a
-<a class="reference internal" href="../api/states.lib.pixelpoint.html#c4dynamics.states.lib.pixelpoint.pixelpoint" title="c4dynamics.states.lib.pixelpoint.pixelpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">pixelpoint</span></code></a>,
-<span class="math notranslate nohighlight">\(X = [x, y, w, h]^T\)</span> (the center pixel and the bounding box size),
-and propagate it with a constant velocity model in a
-<a class="reference internal" href="../api/filters.kalman.html#c4dynamics.filters.kalman.kalman" title="c4dynamics.filters.kalman.kalman"><code class="xref py py-class docutils literal notranslate"><span class="pre">kalman</span></code></a> filter.</p>
-<p><strong>Use cases</strong></p>
-<ul class="simple">
-<li><p><a class="reference internal" href="../programs/mpc_steering/mpc_steering.html"><span class="doc">MPC Steering</span></a>:
-a model predictive controller steers the car to a straight reference line.</p></li>
-<li><p><a class="reference internal" href="../programs/car_tracker/car_tracker.html"><span class="doc">Car Tracker (YOLOv3)</span></a> and
-<a class="reference internal" href="../programs/car_tracker_yolo11/car_tracker_yolo11.html"><span class="doc">Car Tracker (YOLO11)</span></a>:
-a Kalman filter tracks a car detected in a video, with constant velocity dynamics.</p></li>
-</ul>
 </section>
-<section id="helicopter">
-<h2>Helicopter<a class="headerlink" href="#helicopter" title="Link to this heading">#</a></h2>
-<p><strong>State vector</strong></p>
-<p>The helicopter is a laboratory-scale model with two degrees of freedom.
-It is mounted on a fixed base, and rotates in pitch and yaw only, with no translational motion.
-It is represented by the <code class="docutils literal notranslate"><span class="pre">helicopter</span></code> environment, a subclass of
-<a class="reference internal" href="../api/states.state.html#c4dynamics.states.state.state" title="c4dynamics.states.state.state"><code class="xref py py-class docutils literal notranslate"><span class="pre">state</span></code></a>
-(<code class="docutils literal notranslate"><span class="pre">c4dynamics.envs.environments.helicopter</span></code>), with the state variables:</p>
-<div class="math notranslate nohighlight">
-\[X = [\theta, \psi, \dot{\theta}, \dot{\psi}]^T\]</div>
-<p>Where:</p>
-<ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(\theta, \psi\)</span> are the pitch (elevation) and yaw (azimuth) angles</p></li>
-<li><p><span class="math notranslate nohighlight">\(\dot{\theta}, \dot{\psi}\)</span> are the pitch and yaw angular rates</p></li>
-</ul>
-<p><strong>Dynamics</strong></p>
-<p>Two rotors, driven by the voltages <span class="math notranslate nohighlight">\(V_p\)</span> and <span class="math notranslate nohighlight">\(V_y\)</span>, generate the pitch and the yaw torques.
-The equations of motion, derived by Lagrangian mechanics, are:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\begin{aligned}
-(J_p + M \cdot L_{cm}^2) \cdot \ddot{\theta} &amp;= K_{pp} \cdot V_p + K_{py} \cdot V_y \\
-&amp;\quad - M \cdot g \cdot L_{cm} \cdot cos(\theta) - D_p \cdot \dot{\theta} \\
-&amp;\quad - M \cdot L_{cm}^2 \cdot \dot{\psi}^2 \cdot sin(\theta) \cdot cos(\theta) \\
-(J_y + M \cdot L_{cm}^2 \cdot cos^2(\theta)) \cdot \ddot{\psi} &amp;= K_{yp} \cdot V_p + K_{yy} \cdot V_y \\
-&amp;\quad - D_y \cdot \dot{\psi} \\
-&amp;\quad + 2 \cdot M \cdot L_{cm}^2 \cdot \dot{\psi} \cdot \dot{\theta} \cdot sin(\theta) \cdot cos(\theta)
-\end{aligned}\end{split}\]</div>
-<p>Where:</p>
-<ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(J_p, J_y\)</span> are the pitch and yaw moments of inertia</p></li>
-<li><p><span class="math notranslate nohighlight">\(M, L_{cm}\)</span> are the mass and the center of mass distance from the pivot</p></li>
-<li><p><span class="math notranslate nohighlight">\(D_p, D_y\)</span> are the pitch and yaw viscous damping</p></li>
-<li><p><span class="math notranslate nohighlight">\(K_{pp}, K_{py}, K_{yp}, K_{yy}\)</span> are the torque gains from each rotor to each axis</p></li>
-<li><p><span class="math notranslate nohighlight">\(g\)</span> is the gravity acceleration</p></li>
-</ul>
-<p>The yaw-pitch coupling terms (centrifugal and Coriolis) and the cross rotor gains
-make the system a nonlinear multi-input multi-output plant.
-The equations are written in the control-affine form:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\begin{aligned}
-\dot{X}_1 &amp;= X_2 \\
-\dot{X}_2 &amp;= F(X) + G(X) \cdot u
-\end{aligned}\end{split}\]</div>
-<p>with <span class="math notranslate nohighlight">\(X_1 = [\theta, \psi]^T\)</span>, <span class="math notranslate nohighlight">\(X_2 = [\dot{\theta}, \dot{\psi}]^T\)</span>,
-and <span class="math notranslate nohighlight">\(u = [V_p, V_y]^T\)</span>.
-The <code class="docutils literal notranslate"><span class="pre">helicopter</span></code> object provides <code class="docutils literal notranslate"><span class="pre">F(X)</span></code>, <code class="docutils literal notranslate"><span class="pre">G(X)</span></code>, and <code class="docutils literal notranslate"><span class="pre">dynamics(t,</span> <span class="pre">X,</span> <span class="pre">u)</span></code>,
-the full state derivative with the signature of <code class="docutils literal notranslate"><span class="pre">scipy.integrate.solve_ivp</span></code>.</p>
-<p><strong>Example</strong></p>
-<p>Find the trim voltages, <span class="math notranslate nohighlight">\(G \cdot u = -F\)</span>, that hold the helicopter at rest,
-add a step to the pitch voltage, and integrate the equations of motion:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">c4dynamics.envs.environments</span><span class="w"> </span><span class="kn">import</span> <span class="n">helicopter</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">heli</span> <span class="o">=</span> <span class="n">helicopter</span><span class="p">(</span><span class="n">theta</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">psi</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">u_trim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">heli</span><span class="o">.</span><span class="n">G</span><span class="p">(),</span> <span class="o">-</span><span class="n">heli</span><span class="o">.</span><span class="n">F</span><span class="p">())</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">u_trim</span> <span class="o">+</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>   <span class="c1"># V</span>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h2>
+<p>Import c4dynamics and numpy:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">c4d</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span> <span class="o">=</span> <span class="mf">0.01</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
-<span class="gp">... </span>  <span class="n">heli</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-<span class="gp">... </span>  <span class="n">sol</span> <span class="o">=</span> <span class="n">solve_ivp</span><span class="p">(</span><span class="n">heli</span><span class="o">.</span><span class="n">dynamics</span><span class="p">,</span> <span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">t</span> <span class="o">+</span> <span class="n">dt</span><span class="p">],</span> <span class="n">heli</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span><span class="p">,))</span>
-<span class="gp">... </span>  <span class="n">heli</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">sol</span><span class="o">.</span><span class="n">y</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<p><strong>A point mass under gravity</strong></p>
+<p>A ball is thrown at 20 m/s forward and 20 m/s up,
+in a frame with <span class="math notranslate nohighlight">\(z\)</span> up.
+The only force is its weight:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ball</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">datapoint</span><span class="p">(</span><span class="n">vx</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">vz</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ball</span><span class="o">.</span><span class="n">mass</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">while</span> <span class="n">ball</span><span class="o">.</span><span class="n">z</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+<span class="gp">... </span>  <span class="n">ball</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="n">ball</span><span class="o">.</span><span class="n">inteqm</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">ball</span><span class="o">.</span><span class="n">mass</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">g_ms2</span><span class="p">],</span> <span class="n">dt</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="n">t</span> <span class="o">+=</span> <span class="n">dt</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">heli</span><span class="p">)</span>
-<span class="go">[ θ  ψ  dtheta  dpsi ]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">heli</span><span class="o">.</span><span class="n">theta</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">r2d</span><span class="p">,</span> <span class="n">heli</span><span class="o">.</span><span class="n">psi</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">r2d</span>   <span class="c1"># pitch up, and a coupled yaw</span>
-<span class="go">(10.4..., -2.5...)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ball</span><span class="o">.</span><span class="n">x</span>  
+<span class="go">81.8</span>
 </pre></div>
 </div>
-<p><strong>Use cases</strong></p>
-<ul class="simple">
-<li><p><a class="reference internal" href="../programs/learning_controller/learning_controller.html"><span class="doc">Neural Learning Control</span></a>:
-a backstepping controller with a neural network estimator of the uncertain dynamics
-tracks a pitch-yaw reference.</p></li>
-</ul>
+<p>The analytic range is <span class="math notranslate nohighlight">\(2 \cdot v_x \cdot v_z / g\)</span>, i.e. 81.6 m.
+The difference is the last step, which ends below the ground.</p>
+<p><strong>Spin about a principal axis</strong></p>
+<p>Two bodies with the moments of inertia <span class="math notranslate nohighlight">\(I = [1, 2, 3]\)</span> kg·m², and no moments.
+The first spins about its major axis <span class="math notranslate nohighlight">\((z)\)</span>, the second about its intermediate axis <span class="math notranslate nohighlight">\((y)\)</span>.
+Both are disturbed by a small roll rate:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">major</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">rigidbody</span><span class="p">(</span><span class="n">p</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">inter</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">rigidbody</span><span class="p">(</span><span class="n">p</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">q</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">major</span><span class="o">.</span><span class="n">I</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">inter</span><span class="o">.</span><span class="n">I</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+<span class="gp">... </span>  <span class="n">major</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="n">inter</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="n">major</span><span class="o">.</span><span class="n">inteqm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">dt</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="n">inter</span><span class="o">.</span><span class="n">inteqm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">dt</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The spin about the major axis is stable. The yaw rate stays at 2 rad/s:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">major</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="s1">&#39;r&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">major</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="s1">&#39;r&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>  
+<span class="go">(2.0, 2.0)</span>
+</pre></div>
+</div>
+<p>The spin about the intermediate axis is unstable.
+The coupling terms amplify the disturbance, and the body flips over:
+the pitch rate reverses its direction after less than six seconds:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tq</span><span class="p">,</span> <span class="n">q</span> <span class="o">=</span> <span class="n">inter</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>  
+<span class="go">-2.023</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tq</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">q</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)]</span>  
+<span class="go">5.82</span>
+</pre></div>
+</div>
+<p>No moment acted on either body.
+The flip is caused only by the term <span class="math notranslate nohighlight">\(\omega \times (I \cdot \omega)\)</span>.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<div role="list" class="citation-list">
+<div class="citation" id="mi" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">MI</a><span class="fn-bracket">]</span></span>
+<p>17 July 1995, “Missile Flight Simulation, Part One, Surface-to-Air Missiles”,
+Ch 4 In: Military Handbook. 1995, MIL-HDBK-1211(MI)</p>
+</div>
+</div>
 </section>
 <section id="see-also">
 <h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h2>
 <div class="pst-scrollable-table-container"><table class="table">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="states.html"><span class="doc">State Objects</span></a></p></td>
-<td><p>The state data-structure and its operations</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="kinematics.html"><span class="doc">Kinematics</span></a></p></td>
+<td><p>Previous: the propagation of the position and the attitude</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="kinematics.html"><span class="doc">Kinematics</span></a></p></td>
-<td><p>Background material on the equations of motion of points and rigid bodies</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="vehicles.html"><span class="doc">Vehicles</span></a></p></td>
+<td><p>Next: the forces and the moments of each vehicle</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="transformations.html"><span class="doc">Rigid Body Transformations</span></a></p></td>
-<td><p>Rotation matrices, Euler angles, and quaternions</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm3.html#c4dynamics.eqm.derivs.eqm3" title="c4dynamics.eqm.derivs.eqm3"><code class="xref py py-func docutils literal notranslate"><span class="pre">eqm3</span></code></a></p></td>
+<td><p>Translational motion derivatives of a data point in three-dimensional space</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../api/eqm.html#module-c4dynamics.eqm" title="c4dynamics.eqm"><code class="xref py py-mod docutils literal notranslate"><span class="pre">eqm</span></code></a></p></td>
-<td><p>Equations of motion and integration functions</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm6.html#c4dynamics.eqm.derivs.eqm6" title="c4dynamics.eqm.derivs.eqm6"><code class="xref py py-func docutils literal notranslate"><span class="pre">eqm6</span></code></a></p></td>
+<td><p>Translational and rotational motion derivatives of a rigid body in three-dimensional space</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm6q.html#c4dynamics.eqm.derivs.eqm6q" title="c4dynamics.eqm.derivs.eqm6q"><code class="xref py py-func docutils literal notranslate"><span class="pre">eqm6q</span></code></a></p></td>
+<td><p>Translational and rotational motion derivatives of a rigid body with a quaternion attitude</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.integrate.int3.html#c4dynamics.eqm.integrate.int3" title="c4dynamics.eqm.integrate.int3"><code class="xref py py-func docutils literal notranslate"><span class="pre">int3</span></code></a></p></td>
+<td><p>A step integration of the equations of translational motion</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.integrate.int6.html#c4dynamics.eqm.integrate.int6" title="c4dynamics.eqm.integrate.int6"><code class="xref py py-func docutils literal notranslate"><span class="pre">int6</span></code></a></p></td>
+<td><p>A step integration of the equations of translational and rotational motion</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.integrate.int6q.html#c4dynamics.eqm.integrate.int6q" title="c4dynamics.eqm.integrate.int6q"><code class="xref py py-func docutils literal notranslate"><span class="pre">int6q</span></code></a></p></td>
+<td><p>A step integration of the equations of translational and rotational motion with a quaternion attitude</p></td>
 </tr>
 </tbody>
 </table>
@@ -1227,11 +1007,11 @@ tracks a pitch-yaw reference.</p></li>
       </div>
     </a>
     <a class="right-next"
-       href="transformations.html"
+       href="vehicles.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Rigid Body Transformations</p>
+        <p class="prev-next-title">Vehicles</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1251,11 +1031,16 @@ tracks a pitch-yaw reference.</p></li>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-common-core">The Common Core</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quadcopter">Quadcopter</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#missile">Missile</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#car">Car</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#helicopter">Helicopter</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nomenclature">Nomenclature</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-newton-euler-equations">The Newton-Euler Equations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#translational-motion">Translational Motion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rotational-motion">Rotational Motion</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-equations-of-motion">The Equations of Motion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#integration">Integration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
 </ul>
   </nav></div>
@@ -1290,7 +1075,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Oct 22, 2026.
+  Last updated on Oct 28, 2026.
   <br/>
 </p>
   </div>
