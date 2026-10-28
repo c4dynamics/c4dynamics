@@ -2,26 +2,30 @@ Rigid Body Transformations
 ==========================
 
 
-The ``rotmat`` module in c4dynamics provides a collection of
-functions for defining and exploring the rotation of bodies from
-one frame of reference to another.
+A :doc:`state object </concepts/states>` holds the variables of a body:
+its position, its velocity, and, for a rigid body, its attitude.
+Before these variables can change in time, they need a geometric meaning:
+in which frame a vector is expressed, and how the orientation of one frame
+relative to another is described.
 
-This page covers the background:
-what a frame of reference is,
-the notation c4dynamics uses for rotation matrices,
-the three representations of an attitude (Euler angles, rotation matrix, quaternion),
-how to convert between them,
-and how to rotate vectors from one frame to another.
+This page covers that geometry, with no time involved:
+the frames of reference, the rotation matrices that move vectors between them,
+and the three representations of an attitude
+(Euler angles, rotation matrix, quaternion).
+The next page, :doc:`Kinematics </concepts/kinematics>`,
+lets these quantities change in time.
 
+In c4dynamics, the geometry is implemented by the :mod:`rotmat <c4dynamics.rotmat>` module,
+and by the :attr:`BR <c4dynamics.states.lib.rigidbody.rigidbody.BR>` and
+:attr:`RB <c4dynamics.states.lib.rigidbody.rigidbody.RB>` properties of the rigid body
+state objects.
 
-Background Material
--------------------
 
 
 .. _transformations-frames:
 
 Reference Frames
-^^^^^^^^^^^^^^^^
+----------------
 
 A frame of reference (or a coordinate system) is an origin and three
 mutually perpendicular unit axes, :math:`x, y, z`.
@@ -29,9 +33,9 @@ A physical vector, such as a velocity or a force, exists independently of any fr
 Its three components, however, depend on the frame in which it is resolved.
 A vector resolved in a given frame is said to be **expressed** in that frame.
 
-For example, an aircraft that flies north at :math:`150 m/s` and pitches up by :math:`30°`
+For example, an aircraft that flies north at 150 m/s and pitches up by :math:`30°`
 has a single velocity vector.
-In an earth frame its components are :math:`[150, 0, 0]`,
+In an earth frame (north, east, down) its components are :math:`[150, 0, 0]`,
 while in the aircraft body frame they are :math:`[129.9, 0, 75]`
 (see the examples below).
 
@@ -40,7 +44,8 @@ with a given frame, is said to be **relative to** (or **with respect to**) that 
 The laws of motion hold relative to an inertial frame,
 but the vectors in them can be expressed in any frame.
 
-The frames that appear throughout c4dynamics:
+
+**The frames of c4dynamics**
 
 .. list-table::
    :widths: 10 30 60
@@ -51,20 +56,16 @@ The frames that appear throughout c4dynamics:
      - Description
    * - :math:`R`
      - Reference
-     - The frame against which the attitude of a body is defined.
-       Usually an inertial earth frame. This is the default frame of the
-       position and the velocity of the state objects
-       (:math:`x, y, z, v_x, v_y, v_z`).
+     - The frame in which the state objects express the position and the velocity
+       (:math:`x, y, z, v_x, v_y, v_z`), and against which the attitude of a body is defined.
    * - :math:`I`
      - Inertial
-     - A reference frame that does not accelerate or rotate.
-       In c4dynamics, :math:`I` and :math:`R` are used interchangeably when the
-       reference frame is inertial, e.g. in the navigation sensors and the quadcopter model.
+     - A frame that does not accelerate or rotate. The laws of motion hold relative to it.
    * - :math:`B`
      - Body
      - A frame fixed to the body and rotating with it. The origin is
        at the center of mass and :math:`x_b` is along the centerline (the nose).
-       The body angular rates :math:`(p, q, r)` and the body velocity
+       The body angular rates :math:`(p, q, r)` and the body components of the velocity
        :math:`(u, v, w)` are expressed in this frame.
    * - :math:`S`
      - Sensor
@@ -72,17 +73,34 @@ The frames that appear throughout c4dynamics:
        or a :class:`radar <c4dynamics.sensors.radar.radar>`.
        Its :math:`x` axis is the sensor boresight.
 
-Two pairs of an inertial frame and a body frame are common for vehicles that fly
+
+**Reference, inertial, and earth frames**
+
+The reference frame is a modeling choice, and is not necessarily inertial.
+The equations of motion of c4dynamics, however, are written relative to the reference frame
+(see :doc:`Dynamics </concepts/dynamics>`), and therefore assume that it is inertial.
+In the use cases, the reference frame is an *earth frame*:
+a frame fixed to a flat earth, such as NED or ENU below.
+The earth rotation and curvature are negligible over the time and the range of these
+use cases, so the earth frame is treated as inertial,
+and :math:`R` and :math:`I` denote the same frame.
+:math:`I` is used where the inertial property matters, e.g. in the navigation sensors
+and the quadcopter model, and :math:`R` elsewhere.
+
+
+**NED and ENU**
+
+Two pairs of an earth frame and a body frame are common for vehicles that move
 above a flat earth.
 Both are supported by the quadcopter model and the navigation sensors through the
-``frame`` argument (see :ref:`Quadcopter Equations of Motion <kinematics-quadcopter>`):
+``frame`` argument (see :ref:`Quadcopter <vehicles-quadcopter>`):
 
 .. list-table::
    :widths: 15 40 45
    :header-rows: 1
 
    * - ``frame``
-     - Inertial frame
+     - Earth frame
      - Body frame
    * - ``'NED'``
      - :math:`x` north, :math:`y` east, :math:`z` down
@@ -92,52 +110,42 @@ Both are supported by the quadcopter model and the navigation sensors through th
      - :math:`x` forward, :math:`y` left, :math:`z` up (FLU)
 
 
-Right Hand Frame
-^^^^^^^^^^^^^^^^
+**Right-handed frames**
 
-The positive directions of coordinate system
-axes and the directions of positive rotations
-about the axes are arbitrary.
-In right-handed systems:
+All the frames in c4dynamics are right-handed:
 
-::
+.. math::
 
-  i x j = k
-  j x k = i
-  k x i = j
+  \begin{aligned}
+  i \times j &= k \\
+  j \times k &= i \\
+  k \times i &= j
+  \end{aligned}
 
-where i is the unit vector in the direction of the x-axis,
-j is the unit vector in the direction of the y-axis,
-k is the unit vector in the direction of the z-axis.
-
+where :math:`i, j, k` are the unit vectors along the :math:`x, y, z` axes.
 Positive rotations are clockwise
 when viewed from the origin, looking out along the
-positive direction of the axis.
-
-These conventions are illustrated
-in Fig-1.
-
+positive direction of the axis (Fig-1).
 
 .. figure:: /_architecture/frame_conventions.svg
 
-   Fig-1: Coordinate System Conventions
+   Fig-1: Coordinate system conventions
+
 
 
 .. _transformations-notation:
 
-Rotation Matrix Notation
-^^^^^^^^^^^^^^^^^^^^^^^^
+Rotation Matrices
+-----------------
 
 Vectors that are expressed in different frames are related through a
-Direction Cosine Matrix (DCM), a :math:`3 \times 3` rotation matrix. [HS]_
+Direction Cosine Matrix (DCM), a :math:`3 \times 3` rotation matrix [HS]_.
+
+
+**Notation**
 
 c4dynamics names a rotation matrix by two letters in square brackets.
 The letters state the direction of the transformation, read from right to left:
-
-.. math::
-
-  [BR] \quad \text{- a rotation matrix from the frame } R \text{ to the frame } B
-
 :math:`[BR]` (*Body from Reference*) takes a vector that is expressed in :math:`R`
 and returns the same vector expressed in :math:`B`:
 
@@ -160,26 +168,31 @@ The same notation applies to any pair of frames, for example:
        :attr:`rigidbody.RB <c4dynamics.states.lib.rigidbody.rigidbody.RB>` and
        :attr:`quatbody.RB <c4dynamics.states.lib.quatbody.quatbody.RB>`
    * - :math:`[BI]`
-     - Body from Inertial, used in the IMU, the magnetometer, and the quadcopter model
+     - Body from Inertial, i.e. :math:`[BR]` when the reference frame is inertial.
+       Used in the IMU, the magnetometer, and the quadcopter model
    * - :math:`[SB]`
      - Sensor from Body, e.g. the gimbal of a seeker
 
-**Direction cosines.** The element :math:`[BR]_{ij}` is the cosine of the angle between
+
+**Properties**
+
+*Direction cosines.* The element :math:`[BR]_{ij}` is the cosine of the angle between
 the :math:`i`-th axis of :math:`B` and the :math:`j`-th axis of :math:`R`.
 Hence the rows of :math:`[BR]` are the body axes expressed in :math:`R`,
 and its columns are the reference axes expressed in :math:`B`.
 
-**Inverse.** A rotation matrix is orthonormal, :math:`[BR] \cdot [BR]^T = I_3`,
+*Inverse.* A rotation matrix is orthonormal, :math:`[BR] \cdot [BR]^T = I_3`,
 and its determinant is :math:`+1`. Its inverse is its transpose,
 which is the transformation in the opposite direction:
 
 .. math::
 
-  [RB] = [BR]^{-1} = [BR]^T
+  \begin{aligned}
+  [RB] &= [BR]^{-1} = [BR]^T \\
+  v_R &= [RB] \cdot v_B
+  \end{aligned}
 
-  v_R = [RB] \cdot v_B
-
-**Composition.** A chain of transformations is composed by cancelling adjacent letters.
+*Composition.* A chain of transformations is composed by cancelling adjacent letters.
 For three frames :math:`A, B, C`:
 
 .. math::
@@ -189,7 +202,7 @@ For three frames :math:`A, B, C`:
 For example, a seeker that is mounted on a gimbal sees the reference frame through
 :math:`[SR] = [SB] \cdot [BR]`.
 
-**Passive rotation.** The rotation matrices in c4dynamics are *passive*:
+*Passive rotation.* The rotation matrices in c4dynamics are *passive*:
 they rotate the frame of coordinates rather than the vector.
 The vector itself is unchanged; only the frame in which its components
 are expressed changes.
@@ -198,8 +211,7 @@ use the transpose. E.g. :math:`R_z(\psi)^T \cdot v` rotates :math:`v` by :math:`
 about :math:`z`.
 
 
-Elementary Rotations
-^^^^^^^^^^^^^^^^^^^^
+**Elementary rotations**
 
 A rotation of a frame through an angle about one of its axes is given by an
 elementary rotation matrix:
@@ -208,19 +220,19 @@ elementary rotation matrix:
 
   R_x(\varphi) = \begin{bmatrix}
       1 & 0 & 0 \\
-      0 & cos(\varphi) & sin(\varphi) \\
-      0 & -sin(\varphi) & cos(\varphi)
+      0 & \cos(\varphi) & \sin(\varphi) \\
+      0 & -\sin(\varphi) & \cos(\varphi)
     \end{bmatrix}
   , \quad
   R_y(\theta) = \begin{bmatrix}
-      cos(\theta) & 0 & -sin(\theta) \\
+      \cos(\theta) & 0 & -\sin(\theta) \\
       0 & 1 & 0 \\
-      sin(\theta) & 0 & cos(\theta)
+      \sin(\theta) & 0 & \cos(\theta)
     \end{bmatrix}
   , \quad
   R_z(\psi) = \begin{bmatrix}
-      cos(\psi) & sin(\psi) & 0 \\
-      -sin(\psi) & cos(\psi) & 0 \\
+      \cos(\psi) & \sin(\psi) & 0 \\
+      -\sin(\psi) & \cos(\psi) & 0 \\
       0 & 0 & 1
     \end{bmatrix}
 
@@ -230,16 +242,32 @@ These are implemented by :func:`rotx <c4dynamics.rotmat.rotmat.rotx>`,
 Any attitude is reached by a sequence of three elementary rotations.
 
 
-Euler Angles Order
-^^^^^^^^^^^^^^^^^^
+
+Attitude Representations
+------------------------
+
+The attitude of a body is the orientation of its body frame :math:`B`
+relative to the reference frame :math:`R`.
+It has three degrees of freedom, and c4dynamics represents it in three equivalent ways:
+three Euler angles, a rotation matrix :math:`[BR]`, and a unit quaternion.
+The rotation matrix is the one that moves vectors between the frames.
+The Euler angles and the quaternion are the compact forms that are stored in the
+state vector and propagated in time
+(see :doc:`Kinematics </concepts/kinematics>`).
+
+
+.. _transformations-euler:
+
+Euler Angles
+~~~~~~~~~~~~
 
 When Euler angles are employed in the transformation of
 a vector expressed in one reference frame to the expression
 of the vector in a different reference frame, any order of the
 three Euler rotations is possible, but the resulting transformation
-equations depend on the order selected. [MIs]_
+equations depend on the order selected [MIs]_.
 
-In aerospace applications for example,
+In aerospace applications,
 the common order is that the first Euler rotation is about the z-axis,
 the second is about the y-axis, and the third is about the x-axis.
 Such a transformation order is called z-y-x, or 3-2-1.
@@ -255,6 +283,16 @@ Starting with the body frame aligned with the reference frame:
 (1) Rotate about :math:`z_b` through the yaw (heading) angle :math:`\psi`,
 (2) Rotate about :math:`y_b` through the pitch angle :math:`\theta`,
 (3) Rotate about :math:`x_b` through the roll angle :math:`\varphi`.
+
+The rotations are applied in the order yaw, pitch, roll.
+The angles, however, are listed in the opposite order, roll, pitch, yaw,
+:math:`(\varphi, \theta, \psi)`, wherever they appear as a group:
+in the state vector of a :class:`rigidbody <c4dynamics.states.lib.rigidbody.rigidbody>`,
+in the arguments of :func:`dcm321 <c4dynamics.rotmat.rotmat.dcm321>`
+and :func:`euler2quat <c4dynamics.rotmat.rotmat.euler2quat>`,
+and in the outputs of :func:`dcm321euler <c4dynamics.rotmat.rotmat.dcm321euler>`
+and :func:`quat2euler <c4dynamics.rotmat.rotmat.quat2euler>`.
+This documentation follows the same order.
 
 The first rotation is the rightmost in the product:
 
@@ -273,57 +311,135 @@ The first rotation is the rightmost in the product:
               & c\varphi \cdot c\theta
       \end{bmatrix}
 
-where :math:`c \equiv cos` and :math:`s \equiv sin`.
+where :math:`c \equiv \cos` and :math:`s \equiv \sin`.
 This matrix is computed by :func:`dcm321 <c4dynamics.rotmat.rotmat.dcm321>`.
 
 The Euler angles are extracted back from the matrix by:
 
 .. math::
 
-  \varphi = atan2([BR]_{23}, [BR]_{33})
+  \begin{aligned}
+  \varphi &= \operatorname{atan2}([BR]_{23}, [BR]_{33}) \\
+  \theta &= -\arcsin([BR]_{13}) \\
+  \psi &= \operatorname{atan2}([BR]_{12}, [BR]_{11})
+  \end{aligned}
 
-  \theta = -asin([BR]_{13})
+**Gimbal lock.** At :math:`\theta = \pm 90°`,
+:math:`[BR]_{11}, [BR]_{12}, [BR]_{23}, [BR]_{33}` all vanish,
+the roll axis is aligned with the yaw axis,
+and :math:`\varphi` and :math:`\psi` describe the same rotation.
+Only their sum (or difference) is defined, not each one alone.
+Any set of three angles has such a singular attitude.
+The consequence for the propagation of the angles in time is discussed in
+:ref:`Kinematics <kinematics-euler>`.
 
-  \psi = atan2([BR]_{12}, [BR]_{11})
 
-The 3-2-1 Euler angles are singular at :math:`\theta = \pm 90°` (gimbal lock),
-where :math:`\varphi` and :math:`\psi` are not uniquely defined.
+.. _transformations-quaternion:
 
+Quaternion
+~~~~~~~~~~
 
-Quaternions
-^^^^^^^^^^^
-
-A rotation can also be represented by a unit quaternion.
-According to Euler's rotation theorem, any orientation is reached from the
-reference frame by a single rotation through an angle :math:`\alpha`
-about a unit axis :math:`n`. The attitude quaternion stores this rotation,
-scalar first:
+According to Euler's rotation theorem, any attitude is reached from
+the reference frame by a single rotation through an angle :math:`\alpha`
+about a unit axis :math:`n = [n_x, n_y, n_z]`.
+The attitude quaternion encodes this rotation by four parameters, scalar first
+(the Hamilton convention):
 
 .. math::
 
-  q = [q_w, q_x, q_y, q_z] = [cos(\alpha / 2), \; n \cdot sin(\alpha / 2)], \qquad \|q\| = 1
+  q = [q_w, q_x, q_y, q_z] = [\cos{\alpha \over 2}, \; n_x \cdot \sin{\alpha \over 2}, \; n_y \cdot \sin{\alpha \over 2}, \; n_z \cdot \sin{\alpha \over 2}]
 
-Unlike the three Euler angles, the quaternion has no singular attitude,
-which makes it the representation of choice for vehicles that may reach any attitude.
-:math:`q` and :math:`-q` describe the same rotation.
+Where:
 
-In c4dynamics, a quaternion describes the same attitude as the 3-2-1 Euler angles
-:math:`(\varphi, \theta, \psi)` of the convention above,
-and the Body from Reference DCM computed from the quaternion is identical to
+- :math:`q_w` is the scalar part of the quaternion
+- :math:`q_x, q_y, q_z` are the vector part of the quaternion
+
+Four parameters describe three degrees of freedom, therefore the quaternion
+is subject to one constraint. An attitude quaternion is a unit quaternion:
+
+.. math::
+
+  q_w^2 + q_x^2 + q_y^2 + q_z^2 = 1
+
+:math:`q` and :math:`-q` represent the same attitude
+(a rotation of :math:`\alpha` about :math:`n` equals a rotation of
+:math:`\alpha - 360°` about the same axis).
+Unlike the three Euler angles, the quaternion has no singular attitude [DI]_.
+
+
+**Rotation matrix**
+
+The quaternion describes the rotation that carries the reference frame onto the body frame.
+The matrix that c4dynamics computes from a quaternion is the Body from Reference DCM, :math:`[BR]`:
+it takes a vector expressed in the reference frame and returns
+the same vector expressed in the body frame, :math:`v_B = [BR] \cdot v_R`:
+
+.. math::
+
+  [BR] = \begin{bmatrix}
+        1 - 2(q_y^2 + q_z^2)
+      & 2(q_x q_y + q_w q_z)
+      & 2(q_x q_z - q_w q_y) \\
+            2(q_x q_y - q_w q_z)
+          & 1 - 2(q_x^2 + q_z^2)
+          & 2(q_y q_z + q_w q_x) \\
+                2(q_x q_z + q_w q_y)
+              & 2(q_y q_z - q_w q_x)
+              & 1 - 2(q_x^2 + q_y^2)
+      \end{bmatrix}
+
+Some references give instead the matrix that rotates a vector by :math:`\alpha` about :math:`n`.
+That matrix is the transpose, :math:`[RB]`, and its off-diagonal terms that contain :math:`q_w`
+have opposite signs. The difference is in the direction of the transformation, not a sign error.
+In quaternion products, :math:`v_B = [BR] \cdot v_R` is
+:math:`[0, v_B] = q^* \otimes [0, v_R] \otimes q`, where :math:`q^* = [q_w, -q_x, -q_y, -q_z]`
+is the conjugate of :math:`q`.
+
+For example, the quaternion of a yaw of :math:`90°`,
+:math:`q = [\cos 45°, 0, 0, \sin 45°]`,
+gives :math:`[BR] = R_z(90°)`, the elementary rotation above.
+In general, a quaternion describes the same attitude as the 3-2-1 Euler angles
+of the convention above, and its :math:`[BR]` is identical to
 :func:`dcm321 <c4dynamics.rotmat.rotmat.dcm321>` of those angles.
+It is computed by :func:`quat2dcm <c4dynamics.rotmat.rotmat.quat2dcm>`.
 
-The :class:`quatbody <c4dynamics.states.lib.quatbody.quatbody>` state object
-carries its attitude as such a quaternion. For the quaternion kinematics, see the
-:ref:`Kinematics <kinematics-quaternion>` concept page.
+
+**Relation to the Euler angles**
+
+The quaternion of the attitude that is defined by the 3-2-1
+Euler angles :math:`(\varphi, \theta, \psi)` is given by:
+
+.. math::
+
+  \begin{aligned}
+  q_w &= c{\varphi \over 2} c{\theta \over 2} c{\psi \over 2} + s{\varphi \over 2} s{\theta \over 2} s{\psi \over 2} \\
+  q_x &= s{\varphi \over 2} c{\theta \over 2} c{\psi \over 2} - c{\varphi \over 2} s{\theta \over 2} s{\psi \over 2} \\
+  q_y &= c{\varphi \over 2} s{\theta \over 2} c{\psi \over 2} + s{\varphi \over 2} c{\theta \over 2} s{\psi \over 2} \\
+  q_z &= c{\varphi \over 2} c{\theta \over 2} s{\psi \over 2} - s{\varphi \over 2} s{\theta \over 2} c{\psi \over 2}
+  \end{aligned}
+
+The inverse relation, from a quaternion to the Euler angles, is given by:
+
+.. math::
+
+  \begin{aligned}
+  \varphi &= \operatorname{atan2}(2(q_w q_x + q_y q_z), \; 1 - 2(q_x^2 + q_y^2)) \\
+  \theta &= \arcsin(2(q_w q_y - q_x q_z)) \\
+  \psi &= \operatorname{atan2}(2(q_w q_z + q_x q_y), \; 1 - 2(q_y^2 + q_z^2))
+  \end{aligned}
+
+The extracted Euler angles are, of course, still singular at :math:`\theta = \pm 90°`.
+The quaternion itself is not.
+The :class:`quatbody <c4dynamics.states.lib.quatbody.quatbody>` state object therefore
+stores the quaternion, and computes the Euler angles only for presentation.
 
 
 .. _transformations-conversions:
 
-Converting Between Representations
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Conversions
+~~~~~~~~~~~
 
-An attitude has three equivalent representations in c4dynamics.
-The functions of the ``rotmat`` module convert between them:
+The functions of the ``rotmat`` module convert between the three representations:
 
 .. list-table::
    :widths: 22 26 26 26
@@ -354,6 +470,7 @@ Notes:
 - A conversion that passes through the Euler angles inherits their
   singularity at :math:`\theta = \pm 90°`.
 
+
 **Between ENU and NED**
 
 The ENU and the NED frames swap :math:`x` and :math:`y` and flip :math:`z`.
@@ -367,6 +484,7 @@ A heading measured from east (ENU) becomes a heading measured from north (NED):
 :math:`\psi_{NED} = \pi / 2 - \psi_{ENU}`.
 This conversion is used at the MAVLink boundary of the
 :doc:`ArduPilot simulation </programs/ardupilot_sim/ardupilot_fig8>`.
+
 
 
 Examples
@@ -539,6 +657,15 @@ From the DCM to a quaternion, through the Euler angles:
   >>> np.allclose(c4d.rotmat.euler2quat(*np.array(c4d.rotmat.dcm321euler(BR)) * c4d.d2r), q)
   True
 
+The matrix of a quaternion is the Body from Reference DCM.
+A yaw of :math:`90°` gives the elementary rotation :math:`R_z(90°)`:
+
+.. code::
+
+  >>> q90 = [np.cos(45 * c4d.d2r), 0, 0, np.sin(45 * c4d.d2r)]
+  >>> np.allclose(c4d.rotmat.quat2dcm(q90), c4d.rotmat.rotz(90 * c4d.d2r))
+  True
+
 :math:`q` and :math:`-q` are the same attitude:
 
 .. code::
@@ -567,28 +694,29 @@ e.g. the attitude history of a :class:`quatbody <c4dynamics.states.lib.quatbody.
   True
 
 
+
 References
 ----------
 
 .. [HS] Hanspeter Schaub, "Spacecraft Dynamics and Control" lecture notes, module 2: rigidbody kinematics.
 .. [MIs] Ch 4 in "Missile Flight Simulation Part One Surface-to-Air Missiles", Military Handbook, 1995, MIL-HDBK-1211(MI).
+.. [DI] Diebel, J., 2006, "Representing Attitude: Euler Angles, Unit Quaternions,
+        and Rotation Vectors", Stanford University.
+
 
 
 See Also
 --------
 
-The rotation matrices in the equations of motion, and the quaternion kinematics,
-are on the :doc:`Kinematics </concepts/kinematics>` concept page.
-
 .. list-table::
   :header-rows: 0
 
-  * - :func:`rotx <c4dynamics.rotmat.rotmat.rotx>`
-    - Direction Cosine Matrix for a rotation about the x
-  * - :func:`roty <c4dynamics.rotmat.rotmat.roty>`
-    - Direction Cosine Matrix for a rotation about the y
-  * - :func:`rotz <c4dynamics.rotmat.rotmat.rotz>`
-    - Direction Cosine Matrix for a rotation about the z
+  * - :doc:`Kinematics </concepts/kinematics>`
+    - Next: the propagation of the position and the attitude in time
+  * - :func:`rotx <c4dynamics.rotmat.rotmat.rotx>`,
+      :func:`roty <c4dynamics.rotmat.rotmat.roty>`,
+      :func:`rotz <c4dynamics.rotmat.rotmat.rotz>`
+    - Direction Cosine Matrices for a rotation about the :math:`x`, :math:`y`, :math:`z` axes
   * - :func:`dcm321 <c4dynamics.rotmat.rotmat.dcm321>`
     - Direction Cosine Matrix for a sequence of rotations in following order: :math:`z`, then :math:`y`, then :math:`x`
   * - :func:`dcm321euler <c4dynamics.rotmat.rotmat.dcm321euler>`

@@ -51,11 +51,11 @@ A general nonlinear system is described by:
 .. math::
   :label: _nonlinearmodel
 
-  \dot{x}(t) = f(x, u) + \omega
-
-  y(t) = h(x) + \nu
-
-  x(0) = x_0
+  \begin{aligned}
+  \dot{x}(t) &= f(x, u) + \omega \\
+  y(t) &= h(x) + \nu \\
+  x(0) &= x_0
+  \end{aligned}
 
 
 
@@ -76,15 +76,13 @@ and have known covariance matrices :math:`Q_c` and :math:`R_c`, respectively:
 
 .. math::
 
-  \omega(t) \sim (0, Q_c)
-
-  \nu(t) \sim (0, R_c)
-
-  E[\omega(t) \cdot \omega^T(t)] = Q_c \cdot \delta(t)
-
-  E[\nu(t) \cdot \nu^T(t)] = R_c \cdot \delta(t)
-
-  E[\nu(t) \cdot \omega^T(t)] = 0
+  \begin{aligned}
+  \omega(t) &\sim (0, Q_c) \\
+  \nu(t) &\sim (0, R_c) \\
+  E[\omega(t) \cdot \omega^T(t)] &= Q_c \cdot \delta(t) \\
+  E[\nu(t) \cdot \nu^T(t)] &= R_c \cdot \delta(t) \\
+  E[\nu(t) \cdot \omega^T(t)] &= 0
+  \end{aligned}
 
 
 
@@ -117,10 +115,11 @@ The linearized model of system :eq:`_nonlinearmodel` around a nominal trajectory
 .. math::
   :label: _linearizedmodel
 
-  \dot{x} = \Delta{x} \cdot {\partial{f} \over \partial{x}}\bigg|_{x_n, u_n}
-                + \Delta{u} \cdot {\partial{f} \over \partial{u}}\bigg|_{x_n, u_n} + \omega
-
-  y = \Delta{x} \cdot {\partial{h} \over \partial{x}}\bigg|_{x_n} + \nu
+  \begin{aligned}
+  \dot{x} &= \Delta{x} \cdot {\partial{f} \over \partial{x}}\bigg|_{x_n, u_n} \\
+  &\quad + \Delta{u} \cdot {\partial{f} \over \partial{u}}\bigg|_{x_n, u_n} + \omega \\
+  y &= \Delta{x} \cdot {\partial{h} \over \partial{x}}\bigg|_{x_n} + \nu
+  \end{aligned}
 
 
 .. math::
@@ -145,11 +144,11 @@ Let's denote:
 
 .. math::
 
-  A = {\partial{f} \over \partial{x}}\bigg|_{x_n, u_n, \omega_n}
-
-  B = {\partial{f} \over \partial{u}}\bigg|_{x_n, u_n, \omega_n}
-
-  C = {\partial{h} \over \partial{x}}\bigg|_{x_n, \nu_n}
+  \begin{aligned}
+  A &= {\partial{f} \over \partial{x}}\bigg|_{x_n, u_n, \omega_n} \\
+  B &= {\partial{f} \over \partial{u}}\bigg|_{x_n, u_n, \omega_n} \\
+  C &= {\partial{h} \over \partial{x}}\bigg|_{x_n, \nu_n}
+  \end{aligned}
 
 
 
@@ -158,11 +157,11 @@ Finally the instantaneous linear model of system :eq:`_nonlinearmodel` is:
 .. math::
   :label: _linearmodel
 
-  \dot{x} = A \cdot x + B \cdot u + \omega
-
-  y = C \cdot x + \nu
-
-  x(0) = x_0
+  \begin{aligned}
+  \dot{x} &= A \cdot x + B \cdot u + \omega \\
+  y &= C \cdot x + \nu \\
+  x(0) &= x_0
+  \end{aligned}
 
 Where:
 
@@ -197,11 +196,11 @@ The discrete-time form of system :eq:`_linearmodel` is given by:
 .. math::
   :label: _discretemodel
 
-  x_k = F \cdot x_{k-1} + G \cdot u_{k-1} + \omega_{k-1}
-
-  y_k = H \cdot x_k + \nu_k
-
-  x_{k=0} = x_0
+  \begin{aligned}
+  x_k &= F \cdot x_{k-1} + G \cdot u_{k-1} + \omega_{k-1} \\
+  y_k &= H \cdot x_k + \nu_k \\
+  x_{k=0} &= x_0
+  \end{aligned}
 
 Where:
 
@@ -221,15 +220,13 @@ and have known covariance matrices :math:`Q` and :math:`R`, respectively:
 
 .. math::
 
-  \omega_k \sim (0, Q)
-
-  \nu_k \sim (0, R)
-
-  E[\omega_k \cdot \omega^T_j] = Q \cdot \delta_{k-j}
-
-  E[\nu_k \cdot \nu^T_j] = R \cdot \delta_{k-j}
-
-  E[\nu_k \cdot \omega^T_j] = 0
+  \begin{aligned}
+  \omega_k &\sim (0, Q) \\
+  \nu_k &\sim (0, R) \\
+  E[\omega_k \cdot \omega^T_j] &= Q \cdot \delta_{k-j} \\
+  E[\nu_k \cdot \nu^T_j] &= R \cdot \delta_{k-j} \\
+  E[\nu_k \cdot \omega^T_j] &= 0
+  \end{aligned}
 
 
 
@@ -242,13 +239,12 @@ system by a series expansion up to the first-order is given by:
 
 .. math::
 
-  F = I + A \cdot dt
-
-  G = B \cdot dt
-
-  Q = Q_c \cdot dt
-
-  R = R_c / dt
+  \begin{aligned}
+  F &= I + A \cdot dt \\
+  G &= B \cdot dt \\
+  Q &= Q_c \cdot dt \\
+  R &= R_c / dt
+  \end{aligned}
 
 
 Where:
@@ -336,13 +332,12 @@ are notated by :math:`(-)` superscript.
 
 .. math::
 
-  x_k^- = F \cdot x_{k-1}^+ + G \cdot u_{k-1}
-
-  P_k^- = F \cdot P_{k-1}^+ \cdot F^T + Q
-
-  x_0^+ = x_0
-
-  P_0^+ = E[x_0 \cdot x_0^T]
+  \begin{aligned}
+  x_k^- &= F \cdot x_{k-1}^+ + G \cdot u_{k-1} \\
+  P_k^- &= F \cdot P_{k-1}^+ \cdot F^T + Q \\
+  x_0^+ &= x_0 \\
+  P_0^+ &= E[x_0 \cdot x_0^T]
+  \end{aligned}
 
 Where:
 
@@ -377,11 +372,11 @@ are notated by :math:`(+)` superscript.
 
 .. math::
 
-  K = P_k^- \cdot H^T \cdot (H \cdot P_k^- \cdot H^T + R)^{-1}
-
-  x_k^+ = x_k^- + K \cdot (y - H \cdot x_k^-)
-
-  P_k^+ = (I - K \cdot H) \cdot P_k^-
+  \begin{aligned}
+  K &= P_k^- \cdot H^T \cdot (H \cdot P_k^- \cdot H^T + R)^{-1} \\
+  x_k^+ &= x_k^- + K \cdot (y - H \cdot x_k^-) \\
+  P_k^+ &= (I - K \cdot H) \cdot P_k^-
+  \end{aligned}
 
 Where:
 
@@ -460,11 +455,11 @@ elevator that in its turn changes the aircaft altitude :math:`z`:
 
 .. math::
 
-  \dot{z}(t) = 5 \cdot \gamma(t) + \omega_z(t)
-
-  \dot{\gamma}(t) = -0.5 \cdot \gamma(t) + 0.1 \cdot (H_f - u(t)) + \omega_{\gamma}(t)
-
-  y(t) = z(t) + \nu(t)
+  \begin{aligned}
+  \dot{z}(t) &= 5 \cdot \gamma(t) + \omega_z(t) \\
+  \dot{\gamma}(t) &= -0.5 \cdot \gamma(t) + 0.1 \cdot (H_f - u(t)) + \omega_{\gamma}(t) \\
+  y(t) &= z(t) + \nu(t)
+  \end{aligned}
 
 
 Where:
@@ -728,11 +723,11 @@ Recall the mathematical model of a nonlinear system as given in :eq:`_nonlinearm
 
 .. math::
 
-  \dot{x} = f(x, u, \omega)
-
-  y = h(x, \nu)
-
-  x(0) = x_0
+  \begin{aligned}
+  \dot{x} &= f(x, u, \omega) \\
+  y &= h(x, \nu) \\
+  x(0) &= x_0
+  \end{aligned}
 
 
 Where:
@@ -751,15 +746,13 @@ and have known covariance matrices :math:`Q` and :math:`R`, respectively:
 
 .. math::
 
-  \omega(t) \sim (0, Q)
-
-  \nu(t) \sim (0, R)
-
-  E[\omega(t) \cdot \omega^T(t)] = Q \cdot \delta(t)
-
-  E[\nu(t) \cdot \nu^T(t)] = R \cdot \delta(t)
-
-  E[\nu(t) \cdot \omega^T(t)] = 0
+  \begin{aligned}
+  \omega(t) &\sim (0, Q) \\
+  \nu(t) &\sim (0, R) \\
+  E[\omega(t) \cdot \omega^T(t)] &= Q \cdot \delta(t) \\
+  E[\nu(t) \cdot \nu^T(t)] &= R \cdot \delta(t) \\
+  E[\nu(t) \cdot \omega^T(t)] &= 0
+  \end{aligned}
 
 
 Where:
@@ -799,9 +792,10 @@ is to discretize these terms:
 
 .. math::
 
-  F = I + A \cdot dt
-
-  H = C
+  \begin{aligned}
+  F &= I + A \cdot dt \\
+  H &= C
+  \end{aligned}
 
 
 Where:
@@ -837,19 +831,20 @@ equations for the covariance calculation (third):
 
 .. math::
 
-  F = I + dt \cdot {\partial{f} \over \partial{x}}\bigg|_{x_{k-1}^+, u{k-1}}
-
-  x_k^- = x_{k-1}^+ + dt \cdot f(x_{k-1}^+, u_{k-1})
-
-  P_k^- = F \cdot P_{k-1}^+ \cdot F^T + Q
+  \begin{aligned}
+  F &= I + dt \cdot {\partial{f} \over \partial{x}}\bigg|_{x_{k-1}^+, u{k-1}} \\
+  x_k^- &= x_{k-1}^+ + dt \cdot f(x_{k-1}^+, u_{k-1}) \\
+  P_k^- &= F \cdot P_{k-1}^+ \cdot F^T + Q
+  \end{aligned}
 
 subject to initial conditions:
 
 .. math::
 
-  x_0^+ = x_0
-
-  P_0^+ = E[x_0 \cdot x_0^T]
+  \begin{aligned}
+  x_0^+ &= x_0 \\
+  P_0^+ &= E[x_0 \cdot x_0^T]
+  \end{aligned}
 
 
 Where:
@@ -881,13 +876,12 @@ the nonlinear equations themselves (third equation):
 
 .. math::
 
-  H = {\partial{h} \over \partial{x}}\bigg|_{x_k^-}
-
-  K = P_k^- \cdot H^T \cdot (H \cdot P_k^- \cdot H^T + R)^{-1}
-
-  x_k^+ = x_k^- \cdot K \cdot (y - h(x))
-
-  P_k^+ = (I - K \cdot H) \cdot P_k^-
+  \begin{aligned}
+  H &= {\partial{h} \over \partial{x}}\bigg|_{x_k^-} \\
+  K &= P_k^- \cdot H^T \cdot (H \cdot P_k^- \cdot H^T + R)^{-1} \\
+  x_k^+ &= x_k^- \cdot K \cdot (y - h(x)) \\
+  P_k^+ &= (I - K \cdot H) \cdot P_k^-
+  \end{aligned}
 
 Where:
 
@@ -964,13 +958,12 @@ The process equations are:
 
 .. math::
 
-  \dot{z} = v_z
-
-  \dot{v}_z = {\rho_0 \cdot e^{-z / k} \cdot v_z^2 \cdot g \over 2 \cdot \beta} - g
-
-  \dot{\beta} = \omega_{\beta}
-
-  y = z + \nu_k
+  \begin{aligned}
+  \dot{z} &= v_z \\
+  \dot{v}_z &= {\rho_0 \cdot e^{-z / k} \cdot v_z^2 \cdot g \over 2 \cdot \beta} - g \\
+  \dot{\beta} &= \omega_{\beta} \\
+  y &= z + \nu_k
+  \end{aligned}
 
 
 Where:

@@ -1,0 +1,1102 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Dynamics &#8212; C4DYNAMICS v2.6</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/c4dynamics-chat.css?v=1f9b6ce7" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=770ac8d8" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=a976f23f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'concepts/dynamics';</script>
+    <script src="../_static/custom.js?v=739483a8"></script>
+    <script defer="defer" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="../_static/c4dynamics-chat.js?v=a769aac7"></script>
+    <link rel="icon" href="../_static/c4dlogo.svg"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Vehicles" href="vehicles.html" />
+    <link rel="prev" title="Kinematics" href="kinematics.html" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="Oct 28, 2026"/>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LKRZFXZKQP"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-LKRZFXZKQP');
+  </script>
+
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">C4DYNAMICS v2.6</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Home
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Getting Started</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="states.html">State Objects</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="transformations.html">Rigid Body Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kinematics.html">Kinematics</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vehicles.html">Vehicles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sensors.html">Sensors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filters.html">Filters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rl_env.html">Reinforcement Learning Environment</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/setup_guide.html">Setup Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/introduction_guide.html">Interactive Guide to State Space and State Objects Modeling</a></li>
+
+
+
+
+
+
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Use Cases</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../programs/index.html">Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../programs/ekf_estimation/quad_ekf.html">Quadcopter EKF - State Estimation for Figure-8 Trajectory Tracking</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../programs/ardupilot_sim/ardupilot_fig8.html">Figure-8 Tracking with ArduCopter-4.7.1 and 3DR IRIS in Python</a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../programs/ballistic_ekf/ballistic_coefficient.html">Ballistic Coefficient Estimation - Extended Kalman Filter</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../programs/mpc_steering/mpc_steering.html">Vehicle Steering - Model Predictive Control</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../programs/car_tracker/car_tracker.html">Car Tracker – YOLO3 Detector and Kalman Filter</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../programs/car_tracker_yolo11/car_tracker_yolo11.html">Car Tracker – YOLO11 Detector and Kalman Filter</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../programs/pid_cascade/quadcopter_pid.html">Quadcopter Cascade <em>PID</em> — Figure-8 Trajectory Tracking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../programs/pn_guidance/dof6sim.html">Proportional Navigation Guidance - 6 Degrees of Freedom Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../programs/learning_controller/learning_controller.html">Neural Learning Control for Online Uncertain Dynamics Estimation</a></li>
+
+
+
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../api/introduction.html">Introduction</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/States.html">State Objects</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/states.state.html">The State Class</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.X.html">c4dynamics.states.state.state.X</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.X0.html">c4dynamics.states.state.state.X0</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.norm.html">c4dynamics.states.state.state.norm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.normalize.html">c4dynamics.states.state.state.normalize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.Position.html">c4dynamics.states.state.state.Position</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.Velocity.html">c4dynamics.states.state.state.Velocity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.addvars.html">c4dynamics.states.state.state.addvars</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.dist.html">c4dynamics.states.state.state.dist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.vel_mag.html">c4dynamics.states.state.state.vel_mag</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.store.html">c4dynamics.states.state.state.store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.storeparams.html">c4dynamics.states.state.state.storeparams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.data.html">c4dynamics.states.state.state.data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.timestate.html">c4dynamics.states.state.state.timestate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.plot.html">c4dynamics.states.state.state.plot</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/states.lib.html">States Library</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/states.lib.datapoint.html">Datapoint</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/dp/c4dynamics.states.lib.datapoint.datapoint.mass.html">c4dynamics.states.lib.datapoint.datapoint.mass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/dp/c4dynamics.states.lib.datapoint.datapoint.inteqm.html">c4dynamics.states.lib.datapoint.datapoint.inteqm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/dp/c4dynamics.states.lib.datapoint.datapoint.plot.html">c4dynamics.states.lib.datapoint.datapoint.plot</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/states.lib.rigidbody.html">Rigidbody</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.mass.html">c4dynamics.states.lib.rigidbody.rigidbody.mass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.I.html">c4dynamics.states.lib.rigidbody.rigidbody.I</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.angles.html">c4dynamics.states.lib.rigidbody.rigidbody.angles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.ang_rates.html">c4dynamics.states.lib.rigidbody.rigidbody.ang_rates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.BR.html">c4dynamics.states.lib.rigidbody.rigidbody.BR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.RB.html">c4dynamics.states.lib.rigidbody.rigidbody.RB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.inteqm.html">c4dynamics.states.lib.rigidbody.rigidbody.inteqm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.plot.html">c4dynamics.states.lib.rigidbody.rigidbody.plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.animate.html">c4dynamics.states.lib.rigidbody.rigidbody.animate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/states.lib.quatbody.html">Quatbody</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.mass.html">c4dynamics.states.lib.quatbody.quatbody.mass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.I.html">c4dynamics.states.lib.quatbody.quatbody.I</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.quat.html">c4dynamics.states.lib.quatbody.quatbody.quat</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.angles.html">c4dynamics.states.lib.quatbody.quatbody.angles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.phi.html">c4dynamics.states.lib.quatbody.quatbody.phi</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.theta.html">c4dynamics.states.lib.quatbody.quatbody.theta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.psi.html">c4dynamics.states.lib.quatbody.quatbody.psi</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.ang_rates.html">c4dynamics.states.lib.quatbody.quatbody.ang_rates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.BR.html">c4dynamics.states.lib.quatbody.quatbody.BR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.RB.html">c4dynamics.states.lib.quatbody.quatbody.RB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.inteqm.html">c4dynamics.states.lib.quatbody.quatbody.inteqm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.data.html">c4dynamics.states.lib.quatbody.quatbody.data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.plot.html">c4dynamics.states.lib.quatbody.quatbody.plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.animate.html">c4dynamics.states.lib.quatbody.quatbody.animate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/states.lib.pixelpoint.html">Pixelpoint</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/fdp/c4dynamics.states.lib.pixelpoint.pixelpoint.fsize.html">c4dynamics.states.lib.pixelpoint.pixelpoint.fsize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/fdp/c4dynamics.states.lib.pixelpoint.pixelpoint.class_id.html">c4dynamics.states.lib.pixelpoint.pixelpoint.class_id</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/generated/fdp/c4dynamics.states.lib.pixelpoint.pixelpoint.box.html">c4dynamics.states.lib.pixelpoint.pixelpoint.box</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/Sensors.html">Sensors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/sensors.seeker.html">Seeker</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/seeker/c4dynamics.sensors.seeker.seeker.bias.html">c4dynamics.sensors.seeker.seeker.bias</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/seeker/c4dynamics.sensors.seeker.seeker.scale_factor.html">c4dynamics.sensors.seeker.seeker.scale_factor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/seeker/c4dynamics.sensors.seeker.seeker.measure.html">c4dynamics.sensors.seeker.seeker.measure</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/sensors.radar.html">Radar</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/radar/c4dynamics.sensors.radar.radar.bias.html">c4dynamics.sensors.radar.radar.bias</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/radar/c4dynamics.sensors.radar.radar.scale_factor.html">c4dynamics.sensors.radar.radar.scale_factor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/radar/c4dynamics.sensors.radar.radar.measure.html">c4dynamics.sensors.radar.radar.measure</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/sensors.navigation.gps.html">GPS</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/gps/c4dynamics.sensors.navigation.gps.measure.html">c4dynamics.sensors.navigation.gps.measure</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/sensors.navigation.imu.html">IMU</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/imu/c4dynamics.sensors.navigation.imu.measure.html">c4dynamics.sensors.navigation.imu.measure</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/sensors.navigation.magnetometer.html">Magnetometer</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/magnetometer/c4dynamics.sensors.navigation.magnetometer.measure.html">c4dynamics.sensors.navigation.magnetometer.measure</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/Detectors.html">Detectors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/detectors.yolov3.html">YOLOv3</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/yolov3/c4dynamics.detectors.yolo3_opencv.yolov3.nms_th.html">c4dynamics.detectors.yolo3_opencv.yolov3.nms_th</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/yolov3/c4dynamics.detectors.yolo3_opencv.yolov3.confidence_th.html">c4dynamics.detectors.yolo3_opencv.yolov3.confidence_th</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/yolov3/c4dynamics.detectors.yolo3_opencv.yolov3.detect.html">c4dynamics.detectors.yolo3_opencv.yolov3.detect</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/Filters.html">Filters</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/filters.kalman.html">Kalman filter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/kalman/c4dynamics.filters.kalman.kalman.predict.html">c4dynamics.filters.kalman.kalman.predict</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/kalman/c4dynamics.filters.kalman.kalman.update.html">c4dynamics.filters.kalman.kalman.update</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/kalman/c4dynamics.filters.kalman.kalman.store.html">c4dynamics.filters.kalman.kalman.store</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/filters.ekf.html">Extended Kalman filter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/ekf/c4dynamics.filters.ekf.ekf.predict.html">c4dynamics.filters.ekf.ekf.predict</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/ekf/c4dynamics.filters.ekf.ekf.update.html">c4dynamics.filters.ekf.ekf.update</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/ekf/c4dynamics.filters.ekf.ekf.store.html">c4dynamics.filters.ekf.ekf.store</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/filters.lpf.html">Lowpass filter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/lpf/c4dynamics.filters.lowpass.lowpass.sample.html">c4dynamics.filters.lowpass.lowpass.sample</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/eqm.html">Kinematics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm3.html">c4dynamics.eqm.derivs.eqm3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm6.html">c4dynamics.eqm.derivs.eqm6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm6q.html">c4dynamics.eqm.derivs.eqm6q</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.integrate.int3.html">c4dynamics.eqm.integrate.int3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.integrate.int6.html">c4dynamics.eqm.integrate.int6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.integrate.int6q.html">c4dynamics.eqm.integrate.int6q</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.quadcopter.quadforces.html">c4dynamics.eqm.quadcopter.quadforces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.quadcopter.quadeqm.html">c4dynamics.eqm.quadcopter.quadeqm</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/rotmat.html">Rotations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.rotmat.rotx.html">c4dynamics.rotmat.rotmat.rotx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.rotmat.roty.html">c4dynamics.rotmat.rotmat.roty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.rotmat.rotz.html">c4dynamics.rotmat.rotmat.rotz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.rotmat.dcm321.html">c4dynamics.rotmat.rotmat.dcm321</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.rotmat.dcm321euler.html">c4dynamics.rotmat.rotmat.dcm321euler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.rotmat.euler2quat.html">c4dynamics.rotmat.rotmat.euler2quat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.rotmat.quat2dcm.html">c4dynamics.rotmat.rotmat.quat2dcm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.rotmat.quat2euler.html">c4dynamics.rotmat.rotmat.quat2euler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/rotmat/c4dynamics.rotmat.animate.animate.html">c4dynamics.rotmat.animate.animate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/Utils.html">Utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/utils/c4dynamics.utils.tictoc.tic.html">c4dynamics.utils.tictoc.tic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/utils/c4dynamics.utils.tictoc.toc.html">c4dynamics.utils.tictoc.toc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/utils/c4dynamics.utils.cprint.cprint.html">c4dynamics.utils.cprint.cprint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/utils/c4dynamics.utils.gen_gif.gif.html">c4dynamics.utils.gen_gif.gif</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/utils/c4dynamics.utils.plottools.plotdefaults.html">c4dynamics.utils.plottools.plotdefaults</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/utils.math.html">Math Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/utils.const.html">Constants</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/Datasets.html">Datasets</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/datasets/c4dynamics.datasets.image.html">c4dynamics.datasets.image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/datasets/c4dynamics.datasets.video.html">c4dynamics.datasets.video</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/datasets/c4dynamics.datasets.nn_model.html">c4dynamics.datasets.nn_model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/datasets/c4dynamics.datasets.d3_model.html">c4dynamics.datasets.d3_model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/datasets/c4dynamics.datasets.download_all.html">c4dynamics.datasets.download_all</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/datasets/c4dynamics.datasets.clear_cache.html">c4dynamics.datasets.clear_cache</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/concepts/dynamics.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Dynamics</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nomenclature">Nomenclature</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-newton-euler-equations">The Newton-Euler Equations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#translational-motion">Translational Motion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rotational-motion">Rotational Motion</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-equations-of-motion">The Equations of Motion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#integration">Integration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="dynamics">
+<h1>Dynamics<a class="headerlink" href="#dynamics" title="Link to this heading">#</a></h1>
+<p><a class="reference internal" href="kinematics.html"><span class="doc">Kinematics</span></a> propagates the position and the attitude
+of a body, given its velocity and its angular rates.
+Dynamics closes the loop:
+it explains what changes the velocity and the angular rates.
+Newton’s second law translates the forces on a body into its linear acceleration,
+and Euler’s equations translate the moments into its angular acceleration.</p>
+<p>These laws do not depend on the vehicle.
+c4dynamics implements them once, in the <a class="reference internal" href="../api/eqm.html#module-c4dynamics.eqm" title="c4dynamics.eqm"><code class="xref py py-mod docutils literal notranslate"><span class="pre">eqm</span></code></a> module,
+and the state objects integrate them for every vehicle.
+What makes a quadcopter different from a missile is the physics that
+generates the forces and the moments.
+These are the subject of the next page, <a class="reference internal" href="vehicles.html"><span class="doc">Vehicles</span></a>.</p>
+<section id="nomenclature">
+<h2>Nomenclature<a class="headerlink" href="#nomenclature" title="Link to this heading">#</a></h2>
+<p>The inputs of the dynamic equations are the total force and the total moment
+acting on the body, and its mass properties (see Fig-1 in
+<a class="reference internal" href="kinematics.html#kinematics-nomenclature"><span class="std std-ref">Kinematics</span></a>):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 45.0%" />
+<col style="width: 30.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Symbol</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Frame</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(F = [F_x, F_y, F_z]^T\)</span></p></td>
+<td><p>Total force acting on the body</p></td>
+<td><p>Reference</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(M = [M_x, M_y, M_z]^T\)</span></p></td>
+<td><p>Total moment about the center of mass.
+Also known as the rolling, pitching, and yawing moments <span class="math notranslate nohighlight">\((L, M, N)\)</span></p></td>
+<td><p>Body</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(m\)</span></p></td>
+<td><p>Mass</p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(I = \operatorname{diag}(I_{xx}, I_{yy}, I_{zz})\)</span></p></td>
+<td><p>Inertia matrix about the center of mass</p></td>
+<td><p>Body</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The state variables are those of <a class="reference internal" href="kinematics.html#kinematics-nomenclature"><span class="std std-ref">Kinematics</span></a>:
+the position <span class="math notranslate nohighlight">\(r\)</span>, the inertial velocity <span class="math notranslate nohighlight">\(V = [v_x, v_y, v_z]^T\)</span>,
+the attitude, and the body rates <span class="math notranslate nohighlight">\(\omega = [p, q, r]^T\)</span>.</p>
+<p>c4dynamics takes the body axes as the principal axes of inertia,
+so the inertia matrix is diagonal, and is given by the three moments of inertia
+<a class="reference internal" href="../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.I.html#c4dynamics.states.lib.rigidbody.rigidbody.I" title="c4dynamics.states.lib.rigidbody.rigidbody.I"><code class="xref py py-attr docutils literal notranslate"><span class="pre">I</span></code></a>
+(<span class="math notranslate nohighlight">\(I_{xx}, I_{yy}, I_{zz}\)</span>).</p>
+<p><strong>Moment and torque.</strong> Both words describe the same physical quantity.
+This documentation uses <em>moment</em> for the quantity <span class="math notranslate nohighlight">\(M\)</span> in the equations of motion,
+and <em>torque</em> for what an actuator produces, such as the reaction torque of a rotor
+or the torque of a motor. The torques of the actuators are part of the total moment.</p>
+<p><strong>Frames.</strong> The equations below hold relative to an inertial frame.
+c4dynamics writes them relative to the reference frame,
+which is therefore assumed to be inertial
+(see <a class="reference internal" href="transformations.html#transformations-frames"><span class="std std-ref">Reference Frames</span></a>).</p>
+</section>
+<section id="the-newton-euler-equations">
+<span id="dynamics-newton-euler"></span><h2>The Newton-Euler Equations<a class="headerlink" href="#the-newton-euler-equations" title="Link to this heading">#</a></h2>
+<section id="translational-motion">
+<h3>Translational Motion<a class="headerlink" href="#translational-motion" title="Link to this heading">#</a></h3>
+<p><strong>Vector form</strong></p>
+<p>Newton’s second law states that the total force acting on a body
+equals the rate of change of its linear momentum, <span class="math notranslate nohighlight">\(m \cdot V\)</span>,
+relative to an inertial frame <a class="reference internal" href="#mi" id="id1"><span>[MI]</span></a>.
+For a constant mass:</p>
+<div class="math notranslate nohighlight">
+\[m \cdot \dot{V} = F\]</div>
+<p>The law involves only the center of mass.
+It holds for a point mass and for a rigid body alike,
+regardless of the rotation of the body.</p>
+<p><strong>Scalar form</strong></p>
+<p>c4dynamics expresses the velocity and the force in the reference frame,
+where the components of the vector equation are independent:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\dot{v}_x &amp;= {F_x \over m} \\
+\dot{v}_y &amp;= {F_y \over m} \\
+\dot{v}_z &amp;= {F_z \over m}
+\end{aligned}\end{split}\]</div>
+<p>Each acceleration component is driven by the force component along the same axis only.</p>
+<p><strong>Explanation</strong></p>
+<p>The force <span class="math notranslate nohighlight">\(F\)</span> is the sum of all the external forces:
+propulsion, aerodynamics, gravity, contact forces.
+Many of them are naturally computed in the body frame,
+e.g. the thrust of a motor along the body <span class="math notranslate nohighlight">\(x\)</span> axis.
+Such a force is rotated to the reference frame before it enters the equations
+(see <a class="reference internal" href="transformations.html#transformations-notation"><span class="std std-ref">Rotation Matrices</span></a>):</p>
+<div class="math notranslate nohighlight">
+\[F = [RB] \cdot F_B\]</div>
+<p>The equations could also be written with the body components of the velocity,
+<span class="math notranslate nohighlight">\(V_B = [u, v, w]^T\)</span>, as <span class="math notranslate nohighlight">\(m \cdot (\dot{V}_B + \omega \times V_B) = F_B\)</span>.
+The extra term <span class="math notranslate nohighlight">\(\omega \times V_B\)</span> appears because the body frame rotates,
+and couples the translational motion with the angular rates.
+Writing the translational equations in the reference frame avoids this coupling.</p>
+<p>When the mass changes, as in a rocket that burns its fuel,
+<a class="reference internal" href="../api/generated/dp/c4dynamics.states.lib.datapoint.datapoint.mass.html#c4dynamics.states.lib.datapoint.datapoint.mass" title="c4dynamics.states.lib.datapoint.datapoint.mass"><code class="xref py py-attr docutils literal notranslate"><span class="pre">mass</span></code></a>
+is updated between the integration steps,
+and the effect of the ejected mass is included in the thrust.</p>
+</section>
+<section id="rotational-motion">
+<h3>Rotational Motion<a class="headerlink" href="#rotational-motion" title="Link to this heading">#</a></h3>
+<p><strong>Vector form</strong></p>
+<p>The rotational analog of Newton’s law states that the total moment about the center of mass
+equals the rate of change of the angular momentum, <span class="math notranslate nohighlight">\(h\)</span>,
+relative to an inertial frame.
+For a rigid body, the angular momentum is <span class="math notranslate nohighlight">\(h = I \cdot \omega\)</span>.</p>
+<p>The inertia matrix is constant in the body frame, but not in an inertial frame,
+where it changes as the body rotates.
+Therefore, the law is written in the body frame.
+The rate of change of a vector relative to an inertial frame
+equals its rate of change relative to the rotating body frame,
+plus the cross product of the angular velocity with the vector
+(the transport theorem):</p>
+<div class="math notranslate nohighlight">
+\[M = {dh \over dt} \bigg|_{I} = {dh \over dt} \bigg|_{B} + \omega \times h\]</div>
+<p>Substituting <span class="math notranslate nohighlight">\(h = I \cdot \omega\)</span>, with a constant <span class="math notranslate nohighlight">\(I\)</span>,
+gives Euler’s equations of rotational motion:</p>
+<div class="math notranslate nohighlight">
+\[I \cdot \dot{\omega} + \omega \times (I \cdot \omega) = M\]</div>
+<p>Or, solved for the angular acceleration:</p>
+<div class="math notranslate nohighlight">
+\[\dot{\omega} = I^{-1} \cdot (M - \omega \times (I \cdot \omega))\]</div>
+<p><strong>Scalar form</strong></p>
+<p>With the principal axes of inertia, <span class="math notranslate nohighlight">\(I = \operatorname{diag}(I_{xx}, I_{yy}, I_{zz})\)</span>,
+and <span class="math notranslate nohighlight">\(\omega = [p, q, r]^T\)</span>,
+the three components of Euler’s equations are:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+I_{xx} \cdot \dot{p} &amp;= M_x - (I_{zz} - I_{yy}) \cdot q \cdot r \\
+I_{yy} \cdot \dot{q} &amp;= M_y - (I_{xx} - I_{zz}) \cdot p \cdot r \\
+I_{zz} \cdot \dot{r} &amp;= M_z - (I_{yy} - I_{xx}) \cdot p \cdot q
+\end{aligned}\end{split}\]</div>
+<p><strong>Explanation</strong></p>
+<p>Each equation has the structure of Newton’s law, inertia times acceleration
+equals moment, with an additional term:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(I \cdot \dot{\omega}\)</span> is the rotational analog of <span class="math notranslate nohighlight">\(m \cdot \dot{v}\)</span>.
+A moment about an axis accelerates the rotation about that axis,
+in inverse proportion to the moment of inertia about it.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\omega \times (I \cdot \omega)\)</span> is the gyroscopic (or inertial coupling) term.
+It has no translational analog.
+It appears because the equations are written in the rotating body frame,
+where the angular momentum changes direction as the body rotates.
+In the scalar form, the coupling term of each axis is the product of the rates
+about the two other axes, times the difference of their moments of inertia.</p></li>
+</ul>
+<p>The coupling term explains several typical behaviors of rotating bodies:</p>
+<ul class="simple">
+<li><p><strong>Equal moments of inertia.</strong> A body with <span class="math notranslate nohighlight">\(I_{xx} = I_{yy} = I_{zz}\)</span>,
+such as a sphere or a cube, has no coupling.
+With no moments, its angular rates remain constant.</p></li>
+<li><p><strong>Axial symmetry.</strong> A body with <span class="math notranslate nohighlight">\(I_{yy} = I_{zz}\)</span>, such as a missile or a rocket,
+has no coupling in the roll equation, <span class="math notranslate nohighlight">\(I_{xx} \cdot \dot{p} = M_x\)</span>.
+The pitch and the yaw equations remain coupled through the roll rate <span class="math notranslate nohighlight">\(p\)</span>.
+A rolling airframe turns a pitch rate into a yaw acceleration and vice versa.</p></li>
+<li><p><strong>Spin about a principal axis.</strong> With only one nonzero rate, the coupling terms vanish,
+and with no moments the spin continues.
+The spin is stable about the axes of the maximum and the minimum moments of inertia,
+and unstable about the intermediate axis, where a small disturbance grows
+until the body tumbles (see the example below).</p></li>
+<li><p><strong>Spinning parts.</strong> The same term, applied to the angular momentum of the rotors,
+produces the gyroscopic moments of a quadcopter
+(see <a class="reference internal" href="vehicles.html#vehicles-quadcopter"><span class="std std-ref">Quadcopter</span></a>).</p></li>
+</ul>
+</section>
+</section>
+<section id="the-equations-of-motion">
+<span id="dynamics-eqm"></span><h2>The Equations of Motion<a class="headerlink" href="#the-equations-of-motion" title="Link to this heading">#</a></h2>
+<p>The kinematic equations of <a class="reference internal" href="kinematics.html"><span class="doc">Kinematics</span></a>
+and the dynamic equations above form the equations of motion,
+a set of first-order differential equations of the state vector,
+<span class="math notranslate nohighlight">\(\dot{X} = f(X, F, M)\)</span>.
+c4dynamics provides three such sets, one for each state object.</p>
+<p><strong>Point mass (3DOF)</strong></p>
+<p>A <a class="reference internal" href="../api/states.lib.datapoint.html#c4dynamics.states.lib.datapoint.datapoint" title="c4dynamics.states.lib.datapoint.datapoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">datapoint</span></code></a> has only
+translational degrees of freedom:</p>
+<div class="math notranslate nohighlight">
+\[X = [x, y, z, v_x, v_y, v_z]^T\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\dot{r} &amp;= V \\
+\dot{V} &amp;= {F \over m}
+\end{aligned}\end{split}\]</div>
+<p>Where <span class="math notranslate nohighlight">\(r = [x, y, z]^T\)</span> and <span class="math notranslate nohighlight">\(V = [v_x, v_y, v_z]^T\)</span>.
+The derivatives are given by <a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm3.html#c4dynamics.eqm.derivs.eqm3" title="c4dynamics.eqm.derivs.eqm3"><code class="xref py py-func docutils literal notranslate"><span class="pre">eqm3</span></code></a>.</p>
+<p><strong>Rigid body with Euler angles (6DOF)</strong></p>
+<p>A <a class="reference internal" href="../api/states.lib.rigidbody.html#c4dynamics.states.lib.rigidbody.rigidbody" title="c4dynamics.states.lib.rigidbody.rigidbody"><code class="xref py py-class docutils literal notranslate"><span class="pre">rigidbody</span></code></a> adds the attitude,
+as the 3-2-1 Euler angles, and the body rates:</p>
+<div class="math notranslate nohighlight">
+\[X = [x, y, z, v_x, v_y, v_z, \varphi, \theta, \psi, p, q, r]^T\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\dot{r} &amp;= V \\
+\dot{V} &amp;= {F \over m} \\
+[\dot{\varphi}, \dot{\theta}, \dot{\psi}]^T &amp;= E(\varphi, \theta) \cdot \omega \\
+\dot{\omega} &amp;= I^{-1} \cdot (M - \omega \times (I \cdot \omega))
+\end{aligned}\end{split}\]</div>
+<p>Where <span class="math notranslate nohighlight">\(E(\varphi, \theta)\)</span> is the matrix of the
+<a class="reference internal" href="kinematics.html#kinematics-euler"><span class="std std-ref">Euler angles rates</span></a>.
+The derivatives are given by <a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm6.html#c4dynamics.eqm.derivs.eqm6" title="c4dynamics.eqm.derivs.eqm6"><code class="xref py py-func docutils literal notranslate"><span class="pre">eqm6</span></code></a>.</p>
+<p><strong>Rigid body with a quaternion (6DOF)</strong></p>
+<p>A <a class="reference internal" href="../api/states.lib.quatbody.html#c4dynamics.states.lib.quatbody.quatbody" title="c4dynamics.states.lib.quatbody.quatbody"><code class="xref py py-class docutils literal notranslate"><span class="pre">quatbody</span></code></a> replaces the
+Euler angles with the attitude quaternion:</p>
+<div class="math notranslate nohighlight">
+\[X = [x, y, z, v_x, v_y, v_z, q_w, q_x, q_y, q_z, p, q, r]^T\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\dot{r} &amp;= V \\
+\dot{V} &amp;= {F \over m} \\
+\dot{q} &amp;= {1 \over 2} \cdot q \otimes [0, p, q, r] \\
+\dot{\omega} &amp;= I^{-1} \cdot (M - \omega \times (I \cdot \omega))
+\end{aligned}\end{split}\]</div>
+<p>The quaternion rates are derived in <a class="reference internal" href="kinematics.html#kinematics-quaternion"><span class="std std-ref">Kinematics</span></a>.
+The derivatives are given by <a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm6q.html#c4dynamics.eqm.derivs.eqm6q" title="c4dynamics.eqm.derivs.eqm6q"><code class="xref py py-func docutils literal notranslate"><span class="pre">eqm6q</span></code></a>.</p>
+<p><strong>Summary</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 22.0%" />
+<col style="width: 14.0%" />
+<col style="width: 32.0%" />
+<col style="width: 32.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>State object</p></th>
+<th class="head"><p>States</p></th>
+<th class="head"><p>Derivatives</p></th>
+<th class="head"><p>Integration step</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/states.lib.datapoint.html#c4dynamics.states.lib.datapoint.datapoint" title="c4dynamics.states.lib.datapoint.datapoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">datapoint</span></code></a></p></td>
+<td><p>6</p></td>
+<td><p><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm3.html#c4dynamics.eqm.derivs.eqm3" title="c4dynamics.eqm.derivs.eqm3"><code class="xref py py-func docutils literal notranslate"><span class="pre">eqm3</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.integrate.int3.html#c4dynamics.eqm.integrate.int3" title="c4dynamics.eqm.integrate.int3"><code class="xref py py-func docutils literal notranslate"><span class="pre">int3</span></code></a>,
+<a class="reference internal" href="../api/generated/dp/c4dynamics.states.lib.datapoint.datapoint.inteqm.html#c4dynamics.states.lib.datapoint.datapoint.inteqm" title="c4dynamics.states.lib.datapoint.datapoint.inteqm"><code class="xref py py-meth docutils literal notranslate"><span class="pre">datapoint.inteqm</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/states.lib.rigidbody.html#c4dynamics.states.lib.rigidbody.rigidbody" title="c4dynamics.states.lib.rigidbody.rigidbody"><code class="xref py py-class docutils literal notranslate"><span class="pre">rigidbody</span></code></a></p></td>
+<td><p>12</p></td>
+<td><p><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm6.html#c4dynamics.eqm.derivs.eqm6" title="c4dynamics.eqm.derivs.eqm6"><code class="xref py py-func docutils literal notranslate"><span class="pre">eqm6</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.integrate.int6.html#c4dynamics.eqm.integrate.int6" title="c4dynamics.eqm.integrate.int6"><code class="xref py py-func docutils literal notranslate"><span class="pre">int6</span></code></a>,
+<a class="reference internal" href="../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.inteqm.html#c4dynamics.states.lib.rigidbody.rigidbody.inteqm" title="c4dynamics.states.lib.rigidbody.rigidbody.inteqm"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rigidbody.inteqm</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/states.lib.quatbody.html#c4dynamics.states.lib.quatbody.quatbody" title="c4dynamics.states.lib.quatbody.quatbody"><code class="xref py py-class docutils literal notranslate"><span class="pre">quatbody</span></code></a></p></td>
+<td><p>13</p></td>
+<td><p><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm6q.html#c4dynamics.eqm.derivs.eqm6q" title="c4dynamics.eqm.derivs.eqm6q"><code class="xref py py-func docutils literal notranslate"><span class="pre">eqm6q</span></code></a></p></td>
+<td><p><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.integrate.int6q.html#c4dynamics.eqm.integrate.int6q" title="c4dynamics.eqm.integrate.int6q"><code class="xref py py-func docutils literal notranslate"><span class="pre">int6q</span></code></a>,
+<a class="reference internal" href="../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.inteqm.html#c4dynamics.states.lib.quatbody.quatbody.inteqm" title="c4dynamics.states.lib.quatbody.quatbody.inteqm"><code class="xref py py-meth docutils literal notranslate"><span class="pre">quatbody.inteqm</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>In all three sets, the force <span class="math notranslate nohighlight">\(F\)</span> is expressed in the reference frame,
+and the moment <span class="math notranslate nohighlight">\(M\)</span> in the body frame.</p>
+</section>
+<section id="integration">
+<span id="dynamics-integration"></span><h2>Integration<a class="headerlink" href="#integration" title="Link to this heading">#</a></h2>
+<p>The equations of motion are integrated in time by one of three ways:</p>
+<ol class="arabic simple">
+<li><p><strong>The state object method.</strong>
+<a class="reference internal" href="../api/generated/rb/c4dynamics.states.lib.rigidbody.rigidbody.inteqm.html#c4dynamics.states.lib.rigidbody.rigidbody.inteqm" title="c4dynamics.states.lib.rigidbody.rigidbody.inteqm"><code class="xref py py-meth docutils literal notranslate"><span class="pre">inteqm</span></code></a>
+advances the state of the object by one step of
+a fourth-order Runge-Kutta method, with the force and the moment held
+constant over the step.
+<a class="reference internal" href="../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.inteqm.html#c4dynamics.states.lib.quatbody.quatbody.inteqm" title="c4dynamics.states.lib.quatbody.quatbody.inteqm"><code class="xref py py-meth docutils literal notranslate"><span class="pre">quatbody.inteqm</span></code></a>
+normalizes the quaternion at the end of the step.</p></li>
+<li><p><strong>The step functions.</strong>
+<a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.integrate.int3.html#c4dynamics.eqm.integrate.int3" title="c4dynamics.eqm.integrate.int3"><code class="xref py py-func docutils literal notranslate"><span class="pre">int3</span></code></a>,
+<a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.integrate.int6.html#c4dynamics.eqm.integrate.int6" title="c4dynamics.eqm.integrate.int6"><code class="xref py py-func docutils literal notranslate"><span class="pre">int6</span></code></a>, and
+<a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.integrate.int6q.html#c4dynamics.eqm.integrate.int6q" title="c4dynamics.eqm.integrate.int6q"><code class="xref py py-func docutils literal notranslate"><span class="pre">int6q</span></code></a> perform the same step
+and return the integrated state vector, without changing the object.</p></li>
+<li><p><strong>An external integrator.</strong>
+The derivative functions (<a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm3.html#c4dynamics.eqm.derivs.eqm3" title="c4dynamics.eqm.derivs.eqm3"><code class="xref py py-func docutils literal notranslate"><span class="pre">eqm3</span></code></a>,
+<a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm6.html#c4dynamics.eqm.derivs.eqm6" title="c4dynamics.eqm.derivs.eqm6"><code class="xref py py-func docutils literal notranslate"><span class="pre">eqm6</span></code></a>, <a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm6q.html#c4dynamics.eqm.derivs.eqm6q" title="c4dynamics.eqm.derivs.eqm6q"><code class="xref py py-func docutils literal notranslate"><span class="pre">eqm6q</span></code></a>),
+or a vehicle model such as <a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.quadcopter.quadeqm.html#c4dynamics.eqm.quadcopter.quadeqm" title="c4dynamics.eqm.quadcopter.quadeqm"><code class="xref py py-func docutils literal notranslate"><span class="pre">quadeqm</span></code></a>,
+are passed to an integrator such as <code class="docutils literal notranslate"><span class="pre">scipy.integrate.solve_ivp</span></code>,
+and the result is written back to <a class="reference internal" href="../api/generated/state/c4dynamics.states.state.state.X.html#c4dynamics.states.state.state.X" title="c4dynamics.states.state.state.X"><code class="xref py py-attr docutils literal notranslate"><span class="pre">X</span></code></a>.
+With a quaternion attitude, setting
+<a class="reference internal" href="../api/generated/qb/c4dynamics.states.lib.quatbody.quatbody.quat.html#c4dynamics.states.lib.quatbody.quatbody.quat" title="c4dynamics.states.lib.quatbody.quatbody.quat"><code class="xref py py-attr docutils literal notranslate"><span class="pre">quat</span></code></a> to itself
+normalizes it after the step.</p></li>
+</ol>
+<p>A simulation loop stores the state, computes the forces and the moments
+from the current state, and integrates one step:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">tf</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+  <span class="n">body</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+  <span class="n">F</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="n">forces_and_moments</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>     <span class="c1"># the vehicle physics</span>
+  <span class="n">body</span><span class="o">.</span><span class="n">inteqm</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h2>
+<p>Import c4dynamics and numpy:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">c4dynamics</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">c4d</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</pre></div>
+</div>
+<p><strong>A point mass under gravity</strong></p>
+<p>A ball is thrown at 20 m/s forward and 20 m/s up,
+in a frame with <span class="math notranslate nohighlight">\(z\)</span> up.
+The only force is its weight:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ball</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">datapoint</span><span class="p">(</span><span class="n">vx</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">vz</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ball</span><span class="o">.</span><span class="n">mass</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">while</span> <span class="n">ball</span><span class="o">.</span><span class="n">z</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+<span class="gp">... </span>  <span class="n">ball</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="n">ball</span><span class="o">.</span><span class="n">inteqm</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">ball</span><span class="o">.</span><span class="n">mass</span> <span class="o">*</span> <span class="n">c4d</span><span class="o">.</span><span class="n">g_ms2</span><span class="p">],</span> <span class="n">dt</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="n">t</span> <span class="o">+=</span> <span class="n">dt</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ball</span><span class="o">.</span><span class="n">x</span>  
+<span class="go">81.8</span>
+</pre></div>
+</div>
+<p>The analytic range is <span class="math notranslate nohighlight">\(2 \cdot v_x \cdot v_z / g\)</span>, i.e. 81.6 m.
+The difference is the last step, which ends below the ground.</p>
+<p><strong>Spin about a principal axis</strong></p>
+<p>Two bodies with the moments of inertia <span class="math notranslate nohighlight">\(I = [1, 2, 3]\)</span> kg·m², and no moments.
+The first spins about its major axis <span class="math notranslate nohighlight">\((z)\)</span>, the second about its intermediate axis <span class="math notranslate nohighlight">\((y)\)</span>.
+Both are disturbed by a small roll rate:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">major</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">rigidbody</span><span class="p">(</span><span class="n">p</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">inter</span> <span class="o">=</span> <span class="n">c4d</span><span class="o">.</span><span class="n">rigidbody</span><span class="p">(</span><span class="n">p</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">q</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">major</span><span class="o">.</span><span class="n">I</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">inter</span><span class="o">.</span><span class="n">I</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+<span class="gp">... </span>  <span class="n">major</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="n">inter</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="n">major</span><span class="o">.</span><span class="n">inteqm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">dt</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="n">inter</span><span class="o">.</span><span class="n">inteqm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">dt</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The spin about the major axis is stable. The yaw rate stays at 2 rad/s:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">major</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="s1">&#39;r&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">major</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="s1">&#39;r&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>  
+<span class="go">(2.0, 2.0)</span>
+</pre></div>
+</div>
+<p>The spin about the intermediate axis is unstable.
+The coupling terms amplify the disturbance, and the body flips over:
+the pitch rate reverses its direction after less than six seconds:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tq</span><span class="p">,</span> <span class="n">q</span> <span class="o">=</span> <span class="n">inter</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>  
+<span class="go">-2.023</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tq</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">q</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)]</span>  
+<span class="go">5.82</span>
+</pre></div>
+</div>
+<p>No moment acted on either body.
+The flip is caused only by the term <span class="math notranslate nohighlight">\(\omega \times (I \cdot \omega)\)</span>.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<div role="list" class="citation-list">
+<div class="citation" id="mi" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">MI</a><span class="fn-bracket">]</span></span>
+<p>17 July 1995, “Missile Flight Simulation, Part One, Surface-to-Air Missiles”,
+Ch 4 In: Military Handbook. 1995, MIL-HDBK-1211(MI)</p>
+</div>
+</div>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="kinematics.html"><span class="doc">Kinematics</span></a></p></td>
+<td><p>Previous: the propagation of the position and the attitude</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="vehicles.html"><span class="doc">Vehicles</span></a></p></td>
+<td><p>Next: the forces and the moments of each vehicle</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm3.html#c4dynamics.eqm.derivs.eqm3" title="c4dynamics.eqm.derivs.eqm3"><code class="xref py py-func docutils literal notranslate"><span class="pre">eqm3</span></code></a></p></td>
+<td><p>Translational motion derivatives of a data point in three-dimensional space</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm6.html#c4dynamics.eqm.derivs.eqm6" title="c4dynamics.eqm.derivs.eqm6"><code class="xref py py-func docutils literal notranslate"><span class="pre">eqm6</span></code></a></p></td>
+<td><p>Translational and rotational motion derivatives of a rigid body in three-dimensional space</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.derivs.eqm6q.html#c4dynamics.eqm.derivs.eqm6q" title="c4dynamics.eqm.derivs.eqm6q"><code class="xref py py-func docutils literal notranslate"><span class="pre">eqm6q</span></code></a></p></td>
+<td><p>Translational and rotational motion derivatives of a rigid body with a quaternion attitude</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.integrate.int3.html#c4dynamics.eqm.integrate.int3" title="c4dynamics.eqm.integrate.int3"><code class="xref py py-func docutils literal notranslate"><span class="pre">int3</span></code></a></p></td>
+<td><p>A step integration of the equations of translational motion</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.integrate.int6.html#c4dynamics.eqm.integrate.int6" title="c4dynamics.eqm.integrate.int6"><code class="xref py py-func docutils literal notranslate"><span class="pre">int6</span></code></a></p></td>
+<td><p>A step integration of the equations of translational and rotational motion</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/generated/eqm/c4dynamics.eqm.integrate.int6q.html#c4dynamics.eqm.integrate.int6q" title="c4dynamics.eqm.integrate.int6q"><code class="xref py py-func docutils literal notranslate"><span class="pre">int6q</span></code></a></p></td>
+<td><p>A step integration of the equations of translational and rotational motion with a quaternion attitude</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="kinematics.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Kinematics</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="vehicles.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Vehicles</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nomenclature">Nomenclature</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-newton-euler-equations">The Newton-Euler Equations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#translational-motion">Translational Motion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rotational-motion">Rotational Motion</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-equations-of-motion">The Equations of Motion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#integration">Integration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By c4dynamics
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, c4dynamics.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on Oct 28, 2026.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

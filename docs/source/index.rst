@@ -216,8 +216,10 @@ The documentation is organized as follows:
   :hidden:
 
   State Objects <concepts/states>
-  Kinematics <concepts/kinematics>
   Rigid Body Transformations <concepts/transformations>
+  Kinematics <concepts/kinematics>
+  Dynamics <concepts/dynamics>
+  Vehicles <concepts/vehicles>
   Sensors <concepts/sensors>
   Filters <concepts/filters>
   Reinforcement Learning Environment <concepts/rl_env>

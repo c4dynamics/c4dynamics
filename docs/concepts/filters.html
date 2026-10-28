@@ -46,23 +46,10 @@
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-LKRZFXZKQP"></script>
-    <script>
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){ dataLayer.push(arguments); }
-                gtag('js', new Date());
-                gtag('config', 'G-LKRZFXZKQP');
-            </script>
-    <script>
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){ dataLayer.push(arguments); }
-                gtag('js', new Date());
-                gtag('config', 'G-LKRZFXZKQP');
-            </script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'concepts/filters';</script>
-    <script src="../_static/custom.js?v=8d6a6b86"></script>
+    <script src="../_static/custom.js?v=739483a8"></script>
     <script defer="defer" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="../_static/c4dynamics-chat.js?v=a769aac7"></script>
     <link rel="icon" href="../_static/c4dlogo.svg"/>
@@ -70,9 +57,18 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Reinforcement Learning Environment" href="rl_env.html" />
     <link rel="prev" title="Sensors" href="sensors.html" />
+  
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Oct 20, 2026"/>
+    <meta name="docbuild:last-update" content="Oct 28, 2026"/>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LKRZFXZKQP"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-LKRZFXZKQP');
+  </script>
+
   </head>
   
   
@@ -190,8 +186,10 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="states.html">State Objects</a></li>
 
-<li class="toctree-l1"><a class="reference internal" href="kinematics.html">Kinematics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformations.html">Rigid Body Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kinematics.html">Kinematics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dynamics.html">Dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vehicles.html">Vehicles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sensors.html">Sensors</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Filters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rl_env.html">Reinforcement Learning Environment</a></li>
@@ -644,7 +642,11 @@ have to be considered to analyze and manipulate the system. Such
 an approach is the extended Kalman filter.</p>
 <p>A general nonlinear system is described by:</p>
 <div class="math notranslate nohighlight" id="equation-nonlinearmodel">
-<span class="eqno">(1)<a class="headerlink" href="#equation-nonlinearmodel" title="Link to this equation">#</a></span>\[ \begin{align}\begin{aligned}\dot{x}(t) = f(x, u) + \omega\\y(t) = h(x) + \nu\\x(0) = x_0\end{aligned}\end{align} \]</div>
+<span class="eqno">(1)<a class="headerlink" href="#equation-nonlinearmodel" title="Link to this equation">#</a></span>\[\begin{split}\begin{aligned}
+\dot{x}(t) &amp;= f(x, u) + \omega \\
+y(t) &amp;= h(x) + \nu \\
+x(0) &amp;= x_0
+\end{aligned}\end{split}\]</div>
 <p>Where:</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(f(\cdot)\)</span> is an arbitrary vector-valued function representing the system process</p></li>
@@ -660,7 +662,13 @@ an approach is the extended Kalman filter.</p>
 <p>The noise processes <span class="math notranslate nohighlight">\(\omega(t)\)</span> and <span class="math notranslate nohighlight">\(\nu(t)\)</span> are white, zero-mean, uncorrelated,
 and have known covariance matrices <span class="math notranslate nohighlight">\(Q_c\)</span> and <span class="math notranslate nohighlight">\(R_c\)</span>, respectively:</p>
 <div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}\omega(t) \sim (0, Q_c)\\\nu(t) \sim (0, R_c)\\E[\omega(t) \cdot \omega^T(t)] = Q_c \cdot \delta(t)\\E[\nu(t) \cdot \nu^T(t)] = R_c \cdot \delta(t)\\E[\nu(t) \cdot \omega^T(t)] = 0\end{aligned}\end{align} \]</div>
+\[\begin{split}\begin{aligned}
+\omega(t) &amp;\sim (0, Q_c) \\
+\nu(t) &amp;\sim (0, R_c) \\
+E[\omega(t) \cdot \omega^T(t)] &amp;= Q_c \cdot \delta(t) \\
+E[\nu(t) \cdot \nu^T(t)] &amp;= R_c \cdot \delta(t) \\
+E[\nu(t) \cdot \omega^T(t)] &amp;= 0
+\end{aligned}\end{split}\]</div>
 <p>Where:</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(\omega\)</span> is the (Gaussian) process uncertainty with covariance matrix <span class="math notranslate nohighlight">\(Q_c\)</span></p></li>
@@ -683,8 +691,11 @@ Therefore it is always a good practice to start by
 an attempt to linearize the system.</p>
 <p>The linearized model of system <a class="reference internal" href="#equation-nonlinearmodel">(1)</a> around a nominal trajectory <span class="math notranslate nohighlight">\(x_n\)</span> is given by <a class="reference internal" href="#fmz" id="id4"><span>[fMZ]</span></a>:</p>
 <div class="math notranslate nohighlight" id="equation-linearizedmodel">
-<span class="eqno">(2)<a class="headerlink" href="#equation-linearizedmodel" title="Link to this equation">#</a></span>\[ \begin{align}\begin{aligned}\dot{x} = \Delta{x} \cdot {\partial{f} \over \partial{x}}\bigg|_{x_n, u_n}
-              + \Delta{u} \cdot {\partial{f} \over \partial{u}}\bigg|_{x_n, u_n} + \omega\\y = \Delta{x} \cdot {\partial{h} \over \partial{x}}\bigg|_{x_n} + \nu\end{aligned}\end{align} \]</div>
+<span class="eqno">(2)<a class="headerlink" href="#equation-linearizedmodel" title="Link to this equation">#</a></span>\[\begin{split}\begin{aligned}
+\dot{x} &amp;= \Delta{x} \cdot {\partial{f} \over \partial{x}}\bigg|_{x_n, u_n} \\
+&amp;\quad + \Delta{u} \cdot {\partial{f} \over \partial{u}}\bigg|_{x_n, u_n} + \omega \\
+y &amp;= \Delta{x} \cdot {\partial{h} \over \partial{x}}\bigg|_{x_n} + \nu
+\end{aligned}\end{split}\]</div>
 <div class="math notranslate nohighlight">
 \[x(0) = x_0\]</div>
 <p>Where:</p>
@@ -700,10 +711,18 @@ an attempt to linearize the system.</p>
 </ul>
 <p>Let’s denote:</p>
 <div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}A = {\partial{f} \over \partial{x}}\bigg|_{x_n, u_n, \omega_n}\\B = {\partial{f} \over \partial{u}}\bigg|_{x_n, u_n, \omega_n}\\C = {\partial{h} \over \partial{x}}\bigg|_{x_n, \nu_n}\end{aligned}\end{align} \]</div>
+\[\begin{split}\begin{aligned}
+A &amp;= {\partial{f} \over \partial{x}}\bigg|_{x_n, u_n, \omega_n} \\
+B &amp;= {\partial{f} \over \partial{u}}\bigg|_{x_n, u_n, \omega_n} \\
+C &amp;= {\partial{h} \over \partial{x}}\bigg|_{x_n, \nu_n}
+\end{aligned}\end{split}\]</div>
 <p>Finally the instantaneous linear model of system <a class="reference internal" href="#equation-nonlinearmodel">(1)</a> is:</p>
 <div class="math notranslate nohighlight" id="equation-linearmodel">
-<span class="eqno">(3)<a class="headerlink" href="#equation-linearmodel" title="Link to this equation">#</a></span>\[ \begin{align}\begin{aligned}\dot{x} = A \cdot x + B \cdot u + \omega\\y = C \cdot x + \nu\\x(0) = x_0\end{aligned}\end{align} \]</div>
+<span class="eqno">(3)<a class="headerlink" href="#equation-linearmodel" title="Link to this equation">#</a></span>\[\begin{split}\begin{aligned}
+\dot{x} &amp;= A \cdot x + B \cdot u + \omega \\
+y &amp;= C \cdot x + \nu \\
+x(0) &amp;= x_0
+\end{aligned}\end{split}\]</div>
 <p>Where:</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(A\)</span> is the process dynamics matrix</p></li>
@@ -730,7 +749,11 @@ but the output only changes at discrete time instants.</p>
 not only at the stage of measure updates (<cite>update</cite> or <cite>correct</cite>) but also at the stage of the dynamics propagation (<cite>predict</cite>).</p>
 <p>The discrete-time form of system <a class="reference internal" href="#equation-linearmodel">(3)</a> is given by:</p>
 <div class="math notranslate nohighlight" id="equation-discretemodel">
-<span class="eqno">(4)<a class="headerlink" href="#equation-discretemodel" title="Link to this equation">#</a></span>\[ \begin{align}\begin{aligned}x_k = F \cdot x_{k-1} + G \cdot u_{k-1} + \omega_{k-1}\\y_k = H \cdot x_k + \nu_k\\x_{k=0} = x_0\end{aligned}\end{align} \]</div>
+<span class="eqno">(4)<a class="headerlink" href="#equation-discretemodel" title="Link to this equation">#</a></span>\[\begin{split}\begin{aligned}
+x_k &amp;= F \cdot x_{k-1} + G \cdot u_{k-1} + \omega_{k-1} \\
+y_k &amp;= H \cdot x_k + \nu_k \\
+x_{k=0} &amp;= x_0
+\end{aligned}\end{split}\]</div>
 <p>Where:</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(x_k\)</span> is the discretized system state vector</p></li>
@@ -746,14 +769,25 @@ not only at the stage of measure updates (<cite>update</cite> or <cite>correct</
 <p>The noise processes <span class="math notranslate nohighlight">\(\omega_{k}\)</span> and <span class="math notranslate nohighlight">\(\nu_k\)</span> are white, zero-mean, uncorrelated,
 and have known covariance matrices <span class="math notranslate nohighlight">\(Q\)</span> and <span class="math notranslate nohighlight">\(R\)</span>, respectively:</p>
 <div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}\omega_k \sim (0, Q)\\\nu_k \sim (0, R)\\E[\omega_k \cdot \omega^T_j] = Q \cdot \delta_{k-j}\\E[\nu_k \cdot \nu^T_j] = R \cdot \delta_{k-j}\\E[\nu_k \cdot \omega^T_j] = 0\end{aligned}\end{align} \]</div>
+\[\begin{split}\begin{aligned}
+\omega_k &amp;\sim (0, Q) \\
+\nu_k &amp;\sim (0, R) \\
+E[\omega_k \cdot \omega^T_j] &amp;= Q \cdot \delta_{k-j} \\
+E[\nu_k \cdot \nu^T_j] &amp;= R \cdot \delta_{k-j} \\
+E[\nu_k \cdot \omega^T_j] &amp;= 0
+\end{aligned}\end{split}\]</div>
 <p>The discretization of a system is based on the state-transition matrix <span class="math notranslate nohighlight">\(\Phi(t)\)</span>.
 For a matrix <span class="math notranslate nohighlight">\(A\)</span> the state transition matrix <span class="math notranslate nohighlight">\(\Phi(t)\)</span> is given by the matrix exponential <span class="math notranslate nohighlight">\(\Phi = e^{A \cdot t}\)</span>
 which can be expanded as a power series.</p>
 <p>An approximate representation of a continuous-time
 system by a series expansion up to the first-order is given by:</p>
 <div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}F = I + A \cdot dt\\G = B \cdot dt\\Q = Q_c \cdot dt\\R = R_c / dt\end{aligned}\end{align} \]</div>
+\[\begin{split}\begin{aligned}
+F &amp;= I + A \cdot dt \\
+G &amp;= B \cdot dt \\
+Q &amp;= Q_c \cdot dt \\
+R &amp;= R_c / dt
+\end{aligned}\end{split}\]</div>
 <p>Where:</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(x_k\)</span> is the discretized system state vector</p></li>
@@ -814,7 +848,12 @@ current error covariance forward in time.</p>
 <p>Since the <cite>predict</cite> equations are calculated before a measure is taken (a priori), the new state <span class="math notranslate nohighlight">\(x\)</span> and the new covariance <span class="math notranslate nohighlight">\(P\)</span>
 are notated by <span class="math notranslate nohighlight">\((-)\)</span> superscript.</p>
 <div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}x_k^- = F \cdot x_{k-1}^+ + G \cdot u_{k-1}\\P_k^- = F \cdot P_{k-1}^+ \cdot F^T + Q\\x_0^+ = x_0\\P_0^+ = E[x_0 \cdot x_0^T]\end{aligned}\end{align} \]</div>
+\[\begin{split}\begin{aligned}
+x_k^- &amp;= F \cdot x_{k-1}^+ + G \cdot u_{k-1} \\
+P_k^- &amp;= F \cdot P_{k-1}^+ \cdot F^T + Q \\
+x_0^+ &amp;= x_0 \\
+P_0^+ &amp;= E[x_0 \cdot x_0^T]
+\end{aligned}\end{split}\]</div>
 <p>Where:</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(x_k^-\)</span> is the estimate of the system state, <span class="math notranslate nohighlight">\(x_k\)</span>, before a measurement update.</p></li>
@@ -841,7 +880,11 @@ Then the error covariance is updated to reflect the reduced uncertainty after in
 <p>The <cite>update</cite> equations are calculated after a measure is taken (a posteriori), and the new state <span class="math notranslate nohighlight">\(x\)</span> and the new covariance <span class="math notranslate nohighlight">\(P\)</span>
 are notated by <span class="math notranslate nohighlight">\((+)\)</span> superscript.</p>
 <div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}K = P_k^- \cdot H^T \cdot (H \cdot P_k^- \cdot H^T + R)^{-1}\\x_k^+ = x_k^- + K \cdot (y - H \cdot x_k^-)\\P_k^+ = (I - K \cdot H) \cdot P_k^-\end{aligned}\end{align} \]</div>
+\[\begin{split}\begin{aligned}
+K &amp;= P_k^- \cdot H^T \cdot (H \cdot P_k^- \cdot H^T + R)^{-1} \\
+x_k^+ &amp;= x_k^- + K \cdot (y - H \cdot x_k^-) \\
+P_k^+ &amp;= (I - K \cdot H) \cdot P_k^-
+\end{aligned}\end{split}\]</div>
 <p>Where:</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(K\)</span> is the Kalman gain</p></li>
@@ -903,7 +946,11 @@ The flight path angle of the aircraft, <span class="math notranslate nohighlight
 by a stick which deflects the
 elevator that in its turn changes the aircaft altitude <span class="math notranslate nohighlight">\(z\)</span>:</p>
 <div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}\dot{z}(t) = 5 \cdot \gamma(t) + \omega_z(t)\\\dot{\gamma}(t) = -0.5 \cdot \gamma(t) + 0.1 \cdot (H_f - u(t)) + \omega_{\gamma}(t)\\y(t) = z(t) + \nu(t)\end{aligned}\end{align} \]</div>
+\[\begin{split}\begin{aligned}
+\dot{z}(t) &amp;= 5 \cdot \gamma(t) + \omega_z(t) \\
+\dot{\gamma}(t) &amp;= -0.5 \cdot \gamma(t) + 0.1 \cdot (H_f - u(t)) + \omega_{\gamma}(t) \\
+y(t) &amp;= z(t) + \nu(t)
+\end{aligned}\end{split}\]</div>
 <p>Where:</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(z\)</span> is the deviation of the aircraft from the required altitude</p></li>
@@ -1091,7 +1138,11 @@ does not have to use the approximated linear expressions (<span class="math notr
 and can use the exact nonlinear equations (<span class="math notranslate nohighlight">\(f, h\)</span>).</p>
 <p>Recall the mathematical model of a nonlinear system as given in <a class="reference internal" href="#equation-nonlinearmodel">(1)</a>:</p>
 <div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}\dot{x} = f(x, u, \omega)\\y = h(x, \nu)\\x(0) = x_0\end{aligned}\end{align} \]</div>
+\[\begin{split}\begin{aligned}
+\dot{x} &amp;= f(x, u, \omega) \\
+y &amp;= h(x, \nu) \\
+x(0) &amp;= x_0
+\end{aligned}\end{split}\]</div>
 <p>Where:</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(f(\cdot)\)</span> is an arbitrary vector-valued function representing the system dynamics</p></li>
@@ -1106,7 +1157,13 @@ and can use the exact nonlinear equations (<span class="math notranslate nohighl
 <p>The noise processes <span class="math notranslate nohighlight">\(\omega(t)\)</span> and <span class="math notranslate nohighlight">\(\nu(t)\)</span> are white, zero-mean, uncorrelated,
 and have known covariance matrices <span class="math notranslate nohighlight">\(Q\)</span> and <span class="math notranslate nohighlight">\(R\)</span>, respectively:</p>
 <div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}\omega(t) \sim (0, Q)\\\nu(t) \sim (0, R)\\E[\omega(t) \cdot \omega^T(t)] = Q \cdot \delta(t)\\E[\nu(t) \cdot \nu^T(t)] = R \cdot \delta(t)\\E[\nu(t) \cdot \omega^T(t)] = 0\end{aligned}\end{align} \]</div>
+\[\begin{split}\begin{aligned}
+\omega(t) &amp;\sim (0, Q) \\
+\nu(t) &amp;\sim (0, R) \\
+E[\omega(t) \cdot \omega^T(t)] &amp;= Q \cdot \delta(t) \\
+E[\nu(t) \cdot \nu^T(t)] &amp;= R \cdot \delta(t) \\
+E[\nu(t) \cdot \omega^T(t)] &amp;= 0
+\end{aligned}\end{split}\]</div>
 <p>Where:</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(\omega\)</span> is the (Gaussian) process uncertainty with covariance matrix <span class="math notranslate nohighlight">\(Q\)</span></p></li>
@@ -1131,7 +1188,10 @@ respect to <span class="math notranslate nohighlight">\(x\)</span>:</p>
 <p>A last final step before getting into the filter itself
 is to discretize these terms:</p>
 <div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}F = I + A \cdot dt\\H = C\end{aligned}\end{align} \]</div>
+\[\begin{split}\begin{aligned}
+F &amp;= I + A \cdot dt \\
+H &amp;= C
+\end{aligned}\end{split}\]</div>
 <p>Where:</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(F\)</span> is the discretized process dynamics matrix (actually a first order approximation of the state transition matrix <span class="math notranslate nohighlight">\(\Phi\)</span>)</p></li>
@@ -1155,10 +1215,17 @@ The first equation in the following
 set is the linearization of the process
 equations for the covariance calculation (third):</p>
 <div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}F = I + dt \cdot {\partial{f} \over \partial{x}}\bigg|_{x_{k-1}^+, u{k-1}}\\x_k^- = x_{k-1}^+ + dt \cdot f(x_{k-1}^+, u_{k-1})\\P_k^- = F \cdot P_{k-1}^+ \cdot F^T + Q\end{aligned}\end{align} \]</div>
+\[\begin{split}\begin{aligned}
+F &amp;= I + dt \cdot {\partial{f} \over \partial{x}}\bigg|_{x_{k-1}^+, u{k-1}} \\
+x_k^- &amp;= x_{k-1}^+ + dt \cdot f(x_{k-1}^+, u_{k-1}) \\
+P_k^- &amp;= F \cdot P_{k-1}^+ \cdot F^T + Q
+\end{aligned}\end{split}\]</div>
 <p>subject to initial conditions:</p>
 <div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}x_0^+ = x_0\\P_0^+ = E[x_0 \cdot x_0^T]\end{aligned}\end{align} \]</div>
+\[\begin{split}\begin{aligned}
+x_0^+ &amp;= x_0 \\
+P_0^+ &amp;= E[x_0 \cdot x_0^T]
+\end{aligned}\end{split}\]</div>
 <p>Where:</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(F\)</span> is the discretized process dynamics matrix</p></li>
@@ -1182,7 +1249,12 @@ linearized (<span class="math notranslate nohighlight">\(H\)</span>) before the 
 But the correction of the state vector is possible by using
 the nonlinear equations themselves (third equation):</p>
 <div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}H = {\partial{h} \over \partial{x}}\bigg|_{x_k^-}\\K = P_k^- \cdot H^T \cdot (H \cdot P_k^- \cdot H^T + R)^{-1}\\x_k^+ = x_k^- \cdot K \cdot (y - h(x))\\P_k^+ = (I - K \cdot H) \cdot P_k^-\end{aligned}\end{align} \]</div>
+\[\begin{split}\begin{aligned}
+H &amp;= {\partial{h} \over \partial{x}}\bigg|_{x_k^-} \\
+K &amp;= P_k^- \cdot H^T \cdot (H \cdot P_k^- \cdot H^T + R)^{-1} \\
+x_k^+ &amp;= x_k^- \cdot K \cdot (y - h(x)) \\
+P_k^+ &amp;= (I - K \cdot H) \cdot P_k^-
+\end{aligned}\end{split}\]</div>
 <p>Where:</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(H\)</span> is the discrete measurement matrix</p></li>
@@ -1245,7 +1317,12 @@ The problem is to estimate the ballistic coefficient of a target
 in a free fall where a noisy radar is tracking it.</p>
 <p>The process equations are:</p>
 <div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}\dot{z} = v_z\\\dot{v}_z = {\rho_0 \cdot e^{-z / k} \cdot v_z^2 \cdot g \over 2 \cdot \beta} - g\\\dot{\beta} = \omega_{\beta}\\y = z + \nu_k\end{aligned}\end{align} \]</div>
+\[\begin{split}\begin{aligned}
+\dot{z} &amp;= v_z \\
+\dot{v}_z &amp;= {\rho_0 \cdot e^{-z / k} \cdot v_z^2 \cdot g \over 2 \cdot \beta} - g \\
+\dot{\beta} &amp;= \omega_{\beta} \\
+y &amp;= z + \nu_k
+\end{aligned}\end{split}\]</div>
 <p>Where:</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(\rho_0 = 0.0034\)</span></p></li>
@@ -1588,7 +1665,7 @@ By c4dynamics
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Oct 20, 2026.
+  Last updated on Oct 28, 2026.
   <br/>
 </p>
   </div>
