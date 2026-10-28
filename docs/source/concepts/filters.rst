@@ -381,7 +381,7 @@ are notated by :math:`(+)` superscript.
 
   x_k^+ = x_k^- + K \cdot (y - H \cdot x_k^-)
 
-  P_k^+ = (I - K \cdot H) \cdot P_k^-
+  P_k^+ = (I - K \cdot H) \cdot P_k^- \cdot (I - K \cdot H)^T + K \cdot R \cdot K^T
 
 Where:
 
@@ -395,6 +395,22 @@ Where:
 - :math:`I` is the identity matrix
 - :math:`P_k^+` is the estimate of the state covariance matrix, :math:`P_k`, after a measurement update
 - superscript T is the transpose operator
+
+The covariance update above is the Joseph form.
+For the optimal gain :math:`K` it reduces to the familiar short form
+:math:`P_k^+ = (I - K \cdot H) \cdot P_k^-`.
+The two are equal in exact arithmetic, but the short form subtracts
+one matrix from another, so floating-point roundoff can make the
+result asymmetric or even give it negative eigenvalues,
+which is not a valid covariance.
+The Joseph form adds two symmetric positive semidefinite terms instead,
+so :math:`P` stays a valid covariance.
+This matters in long runs, after large corrections
+(for example, recovering from a poor initial estimate),
+and when measurements are much more precise than the prediction.
+c4dynamics uses the Joseph form in both
+:class:`kalman <c4dynamics.filters.kalman.kalman>` and
+:class:`ekf <c4dynamics.filters.ekf.ekf>`.
 
 
 .. _kalman_c4dynamics:
@@ -885,9 +901,9 @@ the nonlinear equations themselves (third equation):
 
   K = P_k^- \cdot H^T \cdot (H \cdot P_k^- \cdot H^T + R)^{-1}
 
-  x_k^+ = x_k^- \cdot K \cdot (y - h(x))
+  x_k^+ = x_k^- + K \cdot (y - h(x_k^-))
 
-  P_k^+ = (I - K \cdot H) \cdot P_k^-
+  P_k^+ = (I - K \cdot H) \cdot P_k^- \cdot (I - K \cdot H)^T + K \cdot R \cdot K^T
 
 Where:
 
