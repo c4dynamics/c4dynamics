@@ -162,23 +162,23 @@ class iekf(kalman):
     IMPLEMENTATION PATTERN -- error-state reset
     --------------------------------------------
     Because the parent ``kalman`` class only knows how to add a state
-    vector linearly, the *nominal* state (the rotation ``self.Rot``, and
+    vector linearly, the *nominal* state (the rotation ``self.ROT``, and
     optionally the gyro bias ``self.b``) is kept as a plain attribute on
     this object, separate from ``self.X``. ``self.X`` is the
     Lie-algebra error state, always zero-mean:
 
-    * ``predict()`` advances ``self.Rot`` on the group directly
-      (``self.Rot = self.Rot @ expSO3(omega_hat * dt)``), sets the
+    * ``predict()`` advances ``self.ROT`` on the group directly
+      (``self.ROT = self.ROT @ expSO3(omega_hat * dt)``), sets the
       Jacobian ``self.F`` for this step, then calls
       ``super().predict(Q=Q)`` so the parent grows ``self.P`` only --
       ``self.X`` stays at zero because ``F @ 0 == 0``.
     * ``update()`` sets ``self.H`` for this measurement, calls
       ``super().update(innov=..., R=...)`` so the parent computes the
       Kalman gain and updates ``self.X`` and ``self.P``, then *injects*
-      the resulting error state into ``self.Rot`` / ``self.b`` via the
+      the resulting error state into ``self.ROT`` / ``self.b`` via the
       exponential map and resets ``self.X`` back to zero.
 
-    NOTE ON THE NAME ``self.Rot``: the parent ``kalman`` class already
+    NOTE ON THE NAME ``self.ROT``: the parent ``kalman`` class already
     uses ``self.R`` for the measurement-noise covariance (see its `R`
     constructor argument, used throughout ``ekf.py``), so the attitude
     rotation matrix is deliberately kept on a differently-named
@@ -194,7 +194,7 @@ class iekf(kalman):
     ----------
     R0 : np.ndarray, optional
         Initial attitude estimate, a 3x3 rotation matrix (body -> world),
-        stored on ``self.Rot`` (not ``self.R`` -- see the note above).
+        stored on ``self.ROT`` (not ``self.R`` -- see the note above).
         Defaults to the identity.
     b0 : np.ndarray, optional
         Initial gyro bias estimate (3,). Defaults to zero.
@@ -241,12 +241,12 @@ class iekf(kalman):
     .. code::
 
       >>> filt = iekf(P0 = 1.0, estimate_bias = False)
-      >>> filt.Rot = expSO3(np.array([0.1, 0.0, 0.0]))   # 5.7 deg roll error
+      >>> filt.ROT = expSO3(np.array([0.1, 0.0, 0.0]))   # 5.7 deg roll error
       >>> gRef = np.array([0.0, 0.0, -1.0])
       >>> for _ in range(50):
       ...     filt.predict(gyro = np.zeros(3), dt = 0.01)
       ...     _ = filt.update(y = gRef, ref = gRef, Rmeas = 0.01 * np.eye(3))
-      >>> bool(np.linalg.norm(logSO3(filt.Rot)) < 0.01)   # error below 0.6 deg
+      >>> bool(np.linalg.norm(logSO3(filt.ROT)) < 0.01)   # error below 0.6 deg
       True
 
     See Also
@@ -264,7 +264,7 @@ class iekf(kalman):
         sigmaBias: float = 1e-3,
         P_jitter: Optional[float] = None,
     ):
-        self.Rot = np.eye(3) if R0 is None else np.array(R0, dtype=float, copy=True)
+        self.ROT = np.eye(3) if R0 is None else np.array(R0, dtype=float, copy=True)
         self.b = np.zeros(3) if b0 is None else np.array(b0, dtype=float).ravel().copy()
 
         self._estimateBias = bool(estimate_bias)
@@ -306,7 +306,7 @@ class iekf(kalman):
         """
         Propagate the attitude estimate with a gyro measurement.
 
-        Advances ``self.Rot`` exactly on the group (bias-corrected
+        Advances ``self.ROT`` exactly on the group (bias-corrected
         angular rate, exponential integration), then propagates the
         error-state covariance through the (state-independent, hence
         "invariant") transition Jacobian.
@@ -325,7 +325,7 @@ class iekf(kalman):
             this step only. Ignored if `estimate_bias` is `False`.
         """
         om = np.asarray(gyro, dtype=float).ravel() - self.b
-        self.Rot = self.Rot @ expSO3(om * dt)
+        self.ROT = self.ROT @ expSO3(om * dt)
 
         sg = self._sigmaGyro if sigmaGyro is None else sigmaGyro
         Qg = (sg**2) * np.eye(3)
@@ -404,7 +404,7 @@ class iekf(kalman):
             the parent's `update`; see
             :meth:`kalman.update <c4dynamics.filters.kalman.kalman.update>`.
             If the innovation fails the gate, the update is rejected
-            (nothing is injected into `self.Rot`/`self.b`) and this
+            (nothing is injected into `self.ROT`/`self.b`) and this
             method returns `None`.
 
         Returns
@@ -421,7 +421,7 @@ class iekf(kalman):
         refDir = np.asarray(ref, dtype=float).ravel()
         refDir = refDir / np.linalg.norm(refDir)
 
-        yhat = self.Rot.T @ refDir
+        yhat = self.ROT.T @ refDir
         yMeas = y / nrm
 
         n = self.P.shape[0]
@@ -441,7 +441,7 @@ class iekf(kalman):
             return None
 
         dx = np.asarray(self.X, dtype=float).ravel().copy()
-        self.Rot = self.Rot @ expSO3(dx[0:3])
+        self.ROT = self.ROT @ expSO3(dx[0:3])
         if self._estimateBias:
             self.b = self.b + dx[3:6]
 
