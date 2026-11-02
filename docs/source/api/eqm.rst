@@ -7,7 +7,8 @@ Equations of Motion Solvers
 .. seealso::
 
   For the background theory and equations behind motion integration,
-  see the :doc:`Kinematics </concepts/kinematics>` concept page.
+  see the :doc:`Kinematics </concepts/kinematics>` and :doc:`Dynamics </concepts/dynamics>`
+  concept pages. For the quadcopter model, see :doc:`Vehicles </concepts/vehicles>`.
 
 
   **Functions**
@@ -17,8 +18,12 @@ Equations of Motion Solvers
 
     derivs.eqm3
     derivs.eqm6 
+    derivs.eqm6q
     integrate.int3 
     integrate.int6 
+    integrate.int6q
+    quadcopter.quadforces
+    quadcopter.quadeqm
 
 
    

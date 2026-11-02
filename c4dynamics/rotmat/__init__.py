@@ -24,6 +24,9 @@ from c4dynamics.rotmat.rotmat import roty as roty
 from c4dynamics.rotmat.rotmat import rotz as rotz
 from c4dynamics.rotmat.rotmat import dcm321 as dcm321
 from c4dynamics.rotmat.rotmat import dcm321euler as dcm321euler
+from c4dynamics.rotmat.rotmat import euler2quat as euler2quat
+from c4dynamics.rotmat.rotmat import quat2dcm as quat2dcm
+from c4dynamics.rotmat.rotmat import quat2euler as quat2euler
 from c4dynamics.rotmat.animate import animate as animate
 
 if __name__ == "__main__":

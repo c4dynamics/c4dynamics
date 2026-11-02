@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "c4dynamics"
-version = "2.4.3"
+version = "2.6.0"
 description = "Python framework for state-space modeling and algorithm development"
 authors = [{name = "Ziv Meri", email="zivmeri@gmail.com"}]
 readme = "README.md"
@@ -70,7 +70,8 @@ exclude = [
     "*.png",
     "c4dynamics/utils/video_gen.py",
     "c4dynamics/utils/use_cases",
-    "c4dynamics/envs/mountain_car.py"
+    "c4dynamics/envs/mountain_car.py", 
+    "test_chatbot.py",
 ]
 
 [tool.ruff.lint]

@@ -1,0 +1,7 @@
+/* Use Cases sidebar: show only the entries of the main toctree.
+   The remaining use cases are nested under the overview page
+   (programs/index) and are reached from its cards, so hide their
+   expand toggle and nested list. */
+.bd-sidebar-primary li.toctree-l1:has(> details a[href*="ballistic_ekf/"]) > details {
+  display: none;
+}

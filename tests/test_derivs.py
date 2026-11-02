@@ -8,7 +8,9 @@ sys.path.append(".")
 from c4dynamics.utils.math import *
 from c4dynamics.states.lib.datapoint import datapoint
 from c4dynamics.states.lib.rigidbody import rigidbody
-from c4dynamics.eqm import eqm3, eqm6
+from c4dynamics.states.lib.quatbody import quatbody
+from c4dynamics.eqm import eqm3, eqm6, eqm6q
+from c4dynamics.rotmat import euler2quat
 
 
 class TestEquationsOfMotion(unittest.TestCase):
@@ -21,6 +23,10 @@ class TestEquationsOfMotion(unittest.TestCase):
         self.rb = rigidbody()
         self.rb.mass = 0.5
         self.rb.I = np.array([0.5, 0.4, 0.6])  # Inertia for x, y, z axes
+
+        self.qb = quatbody()
+        self.qb.mass = 0.5
+        self.qb.I = np.array([0.5, 0.4, 0.6])  # Inertia for x, y, z axes
 
     def test_eqm3_free_fall(self):
         """Test eqm3 under free-fall conditions with no initial velocity."""
@@ -56,6 +62,40 @@ class TestEquationsOfMotion(unittest.TestCase):
 
         np.testing.assert_almost_equal(result, expected, decimal=5)
 
+    def test_eqm6q_rotational_motion(self):
+        """Test eqm6q under torque on y-axis with no initial angular velocity."""
+        F = np.array([0, 0, 0])  # No translational force
+        M = np.array([0, 1.0, 0])  # Torque on y-axis
+
+        result = eqm6q(self.qb, F, M)
+        expected = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2.5, 0])
+
+        np.testing.assert_almost_equal(result, expected, decimal=5)
+
+    def test_eqm6q_quaternion_kinematics(self):
+        """Test eqm6q quaternion derivatives match the Euler angles derivatives of eqm6."""
+        F, M = np.array([1.0, -2.0, 3.0]), np.array([0.1, -0.2, 0.3])
+        for rb, qb in [(self.rb, self.qb)]:
+            rb.phi, rb.theta, rb.psi = 0.1, 0.2, 0.3
+            qb.quat = euler2quat(0.1, 0.2, 0.3)
+            rb.p, rb.q, rb.r = qb.p, qb.q, qb.r = 0.4, -0.5, 0.6
+            rb.vx, rb.vy, rb.vz = qb.vx, qb.vy, qb.vz = 1.0, 2.0, 3.0
+
+        drb = eqm6(self.rb, F, M)
+        dqb = eqm6q(self.qb, F, M)
+
+        # translational and angular accelerations are identical
+        np.testing.assert_almost_equal(dqb[:6], drb[:6])
+        np.testing.assert_almost_equal(dqb[10:], drb[9:])
+
+        # the quaternion derivative is the chain rule of the Euler angles derivative
+        eps = 1e-7
+        dq_num = (euler2quat(*(np.array([0.1, 0.2, 0.3]) + eps * drb[6:9]))
+                  - euler2quat(0.1, 0.2, 0.3)) / eps
+        np.testing.assert_almost_equal(dqb[6:10], dq_num, decimal=5)
+
+        # the derivative preserves the quaternion norm
+        self.assertAlmostEqual(np.dot(self.qb.quat, dqb[6:10]), 0)
 
 if __name__ == "__main__":
     unittest.main()

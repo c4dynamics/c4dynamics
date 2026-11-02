@@ -80,3 +80,21 @@ plt.legend()
 plt.savefig(c4d.j(savedir, "int6_vs_scipy.png"), bbox_inches="tight", pad_inches=0.2, dpi=600)
 
 plt.show(block=True)
+
+
+c4d.cprint("int6q - fixed stick, quaternion attitude", "y")
+
+qb = c4d.quatbody(theta=theta0, q=q0)
+qb.I = [0, Iyy, 0]
+qb.mass = mass
+
+for ti in t:
+
+    qb.store(ti)
+
+    tau_g = -qb.mass * c4d.g_ms2 * length / 2 * c4d.cos(qb.theta)
+    qb.X = c4d.eqm.int6q(qb, np.zeros(3), [0, tau_g, 0], dt)
+
+
+qb.plot("theta", filename=c4d.j(savedir, "int6q.png"))
+plt.show()

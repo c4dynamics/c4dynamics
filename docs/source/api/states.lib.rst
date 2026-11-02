@@ -13,6 +13,7 @@ States Library
 
   states.lib.datapoint
   states.lib.rigidbody
+  states.lib.quatbody
   states.lib.pixelpoint
 
 

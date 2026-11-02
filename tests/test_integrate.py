@@ -5,7 +5,7 @@ import numpy as np
 import sys
 
 sys.path.append(".")
-from c4dynamics.eqm import int3, int6
+from c4dynamics.eqm import int3, int6, int6q
 
 
 class TestIntMethods(unittest.TestCase):
@@ -49,6 +49,15 @@ class TestIntMethods(unittest.TestCase):
                 "update": lambda x: None,
             },
         )()
+        self.qb = type(
+            "quatbody",
+            (object,),
+            {
+                "X": np.array([0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], dtype=float),
+                "mass": 1,
+                "I": np.ones(3),
+            },
+        )()
         # Forces and moments for tests
         self.forces = np.array([1.0, -9.81, 0.0])
         self.moments = np.array([0.1, 0.0, 0.0])
@@ -90,6 +99,33 @@ class TestIntMethods(unittest.TestCase):
         with self.assertRaises(TypeError):
             int6(self.rb, self.forces, "invalid_moments", self.dt)  # Moments should be array-like
 
+    def test_int6q_without_derivs(self):
+        # Test int6q without returning derivatives
+        X = int6q(self.qb, self.forces, self.moments, self.dt)
+        self.assertIsInstance(X, np.ndarray)
+        self.assertEqual(X.shape, (13,))
+        self.assertAlmostEqual(np.linalg.norm(X[6:10]), 1)
+
+    def test_int6q_with_derivs(self):
+        # Test int6q with returning derivatives
+        X, dxdt4 = int6q(self.qb, self.forces, self.moments, self.dt, derivs_out=True)
+        self.assertIsInstance(X, np.ndarray)
+        self.assertEqual(X.shape, (13,))
+        self.assertEqual(dxdt4.shape, (6,))
+        np.testing.assert_almost_equal(dxdt4, np.concatenate([self.forces, self.moments]))
+
+    def test_int6q_constant_rate(self):
+        # A constant roll rate rotates the quaternion by p * dt about x.
+        self.qb.X[10] = 2.0  # p
+        X = int6q(self.qb, np.zeros(3), np.zeros(3), self.dt)
+        np.testing.assert_almost_equal(
+            X[6:10], [np.cos(2.0 * self.dt / 2), np.sin(2.0 * self.dt / 2), 0, 0], decimal=10
+        )
+
+    def test_int6q_invalid_inputs(self):
+        # Test int6q with invalid inputs
+        with self.assertRaises(TypeError):
+            int6q(self.qb, self.forces, "invalid_moments", self.dt)  # Moments should be array-like
 
 if __name__ == "__main__":
     unittest.main()

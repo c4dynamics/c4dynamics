@@ -6,6 +6,7 @@ import sys
 
 sys.path.append(".")
 from c4dynamics.rotmat import rotx, roty, rotz, dcm321, dcm321euler
+from c4dynamics.rotmat import euler2quat, quat2dcm, quat2euler
 
 
 class TestRotationMatrices(unittest.TestCase):
@@ -67,6 +68,33 @@ class TestRotationMatrices(unittest.TestCase):
         self.assertAlmostEqual(result[1], expected[1], places=2)
         self.assertAlmostEqual(result[2], expected[2], places=2)
 
+    def test_euler2quat(self):
+        """Test the euler2quat function."""
+        np.testing.assert_array_almost_equal(euler2quat(0, 0, 0), [1, 0, 0, 0])
+        np.testing.assert_array_almost_equal(
+            euler2quat(psi=np.pi / 2), [np.sqrt(0.5), 0, 0, np.sqrt(0.5)]
+        )
+        self.assertAlmostEqual(np.linalg.norm(euler2quat(0.3, -0.2, 1.1)), 1)
+
+    def test_quat2dcm(self):
+        """Test quat2dcm against dcm321 for random attitudes."""
+        rng = np.random.default_rng(0)
+        for _ in range(100):
+            angles = rng.uniform([-np.pi, -np.pi / 2, -np.pi], [np.pi, np.pi / 2, np.pi])
+            np.testing.assert_array_almost_equal(quat2dcm(euler2quat(*angles)), dcm321(*angles))
+        # non unit quaternion is normalized
+        np.testing.assert_array_almost_equal(quat2dcm([2, 0, 0, 0]), np.eye(3))
+
+    def test_quat2euler(self):
+        """Test quat2euler round trip, and array input."""
+        rng = np.random.default_rng(1)
+        angles = rng.uniform([-np.pi, -np.pi / 2, -np.pi], [np.pi, np.pi / 2, np.pi], (50, 3))
+        quats = np.array([euler2quat(*a) for a in angles])
+        for a, q in zip(angles, quats):
+            np.testing.assert_array_almost_equal(quat2euler(q), a)
+        np.testing.assert_array_almost_equal(quat2euler(quats), angles)
+        # the sign of the quaternion doesn't change the attitude
+        np.testing.assert_array_almost_equal(quat2euler(-quats), angles)
 
 if __name__ == "__main__":
     unittest.main()

@@ -131,6 +131,59 @@ class TestIMU(unittest.TestCase):
         sensor.measure(rb)
         self.assertEqual(sensor.data().shape[0], 0)
 
+    def _specific_force(self, frame, euler, accel, g=9.81, dt=0.01):
+        # two calls: the second one carries the finite-difference term
+        sensor = imu(isideal=True, g=g, frame=frame)
+        rb = make_rigidbody(phi=euler[0], theta=euler[1], psi=euler[2])
+        sensor.measure(rb, t=0.0)
+        rb.vx, rb.vy, rb.vz = np.asarray(accel) * dt
+        return np.array(sensor.measure(rb, t=dt)[:3])
+
+    def test_accelerometer_matches_specific_force_ned(self):
+        # f = [BI] (a - g_I), g_I = [0, 0, g] (z down)
+        euler, accel = (0.3, 0.2, -1.2), [1.0, -1.5, 0.7]
+        expected = c4d.rotmat.dcm321(*euler) @ (np.array(accel) - [0, 0, 9.81])
+        np.testing.assert_array_almost_equal(
+            self._specific_force('NED', euler, accel), expected)
+
+    def test_accelerometer_matches_specific_force_enu(self):
+        # f = [BI] (a - g_I), g_I = [0, 0, -g] (z up)
+        euler, accel = (0.3, 0.2, -1.2), [1.0, -1.5, 0.7]
+        expected = c4d.rotmat.dcm321(*euler) @ (np.array(accel) + [0, 0, 9.81])
+        np.testing.assert_array_almost_equal(
+            self._specific_force('ENU', euler, accel), expected)
+
+    def test_accelerometer_climb_increases_reading_magnitude(self):
+        # accelerating up adds to the felt gravity in both conventions
+        np.testing.assert_array_almost_equal(
+            self._specific_force('NED', (0, 0, 0), [0, 0, -2.0]), [0, 0, -11.81])
+        np.testing.assert_array_almost_equal(
+            self._specific_force('ENU', (0, 0, 0), [0, 0, 2.0]), [0, 0, 11.81])
+
+    def test_accelerometer_enu_level_at_rest_reads_plus_g(self):
+        sensor = imu(isideal=True, frame='ENU')
+        ax, ay, az, _, _, _ = sensor.measure(make_rigidbody())
+        np.testing.assert_array_almost_equal([ax, ay, az], [0.0, 0.0, 9.81])
+
+    def test_accelerometer_same_motion_in_both_frames(self):
+        # level, heading north, climbing at 2 m/s^2: NED/FRD with psi = 0,
+        # ENU/FLU with psi = pi/2. FLU = diag(1, -1, -1) FRD.
+        f_ned = self._specific_force('NED', (0, 0, 0), [0, 0, -2.0])
+        f_enu = self._specific_force('ENU', (0, 0, np.pi / 2), [0, 0, 2.0])
+        np.testing.assert_array_almost_equal(f_enu, f_ned * [1, -1, -1])
+
+    def test_invalid_frame_raises(self):
+        with self.assertRaises(ValueError):
+            imu(frame='xyz')
+
+    def test_frame_changed_after_construction(self):
+        sensor = imu(isideal=True)
+        sensor.frame = 'ENU'
+        self.assertAlmostEqual(sensor.measure(make_rigidbody())[2], 9.81)
+        sensor.frame = 'xyz'
+        with self.assertRaises(ValueError):
+            sensor.measure(make_rigidbody())
+
 
 class TestMagnetometer(unittest.TestCase):
 
@@ -210,6 +263,43 @@ class TestMagnetometer(unittest.TestCase):
         np.testing.assert_array_equal(sensor.soft_iron, np.eye(3))
         np.testing.assert_array_almost_equal(
             sensor.mref, self._mref(sensor))
+
+    def test_reference_field_enu(self):
+        # ENU = [E, N, -D] of the NED field
+        kw = dict(field_intensity=2.0, inclination=np.deg2rad(60.0),
+                  declination=np.deg2rad(10.0))
+        mref_ned = magnetometer(**kw).mref
+        mref_enu = magnetometer(frame='ENU', **kw).mref
+        np.testing.assert_array_almost_equal(
+            mref_enu, [mref_ned[1], mref_ned[0], -mref_ned[2]])
+
+    def test_same_attitude_in_both_frames(self):
+        # heading 30 deg east of north, level: psi_ned = 30 deg,
+        # psi_enu = 90 - 30 deg. FLU = diag(1, -1, -1) FRD.
+        hdg = np.deg2rad(30.0)
+        m_ned = magnetometer(isideal=True, declination=0.2).measure(make_state(psi=hdg))
+        m_enu = magnetometer(isideal=True, declination=0.2, frame='ENU').measure(
+            make_state(psi=np.pi / 2 - hdg))
+        np.testing.assert_array_almost_equal(m_enu, m_ned * [1, -1, -1])
+
+    def test_invalid_frame_raises(self):
+        with self.assertRaises(ValueError):
+            magnetometer(frame='xyz')
+
+    def test_reference_field_follows_attributes_changed_after_construction(self):
+        sensor = magnetometer(isideal=True)
+        sensor.frame = 'ENU'
+        sensor.inclination = np.deg2rad(45.0)
+        sensor.declination = np.deg2rad(10.0)
+        expected = magnetometer(isideal=True, frame='ENU',
+                                inclination=np.deg2rad(45.0),
+                                declination=np.deg2rad(10.0)).mref
+        np.testing.assert_array_almost_equal(sensor.mref, expected)
+        np.testing.assert_array_almost_equal(
+            sensor.measure(make_state()), expected)
+        sensor.frame = 'xyz'
+        with self.assertRaises(ValueError):
+            sensor.mref
 
 
 if __name__ == "__main__":

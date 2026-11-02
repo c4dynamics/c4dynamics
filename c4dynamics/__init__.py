@@ -47,6 +47,7 @@ from .states.state import state as state
 
 # rotmat is required to importing rigidbody:
 from .states.lib.rigidbody import rigidbody as rigidbody  # rotmat is required to import rigidbody.
+from .states.lib.quatbody import quatbody as quatbody  # rotmat is required to import quatbody.
 
 #
 # routines
@@ -85,7 +86,7 @@ from . import envs as envs
 #
 # version
 ##
-__version__ = "2.4.3"  # update also in pyproject.toml
+__version__ = "2.6.0"  # update also in pyproject.toml
 
 
 #

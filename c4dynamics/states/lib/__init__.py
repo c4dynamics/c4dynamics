@@ -10,6 +10,8 @@ Pre-defined state objects
     - A point in space
   * - :class:`rigidbody <c4dynamics.states.lib.rigidbody.rigidbody>`
     - Rigid body object
+  * - :class:`quatbody <c4dynamics.states.lib.quatbody.quatbody>`
+    - Rigid body object with a quaternion attitude
   * - :class:`pixelpoint <c4dynamics.states.lib.pixelpoint.pixelpoint>`
     - A pixel point in an image
 

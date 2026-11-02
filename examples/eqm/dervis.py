@@ -71,3 +71,18 @@ for ti in t:
     rb.X = rb.X + dx * dt
 
 rb.plot("theta", filename=c4d.j(savedir, "eqm6.png"))
+
+
+c4d.cprint("eqm6q - fixed stick, quaternion attitude", "y")
+
+qb = c4d.quatbody(theta=theta0, q=q0)
+qb.mass = mass
+qb.I = [0, Iyy, 0]
+
+for ti in t:
+    qb.store(ti)
+    tau_g = -qb.mass * c4d.g_ms2 * length / 2 * c4d.cos(qb.theta)
+    dx = c4d.eqm.eqm6q(qb, np.zeros(3), [0, tau_g, 0])
+    qb.X = qb.X + dx * dt
+
+qb.plot("theta", filename=c4d.j(savedir, "eqm6q.png"))

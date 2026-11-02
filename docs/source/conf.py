@@ -314,13 +314,17 @@ html_favicon = "_static/c4dlogo.svg"
 html_last_updated_fmt = "%b %d, %Y"
 # html_copy_source = True
 # CSS files are relative to the static path
-html_css_files = ["style.css"]
+html_css_files = [
+    # "style.css",
+    "c4dynamics-chat.css",
+    "custom.css",
+    "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css",
+]
 html_extra_path = []
 html_show_sourcelink = False
 html_show_sphinx = True
 html_show_copyright = True
 # html_logo = "_static/c4dlogo.svg"
-
 
 html_theme = "sphinx_book_theme"
 html_theme_options = {
@@ -336,12 +340,13 @@ html_theme_options = {
     # "use_repository_button": True,
     # "use_download_button": True,
     "home_page_in_toc": True,
-    "analytics": {
-        "google_analytics_id": "G-LKRZFXZKQP",
-    }
+    # Google Analytics is loaded in _templates/layout.html; the theme's
+    # "analytics" option injects the snippet twice.
 }
 html_js_files = [
     "custom.js",
+    ("https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js", {"defer": "defer"}),
+    "c4dynamics-chat.js",
 ]
 
 """
