@@ -178,6 +178,14 @@ Especially if you’ve felt:
 
 ## Quickstart
 
+### 🚀 Try it now — no installation needed
+
+Open the interactive introduction to **state space and state-object modeling** in Colab and run it:
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/c4dynamics/c4dynamics/blob/main/docs/source/tutorials/introduction_guide.ipynb)
+
+Or, in a few lines:
+
 ```python
 >>> import c4dynamics as c4d
 ```
