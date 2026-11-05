@@ -535,6 +535,24 @@ class kalman(c4d.state):
             during construction
             nor passed to `update`).
 
+        Notes
+        -----
+        The covariance is updated in the Joseph form:
+
+        .. math::
+
+          P_k^+ = (I - K \\cdot H) \\cdot P_k^- \\cdot (I - K \\cdot H)^T + K \\cdot R \\cdot K^T
+
+        For the optimal gain it equals the short form
+        :math:`(I - K \\cdot H) \\cdot P_k^-`, but unlike the short form it is
+        a sum of two symmetric positive semidefinite terms. It therefore
+        keeps `P` symmetric and positive semidefinite under floating-point
+        roundoff, which matters for long runs, large corrections
+        (a poor initial estimate), and precise measurements
+        (small `R` relative to `P`).
+
+        In steady-state mode `P` is constant and is not updated.
+
         Examples
         --------
         For more detailed usage,
@@ -670,7 +688,13 @@ class kalman(c4d.state):
                 return None
 
         if self._Kinf is None:
-            self.P = self.P - K @ self.H @ self.P
+            # Joseph form: P = (I - KH) P (I - KH)' + K R K'.
+            # Algebraically equal to the short form P - KHP for the optimal
+            # gain, but a sum of two congruences, so it stays symmetric and
+            # positive semidefinite under roundoff, and remains a valid
+            # covariance for a suboptimal K.
+            IKH = np.eye(self.P.shape[0]) - K @ self.H
+            self.P = IKH @ self.P @ IKH.T + K @ self.R @ K.T
             if self._P_jitter is not None:
                 self._stabilize_P()
 
